@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "strict": true, // Enable strict type-checking
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true, // Enable consistent file casing
+    "types": ["node", "vite/client"], // Include Node and Vite types
+    "allowJs": false,
+    "composite": true
+  },
+  "include": [
+    "vite.config.ts",
+    "vite-env.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}
