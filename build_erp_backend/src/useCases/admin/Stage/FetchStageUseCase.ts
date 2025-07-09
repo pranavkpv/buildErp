@@ -6,8 +6,8 @@ export class FetchStageUsecase{
    constructor(projectRepository : IprojectRepository){
       this.projectRepository = projectRepository
    }
-   async execute():Promise<Project[] | []>{
-       const stageSettedproject = await this.projectRepository.findStageSetProject()
-       return stageSettedproject ? stageSettedproject : []
+   async execute(search:string,page:number):Promise<{data:Project[],totalPage:number}>{
+       const stageSettedproject = await this.projectRepository.findStageSetProject(search,page)
+       return stageSettedproject 
    }
 }

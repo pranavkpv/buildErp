@@ -16,6 +16,8 @@ function ListStage() {
   const [addEnable, setAddEnable] = useState(false);
   const [datas, setDatas] = useState<stageData[]>([]);
   const [search, setSearch] = useState("");
+  const [page,setPage] = useState(0)
+  const [totalPage,setTotalPage] = useState<number[]>([])
 
   //delete data
   const [deleteEnable, setDeleteEnable] = useState(false)
@@ -23,9 +25,15 @@ function ListStage() {
 
   const fetchStage = async () => {
     try {
-      const data = await fetchStageDataAPI();
+      const data = await fetchStageDataAPI(search,page);
       console.log(data)
-      setDatas(data);
+      setDatas(data.data);
+      let x = []
+      for(let i=0;i<data.totalPage;i++){
+         x.push(i)
+      }
+      setTotalPage(x)
+      
     } catch (error) {
       console.error("Error fetching stage data:", error);
       toast.error("Failed to fetch stage data.");
@@ -34,7 +42,7 @@ function ListStage() {
 
   useEffect(() => {
     fetchStage();
-  }, []);
+  }, [page,search]);
 
   return (
     <div className="min-h-screen bg-gray-900 p-4 sm:p-6">
@@ -136,6 +144,22 @@ function ListStage() {
               )}
             </tbody>
           </table>
+          
+         <div className="flex justify-center items-center gap-2 p-4 bg-gray-800/50 rounded-b-xl border-t border-gray-700/50">
+                  {totalPage.map((element) => (
+                     <button
+                        key={element}
+                        onClick={() => setPage(element)}
+                        className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 
+          ${ page === element
+                              ? 'bg-teal-500 text-white'
+                              : 'bg-gray-700/50 text-gray-200 hover:bg-gray-600/50 hover:text-teal-300'
+                           } focus:outline-none focus:ring-2 focus:ring-teal-400`}
+                     >
+                        {element + 1}
+                     </button>
+                  ))}
+               </div>
           <DeleteStage
             enable={deleteEnable}
             deleteId={deleteId}

@@ -47,7 +47,8 @@ export class StageController {
    }
    fetchStage = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       try {
-         const result = await this.fetchStageusecase.execute()
+         const {search,page} = req.query
+         const result = await this.fetchStageusecase.execute(String(search),Number(page))
          res.status(200).json(result);
       } catch (error) {
          console.log(error);

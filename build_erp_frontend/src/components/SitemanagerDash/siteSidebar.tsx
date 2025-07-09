@@ -66,12 +66,10 @@ const SiteSidebar: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [activeIndex, setActiveIndex] = useState<number | null>(() => {
-    // Find index of the item matching the current route
     const currentIndex = sidebarItems.findIndex(item => item.to === location.pathname);
     return currentIndex !== -1 ? currentIndex : null;
   });
 
-  // Update activeIndex when the route changes
   useEffect(() => {
     const currentIndex = sidebarItems.findIndex(item => item.to === location.pathname);
     setActiveIndex(currentIndex !== -1 ? currentIndex : null);
@@ -85,7 +83,7 @@ const SiteSidebar: React.FC = () => {
   return (
     <div className="w-64 min-h-screen bg-gradient-to-b from-slate-900 to-slate-800 text-white shadow-2xl border-r border-slate-700 flex flex-col">
       <nav className="flex-1 p-4 overflow-y-auto">
-        <ul className="space-y-1">
+        <ul className="space-y-2">
           {sidebarItems.map((item, index) => {
             const IconComponent = item.icon;
             const isActive = activeIndex === index;
@@ -97,19 +95,31 @@ const SiteSidebar: React.FC = () => {
                   className={`
                     flex items-center justify-between p-3 rounded-xl cursor-pointer transition-all duration-300
                     ${isActive 
-                      ? 'bg-gradient-to-r from-orange-600 to-orange-500 text-white shadow-md' 
-                      : 'hover:bg-slate-700/50 text-slate-300 hover:text-white'
-                    }
+                      ? 'bg-gradient-to-r from-orange-600 to-orange-500 text-white shadow-lg scale-105' 
+                      : 'hover:bg-slate-700/70 text-slate-300 hover:text-white hover:shadow-md'
+                    } focus:outline-none focus:ring-2 focus:ring-orange-400/50 relative
                   `}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      handleItemClick(index, item.to);
+                    }
+                  }}
+                  aria-current={isActive ? 'page' : undefined}
+                  aria-label={`Navigate to ${item.title}`}
                 >
                   <div className="flex items-center space-x-3">
                     <IconComponent 
                       className={`w-5 h-5 transition-colors duration-200 ${
-                        isActive ? 'text-white' : 'text-slate-400'
+                        isActive ? 'text-white' : 'text-slate-400 group-hover:text-white'
                       }`} 
                     />
                     <span className="font-medium text-sm tracking-wide">{item.title}</span>
                   </div>
+                  {isActive && (
+                    <span className="absolute left-0 top-0 h-full w-1 bg-orange-400 rounded-r-md" />
+                  )}
                 </div>
               </li>
             );

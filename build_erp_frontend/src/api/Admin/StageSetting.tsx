@@ -15,8 +15,8 @@ export const stageSaveAPI = async(stages:stageData[],projectId:string,startDate:
    return response.data
 }
 
-export const fetchStageDataAPI = async()=>{
-   const response = await axioInstance.get("/admin/fetchstage")
+export const fetchStageDataAPI = async(search:string,page:number)=>{
+   const response = await axioInstance.get("/admin/fetchstage",{params:{search,page}})
    return response.data
 }
 

@@ -86,9 +86,11 @@ export class ProjectmongooseRepository implements IprojectRepository {
    async SetCostInProject(projectId: string, startDate: string, endDate: string, cost: number): Promise<void> {
       await ProjectModel.findByIdAndUpdate(projectId, { start_date: startDate, end_date: endDate, budgeted_cost: cost })
    }
-   async findStageSetProject(): Promise<Project[] | []> {
-      const existStage = await ProjectModel.find({ budgeted_cost: { $ne: null } })
-      return existStage ? existStage : []
+   async findStageSetProject(search:string,page:number): Promise<{data:Project[],totalPage:number}> {
+      const skip = page*5
+      const existStage = await ProjectModel.find({ budgeted_cost: { $ne: null } ,project_name:{$regex:search,$options:"i"}}).skip(skip).limit(5)
+      const totalPage = Math.ceil(await ProjectModel.countDocuments({project_name:{$regex:search,$options:"i"}})/5)
+      return {data:existStage,totalPage:totalPage} 
    }
    async UpdateEstimationImage(url: string, _id: string):Promise<void> {
        await ProjectModel.findByIdAndUpdate(_id,{expected_image:url})
