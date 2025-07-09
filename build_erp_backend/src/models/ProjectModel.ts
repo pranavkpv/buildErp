@@ -31,7 +31,7 @@ const ProjectSchema: Schema = new Schema(
     area:{
       type:Number,
     },
-    status: {
+    progress: {
       type: String,
       enum: ["pending", "processing", "completed"],
       required: true,

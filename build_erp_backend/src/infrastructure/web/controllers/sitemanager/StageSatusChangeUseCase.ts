@@ -7,8 +7,8 @@ export class StageStatusChangeUseCase{
       this.stagerepository = stagerepository
    }
    async execute(input:changeStatusInput):Promise<fetchcostOutput>{
-     const {stageId,newStatus,date} = input
-     await this.stagerepository.changeStageStatus(stageId,newStatus,date)
+     const {stageId,newProgress,date} = input
+     await this.stagerepository.changeStageStatus(stageId,newProgress,date)
      return{
       success:true,
       message:"stage status changed successfully"

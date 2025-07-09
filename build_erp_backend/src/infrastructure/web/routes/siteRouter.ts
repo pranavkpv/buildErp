@@ -14,6 +14,7 @@ const createSitemanagerRoute = (sitemanagerController: SitemanagerController,
    router.post("/changepass", changepasswordcontroller.changedPassword)
    router.get("/stageFetch", statusController.fetchStageData)
    router.put("/status", statusController.changeStatus)
+   router.put("/upload",statusController.uploadImage)
 
    router.post("/attendance", attendanceController.addAttendance)
    router.put("/editAttendance",attendanceController.editAttendance)
@@ -21,6 +22,8 @@ const createSitemanagerRoute = (sitemanagerController: SitemanagerController,
    router.delete("/attendance",attendanceController.deleteAttendance)
    router.put("/attendance",attendanceController.approveAttendance)
    router.get("/editfetchattendance",attendanceController.fetchEditcontroller)
+
+   
 
 
    return router

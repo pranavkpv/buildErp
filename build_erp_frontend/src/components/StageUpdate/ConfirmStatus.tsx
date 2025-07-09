@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 type status = {
   statusEnable: boolean;
   editStageId: string;
-  newStatus: string;
+  newProgress: number;
   setStatusEnable: React.Dispatch<React.SetStateAction<boolean>>;
   onSuccess: () => void;
   onstatusSuccess: (projectId: string) => void;
@@ -16,7 +16,7 @@ type status = {
 function ConfirmStatus({
   statusEnable,
   editStageId,
-  newStatus,
+  newProgress,
   setStatusEnable,
   onSuccess,
   onstatusSuccess,
@@ -28,7 +28,7 @@ function ConfirmStatus({
 
   const confirmStageStatus = async () => {
     try {
-      const response = await changeStatusStage(editStageId, newStatus, date);
+      const response = await changeStatusStage(editStageId, newProgress, date);
       if (response.success) {
         toast.success(response.message);
         setStatusEnable(false);
@@ -64,7 +64,7 @@ function ConfirmStatus({
             />
           </div>
           <p className="text-gray-200 text-sm font-medium text-center">
-            Do you want to change the stage status to <span className="capitalize font-semibold text-teal-400">{newStatus}</span>?
+            Do you want to change the stage status to <span className="capitalize font-semibold text-teal-400">{newProgress}</span>?
           </p>
           <div className="flex justify-end gap-4">
             <button

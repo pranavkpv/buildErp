@@ -3,6 +3,7 @@ import { getProject } from "../../api/Admin/project";
 import { toast } from "react-toastify";
 import { getStage } from "../../api/Sitemanager/stageStatus";
 import ConfirmStatus from "./ConfirmStatus";
+import ImageUpload from "./ImageUpload";
 
 type Project = {
    _id: string;
@@ -15,7 +16,7 @@ type StageData = {
    start_date: string;
    end_date: string;
    stage_amount: number;
-   status: string;
+   progress: number;
    status_date: string;
 };
 
@@ -24,10 +25,16 @@ function StageUpdatePage() {
    const [stage, setStage] = useState<StageData[]>([]);
    const [selectedProjectId, setSelectedProjectId] = useState("");
 
+
    //status change
-   const [statusEnable,setStatusEnable] = useState(false)
-   const [editStageId,setEditStage]  = useState("")
-   const [newStatus,setNewStatus] = useState("")
+   const [statusEnable, setStatusEnable] = useState(false)
+   const [editStageId, setEditStage] = useState("")
+   const [newProgress, setNewProgress] = useState(0)
+   const progress = [0, 25, 50, 75, 100]
+
+   //imageupload
+   const [uploadEnable,setUploadEnable] = useState(false)
+   const [uploadStageId,setUploadStageId] = useState("")
 
    const fetchProject = async () => {
       try {
@@ -39,7 +46,7 @@ function StageUpdatePage() {
       }
    };
 
-   const fetchStage = async (projectId: string):Promise<void> => {
+   const fetchStage = async (projectId: string): Promise<void> => {
       try {
          const response = await getStage(projectId);
          if (response.success) {
@@ -127,42 +134,28 @@ function StageUpdatePage() {
                               <td className="px-6 py-4 text-gray-100">₹{element.stage_amount.toLocaleString()}</td>
                               <td className="px-6 py-4 text-gray-100">{formatDate(element.status_date)}</td>
                               <td className="px-6 py-4">
-                                 <select
-                                    aria-label={`Select status for ${ element.stage_name }`}
-                                    id={`status-${ element._id }`}
-                                    className="w-full px-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors duration-200 text-gray-100 text-sm font-medium"
-                                    value={element.status}
-                                    onChange={(e) =>{
-                                       setStatusEnable(true)
-                                       setEditStage(element._id)
-                                       setNewStatus(e.target.value)
-                                    }}
-                                 >
-                                    <option value={element.status} className="capitalize">
-                                       {element.status}
-                                    </option>
-                                    {element.status !== "completed" && element.status !== "processing" && (
-                                       <>
-                                          <option value="processing" className="capitalize">
-                                             Processing
-                                          </option>
-                                          <option value="completed" className="capitalize">
-                                             Completed
-                                          </option>
-                                       </>
-                                    )}
-                                    {element.status === "processing" && (
-                                       <option value="completed" className="capitalize">
-                                          Completed
-                                       </option>
-                                    )}
+                                 <select name="" id="" aria-label="select progress" onChange={(e) => {
+                                    setNewProgress(Number(e.target.value))
+                                    setStatusEnable(true)
+                                    setEditStage(element._id)
+                                 }}>
+                                    <option value={element.progress}>{element.progress}</option>
+                                    {progress.map((element) => {
+                                       return (
+                                          <option value={element}>{element}</option>
+                                       )
+                                    })}
+
                                  </select>
                               </td>
                               <td className="px-6 py-4 text-center">
                                  <button
                                     type="button"
                                     className="text-teal-400 hover:text-teal-300 p-2 rounded-md hover:bg-gray-600/50 transition-all duration-200 text-sm font-medium"
-                                    onClick={() => toast.info("Image view/upload functionality to be implemented.")}
+                                    onClick={()=>{
+                                       setUploadEnable(true)
+                                       setUploadStageId(element._id)
+                                    }}
                                  >
                                     View
                                  </button>
@@ -173,14 +166,17 @@ function StageUpdatePage() {
                   </tbody>
                </table>
                <ConfirmStatus
-               statusEnable={statusEnable}
-               editStageId={editStageId}
-               newStatus={newStatus}
-               setStatusEnable={setStatusEnable}
-               onSuccess = {fetchProject}
-               onstatusSuccess={()=>fetchStage(selectedProjectId)}
-               selectedProjectId ={selectedProjectId}
-                />
+                  statusEnable={statusEnable}
+                  editStageId={editStageId}
+                  newProgress={newProgress}
+                  setStatusEnable={setStatusEnable}
+                  onSuccess={fetchProject}
+                  onstatusSuccess={() => fetchStage(selectedProjectId)}
+                  selectedProjectId={selectedProjectId}
+               />
+               <ImageUpload setUploadEnable={setUploadEnable} uploadEnable={uploadEnable} 
+               uploadStageId={uploadStageId}
+               />
             </div>
          </div>
       </div>

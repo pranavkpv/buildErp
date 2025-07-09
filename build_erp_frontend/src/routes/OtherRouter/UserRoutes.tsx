@@ -8,13 +8,20 @@ import Backloginprotected from "../protectedRoute/user/backloginprotected";
 import Home from "../../pages/User/Home";
 import Projects from "../../pages/User/Project";
 import Profile from "../../components/UserFrontPage/Profile";
-import ProjectProgress from "../../components/ProfileComponent/YourProject";
+import ProjectDetails from "../../components/ProfileComponent/YourProjectDetails";
+import ContactUs from "../../components/ProfileComponent/ContactUs";
+import OtpSend from "../../pages/User/OtpSend";
+import ForgotOTP from "../../pages/User/ForgotOTP";
+import NewPassword from "../../pages/User/NewPassword";
 
 export const UserRoutes = () => {
   return (
     <Routes>
       <Route path="/signup" element={<Signup />} />
       <Route path="/otp" element={<Otp />} />
+      <Route path ="/otpsend" element ={<OtpSend />} />
+      <Route path="/forgototp" element = {<ForgotOTP />} />
+      <Route path ="/newPassword" element = {<NewPassword />} />
       <Route
         path="/login"
         element={
@@ -25,8 +32,10 @@ export const UserRoutes = () => {
       />
       <Route path="/" element={<Home />} />
       <Route path="/project" element={<Projects />} />
-      <Route path="/profile" element={<Profile />} />
-      <Route path="/sample" element = {<ProjectProgress />} />
+        <Route path="/contactus" element={<ContactUs />} />
+      <Route path="/profile" element={<Profile />} >
+        <Route path="project" element={<ProjectDetails />} />
+      </Route>
     </Routes>
   );
 };

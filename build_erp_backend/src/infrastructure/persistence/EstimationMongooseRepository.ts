@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { IEstimationRepository } from "../../domain/repositories/IEstimationRepository";
-import { EstimationData, outPutEstimation, rowData } from "../../domain/types/estimation";
+import { EstimationData, outPutEstimation, rowData, SpecData } from "../../domain/types/estimation";
 import EstimationAdditionalModel from "../../models/EstimationAdditionalMode";
 import EstimationLabourModel from "../../models/EstimationLabourModel";
 import EstimationMaterialModel from "../../models/EstimationMaterialModel";
@@ -9,12 +9,6 @@ import LabourModel from "../../models/LabourModel";
 import MaterialModel from "../../models/MaterialModel";
 import SpecModel from "../../models/SpecModel";
 
-interface SpecData {
-   _id: string;
-   budgeted_cost: number;
-   projectObjectId: mongoose.Types.ObjectId;
-   projectDetails: any[];
-}
 
 export class EstimationMongooseRepository implements IEstimationRepository {
    async saveEstimation(specDetails: rowData[], projectId: string): Promise<void> {
@@ -69,51 +63,53 @@ export class EstimationMongooseRepository implements IEstimationRepository {
 
       }
    }
-   async displaySpec(): Promise<SpecData[]> {
+   async displaySpec(search: string, page: number): Promise<{data:SpecData[],totalPage:number}> {
+      const skip = page * 5
       const data = await EstimationModel.aggregate<SpecData>([
-         {
-            $group: {
-               _id: "$project_id", 
-               budgeted_cost: {
-                  $sum: {
-                     $multiply: ["$quantity", "$unit_rate"]
-                  }
+      {
+         $group: {
+            _id: "$project_id",
+            budgeted_cost: {
+               $sum: {
+                  $multiply: ["$quantity", "$unit_rate"]
                }
-            }
-         },
-         {
-            $addFields: {
-               projectObjectId: {
-                  $cond: {
-                     if: { $eq: [{ $type: "$_id" }, "string"] },
-                     then: { $toObjectId: "$_id" },
-                     else: "$_id" 
-                  }
-               }
-            }
-         },
-         {
-            $lookup: {
-               from: "projects",
-               localField: "projectObjectId",
-               foreignField: "_id",
-               as: "projectDetails"
             }
          }
+      },
+      {
+         $addFields: {
+            projectObjectId: {
+               $cond: {
+                  if: { $eq: [{ $type: "$_id" }, "string"] },
+                  then: { $toObjectId: "$_id" },
+                  else: "$_id"
+               }
+            }
+         }
+      },
+      {
+         $lookup: {
+            from: "projects",
+            localField: "projectObjectId",
+            foreignField: "_id",
+            as: "projectDetails"
+         }
+      },{$unwind:"$projectDetails"},{ $match: { "projectDetails.project_name": { $regex: search, $options: "i" } } }, { $skip: skip }, { $limit: 5 }
       ]);
 
-      return data;
+      const totalPage = Math.ceil(await EstimationModel.countDocuments()/5)
+      return {data,totalPage};
    }
 
    async deleteEstimationById(_id: string): Promise<void> {
-       await EstimationModel.findOneAndDelete({project_id:_id})
-       await EstimationAdditionalModel.deleteMany({project_id:_id})
-       await EstimationLabourModel.deleteMany({project_id:_id})
-       await EstimationMaterialModel.deleteMany({project_id:_id})
+      await EstimationModel.findOneAndDelete({ project_id: _id })
+      await EstimationAdditionalModel.deleteMany({ project_id: _id })
+      await EstimationLabourModel.deleteMany({ project_id: _id })
+      await EstimationMaterialModel.deleteMany({ project_id: _id })
    }
    async findEstimationByProjectId(projectId: string): Promise<EstimationData[] | []> {
-       const existdata = await EstimationModel.find({project_id:projectId})
-       return existdata ? existdata : []
+      const existdata = await EstimationModel.find({ project_id: projectId })
+      return existdata ? existdata : []
    }
 
 

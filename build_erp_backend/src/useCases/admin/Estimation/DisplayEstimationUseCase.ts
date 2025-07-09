@@ -7,8 +7,8 @@ export class DisplayEstimationUseCase{
    constructor(estimationRepository : IEstimationRepository){
       this.estimationRepository = estimationRepository
    }
-   async axecute():Promise<SpecData[]>{
-      const result = await this.estimationRepository.displaySpec()
+   async axecute(search:string,page:number):Promise<{data:SpecData[],totalPage:number}>{
+      const result = await this.estimationRepository.displaySpec(search,page)
       return result
    }
 }

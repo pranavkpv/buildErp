@@ -1,6 +1,10 @@
 import mongoose, { Schema, Document } from "mongoose";
 
 
+export interface IStageImageEntry {
+  date: string;
+  image: string[];
+} 
 export interface IStage extends Document {
    project_id: string;
    stage_name: string;
@@ -8,7 +12,7 @@ export interface IStage extends Document {
    end_date: string;
    stage_per: number;
    stage_amount: number;
-   stage_image?: string[];
+   stage_image?: IStageImageEntry[];
    status:string,
    status_date:string
 }
@@ -36,11 +40,11 @@ const StageSchema: Schema = new Schema(
          type: Number,
       },
       stage_image: {
-         type: [String]
+         type: [{date:{type:String},image:[String]}]
       },
-      status:{
-         type:String,
-         enum:["pending","processing","completed"]
+      progress:{
+         type:Number,
+         enum:[0,25,50,75,100]
       },
       status_date:{
          type:String

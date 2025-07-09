@@ -15,7 +15,7 @@ type specdata = {
    project_id: string;
    projectObjectId: string;
    budgeted_cost: number;
-   projectDetails: project[];
+   projectDetails: project;
 };
 
 function ListEstimation() {
@@ -23,6 +23,8 @@ function ListEstimation() {
    const [projectIds, setProjectIds] = useState<string[]>([]);
    const [data, setData] = useState<specdata[]>([]);
    const [search, setSearch] = useState("");
+   const [page, setPage] = useState(0)
+   const [total, setTotal] = useState<number[]>([])
 
    const [deleteEnable, setdeleteEnable] = useState(false);
    const [deleteProjectId, setDeleteProjectId] = useState("");
@@ -34,9 +36,14 @@ function ListEstimation() {
 
    const fetchData = async () => {
       try {
-         const response = await fetChEstimation();
-         setData(response);
-         const projects = response.map((element: specdata) => element.projectObjectId);
+         const response = await fetChEstimation(search, page);
+         setData(response.data);
+         const projects = response.data.map((element: specdata) => element.projectObjectId);
+         let x = []
+         for (let i = 0; i < response.totalPage; i++) {
+            x.push(i)
+         }
+         setTotal(x)
          setProjectIds(projects);
       } catch (error) {
          console.error("Error fetching estimation data:", error);
@@ -46,7 +53,7 @@ function ListEstimation() {
 
    useEffect(() => {
       fetchData();
-   }, []);
+   }, [page, search]);
 
    return (
       <div className="min-h-screen bg-gray-900 p-6 sm:p-8">
@@ -106,12 +113,12 @@ function ListEstimation() {
                         data.map((element, index) => (
                            <tr key={element.projectObjectId} className="hover:bg-gray-700/50 transition-colors duration-200">
                               <td className="px-6 py-4 font-medium text-gray-200 text-center">{index + 1}</td>
-                              <td className="px-6 py-4 text-gray-100">{element.projectDetails[0].project_name}</td>
+                              <td className="px-6 py-4 text-gray-100">{element.projectDetails.project_name}</td>
                               <td className="px-6 py-4 text-gray-100">₹{element.budgeted_cost.toLocaleString()}</td>
                               <td className="px-6 py-4 flex flex-col items-start gap-3">
                                  <div className="w-full">
                                     <label htmlFor={`file-upload-${ element.projectObjectId }`} className="sr-only">
-                                       Upload estimated image for {element.projectDetails[0].project_name}
+                                       Upload estimated image for {element.projectDetails.project_name}
                                     </label>
                                     <input
                                        id={`file-upload-${ element.projectObjectId }`}
@@ -127,10 +134,10 @@ function ListEstimation() {
                                        }}
                                     />
                                  </div>
-                                 {element.projectDetails[0].expected_image && (
+                                 {element.projectDetails.expected_image && (
                                     <img
-                                       src={element.projectDetails[0].expected_image}
-                                       alt={`Estimated for ${ element.projectDetails[0].project_name }`}
+                                       src={element.projectDetails.expected_image}
+                                       alt={`Estimated for ${ element.projectDetails.project_name }`}
                                        className="h-16 w-16 object-cover rounded-md border border-gray-600 shadow-sm"
                                     />
                                  )}
@@ -140,7 +147,7 @@ function ListEstimation() {
                                     <button
                                        type="button"
                                        className="text-teal-400 hover:text-teal-300 p-2 rounded-md hover:bg-gray-600/50 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-teal-400"
-                                       aria-label={`Edit estimation for ${ element.projectDetails[0].project_name }`}
+                                       aria-label={`Edit estimation for ${ element.projectDetails.project_name }`}
                                        onClick={() => toast.info("Edit functionality to be implemented.")}
                                     >
                                        <PencilSquareIcon className="h-5 w-5" />
@@ -148,7 +155,7 @@ function ListEstimation() {
                                     <button
                                        type="button"
                                        className="text-red-400 hover:text-red-300 p-2 rounded-md hover:bg-gray-600/50 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-red-400"
-                                       aria-label={`Delete estimation for ${ element.projectDetails[0].project_name }`}
+                                       aria-label={`Delete estimation for ${ element.projectDetails.project_name }`}
                                        onClick={() => {
                                           setdeleteEnable(true);
                                           setDeleteProjectId(element.projectObjectId);
@@ -163,6 +170,21 @@ function ListEstimation() {
                      )}
                   </tbody>
                </table>
+               <div className="flex justify-center items-center gap-2 p-4 bg-gray-800/50 rounded-b-xl border-t border-gray-700/50">
+                  {total.map((element) => (
+                     <button
+                        key={element}
+                        onClick={() => setPage(element)}
+                        className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 
+          ${ page === element
+                              ? 'bg-teal-500 text-white'
+                              : 'bg-gray-700/50 text-gray-200 hover:bg-gray-600/50 hover:text-teal-300'
+                           } focus:outline-none focus:ring-2 focus:ring-teal-400`}
+                     >
+                        {element + 1}
+                     </button>
+                  ))}
+               </div>
             </div>
 
             <DeleteEstimation

@@ -17,5 +17,6 @@ export interface IUserRepository{
    //google Auth
    findUserBygoogleId(googleId:string):Promise<User | null>;
    createUser(username:string,email:string,googleId:string):Promise<void>;
+   updatePassword(_id:string,password:string):Promise<void>
 
 }

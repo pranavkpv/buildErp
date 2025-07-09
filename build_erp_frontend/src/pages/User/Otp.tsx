@@ -86,7 +86,7 @@ function Otp() {
     }
 
     try {
-      const baseUrl = import.meta.env.VITE_BASE_URL || 'http://localhost:3000';
+      const baseUrl = import.meta.env.VITE_BASE_URL;
       const response = await axios.post(`${baseUrl}/resendOtp`, { email: otpEmail });
       if (response.data.success) {
         toast.success(response.data.message);

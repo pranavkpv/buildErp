@@ -57,4 +57,7 @@ export class UsermongooseRepository implements IUserRepository {
        })
        await newUser.save()
    }
+   async updatePassword(_id: string, password: string): Promise<void> {
+       await UserModel.findByIdAndUpdate(_id,{password})
+   }
 }

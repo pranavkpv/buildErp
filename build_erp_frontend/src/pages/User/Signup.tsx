@@ -83,7 +83,7 @@ function Signup() {
     }
 
     try {
-      const baseUrl = import.meta.env.VITE_BASE_URL || 'http://localhost:3000';
+      const baseUrl = import.meta.env.VITE_BASE_URL ;
       const response = await axios.post(`${baseUrl}/signup`, {
         username,
         email,

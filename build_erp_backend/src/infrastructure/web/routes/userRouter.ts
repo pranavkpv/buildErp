@@ -2,7 +2,9 @@ import { Router } from "express";
 import { AuthController } from "../controllers/user/AuthController";
 import { JwtServiceImpl } from "../../../services/JwtService";
 import passport from "passport";
-const createAuthRoute = (authcontroller: AuthController): Router => {
+import { AuthProjectController } from "../controllers/user/AuthprojectController";
+
+const createAuthRoute = (authcontroller: AuthController,authprojectController:AuthProjectController): Router => {
    const router = Router()
    const jwtService = new JwtServiceImpl()
    //initiate google auth route
@@ -32,6 +34,16 @@ const createAuthRoute = (authcontroller: AuthController): Router => {
    router.post('/verifyOtp', authcontroller.verifyOTP)
    router.post('/resendOtp', authcontroller.resendOtp)
    router.post('/login', authcontroller.login)
+   router.post("/forgotOTP",authcontroller.SendOTP)
+   router.post("/verifyForgotOtp",authcontroller.verifyForgotOTP)
+   router.put("/updatepassword",authcontroller.updatePassword)
+
+   //your project
+   router.get("/fetchuserproject",authprojectController.fetchProject)
+
+
+
+
    return router
 }
 

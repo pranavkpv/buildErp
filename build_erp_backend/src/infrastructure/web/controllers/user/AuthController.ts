@@ -5,6 +5,9 @@ import { SignupUserUseCase } from "../../../../useCases/user/Dashboard/SignupUse
 import { VerifyOTPUseCases } from "../../../../useCases/user/Dashboard/VerifyOTPuseCases";
 import { ResendOTPUseCase } from "../../../../useCases/user/Dashboard/ResendOTPUseCase";
 import { UserLoginUseCase } from "../../../../useCases/user/Dashboard/UserLoginUseCase";
+import { SendOTPUseCase } from "../../../../useCases/user/Dashboard/SendOTPUseCase";
+import { VerifyForgotUseCase } from "../../../../useCases/user/Dashboard/VerifyForgotUseCase";
+import { UpdatePasswordUseCase } from "../../../../useCases/user/Dashboard/UpdatePasswordUseCase";
 
 
 
@@ -16,15 +19,23 @@ export class AuthController {
    private userLoginUseCase: UserLoginUseCase
    private refreshTokenUseCase: RefreshTokenUseCase
    private googleauthuseCase: googlAuthUseCase
+   private sendotpUsecase: SendOTPUseCase
+   private verifyforgotUsecase: VerifyForgotUseCase
+   private updatePasswordUseCase : UpdatePasswordUseCase
    constructor(signupUserUseCase: SignupUserUseCase, verifyOTPUseCase: VerifyOTPUseCases,
       resendOTPUseCase: ResendOTPUseCase, userLoginUseCase: UserLoginUseCase,
-      refreshTokenUseCase: RefreshTokenUseCase, googleauthuseCase: googlAuthUseCase) {
+      refreshTokenUseCase: RefreshTokenUseCase, googleauthuseCase: googlAuthUseCase,
+      sendotpUsecase: SendOTPUseCase, verifyforgotUsecase: VerifyForgotUseCase,
+   updatePasswordUseCase : UpdatePasswordUseCase) {
       this.signupUserUseCase = signupUserUseCase
       this.verifyOTPUseCase = verifyOTPUseCase
       this.resendOTPUseCase = resendOTPUseCase
       this.userLoginUseCase = userLoginUseCase
       this.refreshTokenUseCase = refreshTokenUseCase
       this.googleauthuseCase = googleauthuseCase
+      this.sendotpUsecase = sendotpUsecase
+      this.verifyforgotUsecase = verifyforgotUsecase
+      this.updatePasswordUseCase = updatePasswordUseCase
    }
    signUp = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       try {
@@ -82,10 +93,10 @@ export class AuthController {
          next(error);
       }
    };
-   authLogin = async (req: Request, res: Response, next: NextFunction): Promise<void> =>{
+   authLogin = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       try {
          const result = await this.googleauthuseCase.execute(req.body)
-        if (result.success && result.tokens?.refreshToken) {
+         if (result.success && result.tokens?.refreshToken) {
             res.cookie('refreshToken', result.tokens.refreshToken, {
                httpOnly: false,
                secure: false,
@@ -97,6 +108,35 @@ export class AuthController {
             res.status(200).json(result);
          }
       } catch (error) {
+         console.log(error)
+         next(error);
+      }
+   }
+
+   SendOTP = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+      try {
+         const result = await this.sendotpUsecase.execute(req.body)
+         res.status(200).json(result)
+      } catch (error) {
+         console.log(error)
+         next(error);
+      }
+   }
+   verifyForgotOTP = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+      try {
+         const result = await this.verifyforgotUsecase.execute(req.body)
+         res.status(200).json(result)
+      } catch (error) {
+         console.log(error)
+         next(error);
+      }
+   }
+   updatePassword = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+      try {
+         const result = await this.updatePasswordUseCase.execute(req.body)
+         res.status(200).json(result)
+      } catch (error) {
+         console.log(error)
          next(error);
       }
    }

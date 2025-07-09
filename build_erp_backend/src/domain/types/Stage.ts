@@ -25,6 +25,11 @@ export interface stageInputData{
    stages:Stage[]
 }
 
+export interface stageImage {
+  date: string;
+  image: string[];
+}
+
 export interface stageData{
     project_id: string;
    stage_name: string;
@@ -32,13 +37,13 @@ export interface stageData{
    end_date: string;
    stage_per: number;
    stage_amount: number;
-   stage_image?: string[];
+   stage_image?: stageImage[];
    status:string,
    status_date:string
 }
 
 export interface changeStatusInput{
    stageId:string,
-   newStatus:string
+   newProgress:number
    date:string
 }

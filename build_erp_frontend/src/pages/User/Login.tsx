@@ -1,3 +1,4 @@
+
 import React, { useRef, useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -88,7 +89,7 @@ function Login() {
             onChange={(e) => setEmail(e.target.value)}
             className="w-full px-4 py-2.5 bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors duration-200 text-gray-100 placeholder-gray-400 text-sm"
           />
-          <p ref={emailRef} className="text-red-400 text-sm mt-1"></p>
+          <p ref={emailRef} className="text-red-400 text-sm mt-1 min-h-[1.5rem]"></p>
         </div>
 
         <div>
@@ -103,7 +104,17 @@ function Login() {
             onChange={(e) => setPassword(e.target.value)}
             className="w-full px-4 py-2.5 bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors duration-200 text-gray-100 placeholder-gray-400 text-sm"
           />
-          <p ref={passwordRef} className="text-red-400 text-sm mt-1"></p>
+          <p ref={passwordRef} className="text-red-400 text-sm mt-1 min-h-[1.5rem]"></p>
+        </div>
+
+        <div className="flex justify-end">
+          <Link
+            to="/otpsend"
+            className="text-gray-300 hover:text-teal-400 text-sm transition-colors duration-200"
+            aria-label="Forgot your password?"
+          >
+            Forgot Password?
+          </Link>
         </div>
 
         <button

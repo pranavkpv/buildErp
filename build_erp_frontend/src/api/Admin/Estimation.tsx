@@ -1,7 +1,7 @@
 import axioInstance from "../../api/axio"
 
-export const fetChEstimation = async () => {
-   const response = await axioInstance("/admin/fetchEstimation")
+export const fetChEstimation = async (search:string,page:number) => {
+   const response = await axioInstance("/admin/fetchEstimation",{params:{search,page}})
    return response.data
 }
 

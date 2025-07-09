@@ -136,6 +136,12 @@ import { FetchAttendanceByIdUseCase } from './src/useCases/sitemanager/Common/Fe
 import { EditAttendanceUseCase } from './src/useCases/sitemanager/Common/EditAttendanceUseCase';
 import { DeleteStageUseCase } from './src/useCases/admin/Stage/DeleteStageUseCase';
 import { UploadEstimateImageUseCase } from './src/useCases/admin/Estimation/UploadEstimateImageUseCase';
+import { AuthProjectController } from './src/infrastructure/web/controllers/user/AuthprojectController';
+import { FetchUserProjectUseCase } from './src/useCases/user/common/fetchUsersProjectUsecase';
+import { UploadStatusImageUseCase } from './src/useCases/sitemanager/Common/UploadStatusImageUseCase';
+import { SendOTPUseCase } from './src/useCases/user/Dashboard/SendOTPUseCase';
+import { UpdatePasswordUseCase } from './src/useCases/user/Dashboard/UpdatePasswordUseCase';
+import { VerifyForgotUseCase } from './src/useCases/user/Dashboard/VerifyForgotUseCase';
 
 
 
@@ -172,28 +178,10 @@ app.use(passport.session());
 async function compositeRoot() {
    try {
       await connectDB();
-      const UserRepository = new UsermongooseRepository()
-      const hasher = new BcryptHasher()
-      const JwtService = new JwtServiceImpl()
-      const AdminJwtService = new AdminJwtServiceImpl()
-      const signupUserUseCase = new SignupUserUseCase(UserRepository)
-      const verifyOTPUseCase = new VerifyOTPUseCases(UserRepository, hasher)
-      const resendOTPUseCase = new ResendOTPUseCase(UserRepository)
-      const refreshTokenUseCase = new RefreshTokenUseCase(UserRepository, JwtService)
-      const userLoginUseCase = new UserLoginUseCase(UserRepository, hasher, JwtService)
-      const googleauthuseCase = new googlAuthUseCase(UserRepository, JwtService)
 
-      const authController = new AuthController(
-         signupUserUseCase,
-         verifyOTPUseCase,
-         resendOTPUseCase,
-         userLoginUseCase,
-         refreshTokenUseCase,
-         googleauthuseCase
-      )
-      app.use("/", createAuthRoute(authController))
-      //
-      const adminRepository = new AdminmongooseRepository()
+
+
+        const adminRepository = new AdminmongooseRepository()
       const categoryRepository = new CategorymongooseRepository()
       const unitRepository = new UnitMongooseRepository()
       const brandRepository = new BrandmongooseRepository()
@@ -207,6 +195,40 @@ async function compositeRoot() {
       const estimationRepository = new EstimationMongooseRepository()
       const stageRepository = new StagemongooseRepository()
       const attendanceRepository = new AttendancemongooseRepository()
+      const UserRepository = new UsermongooseRepository()
+
+      
+      const hasher = new BcryptHasher()
+      const JwtService = new JwtServiceImpl()
+      const AdminJwtService = new AdminJwtServiceImpl()
+
+
+      const signupUserUseCase = new SignupUserUseCase(UserRepository)
+      const verifyOTPUseCase = new VerifyOTPUseCases(UserRepository, hasher)
+      const resendOTPUseCase = new ResendOTPUseCase(UserRepository)
+      const refreshTokenUseCase = new RefreshTokenUseCase(UserRepository, JwtService)
+      const userLoginUseCase = new UserLoginUseCase(UserRepository, hasher, JwtService)
+      const googleauthuseCase = new googlAuthUseCase(UserRepository, JwtService)
+      const fetchUserprojectUseCase = new FetchUserProjectUseCase(projectRepository)
+      const sendotpUsecase = new SendOTPUseCase(UserRepository)
+      const verifyforgotUsecase = new VerifyForgotUseCase(UserRepository)
+      const updatePasswordUseCase = new UpdatePasswordUseCase(UserRepository,hasher)
+
+      const authController = new AuthController(
+         signupUserUseCase,
+         verifyOTPUseCase,
+         resendOTPUseCase,
+         userLoginUseCase,
+         refreshTokenUseCase,
+         googleauthuseCase,
+         sendotpUsecase,
+         verifyforgotUsecase,
+         updatePasswordUseCase
+      )
+      const authprojectController = new AuthProjectController(fetchUserprojectUseCase)
+      app.use("/", createAuthRoute(authController,authprojectController))
+      //
+   
 
 
       const adminLoginUsecase = new AdminLoginUseCase(adminRepository, AdminJwtService)
@@ -279,6 +301,7 @@ async function compositeRoot() {
       const editAttendanceUseCase = new EditAttendanceUseCase(attendanceRepository)
       const deletestageusecase = new DeleteStageUseCase(stageRepository)
       const uploadestimationUsecase = new UploadEstimateImageUseCase(projectRepository)
+      const uploadstatusImageusecase = new UploadStatusImageUseCase(stageRepository)
 
 
 
@@ -296,7 +319,7 @@ async function compositeRoot() {
       const newspecController = new SpecController(speclistusecase, specSaveuseCase, specsumusecase, deleteSpecusecase, getspecUseCase, findmaterialSumusecase, findlaboursumusecase)
       const newestimationController = new EstimationController(saveestimationuseCase, displayEstimationUseCase, deleteEstimationuseCase,uploadestimationUsecase)
       const newstageController = new StageController(fetchCostusecase, stagesaveusecase, fetchStageusecase, deletestageusecase)
-      const newstatusController = new statusController(fetchStatusUseCase, stageStatusChangeUseCase)
+      const newstatusController = new statusController(fetchStatusUseCase, stageStatusChangeUseCase,uploadstatusImageusecase)
       const newattendanceController = new AttendanceController(addAttendaceUseCase, fetchattendanceusecase, deleteattendanceUsecase, approveattendanceuseCase, fetchattendancebyIdusecase, editAttendanceUseCase)
 
       app.use("/admin", createAdminRoute(newAdminController,

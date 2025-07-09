@@ -16,4 +16,5 @@ export interface IprojectRepository{
    SetCostInProject(projectId:string,startDate:string,endDate:string,cost:number):Promise<void>
    findStageSetProject():Promise<Project[] | []>
    UpdateEstimationImage(url:string,_id:string):Promise<void>
+   findProjectByUserId(user_id:string):Promise<Project[]>
 }

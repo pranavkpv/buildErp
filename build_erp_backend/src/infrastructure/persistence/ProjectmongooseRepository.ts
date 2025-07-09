@@ -93,4 +93,8 @@ export class ProjectmongooseRepository implements IprojectRepository {
    async UpdateEstimationImage(url: string, _id: string):Promise<void> {
        await ProjectModel.findByIdAndUpdate(_id,{expected_image:url})
    }
+   async findProjectByUserId(user_id: string): Promise<Project[]> {
+       const data = await ProjectModel.find({user_id:user_id})
+       return data 
+   }
 }

@@ -22,7 +22,7 @@ function SidebarUser(){
     { name: "Profile Details", path: "/profile/details", icon: User },
     { name: "Change Password", path: "/profile/change-password", icon: Lock },
     { name: "Chat", path: "/profile/chat", icon: MessageSquare },
-    { name: "Your Project Details", path: "/profile/projects", icon: Folder },
+    { name: "Your Project Details", path: "/profile/project", icon: Folder },
   ];
 
 

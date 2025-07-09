@@ -2,7 +2,7 @@ import { EstimationData, outPutEstimation, rowData, SpecData } from "../types/es
 
 export interface IEstimationRepository{
    saveEstimation(specDetails:rowData[],projectId:string):Promise<void>
-   displaySpec():Promise<SpecData[]>
+   displaySpec(search: string, page: number): Promise<{data:SpecData[],totalPage:number}>
    deleteEstimationById(_id:string):Promise<void>
    findEstimationByProjectId(projectId:string):Promise<EstimationData[] | []>
 }
