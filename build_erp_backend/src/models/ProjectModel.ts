@@ -31,19 +31,19 @@ const ProjectSchema: Schema = new Schema(
     area:{
       type:Number,
     },
-    progress: {
+    status: {
       type: String,
       enum: ["pending", "processing", "completed"],
-      required: true,
+      required:true
     },
     sitemanager_id: {
       type: String,
     },
     start_date: {
-      type: Date,
+      type: String,
     },
     end_date: {
-      type: Date,
+      type: String,
     },
     expected_image: {
       type: String,

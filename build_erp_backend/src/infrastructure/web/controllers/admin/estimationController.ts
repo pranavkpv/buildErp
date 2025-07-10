@@ -4,6 +4,8 @@ import { DisplayEstimationUseCase } from "../../../../useCases/admin/Estimation/
 import { DeleteEstimationUseCase } from "../../../../useCases/admin/Estimation/DeleteEstimationUseCase"
 import cloudinary from "../../../../config/cloudinary"
 import { UploadEstimateImageUseCase } from "../../../../useCases/admin/Estimation/UploadEstimateImageUseCase"
+import { FetchExistEstimationUseCase } from "../../../../useCases/admin/Estimation/FetchExistEstimationUseCase"
+import { UpdateEstimationUsecase } from "../../../../useCases/admin/Estimation/UpdateEstimationUseCase"
 
 
 export class EstimationController {
@@ -11,13 +13,17 @@ export class EstimationController {
    private displayEstimationUseCase: DisplayEstimationUseCase
    private deleteEstimationuseCase: DeleteEstimationUseCase
    private uploadestimationUsecase: UploadEstimateImageUseCase
+   private fetchexistestimationusecase: FetchExistEstimationUseCase
+   private updateEstimationUsecase : UpdateEstimationUsecase
    constructor(saveestimationuseCase: SaveEstimationUseCase, displayEstimationUseCase: DisplayEstimationUseCase,
-      deleteEstimationuseCase: DeleteEstimationUseCase, uploadestimationUsecase: UploadEstimateImageUseCase) {
+      deleteEstimationuseCase: DeleteEstimationUseCase, uploadestimationUsecase: UploadEstimateImageUseCase,
+      fetchexistestimationusecase: FetchExistEstimationUseCase,updateEstimationUsecase : UpdateEstimationUsecase) {
       this.saveestimationuseCase = saveestimationuseCase
       this.displayEstimationUseCase = displayEstimationUseCase,
-      this.deleteEstimationuseCase = deleteEstimationuseCase
+         this.deleteEstimationuseCase = deleteEstimationuseCase
       this.uploadestimationUsecase = uploadestimationUsecase
-
+      this.fetchexistestimationusecase = fetchexistestimationusecase
+      this.updateEstimationUsecase = updateEstimationUsecase
    }
    SaveEstimation = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       try {
@@ -30,8 +36,8 @@ export class EstimationController {
    }
    fetchEstimation = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       try {
-         const {search,page} = req.query
-         const result = await this.displayEstimationUseCase.axecute(String(search),Number(page))
+         const { search, page } = req.query
+         const result = await this.displayEstimationUseCase.axecute(String(search), Number(page))
          res.status(200).json(result)
       } catch (error) {
          console.log(error)
@@ -58,8 +64,28 @@ export class EstimationController {
          const result = await cloudinary.uploader.upload(file.tempFilePath, {
             folder: "estimation"
          })
-         const ExactResult = await this.uploadestimationUsecase.execute(result.secure_url,projectId)
-          res.status(200).json(ExactResult)
+         const ExactResult = await this.uploadestimationUsecase.execute(result.secure_url, projectId)
+         res.status(200).json(ExactResult)
+      } catch (error) {
+         console.log(error)
+         next(error)
+      }
+   }
+   fetchExistEstimation = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+      try {
+         const { _id } = req.query
+         const result = await this.fetchexistestimationusecase.execute(String(_id))
+         console.log(result)
+         res.status(200).json(result)
+      } catch (error) {
+         console.log(error)
+         next(error)
+      }
+   }
+   updateEstimation = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+      try {
+         const result = await this.updateEstimationUsecase.execute(req.body)
+         res.status(200).json(result)
       } catch (error) {
          console.log(error)
          next(error)

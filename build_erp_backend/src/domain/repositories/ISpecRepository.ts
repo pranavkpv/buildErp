@@ -17,5 +17,7 @@ export interface ISpecRepository{
    //deleteSpec
    DeleteSpec(_id:string):Promise<void>
    fetchSpec():Promise<Specification[]>
+   findSpecByMaterialId(_id:string):Promise<Specification | null>
+   findSpecByLabourId(_id:string):Promise<Specification | null>
 
 }

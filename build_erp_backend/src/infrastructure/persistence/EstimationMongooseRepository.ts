@@ -13,7 +13,6 @@ import SpecModel from "../../models/SpecModel";
 export class EstimationMongooseRepository implements IEstimationRepository {
    async saveEstimation(specDetails: rowData[], projectId: string): Promise<void> {
       let sum = 0
-      console.log(specDetails)
       for (let char of specDetails) {
          const specDetails = await SpecModel.findOne({ spec_id: char.spec_id })
          if (specDetails) {
@@ -63,46 +62,46 @@ export class EstimationMongooseRepository implements IEstimationRepository {
 
       }
    }
-   async displaySpec(search: string, page: number): Promise<{data:SpecData[],totalPage:number}> {
+   async displaySpec(search: string, page: number): Promise<{ data: SpecData[], totalPage: number }> {
       const skip = page * 5
       const data = await EstimationModel.aggregate<SpecData>([
-      {
-         $group: {
-            _id: "$project_id",
-            budgeted_cost: {
-               $sum: {
-                  $multiply: ["$quantity", "$unit_rate"]
+         {
+            $group: {
+               _id: "$project_id",
+               budgeted_cost: {
+                  $sum: {
+                     $multiply: ["$quantity", "$unit_rate"]
+                  }
                }
             }
-         }
-      },
-      {
-         $addFields: {
-            projectObjectId: {
-               $cond: {
-                  if: { $eq: [{ $type: "$_id" }, "string"] },
-                  then: { $toObjectId: "$_id" },
-                  else: "$_id"
+         },
+         {
+            $addFields: {
+               projectObjectId: {
+                  $cond: {
+                     if: { $eq: [{ $type: "$_id" }, "string"] },
+                     then: { $toObjectId: "$_id" },
+                     else: "$_id"
+                  }
                }
             }
-         }
-      },
-      {
-         $lookup: {
-            from: "projects",
-            localField: "projectObjectId",
-            foreignField: "_id",
-            as: "projectDetails"
-         }
-      },{$unwind:"$projectDetails"},{ $match: { "projectDetails.project_name": { $regex: search, $options: "i" } } }, { $skip: skip }, { $limit: 5 }
+         },
+         {
+            $lookup: {
+               from: "projects",
+               localField: "projectObjectId",
+               foreignField: "_id",
+               as: "projectDetails"
+            }
+         }, { $unwind: "$projectDetails" }, { $match: { "projectDetails.project_name": { $regex: search, $options: "i" } } }, { $skip: skip }, { $limit: 5 }
       ]);
 
-      const totalPage = Math.ceil(await EstimationModel.countDocuments()/5)
-      return {data,totalPage};
+      const totalPage = Math.ceil(await EstimationModel.countDocuments() / 5)
+      return { data, totalPage };
    }
 
    async deleteEstimationById(_id: string): Promise<void> {
-      await EstimationModel.findOneAndDelete({ project_id: _id })
+      await EstimationModel.deleteMany({ project_id: _id })
       await EstimationAdditionalModel.deleteMany({ project_id: _id })
       await EstimationLabourModel.deleteMany({ project_id: _id })
       await EstimationMaterialModel.deleteMany({ project_id: _id })
@@ -111,6 +110,25 @@ export class EstimationMongooseRepository implements IEstimationRepository {
       const existdata = await EstimationModel.find({ project_id: projectId })
       return existdata ? existdata : []
    }
-
-
+   async findEstimationBySpecId(_id: string): Promise<EstimationData | null> {
+      const existData = await EstimationModel.findOne({ spec_id: _id })
+      return existData
+   }
+   async AggregateEstimationBySpec(_id: string): Promise<EstimationData[]> {
+      const existData = await EstimationModel.aggregate([{
+         $match: { project_id: _id }
+      }, {
+         $addFields: {
+            specObjectId: { $toObjectId: "$spec_id" }
+         }
+      }, {
+         $lookup: {
+            from: "specs",
+            localField: "specObjectId",
+            foreignField: "_id",
+            as: "specDetails"
+         }
+      },{$unwind:"$specDetails"}])
+      return existData
+   }
 }

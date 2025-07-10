@@ -22,7 +22,7 @@ function Banner(){
           subtitle: 'Designed for the modern lifestyle'
         },
         {
-          image: 'https://images.unsplash.com/photo-1600607687644-aac4c3eac7f4?w=1200&h=800&fit=crop',
+          image: 'https://thumbs.dreamstime.com/b/beautiful-new-home-exterior-clear-evening-provides-setting-luxurious-34711767.jpg',
           title: 'Affordable Excellence',
           subtitle: 'Quality homes within your reach'
         }

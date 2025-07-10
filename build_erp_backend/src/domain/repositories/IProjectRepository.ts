@@ -17,4 +17,5 @@ export interface IprojectRepository{
    findStageSetProject(search:string,page:number):Promise<{data:Project[],totalPage:number}>
    UpdateEstimationImage(url:string,_id:string):Promise<void>
    findProjectByUserId(user_id:string):Promise<Project[]>
+   findSitemanagerProject(user:string):Promise<Project[]>
 }

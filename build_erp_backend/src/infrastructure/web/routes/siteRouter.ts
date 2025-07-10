@@ -11,10 +11,14 @@ const createSitemanagerRoute = (sitemanagerController: SitemanagerController,
    const router = Router()
    router.post("/login", sitemanagerController.loginSitemanager)
    router.post("/logout", sitemanagerController.logoutSitemanager)
+     router.get("/siteproject",sitemanagerController.getSitemanagerProject)
+
+
    router.post("/changepass", changepasswordcontroller.changedPassword)
    router.get("/stageFetch", statusController.fetchStageData)
    router.put("/status", statusController.changeStatus)
    router.put("/upload",statusController.uploadImage)
+ 
 
    router.post("/attendance", attendanceController.addAttendance)
    router.put("/editAttendance",attendanceController.editAttendance)

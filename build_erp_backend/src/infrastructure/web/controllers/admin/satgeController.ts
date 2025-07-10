@@ -3,6 +3,7 @@ import { FetchCostUseCase } from "../../../../useCases/admin/Stage/FetchCostUseC
 import { StageSaveUseCase } from "../../../../useCases/admin/Stage/StageSaveUseCase";
 import { FetchStageUsecase } from "../../../../useCases/admin/Stage/FetchStageUseCase";
 import { DeleteStageUseCase } from "../../../../useCases/admin/Stage/DeleteStageUseCase";
+import { UpdateStageUseCase } from "../../../../useCases/admin/Stage/UpdateStageUseCase";
 
 
 export class StageController {
@@ -10,12 +11,14 @@ export class StageController {
    private fetchCostusecase: FetchCostUseCase
    private fetchStageusecase: FetchStageUsecase
    private deletestageusecase: DeleteStageUseCase
+   private updateStageUseCase : UpdateStageUseCase
    constructor(fetchCostusecase: FetchCostUseCase, stagesaveusecase: StageSaveUseCase,
-      fetchStageusecase: FetchStageUsecase, deletestageusecase: DeleteStageUseCase) {
+      fetchStageusecase: FetchStageUsecase, deletestageusecase: DeleteStageUseCase,updateStageUseCase : UpdateStageUseCase) {
       this.fetchCostusecase = fetchCostusecase
       this.stagesaveusecase = stagesaveusecase
       this.fetchStageusecase = fetchStageusecase
       this.deletestageusecase = deletestageusecase
+      this.updateStageUseCase = updateStageUseCase
    }
    fetchCost = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       try {
@@ -59,6 +62,15 @@ export class StageController {
       try {
          const result = await this.deletestageusecase.execute(req.body)
          res.status(200).json(result);
+      } catch (error) {
+         console.log(error);
+         next(error);
+      }
+   }
+   updateStage = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+      try {
+         const result = await this.updateStageUseCase.execute(req.body)
+          res.status(200).json(result);
       } catch (error) {
          console.log(error);
          next(error);

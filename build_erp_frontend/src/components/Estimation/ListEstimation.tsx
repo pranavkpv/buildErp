@@ -5,6 +5,7 @@ import AddEstimation from "./AddEstimation";
 import { PencilSquareIcon, TrashIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
 import DeleteEstimation from "./DeleteEstimation";
 import UploadConfirm from "./Uploadconfirm";
+import EditEstimation from "./EditEstimation";
 
 type project = {
    project_name: string;
@@ -33,6 +34,10 @@ function ListEstimation() {
    const [file, setFile] = useState<File | null>(null);
    const [uploadEnable, setUploadEnable] = useState(false);
    const [uploadProjectId, setUploadProjectId] = useState("");
+
+   //edit estimation
+   const [editEnable,setEditEnable] = useState(false)
+   const [editProjectId,setEditProjectId] = useState("")
 
    const fetchData = async () => {
       try {
@@ -148,7 +153,10 @@ function ListEstimation() {
                                        type="button"
                                        className="text-teal-400 hover:text-teal-300 p-2 rounded-md hover:bg-gray-600/50 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-teal-400"
                                        aria-label={`Edit estimation for ${ element.projectDetails.project_name }`}
-                                       onClick={() => toast.info("Edit functionality to be implemented.")}
+                                       onClick={() =>{
+                                          setEditEnable(true)
+                                          setEditProjectId(element.projectObjectId)
+                                       }}
                                     >
                                        <PencilSquareIcon className="h-5 w-5" />
                                     </button>
@@ -202,6 +210,13 @@ function ListEstimation() {
                uploadProjectId={uploadProjectId}
                uploadSuccess={fetchData}
             />
+            <EditEstimation
+            editEnable={editEnable}
+            setEditEnable={setEditEnable}
+            anEditSuccess={fetchData}
+            projectIds={projectIds}
+            editProjectId={editProjectId}
+             />
          </div>
       </div>
    );

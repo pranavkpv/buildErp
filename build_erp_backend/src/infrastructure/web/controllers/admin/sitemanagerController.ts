@@ -4,6 +4,8 @@ import { SaveSitemanagerUseCase } from "../../../../useCases/admin/Site/SaveSite
 import { UpdateSitemanagerUseCase } from "../../../../useCases/admin/Site/UpdateSitemanagerUseCase"
 import { DeleteSitemanagerUseCase } from "../../../../useCases/admin/Site/DeleteSitemanagerUseCase"
 import { SitemanagerLoginUseCase } from "../../../../useCases/sitemanager/Dashboard/SitemanagerLoginUseCase"
+import { JwtPayload } from "jsonwebtoken"
+import { ListProjectUseCase } from "../../../../useCases/sitemanager/Common/ListProjectUseCase"
 
 
 
@@ -13,18 +15,21 @@ export class SitemanagerController {
    private editSitemanagerUsecase: UpdateSitemanagerUseCase
    private deleteSitemanagerUseCase: DeleteSitemanagerUseCase
    private sitemanagerLoginUseCase: SitemanagerLoginUseCase
+   private listProjectUseCase : ListProjectUseCase
    constructor(
       displayAllSitemanagerUseCase: DisplayAllSitemanagerUseCase,
       addSitemanagerUseCase: SaveSitemanagerUseCase,
       editSitemanagerUsecase: UpdateSitemanagerUseCase,
       deleteSitemanagerUseCase: DeleteSitemanagerUseCase,
-      sitemanagerLoginUseCase: SitemanagerLoginUseCase
+      sitemanagerLoginUseCase: SitemanagerLoginUseCase,
+      listProjectUseCase : ListProjectUseCase
    ) {
       this.displayAllSitemanagerUseCase = displayAllSitemanagerUseCase
       this.addSitemanagerUseCase = addSitemanagerUseCase
       this.editSitemanagerUsecase = editSitemanagerUsecase
       this.deleteSitemanagerUseCase = deleteSitemanagerUseCase
       this.sitemanagerLoginUseCase = sitemanagerLoginUseCase
+      this.listProjectUseCase = listProjectUseCase
    }
    getSitemanager = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       try {
@@ -93,6 +98,16 @@ export class SitemanagerController {
             path: '/',
          });
          res.status(200).json({ success: true, message: "Logout successfully" })
+      } catch (error) {
+         console.log(error)
+         next(error)
+      }
+   }
+   getSitemanagerProject = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+      try {
+         const {user} = req.query
+         const result = await this.listProjectUseCase.execute(String(user))
+         res.status(200).json(result)
       } catch (error) {
          console.log(error)
          next(error)

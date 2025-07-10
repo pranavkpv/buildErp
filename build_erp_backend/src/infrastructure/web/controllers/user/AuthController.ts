@@ -98,8 +98,8 @@ export class AuthController {
          const result = await this.googleauthuseCase.execute(req.body)
          if (result.success && result.tokens?.refreshToken) {
             res.cookie('refreshToken', result.tokens.refreshToken, {
-               httpOnly: false,
-               secure: false,
+               httpOnly: true,
+               secure: process.env.NODE_ENV === "production",
                sameSite: 'lax',
                maxAge: 24 * 60 * 60 * 1000,
             });
@@ -140,6 +140,20 @@ export class AuthController {
          next(error);
       }
    }
+   logout = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    try {
+      console.log("haiiii")
+      res.clearCookie("refreshToken", {
+        httpOnly: false,
+        sameSite: "lax", 
+        secure: process.env.NODE_ENV === "production"
+      });
+      res.status(200).json({success:true,message:"Logout successfully"})
+    } catch (error) {
+      console.log(error)
+      next(error)
+    }
+  }
 }
 
 

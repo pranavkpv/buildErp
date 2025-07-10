@@ -1,8 +1,9 @@
 import { toast } from "react-toastify";
-import { fetchBugetAPI, stageSaveAPI } from "../../api/Admin/StageSetting";
+import { EditStageAPI, fetchBugetAPI, stageSaveAPI } from "../../api/Admin/StageSetting";
 import { getProject } from "../../api/Admin/project";
 import { useEffect, useRef, useState } from "react";
 import { PlusCircleIcon, MinusCircleIcon } from "@heroicons/react/24/outline";
+import { getStage } from "../../api/Sitemanager/stageStatus";
 
 type Project = {
    _id: string;
@@ -10,17 +11,18 @@ type Project = {
 };
 
 type stageProp = {
-   addEnable: boolean;
-   setAddEnable: React.Dispatch<React.SetStateAction<boolean>>;
-   onAddSuccess:()=>void
+   editEnable: boolean;
+   setEditEnable: React.Dispatch<React.SetStateAction<boolean>>;
+   onEditSuccess: () => void
+   editId: string
 };
 
-function AddStage({ addEnable, setAddEnable ,onAddSuccess}: stageProp) {
-   if (!addEnable) return null;
+function EditStage({ editEnable, setEditEnable, editId, onEditSuccess }: stageProp) {
+   if (!editEnable) return null;
 
    const [project, setProject] = useState<Project[]>([]);
    const [cost, setCost] = useState(0);
-   const [projectId, setProjectId] = useState("");
+   const [projectId, setProjectId] = useState(editId);
    const [startDate, setStartDate] = useState("")
    const [endDate, setEndDate] = useState("")
    const [stages, setStages] = useState<{ stage_name: string; start_date: string; end_date: string; stage_percentage: number; stage_amount: number }[]>([]);
@@ -29,9 +31,32 @@ function AddStage({ addEnable, setAddEnable ,onAddSuccess}: stageProp) {
    const startRef = useRef<HTMLParagraphElement>(null)
    const endRef = useRef<HTMLParagraphElement>(null)
 
+   const fetchStage = async (projectId: string): Promise<void> => {
+      try {
+         const response = await getStage(projectId);
+         if (response.success) {
+             const updatedStage = []
+            for (let element of response.data.message) {
+               updatedStage.push({stage_name:element.stage_name,start_date:element.start_date,end_date:element.end_date,stage_percentage:element.stage_per,stage_amount:element.stage_amount})
+            }
+            setStages(updatedStage)
+         } else {
+            toast.error(response.message);
+         }
+      } catch (error) {
+         console.error("Error fetching stage data:", error);
+         toast.error("Fetching stage data failed.");
+      }
+   };
+
+
    const fetchProject = async () => {
       try {
          const response = await getProject();
+         const filteredProject = response.find((element: any) => element._id == editId)
+         setCost(filteredProject.budgeted_cost)
+         setStartDate(filteredProject.start_date)
+         setEndDate(filteredProject.end_date)
          setProject(response);
       } catch (error) {
          console.error("Error fetching projects:", error);
@@ -57,7 +82,10 @@ function AddStage({ addEnable, setAddEnable ,onAddSuccess}: stageProp) {
 
    useEffect(() => {
       fetchProject();
-   }, []);
+   },[editId]);
+   useEffect(()=>{
+      fetchStage(editId);
+   },[cost])
 
    const addStageRow = () => {
       setStages([...stages, { stage_name: "", start_date: "", end_date: "", stage_percentage: 0, stage_amount: 0 }]);
@@ -110,17 +138,17 @@ function AddStage({ addEnable, setAddEnable ,onAddSuccess}: stageProp) {
             return
          }
 
-         const data = await stageSaveAPI(stages, projectId, startDate, endDate,cost)
+         const data = await EditStageAPI(stages, projectId, startDate, endDate, cost)
          if (data.success) {
             toast.success(data.message)
-            setAddEnable(false)
-            onAddSuccess()
+            setEditEnable(false)
+            onEditSuccess()
          } else {
             toast.error(data.message)
          }
       } catch (error) {
-           console.log(error)
-           toast.error("Add stage has face a problem to fetch")
+         console.log(error)
+         toast.error("Add stage has face a problem to fetch")
       }
    }
 
@@ -149,7 +177,7 @@ function AddStage({ addEnable, setAddEnable ,onAddSuccess}: stageProp) {
                      }}
                      value={projectId}
                   >
-                    
+
                      <option value="">Select Project</option>
                      {project.map((element) => (
                         <option key={element._id} value={element._id}>
@@ -157,7 +185,7 @@ function AddStage({ addEnable, setAddEnable ,onAddSuccess}: stageProp) {
                         </option>
                      ))}
                   </select>
-                   <p ref={projectRef}></p>
+                  <p ref={projectRef}></p>
                </div>
 
                {/* Budgeted Cost */}
@@ -181,6 +209,7 @@ function AddStage({ addEnable, setAddEnable ,onAddSuccess}: stageProp) {
                      Start Date
                   </label>
                   <input
+                  value={startDate}
                      onChange={(e) => setStartDate(e.target.value)}
                      id="startDate"
                      type="date"
@@ -196,6 +225,7 @@ function AddStage({ addEnable, setAddEnable ,onAddSuccess}: stageProp) {
                      End Date
                   </label>
                   <input
+                  value={endDate}
                      onChange={(e) => {
                         if (e.target.value < startDate) {
                            toast.warning("end date must be greater than start date")
@@ -320,6 +350,7 @@ function AddStage({ addEnable, setAddEnable ,onAddSuccess}: stageProp) {
                                        className="text-red-400 hover:text-red-300 p-2 rounded-md hover:bg-gray-600/50 transition-all duration-200"
                                        aria-label="Delete stage row"
                                        onClick={() => {
+                                          console.log("haiiii")
                                           const updatedStages = stages.filter((_, i) => i !== index);
                                           setStages(updatedStages);
                                        }}
@@ -349,7 +380,7 @@ function AddStage({ addEnable, setAddEnable ,onAddSuccess}: stageProp) {
                   <button
                      type="button"
                      className="bg-gray-600/90 hover:bg-gray-700 text-gray-100 px-5 py-2.5 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 text-sm font-medium"
-                     onClick={() => setAddEnable(false)}
+                     onClick={() => setEditEnable(false)}
                   >
                      Cancel
                   </button>
@@ -367,4 +398,4 @@ function AddStage({ addEnable, setAddEnable ,onAddSuccess}: stageProp) {
    );
 }
 
-export default AddStage;
+export default EditStage;

@@ -4,6 +4,7 @@ import { fetchStageDataAPI } from "../../api/Admin/StageSetting";
 import { PlusCircleIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { toast } from "react-toastify";
 import DeleteStage from "./DeleteStage";
+import EditStage from "./EditStage";
 
 type stageData = {
   _id: string
@@ -22,6 +23,11 @@ function ListStage() {
   //delete data
   const [deleteEnable, setDeleteEnable] = useState(false)
   const [deleteId, setDeleteId] = useState("")
+
+
+  //edit data 
+  const [editEnable,setEditEnable] = useState(false)
+  const [editId,setEditId] = useState("")
 
   const fetchStage = async () => {
     try {
@@ -103,18 +109,10 @@ function ListStage() {
                     <td className="px-6 py-4 font-medium text-gray-200 text-center">{index + 1}</td>
                     <td className="px-6 py-4 text-gray-100">{element.project_name}</td>
                     <td className="px-6 py-4 text-gray-100">
-                      {element?.start_date.split("T")[0].split("-")[2] +
-                        "-" +
-                        element?.start_date.split("T")[0].split("-")[1] +
-                        "-" +
-                        element?.start_date.split("T")[0].split("-")[0]}
+                     {element.start_date}
                     </td>
                     <td className="px-6 py-4 text-gray-100">
-                      {element?.end_date.split("T")[0].split("-")[2] +
-                        "-" +
-                        element?.end_date.split("T")[0].split("-")[1] +
-                        "-" +
-                        element?.end_date.split("T")[0].split("-")[0]}
+                      {element.end_date}
                     </td>
                     <td className="px-6 py-4 text-center flex justify-center gap-2">
                       <button
@@ -122,7 +120,8 @@ function ListStage() {
                         className="text-teal-400 hover:text-teal-300 p-2 rounded-md hover:bg-gray-600/50 transition-all duration-200"
                         aria-label={`Edit stage for ${ element.project_name }`}
                         onClick={() => {
-                          toast.info("Edit functionality to be implemented.");
+                         setEditEnable(true)
+                         setEditId(element._id)
                         }}
                       >
                         <PencilIcon className="h-5 w-5" />
@@ -166,6 +165,12 @@ function ListStage() {
             setEnable={setDeleteEnable}
             onDeleteSuccess={ fetchStage }
           />
+          <EditStage
+          editEnable={editEnable}
+          setEditEnable ={setEditEnable}
+          editId ={editId}
+          onEditSuccess={fetchStage}
+           />
         </div>
       </div>
     </div>

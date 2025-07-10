@@ -20,8 +20,6 @@ export class StageSaveUseCase {
             message:"stage set already completed this project"
          }
       }
-      
-
       await this.projectRepository.SetCostInProject(projectId, startDate, endDate, cost);
 
       for (let element of stages) {

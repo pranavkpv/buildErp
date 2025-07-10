@@ -4,6 +4,8 @@ import { toast } from "react-toastify";
 import { getStage } from "../../api/Sitemanager/stageStatus";
 import ConfirmStatus from "./ConfirmStatus";
 import ImageUpload from "./ImageUpload";
+import { getSitemanagersProject } from "../../api/Sitemanager/profile";
+import { jwtDecode } from "jwt-decode";
 
 type Project = {
    _id: string;
@@ -20,10 +22,18 @@ type StageData = {
    status_date: string;
 };
 
+type JwtPayload = {
+   userId: string;
+   iat: number;
+   exp: number;
+};
+
 function StageUpdatePage() {
    const [project, setProject] = useState<Project[]>([]);
    const [stage, setStage] = useState<StageData[]>([]);
    const [selectedProjectId, setSelectedProjectId] = useState("");
+   const [user,setUser] = useState("")
+
 
 
    //status change
@@ -33,12 +43,16 @@ function StageUpdatePage() {
    const progress = [0, 25, 50, 75, 100]
 
    //imageupload
-   const [uploadEnable,setUploadEnable] = useState(false)
-   const [uploadStageId,setUploadStageId] = useState("")
+   const [uploadEnable, setUploadEnable] = useState(false)
+   const [uploadStageId, setUploadStageId] = useState("")
+
 
    const fetchProject = async () => {
       try {
-         const response = await getProject();
+         const token = localStorage.getItem("accessToken")
+         if (!token) return
+         const decode:JwtPayload = jwtDecode(token)
+         const response = await getSitemanagersProject(decode.userId);
          setProject(response);
       } catch (error) {
          console.error("Error fetching projects:", error);
@@ -152,7 +166,7 @@ function StageUpdatePage() {
                                  <button
                                     type="button"
                                     className="text-teal-400 hover:text-teal-300 p-2 rounded-md hover:bg-gray-600/50 transition-all duration-200 text-sm font-medium"
-                                    onClick={()=>{
+                                    onClick={() => {
                                        setUploadEnable(true)
                                        setUploadStageId(element._id)
                                     }}
@@ -174,8 +188,8 @@ function StageUpdatePage() {
                   onstatusSuccess={() => fetchStage(selectedProjectId)}
                   selectedProjectId={selectedProjectId}
                />
-               <ImageUpload setUploadEnable={setUploadEnable} uploadEnable={uploadEnable} 
-               uploadStageId={uploadStageId}
+               <ImageUpload setUploadEnable={setUploadEnable} uploadEnable={uploadEnable}
+                  uploadStageId={uploadStageId}
                />
             </div>
          </div>

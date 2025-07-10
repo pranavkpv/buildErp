@@ -99,4 +99,8 @@ export class ProjectmongooseRepository implements IprojectRepository {
        const data = await ProjectModel.find({user_id:user_id})
        return data 
    }
+   async findSitemanagerProject(user: string): Promise<Project[]> {
+       const data = await ProjectModel.find({sitemanager_id:user})
+       return data
+   }
 }

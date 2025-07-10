@@ -13,3 +13,8 @@ export const logoutSitemanager = async()=>{
      const response = await axioInstance.post(`/site/logout`,{},{ withCredentials: true })
      return response.data
 }
+
+export const getSitemanagersProject = async(user:string)=>{
+    const response = await axioInstance.get("/site/siteproject",{params:{user}})
+    return response.data
+}

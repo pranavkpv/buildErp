@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { getProject } from "../../api/Admin/project";
 import { labourDataFetch } from "../../api/Admin/labour";
 import { toast } from "react-toastify";
 import { takeAttendanceAPI } from "../../api/Sitemanager/attendance";
 import { PlusCircleIcon, MinusCircleIcon } from "@heroicons/react/24/outline";
+import { jwtDecode } from "jwt-decode";
+import { getSitemanagersProject } from "../../api/Sitemanager/profile";
 
 type Project = {
   _id: string;
@@ -26,10 +27,16 @@ type Labour = {
 type setAdd = {
   addEnable: boolean;
   setAddEnable: React.Dispatch<React.SetStateAction<boolean>>;
-  onAddSuccess:()=>void
+  onAddSuccess: () => void
 };
 
-function AddAttendance({ addEnable, setAddEnable,onAddSuccess }: setAdd) {
+type JwtPayload = {
+   userId: string;
+   iat: number;
+   exp: number;
+};
+
+function AddAttendance({ addEnable, setAddEnable, onAddSuccess }: setAdd) {
   if (!addEnable) return null;
 
   const [project, setProject] = useState<Project[]>([]);
@@ -42,7 +49,10 @@ function AddAttendance({ addEnable, setAddEnable,onAddSuccess }: setAdd) {
 
   const fetchProject = async () => {
     try {
-      const response = await getProject();
+      const token = localStorage.getItem("accessToken")
+      if (!token) return
+      const decode: JwtPayload = jwtDecode(token)
+      const response = await getSitemanagersProject(decode.userId);
       setProject(response);
     } catch (error) {
       console.error("Error fetching projects:", error);
@@ -63,7 +73,7 @@ function AddAttendance({ addEnable, setAddEnable,onAddSuccess }: setAdd) {
   useEffect(() => {
     fetchProject();
     fetchLabour();
-  }, []); 
+  }, []);
 
   const setSalaryFun = (labourId: string, index: number) => {
     const selectedLabour = labour.find((element) => element._id === labourId);

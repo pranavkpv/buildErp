@@ -37,6 +37,7 @@ const createAuthRoute = (authcontroller: AuthController,authprojectController:Au
    router.post("/forgotOTP",authcontroller.SendOTP)
    router.post("/verifyForgotOtp",authcontroller.verifyForgotOTP)
    router.put("/updatepassword",authcontroller.updatePassword)
+   router.post("/logout",authcontroller.logout)
 
    //your project
    router.get("/fetchuserproject",authprojectController.fetchProject)

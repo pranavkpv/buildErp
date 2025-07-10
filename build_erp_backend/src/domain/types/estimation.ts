@@ -26,7 +26,8 @@ export interface EstimationData{
    spec_id: string
    quantity: number,
    unit_rate:number,
-   project_id:string
+   project_id:string,
+   specDetails?:SpecData
 }
 
 

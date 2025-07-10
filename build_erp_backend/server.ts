@@ -142,6 +142,10 @@ import { UploadStatusImageUseCase } from './src/useCases/sitemanager/Common/Uplo
 import { SendOTPUseCase } from './src/useCases/user/Dashboard/SendOTPUseCase';
 import { UpdatePasswordUseCase } from './src/useCases/user/Dashboard/UpdatePasswordUseCase';
 import { VerifyForgotUseCase } from './src/useCases/user/Dashboard/VerifyForgotUseCase';
+import { ListProjectUseCase } from './src/useCases/sitemanager/Common/ListProjectUseCase';
+import { UpdateStageUseCase } from './src/useCases/admin/Stage/UpdateStageUseCase';
+import { FetchExistEstimationUseCase } from './src/useCases/admin/Estimation/FetchExistEstimationUseCase';
+import { UpdateEstimationUsecase } from './src/useCases/admin/Estimation/UpdateEstimationUseCase';
 
 
 
@@ -249,7 +253,7 @@ async function compositeRoot() {
       const saveMaterialUseCase = new AddMaterialUseCase(materialRepository, projectStockRepository)
       const getEditMaterialUseCase = new GetEditMaterialUseCase(materialRepository, categoryRepository, brandRepository, unitRepository, projectStockRepository)
       const updateMaterialUseCase = new UpdateMaterialUseCase(materialRepository, categoryRepository, brandRepository, unitRepository, projectStockRepository)
-      const deleteMaterialUseCase = new DeleteMaterialUseCase(materialRepository, projectStockRepository)
+      const deleteMaterialUseCase = new DeleteMaterialUseCase(materialRepository, projectStockRepository,specRepository)
       const displayProjectUseCase = new DisplayAllProjectUseCase(projectRepository)
       const displayAddProjectUseCase = new DisplayAddProjectUseCase(UserRepository)
       const addProjectUseCase = new AddProjectUseCase(projectRepository)
@@ -259,7 +263,7 @@ async function compositeRoot() {
       const displayAllLabourUseCase = new DisplayAllLabourUseCase(labourRepository)
       const addLabourUseCase = new AddLabourUseCase(labourRepository)
       const updateLabourUseCase = new UpdateLabourUseCase(labourRepository)
-      const deleteLabourUseCase = new DeleteLabourUseCase(labourRepository)
+      const deleteLabourUseCase = new DeleteLabourUseCase(labourRepository,specRepository)
       const displayAllSitemanagerUseCase = new DisplayAllSitemanagerUseCase(sitemanagerRepository)
       const addSitemanagerUseCase = new SaveSitemanagerUseCase(sitemanagerRepository)
       const editSitemanagerUsecase = new UpdateSitemanagerUseCase(sitemanagerRepository)
@@ -280,14 +284,14 @@ async function compositeRoot() {
       const fetchallLabourusecase = new FetchAllLabourUseCase(labourRepository)
       const specSaveuseCase = new SaveSpecUseCase(specRepository)
       const specsumusecase = new SpecSumUseCase(materialRepository, labourRepository)
-      const deleteSpecusecase = new DeleteSpecUseCase(specRepository)
+      const deleteSpecusecase = new DeleteSpecUseCase(specRepository,estimationRepository)
       const fetchProjectUseCase = new FetchProjectUseCase(projectRepository)
       const getspecUseCase = new getSpecUseCase(specRepository)
       const findmaterialSumusecase = new FindmaterialSumUseCase(materialRepository)
       const findlaboursumusecase = new FindlabourSumUsecase(labourRepository)
       const saveestimationuseCase = new SaveEstimationUseCase(estimationRepository)
       const displayEstimationUseCase = new DisplayEstimationUseCase(estimationRepository)
-      const deleteEstimationuseCase = new DeleteEstimationUseCase(estimationRepository)
+      const deleteEstimationuseCase = new DeleteEstimationUseCase(estimationRepository,stageRepository)
       const fetchCostusecase = new FetchCostUseCase(estimationRepository)
       const stagesaveusecase = new StageSaveUseCase(projectRepository, stageRepository)
       const fetchStageusecase = new FetchStageUsecase(projectRepository)
@@ -302,6 +306,10 @@ async function compositeRoot() {
       const deletestageusecase = new DeleteStageUseCase(stageRepository)
       const uploadestimationUsecase = new UploadEstimateImageUseCase(projectRepository)
       const uploadstatusImageusecase = new UploadStatusImageUseCase(stageRepository)
+      const listProjectUseCase = new ListProjectUseCase(projectRepository)
+      const updateStageUseCase = new UpdateStageUseCase(stageRepository,projectRepository)
+      const fetchexistestimationusecase = new FetchExistEstimationUseCase(estimationRepository)
+      const updateEstimationUsecase = new UpdateEstimationUsecase(estimationRepository)
 
 
 
@@ -313,12 +321,12 @@ async function compositeRoot() {
          getEditMaterialUseCase, updateMaterialUseCase, deleteMaterialUseCase, fetchMaterialUseCase, fetchMaterialByMaterialName, fetchbrandByname, fetUnitRateUseCase)
       const newProjectController = new ProjectController(displayProjectUseCase, displayAddProjectUseCase, addProjectUseCase, editProjectUseCase, removeProjectUseCase, changeStatusUseCase, fetchProjectUseCase)
       const newLabourController = new LabourController(displayAllLabourUseCase, addLabourUseCase, updateLabourUseCase, deleteLabourUseCase, fetchallLabourusecase)
-      const newSitemanagerController = new SitemanagerController(displayAllSitemanagerUseCase, addSitemanagerUseCase, editSitemanagerUsecase, deleteSitemanagerUseCase, sitemanagerLoginUseCase)
+      const newSitemanagerController = new SitemanagerController(displayAllSitemanagerUseCase, addSitemanagerUseCase, editSitemanagerUsecase, deleteSitemanagerUseCase, sitemanagerLoginUseCase,listProjectUseCase)
       const newAddSiteController = new AddSiteController(addSiteToProjectUseCase, listSiteToProjectUseCase, deleteSitetoprojectuseCase, addSiteToprojectFetchProjectUseCase, addSiteToprojectFetchSitemanagerUseCase)
       const changepasswordcontroller = new changePasswordController(updateSitemanagerPassword)
       const newspecController = new SpecController(speclistusecase, specSaveuseCase, specsumusecase, deleteSpecusecase, getspecUseCase, findmaterialSumusecase, findlaboursumusecase)
-      const newestimationController = new EstimationController(saveestimationuseCase, displayEstimationUseCase, deleteEstimationuseCase,uploadestimationUsecase)
-      const newstageController = new StageController(fetchCostusecase, stagesaveusecase, fetchStageusecase, deletestageusecase)
+      const newestimationController = new EstimationController(saveestimationuseCase, displayEstimationUseCase, deleteEstimationuseCase,uploadestimationUsecase,fetchexistestimationusecase,updateEstimationUsecase)
+      const newstageController = new StageController(fetchCostusecase, stagesaveusecase, fetchStageusecase, deletestageusecase,updateStageUseCase)
       const newstatusController = new statusController(fetchStatusUseCase, stageStatusChangeUseCase,uploadstatusImageusecase)
       const newattendanceController = new AttendanceController(addAttendaceUseCase, fetchattendanceusecase, deleteattendanceUsecase, approveattendanceuseCase, fetchattendancebyIdusecase, editAttendanceUseCase)
 

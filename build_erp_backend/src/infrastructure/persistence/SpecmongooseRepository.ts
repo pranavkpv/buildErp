@@ -54,4 +54,13 @@ export class SpecmongooseRepository implements ISpecRepository {
        const x = await SpecModel.find()
        return x
     }
+    async findSpecByMaterialId(_id: string): Promise<Specification | null> {
+        const existData = await SpecModel.findOne({materialDetails:{$elemMatch:{material_id:_id}}})
+        return existData ? existData : null
+    }
+    async findSpecByLabourId(_id: string): Promise<Specification | null> {
+         const existData = await SpecModel.findOne({labourDetails:{$elemMatch:{labour_id:_id}}})
+        return existData ? existData : null
+    }
+    
 }

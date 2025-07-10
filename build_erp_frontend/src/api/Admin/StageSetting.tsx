@@ -11,7 +11,6 @@ export const fetchBugetAPI = async(projectId:string)=>{
 
 export const stageSaveAPI = async(stages:stageData[],projectId:string,startDate:string,endDate:string,cost:number) =>{
    const response = await axioInstance.post("/admin/saveStage",{data:{stages,projectId,startDate,endDate,cost}})
-   console.log(response)
    return response.data
 }
 
@@ -23,4 +22,9 @@ export const fetchStageDataAPI = async(search:string,page:number)=>{
 export const StageDelete  = async(deleteId:string)=>{
    const datas = await axioInstance.post("/admin/stageDelete",{deleteId})
    return datas.data
+}
+
+export const EditStageAPI = async(stages:stageData[], projectId:string, startDate:string, endDate:string, cost:number)=>{
+   const response = await axioInstance.put("/admin/editStage",{stages,projectId,startDate,endDate,cost})
+   return response.data
 }

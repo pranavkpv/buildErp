@@ -42,7 +42,7 @@ const sidebarItems = [
     icon: UserCheck,
     subs: [
       { head: "Sitemanager Registration", to: "/admin/sitemanager" },
-      { head: "AddSitemanager to project", to: "/admin/addToSite" },
+      { head: "AddSitemanager to project", to: "/admin/addToSite" }, 
     ],
   },
   {

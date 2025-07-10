@@ -95,12 +95,16 @@ const createAdminRoute = (adminController: adminController,
    router.get("/fetchEstimation",estimationController.fetchEstimation)
    router.delete("/deleteEstimation",estimationController.deleteEstimation)
    router.post("/uploadEstimated",estimationController.uploadImage)
+   router.get("/fetchExistEstimation",estimationController.fetchExistEstimation)
+   router.post("/updateEstimation",estimationController.updateEstimation)
 
 
    router.get("/fetchbudget",stageController.fetchCost)
    router.post("/saveStage",stageController.stageSave)
    router.get("/fetchstage",stageController.fetchStage)
    router.post("/stageDelete",stageController.deleteStage)
+   router.put("/editStage",stageController.updateStage)
+
    
 
 
