@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "verbatimModuleSyntax": true,
+    "strict": true, // Enable strict type-checking
+    "jsx": "react-jsx",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true, // Enable consistent file casing
+    "baseUrl": "src",
+    "types": ["vite/client"], // Include Vite types for import.meta.env
+    "allowJs": false,
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "paths": {
+      "*": ["./*"]
+    }
+  },
+  "include": ["src", "vite-env.d.ts"],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}
