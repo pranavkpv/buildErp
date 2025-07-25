@@ -1,0 +1,5 @@
+import { getAddMaterialData } from "../../../Input-OutputEntities/MaterialEntities/material";
+
+export interface IDisplayAddMaterialUseCase{
+   execute(): Promise<getAddMaterialData>
+}
