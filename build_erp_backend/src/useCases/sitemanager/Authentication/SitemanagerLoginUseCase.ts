@@ -29,6 +29,6 @@ export class SitemanagerLoginUseCase implements ISitemanagerLoginUseCase{
       }
       
       const token = this.jwtService.generateTokens(existSitemanager._id,existSitemanager.email,"sitemanager")
-      return ResponseHelper.loginSuccess(SUCCESS_MESSAGE.USER.LOGIN,HTTP_STATUS.OK,token)
+      return ResponseHelper.loginSuccess(SUCCESS_MESSAGE.USER.LOGIN,HTTP_STATUS.OK,token,existSitemanager)
    }
 }

@@ -63,4 +63,7 @@ export class UserRepository implements IUserRepository {
    async updatePassword(_id: string, password: string): Promise<void> {
        await userDB.findByIdAndUpdate(_id,{password})
    }
+   async UpdateProfile(_id: string, username: string, email: string, phone: number): Promise<void> {
+       await userDB.findByIdAndUpdate(_id,{username,email,phone})
+   }
 }

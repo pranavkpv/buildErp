@@ -22,7 +22,7 @@ export class googlAuthUseCase implements IgooglAuthUseCase {
     if (user) {
        const tokens = this.jwtService.generateTokens(user._id,user.email,"user")
 
-      return  ResponseHelper.loginSuccess(SUCCESS_MESSAGE.USER.LOGIN,HTTP_STATUS.OK,tokens)
+      return  ResponseHelper.loginSuccess(SUCCESS_MESSAGE.USER.LOGIN,HTTP_STATUS.OK,tokens,user)
     }     
     await this.userRepository.createUser(username,email,googleId);
     return ResponseHelper.success(SUCCESS_MESSAGE.USER.REGISTER,HTTP_STATUS.CREATED)

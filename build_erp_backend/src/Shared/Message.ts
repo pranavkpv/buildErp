@@ -72,6 +72,9 @@ export const SUCCESS_MESSAGE = {
       UPDATE: "Attendance updated successfully",
       DELETE: "Attendance deleted successfully",
       APPROVE: "Attendance approved successfully"
+   },
+   PROFILE :{
+      UPDATE_PROFILE:"User Profile Updated SuccessFully"
    }
 }
 

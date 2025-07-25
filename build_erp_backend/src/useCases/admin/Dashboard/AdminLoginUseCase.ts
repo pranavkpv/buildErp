@@ -24,6 +24,6 @@ export class AdminLoginUseCase implements IAdminLoginUseCase{
           return  ResponseHelper.failure(ERROR_MESSAGE.USER.INVALID_USER,HTTP_STATUS.UNAUTHORIZED)
       }
       const token = this.jwtservice.generateTokens(existAdmin._id,existAdmin.username,"admin")    
-      return ResponseHelper.loginSuccess(SUCCESS_MESSAGE.USER.LOGIN,HTTP_STATUS.OK,token)
+      return ResponseHelper.loginSuccess(SUCCESS_MESSAGE.USER.LOGIN,HTTP_STATUS.OK,token,existAdmin)
    }
 }

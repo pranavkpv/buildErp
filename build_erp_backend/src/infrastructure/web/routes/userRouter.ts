@@ -35,11 +35,11 @@ const createAuthRoute = (authcontroller: IAuthControllerEntity,authprojectContro
    router.post('/verifyOtp', authcontroller.verifyOTP)
    router.post('/resendOtp', authcontroller.resendOtp)
    router.post('/login', authcontroller.login)
+   router.put('/login/:id',authMiddleware(jwtService),authcontroller.UpdateProfile)
    router.post("/forgotOTP",authcontroller.SendOTP)
    router.post("/verifyForgotOtp",authcontroller.verifyForgotOTP)
    router.put("/updatepassword",authcontroller.updatePassword)
    router.post("/logout",authMiddleware(jwtService),authcontroller.logout)
-
    //your project
    router.get("/fetchuserproject/:user",authMiddleware(jwtService),authprojectController.fetchProject)
    //status based project list

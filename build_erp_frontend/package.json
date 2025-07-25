@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
+    "@reduxjs/toolkit": "^2.8.2",
     "@types/dotenv": "^6.1.1",
     "axios": "^1.10.0",
     "dotenv": "^16.5.0",
@@ -18,14 +19,17 @@
     "lucide-react": "^0.522.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
+    "react-redux": "^9.2.0",
     "react-router-dom": "^7.6.2",
-    "react-toastify": "^11.0.5"
+    "react-toastify": "^11.0.5",
+    "redux-persist": "^6.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
     "@types/jwt-decode": "^2.2.1",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
+    "@types/redux-persist": "^4.0.0",
     "@types/styled-jsx": "^2.2.9",
     "@vitejs/plugin-react-swc": "^3.9.0",
     "eslint": "^9.25.0",

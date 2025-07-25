@@ -28,6 +28,13 @@ export interface loginInput {
    password: string 
 }
 
+export interface UpdateProfile {
+   id:string
+   username:string
+   email:string
+   phone:number
+}
+
 
 
 

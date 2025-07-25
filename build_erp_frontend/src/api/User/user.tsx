@@ -20,3 +20,9 @@ export const userLogout = async()=>{
     const response = await axioInstance.post(`/logout`,{},{ withCredentials: true })
    return response.data
 }
+
+export const UpdateProfileAPI = async(_id:string,username:string,email:string,phone:number)=>{
+   console.log(email)
+   const response = await axioInstance.put(`/login/${_id}`,{username,email,phone})
+   return response.data
+}

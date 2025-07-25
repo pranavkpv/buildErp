@@ -149,6 +149,7 @@ import { FetchStatusBaseProjectUseCase } from './src/useCases/user/ProjectDispla
 import { FindMaterialByIdUseCase } from './src/useCases/admin/Material/FindMaterialByIdUseCase';
 import { FetchLabourByIdUseCase } from './src/useCases/admin/Labour/FetchLabourByIdUseCase';
 import { UpdateSpecUseCase } from './src/useCases/admin/Spec/UpdateSpecUseCase';
+import { UpdateProfileUsecase } from './src/useCases/user/Authentication/UpdateProfileUseCase';
 
 
 
@@ -221,6 +222,7 @@ async function compositeRoot() {
       const verifyforgotUsecase = new VerifyForgotUseCase(userRepository)
       const updatePasswordUseCase = new UpdatePasswordUseCase(userRepository,hasher)
       const fetchStatusBaseProjectUseCase = new FetchStatusBaseProjectUseCase(projectRepository)
+      const updateProfileUseCase = new UpdateProfileUsecase(userRepository)
 
       const authController = new AuthController(
          signupUserUseCase,
@@ -231,7 +233,8 @@ async function compositeRoot() {
          googleauthuseCase,
          sendotpUsecase,
          verifyforgotUsecase,
-         updatePasswordUseCase
+         updatePasswordUseCase,
+         updateProfileUseCase
       )
       const authprojectController = new AuthProjectController(fetchUserprojectUseCase,fetchStatusBaseProjectUseCase)
       app.use("/", createAuthRoute(authController,authprojectController))

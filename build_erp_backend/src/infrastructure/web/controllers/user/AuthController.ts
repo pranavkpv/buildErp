@@ -12,6 +12,7 @@ import { IUpdatePasswordUseCase } from "../../../../Entities/useCaseEntities/Use
 import { ResponseHelper } from "../../../../Shared/utils/response";
 import { ERROR_MESSAGE, SUCCESS_MESSAGE } from "../../../../Shared/Message";
 import { HTTP_STATUS } from "../../../../Shared/Status_code";
+import { IUpdateProfileUseCase } from "../../../../Entities/useCaseEntities/UserUseCaseEntities/AuthenticationUseCaseEntities/UpdateProfileEntity";
 
 
 
@@ -26,11 +27,12 @@ export class AuthController implements IAuthControllerEntity {
    private sendotpUsecase: ISendOTPUseCase
    private verifyforgotUsecase: IVerifyForgotUseCase
    private updatePasswordUseCase: IUpdatePasswordUseCase
+   private updateProfileUseCase : IUpdateProfileUseCase
    constructor(signupUserUseCase: ISignupUserUseCase, verifyOTPUseCase: IVerifyOTPUseCases,
       resendOTPUseCase: IResendOTPUseCase, userLoginUseCase: IUserLoginUseCase,
       refreshTokenUseCase: IRefreshTokenUseCase, googleauthuseCase: IgooglAuthUseCase,
       sendotpUsecase: ISendOTPUseCase, verifyforgotUsecase: IVerifyForgotUseCase,
-      updatePasswordUseCase: IUpdatePasswordUseCase) {
+      updatePasswordUseCase: IUpdatePasswordUseCase,updateProfileUseCase : IUpdateProfileUseCase) {
       this.signupUserUseCase = signupUserUseCase
       this.verifyOTPUseCase = verifyOTPUseCase
       this.resendOTPUseCase = resendOTPUseCase
@@ -40,6 +42,7 @@ export class AuthController implements IAuthControllerEntity {
       this.sendotpUsecase = sendotpUsecase
       this.verifyforgotUsecase = verifyforgotUsecase
       this.updatePasswordUseCase = updatePasswordUseCase
+      this.updateProfileUseCase = updateProfileUseCase
    }
 
    signUp = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -130,6 +133,11 @@ export class AuthController implements IAuthControllerEntity {
       });
       const result = ResponseHelper.success(SUCCESS_MESSAGE.USER.LOGOUT, HTTP_STATUS.OK)
       res.status(result.status_code).json(result)
+   }
+   UpdateProfile = async(req: Request, res: Response, next: NextFunction): Promise<void>=> {
+       const {id} = req.params
+       const result = await this.updateProfileUseCase.execute({id,...req.body})
+       res.status(result.status_code).json(result)
    }
 }
 

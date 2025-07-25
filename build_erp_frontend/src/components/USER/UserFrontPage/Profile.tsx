@@ -1,13 +1,13 @@
-import { useState } from "react";
-import { useNavigate, useLocation, Outlet } from "react-router-dom";
-import { User, Lock, MessageSquare, Folder } from "lucide-react";
+
 import UserHeader from "../common/UserHeader";
 import Footer from "../common/Footer";
 import SidebarUser from "../../ProfileComponent/SidebarUser";
+import { Outlet, useLocation } from "react-router-dom";
+import ProfileEdit from "../../../components/ProfileComponent/ProfileEdit";
 
 function Profile() {
   const location = useLocation();
-  
+
 
   return (
     <div className="min-h-screen bg-white">
@@ -19,6 +19,7 @@ function Profile() {
 
         {/* Main Content */}
         <main className="flex-1 bg-gray-50 rounded-lg shadow-lg p-8">
+          <ProfileEdit />
           <div className="min-h-[calc(100vh-20rem)]">
             <Outlet />
           </div>

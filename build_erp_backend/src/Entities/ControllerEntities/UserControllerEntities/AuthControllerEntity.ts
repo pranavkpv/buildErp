@@ -11,4 +11,5 @@ export interface IAuthControllerEntity {
    verifyForgotOTP(req: Request, res: Response, next: NextFunction): Promise<void>
    updatePassword(req: Request, res: Response, next: NextFunction): Promise<void>
    logout(req: Request, res: Response, next: NextFunction): Promise<void>
+   UpdateProfile(req: Request, res: Response, next: NextFunction): Promise<void>
 }

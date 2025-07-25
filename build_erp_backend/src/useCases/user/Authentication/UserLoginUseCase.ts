@@ -33,7 +33,7 @@ export class UserLoginUseCase implements IUserLoginUseCase {
       }
 
       const tokens = this.jwtService.generateTokens(existUser._id,existUser.email,"user")
-      return ResponseHelper.loginSuccess(SUCCESS_MESSAGE.USER.LOGIN,HTTP_STATUS.OK,tokens)
+      return ResponseHelper.loginSuccess(SUCCESS_MESSAGE.USER.LOGIN,HTTP_STATUS.OK,tokens,existUser)
    }
 }
 

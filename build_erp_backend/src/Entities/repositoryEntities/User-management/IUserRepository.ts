@@ -20,5 +20,5 @@ export interface IUserRepository{
    findUserBygoogleId(googleId:string):Promise<IUserModelEntity | null>;
    createUser(username:string,email:string,googleId:string):Promise<void>;
    updatePassword(_id:string,password:string):Promise<void>
-
+   UpdateProfile(_id:string,username:string,email:string,phone:number):Promise<void>
 }

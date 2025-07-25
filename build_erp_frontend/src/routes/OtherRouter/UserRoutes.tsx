@@ -15,6 +15,7 @@ import ForgotOTP from "../../pages/User/ForgotOTP";
 import NewPassword from "../../pages/User/NewPassword";
 import DetailProject from "../../components/USER/UserFrontPage/ProjectDetails";
 import ListProject from "../../components/USER/UserFrontPage/ListProjects";
+import ProfileEdit from "../../components/ProfileComponent/ProfileEdit";
 
 export const UserRoutes = () => {
   return (

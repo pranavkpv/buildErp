@@ -1,9 +1,10 @@
 
 import React, { useRef, useState } from 'react';
-import axios from 'axios';
 import { toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router-dom';
 import { userLoginAPI } from '../../api/User/user';
+import { useDispatch } from 'react-redux';
+import { login } from '../../redux/slice/authslice';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -12,6 +13,7 @@ function Login() {
   const passwordRef = useRef<HTMLParagraphElement>(null);
   const navigate = useNavigate();
    const [hide, setHide] = useState(false)
+   const dispatch = useDispatch()
 
   const handleLoginSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -45,9 +47,15 @@ function Login() {
 
     try {
       const response = await userLoginAPI(email,password)
+      console.log(response)
+      
+      
       if (response.success) {
         toast.success(response.message);
         localStorage.setItem('accessToken', response.token.accessToken);
+        dispatch(login({_id:response.userData._id,username:response.userData.username,
+          email:response.userData.email,phone:response.userData.phone,
+          profile_image:response.userData?.profile_image,token:response.token.accessToken}))
         setTimeout(() => {
           navigate('/');
         }, 3000);
