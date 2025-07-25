@@ -12,4 +12,5 @@ export interface IAuthControllerEntity {
    updatePassword(req: Request, res: Response, next: NextFunction): Promise<void>
    logout(req: Request, res: Response, next: NextFunction): Promise<void>
    UpdateProfile(req: Request, res: Response, next: NextFunction): Promise<void>
+   updateProfileImage(req: Request, res: Response, next: NextFunction): Promise<void>
 }

@@ -57,7 +57,7 @@ export class EstimationController implements IEstimationControllerEntity {
          return
       }
       const result = await cloudinary.uploader.upload(file.tempFilePath, {
-         folder: "estimation"
+         folder: "buildExe"
       })
       const ExactResult = await this.uploadestimationUsecase.execute(result.secure_url, projectId)
       res.status(ExactResult.status_code).json(ExactResult)

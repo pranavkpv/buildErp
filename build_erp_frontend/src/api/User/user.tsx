@@ -22,7 +22,15 @@ export const userLogout = async()=>{
 }
 
 export const UpdateProfileAPI = async(_id:string,username:string,email:string,phone:number)=>{
-   console.log(email)
-   const response = await axioInstance.put(`/login/${_id}`,{username,email,phone})
+   const response = await axioInstance.patch(`/updateprofile/${_id}`,{username,email,phone})
    return response.data
+}
+
+export const UpdateProfileImageAPI = async(file:File | null,_id:string)=>{
+    const response = await axioInstance.patch(`/updateprofileImage/${_id}`,{file},{
+      headers:{
+         "Content-Type":"multipart/form-data"
+      }
+   })
+    return response.data
 }

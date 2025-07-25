@@ -74,7 +74,8 @@ export const SUCCESS_MESSAGE = {
       APPROVE: "Attendance approved successfully"
    },
    PROFILE :{
-      UPDATE_PROFILE:"User Profile Updated SuccessFully"
+      UPDATE_PROFILE:"User Profile Updated SuccessFully",
+      UPDATE_IMAGE : "Profile Image Upldated Successfully"
    }
 }
 

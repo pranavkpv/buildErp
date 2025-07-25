@@ -13,6 +13,9 @@ import { ResponseHelper } from "../../../../Shared/utils/response";
 import { ERROR_MESSAGE, SUCCESS_MESSAGE } from "../../../../Shared/Message";
 import { HTTP_STATUS } from "../../../../Shared/Status_code";
 import { IUpdateProfileUseCase } from "../../../../Entities/useCaseEntities/UserUseCaseEntities/AuthenticationUseCaseEntities/UpdateProfileEntity";
+import cloudinary from "../../../../config/cloudinary";
+import { IUpdateProfileImageUseCase } from "../../../../Entities/useCaseEntities/UserUseCaseEntities/AuthenticationUseCaseEntities/UpdateProfileImageEntity";
+import { UploadedFile, FileArray } from "express-fileupload";
 
 
 
@@ -27,12 +30,14 @@ export class AuthController implements IAuthControllerEntity {
    private sendotpUsecase: ISendOTPUseCase
    private verifyforgotUsecase: IVerifyForgotUseCase
    private updatePasswordUseCase: IUpdatePasswordUseCase
-   private updateProfileUseCase : IUpdateProfileUseCase
+   private updateProfileUseCase: IUpdateProfileUseCase
+   private updateProfileImageUseCase: IUpdateProfileImageUseCase
    constructor(signupUserUseCase: ISignupUserUseCase, verifyOTPUseCase: IVerifyOTPUseCases,
       resendOTPUseCase: IResendOTPUseCase, userLoginUseCase: IUserLoginUseCase,
       refreshTokenUseCase: IRefreshTokenUseCase, googleauthuseCase: IgooglAuthUseCase,
       sendotpUsecase: ISendOTPUseCase, verifyforgotUsecase: IVerifyForgotUseCase,
-      updatePasswordUseCase: IUpdatePasswordUseCase,updateProfileUseCase : IUpdateProfileUseCase) {
+      updatePasswordUseCase: IUpdatePasswordUseCase, updateProfileUseCase: IUpdateProfileUseCase,
+      updateProfileImageUseCase: IUpdateProfileImageUseCase) {
       this.signupUserUseCase = signupUserUseCase
       this.verifyOTPUseCase = verifyOTPUseCase
       this.resendOTPUseCase = resendOTPUseCase
@@ -43,6 +48,7 @@ export class AuthController implements IAuthControllerEntity {
       this.verifyforgotUsecase = verifyforgotUsecase
       this.updatePasswordUseCase = updatePasswordUseCase
       this.updateProfileUseCase = updateProfileUseCase
+      this.updateProfileImageUseCase = updateProfileImageUseCase
    }
 
    signUp = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
@@ -134,10 +140,25 @@ export class AuthController implements IAuthControllerEntity {
       const result = ResponseHelper.success(SUCCESS_MESSAGE.USER.LOGOUT, HTTP_STATUS.OK)
       res.status(result.status_code).json(result)
    }
-   UpdateProfile = async(req: Request, res: Response, next: NextFunction): Promise<void>=> {
-       const {id} = req.params
-       const result = await this.updateProfileUseCase.execute({id,...req.body})
-       res.status(result.status_code).json(result)
+   UpdateProfile = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+      const { id } = req.params
+      const result = await this.updateProfileUseCase.execute({ id, ...req.body })
+      res.status(result.status_code).json(result)
+   }
+   updateProfileImage = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+      const _id = req.params.id
+      const files = req.files as FileArray;
+
+      const file = files?.file as UploadedFile | undefined;
+      if (!file || Array.isArray(file)) {
+         res.status(HTTP_STATUS.BAD_REQUEST).json({ error: ERROR_MESSAGE.ESTIMATION.NO_IMAGE });
+         return
+      }
+      const result = await cloudinary.uploader.upload(file.tempFilePath, {
+         folder: "buildExe"
+      })
+      const ExactResult = await this.updateProfileImageUseCase.execute(result.secure_url, _id)
+      res.status(ExactResult.status_code).json(ExactResult)
    }
 }
 

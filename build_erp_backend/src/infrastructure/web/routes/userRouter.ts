@@ -5,7 +5,7 @@ import { authMiddleware } from "../../../middlewares/authMiddleware";
 import { IAuthControllerEntity } from "../../../Entities/ControllerEntities/UserControllerEntities/AuthControllerEntity";
 import { IAuthProjectControllerEntity } from "../../../Entities/ControllerEntities/UserControllerEntities/AuthProjectControllerEntity";
 
-const createAuthRoute = (authcontroller: IAuthControllerEntity,authprojectController:IAuthProjectControllerEntity): Router => {
+const createAuthRoute = (authcontroller: IAuthControllerEntity, authprojectController: IAuthProjectControllerEntity): Router => {
    const router = Router()
    const jwtService = new JwtServiceImpl()
    //initiate google auth route
@@ -35,16 +35,16 @@ const createAuthRoute = (authcontroller: IAuthControllerEntity,authprojectContro
    router.post('/verifyOtp', authcontroller.verifyOTP)
    router.post('/resendOtp', authcontroller.resendOtp)
    router.post('/login', authcontroller.login)
-   router.put('/login/:id',authMiddleware(jwtService),authcontroller.UpdateProfile)
-   router.post("/forgotOTP",authcontroller.SendOTP)
-   router.post("/verifyForgotOtp",authcontroller.verifyForgotOTP)
-   router.put("/updatepassword",authcontroller.updatePassword)
-   router.post("/logout",authMiddleware(jwtService),authcontroller.logout)
+   router.post("/forgotOTP", authcontroller.SendOTP)
+   router.post("/verifyForgotOtp", authcontroller.verifyForgotOTP)
+   router.put("/updatepassword", authcontroller.updatePassword)
+   router.post("/logout", authMiddleware(jwtService), authcontroller.logout)
    //your project
-   router.get("/fetchuserproject/:user",authMiddleware(jwtService),authprojectController.fetchProject)
+   router.get("/fetchuserproject/:user", authMiddleware(jwtService), authprojectController.fetchProject)
    //status based project list
-   router.get("/fetchstatusbaseproject/:status",authprojectController.fetchProjectStatusBaseProject)
-
+   router.get("/fetchstatusbaseproject/:status", authprojectController.fetchProjectStatusBaseProject)
+   router.patch('/updateprofile/:id', authMiddleware(jwtService), authcontroller.UpdateProfile)
+   router.patch("/updateprofileImage/:id",authMiddleware(jwtService),authcontroller.updateProfileImage)
    return router
 }
 

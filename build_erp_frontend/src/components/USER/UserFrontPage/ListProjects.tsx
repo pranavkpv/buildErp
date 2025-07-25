@@ -183,8 +183,7 @@ function ListProject() {
         {project.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {project.map((p, index) => (
-              <div
-                key={p._id}
+              <div key={p._id}
                 className="transform transition-all duration-500 hover:scale-105"
                 style={{ animationDelay: `${index * 100}ms` }}
               >

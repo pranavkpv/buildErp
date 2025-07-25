@@ -21,4 +21,5 @@ export interface IUserRepository{
    createUser(username:string,email:string,googleId:string):Promise<void>;
    updatePassword(_id:string,password:string):Promise<void>
    UpdateProfile(_id:string,username:string,email:string,phone:number):Promise<void>
+   UpdateProfileImage(url:string,_id:string):Promise<void>
 }
