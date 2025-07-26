@@ -23,8 +23,7 @@ export const TempUserSchema = new mongoose.Schema<ITempUsermodel>({
    },
    createdAt:{
       type:Date,
-      default:Date.now(),
-      expires:3000
+      default:Date.now()
    }
 })
 

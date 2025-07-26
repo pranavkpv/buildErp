@@ -20,15 +20,16 @@ export class VerifyOTPUseCases implements IVerifyOTPUseCases {
       const { otp, email } = input
       const ExistUser = await this.UserRepository.findTempUserByEmailAndOTP(email, otp)
       if (!ExistUser) {
-         return ResponseHelper.failure(ERROR_MESSAGE.USER.OTP_WRONG,HTTP_STATUS.BAD_REQUEST)
+         return ResponseHelper.failure(ERROR_MESSAGE.USER.OTP_WRONG,HTTP_STATUS.CONFLICT)
       }
       if (ExistUser.otpCreatedAt == undefined || ExistUser.otpCreatedAt == null) {
-         return ResponseHelper.failure(ERROR_MESSAGE.USER.TIMESTAMP_MISS,HTTP_STATUS.BAD_REQUEST)
+         return ResponseHelper.failure(ERROR_MESSAGE.USER.TIMESTAMP_MISS,HTTP_STATUS.CONFLICT)
       }
       const exitOtp = new Date(ExistUser.otpCreatedAt).getTime();
       const now = Date.now();
-      if ((now - exitOtp) > 30 * 1000) {
-         return ResponseHelper.failure(ERROR_MESSAGE.USER.EXPIRE_OTP,HTTP_STATUS.BAD_REQUEST)
+      console.log(now - exitOtp)
+      if ((now - exitOtp) > 45 * 1000) {
+         return ResponseHelper.failure(ERROR_MESSAGE.USER.EXPIRE_OTP,HTTP_STATUS.CONFLICT)
       }
       const hashedPass = await this.Hasher.hash(ExistUser.password)
       await this.UserRepository.saveUser({

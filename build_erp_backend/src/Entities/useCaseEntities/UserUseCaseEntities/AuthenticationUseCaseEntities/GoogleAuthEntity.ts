@@ -1,6 +1,6 @@
-import { Profile } from "passport";
 import { commonOutput } from "../../../Input-OutputEntities/CommonEntities/common";
+import { googleAuthLogin } from "../../../Input-OutputEntities/UserEntities/GoogleAuth";
 
 export interface IgooglAuthUseCase {
-    execute(profile: Profile): Promise<commonOutput> 
+    execute(input:googleAuthLogin): Promise<commonOutput> 
 }

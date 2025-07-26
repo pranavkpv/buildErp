@@ -13,7 +13,6 @@ export const userSchema = new mongoose.Schema<IUsermodel>({
    },
    phone: {
       type: Number,
-      required: true,
    },
    password: {
       type: String,

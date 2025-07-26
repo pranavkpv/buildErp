@@ -1,11 +1,8 @@
-import axios from "axios";
 
-import { ArrowRight, Award, Clock, Mail, MapPin, Menu, Phone, Star, Users, X } from "lucide-react";
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import Banner from "../../components/USER/UserFrontPage/Banner";
 import UserHeader from "../../components/USER/common/UserHeader";
 import Footer from "../../components/USER/common/Footer";
+import { Star } from "lucide-react";
 
 interface Stat {
   number: string;

@@ -1,8 +1,5 @@
 export interface googleAuthLogin {
-   _id?: string;
-   username: string;
-   email: string;
-   password?: string;
-   phoneNumber?: string;
-   googleId: string;
+   email:string,
+   username:string,
+   profile_image:string
 }

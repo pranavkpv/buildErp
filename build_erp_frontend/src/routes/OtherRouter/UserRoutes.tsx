@@ -16,6 +16,7 @@ import NewPassword from "../../pages/User/NewPassword";
 import DetailProject from "../../components/USER/UserFrontPage/ProjectDetails";
 import ListProject from "../../components/USER/UserFrontPage/ListProjects";
 import ProfileEdit from "../../components/ProfileComponent/ProfileEdit";
+import ChangePassword from "../../components/ProfileComponent/ChangePassword";
 
 export const UserRoutes = () => {
   return (
@@ -41,6 +42,7 @@ export const UserRoutes = () => {
       <Route path="/profile" element={<Profile />} >
         <Route path="" element={<ProfileEdit />} />
         <Route path="project" element={<ProjectDetails />} />
+        <Route path="change-password" element ={<ChangePassword />} />
       </Route>
     </Routes>
   );

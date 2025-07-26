@@ -5,6 +5,8 @@ import { IUserModelEntity } from "../../ModelEntities/User.Entity";
 
 export interface IUserRepository{
    findUserByEmail(email:string):Promise<IUserModelEntity | null>;
+   findAuthUserByEmail(email:string):Promise<IUserModelEntity | null>
+   findExistAuthUser(email:string):Promise<IUserModelEntity | null>
    findUserByPhone(phone:number):Promise<IUserModelEntity | null>;
    saveUser(user:Omit<User,"_id" |"profile_image"|"otp"|"otpCreatedAt"|"createdAt"|"updatedAt">):Promise<IUserModelEntity>;
    //tempUser save
@@ -17,9 +19,9 @@ export interface IUserRepository{
    findTempUserByEmailAndUpdateOTP(email:string,otp:number,otpCreatedAt:Date):Promise<void>;
    findAllUser():Promise<IUserModelEntity[] | []>;
    findUserById(_id:string):Promise<IUserModelEntity | null>;
-   findUserBygoogleId(googleId:string):Promise<IUserModelEntity | null>;
-   createUser(username:string,email:string,googleId:string):Promise<void>;
+   createUser(email:string,username:string,profile_image:string):Promise<void>;
    updatePassword(_id:string,password:string):Promise<void>
    UpdateProfile(_id:string,username:string,email:string,phone:number):Promise<void>
    UpdateProfileImage(url:string,_id:string):Promise<void>
+  
 }

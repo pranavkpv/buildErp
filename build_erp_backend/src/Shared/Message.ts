@@ -1,146 +1,149 @@
 export const SUCCESS_MESSAGE = {
-   SITE: {
-      ADD: "Sitemanager added the project successfully",
-      DELETE: "Sitemanager deleted successfully",
-   },
-   USER: {
-      LOGIN: "Login successfully",
-      LOGOUT: "Logout successfully",
-      OTP_SEND: "An OTP has been sent to your email. Please check your inbox and enter the OTP for verification.",
-      REGISTER : "OTP confirmed. User registration successful.",
-      CREATED : "User created successfully ",
-      CONFIRM_OTP : "OTP confirmed.So change the password",
-      PASSWORD_UPDATE : "Password updated successfully"
-   },
-   BRAND: {
-      ADD: "Brand Registered successfuly",
-      UPDATE: "Brand Updated successfuly",
-      DELETE: "Brand deleted successfuly"
-   },
-   CATEGORY: {
-      ADD: "Category saved successfully",
-      UPDATE: "Category updated successfully",
-      DELETE: "Category deleted successfully"
-   },
-   ESTIMATION: {
-      ADD: "Estimation saved successfully",
-      DELETE: "Estimation deleted successfully",
-      UPLOAD: "Image Uploaded successFully",
-      UPDATE: "Estimation updated successfully"
-   },
-   LABOUR: {
-      ADD: "Labour type registered successfully",
-      DELETE: "Labour type deleted successfully",
-      UPDATE: "Labour type updated successfully"
-   },
-   MATERIAL: {
-      ADD: "Material saved successfully",
-      UPDATE: "Material updated successfully",
-      DELETE: "Material deleted successfully"
-   },
-   PROJECT: {
-      ADD: "Project registered successfully",
-      UPDATE: "Project updated successfully",
-      DELETE: "Project deleted successfully",
-      CHANGE_STATUS: "Status changed successfully to "
-   },
-   SITEMANAGER: {
-      ADD: "Sitemanager registered successfully",
-      UPDATE: "Sitemanager updated successfully",
-      DELETE: "Sitemanager deleted successfully",
-      UPDATE_PASSWORD: "Password updated successfully"
-   },
-   SPEC: {
-      ADD: "Specification saved successfully",
-      DELETE: "Specification deleted successfully",
-      UPDATE:"Specification Updated SuccessFully"
-   },
-   STAGE: {
-      ADD: "Stage saved successfully",
-      DELETE: "Stage deleted successfully",
-      UPDATE: "Stage updated successfully",
-      STATUS_CHANGE: "Stage status changed successfully",
-      UPLOAD_IMAGE: "Image uploaded successfully"
-   },
-   UNIT: {
-      ADD: "Unit registerd successfully",
-      UPDATE: "Unit updated successfully",
-      DELETE: "Unit deleted successfully"
-   },
-   ATTENDANCE: {
-      ADD: "Attendance take successfully",
-      UPDATE: "Attendance updated successfully",
-      DELETE: "Attendance deleted successfully",
-      APPROVE: "Attendance approved successfully"
-   },
-   PROFILE :{
-      UPDATE_PROFILE:"User Profile Updated SuccessFully",
-      UPDATE_IMAGE : "Profile Image Upldated Successfully"
-   }
-}
-
-
+  SITE: {
+    ADD: "Project added successfully by the site manager",
+    DELETE: "Site manager deleted successfully"
+  },
+  USER: {
+    LOGIN: "Logged in successfully",
+    LOGOUT: "Logged out successfully",
+    OTP_SEND: "An OTP has been sent to your email. Please check your inbox and enter the OTP for verification",
+    REGISTER: "OTP confirmed. User registered successfully",
+    CREATED: "User created successfully",
+    CONFIRM_OTP: "OTP confirmed. You can now change the password",
+    PASSWORD_UPDATE: "Password updated successfully"
+  },
+  BRAND: {
+    ADD: "Brand registered successfully",
+    UPDATE: "Brand updated successfully",
+    DELETE: "Brand deleted successfully"
+  },
+  CATEGORY: {
+    ADD: "Category added successfully",
+    UPDATE: "Category updated successfully",
+    DELETE: "Category deleted successfully"
+  },
+  ESTIMATION: {
+    ADD: "Estimation added successfully",
+    DELETE: "Estimation deleted successfully",
+    UPLOAD: "Image uploaded successfully",
+    UPDATE: "Estimation updated successfully"
+  },
+  LABOUR: {
+    ADD: "Labour type added successfully",
+    DELETE: "Labour type deleted successfully",
+    UPDATE: "Labour type updated successfully"
+  },
+  MATERIAL: {
+    ADD: "Material added successfully",
+    UPDATE: "Material updated successfully",
+    DELETE: "Material deleted successfully"
+  },
+  PROJECT: {
+    ADD: "Project added successfully",
+    UPDATE: "Project updated successfully",
+    DELETE: "Project deleted successfully",
+    CHANGE_STATUS: "Project status changed successfully to"
+  },
+  SITEMANAGER: {
+    ADD: "Site manager registered successfully",
+    UPDATE: "Site manager updated successfully",
+    DELETE: "Site manager deleted successfully",
+    UPDATE_PASSWORD: "Password updated successfully"
+  },
+  SPEC: {
+    ADD: "Specification added successfully",
+    DELETE: "Specification deleted successfully",
+    UPDATE: "Specification updated successfully"
+  },
+  STAGE: {
+    ADD: "Stage added successfully",
+    DELETE: "Stage deleted successfully",
+    UPDATE: "Stage updated successfully",
+    STATUS_CHANGE: "Stage status changed successfully",
+    UPLOAD_IMAGE: "Image uploaded successfully"
+  },
+  UNIT: {
+    ADD: "Unit added successfully",
+    UPDATE: "Unit updated successfully",
+    DELETE: "Unit deleted successfully"
+  },
+  ATTENDANCE: {
+    ADD: "Attendance recorded successfully",
+    UPDATE: "Attendance updated successfully",
+    DELETE: "Attendance deleted successfully",
+    APPROVE: "Attendance approved successfully"
+  },
+  PROFILE: {
+    UPDATE_PROFILE: "User profile updated successfully",
+    UPDATE_IMAGE: "Profile image updated successfully"
+  }
+};
 
 export const ERROR_MESSAGE = {
-   USER: {
-      INVALID_USER: "The username or password you entered is invalid.",
-      EXIST: "User Already Exist",
-      OTP_SEND_FAIL: "Failed to send OTP email. Please try again later.",
-      OTP_WRONG: "Entered OTP is wrong",
-      TIMESTAMP_MISS : "OTP creation timestamp is missing",
-      EXPIRE_OTP : "Your OTP has timed out. Kindly resend and try again.",
-      EMAIL_NOT_FOUND : "Email not found. Please check the email and try again.",
-      INVALID_PASSWORD: "Invalid password. Please try again.",
-      NO_REFRESH_TOKEN : "No refresh token provided",
-      INVALID_REFRESH_TOKEN : "Invalid refresh token",
-      USER_NOT_FOUND : "User not found"
-   },
-   BRAND: {
-      EXIST_BRAND: "Brand already exist",
-      ALREADY_USED: "Brand used already"
-   },
-   CATEGORY: {
-      EXIST_CATEGORY: "Category already exist",
-      ALREADY_USED: "Category used already"
-   },
-   ESTIMATION: {
-      USED_STAGE: "Stage setting is completed",
-      NO_IMAGE: "No image file uploaded"
-   },
-   LABOUR: {
-      EXIST_LABOUR: "labour already exist",
-      EXIST_SPEC: "Labour type already used in specification registration"
-   },
-   MATERIAL: {
-      EXIST_LABOUR: "Material already exist",
-      USED_SPEC: "Material already used in specification registration"
-   },
-   PROJECT: {
-      EXIST_LABOUR: "Project name already exist"
-   },
-   SITEMANAGER: {
-      EXIST: "Sitemanager already exist",
-      FAIL: "Sitemanager registered fail",
-      INVALID_EMAIL: "Invalid email address. Please try again.",
-      INVALID_PASSWORD: "Invalid password. Please try again.",
-      NOT_EXIST: "Sitemanager not exist",
-      PASSWORD_WRONG: "Entered password is wrong"
-   },
-   SPEC: {
-      EXIST_NAME: "Specification name already exist",
-      EXIST_ID: "SpecId already exist",
-      USED_ESTIMATION: "This spec is already used in estimation"
-   },
-   STAGE: {
-      NOT_ESTIMATE: "Please estimate that project",
-      ALREADY_SET: "stage set already completed this project",
-      NOT_SET: "Shouldn't set the stage of this project",
-      NO_IMAGE_UPLOAD: "No image file uploaded"
-   },
-   UNIT: {
-      EXIST: "Unit already exist"
-   },
-   ATTENDANCE: {
-      EXIST: "Attendance already taken in this project in same days"
-   }
-}
+  USER: {
+    INVALID_USER: "The username or password you entered is invalid",
+    EXIST: "User already exists",
+    OTP_SEND_FAIL: "Failed to send OTP email. Please try again later",
+    OTP_WRONG: "The OTP you entered is incorrect",
+    TIMESTAMP_MISS: "OTP creation timestamp is missing",
+    EXPIRE_OTP: "Your OTP has expired. Please resend and try again",
+    EMAIL_NOT_FOUND: "Email not found. Please check and try again",
+    INVALID_PASSWORD: "The password you entered is invalid",
+    NO_REFRESH_TOKEN: "Refresh token not provided",
+    INVALID_REFRESH_TOKEN: "Refresh token is invalid",
+    USER_NOT_FOUND: "User not found",
+    USERNAME_MISMATCH: "This username is not allowed"
+  },
+  BRAND: {
+    EXIST_BRAND: "Brand already exists",
+    ALREADY_USED: "Brand has already been used"
+  },
+  CATEGORY: {
+    EXIST_CATEGORY: "Category already exists",
+    ALREADY_USED: "Category has already been used"
+  },
+  ESTIMATION: {
+    USED_STAGE: "Stage setup is already completed",
+    NO_IMAGE: "No image file uploaded"
+  },
+  LABOUR: {
+    EXIST_LABOUR: "Labour type already exists",
+    EXIST_SPEC: "Labour type is already used in a specification"
+  },
+  MATERIAL: {
+    EXIST_LABOUR: "Material already exists",
+    USED_SPEC: "Material is already used in a specification"
+  },
+  PROJECT: {
+    EXIST_LABOUR: "Project name already exists"
+  },
+  SITEMANAGER: {
+    EXIST: "Site manager already exists",
+    FAIL: "Failed to register site manager",
+    INVALID_EMAIL: "The email address you entered is invalid",
+    INVALID_PASSWORD: "The password you entered is invalid",
+    NOT_EXIST: "Site manager does not exist",
+    PASSWORD_WRONG: "The password you entered is incorrect"
+  },
+  SPEC: {
+    EXIST_NAME: "Specification name already exists",
+    EXIST_ID: "Specification ID already exists",
+    USED_ESTIMATION: "This specification is already used in an estimation"
+  },
+  STAGE: {
+    NOT_ESTIMATE: "The project must be estimated first",
+    ALREADY_SET: "Stage setup has already been completed for this project",
+    NOT_SET: "This project stage should not be set",
+    NO_IMAGE_UPLOAD: "No image file uploaded"
+  },
+  UNIT: {
+    EXIST: "Unit already exists"
+  },
+  ATTENDANCE: {
+    EXIST: "Attendance has already been recorded for this project on the same day"
+  },
+  UPDATEPASSWORD:{
+    EXIST_GOOGLE : "User logged using google authentication so password not need",
+    CURRENTPASSWORD_WRONG : "Current password entered user is incoreect check again"
+  }
+};

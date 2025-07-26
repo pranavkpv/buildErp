@@ -1,6 +1,8 @@
+import { useDispatch } from "react-redux";
 import { userLogout } from "../../../api/User/user";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { logout } from "../../../redux/slice/authslice";
 
 type logoutProp = {
   logoutEnable: boolean;
@@ -9,6 +11,8 @@ type logoutProp = {
 
 function LogoutModal({ logoutEnable, setLogoutEnable }: logoutProp) {
   if (!logoutEnable) return null;
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const logoutFun = async () => {
     try {
@@ -16,7 +20,9 @@ function LogoutModal({ logoutEnable, setLogoutEnable }: logoutProp) {
       if (data.success) {
         localStorage.removeItem("accessToken");
         toast.success(data.message);
+        dispatch(logout())
         setLogoutEnable(false);
+        navigate("/")
       }
     } catch (error:any) {
       console.log(error);
@@ -47,7 +53,7 @@ function LogoutModal({ logoutEnable, setLogoutEnable }: logoutProp) {
           </button>
           <button
             onClick={logoutFun}
-            className="px-4 py-2 text-white bg-blue-900 hover:bg-blue-800 rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-900"
+            className="px-4 py-2 text-white bg-[#04a09c] hover:bg-[#04a09c] rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-900"
           >
             Confirm
           </button>

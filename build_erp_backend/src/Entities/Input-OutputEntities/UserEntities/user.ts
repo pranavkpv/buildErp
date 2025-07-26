@@ -35,6 +35,13 @@ export interface UpdateProfile {
    phone:number
 }
 
+export interface UpdatePassword {
+   _id:string
+   email:string
+   currentPassword:string
+   password:string
+}
+
 
 
 

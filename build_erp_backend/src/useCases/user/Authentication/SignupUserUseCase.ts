@@ -15,35 +15,41 @@ export class SignupUserUseCase implements ISignupUserUseCase {
       this.UserRepository = UserRepository
    }
    async execute(input: userSignupInput): Promise<commonOutput> {
-   
-      const { username, email, phone, password } = input
 
-      const existUser = await  this.UserRepository.findUserByEmail(email)
+      const { username, email, phone, password } = input
+      const special = "0123456987!@#$%^&*";
+      if (username.split("").some(char => special.includes(char))) {
+         return ResponseHelper.failure(ERROR_MESSAGE.USER.USERNAME_MISMATCH, HTTP_STATUS.CONFLICT);
+      }
+
+      const existUser = await this.UserRepository.findUserByEmail(email)
       const existPhone = await this.UserRepository.findUserByPhone(phone)
       if (existUser) {
-          return ResponseHelper.failure(ERROR_MESSAGE.USER.EXIST,HTTP_STATUS.CONFLICT)
+         return ResponseHelper.failure(ERROR_MESSAGE.USER.EXIST, HTTP_STATUS.CONFLICT)
       }
       if (existPhone) {
-         return ResponseHelper.failure(ERROR_MESSAGE.USER.EXIST,HTTP_STATUS.CONFLICT)
+         return ResponseHelper.failure(ERROR_MESSAGE.USER.EXIST, HTTP_STATUS.CONFLICT)
       }
 
       const otp = Math.floor(100000 + Math.random() * 900000)
       const otpCreatedAt = new Date()
 
-      await this.UserRepository.otpSave({username,
+      await this.UserRepository.otpSave({
+         username,
          email, phone,
          password,
          otp,
-         otpCreatedAt})
+         otpCreatedAt
+      })
 
       const text = `Dear ${ username }, your One-Time Password (OTP) for signing up with BuildERP is ${ otp }. Do not share this code with anyone.`
       const emailSend = await sendEmail(email, "OTP verification", text)
 
       if (emailSend) {
          console.log(otp)
-         return ResponseHelper.success(SUCCESS_MESSAGE.USER.OTP_SEND,HTTP_STATUS.OK)
+         return ResponseHelper.success(SUCCESS_MESSAGE.USER.OTP_SEND, HTTP_STATUS.OK)
       } else {
-         return ResponseHelper.failure(ERROR_MESSAGE.USER.OTP_SEND_FAIL,HTTP_STATUS.BAD_REQUEST)
+         return ResponseHelper.failure(ERROR_MESSAGE.USER.OTP_SEND_FAIL, HTTP_STATUS.BAD_REQUEST)
       }
    }
 }

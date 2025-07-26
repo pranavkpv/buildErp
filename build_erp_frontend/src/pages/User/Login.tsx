@@ -2,9 +2,20 @@
 import React, { useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router-dom';
-import { userLoginAPI } from '../../api/User/user';
+import { SignInWithGoogle, userLoginAPI } from '../../api/User/user';
 import { useDispatch } from 'react-redux';
 import { login } from '../../redux/slice/authslice';
+import { GoogleLogin, type CredentialResponse } from '@react-oauth/google';
+import { jwtDecode } from 'jwt-decode';
+
+
+type GoogleUser ={
+  email:string
+  given_name:string
+  family_name:string
+  picture:string
+}
+
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -12,8 +23,8 @@ function Login() {
   const [password, setPassword] = useState('');
   const passwordRef = useRef<HTMLParagraphElement>(null);
   const navigate = useNavigate();
-   const [hide, setHide] = useState(false)
-   const dispatch = useDispatch()
+  const [hide, setHide] = useState(false)
+  const dispatch = useDispatch()
 
   const handleLoginSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -46,16 +57,16 @@ function Login() {
     }
 
     try {
-      const response = await userLoginAPI(email,password)
+      const response = await userLoginAPI(email, password)
       console.log(response)
-      
-      
       if (response.success) {
         toast.success(response.message);
         localStorage.setItem('accessToken', response.token.accessToken);
-        dispatch(login({_id:response.userData._id,username:response.userData.username,
-          email:response.userData.email,phone:response.userData.phone,
-          profile_image:response.userData?.profile_image,token:response.token.accessToken}))
+        dispatch(login({
+          _id: response.userData._id, username: response.userData.username,
+          email: response.userData.email, phone: response.userData.phone,
+          profile_image: response.userData?.profile_image, token: response.token.accessToken
+        }))
         setTimeout(() => {
           navigate('/');
         }, 3000);
@@ -68,10 +79,34 @@ function Login() {
     }
   };
 
-  const loginWithGoogle = () => {
-    window.location.href = `${import.meta.env.VITE_BASE_URL}/auth/google`;
+  const loginWithGoogle = async (credentialResponse: CredentialResponse) => {
+    console.log(credentialResponse)
+    if (credentialResponse.credential) {
+      const user:GoogleUser = jwtDecode(credentialResponse.credential)
+      const response = await SignInWithGoogle(user.email,user.given_name+user.family_name,user.picture)
+      if(response.success){
+        toast.success(response.message)
+         localStorage.setItem('accessToken', response.token.accessToken);
+        dispatch(login({
+          _id: response.userData._id, username: response.userData.username,
+          email: response.userData.email, phone: response.userData.phone,
+          profile_image: response.userData?.profile_image, token: response.token.accessToken
+        }))
+         setTimeout(() => {
+          navigate('/');
+        }, 3000)
+      } else {
+        toast.error(response.message);
+      }
+     
+    } else {
+      console.error("No credential found");
+    }
   };
 
+  const handleError = () => {
+    console.error("Google login failed");
+  }
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-900 text-gray-100 p-4">
       <form
@@ -166,13 +201,8 @@ function Login() {
           Login
         </button>
 
-        <button
-          type="button"
-          onClick={loginWithGoogle}
-          className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold py-2.5 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-800"
-        >
-          Login with Google
-        </button>
+        <GoogleLogin onSuccess={loginWithGoogle} onError={handleError}
+        ></GoogleLogin>
 
         <div className="text-center">
           <Link

@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import { verifyOTPAPI } from '../../api/User/user';
 
 
 ///this page verify otp for signup page
@@ -61,23 +62,20 @@ function Otp() {
     }
 
     try {
-      const baseUrl = import.meta.env.VITE_BASE_URL || 'http://localhost:3000';
-      const response = await axios.post(`${baseUrl}/verifyOtp`, {
-        otp,
-        email: otpEmail,
-      });
+      const response = await verifyOTPAPI(otp,otpEmail)
+      console.log(response)
 
-      if (response.data.success) {
-        toast.success(response.data.message);
+      if (response.success) {
+        toast.success(response.message);
         localStorage.removeItem('otpEmail');
         setTimeout(() => {
           navigate('/login');
         }, 1500);
       } else {
-        toast.error(response.data.message);
+        toast.error(response.message);
       }
     } catch (error: any) {
-      toast.error(error.message || 'Something went wrong.');
+      toast.error( 'Something went wrong.');
     }
   };
 

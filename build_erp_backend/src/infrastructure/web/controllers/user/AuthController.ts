@@ -16,6 +16,7 @@ import { IUpdateProfileUseCase } from "../../../../Entities/useCaseEntities/User
 import cloudinary from "../../../../config/cloudinary";
 import { IUpdateProfileImageUseCase } from "../../../../Entities/useCaseEntities/UserUseCaseEntities/AuthenticationUseCaseEntities/UpdateProfileImageEntity";
 import { UploadedFile, FileArray } from "express-fileupload";
+import { IChangePasswordUseCase } from "../../../../Entities/useCaseEntities/UserUseCaseEntities/AuthenticationUseCaseEntities/ChangePasswordEntity";
 
 
 
@@ -32,12 +33,13 @@ export class AuthController implements IAuthControllerEntity {
    private updatePasswordUseCase: IUpdatePasswordUseCase
    private updateProfileUseCase: IUpdateProfileUseCase
    private updateProfileImageUseCase: IUpdateProfileImageUseCase
+   private changePasswordUseCase : IChangePasswordUseCase
    constructor(signupUserUseCase: ISignupUserUseCase, verifyOTPUseCase: IVerifyOTPUseCases,
       resendOTPUseCase: IResendOTPUseCase, userLoginUseCase: IUserLoginUseCase,
       refreshTokenUseCase: IRefreshTokenUseCase, googleauthuseCase: IgooglAuthUseCase,
       sendotpUsecase: ISendOTPUseCase, verifyforgotUsecase: IVerifyForgotUseCase,
       updatePasswordUseCase: IUpdatePasswordUseCase, updateProfileUseCase: IUpdateProfileUseCase,
-      updateProfileImageUseCase: IUpdateProfileImageUseCase) {
+      updateProfileImageUseCase: IUpdateProfileImageUseCase,changePasswordUseCase : IChangePasswordUseCase) {
       this.signupUserUseCase = signupUserUseCase
       this.verifyOTPUseCase = verifyOTPUseCase
       this.resendOTPUseCase = resendOTPUseCase
@@ -49,23 +51,24 @@ export class AuthController implements IAuthControllerEntity {
       this.updatePasswordUseCase = updatePasswordUseCase
       this.updateProfileUseCase = updateProfileUseCase
       this.updateProfileImageUseCase = updateProfileImageUseCase
+      this.changePasswordUseCase = changePasswordUseCase
    }
 
    signUp = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       const result = await this.signupUserUseCase.execute(req.body)
-      res.status(result.status_code).json(result)
+      res.status(HTTP_STATUS.OK).json(result)
    }
 
 
    verifyOTP = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       const result = await this.verifyOTPUseCase.execute(req.body)
-      res.status(result.status_code).json(result)
+      res.status(HTTP_STATUS.OK).json(result)
    }
 
 
    resendOtp = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       const result = await this.resendOTPUseCase.execute(req.body)
-      res.status(result.status_code).json(result)
+      res.status(HTTP_STATUS.OK).json(result)
    }
 
 
@@ -78,9 +81,9 @@ export class AuthController implements IAuthControllerEntity {
             sameSite: 'lax',
             maxAge: 24 * 60 * 60 * 1000,
          });
-         res.status(result.status_code).json(result)
+         res.status(HTTP_STATUS.OK).json(result)
       } else {
-         res.status(result.status_code).json(result)
+         res.status(HTTP_STATUS.OK).json(result)
       }
    }
 
@@ -89,7 +92,7 @@ export class AuthController implements IAuthControllerEntity {
       const refreshToken = req.cookies.refreshToken;
       if (!refreshToken) {
          const result = ResponseHelper.failure(ERROR_MESSAGE.USER.NO_REFRESH_TOKEN, HTTP_STATUS.UNAUTHORIZED)
-         res.status(result.status_code).json(result);
+         res.status(HTTP_STATUS.OK).json(result);
          return;
       }
       const tokens = await this.refreshTokenUseCase.execute(refreshToken);
@@ -97,8 +100,8 @@ export class AuthController implements IAuthControllerEntity {
    }
 
 
-   authLogin = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-      const result = await this.googleauthuseCase.execute(req.body)
+   GoogleLogin = async (req: Request, res: Response, next: NextFunction): Promise<void>=> {
+       const result = await this.googleauthuseCase.execute(req.body)
       if (result.success && result.token?.refreshToken) {
          res.cookie('refreshToken', result.token.refreshToken, {
             httpOnly: true,
@@ -106,28 +109,28 @@ export class AuthController implements IAuthControllerEntity {
             sameSite: 'lax',
             maxAge: 24 * 60 * 60 * 1000,
          });
-         res.status(result.status_code).json(result)
+         res.status(HTTP_STATUS.OK).json(result)
       } else {
-         res.status(result.status_code).json(result);
+         res.status(HTTP_STATUS.OK).json(result);
       }
    }
 
 
    SendOTP = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       const result = await this.sendotpUsecase.execute(req.body)
-      res.status(result.status_code).json(result)
+      res.status(HTTP_STATUS.OK).json(result)
    }
 
 
    verifyForgotOTP = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       const result = await this.verifyforgotUsecase.execute(req.body)
-      res.status(result.status_code).json(result)
+      res.status(HTTP_STATUS.OK).json(result)
    }
 
 
    updatePassword = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       const result = await this.updatePasswordUseCase.execute(req.body)
-      res.status(result.status_code).json(result)
+      res.status(HTTP_STATUS.OK).json(result)
    }
 
 
@@ -138,16 +141,17 @@ export class AuthController implements IAuthControllerEntity {
          secure: process.env.NODE_ENV === "production"
       });
       const result = ResponseHelper.success(SUCCESS_MESSAGE.USER.LOGOUT, HTTP_STATUS.OK)
-      res.status(result.status_code).json(result)
+      res.status(HTTP_STATUS.OK).json(result)
    }
    UpdateProfile = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       const { id } = req.params
       const result = await this.updateProfileUseCase.execute({ id, ...req.body })
-      res.status(result.status_code).json(result)
+      res.status(HTTP_STATUS.OK).json(result)
    }
    updateProfileImage = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       const _id = req.params.id
       const files = req.files as FileArray;
+
 
       const file = files?.file as UploadedFile | undefined;
       if (!file || Array.isArray(file)) {
@@ -157,8 +161,17 @@ export class AuthController implements IAuthControllerEntity {
       const result = await cloudinary.uploader.upload(file.tempFilePath, {
          folder: "buildExe"
       })
+     
       const ExactResult = await this.updateProfileImageUseCase.execute(result.secure_url, _id)
-      res.status(ExactResult.status_code).json(ExactResult)
+
+      res.status(HTTP_STATUS.OK).json(ExactResult)
+   }
+
+   ChangePassword = async(req: Request, res: Response, next: NextFunction): Promise<void>=> {
+      const {id} = req.params
+       const result = await this.changePasswordUseCase.execute({_id:id,...req.body})
+       res.status(HTTP_STATUS.OK).json(result)
+
    }
 }
 

@@ -1,7 +1,6 @@
 import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import "./src/infrastructure/auth/passport"
 import session from "express-session";
 import fileUpload from 'express-fileupload';
 
@@ -36,7 +35,6 @@ import { JwtServiceImpl } from './src/services/JwtService';
 import {  AddSiteToProjectRepository } from './src/infrastructure/persistence/AddSiteToProjectRepository';
 import createSitemanagerRoute from './src/infrastructure/web/routes/siteRouter';
 import passport, { Passport } from 'passport';
-import { googlAuthUseCase } from './src/useCases/user/Authentication/GoogleAuthUseCase';
 import { SignupUserUseCase } from './src/useCases/user/Authentication/SignupUserUseCase';
 import { VerifyOTPUseCases } from './src/useCases/user/Authentication/VerifyOTPuseCases';
 import { ResendOTPUseCase } from './src/useCases/user/Authentication/ResendOTPUseCase';
@@ -151,6 +149,8 @@ import { FetchLabourByIdUseCase } from './src/useCases/admin/Labour/FetchLabourB
 import { UpdateSpecUseCase } from './src/useCases/admin/Spec/UpdateSpecUseCase';
 import { UpdateProfileUsecase } from './src/useCases/user/Authentication/UpdateProfileUseCase';
 import { UpdateProfileImageUseCase } from './src/useCases/user/Authentication/UpdateProfileImageUseCase';
+import { GoogleAuthUseCase } from './src/useCases/user/Authentication/GoogleAuthUseCase';
+import { ChangePasswordUsecase } from './src/useCases/user/Authentication/ChangePasswordUseCase';
 
 
 
@@ -217,7 +217,7 @@ async function compositeRoot() {
       const resendOTPUseCase = new ResendOTPUseCase(userRepository)
       const refreshTokenUseCase = new RefreshTokenUseCase(userRepository, JwtService)
       const userLoginUseCase = new UserLoginUseCase(userRepository, hasher, JwtService)
-      const googleauthuseCase = new googlAuthUseCase(userRepository, JwtService)
+      const googleauthuseCase = new GoogleAuthUseCase(userRepository, JwtService)
       const fetchUserprojectUseCase = new FetchUserProjectUseCase(projectRepository)
       const sendotpUsecase = new SendOTPUseCase(userRepository)
       const verifyforgotUsecase = new VerifyForgotUseCase(userRepository)
@@ -225,6 +225,7 @@ async function compositeRoot() {
       const fetchStatusBaseProjectUseCase = new FetchStatusBaseProjectUseCase(projectRepository)
       const updateProfileUseCase = new UpdateProfileUsecase(userRepository)
       const updateProfileImageUseCase = new UpdateProfileImageUseCase(userRepository)
+      const changePasswordUseCase = new ChangePasswordUsecase(userRepository,hasher)
 
       const authController = new AuthController(
          signupUserUseCase,
@@ -237,7 +238,8 @@ async function compositeRoot() {
          verifyforgotUsecase,
          updatePasswordUseCase,
          updateProfileUseCase,
-         updateProfileImageUseCase
+         updateProfileImageUseCase,
+         changePasswordUseCase
       )
       const authprojectController = new AuthProjectController(fetchUserprojectUseCase,fetchStatusBaseProjectUseCase)
       app.use("/", createAuthRoute(authController,authprojectController))
