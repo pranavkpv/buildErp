@@ -74,7 +74,7 @@ const createAdminRoute = (adminController: IAdminControllerEntity,
    router.post("/labour",adminMiddleWare(jwtService), labourController.saveLabour)
    router.delete("/labour/:id",adminMiddleWare(jwtService), labourController.removeLabour)
    router.put("/labour/:id",adminMiddleWare(jwtService), labourController.updateLabour)
-   router.get("/fetchlabour",adminMiddleWare(jwtService),labourController.fetchlabour)
+   router.get("/fetchlabour",labourController.fetchlabour)
    router.get("/getLabour/:id",adminMiddleWare(jwtService),labourController.getLabourBYId)
 
    router.get("/sitemanager",adminMiddleWare(jwtService),sitemanagerController.getSitemanager)

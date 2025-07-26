@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { MinusCircleIcon, PlusCircleIcon } from "@heroicons/react/24/outline"; // For modern add/delete row icons
-import { getaddMaterial } from "../../../api/Admin/material";
+import { getaddMaterial, SaveMaterialApi } from "../../../api/Admin/material";
 
 type category = {
   _id: string;
@@ -146,21 +146,13 @@ function AddMaterial({ setEnable, enable, refreshData }: AddMaterialProps) {
 
     try {
      
-      const response = await axios.post(`${ import.meta.env.VITE_BASE_URL }/admin/material`, {
-        material_name: materialName,
-        category_id: selectCategoryId,
-        brand_id: selectBrandId,
-        unit_id: selectUnitId,
-        unit_rate: unit_rate,
-        stock: totalOpeningStock,
-        projectWiseStock: row,
-      });
-      if (response.data.success) {
-        toast.success(response.data.message);
+      const response = await SaveMaterialApi(materialName,selectCategoryId,selectBrandId,selectUnitId,unit_rate,totalOpeningStock,row)
+      if (response.success) {
+        toast.success(response.message);
         setEnable(false);
         refreshData();
       } else {
-        toast.error(response.data.message);
+        toast.error(response.message);
       }
     } catch (error: any) {
       console.error("Failed to register material:", error);

@@ -29,11 +29,31 @@ export class ProjectRepository implements IprojectRepository {
             }
          },
          { $skip: skip }, { $limit: 5 }])
-      const totalPage = await projectDB.countDocuments() / 5
+
+      const totalDoc =await projectDB.aggregate([
+         {
+            $addFields: {
+               userObjectId: { $toObjectId: "$user_id" }
+            }
+         }, {
+            $lookup: {
+               from: "users",
+               localField: "userObjectId",
+               foreignField: "_id",
+               as: "userDetails"
+            }
+         }, {
+            $match: {
+               $or: [
+                  { project_name: { $regex: searchRegex } },
+                  { "userDetails.username": { $regex: searchRegex } }
+               ]
+            }
+         }])
 
       return {
          getProjectListData: projectData || [],
-         totalPage
+         totalPage:totalDoc.length
       };
    }
    async findProjectByName(project_name: string): Promise<IProjectModelEntity | null> {

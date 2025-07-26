@@ -38,7 +38,6 @@ function ListAttendance() {
   const fetchAttendance = async () => {
     try {
       const response = await fetchAttendanceAPI(search, page);
-      console.log(response)
       setAttendance(response.data.result);
       setTotalpage(response.data.totalPage);
     } catch (error) {

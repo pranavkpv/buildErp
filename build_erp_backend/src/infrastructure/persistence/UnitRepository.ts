@@ -35,7 +35,7 @@ export class UnitRepository implements IUnitRepository {
       const skip = (page) * 5
       const searchRegex = new RegExp(search, "i");
       const brandList = await unitDB.find({ unit_name: { $regex: searchRegex } }).skip(skip).limit(5)
-      const totalPage = await unitDB.countDocuments() / 5
+      const totalPage = await unitDB.countDocuments({ unit_name: { $regex: searchRegex } }) / 5
       return {
          getUnitData: brandList,
          totalPage

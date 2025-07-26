@@ -33,7 +33,7 @@ export class BrandRepository implements IBrandRepository {
       const skip = (page) * 5
       const searchRegex = new RegExp(search, "i");
       const brandList = await brandDB.find({ brand_name: { $regex: searchRegex } }).skip(skip).limit(5)
-      const totalPage = await brandDB.countDocuments() / 5
+      const totalPage = await brandDB.countDocuments({ brand_name: { $regex: searchRegex } }) / 5
       return {
          getBrandData: brandList,
          totalPage

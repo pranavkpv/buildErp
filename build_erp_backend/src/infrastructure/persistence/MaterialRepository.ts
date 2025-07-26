@@ -51,7 +51,7 @@ export class MaterialRepository implements IMaterialRepository {
             $skip: skip
          }, { $limit: 5 }])
 
-      const totalPage = await materialDB.countDocuments() / 5
+      const totalPage = await materialDB.countDocuments({material_name:{$regex:searchRegex}}) / 5
       return {
          getMaterialData: MaterialData,
          totalPage

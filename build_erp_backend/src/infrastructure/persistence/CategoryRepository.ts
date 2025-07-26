@@ -33,7 +33,7 @@ export class CategoryRepository implements ICategoryRepository {
       const skip = (page) * 5
       const searchRegex = new RegExp(search, "i");
       const categorList = await categoryDB.find({category_name:{$regex:searchRegex}}).skip(skip).limit(5)
-      const totalPage = await categoryDB.countDocuments()/5
+      const totalPage = await categoryDB.countDocuments({category_name:{$regex:searchRegex}})/5
       return {
          getCategoryData:categorList,
          totalPage

@@ -1,6 +1,6 @@
 
 import { IAttendanceRepository } from "../../Entities/repositoryEntities/Labour-management/IAttendanceRepository";
-import {  pageWiseAttendance, storeAttendance, StoreLabour } from "../../Entities/Input-OutputEntities/LabourEntities/attendance";
+import { pageWiseAttendance, storeAttendance, StoreLabour } from "../../Entities/Input-OutputEntities/LabourEntities/attendance";
 import { attendanceDB } from "../../Database/Model/AttendanceModel";
 import { IAttendanceModelEntity } from "../../Entities/ModelEntities/Attendance.Entity";
 
@@ -17,7 +17,7 @@ export class AttendanceRepository implements IAttendanceRepository {
 
   async findExistAttendance(project_id: string, date: string): Promise<IAttendanceModelEntity | null> {
     const existData = await attendanceDB.findOne({ project_id, date })
-    return existData 
+    return existData
   }
 
   async fetchAttendance(search: string, page: number): Promise<pageWiseAttendance | null> {
@@ -55,8 +55,31 @@ export class AttendanceRepository implements IAttendanceRepository {
       sum = 0
     }
 
-    const numberOfdoc = await attendanceDB.countDocuments({ approvalStatus: false })
-    return { result: result, totalPage: Math.ceil(numberOfdoc / 5) }
+    const numberOfdoc = await attendanceDB.aggregate([
+      {
+        $addFields: {
+          projectObjectId: { $toObjectId: "$project_id" }
+        }
+      },
+      {
+        $lookup: {
+          from: "projects",
+          localField: "projectObjectId",
+          foreignField: "_id",
+          as: "projectDetails"
+        }
+      },
+      {
+        $unwind: "$projectDetails"
+      }, {
+        $match: {
+          approvalStatus: false,
+          "projectDetails.project_name": { $regex: search, $options: "i" }
+        }
+      }
+    ]);
+    
+    return { result: result, totalPage: Math.ceil(numberOfdoc.length / 5) }
 
   }
 
@@ -70,14 +93,14 @@ export class AttendanceRepository implements IAttendanceRepository {
 
   async findAttendanceById(_id: string): Promise<IAttendanceModelEntity | null> {
     const data = await attendanceDB.findById(_id)
-    return data 
+    return data
   }
   async findExistInEdit(_id: string, project_id: string, date: string): Promise<IAttendanceModelEntity | null> {
     const existData = await attendanceDB.findOne({ _id: { $ne: _id }, project_id, date })
-    return existData 
+    return existData
   }
   async UpdateAttendance(_id: string, project_id: string, date: string, labourDetails: StoreLabour[]): Promise<void> {
-      await attendanceDB.findByIdAndUpdate(_id,{project_id,date,labourDetails})
+    await attendanceDB.findByIdAndUpdate(_id, { project_id, date, labourDetails })
   }
 
 }

@@ -8,7 +8,7 @@ export class LabourRepository implements ILabourRepository {
       const skip = (page) * 5
       const searchRegex = new RegExp(search, "i");
       const labourList = await labourDB.find({labour_type:{$regex:searchRegex}}).skip(skip).limit(5)
-      const totalPage = await labourDB.countDocuments()/5
+      const totalPage = await labourDB.countDocuments({labour_type:{$regex:searchRegex}})/5
       return {
          getLabourData:labourList,
          totalPage

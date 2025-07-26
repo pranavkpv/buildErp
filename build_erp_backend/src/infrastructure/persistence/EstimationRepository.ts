@@ -97,7 +97,38 @@ export class EstimationRepository implements IEstimationRepository {
             }
          }, { $unwind: "$projectDetails" }, { $match: { "projectDetails.project_name": { $regex: search, $options: "i" } } }, { $skip: skip }, { $limit: 5 }
       ]);
-      const totalDoc = await estimationDB.aggregate([{$group:{_id: "$project_id",count:{$sum:1}}}])
+      
+      const totalDoc = await estimationDB.aggregate<SpecData>([
+         {
+            $group: {
+               _id: "$project_id",
+               budgeted_cost: {
+                  $sum: {
+                     $multiply: ["$quantity", "$unit_rate"]
+                  }
+               }
+            }
+         },
+         {
+            $addFields: {
+               projectObjectId: {
+                  $cond: {
+                     if: { $eq: [{ $type: "$_id" }, "string"] },
+                     then: { $toObjectId: "$_id" },
+                     else: "$_id"
+                  }
+               }
+            }
+         },
+         {
+            $lookup: {
+               from: "projects",
+               localField: "projectObjectId",
+               foreignField: "_id",
+               as: "projectDetails"
+            }
+         }, { $unwind: "$projectDetails" }, { $match: { "projectDetails.project_name": { $regex: search, $options: "i" } } }
+      ]);
 
       const totalPage = Math.ceil(totalDoc.length / 5)
       return { data, totalPage };

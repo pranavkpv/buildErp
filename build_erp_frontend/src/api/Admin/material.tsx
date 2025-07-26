@@ -1,5 +1,9 @@
 import axioInstance from "../../api/axio";
 
+type addRowData = {
+  project: string;
+  stock: number;
+};
 
 //get add material data here datas are categorydata,brandData,unitData,projectData
 export const getaddMaterial = async () => {
@@ -55,3 +59,9 @@ export const findMaterialById = async(_id:string)=>{
    const response = await axioInstance.get(`/admin/getmaterial/${_id}`)
    return response.data
 }
+
+export const SaveMaterialApi = async( material_name:string,category_id: string,brand_id: string,
+        unit_id: string,unit_rate: number,stock: number,projectWiseStock: addRowData[]) =>{
+         const response = await axioInstance.post("/admin/material",{material_name,category_id,brand_id,unit_id,unit_rate,stock,projectWiseStock})
+         return response.data
+        }

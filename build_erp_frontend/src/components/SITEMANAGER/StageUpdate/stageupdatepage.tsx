@@ -65,7 +65,7 @@ function StageUpdatePage() {
       try {
          const response = await getStage(projectId);
          if (response.success) {
-            setStage(response.data.message);
+            setStage(response.message);
          } else {
             toast.error(response.message);
          }

@@ -10,7 +10,7 @@ export class SitemanagerRepository implements ISitemanagerRepository {
        const skip = (page) * 5
       const searchRegex = new RegExp(search, "i");
       const list = await sitemanagerDB.find({username:{$regex:searchRegex}}).skip(skip).limit(5)
-      const totalPage = await sitemanagerDB.countDocuments()/5
+      const totalPage = await sitemanagerDB.countDocuments({username:{$regex:searchRegex}})/5
       return {
          getSiteData: list,
          totalPage

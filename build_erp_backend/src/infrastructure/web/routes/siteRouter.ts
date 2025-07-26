@@ -12,7 +12,7 @@ const createSitemanagerRoute = (sitemanagerController: ISitemanagerControllerEnt
    attendanceController: IAttendanceControllerEntity): Router => {
    const router = Router()
     const jwtService = new JwtServiceImpl()
-   router.post("/login",siteManagerMiddleware(jwtService), sitemanagerController.loginSitemanager)
+   router.post("/login", sitemanagerController.loginSitemanager)
    router.post("/logout",siteManagerMiddleware(jwtService), sitemanagerController.logoutSitemanager)
    router.get("/siteproject/:user",siteManagerMiddleware(jwtService),sitemanagerController.getSitemanagerProject)
 
