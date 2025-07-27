@@ -66,6 +66,11 @@ interface AppContextType {
   editprofit_per:number
   seteditprofit_per:React.Dispatch<React.SetStateAction<number>>;
 
+  deleteSpecEnable:boolean;
+  setDeleteSpecEnable:React.Dispatch<React.SetStateAction<boolean>>;
+  deleteId:string;
+  setDeleteId:React.Dispatch<React.SetStateAction<string>>;
+
 
 
 }
@@ -121,7 +126,12 @@ const AppContext = createContext<AppContextType>({
   editadditionalExpense_per : 0,
   seteditadditionalExpense_per:()=>{},
   editprofit_per:0,
-  seteditprofit_per:()=>{}
+  seteditprofit_per:()=>{},
+
+  deleteSpecEnable :false,
+  setDeleteSpecEnable:()=>{},
+  deleteId:"",
+  setDeleteId:()=>{}
 
 });
 

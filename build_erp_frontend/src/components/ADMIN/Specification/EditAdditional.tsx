@@ -1,8 +1,12 @@
+import { toast } from "react-toastify"
 import { SaveSpec, UpdateSpec } from "../../../api/Admin/Spec"
 import AppContext from "../../../Context/AppContext"
 import React, { useContext, useEffect, useState } from "react"
+type prop = {
+   fetchSpecList: () => void
+}
 
-function EditAdditionalSpec() {
+function EditAdditionalSpec({ fetchSpecList }: prop) {
    const {
       editId,
       editSpec_id,
@@ -30,7 +34,7 @@ function EditAdditionalSpec() {
 
    const SaveSpecData = async (e: React.FormEvent) => {
       e.preventDefault()
-      await UpdateSpec(
+      const Response = await UpdateSpec(
          editId,
          editSpec_id,
          editSpec_name,
@@ -41,7 +45,13 @@ function EditAdditionalSpec() {
          editadditionalExpense_per,
          editprofit_per
       )
-      setEditAdditionalEnable(false)
+      if (Response.success) {
+         toast.success(Response.message)
+         setEditAdditionalEnable(false)
+         fetchSpecList()
+      } else {
+         toast.error(Response.message)
+      }
    }
 
    return (

@@ -2,7 +2,11 @@ import { SaveSpec } from "../../../api/Admin/Spec";
 import AppContext from "../../../Context/AppContext";
 import React, { useContext, useEffect, useState } from "react";
 
-function AddAdditionalSpec() {
+type prop = {
+  fetchSpecList:()=>void
+}
+
+function AddAdditionalSpec({fetchSpecList}:prop) {
   const {
     spec_id,
     spec_name,
@@ -29,9 +33,10 @@ function AddAdditionalSpec() {
   }, [labourDetails, materialDetails]);
 
   const SaveSpecData = async (e: React.FormEvent) => {
-    e.preventDefault(); // Prevent default form submission
+    e.preventDefault(); 
     await SaveSpec(spec_id, spec_name, spec_unit, description, materialDetails, labourDetails, additionalExpense_per, profit_per);
-    setAddAdditionalEnable(false); // Close modal after saving
+    setAddAdditionalEnable(false); 
+    fetchSpecList()
   };
 
   return (

@@ -43,7 +43,7 @@ export class SpecController implements ISpecControllerEntity {
 
    saveSpec = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
       const result = await this.specSaveuseCase.execute(req.body)
-      res.status(result.status_code).json(result)
+      res.status(HTTP_STATUS.OK).json(result)
    }
 
 
@@ -54,9 +54,9 @@ export class SpecController implements ISpecControllerEntity {
 
 
    deleteSpec = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-      const { _id } = req.params
-      const result = await this.deleteSpecusecase.execute(_id)
-      res.status(result.status_code).json(result)
+      const { id } = req.params
+      const result = await this.deleteSpecusecase.execute(id)
+      res.status(HTTP_STATUS.OK).json(result)
    }
 
 
@@ -79,7 +79,7 @@ export class SpecController implements ISpecControllerEntity {
       res.status(HTTP_STATUS.OK).json(result)
    }
    updateSpec = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-      const { _id } = req.params
+      const _id= req.params.id
       const result = await this.updateSpecUseCase.execute({ _id, ...req.body })
       res.status(result.status_code).json(result)
    }

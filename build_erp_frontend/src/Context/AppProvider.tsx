@@ -43,6 +43,9 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
   const [editadditionalExpense_per,seteditadditionalExpense_per] = useState(0)
   const [editprofit_per,seteditprofit_per] = useState(0)
 
+  const [deleteSpecEnable,setDeleteSpecEnable] = useState(false)
+  const [deleteId,setDeleteId] = useState("")
+
   return (
     <AppContext.Provider
       value={{
@@ -96,8 +99,12 @@ const AppProvider = ({ children }: { children: React.ReactNode }) => {
         editadditionalExpense_per,
         seteditadditionalExpense_per,
         editprofit_per,
-        seteditprofit_per
+        seteditprofit_per,
 
+        deleteSpecEnable,
+        setDeleteSpecEnable,
+        deleteId,
+        setDeleteId
       }}
     >
       {children}

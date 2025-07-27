@@ -17,7 +17,6 @@ interface Props {
 }
 
 function EditSpecMaterial({ editrow }: Props) {
-   console.log(editrow)
    const { editMaterialEnable, setEditMaterialEnable, setEditLabourEnable, setEditMaterialDetails } = useContext(AppContext)
    if (!editMaterialEnable) return null
 

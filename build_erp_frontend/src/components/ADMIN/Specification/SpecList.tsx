@@ -11,6 +11,8 @@ import EditSpec from "./EditSpec";
 import EditSpecMaterial from "./EditMaterialSpec";
 import EditLabourSpec from "./EditLabourSpec";
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
+import DeleteSpec from "./DeleteSpec";
+import EditAdditionalSpec from "./EditAdditional";
 
 export interface materialData {
   material_id: string;
@@ -60,7 +62,7 @@ function SpecList() {
   const [editMaterialRow, setEditMaterialRow] = useState<listMaterail[]>([]);
   const [editLabourRow, setEditLabourRow] = useState<labourList[]>([]);
 
-  const [total,setTotal] = useState(0)
+  const [total, setTotal] = useState(0)
 
   const {
     setEditSpecEnable,
@@ -70,6 +72,8 @@ function SpecList() {
     setEditSpec_name,
     setEditSpecUnit,
     setEditDescription,
+    setDeleteSpecEnable,
+    setDeleteId
   } = useContext(AppContext);
 
   const fetchSpecList = async () => {
@@ -183,7 +187,7 @@ function SpecList() {
                     <td className="px-6 py-4 text-center space-x-3">
                       <button
                         className="text-yellow-400 hover:text-yellow-300 p-2 rounded-md hover:bg-gray-600/50 transition-all duration-200"
-                        aria-label={`Edit specification ${element.specName}`}
+                        aria-label={`Edit specification ${ element.specName }`}
                         onClick={() => {
                           setEditId(element._id);
                           seteditSpec_id(element.specId);
@@ -225,8 +229,11 @@ function SpecList() {
                       </button>
                       <button
                         className="text-red-400 hover:text-red-300 p-2 rounded-md hover:bg-gray-600/50 transition-all duration-200"
-                        aria-label={`Delete specification ${element.specName}`}
-                        // Add delete handler here
+                        aria-label={`Delete specification ${ element.specName }`}
+                        onClick={() => {
+                          setDeleteSpecEnable(true)
+                          setDeleteId(element._id)
+                        }}
                       >
                         <TrashIcon className="h-5 w-5" />
                       </button>
@@ -241,15 +248,14 @@ function SpecList() {
         {/* Pagination */}
         {data.length > 0 && (
           <div className="flex justify-center gap-2 mt-6">
-            {Array.from({ length: total  }, (_, i) => (
+            {Array.from({ length: total }, (_, i) => (
               <button
                 key={i + 1}
                 onClick={() => setPage(i)}
-                className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 ${
-                  page === i
+                className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 ${ page === i
                     ? "bg-teal-600 text-white shadow-md"
                     : "bg-gray-700 text-gray-300 hover:bg-teal-500 hover:text-white"
-                }`}
+                  }`}
               >
                 {i + 1}
               </button>
@@ -258,12 +264,14 @@ function SpecList() {
         )}
 
         <AddSpec />
-        <AddSpecMaterial />
+        <AddSpecMaterial  />
         <AddLabourSpec />
-        <AddAdditionalSpec />
+        <AddAdditionalSpec fetchSpecList={fetchSpecList} />
         <EditSpec />
         <EditSpecMaterial editrow={editMaterialRow} />
         <EditLabourSpec editrow={editLabourRow} />
+        <EditAdditionalSpec fetchSpecList={fetchSpecList} />
+        <DeleteSpec fetchSpecList={fetchSpecList} />
       </div>
     </div>
   );

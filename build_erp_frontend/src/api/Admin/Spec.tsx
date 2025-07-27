@@ -47,10 +47,10 @@ export const SaveSpec = async (specId: String, specname: String, specUnit: Strin
    return response.data
 }
 
-export const UpdateSpec = async (_id:String,spec_id: String, spec_name: String, spec_unit: String, description: String, materialDetails: materialData[],
+export const UpdateSpec = async (_id:String,specId: String, specname: String, specUnit: String, specDescription: String, materialDetails: materialData[],
    labourDetails: labourData[], additionalExpense_per: number, profit_per: number) =>{
       const response = await axioInstance.put(`/admin/spec/${_id}`,{
-         spec_id,spec_name,spec_unit,description,materialDetails,labourDetails,additionalExpense_per,profit_per
+         specId,specname,specUnit,specDescription,materialDetails,labourDetails,additionalExpense_per,profit_per
       })
       return response.data
    }
