@@ -6,7 +6,9 @@ import { IDeleteAttendanceUseCase } from "../../../../Entities/useCaseEntities/S
 import { IApproveAttendanceUseCase } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/AttendanceUseCaseEntities/ApproveAttendanceEntities"
 import { IFetchAttendanceByIdUseCase } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/AttendanceUseCaseEntities/FetchAttendanceBYIdEntity"
 import { IEditAttendanceUseCase } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/AttendanceUseCaseEntities/EditAttendanceEntity"
-import { HTTP_STATUS } from "../../../../Shared/Status_code"
+import { commonOutput } from "../../../../Entities/Input-OutputEntities/CommonEntities/common"
+import { pageWiseAttendance } from "../../../../Entities/Input-OutputEntities/LabourEntities/attendance"
+import { IAttendanceModelEntity } from "../../../../Entities/ModelEntities/Attendance.Entity"
 
 export class AttendanceController implements IAttendanceControllerEntity {
    private addAttendaceUseCase: IaddAttendanceUseCase
@@ -27,43 +29,49 @@ export class AttendanceController implements IAttendanceControllerEntity {
       this.editAttendanceUseCase = editAttendanceUseCase
    }
 
+   //------------------------------------ Take the attendance of labour in project and date ------------------------------------//
 
-   addAttendance = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   addAttendance = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
       const result = await this.addAttendaceUseCase.execute(req.body)
-      res.status(result.status_code).json(result)
+      return result
    }
 
+   //------------------------------------ Update the attendance ------------------------------------//
 
-   editAttendance = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   editAttendance = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
       const result = await this.editAttendanceUseCase.execute(req.body)
-      res.status(result.status_code).json(result)
+      return result
    }
 
+   //------------------------------------ List of searched and paginated attendance of labour ------------------------------------//
 
-   fetchAttendance = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   fetchAttendance = async (req: Request, res: Response, next: NextFunction): Promise<{ data: pageWiseAttendance | null } | commonOutput> => {
       const { search, page } = req.query
       const result = await this.fetchattendanceusecase.execute(String(search), Number(page))
-      res.status(HTTP_STATUS.OK).json(result)
+      return result
    }
 
+   //------------------------------------ Delete the attendance of labour in the project and date ------------------------------------//
 
-   deleteAttendance = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   deleteAttendance = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
       const _id = req.params.id
       const result = await this.deleteattendanceUsecase.execute(_id)
-      res.status(result.status_code).json(result)
+      return result
    }
 
+   //------------------------------------ Approve the attendance of labour  ------------------------------------//
 
-   approveAttendance = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   approveAttendance = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
       const _id = req.params.id
       const result = await this.approveattendanceuseCase.execute(_id)
-      res.status(result.status_code).json(result)
+      return result
    }
 
+   //------------------------------------ Fetch labour attendance data in edit  ------------------------------------//
 
-   fetchEditcontroller = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   fetchEditcontroller = async (req: Request, res: Response, next: NextFunction): Promise<IAttendanceModelEntity | null | commonOutput> => {
       const _id = req.params.id
       const result = await this.fetchattendancebyIdusecase.execute(_id)
-      res.status(HTTP_STATUS.OK).json(result)
+      return result
    }
 }

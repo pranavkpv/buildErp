@@ -30,17 +30,11 @@ function AddStage({ addEnable, setAddEnable ,onAddSuccess}: stageProp) {
    const endRef = useRef<HTMLParagraphElement>(null)
 
    const fetchProject = async () => {
-      try {
          const response = await getProject();
          setProject(response);
-      } catch (error) {
-         console.error("Error fetching projects:", error);
-         toast.error("Failed to fetch projects.");
-      }
    };
 
    const fetchBudgetedCost = async (projectId: string) => {
-      try {
          const data = await fetchBugetAPI(projectId);
          if (data.success) {
             setCost(data.message);
@@ -49,10 +43,6 @@ function AddStage({ addEnable, setAddEnable ,onAddSuccess}: stageProp) {
             setCost(0)
             toast.error(data.message);
          }
-      } catch (error) {
-         console.error("Error fetching budgeted cost:", error);
-         toast.error("Failed to fetch budgeted cost.");
-      }
    };
 
    useEffect(() => {
@@ -64,7 +54,6 @@ function AddStage({ addEnable, setAddEnable ,onAddSuccess}: stageProp) {
    };
 
    const saveStageFun = async () => {
-      try {
          if (projectId == "") {
             projectRef.current ? projectRef.current.innerText = "project name is required" : ""
             return
@@ -118,10 +107,6 @@ function AddStage({ addEnable, setAddEnable ,onAddSuccess}: stageProp) {
          } else {
             toast.error(data.message)
          }
-      } catch (error) {
-           console.log(error)
-           toast.error("Add stage has face a problem to fetch")
-      }
    }
 
    return (

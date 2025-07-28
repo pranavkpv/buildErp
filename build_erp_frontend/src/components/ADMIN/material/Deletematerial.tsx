@@ -11,7 +11,6 @@ type DeleteMaterialProp = {
 
 function DeleteMaterial({ enable, setEnable, deleteId, onDeleteSuccess }: DeleteMaterialProp) {
   const deleteMatData = async () => {
-    try {
       const resultData = await deleteMaterial(deleteId)
       if (resultData.success) {
         toast.success(resultData.message);
@@ -20,10 +19,6 @@ function DeleteMaterial({ enable, setEnable, deleteId, onDeleteSuccess }: Delete
       } else {
         toast.error(resultData.message);
       }
-    } catch (error) {
-      console.error("Failed to delete material:", error);
-      toast.error("An error occurred while deleting the material.");
-    }
   };
 
   if (!enable) return null;

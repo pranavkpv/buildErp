@@ -20,7 +20,6 @@ function SidebarUser() {
         toast.error("On choose image file please check the file")
         return
       }
-      try {
         if(!user){
           toast.error("User Not Exist")
           return 
@@ -39,10 +38,6 @@ function SidebarUser() {
         }else{
            toast.error(response.message)
         }
-      } catch (error) {
-        console.log(error)
-        toast.error("An error occurred when upload image")
-      }
 
     }
   };

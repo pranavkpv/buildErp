@@ -42,8 +42,6 @@ function EditBrand({
         brandRef.current.innerText = "";
       }
     }
-
-    try {
       const _id = editId
       const data = await putBrandData(_id,brand_name)
       if (data.success) {
@@ -53,10 +51,6 @@ function EditBrand({
       } else {
         toast.error(data.message);
       }
-    } catch (error) {
-      console.error("Failed to update brand:", error);
-      toast.error("Failed to update brand. Please try again.");
-    }
   };
 
   if (!enable) return null; // Render nothing if the modal is not enabled

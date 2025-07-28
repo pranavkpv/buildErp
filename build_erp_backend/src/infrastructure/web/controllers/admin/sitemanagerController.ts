@@ -9,6 +9,8 @@ import { IListProjectUseCase } from "../../../../Entities/useCaseEntities/Sitema
 import { HTTP_STATUS } from "../../../../Shared/Status_code"
 import { ResponseHelper } from "../../../../Shared/utils/response"
 import { SUCCESS_MESSAGE } from "../../../../Shared/Message"
+import { commonOutput } from "../../../../Entities/Input-OutputEntities/CommonEntities/common"
+import { IProjectModelEntity } from "../../../../Entities/ModelEntities/ProjectEntity"
 
 
 
@@ -36,32 +38,38 @@ export class SitemanagerController implements ISitemanagerControllerEntity {
    }
 
 
-   getSitemanager = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   //------------------------------------ List sitemanager with search and pagination ------------------------------------//
+
+   getSitemanager = async (req: Request, res: Response, next: NextFunction): Promise<{ getSiteData: any[]; totalPage: number } | commonOutput> => {
       const { page, search } = req.query
       const result = await this.displayAllSitemanagerUseCase.execute(Number(page), String(search))
-      res.status(HTTP_STATUS.OK).json(result)
+      return result
    }
 
+   //------------------------------------ Save sitemanager ------------------------------------//
 
-   addSitemanager = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   addSitemanager = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
       const result = await this.addSitemanagerUseCase.execute(req.body)
-      res.status(result.status_code).json(result)
+      return result
    }
 
+   //------------------------------------ Edit sitemanager ------------------------------------//
 
-   editSitemanager = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   editSitemanager = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
       const result = await this.editSitemanagerUsecase.execute({ _id: req.params.id, ...req.body })
-      res.status(result.status_code).json(result)
+      return result
    }
 
+   //------------------------------------ Delete sitemanager ------------------------------------//
 
-   deleteSitemanager = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   deleteSitemanager = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
       const result = await this.deleteSitemanagerUseCase.execute(req.params.id)
-      res.status(result.status_code).json(result)
+      return result
    }
 
+   //------------------------------------ Login sitemanager  ------------------------------------//
 
-   loginSitemanager = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   loginSitemanager = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
       const { email, password } = req.body
       const result = await this.sitemanagerLoginUseCase.execute(email, password)
       if (result.success && result.token?.refreshToken) {
@@ -72,29 +80,32 @@ export class SitemanagerController implements ISitemanagerControllerEntity {
             maxAge: 24 * 60 * 60 * 1000,
             path: '/',
          });
-         res.status(result.status_code).json(result)
-      } else {
-         res.status(result.status_code).json(result)
       }
+
+      return result
+
    }
 
+   //------------------------------------ Logout sitemanager ------------------------------------//
 
-   logoutSitemanager = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   logoutSitemanager = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
       res.clearCookie('refreshToken', {
          httpOnly: true,
          secure: process.env.NODE_ENV === "production",
          sameSite: "lax",
          path: '/',
       });
-      const result = ResponseHelper.success(SUCCESS_MESSAGE.USER.LOGOUT,HTTP_STATUS.OK)
-      res.status(result.status_code).json(result)
+      const result = ResponseHelper.success(SUCCESS_MESSAGE.USER.LOGOUT, HTTP_STATUS.OK)
+      return result
    }
 
 
-   getSitemanagerProject = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   //------------------------------------ List all sitemanager ------------------------------------//
+
+   getSitemanagerProject = async (req: Request, res: Response, next: NextFunction): Promise<IProjectModelEntity[] | commonOutput> => {
       const { user } = req.params
       const result = await this.listProjectUseCase.execute(user)
-      res.status(HTTP_STATUS.OK).json(result)
+      return result
    }
 }
 

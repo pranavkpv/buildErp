@@ -14,13 +14,17 @@ export class updateUnitUseCase implements IupdateUnitUseCase {
       this.UnitRepository = UnitRepository
    }
    async execute(input: editUnitInput): Promise<commonOutput> {
-      const { _id, unit_name, short_name } = input
-      const existUnit = await this.UnitRepository.findUnitInEdit(_id, unit_name)
-      if (existUnit) {
-         return ResponseHelper.failure(ERROR_MESSAGE.UNIT.EXIST,HTTP_STATUS.CONFLICT)
-      } else {
-         await this.UnitRepository.updateUnitById(_id, unit_name, short_name)
-         return ResponseHelper.success(SUCCESS_MESSAGE.UNIT.UPDATE,HTTP_STATUS.OK)
+      try {
+         const { _id, unit_name, short_name } = input
+         const existUnit = await this.UnitRepository.findUnitInEdit(_id, unit_name)
+         if (existUnit) {
+            return ResponseHelper.failure(ERROR_MESSAGE.UNIT.EXIST, HTTP_STATUS.CONFLICT)
+         } else {
+            await this.UnitRepository.updateUnitById(_id, unit_name, short_name)
+            return ResponseHelper.success(SUCCESS_MESSAGE.UNIT.UPDATE, HTTP_STATUS.OK)
+         }
+      } catch (error: any) {
+         return ResponseHelper.failure(error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
       }
    }
 }

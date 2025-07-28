@@ -14,13 +14,17 @@ export class UpdatePasswordUseCase implements IUpdatePasswordUseCase {
       this.hasher = hasher
    }
    async execute(input: { email: string, password: string }): Promise<commonOutput> {
-      const { email, password } = input
-      const existUser = await this.userRepository.findUserByEmail(email)
-      if (!existUser) {
-         return ResponseHelper.failure(ERROR_MESSAGE.USER.USER_NOT_FOUND, HTTP_STATUS.UNAUTHORIZED)
+      try {
+         const { email, password } = input
+         const existUser = await this.userRepository.findUserByEmail(email)
+         if (!existUser) {
+            return ResponseHelper.failure(ERROR_MESSAGE.USER.USER_NOT_FOUND, HTTP_STATUS.UNAUTHORIZED)
+         }
+         const hashedPass = await this.hasher.hash(password)
+         await this.userRepository.updatePassword(existUser._id, hashedPass)
+         return ResponseHelper.success(SUCCESS_MESSAGE.USER.PASSWORD_UPDATE, HTTP_STATUS.OK)
+      } catch (error: any) {
+         return ResponseHelper.failure(error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
       }
-      const hashedPass = await this.hasher.hash(password)
-      await this.userRepository.updatePassword(existUser._id, hashedPass)
-      return ResponseHelper.success(SUCCESS_MESSAGE.USER.PASSWORD_UPDATE, HTTP_STATUS.OK)
    }
 }

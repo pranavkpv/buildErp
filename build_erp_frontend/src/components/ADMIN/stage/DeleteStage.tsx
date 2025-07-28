@@ -1,4 +1,4 @@
-import { StageDelete } from "../../../api/Admin/StageSetting";
+import { stageDeleteAPI } from "../../../api/Admin/StageSetting";
 import { toast } from "react-toastify";
 
 
@@ -12,8 +12,7 @@ type ProjectProp = {
 function DeleteStage({ enable, deleteId, setEnable, onDeleteSuccess }: ProjectProp) {
    if (!enable) return null
    const deleteStage = async () => {
-      try {
-          const response = await StageDelete(deleteId)
+          const response = await stageDeleteAPI(deleteId)
           if(response.success){
             toast.success(response.message)
             onDeleteSuccess()
@@ -21,10 +20,6 @@ function DeleteStage({ enable, deleteId, setEnable, onDeleteSuccess }: ProjectPr
           }else{
             toast.error(response.message)
           }
-      } catch (error) {
-         console.log(error)
-         toast.error("Delete stage has face a problem ")
-      }
    }
 
    return (

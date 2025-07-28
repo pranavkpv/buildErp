@@ -14,12 +14,16 @@ export class deleteUnitUseCase implements IdeleteUnitUseCase {
       this.UnitRepository = UnitRepository
       this.MaterialRepository = MaterialRepository
    }
-   async execute(_id:string): Promise<commonOutput> {
-      const existUnit = await this.MaterialRepository.findMaterialByUnitId(_id)
-      if (existUnit) {
-         return ResponseHelper.failure(ERROR_MESSAGE.UNIT.EXIST,HTTP_STATUS.CONFLICT)
+   async execute(_id: string): Promise<commonOutput> {
+      try {
+         const existUnit = await this.MaterialRepository.findMaterialByUnitId(_id)
+         if (existUnit) {
+            return ResponseHelper.failure(ERROR_MESSAGE.UNIT.EXIST, HTTP_STATUS.CONFLICT)
+         }
+         await this.UnitRepository.deleteUnitById(_id)
+         return ResponseHelper.success(SUCCESS_MESSAGE.UNIT.DELETE, HTTP_STATUS.OK)
+      } catch (error: any) {
+         return ResponseHelper.failure(error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
       }
-      await this.UnitRepository.deleteUnitById(_id)
-      return ResponseHelper.success(SUCCESS_MESSAGE.UNIT.DELETE,HTTP_STATUS.OK)
    }
 }

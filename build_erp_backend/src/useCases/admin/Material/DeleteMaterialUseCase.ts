@@ -13,20 +13,24 @@ import { HTTP_STATUS } from "../../../Shared/Status_code"
 export class DeleteMaterialUseCase implements IDeleteMaterialUseCase {
    private materialRepository: IMaterialRepository
    private projectStockRepository: IProjectStockRepository
-   private specRepository : ISpecRepository
-   constructor(materialRepository: IMaterialRepository, projectStockRepository: IProjectStockRepository,specRepository : ISpecRepository) {
+   private specRepository: ISpecRepository
+   constructor(materialRepository: IMaterialRepository, projectStockRepository: IProjectStockRepository, specRepository: ISpecRepository) {
       this.materialRepository = materialRepository
       this.projectStockRepository = projectStockRepository
       this.specRepository = specRepository
    }
-   async execute(_id:string): Promise<commonOutput> {
-      const material_id = _id
-      const existEstimation = await this.specRepository.findSpecByMaterialId(_id)
-      if(existEstimation){
-         return ResponseHelper.failure(ERROR_MESSAGE.MATERIAL.USED_SPEC,HTTP_STATUS.CONFLICT)
+   async execute(_id: string): Promise<commonOutput> {
+      try {
+         const material_id = _id
+         const existEstimation = await this.specRepository.findSpecByMaterialId(_id)
+         if (existEstimation) {
+            return ResponseHelper.failure(ERROR_MESSAGE.MATERIAL.USED_SPEC, HTTP_STATUS.CONFLICT)
+         }
+         await this.materialRepository.deleteMaterialById(_id)
+         await this.projectStockRepository.deleteProjectStockByMaterialId(material_id)
+         return ResponseHelper.success(SUCCESS_MESSAGE.MATERIAL.DELETE, HTTP_STATUS.OK)
+      } catch (error: any) {
+         return ResponseHelper.failure(error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
       }
-      await this.materialRepository.deleteMaterialById(_id)
-      await this.projectStockRepository.deleteProjectStockByMaterialId(material_id)
-      return ResponseHelper.success(SUCCESS_MESSAGE.MATERIAL.DELETE,HTTP_STATUS.OK)
    }
 }

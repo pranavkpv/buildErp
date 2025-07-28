@@ -51,8 +51,6 @@ function EditUnit({
     }
 
     if (hasError) return;
-
-    try {
       const _id = editId
       const unit_name = unit
       const data = await editUnitData(_id,unit_name,short_name)
@@ -63,9 +61,6 @@ function EditUnit({
       } else {
         toast.error(data.message);
       }
-    } catch (error) {
-      toast.error("Failed to update unit");
-    }
   };
 
   if (!enable) return null;

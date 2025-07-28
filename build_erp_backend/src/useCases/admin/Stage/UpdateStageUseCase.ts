@@ -15,12 +15,16 @@ export class UpdateStageUseCase implements IUpdateStageUseCase {
       this.projectRepository = projectRepository
    }
    async execute(input: stageInputData): Promise<commonOutput> {
-      const { projectId, stages, startDate, endDate, cost } = input
+      try {
+         const { projectId, stages, startDate, endDate, cost } = input
       await this.stageRepository.DeleteDtageByproject(projectId)
       for (let char of stages) {
          await this.stageRepository.stageDataSave(projectId, char)
       }
       await this.projectRepository.SetCostInProject(projectId, startDate, endDate, cost);
       return ResponseHelper.success(SUCCESS_MESSAGE.STAGE.UPDATE, HTTP_STATUS.OK)
+      } catch (error:any) {
+          return ResponseHelper.failure(error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
+      }
    }
 }

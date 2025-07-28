@@ -9,6 +9,8 @@ import { IgetSpecUseCase } from "../../../../Entities/useCaseEntities/AdminUseCa
 import { IFindlabourSumUsecase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/MaterialUseCaseEntities/FindLabourSumEntity";
 import { HTTP_STATUS } from "../../../../Shared/Status_code";
 import { IUpdateSpecUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/SpecUseCaseEntities/UpdateSpecEntity";
+import { commonOutput } from "../../../../Entities/Input-OutputEntities/CommonEntities/common";
+import { ISpecModelEntity } from "../../../../Entities/ModelEntities/Spec.Entity";
 
 export class SpecController implements ISpecControllerEntity {
    private speclistusecase: ISpeclistUseCase
@@ -33,54 +35,67 @@ export class SpecController implements ISpecControllerEntity {
       this.updateSpecUseCase = updateSpecUseCase
    }
 
+   //------------------------------------ List all specification with search and pagination ------------------------------------//
 
-   getSpeclist = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   getSpeclist = async (req: Request, res: Response, next: NextFunction): Promise<{result:any[],totalPage:number} | commonOutput> => {
       const { page, search } = req.query
       const specData = await this.speclistusecase.execute(Number(page), String(search))
-      res.status(HTTP_STATUS.OK).json(specData)
+      return specData
    }
 
+   //------------------------------------ Save Spec  ------------------------------------//
 
-   saveSpec = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   saveSpec = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
       const result = await this.specSaveuseCase.execute(req.body)
-      res.status(HTTP_STATUS.OK).json(result)
+      return result
    }
 
+   //------------------------------------Fetch sum of labour and material amount  using in a specification ------------------------------------//
 
-   fetchlabourMaterial = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   fetchlabourMaterial = async (req: Request, res: Response, next: NextFunction):Promise<number | commonOutput> => {
       const result = await this.specsumusecase.execute(req.body)
-      res.status(HTTP_STATUS.OK).json(result)
+      return result
    }
 
+   //------------------------------------ Delete Specification  ------------------------------------//
 
-   deleteSpec = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   deleteSpec = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
       const { id } = req.params
       const result = await this.deleteSpecusecase.execute(id)
-      res.status(HTTP_STATUS.OK).json(result)
+      return result
    }
 
+   //------------------------------------ List all Specification  ------------------------------------//
 
-   fetchSpec = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   fetchSpec = async (req: Request, res: Response, next: NextFunction): Promise<ISpecModelEntity[] | commonOutput> => {
       const result = await this.getspecUseCase.execute()
-      res.status(HTTP_STATUS.OK).json(result)
+      return result
    }
 
 
-   findMaterialSum = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   //------------------------------------ find the unit rate * quantity of a material with id and quantity    ------------------------------------//
+
+   findMaterialSum = async (req: Request, res: Response, next: NextFunction): Promise<number | commonOutput> => {
       const materials = JSON.parse(req.query.materials as string);
       const result = await this.findmaterialSumusecase.execute(materials);
-      res.status(HTTP_STATUS.OK).json(result)
+      return result
    }
 
+   //------------------------------------ Find the daily wage * no of days of a labour with id and no of labour  ------------------------------------//
 
-   findLaboursum = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   findLaboursum = async (req: Request, res: Response, next: NextFunction): Promise<number | commonOutput> => {
       const labours = JSON.parse(req.query.labours as string)
       const result = await this.findlaboursumusecase.execute(labours)
-      res.status(HTTP_STATUS.OK).json(result)
+      return result
    }
-   updateSpec = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+
+   //------------------------------------ Update Spec  ------------------------------------//
+
+   updateSpec = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
       const _id= req.params.id
       const result = await this.updateSpecUseCase.execute({ _id, ...req.body })
-      res.status(result.status_code).json(result)
+      return result
    }
+
+
 }

@@ -10,7 +10,6 @@ type ProjectProp = {
 
 function DeleteProject({ enable, deleteId, setEnable, onDeleteSuccess }: ProjectProp) {
   const deleteProject = async () => {
-    try {
       const resultData = await deleteProjectData(deleteId)
       if (resultData.success) {
         toast.success(resultData.message);
@@ -19,10 +18,6 @@ function DeleteProject({ enable, deleteId, setEnable, onDeleteSuccess }: Project
       } else {
         toast.error(resultData.message);
       }
-    } catch (err) {
-      console.error(err);
-      toast.error("Failed to delete project");
-    }
   };
 
   if (!enable) return null;

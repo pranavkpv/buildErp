@@ -15,21 +15,25 @@ export class SaveSitemanagerUseCase implements ISaveSitemanagerUseCase {
       this.SitemanagerRepository = SitemanagerRepository
    }
    async execute(input: addsitemanagerInput): Promise<commonOutput> {
-      const { username, email } = input
-      const existSitemanager = await this.SitemanagerRepository.findSitemanagerByEmail(email)
-      if (existSitemanager) {
-         return ResponseHelper.failure(ERROR_MESSAGE.SITEMANAGER.EXIST, HTTP_STATUS.CONFLICT)
-      }
-      const password = await this.SitemanagerRepository.generatePassword()
-      const text = `Dear ${ username }, your temporary password for BuildERP is: ${ password }. Please log in using this password. For security reasons, it's recommended to change your password after logging in.`;
-      const emailSend = await sendEmail(email, "Login Password", text)
-      const hashpassword = await hashedPassword(String(password))
-      console.log(password)
-      if (emailSend) {
-         await this.SitemanagerRepository.saveSitemanager(username, email, hashpassword)
-         return ResponseHelper.success(SUCCESS_MESSAGE.SITEMANAGER.ADD, HTTP_STATUS.CREATED)
-      } else {
-         return ResponseHelper.failure(ERROR_MESSAGE.SITEMANAGER.FAIL, HTTP_STATUS.BAD_REQUEST)
+      try {
+         const { username, email } = input
+         const existSitemanager = await this.SitemanagerRepository.findSitemanagerByEmail(email)
+         if (existSitemanager) {
+            return ResponseHelper.failure(ERROR_MESSAGE.SITEMANAGER.EXIST, HTTP_STATUS.CONFLICT)
+         }
+         const password = await this.SitemanagerRepository.generatePassword()
+         const text = `Dear ${ username }, your temporary password for BuildERP is: ${ password }. Please log in using this password. For security reasons, it's recommended to change your password after logging in.`;
+         const emailSend = await sendEmail(email, "Login Password", text)
+         const hashpassword = await hashedPassword(String(password))
+         console.log(password)
+         if (emailSend) {
+            await this.SitemanagerRepository.saveSitemanager(username, email, hashpassword)
+            return ResponseHelper.success(SUCCESS_MESSAGE.SITEMANAGER.ADD, HTTP_STATUS.CREATED)
+         } else {
+            return ResponseHelper.failure(ERROR_MESSAGE.SITEMANAGER.FAIL, HTTP_STATUS.BAD_REQUEST)
+         }
+      } catch (error: any) {
+         return ResponseHelper.failure(error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
       }
    }
 }

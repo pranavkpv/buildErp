@@ -149,8 +149,6 @@ function EditEstimation({ editEnable, setEditEnable, anEditSuccess, projectIds, 
          toast.error("Please select a specification ID for all rows.");
          return;
       }
-
-      try {
          const response = await EstimationUpdate(projectId, row);
          if (response.success) {
             toast.success(response.message);
@@ -159,24 +157,15 @@ function EditEstimation({ editEnable, setEditEnable, anEditSuccess, projectIds, 
          } else {
             toast.error(response.message);
          }
-      } catch (error) {
-         console.log(error);
-         toast.error("Estimation failed");
-      }
    };
 
    const fetchUsedSpec = async () => {
-      try {
          const response = await fetchExistEstimation(editProjectId)
          let x = []
          for (let element of response) {
             x.push({ spec_id: element.specDetails.spec_id, spec_name: element.specDetails.spec_name, unitrate: element.unit_rate, quantity: element.quantity, total: element.unit_rate * element.quantity })
          }
          setRow(x)
-      } catch (error) {
-         console.log(error)
-         toast.error("fail to fetching edit data")
-      }
    }
 
    useEffect(()=>{

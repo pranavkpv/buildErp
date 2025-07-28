@@ -29,17 +29,23 @@
     "heroicons": "^2.2.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.16.0",
+    "morgan": "^1.10.1",
     "nodemailer": "^7.0.3",
+    "on-finished": "^2.4.1",
     "passport": "^0.7.0",
-    "passport-google-oauth20": "^2.0.0"
+    "passport-google-oauth20": "^2.0.0",
+    "winston": "^3.17.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.3",
     "@types/jsonwebtoken": "^9.0.10",
+    "@types/morgan": "^1.9.10",
     "@types/node": "^24.0.3",
+    "@types/on-finished": "^2.3.5",
     "@types/passport": "^1.0.17",
     "@types/passport-google-oauth20": "^2.0.16",
+    "@types/winston": "^2.4.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   }

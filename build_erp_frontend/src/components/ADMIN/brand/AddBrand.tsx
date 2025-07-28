@@ -25,8 +25,6 @@ function AddBrand({ enable, setEnable, onAdd }: BrandProps) {
     } else {
       if (brandRef.current) brandRef.current.innerText = "";
     }
-
-    try {
       const data = await postBrand(brand_name)
       if (data.success) {
         toast.success(data.message);
@@ -36,10 +34,6 @@ function AddBrand({ enable, setEnable, onAdd }: BrandProps) {
       } else {
         toast.error(data.message);
       }
-    } catch (err) {
-      console.error("Error adding brand:", err); 
-      toast.error("Failed to add brand. Please try again.");
-    }
   };
 
   // Render nothing if the modal is not enabled

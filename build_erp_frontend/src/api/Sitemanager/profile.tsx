@@ -1,20 +1,42 @@
+import { toast } from "react-toastify";
 import axioInstance from "../../api/axio";
 
+// ---------------- Change Site Manager Password ---------------- //
 
-//change password
-export const changePassword = async(_id:string,password:string,changedpassword:string)=>{
-    const response = await axioInstance.put(`/site/changepass/${_id}`, { password,changedpassword});
-    return response.data
-}
+export const changePassword = async (
+   _id: string,
+   password: string,
+   changedpassword: string
+) => {
+   try {
+      const response = await axioInstance.put(`/site/changepass/${_id}`, {
+         password,
+         changedpassword,
+      });
+      return response.data;
+   } catch (error: any) {
+      toast.error(error.message);
+   }
+};
 
-//logout sitemanager
+// ---------------- Site Manager Logout ---------------- //
 
-export const logoutSitemanager = async()=>{
-     const response = await axioInstance.post(`/site/logout`,{},{ withCredentials: true })
-     return response.data
-}
+export const logoutSitemanager = async () => {
+   try {
+      const response = await axioInstance.post(`/site/logout`, {}, { withCredentials: true });
+      return response.data;
+   } catch (error: any) {
+      toast.error(error.message);
+   }
+};
 
-export const getSitemanagersProject = async(user:string)=>{
-    const response = await axioInstance.get(`/site/siteproject/${user}`)
-    return response.data
-}
+// ---------------- Get Site Manager's Projects ---------------- //
+
+export const getSitemanagersProject = async (user: string) => {
+   try {
+      const response = await axioInstance.get(`/site/siteproject/${user}`);
+      return response.data;
+   } catch (error: any) {
+      toast.error(error.message);
+   }
+};

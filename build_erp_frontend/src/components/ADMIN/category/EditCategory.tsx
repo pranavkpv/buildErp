@@ -45,8 +45,6 @@ function EditCategory({
         catRef.current.innerText = "";
       }
     }
-
-    try {
       const _id= editId
       const category_name=category
       const data = await putCategory(_id,category_name,description)
@@ -57,10 +55,6 @@ function EditCategory({
       } else {
         toast.error(data.message);
       }
-    } catch (error) {
-      console.error("Failed to update category:", error);
-      toast.error("Failed to update category. Please try again.");
-    }
   };
 
   if (!enable) return null;

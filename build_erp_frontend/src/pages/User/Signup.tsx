@@ -83,8 +83,6 @@ function Signup() {
     if (hasError) {
       return;
     }
-
-    try {
       const baseUrl = import.meta.env.VITE_BASE_URL;
       const response = await axios.post(`${baseUrl}/signup`, {
         username,
@@ -102,9 +100,6 @@ function Signup() {
       } else {
         toast.error(response.data.message);
       }
-    } catch (error: any) {
-      toast.error(error.message || 'Something went wrong.');
-    }
   };
 
   return (

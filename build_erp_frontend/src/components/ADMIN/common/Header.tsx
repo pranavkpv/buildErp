@@ -21,7 +21,6 @@ function Header() {
    const navigate = useNavigate()
 
    const logoutFun = async()=>{
-      try {
          const data = await adminLogout()
          if(data.success){
             localStorage.removeItem("accessToken")
@@ -30,10 +29,6 @@ function Header() {
                navigate("/admin/login")
             },2000)
          }
-      } catch (error) {
-         console.log(error)
-         toast.error("An Error occured")
-      }
    }
 
    return (

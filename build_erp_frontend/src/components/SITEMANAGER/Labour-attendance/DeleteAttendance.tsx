@@ -12,7 +12,6 @@ function DeleteAttendance({ deleteId, onDeleteSuccess, deleteEnable, setDeleteEn
   if (!deleteEnable) return null;
 
   const deleteAttendancefun = async (deleteId: string) => {
-    try {
       const response = await DeleteAttendanceAPI(deleteId);
       if (response.success) {
         toast.success(response.message);
@@ -21,10 +20,6 @@ function DeleteAttendance({ deleteId, onDeleteSuccess, deleteEnable, setDeleteEn
       } else {
         toast.error(response.message);
       }
-    } catch (error) {
-      console.error("Error deleting attendance:", error);
-      toast.error("Failed to delete attendance due to an error.");
-    }
   };
 
   return (

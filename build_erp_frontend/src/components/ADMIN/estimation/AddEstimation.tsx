@@ -144,8 +144,6 @@ function AddEstimation({ addEnable, setAddEnable, anAddSuccess, projectIds }: ad
       toast.error("Please select a specification ID for all rows.");
       return;
     }
-
-    try {
       const response = await EstimationSave(projectId, row);
       if (response.success) {
         toast.success(response.message);
@@ -154,10 +152,7 @@ function AddEstimation({ addEnable, setAddEnable, anAddSuccess, projectIds }: ad
       } else {
         toast.error(response.message);
       }
-    } catch (error) {
-      console.log(error);
-      toast.error("Estimation failed");
-    }
+      
   };
 
   return (

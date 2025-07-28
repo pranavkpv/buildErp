@@ -1,5 +1,4 @@
 import { fetchUser, putProject } from "../../../api/Admin/project";
-import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 
@@ -67,13 +66,8 @@ function EditProject({
 
   useEffect(() => {
     const fetchUsers = async () => {
-      try {
         const data = await fetchUser()
         setUserList(data);
-      } catch (err) {
-        console.error(err);
-        toast.error("Failed to fetch users");
-      }
     };
     fetchUsers();
   }, []);
@@ -133,8 +127,6 @@ function EditProject({
     }
 
     if (hasError) return;
-
-    try {
       const _id = editProjectId
       const data = await putProject(_id,project_name,user_id,address,mobile_number,email,area,description,)
       if (data.success) {
@@ -144,10 +136,6 @@ function EditProject({
       } else {
         toast.error(data.message);
       }
-    } catch (error) {
-      console.error(error);
-      toast.error("Failed to edit project");
-    }
   };
 
   if (!editEnable) return null;

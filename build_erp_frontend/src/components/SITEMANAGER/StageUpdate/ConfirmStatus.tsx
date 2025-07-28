@@ -27,7 +27,6 @@ function ConfirmStatus({
   const [date, setDate] = useState("");
 
   const confirmStageStatus = async () => {
-    try {
       const response = await changeStatusStage(editStageId, newProgress, date);
       if (response.success) {
         toast.success(response.message);
@@ -37,10 +36,6 @@ function ConfirmStatus({
       } else {
         toast.error(response.message);
       }
-    } catch (error) {
-      console.error(error);
-      toast.error("Failed to change stage status.");
-    }
   };
 
   return (

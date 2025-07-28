@@ -55,8 +55,6 @@ function Login() {
     if (hasError) {
       return;
     }
-
-    try {
       const response = await userLoginAPI(email, password)
       console.log(response)
       if (response.success) {
@@ -73,14 +71,9 @@ function Login() {
       } else {
         toast.error(response.message);
       }
-    } catch (error) {
-      console.error('Login error:', error);
-      toast.error('An error occurred during login. Please try again.');
-    }
   };
 
   const loginWithGoogle = async (credentialResponse: CredentialResponse) => {
-    console.log(credentialResponse)
     if (credentialResponse.credential) {
       const user:GoogleUser = jwtDecode(credentialResponse.credential)
       const response = await SignInWithGoogle(user.email,user.given_name+user.family_name,user.picture)

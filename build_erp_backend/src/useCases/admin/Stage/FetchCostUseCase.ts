@@ -12,15 +12,19 @@ export class FetchCostUseCase implements IFetchCostUseCase {
       this.estimationReposiitory = estimationReposiitory
    }
    async execute(input: fetchcost): Promise<commonOutput> {
-      const { projectId } = input
-      const ExistEstimation = await this.estimationReposiitory.findEstimationByProjectId(projectId)
-      if (ExistEstimation.length == 0) {
-         return ResponseHelper.failure(ERROR_MESSAGE.STAGE.NOT_ESTIMATE, HTTP_STATUS.BAD_REQUEST)
+      try {
+         const { projectId } = input
+         const ExistEstimation = await this.estimationReposiitory.findEstimationByProjectId(projectId)
+         if (ExistEstimation.length == 0) {
+            return ResponseHelper.failure(ERROR_MESSAGE.STAGE.NOT_ESTIMATE, HTTP_STATUS.BAD_REQUEST)
+         }
+         let sum = 0
+         for (let element of ExistEstimation) {
+            sum += (element.quantity * element.unit_rate)
+         }
+         return ResponseHelper.success(sum, HTTP_STATUS.OK)
+      } catch (error: any) {
+         return ResponseHelper.failure(error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
       }
-      let sum = 0
-      for (let element of ExistEstimation) {
-         sum += (element.quantity * element.unit_rate)
-      }
-      return ResponseHelper.success(sum, HTTP_STATUS.OK)
    }
 }

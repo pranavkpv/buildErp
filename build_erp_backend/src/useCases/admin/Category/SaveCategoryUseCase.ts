@@ -13,12 +13,16 @@ export class SaveCategoryUseCase implements ISaveCategoryUseCase {
       this.categoryRepository = categoryRepository
    }
    async execute(input: addcategoryInput): Promise<commonOutput> {
-      const { category_name, description } = input
-      const ExistCategory = await this.categoryRepository.findByCategoryName(category_name)
-      if (ExistCategory) {
-         return ResponseHelper.failure(ERROR_MESSAGE.CATEGORY.EXIST_CATEGORY,HTTP_STATUS.CONFLICT)
+      try {
+         const { category_name, description } = input
+         const ExistCategory = await this.categoryRepository.findByCategoryName(category_name)
+         if (ExistCategory) {
+            return ResponseHelper.failure(ERROR_MESSAGE.CATEGORY.EXIST_CATEGORY, HTTP_STATUS.CONFLICT)
+         }
+         await this.categoryRepository.saveCategory(category_name, description)
+         return ResponseHelper.success(SUCCESS_MESSAGE.CATEGORY.ADD, HTTP_STATUS.CREATED)
+      } catch (error: any) {
+         return ResponseHelper.failure(error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
       }
-      await this.categoryRepository.saveCategory(category_name, description)
-      return ResponseHelper.success(SUCCESS_MESSAGE.CATEGORY.ADD,HTTP_STATUS.CREATED)
    }
 }

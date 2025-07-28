@@ -13,12 +13,16 @@ export class DeleteBrandUseCase implements IDeleteBrandUsecase {
       this.brandRepository = brandRepository
       this.materialRepository = materialRepository
    }
-   async execute(_id:string): Promise<commonOutput> {
-      const existBrand = await this.materialRepository.findMaterialByBrandId(_id)
-      if (existBrand) {
-         return ResponseHelper.failure(ERROR_MESSAGE.BRAND.ALREADY_USED,HTTP_STATUS.CONFLICT)
+   async execute(_id: string): Promise<commonOutput> {
+      try {
+         const existBrand = await this.materialRepository.findMaterialByBrandId(_id)
+         if (existBrand) {
+            return ResponseHelper.failure(ERROR_MESSAGE.BRAND.ALREADY_USED, HTTP_STATUS.CONFLICT)
+         }
+         await this.brandRepository.deleteBrandById(_id)
+         return ResponseHelper.success(SUCCESS_MESSAGE.BRAND.DELETE, HTTP_STATUS.OK)
+      } catch (error: any) {
+         return ResponseHelper.failure(error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
       }
-      await this.brandRepository.deleteBrandById(_id)
-      return ResponseHelper.success(SUCCESS_MESSAGE.BRAND.DELETE,HTTP_STATUS.OK)
    }
 }

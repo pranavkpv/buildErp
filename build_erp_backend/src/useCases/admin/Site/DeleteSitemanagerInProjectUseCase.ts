@@ -13,8 +13,12 @@ export class DeleteSiteToProjectUseCase implements IDeleteSiteToProjectUseCase {
    constructor(projectRepository: IprojectRepository) {
       this.projectRepository = projectRepository
    }
-   async execute(_id:string,sitemanager_id:string): Promise<commonOutput> {
-      await this.projectRepository.removeSitemanagerInProject(_id, sitemanager_id)
-      return ResponseHelper.success(SUCCESS_MESSAGE.SITE.DELETE,HTTP_STATUS.OK)
+   async execute(_id: string, sitemanager_id: string): Promise<commonOutput> {
+      try {
+         await this.projectRepository.removeSitemanagerInProject(_id, sitemanager_id)
+         return ResponseHelper.success(SUCCESS_MESSAGE.SITE.DELETE, HTTP_STATUS.OK)
+      } catch (error: any) {
+         return ResponseHelper.failure(error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
+      }
    }
 }

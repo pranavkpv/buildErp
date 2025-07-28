@@ -7,6 +7,8 @@ import { IDeleteLabourUseCase } from "../../../../Entities/useCaseEntities/Admin
 import { IFetchAllLabourUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/LabourUseCaseEntities/FetchAllLabourEntity"
 import { HTTP_STATUS } from "../../../../Shared/Status_code"
 import { IFetchLabourByIdUsecase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/LabourUseCaseEntities/FetchLabourByIdEntity"
+import { commonOutput } from "../../../../Entities/Input-OutputEntities/CommonEntities/common"
+import { ILabourModelEntity } from "../../../../Entities/ModelEntities/Labour.Entity"
 
 
 
@@ -29,42 +31,52 @@ export class LabourController implements ILabourControllerEntity {
             this.fetchLabourByIdUseCase = fetchLabourByIdUseCase
       }
 
+       //------------------------------------ List labour type with search and pagination ------------------------------------//
 
-      getLabour = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+      getLabour = async (req: Request, res: Response, next: NextFunction): Promise<{getLabourData:any[];totalPage:number } | commonOutput> => {
             const { page, search } = req.query
             const result = await this.displayAllLabourUseCase.execute(Number(page), String(search))
-            res.status(HTTP_STATUS.OK).json(result)
+            return result
       }
 
+       //------------------------------------ Save labour type ------------------------------------//
 
-      saveLabour = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+      saveLabour = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
             const result = await this.addLabourUseCase.execute(req.body)
-            res.status(result.status_code).json(result)
+            return result
+
       }
 
+       //------------------------------------ Delete labour type  ------------------------------------//
 
-      removeLabour = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+      removeLabour = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
             const result = await this.deleteLabourUseCase.execute(req.params.id)
-            res.status(result.status_code).json(result)
+            return result
       }
 
+       //------------------------------------ Update labour type ------------------------------------//
 
-      updateLabour = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+      updateLabour = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
             const result = await this.updateLabourUseCase.execute({ _id: req.params.id, ...req.body })
-            res.status(result.status_code).json(result)
+            return result
       }
 
+       //------------------------------------ List all labour type ------------------------------------//
 
-      fetchlabour = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+      fetchlabour = async (req: Request, res: Response, next: NextFunction): Promise<ILabourModelEntity[] | [] | commonOutput> => {
             const result = await this.fetchallLabourusecase.execute()
-            res.status(HTTP_STATUS.OK).json(result)
+            return result
       }
 
-      getLabourBYId = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+       //------------------------------------ Fetch labour by Id ------------------------------------//
+
+      getLabourBYId = async (req: Request, res: Response, next: NextFunction):Promise<ILabourModelEntity | null | commonOutput> => {
             const { id } = req.params
             const result = await this.fetchLabourByIdUseCase.execute(id)
-            res.status(HTTP_STATUS.OK).json(result)
+            return result
       }
+
+
 }
 
 

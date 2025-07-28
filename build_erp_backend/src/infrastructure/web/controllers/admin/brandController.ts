@@ -4,7 +4,8 @@ import { IDisplayAllBrandUseCase } from "../../../../Entities/useCaseEntities/Ad
 import { ISaveBrandUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/BrandUseCaseEntities/SaveBrandEntity"
 import { IUpdateBrandUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/BrandUseCaseEntities/UpdateBrandEntity"
 import { IDeleteBrandUsecase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/BrandUseCaseEntities/DeleteBrandEntity"
-import { HTTP_STATUS } from "../../../../Shared/Status_code"
+import { commonOutput } from "../../../../Entities/Input-OutputEntities/CommonEntities/common"
+
 
 
 
@@ -21,29 +22,36 @@ export class BrandController implements IBrandControllerEntity {
       this.deleteBrandUseCase = deleteBrandUseCase
    }
 
-   
-   brandList = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   //------------------------------------ List brand data with search and pagination ------------------------------------//
+
+   brandList = async (req: Request, res: Response, next: NextFunction): Promise<{getBrandData:any[];totalPage:number } | commonOutput> => {
       const { page, search } = req.query
       const result = await this.displayBrandUseCase.execute(Number(page), String(search))
-      res.status(HTTP_STATUS.OK).json(result)
+      return result
    }
 
 
-   addBrand = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   //------------------------------------ Save brand ------------------------------------//
+
+   addBrand = async (req: Request, res: Response, next: NextFunction):Promise<commonOutput> => {
       const result = await this.addBrandUseCase.execute(req.body)
-      res.status(result.status_code).json(result)
+      return result
    }
 
+ 
+   //------------------------------------ Update brand  ------------------------------------//
 
-   editBrand = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   editBrand = async (req: Request, res: Response, next: NextFunction):  Promise<commonOutput> => {
       const result = await this.editBrandUseCase.execute({ _id: req.params.id, ...req.body })
-      res.status(result.status_code).json(result)
+      return result
    }
 
 
-   removeBrand = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   //------------------------------------ Delete brand ------------------------------------//
+
+   removeBrand = async (req: Request, res: Response, next: NextFunction):  Promise<commonOutput> => {
       const result = await this.deleteBrandUseCase.execute(req.params.id)
-      res.status(result.status_code).json(result)
+      return result
    }
 }
 

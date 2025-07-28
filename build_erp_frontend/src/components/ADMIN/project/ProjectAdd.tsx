@@ -36,13 +36,8 @@ function ProjectAdd({ enableAdd, setEnableAdd, onAddSuccess }: EditType) {
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
         const data = await fetchUser()
         setUserList(data);
-      } catch (error) {
-        console.error(error);
-        toast.error("Failed to fetch users");
-      }
     };
     fetchData();
   }, []);
@@ -107,8 +102,6 @@ function ProjectAdd({ enableAdd, setEnableAdd, onAddSuccess }: EditType) {
 
 
     if (hasError) return;
-
-    try {
       const data = await postProject(project_name,user_id,address,mobile_number,email,area,description)
       if (data.success) {
         toast.success(data.message);
@@ -124,10 +117,6 @@ function ProjectAdd({ enableAdd, setEnableAdd, onAddSuccess }: EditType) {
       } else {
         toast.error(data.message);
       }
-    } catch (error) {
-      console.error(error);
-      toast.error("Failed to add project");
-    }
   };
 
   if (!enableAdd) return null;

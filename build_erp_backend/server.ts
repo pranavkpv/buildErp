@@ -1,8 +1,10 @@
-import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import session from "express-session";
 import fileUpload from 'express-fileupload';
+import logger from "./src/Shared/utils/logger";
+import express, { Request, Response, NextFunction } from "express";
+
 
 
 
@@ -151,6 +153,7 @@ import { UpdateProfileUsecase } from './src/useCases/user/Authentication/UpdateP
 import { UpdateProfileImageUseCase } from './src/useCases/user/Authentication/UpdateProfileImageUseCase';
 import { GoogleAuthUseCase } from './src/useCases/user/Authentication/GoogleAuthUseCase';
 import { ChangePasswordUsecase } from './src/useCases/user/Authentication/ChangePasswordUseCase';
+import onFinished from 'on-finished';
 
 
 
@@ -182,6 +185,9 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+
+
 
 
 async function compositeRoot() {
@@ -321,7 +327,7 @@ async function compositeRoot() {
       const listProjectUseCase = new ListProjectUseCase(projectRepository)
       const updateStageUseCase = new UpdateStageUseCase(stageRepository,projectRepository)
       const fetchexistestimationusecase = new FetchExistEstimationUseCase(estimationRepository)
-      const updateEstimationUsecase = new UpdateEstimationUsecase(estimationRepository)
+      const updateEstimationUsecase = new UpdateEstimationUsecase(estimationRepository,stageRepository)
       const findMaterialByIdUsecase = new FindMaterialByIdUseCase(materialRepository)
       const fetchLabourByIdUseCase = new FetchLabourByIdUseCase(labourRepository)
       const updateSpecUseCase = new UpdateSpecUseCase(specRepository)
@@ -362,6 +368,30 @@ async function compositeRoot() {
 
 compositeRoot();
 app.use(errorHandler)
+
+app.use((req: Request, res: Response, next: NextFunction) => {
+  onFinished(res, () => {
+    const result = res.locals.result as {
+      message?: string;
+      statusCode?: number;
+    };
+
+    const status = res.statusCode;
+    const message = result?.message 
+
+    const logText = `${req.method} ${req.originalUrl} -> ${status} ${message}`;
+
+    if (status >= 500) {
+      logger.error(logText);
+    } else if (status >= 400) {
+      logger.warn(logText);
+    } else {
+      logger.info(logText);
+    }
+  });
+
+  next();
+});
 
 connectDB().then(() => {
    app.listen(PORT, () => {

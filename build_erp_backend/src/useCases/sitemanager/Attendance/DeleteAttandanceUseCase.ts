@@ -12,7 +12,11 @@ export class DeleteAttendanceUseCase implements IDeleteAttendanceUseCase{
       this.attendanceRepository = attendanceRepository
    }
    async execute(_id:string):Promise<commonOutput>{
-      await this.attendanceRepository.deleteAttendance(_id)
+     try {
+       await this.attendanceRepository.deleteAttendance(_id)
       return ResponseHelper.success(SUCCESS_MESSAGE.ATTENDANCE.DELETE,HTTP_STATUS.OK)
+     } catch (error:any) {
+       return ResponseHelper.failure(error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
+     }
    }
 }

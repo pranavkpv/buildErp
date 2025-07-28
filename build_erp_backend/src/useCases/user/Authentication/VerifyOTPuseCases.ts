@@ -16,30 +16,34 @@ export class VerifyOTPUseCases implements IVerifyOTPUseCases {
       this.UserRepository = UserRepository
       this.Hasher = Hasher
    }
-   async execute(input: OTPInput):Promise<commonOutput> {
-      const { otp, email } = input
-      const ExistUser = await this.UserRepository.findTempUserByEmailAndOTP(email, otp)
-      if (!ExistUser) {
-         return ResponseHelper.failure(ERROR_MESSAGE.USER.OTP_WRONG,HTTP_STATUS.CONFLICT)
+   async execute(input: OTPInput): Promise<commonOutput> {
+      try {
+         const { otp, email } = input
+         const ExistUser = await this.UserRepository.findTempUserByEmailAndOTP(email, otp)
+         if (!ExistUser) {
+            return ResponseHelper.failure(ERROR_MESSAGE.USER.OTP_WRONG, HTTP_STATUS.CONFLICT)
+         }
+         if (ExistUser.otpCreatedAt == undefined || ExistUser.otpCreatedAt == null) {
+            return ResponseHelper.failure(ERROR_MESSAGE.USER.TIMESTAMP_MISS, HTTP_STATUS.CONFLICT)
+         }
+         const exitOtp = new Date(ExistUser.otpCreatedAt).getTime();
+         const now = Date.now();
+         console.log(now - exitOtp)
+         if ((now - exitOtp) > 45 * 1000) {
+            return ResponseHelper.failure(ERROR_MESSAGE.USER.EXPIRE_OTP, HTTP_STATUS.CONFLICT)
+         }
+         const hashedPass = await this.Hasher.hash(ExistUser.password)
+         await this.UserRepository.saveUser({
+            username: ExistUser.username,
+            email: ExistUser.email,
+            phone: ExistUser.phone,
+            password: hashedPass
+         })
+         await this.UserRepository.deleteTempUserByEmail(email)
+         return ResponseHelper.success(SUCCESS_MESSAGE.USER.REGISTER, HTTP_STATUS.CREATED)
+      } catch (error: any) {
+         return ResponseHelper.failure(error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
       }
-      if (ExistUser.otpCreatedAt == undefined || ExistUser.otpCreatedAt == null) {
-         return ResponseHelper.failure(ERROR_MESSAGE.USER.TIMESTAMP_MISS,HTTP_STATUS.CONFLICT)
-      }
-      const exitOtp = new Date(ExistUser.otpCreatedAt).getTime();
-      const now = Date.now();
-      console.log(now - exitOtp)
-      if ((now - exitOtp) > 45 * 1000) {
-         return ResponseHelper.failure(ERROR_MESSAGE.USER.EXPIRE_OTP,HTTP_STATUS.CONFLICT)
-      }
-      const hashedPass = await this.Hasher.hash(ExistUser.password)
-      await this.UserRepository.saveUser({
-         username: ExistUser.username,
-         email: ExistUser.email,
-         phone: ExistUser.phone,
-         password: hashedPass
-      })
-      await this.UserRepository.deleteTempUserByEmail(email)
-      return ResponseHelper.success(SUCCESS_MESSAGE.USER.REGISTER,HTTP_STATUS.CREATED)
    }
 }
 

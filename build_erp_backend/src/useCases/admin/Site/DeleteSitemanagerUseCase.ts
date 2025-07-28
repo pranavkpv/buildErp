@@ -12,9 +12,13 @@ export class DeleteSitemanagerUseCase implements IDeleteSitemanagerUseCase {
    constructor(SitemanagerRepository: ISitemanagerRepository) {
       this.SitemanagerRepository = SitemanagerRepository
    }
-    async execute(_id:string):Promise<commonOutput> {
-      await this.SitemanagerRepository.deleteSitemanager(_id)
-      return ResponseHelper.success(SUCCESS_MESSAGE.SITEMANAGER.DELETE,HTTP_STATUS.OK)
-    }
+   async execute(_id: string): Promise<commonOutput> {
+      try {
+         await this.SitemanagerRepository.deleteSitemanager(_id)
+         return ResponseHelper.success(SUCCESS_MESSAGE.SITEMANAGER.DELETE, HTTP_STATUS.OK)
+      } catch (error: any) {
+         return ResponseHelper.failure(error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
+      }
+   }
 
 }

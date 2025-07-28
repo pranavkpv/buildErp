@@ -1,5 +1,5 @@
-import { ISpecModelEntity } from "../../../ModelEntities/Spec.Entity";
+import { commonOutput } from "../../../Input-OutputEntities/CommonEntities/common";
 
 export interface ISpeclistUseCase {
-   execute(page:number,search:string):Promise<{result:any[],totalPage:number}>
+   execute(page:number,search:string):Promise<{result:any[],totalPage:number} | commonOutput>
 }

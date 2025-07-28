@@ -30,7 +30,6 @@ function ListStage() {
   const [editId,setEditId] = useState("")
 
   const fetchStage = async () => {
-    try {
       const data = await fetchStageDataAPI(search,page);
       console.log(data)
       setDatas(data.data);
@@ -39,11 +38,6 @@ function ListStage() {
          x.push(i)
       }
       setTotalPage(x)
-      
-    } catch (error) {
-      console.error("Error fetching stage data:", error);
-      toast.error("Failed to fetch stage data.");
-    }
   };
 
   useEffect(() => {

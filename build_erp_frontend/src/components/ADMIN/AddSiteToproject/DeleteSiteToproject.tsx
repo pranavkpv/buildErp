@@ -19,7 +19,6 @@ function DeleteSiteToProject({
   onDeleteSuccess,
 }: DeleteSiteToProjectProps) {
   const deleteSiteAssignment = async () => {
-    try {
       const resultData = await deleteSitemanagerToProject(deleteProjectId,deleteSiteManagerId)
       if (resultData.success) {
         toast.success(resultData.message || "Site assignment deleted successfully");
@@ -28,12 +27,6 @@ function DeleteSiteToProject({
       } else {
         toast.error(resultData.message || "Failed to delete site assignment");
       }
-    } catch (error: any) {
-      console.error("Error deleting site assignment:", error);
-      toast.error(
-        error.message || "Failed to delete site assignment. Please try again."
-      );
-    }
   };
 
   if (!deleteEnable) return null;

@@ -30,13 +30,9 @@ function ListSiteToProject() {
   const [addEnable, setAddEnable] = useState(false);
 
   const fetchData = async () => {
-    try {
       const data = await listOfsitemanager(page,search)
       setTotalPage(Math.ceil(data.totalPage))
       setData(data.getAddSiteData);
-    } catch (error) {
-      toast.error("Failed to fetch site assignments");
-    }
   };
 
   useEffect(() => {

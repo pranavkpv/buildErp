@@ -49,30 +49,20 @@ function StageUpdatePage() {
 
 
    const fetchProject = async () => {
-      try {
          const token = localStorage.getItem("accessToken")
          if (!token) return
          const decode: JwtPayload = jwtDecode(token)
          const response = await getSitemanagersProject(decode.userId);
          setProject(response);
-      } catch (error) {
-         console.error("Error fetching projects:", error);
-         toast.error("Failed to fetch projects.");
-      }
    };
 
    const fetchStage = async (projectId: string): Promise<void> => {
-      try {
          const response = await getStage(projectId);
          if (response.success) {
             setStage(response.message);
          } else {
             toast.error(response.message);
          }
-      } catch (error) {
-         console.error("Error fetching stage data:", error);
-         toast.error("Fetching stage data failed.");
-      }
    };
 
    useEffect(() => {

@@ -1,34 +1,54 @@
+import { toast } from "react-toastify";
 import axioInstance from "../../api/axio";
 
-//add sitemanager
-export const postSitemanager = async(username:string,email:string)=>{
-   const response = await axioInstance.post(`/admin/sitemanager`, {
-        username,
-        email
+// ---------------- Add Site Manager ---------------- //
+
+export const postSitemanager = async (username: string, email: string) => {
+   try {
+      const response = await axioInstance.post(`/admin/sitemanager`, {
+         username,
+         email,
       });
-      return response.data
-}
+      return response.data;
+   } catch (error: any) {
+      toast.error(error.message);
+   }
+};
 
+// ---------------- Delete Site Manager ---------------- //
 
-export const deleteSitemanagerData = async(_id:string)=>{
-   const response = await axioInstance.delete(`/admin/sitemanager/${_id}`);
-   return response.data
-}
+export const deleteSitemanagerData = async (_id: string) => {
+   try {
+      const response = await axioInstance.delete(`/admin/sitemanager/${_id}`);
+      return response.data;
+   } catch (error: any) {
+      toast.error(error.message);
+   }
+};
 
+// ---------------- Edit Site Manager ---------------- //
 
-//edit sitemanager data
-
-export const editSitemanagerData = async(_id:string, username:string, email:string)=>{
-    const response = await axioInstance.put(`/admin/sitemanager/${_id}`, {
-        username,
-        email
+export const editSitemanagerData = async (_id: string, username: string, email: string) => {
+   try {
+      const response = await axioInstance.put(`/admin/sitemanager/${_id}`, {
+         username,
+         email,
       });
-      return response.data
-}
+      return response.data;
+   } catch (error: any) {
+      toast.error(error.message);
+   }
+};
 
-//sitemanager list
+// ---------------- Fetch Site Manager List ---------------- //
 
-export const fetchSitemanager = async(page:number,search:string)=>{
-   const response = await axioInstance.get(`/admin/sitemanager`,{ params: { page, search } });
-   return response.data
-}
+export const fetchSitemanager = async (page: number, search: string) => {
+   try {
+      const response = await axioInstance.get(`/admin/sitemanager`, {
+         params: { page, search },
+      });
+      return response.data;
+   } catch (error: any) {
+      toast.error(error.message);
+   }
+};

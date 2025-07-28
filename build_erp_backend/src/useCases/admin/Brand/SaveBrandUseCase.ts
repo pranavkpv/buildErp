@@ -13,12 +13,16 @@ export class SaveBrandUseCase {
       this.brandRepository = brandRepository
    }
    async execute(input: addBrandInput): Promise<commonOutput> {
-      const { brand_name } = input
-      const existBrandData = await this.brandRepository.findBrandByName(brand_name)
-      if (existBrandData) {
-         return ResponseHelper.failure(ERROR_MESSAGE.BRAND.EXIST_BRAND, HTTP_STATUS.CONFLICT)
+      try {
+         const { brand_name } = input
+         const existBrandData = await this.brandRepository.findBrandByName(brand_name)
+         if (existBrandData) {
+            return ResponseHelper.failure(ERROR_MESSAGE.BRAND.EXIST_BRAND, HTTP_STATUS.CONFLICT)
+         }
+         await this.brandRepository.saveBrand(brand_name)
+         return ResponseHelper.success(SUCCESS_MESSAGE.BRAND.ADD, HTTP_STATUS.CREATED)
+      } catch (error: any) {
+         return ResponseHelper.failure(error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
       }
-      await this.brandRepository.saveBrand(brand_name)
-      return ResponseHelper.success(SUCCESS_MESSAGE.BRAND.ADD,HTTP_STATUS.CREATED)
    }
 }

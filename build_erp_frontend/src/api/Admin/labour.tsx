@@ -1,37 +1,68 @@
+import { toast } from "react-toastify";
 import axioInstance from "../../api/axio";
 
+// ---------------- Add Labour ---------------- //
 
-//add labour
-export const postLabour = async(labour_type:string,daily_wage:number)=>{
-   const response = await axioInstance.post(`/admin/labour`, {labour_type,daily_wage});
-   return response.data
-}
+export const postLabour = async (labour_type: string, daily_wage: number) => {
+   try {
+      const response = await axioInstance.post(`/admin/labour`, { labour_type, daily_wage });
+      return response.data;
+   } catch (error: any) {
+      toast.error(error.message);
+   }
+};
 
-export const deleteLabourData = async(labourId:string)=>{
-    const response = await axioInstance.delete(`/admin/labour/${labourId}` );
-    return response.data
-}
+// ---------------- Delete Labour ---------------- //
 
-//edit labour
-export const putLabour = async(_id:string,labour_type:string,daily_wage:number)=>{
-    const response = await axioInstance.put(`/admin/labour/${_id}`, {labour_type, daily_wage});
-    return response.data
-}
+export const deleteLabourData = async (labourId: string) => {
+   try {
+      const response = await axioInstance.delete(`/admin/labour/${labourId}`);
+      return response.data;
+   } catch (error: any) {
+      toast.error(error.message);
+   }
+};
 
-//labour list
-export const getLabour = async(page:number,search:string)=>{
-   const response = await axioInstance.get(`/admin/labour`, { params: { page, search: search } });
-   return response.data
-}
+// ---------------- Edit Labour ---------------- //
 
-export const labourDataFetch = async()=>{
-   const response = await axioInstance.get('/admin/fetchlabour')
-   return response.data
-}
+export const putLabour = async (_id: string, labour_type: string, daily_wage: number) => {
+   try {
+      const response = await axioInstance.put(`/admin/labour/${_id}`, { labour_type, daily_wage });
+      return response.data;
+   } catch (error: any) {
+      toast.error(error.message);
+   }
+};
 
-export const getLabourData = async(_id:string)=>{
-   const response = await axioInstance.get(`/admin/getLabour/${_id}`)
-   return  response.data
-}
+// ---------------- Labour List with Pagination & Search ---------------- //
 
+export const getLabour = async (page: number, search: string) => {
+   try {
+      const response = await axioInstance.get(`/admin/labour`, { params: { page, search } });
+      return response.data;
+   } catch (error: any) {
+      toast.error(error.message);
+   }
+};
 
+// ---------------- Fetch All Labour ---------------- //
+
+export const labourDataFetch = async () => {
+   try {
+      const response = await axioInstance.get('/admin/fetchlabour');
+      return response.data;
+   } catch (error: any) {
+      toast.error(error.message);
+   }
+};
+
+// ---------------- Get Single Labour ---------------- //
+
+export const getLabourData = async (_id: string) => {
+   try {
+      const response = await axioInstance.get(`/admin/getLabour/${_id}`);
+      return response.data;
+   } catch (error: any) {
+      toast.error(error.message);
+   }
+};

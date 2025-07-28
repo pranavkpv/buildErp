@@ -27,15 +27,10 @@ function Unit() {
   const [enableDelete, setEnableDelete] = useState(false);
 
   const fetchData = async () => {
-    try {
       const search = searchUnit
       const data = await getUnit(page,search)
       setTotal(Math.ceil(data.totalPage))
       setUnitList(data.getUnitData);
-    } catch (error) {
-      console.error(error);
-      toast.error("An error occurred while fetching units.");
-    }
   };
 
   useEffect(() => {

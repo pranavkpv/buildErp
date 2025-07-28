@@ -13,13 +13,17 @@ export class UpdateSitemanagerUseCase implements IUpdateSitemanagerUseCase {
       this.SitemanagerRepository = SitemanagerRepository
    }
    async execute(input: editSitemanagerInput): Promise<commonOutput> {
-      const { _id, username, email } = input
-      const existData = await this.SitemanagerRepository.findSitemanagerInEdit(_id, email)
-      if (existData) {
-         return ResponseHelper.failure(ERROR_MESSAGE.SITEMANAGER.EXIST,HTTP_STATUS.CONFLICT)
+      try {
+         const { _id, username, email } = input
+         const existData = await this.SitemanagerRepository.findSitemanagerInEdit(_id, email)
+         if (existData) {
+            return ResponseHelper.failure(ERROR_MESSAGE.SITEMANAGER.EXIST, HTTP_STATUS.CONFLICT)
+         }
+         await this.SitemanagerRepository.updateSitemanager(_id, username, email)
+         return ResponseHelper.success(SUCCESS_MESSAGE.SITEMANAGER.UPDATE, HTTP_STATUS.OK)
+      } catch (error: any) {
+         return ResponseHelper.failure(error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
       }
-      await this.SitemanagerRepository.updateSitemanager(_id, username, email)
-      return ResponseHelper.success(SUCCESS_MESSAGE.SITEMANAGER.UPDATE,HTTP_STATUS.OK)
    }
 }
 

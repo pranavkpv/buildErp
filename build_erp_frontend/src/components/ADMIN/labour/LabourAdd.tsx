@@ -39,8 +39,6 @@ function LabourAdd({ addEnable, setAddEnable, onsuccessAdd }: addLabourData) {
     if (hasError) {
       return;
     }
-
-    try {
       const labour_type = labour
       const daily_wage = wage
       const data = await postLabour(labour_type, daily_wage)
@@ -53,10 +51,6 @@ function LabourAdd({ addEnable, setAddEnable, onsuccessAdd }: addLabourData) {
       } else {
         toast.error(data.message);
       }
-    } catch (error: any) {
-      console.error("Failed to add labour:", error);
-      toast.error("Failed to add labour. Please try again.");
-    }
   };
 
   if (!addEnable) return null;

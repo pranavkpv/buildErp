@@ -14,12 +14,16 @@ export class UpdateBrandUseCase implements IUpdateBrandUseCase {
       this.brandRepository = brandRepository
    }
    async execute(input: editBrandInput): Promise<commonOutput> {
-      const { _id, brand_name } = input
-      const existBrandData = await this.brandRepository.findBrandInEdit(_id, brand_name)
-      if (existBrandData) {
-         return ResponseHelper.failure(ERROR_MESSAGE.BRAND.EXIST_BRAND,HTTP_STATUS.CONFLICT)
+      try {
+         const { _id, brand_name } = input
+         const existBrandData = await this.brandRepository.findBrandInEdit(_id, brand_name)
+         if (existBrandData) {
+            return ResponseHelper.failure(ERROR_MESSAGE.BRAND.EXIST_BRAND, HTTP_STATUS.CONFLICT)
+         }
+         await this.brandRepository.updateBrandById(_id, brand_name)
+         return ResponseHelper.success(SUCCESS_MESSAGE.BRAND.UPDATE, HTTP_STATUS.OK)
+      } catch (error: any) {
+         return ResponseHelper.failure(error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
       }
-      await this.brandRepository.updateBrandById(_id, brand_name)
-      return ResponseHelper.success(SUCCESS_MESSAGE.BRAND.UPDATE,HTTP_STATUS.OK)
    }
 }

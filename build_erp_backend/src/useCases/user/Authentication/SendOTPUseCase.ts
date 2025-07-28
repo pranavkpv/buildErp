@@ -11,32 +11,36 @@ export class SendOTPUseCase implements ISendOTPUseCase {
    constructor(UserRepository: IUserRepository) {
       this.UserRepository = UserRepository
    }
-   async execute(input: { email: string }):Promise<commonOutput> {
-      const { email } = input
-      const existUser = await this.UserRepository.findUserByEmail(email)
-      if (!existUser) {
-         return ResponseHelper.failure(ERROR_MESSAGE.USER.EMAIL_NOT_FOUND,HTTP_STATUS.UNAUTHORIZED)
-      }
-      const otp = Math.floor(100000 + Math.random() * 900000)
-      const otpCreatedAt = new Date()
-      const { username, phone, password } = existUser
+   async execute(input: { email: string }): Promise<commonOutput> {
+      try {
+         const { email } = input
+         const existUser = await this.UserRepository.findUserByEmail(email)
+         if (!existUser) {
+            return ResponseHelper.failure(ERROR_MESSAGE.USER.EMAIL_NOT_FOUND, HTTP_STATUS.UNAUTHORIZED)
+         }
+         const otp = Math.floor(100000 + Math.random() * 900000)
+         const otpCreatedAt = new Date()
+         const { username, phone, password } = existUser
 
-      await this.UserRepository.otpSave({
-         username,
-         email,
-         phone,
-         password,
-         otp,
-         otpCreatedAt
-      })
+         await this.UserRepository.otpSave({
+            username,
+            email,
+            phone,
+            password,
+            otp,
+            otpCreatedAt
+         })
 
-      const text = `Dear ${ username }, your One-Time Password (OTP) for signing up with BuildERP is ${ otp }. Do not share this code with anyone.`
-      const emailSend = await sendEmail(email, "OTP verification", text)
-      if (emailSend) {
-         console.log(otp)
-         return ResponseHelper.success(SUCCESS_MESSAGE.USER.OTP_SEND,HTTP_STATUS.OK)
-      } else {
-        return ResponseHelper.failure(ERROR_MESSAGE.USER.OTP_SEND_FAIL,HTTP_STATUS.BAD_REQUEST)
+         const text = `Dear ${ username }, your One-Time Password (OTP) for signing up with BuildERP is ${ otp }. Do not share this code with anyone.`
+         const emailSend = await sendEmail(email, "OTP verification", text)
+         if (emailSend) {
+            console.log(otp)
+            return ResponseHelper.success(SUCCESS_MESSAGE.USER.OTP_SEND, HTTP_STATUS.OK)
+         } else {
+            return ResponseHelper.failure(ERROR_MESSAGE.USER.OTP_SEND_FAIL, HTTP_STATUS.BAD_REQUEST)
+         }
+      } catch (error: any) {
+         return ResponseHelper.failure(error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
       }
    }
 }

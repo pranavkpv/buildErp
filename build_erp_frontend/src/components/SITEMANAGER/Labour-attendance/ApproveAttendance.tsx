@@ -12,7 +12,6 @@ function ApproveAttendance({ approveId, setApproveEnable, approveEnable, onAppro
   if (!approveEnable) return null;
 
   const approveFun = async (approveId: string) => {
-    try {
       const response = await approveAttendanceAPI(approveId);
       if (response.success) {
         toast.success(response.message);
@@ -21,10 +20,6 @@ function ApproveAttendance({ approveId, setApproveEnable, approveEnable, onAppro
       } else {
         toast.error(response.message);
       }
-    } catch (error) {
-      console.error("Error approving attendance:", error);
-      toast.error("Failed to approve attendance due to an error.");
-    }
   };
 
   return (

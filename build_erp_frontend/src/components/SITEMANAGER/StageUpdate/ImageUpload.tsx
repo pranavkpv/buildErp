@@ -15,7 +15,6 @@ function ImageUpload({ uploadEnable, setUploadEnable, uploadStageId }: uploadPro
    const [count, setCount] = useState([0])
 
    const uploadImageFun = async () => {
-      try {
          const response = await uploadImageAPI(uploadStageId, date, inputImage)
          if (response.success) {
             toast.success(response.message)
@@ -23,10 +22,6 @@ function ImageUpload({ uploadEnable, setUploadEnable, uploadStageId }: uploadPro
          } else {
             toast.error(response.message)
          }
-      } catch (error) {
-         console.log(error)
-         toast.error("upload image not working")
-      }
    }
 
 

@@ -15,12 +15,15 @@ export class AddSiteToProjectUseCase implements IAddSiteToProjectUseCase {
       this.projectRepository = projectRepository
    }
    async execute(input: addSite): Promise<commonOutput> {
-      console.log(input)
-      const { siteManager_id, selectedproject } = input
-      for (let i = 0; i < selectedproject.length; i++) {
-         await this.projectRepository.addSitemanagerToProject(selectedproject[i], siteManager_id)
+      try {
+         const { siteManager_id, selectedproject } = input
+         for (let i = 0; i < selectedproject.length; i++) {
+            await this.projectRepository.addSitemanagerToProject(selectedproject[i], siteManager_id)
+         }
+         return ResponseHelper.success(SUCCESS_MESSAGE.SITE.ADD, HTTP_STATUS.OK)
+      } catch (error: any) {
+         return ResponseHelper.failure(error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
       }
-      return  ResponseHelper.success(SUCCESS_MESSAGE.SITE.ADD,HTTP_STATUS.OK)
    }
 }
 

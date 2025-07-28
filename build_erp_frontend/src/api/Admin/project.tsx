@@ -1,68 +1,114 @@
+import { toast } from "react-toastify";
 import axioInstance from "../../api/axio";
 
+// ---------------- Fetch Users for Project Assignment ---------------- //
 
-
-//add project needs the use data 
 export const fetchUser = async () => {
-   const response = await axioInstance.get(`/admin/addproject`);
-   return response.data
-}
+   try {
+      const response = await axioInstance.get(`/admin/addproject`);
+      return response.data;
+   } catch (error: any) {
+      toast.error(error.message);
+   }
+};
 
-//add project
+// ---------------- Add New Project ---------------- //
 
-export const postProject = async (project_name: string, user_id: string, address: string,
-   mobile_number: string, email: string, area: number, description: string) => {
-   const response = await axioInstance.post(`/admin/project`, {
-      project_name,
-      user_id,
-      address,
-      mobile_number,
-      email,
-      area,
-      description,
-   });
-   return response.data
-}
+export const postProject = async (
+   project_name: string,
+   user_id: string,
+   address: string,
+   mobile_number: string,
+   email: string,
+   area: number,
+   description: string
+) => {
+   try {
+      const response = await axioInstance.post(`/admin/project`, {
+         project_name,
+         user_id,
+         address,
+         mobile_number,
+         email,
+         area,
+         description,
+      });
+      return response.data;
+   } catch (error: any) {
+      toast.error(error.message);
+   }
+};
 
+// ---------------- Delete Project ---------------- //
 
-export const deleteProjectData = async (_id:string) => {
-   const response = await axioInstance.delete(`/admin/project/${_id}`);
-   return response.data
-}
+export const deleteProjectData = async (_id: string) => {
+   try {
+      const response = await axioInstance.delete(`/admin/project/${_id}`);
+      return response.data;
+   } catch (error: any) {
+      toast.error(error.message);
+   }
+};
 
-//edit the project data
+// ---------------- Edit Project ---------------- //
 
-export const putProject = async (_id: string, project_name: string, user_id: string, address: string,
-   mobile_number: string, email: string, area: number, description: string) => {
-   const response = await axioInstance.put(`/admin/project/${_id}`, {
-      project_name,
-      user_id,
-      address,
-      mobile_number,
-      email,
-      area,
-      description,
-   });
-   return response.data
-}
+export const putProject = async (
+   _id: string,
+   project_name: string,
+   user_id: string,
+   address: string,
+   mobile_number: string,
+   email: string,
+   area: number,
+   description: string
+) => {
+   try {
+      const response = await axioInstance.put(`/admin/project/${_id}`, {
+         project_name,
+         user_id,
+         address,
+         mobile_number,
+         email,
+         area,
+         description,
+      });
+      return response.data;
+   } catch (error: any) {
+      toast.error(error.message);
+   }
+};
 
-
-//project list
+// ---------------- Project List with Pagination & Search ---------------- //
 
 export const projectListData = async (page: number, search: string) => {
-   const response = await axioInstance.get(`/admin/project`, { params: { page, search } });
-   return response.data
-}
+   try {
+      const response = await axioInstance.get(`/admin/project`, {
+         params: { page, search },
+      });
+      return response.data;
+   } catch (error: any) {
+      toast.error(error.message);
+   }
+};
 
-//status change
+// ---------------- Change Project Status ---------------- //
 
 export const pustStatusChange = async (_id: string, status: string) => {
-   const response = await axioInstance.put(`/admin/status/${_id}`, { status });
-   return response.data
-}
+   try {
+      const response = await axioInstance.put(`/admin/status/${_id}`, { status });
+      return response.data;
+   } catch (error: any) {
+      toast.error(error.message);
+   }
+};
 
-//get project
-export const getProject = async()=>{
-   const response = await axioInstance.get('/admin/getproject')
-   return response.data
-}
+// ---------------- Get All Projects ---------------- //
+
+export const getProject = async () => {
+   try {
+      const response = await axioInstance.get('/admin/getproject');
+      return response.data;
+   } catch (error: any) {
+      toast.error(error.message);
+   }
+};

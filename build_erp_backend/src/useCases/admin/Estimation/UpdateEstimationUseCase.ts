@@ -3,18 +3,30 @@ import { rowData } from "../../../Entities/Input-OutputEntities/EstimationEntiti
 import { commonOutput } from "../../../Entities/Input-OutputEntities/CommonEntities/common";
 import { IUpdateEstimationUseCase } from "../../../Entities/useCaseEntities/AdminUseCaseEntities/EstimationUseCaseEntities/UpdateEstimationEntity";
 import { ResponseHelper } from "../../../Shared/utils/response";
-import { SUCCESS_MESSAGE } from "../../../Shared/Message";
+import { ERROR_MESSAGE, SUCCESS_MESSAGE } from "../../../Shared/Message";
 import { HTTP_STATUS } from "../../../Shared/Status_code";
+import { IStageRepository } from "../../../Entities/repositoryEntities/Project-management/IStageRepository";
 
-export class UpdateEstimationUsecase implements IUpdateEstimationUseCase{
+export class UpdateEstimationUsecase implements IUpdateEstimationUseCase {
    private estimationRepository: IEstimationRepository
-   constructor(estimationRepository: IEstimationRepository) {
+   private stageRepository: IStageRepository
+   constructor(estimationRepository: IEstimationRepository, stageRepository: IStageRepository) {
       this.estimationRepository = estimationRepository
+      this.stageRepository = stageRepository
    }
-   async execute(input: { projectId: string, row: rowData[] }):Promise<commonOutput> {
-      const { projectId, row } = input
-      await this.estimationRepository.deleteEstimationById(projectId)
-      await this.estimationRepository.saveEstimation(row, projectId)
-      return ResponseHelper.success(SUCCESS_MESSAGE.ESTIMATION.UPDATE,HTTP_STATUS.OK)
+   async execute(input: { projectId: string, row: rowData[] }): Promise<commonOutput> {
+      try {
+         const { projectId, row } = input
+         const existStage = await this.stageRepository.findStageByprojectId(projectId)
+         if (existStage) {
+            return ResponseHelper.failure(ERROR_MESSAGE.ESTIMATION.USED_STAGE, HTTP_STATUS.CONFLICT)
+         }
+
+         await this.estimationRepository.deleteEstimationById(projectId)
+         await this.estimationRepository.saveEstimation(row, projectId)
+         return ResponseHelper.success(SUCCESS_MESSAGE.ESTIMATION.UPDATE, HTTP_STATUS.OK)
+      } catch (error: any) {
+         return ResponseHelper.failure(error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
+      }
    }
 }

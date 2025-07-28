@@ -12,16 +12,20 @@ export class UpdateProfileUsecase implements IUpdateProfileUseCase {
       this.userRepository = userRepository
    }
    async execute(input: UpdateProfile): Promise<commonOutput> {
-      const { id, username, email, phone } = input
-      const existUser = await this.userRepository.findUserById(id)
-      if(!existUser){
-         return ResponseHelper.failure(ERROR_MESSAGE.USER.USER_NOT_FOUND,HTTP_STATUS.UNAUTHORIZED)
+      try {
+         const { id, username, email, phone } = input
+         const existUser = await this.userRepository.findUserById(id)
+         if (!existUser) {
+            return ResponseHelper.failure(ERROR_MESSAGE.USER.USER_NOT_FOUND, HTTP_STATUS.UNAUTHORIZED)
+         }
+         await this.userRepository.UpdateProfile(id, username, email, phone)
+         const updatedUser = await this.userRepository.findUserById(id)
+         if (!updatedUser) {
+            return ResponseHelper.failure(ERROR_MESSAGE.USER.USER_NOT_FOUND, HTTP_STATUS.UNAUTHORIZED)
+         }
+         return ResponseHelper.updateSuccess(SUCCESS_MESSAGE.PROFILE.UPDATE_PROFILE, HTTP_STATUS.OK, updatedUser)
+      } catch (error: any) {
+         return ResponseHelper.failure(error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
       }
-      await this.userRepository.UpdateProfile(id, username, email, phone)
-      const updatedUser =  await this.userRepository.findUserById(id)
-      if(!updatedUser){
-         return ResponseHelper.failure(ERROR_MESSAGE.USER.USER_NOT_FOUND,HTTP_STATUS.UNAUTHORIZED)
-      }
-      return ResponseHelper.updateSuccess(SUCCESS_MESSAGE.PROFILE.UPDATE_PROFILE, HTTP_STATUS.OK, updatedUser)
    }
 }

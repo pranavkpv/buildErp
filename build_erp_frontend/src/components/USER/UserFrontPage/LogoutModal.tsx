@@ -15,7 +15,6 @@ function LogoutModal({ logoutEnable, setLogoutEnable }: logoutProp) {
   const navigate = useNavigate()
 
   const logoutFun = async () => {
-    try {
       const data = await userLogout();
       if (data.success) {
         localStorage.removeItem("accessToken");
@@ -24,10 +23,6 @@ function LogoutModal({ logoutEnable, setLogoutEnable }: logoutProp) {
         setLogoutEnable(false);
         navigate("/")
       }
-    } catch (error:any) {
-      console.log(error);
-      toast.error(error.response.data.message || "An Error occurred");
-    }
   };
 
   return (

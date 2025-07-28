@@ -19,8 +19,6 @@ function ProfileEdit() {
       toast.error("The Required Field is Missing");
       return;
     }
-
-    try {
       const response = await UpdateProfileAPI(user._id, username, email, phone);
       if (response.success) {
         toast.success(response.message);
@@ -36,10 +34,6 @@ function ProfileEdit() {
       } else {
         toast.error(response.message);
       }
-    } catch (error) {
-      console.error(error);
-      toast.error("An Error Occurred");
-    }
   };
 
   const handleCancel = () => {

@@ -34,8 +34,6 @@ function AddUnit({ enable, setEnable, onAdd }: Unitprops) {
     }
 
     if (hasError) return;
-
-    try {
       const unit_name = unit
       const data = await postUnit(unit_name,short_name)
       if (data.success) {
@@ -45,10 +43,6 @@ function AddUnit({ enable, setEnable, onAdd }: Unitprops) {
       } else {
         toast.error(data.message);
       }
-    } catch (err) {
-      console.error(err);
-      toast.error("Failed to add unit");
-    }
   };
 
   if (!enable) return null;

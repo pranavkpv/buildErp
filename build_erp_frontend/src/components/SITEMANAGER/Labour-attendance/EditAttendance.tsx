@@ -69,36 +69,21 @@ function EditAttendance({ editId, editEnable, setEditEnable, onEditSuccess }: ed
 
 
    const fetchLabour = async () => {
-      try {
          const response = await labourDataFetch();
          setLabour(response);
-      } catch (error) {
-         console.error("Error fetching labour data:", error);
-         toast.error("Failed to fetch labour data.");
-      }
    };
 
    const fetchAttendanceBYID = async () => {
-      try {
          const result = await getAttendanceBYIdAPI(editId)
          setData(result)
-      } catch (error) {
-         console.log(error)
-         toast.error("An error occure while fetching edit labour attendance")
-      }
    }
 
   const fetchProject = async () => {
-      try {
         const token = localStorage.getItem("accessToken")
         if (!token) return
         const decode: JwtPayload = jwtDecode(token)
         const response = await getSitemanagersProject(decode.userId);
         setProject(response);
-      } catch (error) {
-        console.error("Error fetching projects:", error);
-        toast.error("Failed to fetch projects.");
-      }
     };
   
    useEffect(() => {
@@ -161,8 +146,6 @@ function EditAttendance({ editId, editEnable, setEditEnable, onEditSuccess }: ed
       }
 
       if (hasError) return;
-
-      try {
          const response = await editAttendanceAPI(editId,selectedProject, selectedDate, row);
          if (response.success) {
             toast.success(response.message);
@@ -171,10 +154,6 @@ function EditAttendance({ editId, editEnable, setEditEnable, onEditSuccess }: ed
          } else {
             toast.error(response.message);
          }
-      } catch (error) {
-         console.error("Error taking attendance:", error);
-         toast.error("Failed to save attendance.");
-      }
    }
 
 

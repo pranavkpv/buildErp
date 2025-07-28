@@ -10,7 +10,6 @@ type Unitprops = {
 
 function DeleteUnit({ enable, deleteId, setEnable, onDeleteSuccess }: Unitprops) {
   const deleteUnit = async () => {
-    try {
       const resultData = await deleteUnitData(deleteId)  
       if (resultData.success) {
         toast.success(resultData.message);
@@ -19,9 +18,6 @@ function DeleteUnit({ enable, deleteId, setEnable, onDeleteSuccess }: Unitprops)
       } else {
         toast.error(resultData.message);
       }
-    } catch (err) {
-      toast.error("Failed to delete unit"); // Fixed error message
-    }
   };
 
   if (!enable) return null;

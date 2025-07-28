@@ -16,11 +16,15 @@ export class DeleteLabourUseCase implements IDeleteLabourUseCase {
       this.specRepository = specRepository
    }
    async execute(_id: string): Promise<commonOutput> {
-      const existSpec = await this.specRepository.findSpecByLabourId(_id)
-      if (existSpec) {
-         return ResponseHelper.failure(ERROR_MESSAGE.LABOUR.EXIST_SPEC, HTTP_STATUS.CONFLICT)
+      try {
+         const existSpec = await this.specRepository.findSpecByLabourId(_id)
+         if (existSpec) {
+            return ResponseHelper.failure(ERROR_MESSAGE.LABOUR.EXIST_SPEC, HTTP_STATUS.CONFLICT)
+         }
+         await this.labourRepository.deleteLabourById(_id)
+         return ResponseHelper.success(SUCCESS_MESSAGE.LABOUR.DELETE, HTTP_STATUS.OK)
+      } catch (error: any) {
+         return ResponseHelper.failure(error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
       }
-      await this.labourRepository.deleteLabourById(_id)
-      return ResponseHelper.success(SUCCESS_MESSAGE.LABOUR.DELETE, HTTP_STATUS.OK)
    }
 }

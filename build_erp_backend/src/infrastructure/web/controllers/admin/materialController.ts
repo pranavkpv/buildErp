@@ -10,8 +10,10 @@ import { IFetchMaterialUseCase } from "../../../../Entities/useCaseEntities/Admi
 import { IFetchMaterialByMaterialName } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/MaterialUseCaseEntities/FetchMaterialByMaterialNameEntity"
 import { IFetchBrandByMaterialName } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/MaterialUseCaseEntities/FetchBrandByMaterialNameEntity"
 import { IFetchUnitRateUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/MaterialUseCaseEntities/FetchUnitRateEntity"
-import { HTTP_STATUS } from "../../../../Shared/Status_code"
 import { IFindMaterialByIdUsecase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/MaterialUseCaseEntities/FindMaterialByIdEntity"
+import { getAddMaterialData, outEditMaterialData } from "../../../../Entities/Input-OutputEntities/MaterialEntities/material"
+import { commonOutput } from "../../../../Entities/Input-OutputEntities/CommonEntities/common"
+import { IMaterialModelEntity } from "../../../../Entities/ModelEntities/Material.Entity"
 
 
 
@@ -26,7 +28,7 @@ export class MaterialController implements IMaterialControllerEntity {
    private fetchMaterialByMaterialName: IFetchMaterialByMaterialName
    private fetchbrandByname: IFetchBrandByMaterialName
    private fetUnitRateUseCase: IFetchUnitRateUseCase
-   private findMaterialByIdUsecase : IFindMaterialByIdUsecase
+   private findMaterialByIdUsecase: IFindMaterialByIdUsecase
    constructor(
       displayAllMaterialUseCase: IDisplayAllMaterialUsecase,
       getAddMaterialUseCase: IDisplayAddMaterialUseCase,
@@ -38,7 +40,7 @@ export class MaterialController implements IMaterialControllerEntity {
       fetchMaterialByMaterialName: IFetchMaterialByMaterialName,
       fetchbrandByname: IFetchBrandByMaterialName,
       fetUnitRateUseCase: IFetchUnitRateUseCase,
-      findMaterialByIdUsecase : IFindMaterialByIdUsecase
+      findMaterialByIdUsecase: IFindMaterialByIdUsecase
    ) {
       this.displayAllMaterialUseCase = displayAllMaterialUseCase
       this.getAddMaterialUseCase = getAddMaterialUseCase
@@ -50,79 +52,95 @@ export class MaterialController implements IMaterialControllerEntity {
       this.fetchMaterialByMaterialName = fetchMaterialByMaterialName
       this.fetchbrandByname = fetchbrandByname
       this.fetUnitRateUseCase = fetUnitRateUseCase
-      this.findMaterialByIdUsecase =findMaterialByIdUsecase
+      this.findMaterialByIdUsecase = findMaterialByIdUsecase
    }
 
 
-   materialList = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   //------------------------------------ List material with search and pagination ------------------------------------//
+
+   materialList = async (req: Request, res: Response, next: NextFunction): Promise<{ getMaterialData: any[]; totalPage: number } | commonOutput> => {
       const { page, search } = req.query
       const result = await this.displayAllMaterialUseCase.execute(Number(page), String(search))
-      res.status(HTTP_STATUS.OK).json(result)
+      return result
    }
 
+   //------------------------------------ list category,brand,unit,project using in add material ------------------------------------//
 
-   addMaterialList = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   addMaterialList = async (req: Request, res: Response, next: NextFunction): Promise<getAddMaterialData | commonOutput> => {
       const result = await this.getAddMaterialUseCase.execute()
-      res.status(HTTP_STATUS.OK).json(result)
+      return result
    }
 
+   //------------------------------------ Save Material ------------------------------------//
 
-   saveMaterial = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+
+   saveMaterial = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
       const result = await this.saveMaterialUseCase.execute(req.body)
-      res.status(result.status_code).json(result)
+      return result
    }
 
+   //------------------------------------ list category,brand,unit,project using in edit material ------------------------------------//
 
-   editMaterialList = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   editMaterialList = async (req: Request, res: Response, next: NextFunction): Promise<outEditMaterialData | commonOutput> => {
       const { _id } = req.params
       const result = await this.getEditMaterialUseCase.execute(_id)
-      res.status(HTTP_STATUS.OK).json(result)
+      return result
    }
 
+   //------------------------------------ Update Material ------------------------------------//
 
-   updateMaterial = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   updateMaterial = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
       const result = await this.updateMaterialUseCase.execute(req.body)
-      res.status(result.status_code).json(result)
+      return result
    }
 
+   //------------------------------------ Delete Material ------------------------------------//
 
-   removeMaterial = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   removeMaterial = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
       const result = await this.deleteMaterialUseCase.execute(req.params.id)
-      res.status(result.status_code).json(result)
+      return result
    }
 
 
-   fetchUniqueMaterial = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   //------------------------------------ Fetch unique material name using in specification registration ------------------------------------//
+
+   fetchUniqueMaterial = async (req: Request, res: Response, next: NextFunction): Promise<string[] | commonOutput> => {
       const result = await this.fetchMaterialUseCase.execute()
-      res.status(HTTP_STATUS.OK).json(result)
+      return result
    }
 
+   //------------------------------------ Fetch unit list corresponding material name ------------------------------------//
 
-   fetchMaterialByUnit = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   fetchMaterialByUnit = async (req: Request, res: Response, next: NextFunction): Promise<string[] | commonOutput> => {
       const material_name = req.params.material
       const result = await this.fetchMaterialByMaterialName.execute(material_name)
-      res.status(HTTP_STATUS.OK).json(result)
+      return result
    }
 
+   //------------------------------------ Fetch brand list corresponding material name ------------------------------------//
 
-   fetchBrandbyName = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   fetchBrandbyName = async (req: Request, res: Response, next: NextFunction): Promise<string[] | commonOutput> => {
       const material_name = req.params.material
       const result = await this.fetchbrandByname.execute(material_name)
-      res.status(HTTP_STATUS.OK).json(result)
+      return result
    }
 
+   //------------------------------------ Fetch Unit Rate of the material with material name, brand name, unit name ------------------------------------//
 
-   fetchUnitrate = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   fetchUnitrate = async (req: Request, res: Response, next: NextFunction): Promise<IMaterialModelEntity | null | commonOutput> => {
       const { material_name, brand_name, unit_name } = req.query
       const result = await this.fetUnitRateUseCase.execute(String(material_name), String(brand_name), String(unit_name))
-      res.status(HTTP_STATUS.OK).json(result)
+      return result
    }
 
-   getMaterial = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-       const {id} = req.params
-       const result = await this.findMaterialByIdUsecase.execute(id)
-       res.status(HTTP_STATUS.OK).json(result)
+   //------------------------------------ List all Material ------------------------------------//
+
+   getMaterial = async (req: Request, res: Response, next: NextFunction): Promise<IMaterialModelEntity | null | commonOutput> => {
+      const { id } = req.params
+      const result = await this.findMaterialByIdUsecase.execute(id)
+      return result
    }
+
 
 }
 

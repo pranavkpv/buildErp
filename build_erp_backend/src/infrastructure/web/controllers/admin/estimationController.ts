@@ -9,6 +9,8 @@ import { IUploadEstimateImageUseCase } from "../../../../Entities/useCaseEntitie
 import { IUpdateEstimationUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/EstimationUseCaseEntities/UpdateEstimationEntity"
 import { HTTP_STATUS } from "../../../../Shared/Status_code"
 import { ERROR_MESSAGE } from "../../../../Shared/Message"
+import { commonOutput } from "../../../../Entities/Input-OutputEntities/CommonEntities/common"
+import { EstimationData, SpecData } from "../../../../Entities/Input-OutputEntities/EstimationEntities/estimation"
 
 
 export class EstimationController implements IEstimationControllerEntity {
@@ -29,49 +31,58 @@ export class EstimationController implements IEstimationControllerEntity {
       this.updateEstimationUsecase = updateEstimationUsecase
    }
 
+   //------------------------------------ Save Estimation ------------------------------------//
 
-   SaveEstimation = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   SaveEstimation = async (req: Request, res: Response, next: NextFunction):Promise<commonOutput>  => {
       const result = await this.saveestimationuseCase.execute(req.body)
-      res.status(result.status_code).json(result)
+      return result
    }
 
 
-   fetchEstimation = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   //------------------------------------ List Estimation with search and pagination ------------------------------------//
+
+   fetchEstimation = async (req: Request, res: Response, next: NextFunction):Promise<{data:SpecData[],totalPage:number} | commonOutput> => {
       const { search, page } = req.query
       const result = await this.displayEstimationUseCase.axecute(String(search), Number(page))
-      res.status(HTTP_STATUS.OK).json(result)
+      return result
    }
 
+   //------------------------------------ Delete Estimation ------------------------------------//
 
-   deleteEstimation = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   deleteEstimation = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
       const result = await this.deleteEstimationuseCase.execute(req.params.id)
-      res.status(result.status_code).json(result)
+      return result
    }
 
+   //------------------------------------ Upload estimation image ------------------------------------//
 
-   uploadImage = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   uploadImage = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput | void> => {
       const file = req.files?.image;
       const projectId = req.body._id;
       if (!file || Array.isArray(file)) {
-         res.status(HTTP_STATUS.BAD_REQUEST).json({ error: ERROR_MESSAGE.ESTIMATION.NO_IMAGE });
+         res.status(HTTP_STATUS.OK).json({ error: ERROR_MESSAGE.ESTIMATION.NO_IMAGE });
          return
       }
       const result = await cloudinary.uploader.upload(file.tempFilePath, {
          folder: "Estimation"
       })
       const ExactResult = await this.uploadestimationUsecase.execute(result.secure_url, projectId)
-      res.status(ExactResult.status_code).json(ExactResult)
+      return ExactResult
    }
 
+   //------------------------------------ List all estimation data ------------------------------------//
 
-   fetchExistEstimation = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   fetchExistEstimation = async (req: Request, res: Response, next: NextFunction): Promise <EstimationData[] | commonOutput> => {
       const result = await this.fetchexistestimationusecase.execute(req.params.id)
-      res.status(HTTP_STATUS.OK).json(result)
+      return result
    }
 
 
-   updateEstimation = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   //------------------------------------ Update estimation ------------------------------------//
+
+   updateEstimation = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
       const result = await this.updateEstimationUsecase.execute(req.body)
-      res.status(result.status_code).json(result)
+      return result
    }
+
 }

@@ -12,7 +12,6 @@ type BrandProps = {
 
 function DeleteBrand({ enable, deleteId, setEnable, onDeleteSuccess }: BrandProps) { 
   const deleteBrand = async () => {
-    try {
       const _id= deleteId
       const brandData = await deleteBrandData(_id)
       if (brandData.success) {
@@ -22,10 +21,6 @@ function DeleteBrand({ enable, deleteId, setEnable, onDeleteSuccess }: BrandProp
       } else {
         toast.error(brandData.message);
       }
-    } catch (err) {
-      console.error("Error deleting brand:", err); 
-      toast.error("Failed to delete brand. Please try again.");
-    }
   };
 
   if (!enable) return null; 

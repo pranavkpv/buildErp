@@ -3,9 +3,11 @@ import { IAddSiteControllerEntity } from "../../../../Entities/ControllerEntitie
 import { IAddSiteToProjectUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/SiteUseCaseEntities/AddSiteToProjectEntity";
 import { IListSiteToProject } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/SiteUseCaseEntities/ListSiteToProjectEntity";
 import { IDeleteSiteToProjectUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/SiteUseCaseEntities/DeleteSitemanagerInProjectEntity";
-import { HTTP_STATUS } from "../../../../Shared/Status_code";
 import { IAddSiteToprojectFetchProjectUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/SiteUseCaseEntities/AddSiteToProjectFetchProjectEntity";
 import { IAddSiteToprojectFetchSitemanagerUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/SiteUseCaseEntities/AddSiteToprojectFetchSitemanagerEntity";
+import { commonOutput } from "../../../../Entities/Input-OutputEntities/CommonEntities/common";
+import { IProjectModelEntity } from "../../../../Entities/ModelEntities/ProjectEntity";
+import { ISitemanagerModelEntity } from "../../../../Entities/ModelEntities/Sitemanager.Entity";
 
 
 
@@ -25,34 +27,42 @@ export class AddSiteController implements IAddSiteControllerEntity {
       this.addSiteToprojectFetchSitemanagerUseCase = addSiteToprojectFetchSitemanagerUseCase
    }
 
-   saveData = async (req: Request, res: Response): Promise<void> => {
+   //------------------------------------ Add sitemanager in project ------------------------------------//
+
+   saveData = async (req: Request, res: Response):Promise<commonOutput> => {
          const result = await this.addSiteToProjectUseCase.execute(req.body)
-         res.status(result.status_code).json(result)
+         return result
    }
 
+    //------------------------------------ List project data with sitemanager exist using search and page ------------------------------------//
 
-   listSite = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   listSite = async (req: Request, res: Response, next: NextFunction):Promise<{ getAddSiteData: any[]; totalPage: number } | commonOutput> => {
          const { page, search } = req.query
          const result = await this.listSiteToProjectUseCase.execute(Number(page), String(search))
-         res.status(HTTP_STATUS.OK).json(result)
+         return result
    }
 
 
-   deleteSite = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    //------------------------------------ Set sitemanager as null in project ------------------------------------//
+
+   deleteSite = async (req: Request, res: Response, next: NextFunction):  Promise<commonOutput> => {
          const result = await this.deleteSitetoprojectuseCase.execute(req.params.id, req.params.sitemanagerId)
-         res.status(result.status_code).json(result)
+         return result
    }
 
 
-   fetchProject = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    //------------------------------------ Add sitemanager in project ------------------------------------//
+
+   fetchProject = async (req: Request, res: Response, next: NextFunction):  Promise<IProjectModelEntity[] | null | commonOutput > => {
          const result = await this.addSiteToprojectFetchProjectUseCase.execute()
-         res.status(HTTP_STATUS.OK).json(result)
+         return result
    }
 
-   
-   fetchSitemanager = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+    //------------------------------------ List project data with sitemanager exist ------------------------------------//
+
+   fetchSitemanager = async (req: Request, res: Response, next: NextFunction): Promise<ISitemanagerModelEntity[] | null | commonOutput> => {
          const result = await this.addSiteToprojectFetchSitemanagerUseCase.execute()
-         res.status(HTTP_STATUS.OK).json(result)
+        return result
    }
 
 }

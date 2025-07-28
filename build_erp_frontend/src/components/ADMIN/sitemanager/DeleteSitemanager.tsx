@@ -16,7 +16,6 @@ function DeleteSitemanager({
   onDeleteSuccess,
 }: DeleteDataProps) {
   const deleteSitemanager = async () => {
-    try {
       const resultData = await deleteSitemanagerData(deleteId)
       if (resultData.success) {
         toast.success(resultData.message);
@@ -25,10 +24,6 @@ function DeleteSitemanager({
       } else {
         toast.error(resultData.message);
       }
-    } catch (error: any) {
-      console.error(error);
-      toast.error("Failed to delete site manager.");
-    }
   };
 
   if (!deleteEnable) return null;

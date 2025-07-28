@@ -45,8 +45,6 @@ function Adminlogin() {
     if (hasError) {
       return;
     }
-
-    try {
       const response = await adminLoginAPI(username,password)
       console.log(response)
       if (response.success) {
@@ -56,10 +54,6 @@ function Adminlogin() {
       } else {
         toast.error(response.message);
       }
-    } catch (error) {
-      console.error("Login error:", error);
-      toast.error("An error occurred during login. Please try again.");
-    }
   };
 
   return (

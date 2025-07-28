@@ -1,37 +1,60 @@
+import { toast } from "react-toastify";
 import axioInstance from "../../api/axio";
 
+// --------------- sitemanager list needs to add sitemanager to project --------------- //
 
-//sitemanager list needs to add sitemanager to project
-export const getSitemanager = async()=>{
-   const response = await axioInstance.get(`/admin/addSiteToSiteData`);
-   return response.data
+export const getSitemanager = async () => {
+   try {
+      const response = await axioInstance.get(`/admin/addSiteToSiteData`);
+      return response.data
+   } catch (error: any) {
+      toast.error(error.message)
+   }
 }
 
-// project list needs to add sitemanager to project
-export const getProject = async()=>{
-    const response = await axioInstance.get(`/admin/addSiteToProjectData`);
-    return response.data
+// --------------- project list needs to add sitemanager to project --------------- //
+
+export const getProject = async () => {
+   try {
+      const response = await axioInstance.get(`/admin/addSiteToProjectData`);
+      return response.data
+   } catch (error: any) {
+      toast.error(error.message)
+   }
 }
 
+// --------------- add sitemanager to project --------------- //
 
-
-//add sitemanager to project
-export const postSitemanagerToProject = async(siteManager_id:string,selectedproject:string[])=>{
-   const response = await axioInstance.post(`/admin/addToSite`, {
-        siteManager_id,
-        selectedproject
+export const postSitemanagerToProject = async (siteManager_id: string, selectedproject: string[]) => {
+   try {
+      const response = await axioInstance.post(`/admin/addToSite`, {
+         siteManager_id,
+         selectedproject
       });
       return response.data
+   } catch (error: any) {
+      toast.error(error.message)
+   }
 }
 
-export const deleteSitemanagerToProject = async(_id:string,sitemanager_id:string)=>{
-    const response = await axioInstance.delete(`/admin/addToSite/${_id}/${sitemanager_id}`);
-    return response.data
+//--------------- Delete sitemanager in particular project --------------- //
+
+export const deleteSitemanagerToProject = async (_id: string, sitemanager_id: string) => {
+   try {
+      const response = await axioInstance.delete(`/admin/addToSite/${ _id }/${ sitemanager_id }`);
+      return response.data
+   } catch (error: any) {
+      toast.error(error.message)
+   }
 }
 
-//list of add sitemanager to project
+// --------------- list of add sitemanager to project --------------- //
 
-export const listOfsitemanager = async(page:number,search:string)=>{
-   const response = await axioInstance.get(`/admin/addToSite`, { params: { page, search } });
-   return response.data
+export const listOfsitemanager = async (page: number, search: string) => {
+   try {
+      const response = await axioInstance.get(`/admin/addToSite`, { params: { page, search } });
+      return response.data
+   } catch (error: any) {
+      toast.error(error.message)
+   }
 }

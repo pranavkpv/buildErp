@@ -12,7 +12,8 @@ export class VerifyForgotUseCase implements IVerifyForgotUseCase {
       this.UserRepository = UserRepository
    }
    async execute(input: OTPInput): Promise<commonOutput> {
-      const { otp, email } = input
+      try {
+         const { otp, email } = input
       const ExistUser = await this.UserRepository.findTempUserByEmailAndOTP(email, otp)
       if (!ExistUser) {
          return ResponseHelper.failure(ERROR_MESSAGE.USER.OTP_WRONG, HTTP_STATUS.UNAUTHORIZED)
@@ -27,5 +28,8 @@ export class VerifyForgotUseCase implements IVerifyForgotUseCase {
       }
       await this.UserRepository.deleteTempUserByEmail(email)
       return ResponseHelper.success(SUCCESS_MESSAGE.USER.CONFIRM_OTP, HTTP_STATUS.OK)
+      } catch (error:any) {
+         return ResponseHelper.failure(error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
+      }
    }
 }

@@ -15,7 +15,6 @@ function ProjectImage({ imageEnable, setImageEnable, projectId }: imageProp) {
   const [count, setCount] = useState(0);
 
   const fetchStage = async (): Promise<void> => {
-    try {
       const response = await getStage(projectId);
       if (response.data.success) {
         let x = [];
@@ -31,10 +30,6 @@ function ProjectImage({ imageEnable, setImageEnable, projectId }: imageProp) {
       } else {
         toast.error(response.message);
       }
-    } catch (error) {
-      console.error("Error fetching stage data:", error);
-      toast.error("Fetching stage data failed.");
-    }
   };
 
   useEffect(() => {

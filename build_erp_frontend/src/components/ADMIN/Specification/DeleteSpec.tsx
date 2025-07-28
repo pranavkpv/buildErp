@@ -11,7 +11,6 @@ function DeleteSpec({fetchSpecList}:prop) {
    const { deleteSpecEnable, setDeleteSpecEnable, deleteId } = useContext(AppContext)
 
    const deleteSpecData = async () => {
-       try {
          const response = await DeleteSpecFunction(deleteId)
          if(response.success){
             toast.success(response.message)
@@ -20,10 +19,6 @@ function DeleteSpec({fetchSpecList}:prop) {
          }else{
             toast.error(response.message)
          }
-       } catch (error) {
-         console.log(error)
-         toast.error("An Error Occurred When Delete Specification")
-       }
    }
 
    if (!deleteSpecEnable) return null

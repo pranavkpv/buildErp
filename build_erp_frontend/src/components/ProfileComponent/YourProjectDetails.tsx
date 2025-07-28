@@ -2,9 +2,6 @@ import { Calendar, MapPin, Square, DollarSign, ChevronDown, ChevronUp, Image } f
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import { toast } from "react-toastify";
-
-import UserHeader from "../USER/common/UserHeader";
-import Footer from "../USER/common/Footer";
 import ProjectImage from "./SubprofileCompponent/ProjectImage";
 import ProgressBar from "./SubprofileCompponent/ProgressBar";
 import { fetchUserProjectAPI } from "../../api/User/project";
@@ -30,17 +27,12 @@ function ProjectDetails() {
 
   useEffect(() => {
     const fetchUserProject = async () => {
-      try {
         const token = localStorage.getItem("accessToken");
         if (token) {
           const decoded = jwtDecode<{ userId: string }>(token);
           const response = await fetchUserProjectAPI(decoded.userId);
           setProject(response);
         }
-      } catch (error) {
-        console.error(error);
-        toast.error("Failed to fetch project");
-      }
     };
 
     fetchUserProject();

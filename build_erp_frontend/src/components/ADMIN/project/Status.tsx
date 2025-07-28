@@ -11,7 +11,6 @@ type Statusprop = {
 
 function ChangeStatus({ project_id, status, enable, setEnable, onChangeSuccess }: Statusprop) {
   const statusChanged = async () => {
-    try {
       const _id = project_id
       const data = await pustStatusChange(_id,status)
       if (data.success) {
@@ -21,10 +20,6 @@ function ChangeStatus({ project_id, status, enable, setEnable, onChangeSuccess }
       } else {
         toast.error(data.message);
       }
-    } catch (err) {
-      console.error(err);
-      toast.error("Failed to change status");
-    }
   };
 
   if (!enable) return null;

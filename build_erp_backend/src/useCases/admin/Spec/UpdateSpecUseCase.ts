@@ -12,10 +12,14 @@ export class UpdateSpecUseCase implements IUpdateSpecUseCase {
       this.SpecRepository = SpecRepository
    }
    async execute(input: Specification): Promise<commonOutput> {
-      const { _id, specId, specname, specUnit, specDescription,
-         materialDetails, labourDetails, additionalExpense_per, profit_per } = input
-      await this.SpecRepository.UpdateSpec(_id, specId, specname, specUnit, specDescription,
-         materialDetails, labourDetails, additionalExpense_per, profit_per)
-      return ResponseHelper.success(SUCCESS_MESSAGE.SPEC.UPDATE, HTTP_STATUS.OK)
+      try {
+         const { _id, specId, specname, specUnit, specDescription,
+            materialDetails, labourDetails, additionalExpense_per, profit_per } = input
+         await this.SpecRepository.UpdateSpec(_id, specId, specname, specUnit, specDescription,
+            materialDetails, labourDetails, additionalExpense_per, profit_per)
+         return ResponseHelper.success(SUCCESS_MESSAGE.SPEC.UPDATE, HTTP_STATUS.OK)
+      } catch (error: any) {
+         return ResponseHelper.failure(error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
+      }
    }
 }

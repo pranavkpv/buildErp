@@ -27,15 +27,10 @@ function Brand() {
 
 
   const fetchData = async () => {
-    try {
       const search = searchBrand
       const data = await getbrandList(page,search)
       setBrandList(data.getBrandData);
       setTotal(Math.ceil(data.totalPage))
-    } catch (error) {
-      console.error("Error fetching brands:", error);
-      toast.error("Failed to load brands.");
-    }
   };
 
   // Fetch data on component mount

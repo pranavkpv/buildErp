@@ -24,15 +24,9 @@ function Material() {
   const [editId,setEditId] = useState("")
 
   const fetchMaterials = async () => {
-    try {
       const data = await materialList(page,search) 
       setTotal(Math.ceil(data.totalPage))
       setMaterialData(data.getMaterialData);
-
-    } catch (error) {
-      console.error("Failed to fetch materials:", error);
-      toast.error("An error occurred while fetching materials.");
-    }
   };
 
   useEffect(() => {

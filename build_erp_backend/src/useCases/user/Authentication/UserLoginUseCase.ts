@@ -15,25 +15,29 @@ import { HTTP_STATUS } from "../../../Shared/Status_code"
 export class UserLoginUseCase implements IUserLoginUseCase {
    private UserRepository: IUserRepository
    private Hasher: IHasher
-   private jwtService : JwtServiceImpl
-   constructor(UserRepository: IUserRepository, Hasher: IHasher,jwtService : JwtServiceImpl) {
+   private jwtService: JwtServiceImpl
+   constructor(UserRepository: IUserRepository, Hasher: IHasher, jwtService: JwtServiceImpl) {
       this.UserRepository = UserRepository
       this.Hasher = Hasher
       this.jwtService = jwtService
    }
    async execute(input: loginInput): Promise<commonOutput> {
-      const { email, password } = input
-      const existUser = await this.UserRepository.findUserByEmail(email)
-      if (!existUser) {
-         return ResponseHelper.failure(ERROR_MESSAGE.USER.EMAIL_NOT_FOUND,HTTP_STATUS.UNAUTHORIZED)
-      }
-      const passwordCheck = await this.Hasher.compare(password, existUser.password)
-      if (!passwordCheck) {
-         return ResponseHelper.failure(ERROR_MESSAGE.USER.INVALID_PASSWORD,HTTP_STATUS.UNAUTHORIZED)
-      }
+      try {
+         const { email, password } = input
+         const existUser = await this.UserRepository.findUserByEmail(email)
+         if (!existUser) {
+            return ResponseHelper.failure(ERROR_MESSAGE.USER.EMAIL_NOT_FOUND, HTTP_STATUS.UNAUTHORIZED)
+         }
+         const passwordCheck = await this.Hasher.compare(password, existUser.password)
+         if (!passwordCheck) {
+            return ResponseHelper.failure(ERROR_MESSAGE.USER.INVALID_PASSWORD, HTTP_STATUS.UNAUTHORIZED)
+         }
 
-      const tokens = this.jwtService.generateTokens(existUser._id,existUser.email,"user")
-      return ResponseHelper.loginSuccess(SUCCESS_MESSAGE.USER.LOGIN,HTTP_STATUS.OK,tokens,existUser)
+         const tokens = this.jwtService.generateTokens(existUser._id, existUser.email, "user")
+         return ResponseHelper.loginSuccess(SUCCESS_MESSAGE.USER.LOGIN, HTTP_STATUS.OK, tokens, existUser)
+      } catch (error: any) {
+         return ResponseHelper.failure(error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
+      }
    }
 }
 

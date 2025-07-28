@@ -30,15 +30,10 @@ function Category() {
 
 
   const fetchData = async () => {
-    try {
       const search = searchCategory
       const data = await categoryList(page,search)
        setTotal(Math.ceil(data.totalPage))
       setCategories(data.getCategoryData);
-    } catch (error) {
-      console.error("Error fetching categories:", error);
-      toast.error("Failed to load categories.");
-    }
   };
 
   // Fetch data on component mount

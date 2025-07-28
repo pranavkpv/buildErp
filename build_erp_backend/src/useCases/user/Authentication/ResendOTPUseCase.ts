@@ -17,26 +17,29 @@ export class ResendOTPUseCase implements IResendOTPUseCase {
       this.UserRepository = UserRepossitory
    }
    async execute(input: ResendOTPInput): Promise<commonOutput> {
-      const { email } = input
-      const existEmail = await this.UserRepository.findTempUserByEmail(email)
-      if (existEmail) {
-         const otp = Math.floor(100000 + Math.random() * 900000)
-         const text = `Dear ${ existEmail.username }, your One-Time Password (OTP) for signing up with BuildERP is ${ otp }. Do not share this code with anyone.`
-         const emailSend = await sendEmail(existEmail.email, "OTP verification", text)
+      try {
+         const { email } = input
+         const existEmail = await this.UserRepository.findTempUserByEmail(email)
+         if (existEmail) {
+            const otp = Math.floor(100000 + Math.random() * 900000)
+            const text = `Dear ${ existEmail.username }, your One-Time Password (OTP) for signing up with BuildERP is ${ otp }. Do not share this code with anyone.`
+            const emailSend = await sendEmail(existEmail.email, "OTP verification", text)
 
-         if (emailSend) {
-            console.log(otp)
-            const otpCreatedAt: Date = new Date()
-            await this.UserRepository.findTempUserByEmailAndUpdateOTP(email, otp, otpCreatedAt)
+            if (emailSend) {
+               console.log(otp)
+               const otpCreatedAt: Date = new Date()
+               await this.UserRepository.findTempUserByEmailAndUpdateOTP(email, otp, otpCreatedAt)
 
-            return ResponseHelper.success(SUCCESS_MESSAGE.USER.OTP_SEND,HTTP_STATUS.OK)
+               return ResponseHelper.success(SUCCESS_MESSAGE.USER.OTP_SEND, HTTP_STATUS.OK)
+            } else {
+               return ResponseHelper.failure(ERROR_MESSAGE.USER.OTP_SEND_FAIL, HTTP_STATUS.BAD_REQUEST)
+            }
          } else {
-            return ResponseHelper.failure(ERROR_MESSAGE.USER.OTP_SEND_FAIL,HTTP_STATUS.BAD_REQUEST)
+            return ResponseHelper.failure(ERROR_MESSAGE.USER.EMAIL_NOT_FOUND, HTTP_STATUS.BAD_REQUEST)
          }
-      } else {
-         return ResponseHelper.failure(ERROR_MESSAGE.USER.EMAIL_NOT_FOUND,HTTP_STATUS.BAD_REQUEST)
+      } catch (error: any) {
+         return ResponseHelper.failure(error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
       }
+
    }
-
 }
-

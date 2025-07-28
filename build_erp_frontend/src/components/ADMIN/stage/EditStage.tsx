@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import { EditStageAPI, fetchBugetAPI, stageSaveAPI } from "../../../api/Admin/StageSetting";
+import {  editStageAPI, fetchBugetAPI, stageSaveAPI } from "../../../api/Admin/StageSetting";
 import { getProject } from "../../../api/Admin/project";
 import { useEffect, useRef, useState } from "react";
 import { PlusCircleIcon, MinusCircleIcon } from "@heroicons/react/24/outline";
@@ -32,7 +32,6 @@ function EditStage({ editEnable, setEditEnable, editId, onEditSuccess }: stagePr
    const endRef = useRef<HTMLParagraphElement>(null)
 
    const fetchStage = async (projectId: string): Promise<void> => {
-      try {
          const response = await getStage(projectId);
          if (response.success) {
              const updatedStage = []
@@ -43,29 +42,19 @@ function EditStage({ editEnable, setEditEnable, editId, onEditSuccess }: stagePr
          } else {
             toast.error(response.message);
          }
-      } catch (error) {
-         console.error("Error fetching stage data:", error);
-         toast.error("Fetching stage data failed.");
-      }
    };
 
 
    const fetchProject = async () => {
-      try {
          const response = await getProject();
          const filteredProject = response.find((element: any) => element._id == editId)
          setCost(filteredProject.budgeted_cost)
          setStartDate(filteredProject.start_date)
          setEndDate(filteredProject.end_date)
          setProject(response);
-      } catch (error) {
-         console.error("Error fetching projects:", error);
-         toast.error("Failed to fetch projects.");
-      }
    };
 
    const fetchBudgetedCost = async (projectId: string) => {
-      try {
          const data = await fetchBugetAPI(projectId);
          if (data.success) {
             setCost(data.message);
@@ -74,10 +63,6 @@ function EditStage({ editEnable, setEditEnable, editId, onEditSuccess }: stagePr
             setCost(0)
             toast.error(data.message);
          }
-      } catch (error) {
-         console.error("Error fetching budgeted cost:", error);
-         toast.error("Failed to fetch budgeted cost.");
-      }
    };
 
    useEffect(() => {
@@ -92,7 +77,6 @@ function EditStage({ editEnable, setEditEnable, editId, onEditSuccess }: stagePr
    };
 
    const saveStageFun = async () => {
-      try {
          if (projectId == "") {
             projectRef.current ? projectRef.current.innerText = "project name is required" : ""
             return
@@ -138,7 +122,7 @@ function EditStage({ editEnable, setEditEnable, editId, onEditSuccess }: stagePr
             return
          }
 
-         const data = await EditStageAPI(stages, projectId, startDate, endDate, cost)
+         const data = await editStageAPI(stages, projectId, startDate, endDate, cost)
          if (data.success) {
             toast.success(data.message)
             setEditEnable(false)
@@ -146,10 +130,6 @@ function EditStage({ editEnable, setEditEnable, editId, onEditSuccess }: stagePr
          } else {
             toast.error(data.message)
          }
-      } catch (error) {
-         console.log(error)
-         toast.error("Add stage has face a problem to fetch")
-      }
    }
 
    return (

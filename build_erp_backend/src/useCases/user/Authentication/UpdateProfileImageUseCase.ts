@@ -11,11 +11,15 @@ export class UpdateProfileImageUseCase implements IUpdateProfileImageUseCase {
       this.userRepository = userRepository
    }
    async execute(url: string, _id: string): Promise<commonOutput> {
-      await this.userRepository.UpdateProfileImage(url, _id)
-      const updatedUser = await this.userRepository.findUserById(_id)
-      if (!updatedUser) {
-         return ResponseHelper.failure(ERROR_MESSAGE.USER.USER_NOT_FOUND, HTTP_STATUS.UNAUTHORIZED)
+      try {
+         await this.userRepository.UpdateProfileImage(url, _id)
+         const updatedUser = await this.userRepository.findUserById(_id)
+         if (!updatedUser) {
+            return ResponseHelper.failure(ERROR_MESSAGE.USER.USER_NOT_FOUND, HTTP_STATUS.UNAUTHORIZED)
+         }
+         return ResponseHelper.updateSuccess(SUCCESS_MESSAGE.PROFILE.UPDATE_IMAGE, HTTP_STATUS.OK, updatedUser)
+      } catch (error: any) {
+         return ResponseHelper.failure(error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
       }
-      return ResponseHelper.updateSuccess(SUCCESS_MESSAGE.PROFILE.UPDATE_IMAGE, HTTP_STATUS.OK, updatedUser)
    }
 }

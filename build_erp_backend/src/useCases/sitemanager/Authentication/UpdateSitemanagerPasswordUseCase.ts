@@ -16,17 +16,21 @@ export class UpdateSitemanagerPasswordUseCase implements IUpdateSitemanagerPassw
       this.hasher = hasher
    }
    async execute(input: changePasswordInput): Promise<commonOutput> {
-      const { _id, password, changedpassword } = input
-      const loginData = await this.sitemanagerRepository.findSitemanagerById(_id)
-      if (!loginData) {
-         return ResponseHelper.failure(ERROR_MESSAGE.SITEMANAGER.NOT_EXIST, HTTP_STATUS.BAD_REQUEST)
+      try {
+         const { _id, password, changedpassword } = input
+         const loginData = await this.sitemanagerRepository.findSitemanagerById(_id)
+         if (!loginData) {
+            return ResponseHelper.failure(ERROR_MESSAGE.SITEMANAGER.NOT_EXIST, HTTP_STATUS.BAD_REQUEST)
+         }
+         const passwordCheck = await this.hasher.compare(password, loginData?.password)
+         if (!passwordCheck) {
+            return ResponseHelper.failure(ERROR_MESSAGE.SITEMANAGER.PASSWORD_WRONG, HTTP_STATUS.BAD_REQUEST)
+         }
+         const hashPassword = await this.hasher.hash(changedpassword)
+         await this.sitemanagerRepository.updatePassword(_id, hashPassword)
+         return ResponseHelper.success(SUCCESS_MESSAGE.SITEMANAGER.UPDATE_PASSWORD, HTTP_STATUS.OK)
+      } catch (error: any) {
+         return ResponseHelper.failure(error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
       }
-      const passwordCheck = await this.hasher.compare(password, loginData?.password)
-      if (!passwordCheck) {
-         return ResponseHelper.failure(ERROR_MESSAGE.SITEMANAGER.PASSWORD_WRONG, HTTP_STATUS.BAD_REQUEST)
-      }
-      const hashPassword = await this.hasher.hash(changedpassword)
-      await this.sitemanagerRepository.updatePassword(_id, hashPassword)
-      return ResponseHelper.success(SUCCESS_MESSAGE.SITEMANAGER.UPDATE_PASSWORD, HTTP_STATUS.OK)
    }
 }

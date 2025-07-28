@@ -60,8 +60,6 @@ function ForgotOTP() {
       }
       return;
     }
-
-    try {
       const baseUrl = import.meta.env.VITE_BASE_URL || 'http://localhost:3000';
       const response = await axios.post(`${baseUrl}/verifyForgotOtp`, {
         otp,
@@ -76,9 +74,6 @@ function ForgotOTP() {
       } else {
         toast.error(response.data.message);
       }
-    } catch (error: any) {
-      toast.error(error.message || 'Something went wrong.');
-    }
   };
 
   const resendOTP = async () => {
@@ -86,8 +81,6 @@ function ForgotOTP() {
       toast.error('No email found. Please sign up again.');
       return;
     }
-
-    try {
       const baseUrl = import.meta.env.VITE_BASE_URL;
       const response = await axios.post(`${baseUrl}/resendOtp`, { email: otpEmail });
       if (response.data.success) {
@@ -100,9 +93,6 @@ function ForgotOTP() {
       } else {
         toast.error(response.data.message);
       }
-    } catch (error: any) {
-      toast.error(error.message || 'Something went wrong.');
-    }
   };
 
   return (

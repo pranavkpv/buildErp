@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import axioInstance from "../../api/axio";
 
 type addRowData = {
@@ -5,63 +6,140 @@ type addRowData = {
   stock: number;
 };
 
-//get add material data here datas are categorydata,brandData,unitData,projectData
+// ---------------- Get Add Material Metadata ---------------- //
+
 export const getaddMaterial = async () => {
-   const response = await axioInstance.get(`/admin/addmaterial`);
-   return response.data
-}
+  try {
+    const response = await axioInstance.get(`/admin/addmaterial`);
+    return response.data;
+  } catch (error: any) {
+    toast.error(error.message);
+  }
+};
 
+// ---------------- Save New Material ---------------- //
 
-export const deleteMaterial = async (_id:string) => {
-   const response = await axioInstance.delete(`/admin/material/${_id}`)
-   return response.data
-}
+export const SaveMaterialApi = async (
+  material_name: string,
+  category_id: string,
+  brand_id: string,
+  unit_id: string,
+  unit_rate: number,
+  stock: number,
+  projectWiseStock: addRowData[]
+) => {
+  try {
+    const response = await axioInstance.post("/admin/material", {
+      material_name,
+      category_id,
+      brand_id,
+      unit_id,
+      unit_rate,
+      stock,
+      projectWiseStock,
+    });
+    return response.data;
+  } catch (error: any) {
+    toast.error(error.message);
+  }
+};
 
-//list the material data
-export const materialList = async(page:number,search:string) =>{
-   const response = await axioInstance.get(`/admin/material`,{ params: { page, search } }); 
-   return response.data
-}
+// ---------------- Delete Material ---------------- //
 
+export const deleteMaterial = async (_id: string) => {
+  try {
+    const response = await axioInstance.delete(`/admin/material/${_id}`);
+    return response.data;
+  } catch (error: any) {
+    toast.error(error.message);
+  }
+};
 
-//edit data fetch using api
+// ---------------- Get Material List (with Pagination + Search) ---------------- //
 
-export const editMaterialData = async(_id:string)=>{
-   const response = await axioInstance.get(`/admin/editmaterial/${_id}`)
-   return response.data
-}
+export const materialList = async (page: number, search: string) => {
+  try {
+    const response = await axioInstance.get(`/admin/material`, {
+      params: { page, search },
+    });
+    return response.data;
+  } catch (error: any) {
+    toast.error(error.message);
+  }
+};
 
+// ---------------- Fetch Data for Editing a Material ---------------- //
 
-//the unique material is fetch
-export const fetchUniqueMaterial = async()=>{
-   const response = await axioInstance.get(`/admin/fetchMaterial`)
-   return response.data
-}
+export const editMaterialData = async (_id: string) => {
+  try {
+    const response = await axioInstance.get(`/admin/editmaterial/${_id}`);
+    return response.data;
+  } catch (error: any) {
+    toast.error(error.message);
+  }
+};
 
+// ---------------- Fetch Unique Materials ---------------- //
 
-//the list of unit if select material
-export const fetchUnitCorrespondingMaterial = async(material:string)=>{
-   const response = await axioInstance.get(`/admin/fetMatbyUnit/${material}`)
-   return response.data
-}
+export const fetchUniqueMaterial = async () => {
+  try {
+    const response = await axioInstance.get(`/admin/fetchMaterial`);
+    return response.data;
+  } catch (error: any) {
+    toast.error(error.message);
+  }
+};
 
-export const fetchBrandCorrespondingMaterial = async(material:string)=>{
-   const response = await axioInstance.get(`/admin/fetchMatbyBrand/${material}`)
-   return response.data
-}
+// ---------------- Fetch Units Based on Material ---------------- //
 
-export const fetchUnitRate = async(selectedMaterail:string,selectedUnit:string,selectedBrand:string)=>{
-   const response = await axioInstance.get('/admin/unitRate',{params:{material_name:selectedMaterail,brand_name:selectedBrand,unit_name:selectedUnit}})
-   return response.data
-}
+export const fetchUnitCorrespondingMaterial = async (material: string) => {
+  try {
+    const response = await axioInstance.get(`/admin/fetMatbyUnit/${material}`);
+    return response.data;
+  } catch (error: any) {
+    toast.error(error.message);
+  }
+};
 
-export const findMaterialById = async(_id:string)=>{
-   const response = await axioInstance.get(`/admin/getmaterial/${_id}`)
-   return response.data
-}
+// ---------------- Fetch Brands Based on Material ---------------- //
 
-export const SaveMaterialApi = async( material_name:string,category_id: string,brand_id: string,
-        unit_id: string,unit_rate: number,stock: number,projectWiseStock: addRowData[]) =>{
-         const response = await axioInstance.post("/admin/material",{material_name,category_id,brand_id,unit_id,unit_rate,stock,projectWiseStock})
-         return response.data
-        }
+export const fetchBrandCorrespondingMaterial = async (material: string) => {
+  try {
+    const response = await axioInstance.get(`/admin/fetchMatbyBrand/${material}`);
+    return response.data;
+  } catch (error: any) {
+    toast.error(error.message);
+  }
+};
+
+// ---------------- Fetch Unit Rate ---------------- //
+
+export const fetchUnitRate = async (
+  selectedMaterial: string,
+  selectedUnit: string,
+  selectedBrand: string
+) => {
+  try {
+    const response = await axioInstance.get('/admin/unitRate', {
+      params: {
+        material_name: selectedMaterial,
+        brand_name: selectedBrand,
+        unit_name: selectedUnit,
+      },
+    });
+    return response.data;
+  } catch (error: any) {
+    toast.error(error.message);
+  }
+};
+
+// ---------------- Find Material by ID ---------------- //
+
+export const findMaterialById = async (_id: string) => {
+  try {
+    const response = await axioInstance.get(`/admin/getmaterial/${_id}`);
+    return response.data;
+  } catch (error: any) {
+    toast.error(error.message);
+  }
+};

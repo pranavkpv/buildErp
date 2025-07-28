@@ -33,11 +33,7 @@ function AddSitemanager({ addEnable, setAddEnable, onAddSuccess }: AddSitemanage
     } else {
       if (emailRef.current) emailRef.current.innerText = "";
     }
-
-
     if (hasError) return;
-
-    try {
       const username = sitemanager
       const data = await postSitemanager(username,email)
       if (data.success) {
@@ -47,10 +43,6 @@ function AddSitemanager({ addEnable, setAddEnable, onAddSuccess }: AddSitemanage
       } else {
         toast.error(data.message);
       }
-    } catch (error: any) {
-      console.error(error);
-      toast.error("Failed to add sitemanager");
-    }
   };
 
   if (!addEnable) return null;

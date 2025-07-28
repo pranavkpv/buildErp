@@ -48,26 +48,16 @@ function AddAttendance({ addEnable, setAddEnable, onAddSuccess }: setAdd) {
   const [dateError, setDateError] = useState("");
 
   const fetchProject = async () => {
-    try {
       const token = localStorage.getItem("accessToken")
       if (!token) return
       const decode: JwtPayload = jwtDecode(token)
       const response = await getSitemanagersProject(decode.userId);
       setProject(response);
-    } catch (error) {
-      console.error("Error fetching projects:", error);
-      toast.error("Failed to fetch projects.");
-    }
   };
 
   const fetchLabour = async () => {
-    try {
       const response = await labourDataFetch();
       setLabour(response);
-    } catch (error) {
-      console.error("Error fetching labour data:", error);
-      toast.error("Failed to fetch labour data.");
-    }
   };
 
   useEffect(() => {
@@ -110,8 +100,6 @@ function AddAttendance({ addEnable, setAddEnable, onAddSuccess }: setAdd) {
     }
 
     if (hasError) return;
-
-    try {
       const response = await takeAttendanceAPI(selectedProject, selectedDate, row);
       if (response.success) {
         toast.success(response.message);
@@ -120,10 +108,6 @@ function AddAttendance({ addEnable, setAddEnable, onAddSuccess }: setAdd) {
       } else {
         toast.error(response.message);
       }
-    } catch (error) {
-      console.error("Error taking attendance:", error);
-      toast.error("Failed to save attendance.");
-    }
   };
 
   return (

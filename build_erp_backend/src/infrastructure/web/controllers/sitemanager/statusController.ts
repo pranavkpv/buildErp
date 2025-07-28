@@ -6,7 +6,7 @@ import { IStageStatusChangeUseCase } from "../../../../Entities/useCaseEntities/
 import { IUploadStatusImageUseCase } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/StageStatusUpdationUseCaseEntities/UploadStatusImageUseCaseEntity";
 import { HTTP_STATUS } from "../../../../Shared/Status_code";
 import { ERROR_MESSAGE } from "../../../../Shared/Message";
-import { profileEnd } from "console";
+import { commonOutput } from "../../../../Entities/Input-OutputEntities/CommonEntities/common";
 
 export class statusController implements IstatusControllerEntity {
    private fetchStatusUseCase: IFetchStatusUseCase
@@ -19,25 +19,28 @@ export class statusController implements IstatusControllerEntity {
       this.uploadstatusImageusecase = uploadstatusImageusecase
    }
 
+   //------------------------------------ Fetch the stages corresponding project  ------------------------------------//
 
-   fetchStageData = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   fetchStageData = async (req: Request, res: Response, next: NextFunction):  Promise<commonOutput>=> {
       const project_id = req.params.id
       const data = await this.fetchStatusUseCase.execute({ projectId: project_id });
-      res.status(data.status_code).json(data);
+      return data
    }
 
+   //------------------------------------ Change the status of stage  ------------------------------------//
 
-   changeStatus = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   changeStatus = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
       const result = await this.stageStatusChangeUseCase.execute({ stageId: req.params.id, ...req.body })
-      res.status(result.status_code).json(result);
+      return result
    }
 
+   //------------------------------------ Upload images in based on stages  ------------------------------------//
 
-   uploadImage = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   uploadImage = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput | void> => {
       const file = req.files?.image;
       const { _id, date } = req.body;
       if (!file) {
-         res.status(HTTP_STATUS.BAD_REQUEST).json({ error: ERROR_MESSAGE.STAGE.NO_IMAGE_UPLOAD });
+         res.status(HTTP_STATUS.OK).json({ error: ERROR_MESSAGE.STAGE.NO_IMAGE_UPLOAD });
          return
       }
       let urls: string[] = [];
@@ -55,7 +58,7 @@ export class statusController implements IstatusControllerEntity {
          urls.push(result.secure_url);
       }
       const ExactResult = await this.uploadstatusImageusecase.execute(urls, _id, date);
-      res.status(ExactResult.status_code).json(ExactResult);
+      return ExactResult
    }
 
 }

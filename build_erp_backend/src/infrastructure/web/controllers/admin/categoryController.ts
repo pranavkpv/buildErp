@@ -4,7 +4,7 @@ import { IDisplayAllCategoryUseCase } from "../../../../Entities/useCaseEntities
 import { ISaveCategoryUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/CategoryUseCaseEntities/SaveCategoryEntity"
 import { IUpdateCategoryUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/CategoryUseCaseEntities/UpdateCategoryEntity"
 import { IDeleteCategoryUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/CategoryUseCaseEntities/DeleteCategoryEntity"
-import { HTTP_STATUS } from "../../../../Shared/Status_code"
+import { commonOutput } from "../../../../Entities/Input-OutputEntities/CommonEntities/common"
 
 
 
@@ -21,28 +21,33 @@ export class CategoryController implements ICategoryControllerEntity {
       this.deleteCategoryUseCase = deleteCategoryUseCase
    }
 
-   categoryList = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   //------------------------------------ List category data with search and pagination ------------------------------------//
+
+   categoryList = async (req: Request, res: Response, next: NextFunction): Promise<{ getCategoryData: any[]; totalPage: number } | commonOutput> => {
       const { page, search } = req.query
       const result = await this.displayAllCategoryUseCase.execute(Number(page), String(search))
-      res.status(HTTP_STATUS.OK).json(result)
+      return result
    }
 
+   //------------------------------------ Save category ------------------------------------//
 
-   addCategory = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   addCategory = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
       const result = await this.addCategoryUseCase.execute(req.body)
-      res.status(result.status_code).json(result)
+      return result
    }
 
+   //------------------------------------ Update category ------------------------------------//
 
-   editCategory = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   editCategory = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
       const result = await this.editcategoryUseCase.execute({ _id: req.params.id, ...req.body })
-      res.status(result.status_code).json(result)
+      return result
    }
 
+   //------------------------------------ Delete category ------------------------------------//
 
-   deleteCategory = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   deleteCategory = async (req: Request, res: Response, next: NextFunction):  Promise<commonOutput> => {
       const result = await this.deleteCategoryUseCase.execute(req.params.id)
-      res.status(result.status_code).json(result)
+     return result
    }
 
 }

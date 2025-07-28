@@ -11,9 +11,13 @@ export class DeleteStageUseCase implements IDeleteStageUseCase {
       this.stageRepository = stageRepository
    }
    async execute(input: { deleteId: string }): Promise<commonOutput> {
-      const { deleteId } = input
-      await this.stageRepository.RemoveDateinProject(deleteId)
-      await this.stageRepository.DeleteDtageByproject(deleteId)
-      return ResponseHelper.success(SUCCESS_MESSAGE.STAGE.DELETE, HTTP_STATUS.OK)
+      try {
+         const { deleteId } = input
+         await this.stageRepository.RemoveDateinProject(deleteId)
+         await this.stageRepository.DeleteDtageByproject(deleteId)
+         return ResponseHelper.success(SUCCESS_MESSAGE.STAGE.DELETE, HTTP_STATUS.OK)
+      } catch (error: any) {
+         return ResponseHelper.failure(error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
+      }
    }
 }

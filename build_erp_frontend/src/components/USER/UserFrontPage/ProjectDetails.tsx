@@ -41,17 +41,11 @@ function DetailProject() {
   const [stage, setStage] = useState<StageData[]>([]);
 
   const fetchSpec = async () => {
-    try {
       const response = await fetchExistEstimation(projectId);
       setSpec(response);
-    } catch (error) {
-      console.log(error);
-      toast.error("Failed to fetch the specification");
-    }
   };
 
   const fetchStage = async () => {
-    try {
       const response = await getStage(projectId);
       if (response.success) {
         setStage(response.message);
@@ -65,10 +59,6 @@ function DetailProject() {
         }
         setImage(x);
       }
-    } catch (error) {
-      console.log(error);
-      toast.error("Fetching stage data failed.");
-    }
   };
 
   useEffect(() => {

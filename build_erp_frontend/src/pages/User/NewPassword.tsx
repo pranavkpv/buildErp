@@ -49,7 +49,6 @@ function NewPassword() {
     if (hasError) {
       return;
     }
-    try {
       const response = await updatePasswordAPI(otpEmail, password);
       if (response.success) {
         toast.success(response.message);
@@ -60,10 +59,6 @@ function NewPassword() {
       } else {
         toast.error(response.message);
       }
-    } catch (error) {
-      console.error(error);
-      toast.error("Failed to change password");
-    }
   };
 
   return (

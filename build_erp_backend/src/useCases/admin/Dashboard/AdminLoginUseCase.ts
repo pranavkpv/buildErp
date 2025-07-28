@@ -9,21 +9,25 @@ import { ERROR_MESSAGE, SUCCESS_MESSAGE } from "../../../Shared/Message"
 import { HTTP_STATUS } from "../../../Shared/Status_code"
 
 
-export class AdminLoginUseCase implements IAdminLoginUseCase{
-   private adminRepository : IAdminRepository
-   private jwtservice : JwtService
-   constructor(adminRepository : IAdminRepository,jwtservice : JwtService){
+export class AdminLoginUseCase implements IAdminLoginUseCase {
+   private adminRepository: IAdminRepository
+   private jwtservice: JwtService
+   constructor(adminRepository: IAdminRepository, jwtservice: JwtService) {
       this.adminRepository = adminRepository
       this.jwtservice = jwtservice
    }
-   async execute(input:adminloginInput):Promise<commonOutput>{
-      const {username,password} = input
+   async execute(input: adminloginInput): Promise<commonOutput> {
+      try {
+         const { username, password } = input
 
-      const existAdmin = await this.adminRepository.findAdminByUsernameAndPassword(username,password)
-      if(!existAdmin){
-          return  ResponseHelper.failure(ERROR_MESSAGE.USER.INVALID_USER,HTTP_STATUS.UNAUTHORIZED)
+         const existAdmin = await this.adminRepository.findAdminByUsernameAndPassword(username, password)
+         if (!existAdmin) {
+            return ResponseHelper.failure(ERROR_MESSAGE.USER.INVALID_USER, HTTP_STATUS.UNAUTHORIZED)
+         }
+         const token = this.jwtservice.generateTokens(existAdmin._id, existAdmin.username, "admin")
+         return ResponseHelper.loginSuccess(SUCCESS_MESSAGE.USER.LOGIN, HTTP_STATUS.OK, token, existAdmin)
+      } catch (error: any) {
+         return ResponseHelper.failure(error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
       }
-      const token = this.jwtservice.generateTokens(existAdmin._id,existAdmin.username,"admin")    
-      return ResponseHelper.loginSuccess(SUCCESS_MESSAGE.USER.LOGIN,HTTP_STATUS.OK,token,existAdmin)
    }
 }

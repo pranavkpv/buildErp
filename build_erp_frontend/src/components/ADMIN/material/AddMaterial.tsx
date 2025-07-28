@@ -65,16 +65,11 @@ function AddMaterial({ setEnable, enable, refreshData }: AddMaterialProps) {
   };
 
   const fetchData = async () => {
-    try {
       const data = await getaddMaterial()
       selectCategoryList(data.categoryData);
       setBrandlist(data.brandData);
       setUnitList(data.unitData);
       setProjectlist(data.projectData || []);
-    } catch (error) {
-      console.error("Error fetching material add data:", error);
-      toast.error("Failed to load necessary data for adding material.");
-    }
   };
 
   useEffect(() => {
@@ -143,9 +138,6 @@ function AddMaterial({ setEnable, enable, refreshData }: AddMaterialProps) {
 
 
     if (hasError) return;
-
-    try {
-     
       const response = await SaveMaterialApi(materialName,selectCategoryId,selectBrandId,selectUnitId,unit_rate,totalOpeningStock,row)
       if (response.success) {
         toast.success(response.message);
@@ -154,10 +146,6 @@ function AddMaterial({ setEnable, enable, refreshData }: AddMaterialProps) {
       } else {
         toast.error(response.message);
       }
-    } catch (error: any) {
-      console.error("Failed to register material:", error);
-      toast.error("Failed to register material. Please try again.");
-    }
   };
 
 

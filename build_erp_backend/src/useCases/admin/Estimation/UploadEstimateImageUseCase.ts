@@ -7,13 +7,17 @@ import { SUCCESS_MESSAGE } from "../../../Shared/Message";
 import { HTTP_STATUS } from "../../../Shared/Status_code";
 
 
-export class UploadEstimateImageUseCase implements IUploadEstimateImageUseCase{
-  private projectRepository : IprojectRepository
-   constructor(projectRepository : IprojectRepository){
+export class UploadEstimateImageUseCase implements IUploadEstimateImageUseCase {
+  private projectRepository: IprojectRepository
+  constructor(projectRepository: IprojectRepository) {
     this.projectRepository = projectRepository
-   }
-   async execute(url:string,_id:string):Promise<commonOutput>{
-       await this.projectRepository.UpdateEstimationImage(url,_id)
-       return ResponseHelper.success(SUCCESS_MESSAGE.ESTIMATION.UPLOAD,HTTP_STATUS.OK)
-   }
+  }
+  async execute(url: string, _id: string): Promise<commonOutput> {
+    try {
+      await this.projectRepository.UpdateEstimationImage(url, _id)
+      return ResponseHelper.success(SUCCESS_MESSAGE.ESTIMATION.UPLOAD, HTTP_STATUS.OK)
+    } catch (error: any) {
+      return ResponseHelper.failure(error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
+    }
+  }
 }

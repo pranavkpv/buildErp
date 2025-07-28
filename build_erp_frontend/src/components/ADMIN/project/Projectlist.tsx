@@ -54,15 +54,9 @@ function Project() {
   const [changeEnable, setChangeEnable] = useState(false);
 
   const fetchData = async () => {
-    try {
       const data = await projectListData(page,search)
       setProjectList(data.getProjectListData);
       setTotal(Math.ceil(data.totalPage))
-
-    } catch (error) {
-      console.error(error);
-      toast.error("An error occurred while fetching projects.");
-    }
   };
 
   useEffect(() => {

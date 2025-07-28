@@ -17,20 +17,24 @@ export class AddMaterialUseCase implements IAddMaterialUseCase {
       this.projectStockRepository = projectStockRepository
    }
    async execute(input: addMaterialInput): Promise<commonOutput> {
-      const { material_name, category_id, brand_id, unit_id, unit_rate, stock, projectWiseStock } = input
-      const existMaterial = await this.materialRepository.findMaterailWithNameCategoryBrand(material_name, category_id, brand_id)
-      if (existMaterial) {
-         return ResponseHelper.failure(ERROR_MESSAGE.MATERIAL.EXIST_LABOUR,HTTP_STATUS.CONFLICT)
-      }
-      
-      const savedMaterialData = await this.materialRepository.saveMaterial(material_name, category_id, brand_id, unit_id, unit_rate, stock)
-      for (let i = 0; i < projectWiseStock.length; i++) {
-         const project_id = projectWiseStock[i].project
-         const material_id = savedMaterialData._id
-         const stock = projectWiseStock[i].stock
-         await this.projectStockRepository.saveProjectStock(project_id, material_id, stock)
-      }
+      try {
+         const { material_name, category_id, brand_id, unit_id, unit_rate, stock, projectWiseStock } = input
+         const existMaterial = await this.materialRepository.findMaterailWithNameCategoryBrand(material_name, category_id, brand_id)
+         if (existMaterial) {
+            return ResponseHelper.failure(ERROR_MESSAGE.MATERIAL.EXIST_LABOUR, HTTP_STATUS.CONFLICT)
+         }
 
-      return ResponseHelper.success(SUCCESS_MESSAGE.MATERIAL.ADD,HTTP_STATUS.OK)
+         const savedMaterialData = await this.materialRepository.saveMaterial(material_name, category_id, brand_id, unit_id, unit_rate, stock)
+         for (let i = 0; i < projectWiseStock.length; i++) {
+            const project_id = projectWiseStock[i].project
+            const material_id = savedMaterialData._id
+            const stock = projectWiseStock[i].stock
+            await this.projectStockRepository.saveProjectStock(project_id, material_id, stock)
+         }
+
+         return ResponseHelper.success(SUCCESS_MESSAGE.MATERIAL.ADD, HTTP_STATUS.OK)
+      } catch (error: any) {
+         return ResponseHelper.failure(error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
+      }
    }
 }

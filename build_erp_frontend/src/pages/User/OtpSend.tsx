@@ -23,8 +23,6 @@ function OtpSend() {
         emailRef.current.innerText = "";
       }
     }
-
-    try {
       const response = await SendOTP(email);
       if (response.success) {
         localStorage.setItem('otpEmail', email);
@@ -35,10 +33,6 @@ function OtpSend() {
       } else {
         toast.error(response.message);
       }
-    } catch (error) {
-      console.error("Error sending OTP:", error);
-      toast.error("Failed to send OTP");
-    }
   };
 
   return (

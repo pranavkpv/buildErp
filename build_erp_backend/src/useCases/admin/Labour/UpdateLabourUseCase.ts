@@ -14,12 +14,16 @@ export class UpdateLabourUseCase implements IUpdateLabourUseCase {
       this.labourRepository = labourRepository
    }
    async execute(input: editLabourInput): Promise<commonOutput> {
-      const { _id, labour_type, daily_wage } = input
-      const existLabour = await this.labourRepository.findLabourInEdit(_id, labour_type)
-      if (existLabour) {
-         return ResponseHelper.failure(ERROR_MESSAGE.LABOUR.EXIST_LABOUR, HTTP_STATUS.CONFLICT)
+      try {
+         const { _id, labour_type, daily_wage } = input
+         const existLabour = await this.labourRepository.findLabourInEdit(_id, labour_type)
+         if (existLabour) {
+            return ResponseHelper.failure(ERROR_MESSAGE.LABOUR.EXIST_LABOUR, HTTP_STATUS.CONFLICT)
+         }
+         await this.labourRepository.updateLabourById(_id, labour_type, daily_wage)
+         return ResponseHelper.success(SUCCESS_MESSAGE.LABOUR.UPDATE, HTTP_STATUS.OK)
+      } catch (error:any) {
+         return ResponseHelper.failure(error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
       }
-      await this.labourRepository.updateLabourById(_id, labour_type, daily_wage)
-      return ResponseHelper.success(SUCCESS_MESSAGE.LABOUR.UPDATE, HTTP_STATUS.OK)
    }
 }

@@ -7,7 +7,9 @@ import { IEditProjectUseCase } from "../../../../Entities/useCaseEntities/AdminU
 import { IDeleteProjectUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/ProjectUseCaseEntities/DeleteProjectEntity"
 import { IChangeStatusUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/ProjectUseCaseEntities/ChangeStatusEntity"
 import { IFetchProjectUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/ProjectUseCaseEntities/FetchProjectEntity"
-import { HTTP_STATUS } from "../../../../Shared/Status_code"
+import { IUserModelEntity } from "../../../../Entities/ModelEntities/User.Entity"
+import { commonOutput } from "../../../../Entities/Input-OutputEntities/CommonEntities/common"
+import { IProjectModelEntity } from "../../../../Entities/ModelEntities/ProjectEntity"
 
 
 
@@ -38,47 +40,54 @@ export class ProjectController implements IProjectControllerEntity {
       this.FetchProjectUseCase = FetchProjectUseCase
    }
 
+   //------------------------------------ List project with search and pagination ------------------------------------//
 
-   projectData = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   projectData = async (req: Request, res: Response, next: NextFunction): Promise<{ getProjectListData: any[]; totalPage: number } | commonOutput> => {
       const { page, search } = req.query
       const result = await this.displayProjectUseCase.execute(Number(page), String(search))
-      res.status(HTTP_STATUS.OK).json(result)
+      return result
    }
 
+   //------------------------------------ Add project datas ,Fetch User datas ------------------------------------//
 
-   addProjectdata = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   addProjectdata = async (req: Request, res: Response, next: NextFunction): Promise<IUserModelEntity[] | [] | commonOutput> => {
       const result = await this.displayAddProjectUseCase.execute()
-      res.status(HTTP_STATUS.OK).json(result)
+      return result
    }
 
+   //------------------------------------ Save project  ------------------------------------//
 
-   saveProject = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   saveProject = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
       const result = await this.addProjectUseCase.execute(req.body)
-      res.status(result.status_code).json(result)
+      return result
    }
 
+   //------------------------------------ Update project ------------------------------------//
 
-   updateProject = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   updateProject = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
       const result = await this.editProjectUseCase.execute({ _id: req.params.id, ...req.body })
-      res.status(result.status_code).json(result)
+      return result
    }
 
+   //------------------------------------ Delete project ------------------------------------//
 
-   removeProject = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   removeProject = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
       const result = await this.removeProjectUseCase.execute(req.params.id)
-      res.status(result.status_code).json(result)
+      return result
    }
 
+   //------------------------------------ Change project status ------------------------------------//
 
-   projectStatus = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   projectStatus = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
       const result = await this.changeStatusUseCase.execute({ _id: req.params.id, ...req.body })
-      res.status(result.status_code).json(result)
+      return result
    }
 
+   //------------------------------------ List all Project  ------------------------------------//
 
-   getProject = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   getProject = async (req: Request, res: Response, next: NextFunction): Promise<IProjectModelEntity[] | commonOutput> => {
       const result = await this.FetchProjectUseCase.axecute()
-      res.status(HTTP_STATUS.OK).json(result)
+      return result
    }
 }
 

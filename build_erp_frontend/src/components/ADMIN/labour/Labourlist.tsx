@@ -34,14 +34,9 @@ function Labourlist() {
 
 
   const fetchData = async () => {
-    try {
       const data =await  getLabour(page,search)
       setLabour(data.getLabourData);
       setTotal(Math.ceil(data.totalPage))
-    } catch (error) {
-      console.error("Error fetching labour data:", error);
-
-    }
   };
 
   useEffect(() => {

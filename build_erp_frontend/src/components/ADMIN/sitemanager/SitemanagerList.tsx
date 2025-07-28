@@ -34,14 +34,10 @@ function SitemanagerList() {
   const [deleteId, setDeleteId] = useState("");
 
   const fetchData = async () => {
-    try {
       const search = searchSite
       const data = await fetchSitemanager(page,search)
       setTotal(Math.ceil(data.totalPage))
       setSiteData(data.getSiteData);
-    } catch (error) {
-      console.error("Failed to fetch site managers", error);
-    }
   };
 
   useEffect(() => {

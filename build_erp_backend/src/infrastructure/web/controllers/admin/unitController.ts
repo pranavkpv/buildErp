@@ -5,7 +5,8 @@ import { ISaveUnitUseCase } from "../../../../Entities/useCaseEntities/AdminUseC
 import { IupdateUnitUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/UnitUseCaseEntities/UpdateUnitEntity"
 import { IdeleteUnitUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/UnitUseCaseEntities/DeleteUnitEntity"
 import { IFetchUnitUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/UnitUseCaseEntities/FetchUnitEntity"
-import { HTTP_STATUS } from "../../../../Shared/Status_code"
+import { commonOutput } from "../../../../Entities/Input-OutputEntities/CommonEntities/common"
+import { IUnitModelEntity } from "../../../../Entities/ModelEntities/Unit.Entity"
 
 
 
@@ -30,34 +31,41 @@ export class UnitController implements IUnitControllerEntity {
       this.fetchunitusecase = fetchunitusecase
    }
 
-   getUnit = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   //------------------------------------ List the material unit based on search and pagination ------------------------------------//
+
+   getUnit = async (req: Request, res: Response, next: NextFunction): Promise<{ getUnitData: any[]; totalPage: number } | commonOutput> => {
       const { page, search } = req.query
       const result = await this.displayUnitUseCase.execute(Number(page), String(search))
-      res.status(HTTP_STATUS.OK).json(result)
+      return result
    }
 
 
-   addUnit = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   //------------------------------------ Save the unit ------------------------------------//
+
+   addUnit = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
       const result = await this.addUnitUseCase.execute(req.body)
-      res.status(result.status_code).json(result)
+      return result
    }
 
+   //------------------------------------ Update the unit ------------------------------------//
 
-   editUnit = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   editUnit = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
       const result = await this.editUnitUseCase.execute({ _id: req.params.id, ...req.body })
-      res.status(result.status_code).json(result)
+      return result
    }
 
+   //------------------------------------ Delete the unit ------------------------------------//
 
-   removeUnit = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   removeUnit = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
       const result = await this.deleteUnitUseCase.execute(req.params.id)
-      res.status(result.status_code).json(result)
+      return result
    }
 
+   //------------------------------------ List all the existing unit ------------------------------------//
 
-   displayAllUnit = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+   displayAllUnit = async (req: Request, res: Response, next: NextFunction): Promise<IUnitModelEntity[] | [] | commonOutput> => {
       const result = await this.fetchunitusecase.execute()
-      res.status(HTTP_STATUS.OK).json(result)
+      return result
    }
 
 }

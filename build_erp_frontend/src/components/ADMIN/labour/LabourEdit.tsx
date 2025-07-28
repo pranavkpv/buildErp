@@ -44,8 +44,6 @@ function LabourEdit({
       toast.warning("Daily wage must be a positive number.");
       return;
     }
-
-    try {
       const _id = labourId
       const labour_type = labourData
       const daily_wage = wageData
@@ -57,10 +55,6 @@ function LabourEdit({
       } else {
         toast.error(data.message);
       }
-    } catch (error: any) {
-      console.error("Failed to update labour:", error);
-      toast.error("Failed to update labour. Please try again.");
-    }
   };
 
   if (!editEnable) return null;

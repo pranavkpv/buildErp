@@ -12,7 +12,6 @@ type CategoryProps = {
 
 function DeleteCategory({ enable, deleteId, setEnable, onDeleteSuccess }: CategoryProps) {
   const deleteCategory = async () => {
-    try {
       const resultData = await deleteCategoryData(deleteId)
       if (resultData.success) {
         toast.success(resultData.message);
@@ -21,10 +20,6 @@ function DeleteCategory({ enable, deleteId, setEnable, onDeleteSuccess }: Catego
       } else {
         toast.error(resultData.message);
       }
-    } catch (err) {
-      console.error("Error deleting category:", err); // Log the error for debugging
-      toast.error("Failed to delete category. Please try again.");
-    }
   };
 
   if (!enable) return null; // Render nothing if the modal is not enabled

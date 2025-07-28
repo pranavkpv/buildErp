@@ -25,15 +25,10 @@ function ProgressBar({ progressEnable, projectId }: progressProp) {
 
 
   const fetchStage = async (): Promise<void> => {
-    try {
       const response = await getStage(projectId);
       if (response.data.success) {
         setStage(response.data.message);
       } 
-    } catch (error) {
-      console.error("Error fetching stage data:", error);
-      toast.error("Fetching stage data failed.");
-    }
   };
 
   const calculateProjectProgress = () => {

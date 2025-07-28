@@ -13,13 +13,17 @@ export class AddLabourUseCase implements IAddLabourUseCase {
       this.labourRepository = labourRepository
    }
    async execute(input: addLabourInput): Promise<commonOutput> {
-      const { labour_type, daily_wage } = input
-      const existLabourData = await this.labourRepository.findLabourByType(labour_type)
-      if (existLabourData) {
-         return ResponseHelper.failure(ERROR_MESSAGE.LABOUR.EXIST_LABOUR,HTTP_STATUS.CONFLICT)
+      try {
+         const { labour_type, daily_wage } = input
+         const existLabourData = await this.labourRepository.findLabourByType(labour_type)
+         if (existLabourData) {
+            return ResponseHelper.failure(ERROR_MESSAGE.LABOUR.EXIST_LABOUR, HTTP_STATUS.CONFLICT)
+         }
+         await this.labourRepository.saveLabour(labour_type, daily_wage)
+         return ResponseHelper.success(SUCCESS_MESSAGE.LABOUR.ADD, HTTP_STATUS.CREATED)
+      } catch (error: any) {
+         return ResponseHelper.failure(error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
       }
-      await this.labourRepository.saveLabour(labour_type, daily_wage)
-      return ResponseHelper.success(SUCCESS_MESSAGE.LABOUR.ADD,HTTP_STATUS.CREATED)
    }
 }
 

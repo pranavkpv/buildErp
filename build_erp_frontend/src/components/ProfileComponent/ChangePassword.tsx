@@ -41,8 +41,6 @@ function ChangePassword() {
     } else if (cpassRef.current) cpassRef.current.innerText = "";
 
     if (error) return;
-
-    try {
       if (!user) {
         toast.error("User Not Exist");
         return;
@@ -62,10 +60,6 @@ function ChangePassword() {
       } else {
         toast.error(response.message);
       }
-    } catch (error) {
-      console.log(error);
-      toast.error("An error occurred when updating the password");
-    }
   };
 
   return (

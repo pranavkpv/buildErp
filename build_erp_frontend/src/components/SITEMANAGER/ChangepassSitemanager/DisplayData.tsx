@@ -32,7 +32,6 @@ function DisplaySitemanagerData() {
       if (!passCheck.test(changedpass)) {
          return passRef.current ? (passRef.current.innerText = `Password must include uppercase, lowercase, number, special character, and be 8+ characters long.`) : "";
       }
-      try {
          const _id = sitemanagerId
          const password = orinalpass
          const changedpassword = changedpass
@@ -45,9 +44,6 @@ function DisplaySitemanagerData() {
          } else {
             toast.error(data.message);
          }
-      } catch (error) {
-         toast.error("An error occurred while changing the password");
-      }
    };
 
    const handleCancel = () => {

@@ -12,7 +12,11 @@ export class DeleteProjectUseCase implements IDeleteProjectUseCase {
       this.projectRepository = projectRepository
    }
    async execute(_id:string): Promise<commonOutput> {
-      await this.projectRepository.DeleteProjectById(_id)
+     try {
+       await this.projectRepository.DeleteProjectById(_id)
       return ResponseHelper.success(SUCCESS_MESSAGE.PROJECT.DELETE,HTTP_STATUS.OK)
+     } catch (error:any) {
+       return ResponseHelper.failure(error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
+     }
    }
 }

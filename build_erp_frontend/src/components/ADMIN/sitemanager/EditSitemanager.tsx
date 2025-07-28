@@ -53,8 +53,6 @@ function EditSitemanager({
     }
 
     if (hasError) return;
-
-    try {
       const _id = editId
       const username = sitemanager
 
@@ -66,10 +64,6 @@ function EditSitemanager({
       } else {
         toast.error(data.message);
       }
-    } catch (error: any) {
-      console.error(error);
-      toast.error("Failed to update site manager");
-    }
   };
 
   if (!editEnable) return null;

@@ -21,7 +21,6 @@ function UploadConfirm({
   if (!uploadEnable) return null;
 
   const fileUpload = async () => {
-    try {
       const data = await uploadEstimatImageAPI(uploadProjectId, file);
       if (data.success) {
         toast.success(data.message);
@@ -30,10 +29,6 @@ function UploadConfirm({
       } else {
         toast.error(data.message);
       }
-    } catch (error) {
-      console.log(error);
-      toast.error("Failed to upload image");
-    }
   };
 
   return (

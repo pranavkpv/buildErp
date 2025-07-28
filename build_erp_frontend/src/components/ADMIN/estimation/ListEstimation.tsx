@@ -40,7 +40,6 @@ function ListEstimation() {
    const [editProjectId,setEditProjectId] = useState("")
 
    const fetchData = async () => {
-      try {
          const response = await fetChEstimation(search, page);
          console.log(response)
          setData(response.data);
@@ -51,10 +50,6 @@ function ListEstimation() {
          }
          setTotal(x)
          setProjectIds(projects);
-      } catch (error) {
-         console.error("Error fetching estimation data:", error);
-         toast.error("Failed to fetch estimation data.");
-      }
    };
 
    useEffect(() => {

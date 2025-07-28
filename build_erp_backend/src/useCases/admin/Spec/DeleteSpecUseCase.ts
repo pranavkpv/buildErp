@@ -15,12 +15,16 @@ export class DeleteSpecUseCase implements IDeleteSpecUseCase {
       this.estimationRepostory = estimationRepostory
    }
    async execute(_id: string): Promise<commonOutput> {
-      const existEstimationBySpec = await this.estimationRepostory.findEstimationBySpecId(_id)
-      if (existEstimationBySpec) {
-         return ResponseHelper.failure(ERROR_MESSAGE.SPEC.USED_ESTIMATION, HTTP_STATUS.CONFLICT)
+      try {
+         const existEstimationBySpec = await this.estimationRepostory.findEstimationBySpecId(_id)
+         if (existEstimationBySpec) {
+            return ResponseHelper.failure(ERROR_MESSAGE.SPEC.USED_ESTIMATION, HTTP_STATUS.CONFLICT)
+         }
+         console.log(_id)
+         await this.specRepository.DeleteSpec(_id)
+         return ResponseHelper.success(SUCCESS_MESSAGE.SPEC.DELETE, HTTP_STATUS.OK)
+      } catch (error: any) {
+         return ResponseHelper.failure(error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
       }
-      console.log(_id)
-      await this.specRepository.DeleteSpec(_id)
-      return ResponseHelper.success(SUCCESS_MESSAGE.SPEC.DELETE, HTTP_STATUS.OK)
    }
 }

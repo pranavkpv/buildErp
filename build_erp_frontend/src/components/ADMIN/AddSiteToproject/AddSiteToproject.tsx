@@ -29,12 +29,8 @@ function AddSiteToProject({ addEnable, setAddEnable, onAddSuccess }: AddPropData
   // Fetch site managers on component mount
   useEffect(() => {
     const fetchSiteManager = async () => {
-      try {
         const data = await getSitemanager()
         setSiteManager(data);
-      } catch (error) {
-        toast.error("Failed to fetch site managers");
-      }
     };
     fetchSiteManager();
   }, []);
@@ -42,12 +38,8 @@ function AddSiteToProject({ addEnable, setAddEnable, onAddSuccess }: AddPropData
   // Fetch projects on component mount
   useEffect(() => {
     const fetchProjects = async () => {
-      try {
         const data = await getProject()
         setProjectList(data);
-      } catch (error) {
-        toast.error("Failed to fetch projects");
-      }
     };
     fetchProjects();
   }, []);
@@ -67,27 +59,19 @@ function AddSiteToProject({ addEnable, setAddEnable, onAddSuccess }: AddPropData
     }
     setSiteManagerError("");
     setProjectError("");
-
-    try {
-      const siteManager_id = selectedSiteManager
-      const selectedproject = selectedProject
-      const data = await postSitemanagerToProject(siteManager_id,selectedproject)
-      if (data.success) {
-        toast.success(data.message || "Site assignment added successfully");
-        onAddSuccess();
-        setAddEnable(false);
-        setSelectedSiteManager("");
-        setSelectedProject([]);
-        setSiteManager([])
-        setProjectList([])
-      } else {
-        toast.error(data.message || "Failed to add site assignment");
-      }
-    } catch (error: any) {
-      console.error("Error adding site assignment:", error);
-      toast.error(
-        error.data?.message || "Failed to add site assignment. Please try again."
-      );
+    const siteManager_id = selectedSiteManager
+    const selectedproject = selectedProject
+    const data = await postSitemanagerToProject(siteManager_id, selectedproject)
+    if (data.success) {
+      toast.success(data.message || "Site assignment added successfully");
+      onAddSuccess();
+      setAddEnable(false);
+      setSelectedSiteManager("");
+      setSelectedProject([]);
+      setSiteManager([])
+      setProjectList([])
+    } else {
+      toast.error(data.message || "Failed to add site assignment");
     }
   };
 
@@ -147,7 +131,7 @@ function AddSiteToProject({ addEnable, setAddEnable, onAddSuccess }: AddPropData
               <div key={element._id} className="flex items-center gap-2">
                 <input
                   type="checkbox"
-                  id={`project-${element._id}`}
+                  id={`project-${ element._id }`}
                   checked={selectedProject.includes(element._id)}
                   onChange={(e) => {
                     if (e.target.checked) {
@@ -160,7 +144,7 @@ function AddSiteToProject({ addEnable, setAddEnable, onAddSuccess }: AddPropData
                   className="h-4 w-4 text-teal-500 focus:ring-teal-500 border-gray-600 rounded"
                 />
                 <label
-                  htmlFor={`project-${element._id}`}
+                  htmlFor={`project-${ element._id }`}
                   className="text-gray-200 text-sm"
                 >
                   {element.project_name}

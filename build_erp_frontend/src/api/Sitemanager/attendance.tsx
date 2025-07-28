@@ -1,37 +1,95 @@
-import axioInstance from "../../api/axio"
+import { toast } from "react-toastify";
+import axioInstance from "../../api/axio";
 
 type rowData = {
-   labour_type: string,
-   wage: number,
-   number: number,
-   total: number
-}
-export const takeAttendanceAPI = async (selectedProject: string, selectedDate: string, row:rowData[])=>{
-   const result = await axioInstance.post("/site/attendance",{selectedProject,selectedDate,row})
-   return result.data
-}
+   labour_type: string;
+   wage: number;
+   number: number;
+   total: number;
+};
 
-export const fetchAttendanceAPI = async (search:string, page:number)=>{
-   const result = await axioInstance.get("/site/attendance",{params:{search,page}})
-   return result.data
-}
+// ---------------- Take Attendance ---------------- //
 
-export const DeleteAttendanceAPI =async(deleteId:string)=>{
-   const result = await axioInstance.delete(`/site/attendance/${deleteId}`)
-   return result.data
-}
+export const takeAttendanceAPI = async (
+   selectedProject: string,
+   selectedDate: string,
+   row: rowData[]
+) => {
+   try {
+      const response = await axioInstance.post("/site/attendance", {
+         selectedProject,
+         selectedDate,
+         row,
+      });
+      return response.data;
+   } catch (error: any) {
+      toast.error(error.message);
+   }
+};
 
-export const approveAttendanceAPI = async(approveId:string)=>{
-   const result = await axioInstance.put(`/site/attendance/${approveId}`)
-   return result.data
-}
+// ---------------- Fetch Attendance with Pagination & Search ---------------- //
 
-export const getAttendanceBYIdAPI = async(editId:string)=>{
-   const result  = await axioInstance.get(`/site/editfetchattendance/${editId}`)
-   return result.data
-}
+export const fetchAttendanceAPI = async (search: string, page: number) => {
+   try {
+      const response = await axioInstance.get("/site/attendance", {
+         params: { search, page },
+      });
+      return response.data;
+   } catch (error: any) {
+      toast.error(error.message);
+   }
+};
 
-export const editAttendanceAPI = async(editId:string,selectedProject:string, selectedDate:string, row:rowData[])=>{
-   const result = await axioInstance.put("/site/editAttendance",{editId,selectedProject,selectedDate,row})
-   return result.data
-}
+// ---------------- Delete Attendance ---------------- //
+
+export const DeleteAttendanceAPI = async (deleteId: string) => {
+   try {
+      const response = await axioInstance.delete(`/site/attendance/${deleteId}`);
+      return response.data;
+   } catch (error: any) {
+      toast.error(error.message);
+   }
+};
+
+// ---------------- Approve Attendance ---------------- //
+
+export const approveAttendanceAPI = async (approveId: string) => {
+   try {
+      const response = await axioInstance.put(`/site/attendance/${approveId}`);
+      return response.data;
+   } catch (error: any) {
+      toast.error(error.message);
+   }
+};
+
+// ---------------- Get Attendance by ID (for Edit) ---------------- //
+
+export const getAttendanceBYIdAPI = async (editId: string) => {
+   try {
+      const response = await axioInstance.get(`/site/editfetchattendance/${editId}`);
+      return response.data;
+   } catch (error: any) {
+      toast.error(error.message);
+   }
+};
+
+// ---------------- Edit Attendance ---------------- //
+
+export const editAttendanceAPI = async (
+   editId: string,
+   selectedProject: string,
+   selectedDate: string,
+   row: rowData[]
+) => {
+   try {
+      const response = await axioInstance.put("/site/editAttendance", {
+         editId,
+         selectedProject,
+         selectedDate,
+         row,
+      });
+      return response.data;
+   } catch (error: any) {
+      toast.error(error.message);
+   }
+};

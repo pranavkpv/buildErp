@@ -8,7 +8,6 @@ import {
   Search,
   HardHat,
   ChevronDown,
-  LogOut,
   LogOutIcon
 } from 'lucide-react';
 import { useState } from 'react';
@@ -21,7 +20,6 @@ function SiteHeader() {
    // const [isNotificationOpen, setIsNotificationOpen] = useState(false);
    const navigate = useNavigate()
    const logoutFun = async()=>{
-      try {
          const data = await logoutSitemanager()
          if(data.success){
             toast.success(data.message)
@@ -30,10 +28,6 @@ function SiteHeader() {
                navigate('/site/login')
             })
          }
-      } catch (error) {
-         console.log(error)
-         toast.error("An Error Occurred")
-      }
    }
 
    return (

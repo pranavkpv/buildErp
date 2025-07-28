@@ -12,11 +12,15 @@ export class FetchStatusUseCase implements IFetchStatusUseCase {
       this.stageRepository = stageRepository
    }
    async execute(input: fetchcost): Promise<commonOutput> {
-      const { projectId } = input
-      const data = await this.stageRepository.findStageByprojectId(projectId)
-      if (data.length == 0) {
-         return ResponseHelper.failure(ERROR_MESSAGE.STAGE.NOT_SET, HTTP_STATUS.OK)
+      try {
+         const { projectId } = input
+         const data = await this.stageRepository.findStageByprojectId(projectId)
+         if (data.length == 0) {
+            return ResponseHelper.failure(ERROR_MESSAGE.STAGE.NOT_SET, HTTP_STATUS.OK)
+         }
+         return ResponseHelper.success(data, HTTP_STATUS.OK)
+      } catch (error: any) {
+         return ResponseHelper.failure(error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
       }
-      return ResponseHelper.success(data, HTTP_STATUS.OK)
    }
 }

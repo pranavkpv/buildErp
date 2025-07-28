@@ -36,14 +36,9 @@ function ListAttendance() {
   const [editEnable, setEditEnable] = useState(false)
 
   const fetchAttendance = async () => {
-    try {
       const response = await fetchAttendanceAPI(search, page);
       setAttendance(response.data.result);
       setTotalpage(response.data.totalPage);
-    } catch (error) {
-      console.error("Error fetching attendance data:", error);
-      toast.error("Failed to fetch attendance data due to a server error.");
-    }
   };
 
   useEffect(() => {

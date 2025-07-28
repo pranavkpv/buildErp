@@ -72,7 +72,6 @@ function EditMaterial({ setEditEnable, editEnable, setEditId, editId, refreshDat
   };
 
   const fetchData = async () => {
-    try {
       const data = await getaddMaterial();
       const editData = await editMaterialData(editId);
   
@@ -98,10 +97,6 @@ function EditMaterial({ setEditEnable, editEnable, setEditId, editId, refreshDat
         _id: item._id
       }));
       SetRow(transformedProjectData);
-    } catch (error) {
-      console.error("Error fetching edit material data:", error);
-      toast.error("Failed to load material data for editing.");
-    }
   };
 
   useEffect(() => {
@@ -175,8 +170,6 @@ function EditMaterial({ setEditEnable, editEnable, setEditId, editId, refreshDat
     }
 
     if (hasError) return;
-
-    try {
       const response = await axios.put(`${import.meta.env.VITE_BASE_URL}/admin/material`, {
         _id:editId,
         material_name: materialName,
@@ -196,10 +189,6 @@ function EditMaterial({ setEditEnable, editEnable, setEditId, editId, refreshDat
       } else {
         toast.error(response.data.message);
       }
-    } catch (error: any) {
-      console.error("Failed to update material:", error);
-      toast.error("Failed to update material. Please try again.");
-    }
   };
 
   return (

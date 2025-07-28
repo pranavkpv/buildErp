@@ -13,13 +13,17 @@ export class EditProjectUseCase implements IEditProjectUseCase {
       this.projectRepository = projectRepository
    }
    async execute(input: editProjectInput): Promise<commonOutput> {
-      const { _id, project_name, user_id, address, mobile_number, email, area, description } = input
-      const existData = await this.projectRepository.findProjectInEdit(_id, project_name)
-      if (existData) {
-         return ResponseHelper.failure(ERROR_MESSAGE.PROJECT.EXIST_LABOUR,HTTP_STATUS.CONFLICT)
+      try {
+         const { _id, project_name, user_id, address, mobile_number, email, area, description } = input
+         const existData = await this.projectRepository.findProjectInEdit(_id, project_name)
+         if (existData) {
+            return ResponseHelper.failure(ERROR_MESSAGE.PROJECT.EXIST_LABOUR, HTTP_STATUS.CONFLICT)
+         }
+         await this.projectRepository.UpdateProjectById(_id, project_name, user_id, address, mobile_number, email, area, description)
+         return ResponseHelper.success(SUCCESS_MESSAGE.PROJECT.UPDATE, HTTP_STATUS.OK)
+      } catch (error: any) {
+         return ResponseHelper.failure(error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
       }
-      await this.projectRepository.UpdateProjectById(_id, project_name, user_id, address, mobile_number, email, area, description)
-      return ResponseHelper.success(SUCCESS_MESSAGE.PROJECT.UPDATE,HTTP_STATUS.OK)
    }
 }
 

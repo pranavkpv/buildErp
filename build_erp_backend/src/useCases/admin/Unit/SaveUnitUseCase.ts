@@ -14,12 +14,16 @@ export class SaveUnitUseCase implements ISaveUnitUseCase {
       this.UnitRepository = UnitRepository
    }
    async execute(input: addUnitInput): Promise<commonOutput> {
-      const { unit_name, short_name } = input
+      try {
+         const { unit_name, short_name } = input
       const ExistUnit = await this.UnitRepository.findUnitByunit_name(unit_name)
       if (ExistUnit) {
          return ResponseHelper.failure(ERROR_MESSAGE.UNIT.EXIST, HTTP_STATUS.CONFLICT)
       }
       await this.UnitRepository.saveUnit(unit_name, short_name)
       return ResponseHelper.success(SUCCESS_MESSAGE.UNIT.ADD, HTTP_STATUS.CREATED)
+      } catch (error:any) {
+         return ResponseHelper.failure(error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
+      }
    }
 }

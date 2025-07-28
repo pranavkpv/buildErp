@@ -17,16 +17,20 @@ export class StageSaveUseCase implements IStageSaveUseCase {
    }
 
    async execute(input: stageInputData): Promise<commonOutput> {
-      const { stages, projectId, startDate, endDate, cost } = input;
-      const existStage = await this.projectRepository.findProjectWithCost(projectId);
-      if (existStage && existStage.budgeted_cost) {
-         return ResponseHelper.failure(ERROR_MESSAGE.STAGE.ALREADY_SET, HTTP_STATUS.CONFLICT)
-      }
-      await this.projectRepository.SetCostInProject(projectId, startDate, endDate, cost);
+      try {
+         const { stages, projectId, startDate, endDate, cost } = input;
+         const existStage = await this.projectRepository.findProjectWithCost(projectId);
+         if (existStage && existStage.budgeted_cost) {
+            return ResponseHelper.failure(ERROR_MESSAGE.STAGE.ALREADY_SET, HTTP_STATUS.CONFLICT)
+         }
+         await this.projectRepository.SetCostInProject(projectId, startDate, endDate, cost);
 
-      for (let element of stages) {
-         await this.stageRepository.stageDataSave(projectId, element);
+         for (let element of stages) {
+            await this.stageRepository.stageDataSave(projectId, element);
+         }
+         return ResponseHelper.success(SUCCESS_MESSAGE.STAGE.ADD, HTTP_STATUS.CREATED)
+      } catch (error: any) {
+         return ResponseHelper.failure(error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
       }
-      return ResponseHelper.success(SUCCESS_MESSAGE.STAGE.ADD, HTTP_STATUS.CREATED)
    }
 }

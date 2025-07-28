@@ -17,7 +17,6 @@ function DeleteLabour({
   onDeleteSuccess,
 }: deleteDataprop) {
   const deleteLabour = async () => {
-    try {
       const resultData = await deleteLabourData(labourId)
       if (resultData.success) {
         toast.success(resultData.message);
@@ -26,10 +25,6 @@ function DeleteLabour({
       } else {
         toast.error(resultData.message);
       }
-    } catch (error: any) {
-      console.error("Failed to delete labour:", error);
-      toast.error("Failed to delete labour. Please try again.");
-    }
   };
 
   if (!deleteEnable) return null;

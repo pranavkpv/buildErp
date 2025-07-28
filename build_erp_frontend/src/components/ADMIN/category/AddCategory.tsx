@@ -26,8 +26,6 @@ function AddCategory({ enable, setEnable, onAdd }: CategoryProps) {
     } else {
       if (categoryRef.current) categoryRef.current.innerText = "";
     }
-
-    try {
       const category_name = category
       const data = await postCategory(category_name,description)
       if (data.success) {
@@ -39,10 +37,6 @@ function AddCategory({ enable, setEnable, onAdd }: CategoryProps) {
       } else {
         toast.error(data.message);
       }
-    } catch (err) {
-      console.error("Error adding category:", err);
-      toast.error("Failed to add category. Please try again.");
-    }
   };
 
   if (!enable) return null;
