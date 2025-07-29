@@ -1,3 +1,5 @@
+import { IUnitModelEntity } from "../../ModelEntities/Unit.Entity"
+
 export interface Unit{
    _id:string,
    unit_name: string,
@@ -22,6 +24,13 @@ export interface editUnitInput {
    short_name: string
 }
 
+export interface UnitOutput  {
+   success?: boolean
+   message?: string
+   status_code?:number
+   data: IUnitModelEntity[]
+   totalPage?: number
+}
 
 
 

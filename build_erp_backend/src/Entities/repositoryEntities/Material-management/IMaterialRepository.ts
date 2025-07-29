@@ -1,11 +1,11 @@
-import { getMaterialEditData } from "../../Input-OutputEntities/MaterialEntities/material";
+import { getMaterialEditData, materialOutput } from "../../Input-OutputEntities/MaterialEntities/material";
 import { IMaterialModelEntity } from "../../ModelEntities/Material.Entity";
 import { IProjectModelEntity } from "../../ModelEntities/ProjectEntity";
 
 
 
 export interface IMaterialRepository{
-   findAllMaterial(page:number,search:string):Promise<{getMaterialData:any[];totalPage:number }>;
+   findAllMaterial(page:number,search:string):Promise<materialOutput>;
    findMaterialById(_id:string):Promise<getMaterialEditData | null>
    findAllProject():Promise<IProjectModelEntity[] | []>;
    findMaterailWithNameCategoryBrand(material_name:string,category_id:string,brand_id:string):Promise<IMaterialModelEntity | null>;

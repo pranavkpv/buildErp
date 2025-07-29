@@ -1,4 +1,4 @@
-import { editMaterialData, getaddMaterial } from "../../../api/Admin/material";
+import { editMaterialData, getaddMaterial, UpdateMaterialAPI } from "../../../api/Admin/material";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { MinusCircleIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
@@ -74,21 +74,19 @@ function EditMaterial({ setEditEnable, editEnable, setEditId, editId, refreshDat
   const fetchData = async () => {
       const data = await getaddMaterial();
       const editData = await editMaterialData(editId);
-  
-
       // Set dropdown data
-      selectCategoryList(data.categoryData);
-      setBrandlist(data.brandData);
-      setUnitList(data.unitData);
-      setProjectlist(data.projectData || []);
+      selectCategoryList(data.data.categoryData);
+      setBrandlist(data.data.brandData);
+      setUnitList(data.data.unitData);
+      setProjectlist(data.data.projectData || []);
 
       // Set edit data
-      setMaterial(editData.materialData.material_name);
-      setSelectCategory(editData.materialData.category_id);
-      setSelectedBrand(editData.materialData.brand_id);
-      setSelectedUnit(editData.materialData.unit_id);
-      setUnitRate(editData.materialData.unit_rate);
-      setTotalStock(editData.materialData.stock);
+      setMaterial(editData.data.materialData.material_name);
+      setSelectCategory(editData.data.materialData.category_id);
+      setSelectedBrand(editData.data.materialData.brand_id);
+      setSelectedUnit(editData.data.materialData.unit_id);
+      setUnitRate(editData.data.materialData.unit_rate);
+      setTotalStock(editData.data.materialData.stock);
 
       // Transform project stock data to match addRowData format
       const transformedProjectData = editData.projectStockData.map((item: any) => ({
@@ -170,19 +168,11 @@ function EditMaterial({ setEditEnable, editEnable, setEditId, editId, refreshDat
     }
 
     if (hasError) return;
-      const response = await axios.put(`${import.meta.env.VITE_BASE_URL}/admin/material`, {
-        _id:editId,
-        material_name: materialName,
-        category_id: selectCategoryId,
-        brand_id: selectBrandId,
-        unit_id: selectUnitId,
-        unit_rate: unit_rate,
-        stock: totalOpeningStock,
-        projectWiseStock: row,
-      });
-
-      if (response.data.success) {
-        toast.success(response.data.message);
+      const response = await UpdateMaterialAPI(editId,materialName,selectCategoryId,selectBrandId,selectUnitId,
+        unit_rate,totalOpeningStock,row
+      )
+      if (response.success) {
+        toast.success(response.message);
         setEditEnable(false);
         setEditId("");
         refreshData();

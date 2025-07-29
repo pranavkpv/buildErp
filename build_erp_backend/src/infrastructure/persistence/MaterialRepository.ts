@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { IMaterialRepository } from "../../Entities/repositoryEntities/Material-management/IMaterialRepository";
-import { getMaterialEditData, MaterialList } from "../../Entities/Input-OutputEntities/MaterialEntities/material";
+import { getMaterialEditData, MaterialList, materialOutput } from "../../Entities/Input-OutputEntities/MaterialEntities/material";
 import { materialDB } from "../../Database/Model/MaterialModel";
 import { projectDB } from "../../Database/Model/ProjectModel";
 import { unitDB } from "../../Database/Model/UnitModel";
@@ -9,7 +9,7 @@ import { IProjectModelEntity } from "../../Entities/ModelEntities/ProjectEntity"
 import { IMaterialModelEntity } from "../../Entities/ModelEntities/Material.Entity";
 
 export class MaterialRepository implements IMaterialRepository {
-   async findAllMaterial(page: number, search: string): Promise<{ getMaterialData: any[]; totalPage: number }> {
+   async findAllMaterial(page: number, search: string): Promise<materialOutput> {
       const skip = (page) * 5
       const searchRegex = new RegExp(search, "i");
       const MaterialData = await materialDB.aggregate([
@@ -53,7 +53,7 @@ export class MaterialRepository implements IMaterialRepository {
 
       const totalPage = await materialDB.countDocuments({material_name:{$regex:searchRegex}}) / 5
       return {
-         getMaterialData: MaterialData,
+         data: MaterialData,
          totalPage
       }
    }
@@ -116,7 +116,7 @@ export class MaterialRepository implements IMaterialRepository {
       return materialData[0] || null;
    }
    async findMaterialInEdit(_id: string, material_name: string, brand_id: string, category_id: string): Promise<IMaterialModelEntity | null> {
-      const existMaterial = await materialDB.findOne({ _id: { $ne: _id }, material_name: { $regex: new RegExp(`^${ material_name }$`, 'i') }, category_id, brand_id })
+      const existMaterial = await materialDB.findOne({ _id: { $ne: _id }, material_name: { $regex: new RegExp(`^${ material_name }$`, 'i') }, category_id, brand_id  })
       return existMaterial 
    }
    async updateMaterialById(_id: string, material_name: string, category_id: string, brand_id: string, unit_id: string, unit_rate: number, stock: number): Promise<void> {

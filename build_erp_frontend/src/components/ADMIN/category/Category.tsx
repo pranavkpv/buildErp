@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import AddCategory from "./AddCategory"; 
-import EditCategory from "./EditCategory"; 
+import AddCategory from "./AddCategory";
+import EditCategory from "./EditCategory";
 import DeleteCategory from "./DeleteCategory";
 
 import { toast } from "react-toastify";
-import { PlusIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/outline"; 
+import { PlusIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { categoryList } from "../../../api/Admin/category";
 
 type CategoryType = {
@@ -17,7 +17,7 @@ function Category() {
   const [enableAdd, setEnableAdd] = useState(false);
   const [categories, setCategories] = useState<CategoryType[]>([]);
   const [searchCategory, setSearchCat] = useState<string>("");
-  const [page,setPage] = useState(0)
+  const [page, setPage] = useState(0)
   const [totalPage, setTotal] = useState(0)
 
   const [enableEdit, setEnableEdit] = useState(false);
@@ -30,21 +30,21 @@ function Category() {
 
 
   const fetchData = async () => {
-      const search = searchCategory
-      const data = await categoryList(page,search)
-       setTotal(Math.ceil(data.totalPage))
-      setCategories(data.getCategoryData);
+    const search = searchCategory
+    const data = await categoryList(page, search)
+    setTotal(Math.ceil(data.totalPage))
+    setCategories(data.data);
   };
 
   // Fetch data on component mount
   useEffect(() => {
     fetchData();
-  }, [page,searchCategory]);
+  }, [page, searchCategory]);
 
 
 
 
- 
+
 
   return (
     <div className="p-6 bg-gray-900 min-h-screen">
@@ -91,7 +91,7 @@ function Category() {
               ) : (
                 categories.map((cat, index) => (
                   <tr key={cat._id} className="hover:bg-gray-700/50 transition-colors duration-150">
-                    <td className="px-6 py-4 text-gray-300">{(index + 1)+(page*5)}</td>
+                    <td className="px-6 py-4 text-gray-300">{(index + 1) + (page * 5)}</td>
                     <td className="px-6 py-4 text-gray-300">{cat.category_name}</td>
                     <td className="px-6 py-4 text-gray-300">{cat.description}</td>
                     <td className="px-6 py-4 flex justify-center items-center gap-2">
@@ -121,13 +121,13 @@ function Category() {
               )}
             </tbody>
           </table>
-           <div className="flex justify-center gap-2 mt-6">
+          <div className="flex justify-center gap-2 mt-6">
             {Array.from({ length: totalPage }, (_, i) => (
               <button
                 key={i + 1}
                 onClick={() => setPage(i)}
                 className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200
-        ${ page === i 
+        ${ page === i
                     ? 'bg-teal-600 text-white shadow-md'
                     : 'bg-gray-700 text-gray-300 hover:bg-teal-500 hover:text-white' }
       `}
@@ -138,7 +138,7 @@ function Category() {
           </div>
         </div>
 
-  
+
         <EditCategory
           enable={enableEdit}
           setEnable={setEnableEdit}
@@ -148,12 +148,12 @@ function Category() {
           onUpdate={fetchData}
         />
 
-      
+
         <DeleteCategory
           enable={enableDelete}
           deleteId={deleteId}
           setEnable={setEnableDelete}
-          onDeleteSuccess={fetchData} 
+          onDeleteSuccess={fetchData}
         />
       </div>
     </div>

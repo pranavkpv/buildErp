@@ -1,6 +1,7 @@
 import { commonOutput } from "../../../Input-OutputEntities/CommonEntities/common";
-import { IUnitModelEntity } from "../../../ModelEntities/Unit.Entity";
+import { UnitOutput } from "../../../Input-OutputEntities/MaterialEntities/unit";
+
 
 export interface IFetchUnitUseCase {
-   execute():Promise<IUnitModelEntity[] | [] | commonOutput>
+   execute():Promise<UnitOutput | [] | commonOutput>
 }

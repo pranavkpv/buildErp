@@ -371,14 +371,8 @@ app.use(errorHandler)
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   onFinished(res, () => {
-    const result = res.locals.result as {
-      message?: string;
-      statusCode?: number;
-    };
-
-    const status = res.statusCode;
-    const message = result?.message 
-
+    const message = res.locals.message
+    const status = res.locals.status_code;
     const logText = `${req.method} ${req.originalUrl} -> ${status} ${message}`;
 
     if (status >= 500) {

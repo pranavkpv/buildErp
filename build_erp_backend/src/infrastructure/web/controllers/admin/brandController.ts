@@ -5,6 +5,7 @@ import { ISaveBrandUseCase } from "../../../../Entities/useCaseEntities/AdminUse
 import { IUpdateBrandUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/BrandUseCaseEntities/UpdateBrandEntity"
 import { IDeleteBrandUsecase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/BrandUseCaseEntities/DeleteBrandEntity"
 import { commonOutput } from "../../../../Entities/Input-OutputEntities/CommonEntities/common"
+import { brandOutput } from "../../../../Entities/Input-OutputEntities/MaterialEntities/brand"
 
 
 
@@ -24,7 +25,7 @@ export class BrandController implements IBrandControllerEntity {
 
    //------------------------------------ List brand data with search and pagination ------------------------------------//
 
-   brandList = async (req: Request, res: Response, next: NextFunction): Promise<{getBrandData:any[];totalPage:number } | commonOutput> => {
+   brandList = async (req: Request, res: Response, next: NextFunction): Promise<brandOutput | commonOutput> => {
       const { page, search } = req.query
       const result = await this.displayBrandUseCase.execute(Number(page), String(search))
       return result

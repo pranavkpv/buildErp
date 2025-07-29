@@ -1,6 +1,8 @@
 import { commonOutput } from "../../../Entities/Input-OutputEntities/CommonEntities/common";
+import { CategoryOutput } from "../../../Entities/Input-OutputEntities/MaterialEntities/category";
 import { ICategoryRepository } from "../../../Entities/repositoryEntities/Material-management/ICategoryRepository";
 import { IDisplayAllCategoryUseCase } from "../../../Entities/useCaseEntities/AdminUseCaseEntities/CategoryUseCaseEntities/DisplayAllCategoryEntity";
+import { SUCCESS_MESSAGE } from "../../../Shared/Message";
 import { HTTP_STATUS } from "../../../Shared/Status_code";
 import { ResponseHelper } from "../../../Shared/utils/response";
 
@@ -11,11 +13,14 @@ export class DisplayAllCategoryUseCase implements IDisplayAllCategoryUseCase {
    constructor(categoryRepository: ICategoryRepository) {
       this.categoryRepository = categoryRepository
    }
-   async execute(page: number, search: string): Promise<{ getCategoryData: any[]; totalPage: number } | commonOutput> {
+   async execute(page: number, search: string): Promise<CategoryOutput | commonOutput> {
       try {
-         const { getCategoryData, totalPage } = await this.categoryRepository.findAllListCategory(page, search)
+         const {data,totalPage} = await this.categoryRepository.findAllListCategory(page, search)
          return {
-            getCategoryData,
+            success:true,
+            message:SUCCESS_MESSAGE.CATEGORY.FETCH,
+            status_code:HTTP_STATUS.OK,
+            data,
             totalPage
          }
       } catch (error:any) {

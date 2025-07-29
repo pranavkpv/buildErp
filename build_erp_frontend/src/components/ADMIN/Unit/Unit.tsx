@@ -30,7 +30,7 @@ function Unit() {
       const search = searchUnit
       const data = await getUnit(page,search)
       setTotal(Math.ceil(data.totalPage))
-      setUnitList(data.getUnitData);
+      setUnitList(data.data);
   };
 
   useEffect(() => {

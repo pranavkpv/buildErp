@@ -20,7 +20,7 @@ export class UpdateMaterialUseCase implements IUpdateMaterialUseCase {
    async execute(input: editMaterialInput): Promise<commonOutput> {
       try {
          const { _id, material_name, category_id, brand_id, unit_id, unit_rate, stock, projectWiseStock } = input
-         const existMaterial = await this.materialRepository.findMaterialInEdit(_id, material_name, category_id, brand_id)
+         const existMaterial = await this.materialRepository.findMaterialInEdit(_id, material_name,brand_id, category_id, )
          if (existMaterial) {
             return ResponseHelper.failure(ERROR_MESSAGE.MATERIAL.EXIST_LABOUR, HTTP_STATUS.CONFLICT)
          }

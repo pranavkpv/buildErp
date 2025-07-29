@@ -15,12 +15,15 @@ export const SUCCESS_MESSAGE = {
   BRAND: {
     ADD: "Brand registered successfully",
     UPDATE: "Brand updated successfully",
-    DELETE: "Brand deleted successfully"
+    DELETE: "Brand deleted successfully",
+    FETCH : "Brand fetch successfully",
+    FETCH_BRAND_BY_MATERIAL_NAME:"Fetch Brands by material name is successfully"
   },
   CATEGORY: {
     ADD: "Category added successfully",
     UPDATE: "Category updated successfully",
-    DELETE: "Category deleted successfully"
+    DELETE: "Category deleted successfully",
+    FETCH : "Category data fetch successfully"
   },
   ESTIMATION: {
     ADD: "Estimation added successfully",
@@ -36,7 +39,12 @@ export const SUCCESS_MESSAGE = {
   MATERIAL: {
     ADD: "Material added successfully",
     UPDATE: "Material updated successfully",
-    DELETE: "Material deleted successfully"
+    DELETE: "Material deleted successfully",
+    FETCH:"Material fetch successfully",
+    ADDFETCH : "Add material datas fetch successfully",
+    EDITFETCH : "Edit material datas fetch successfully",
+    UNIQUE_MATERIAL_FETCH:"Unique material fetch successfully",
+    FETCHUNITRATE : "Fetch unit rate successfully"
   },
   PROJECT: {
     ADD: "Project added successfully",
@@ -65,7 +73,8 @@ export const SUCCESS_MESSAGE = {
   UNIT: {
     ADD: "Unit added successfully",
     UPDATE: "Unit updated successfully",
-    DELETE: "Unit deleted successfully"
+    DELETE: "Unit deleted successfully",
+    FETCH : "Unit fetch successfully"
   },
   ATTENDANCE: {
     ADD: "Attendance recorded successfully",
@@ -137,7 +146,8 @@ export const ERROR_MESSAGE = {
     NO_IMAGE_UPLOAD: "No image file uploaded"
   },
   UNIT: {
-    EXIST: "Unit already exists"
+    EXIST: "Unit already exists",
+    USED : "Unit has already been used"
   },
   ATTENDANCE: {
     EXIST: "Attendance has already been recorded for this project on the same day"

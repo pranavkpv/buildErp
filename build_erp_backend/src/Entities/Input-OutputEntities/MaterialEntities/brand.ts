@@ -1,3 +1,5 @@
+import { IBrandModelEntity } from "../../ModelEntities/Brand.Entity"
+
 export interface Brand {
    _id: string,
    brand_name: string,
@@ -13,6 +15,15 @@ export interface addBrandInput {
 export interface editBrandInput {
    _id: string,
    brand_name: string
+}
+
+
+export interface brandOutput  {
+   success?: boolean
+   message?: string
+   status_code?:number
+   data: IBrandModelEntity[]
+   totalPage?: number
 }
 
 

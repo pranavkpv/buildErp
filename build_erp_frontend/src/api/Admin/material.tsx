@@ -13,7 +13,7 @@ export const getaddMaterial = async () => {
     const response = await axioInstance.get(`/admin/addmaterial`);
     return response.data;
   } catch (error: any) {
-    toast.error(error.message);
+    toast.error(error.response.data.message)
   }
 };
 
@@ -40,7 +40,7 @@ export const SaveMaterialApi = async (
     });
     return response.data;
   } catch (error: any) {
-    toast.error(error.message);
+   toast.error(error.response.data.message)
   }
 };
 
@@ -51,7 +51,7 @@ export const deleteMaterial = async (_id: string) => {
     const response = await axioInstance.delete(`/admin/material/${_id}`);
     return response.data;
   } catch (error: any) {
-    toast.error(error.message);
+    toast.error(error.response.data.message)
   }
 };
 
@@ -64,7 +64,7 @@ export const materialList = async (page: number, search: string) => {
     });
     return response.data;
   } catch (error: any) {
-    toast.error(error.message);
+    toast.error(error.response.data.message)
   }
 };
 
@@ -75,7 +75,7 @@ export const editMaterialData = async (_id: string) => {
     const response = await axioInstance.get(`/admin/editmaterial/${_id}`);
     return response.data;
   } catch (error: any) {
-    toast.error(error.message);
+   toast.error(error.response.data.message)
   }
 };
 
@@ -86,7 +86,7 @@ export const fetchUniqueMaterial = async () => {
     const response = await axioInstance.get(`/admin/fetchMaterial`);
     return response.data;
   } catch (error: any) {
-    toast.error(error.message);
+    toast.error(error.response.data.message)
   }
 };
 
@@ -97,7 +97,7 @@ export const fetchUnitCorrespondingMaterial = async (material: string) => {
     const response = await axioInstance.get(`/admin/fetMatbyUnit/${material}`);
     return response.data;
   } catch (error: any) {
-    toast.error(error.message);
+    toast.error(error.response.data.message)
   }
 };
 
@@ -108,7 +108,7 @@ export const fetchBrandCorrespondingMaterial = async (material: string) => {
     const response = await axioInstance.get(`/admin/fetchMatbyBrand/${material}`);
     return response.data;
   } catch (error: any) {
-    toast.error(error.message);
+   toast.error(error.response.data.message)
   }
 };
 
@@ -129,7 +129,7 @@ export const fetchUnitRate = async (
     });
     return response.data;
   } catch (error: any) {
-    toast.error(error.message);
+  toast.error(error.response.data.message)
   }
 };
 
@@ -140,6 +140,17 @@ export const findMaterialById = async (_id: string) => {
     const response = await axioInstance.get(`/admin/getmaterial/${_id}`);
     return response.data;
   } catch (error: any) {
-    toast.error(error.message);
+   toast.error(error.response.data.message)
   }
 };
+
+// ---------------- Update the material api  ---------------- //
+
+export const UpdateMaterialAPI = async(_id:string,material_name:string,category_id:string,brand_id:string,unit_id:string,unit_rate:number,stock:number,projectWiseStock:addRowData[])=>{
+   try {
+    const response = await axioInstance.put(`/admin/material/${_id}`,{material_name,category_id,brand_id,unit_id,unit_rate,stock,projectWiseStock});
+    return response.data;
+  } catch (error: any) {
+   toast.error(error.response.data.message)
+  }
+}

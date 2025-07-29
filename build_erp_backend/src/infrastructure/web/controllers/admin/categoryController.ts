@@ -5,6 +5,8 @@ import { ISaveCategoryUseCase } from "../../../../Entities/useCaseEntities/Admin
 import { IUpdateCategoryUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/CategoryUseCaseEntities/UpdateCategoryEntity"
 import { IDeleteCategoryUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/CategoryUseCaseEntities/DeleteCategoryEntity"
 import { commonOutput } from "../../../../Entities/Input-OutputEntities/CommonEntities/common"
+import { HTTP_STATUS } from "../../../../Shared/Status_code"
+import { CategoryOutput } from "../../../../Entities/Input-OutputEntities/MaterialEntities/category"
 
 
 
@@ -23,7 +25,7 @@ export class CategoryController implements ICategoryControllerEntity {
 
    //------------------------------------ List category data with search and pagination ------------------------------------//
 
-   categoryList = async (req: Request, res: Response, next: NextFunction): Promise<{ getCategoryData: any[]; totalPage: number } | commonOutput> => {
+   categoryList = async (req: Request, res: Response, next: NextFunction): Promise<CategoryOutput | commonOutput> => {
       const { page, search } = req.query
       const result = await this.displayAllCategoryUseCase.execute(Number(page), String(search))
       return result

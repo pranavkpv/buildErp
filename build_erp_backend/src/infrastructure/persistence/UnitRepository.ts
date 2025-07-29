@@ -1,6 +1,6 @@
 
 import { IUnitRepository } from "../../Entities/repositoryEntities/Material-management/IUnitRepository";
-import { Unit } from "../../Entities/Input-OutputEntities/MaterialEntities/unit";
+import { Unit, UnitOutput } from "../../Entities/Input-OutputEntities/MaterialEntities/unit";
 import { unitDB } from "../../Database/Model/UnitModel";
 import { IUnitModelEntity } from "../../Entities/ModelEntities/Unit.Entity";
 
@@ -31,13 +31,13 @@ export class UnitRepository implements IUnitRepository {
    async deleteUnitById(_id: string): Promise<void> {
       await unitDB.findByIdAndDelete(_id)
    }
-   async findAllListUnit(page: number, search: string): Promise<{ getUnitData: any[]; totalPage: number; }> {
+   async findAllListUnit(page: number, search: string): Promise<UnitOutput> {
       const skip = (page) * 5
       const searchRegex = new RegExp(search, "i");
-      const brandList = await unitDB.find({ unit_name: { $regex: searchRegex } }).skip(skip).limit(5)
+      const unitList = await unitDB.find({ unit_name: { $regex: searchRegex } }).skip(skip).limit(5)
       const totalPage = await unitDB.countDocuments({ unit_name: { $regex: searchRegex } }) / 5
       return {
-         getUnitData: brandList,
+         data: unitList,
          totalPage
       }
    }

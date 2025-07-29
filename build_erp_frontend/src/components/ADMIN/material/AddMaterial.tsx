@@ -66,10 +66,10 @@ function AddMaterial({ setEnable, enable, refreshData }: AddMaterialProps) {
 
   const fetchData = async () => {
       const data = await getaddMaterial()
-      selectCategoryList(data.categoryData);
-      setBrandlist(data.brandData);
-      setUnitList(data.unitData);
-      setProjectlist(data.projectData || []);
+      selectCategoryList(data.data.categoryData);
+      setBrandlist(data.data.brandData);
+      setUnitList(data.data.unitData);
+      setProjectlist(data.data.projectData || []);
   };
 
   useEffect(() => {

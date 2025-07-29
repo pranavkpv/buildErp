@@ -1,6 +1,6 @@
 import { commonOutput } from "../../../Input-OutputEntities/CommonEntities/common";
-import { IMaterialModelEntity } from "../../../ModelEntities/Material.Entity";
+import { materialOutput } from "../../../Input-OutputEntities/MaterialEntities/material";
 
 export interface IFetchUnitRateUseCase{
-   execute(material_name:string,brand_name:string,unit_name:string):Promise<IMaterialModelEntity | null | commonOutput>
+   execute(material_name:string,brand_name:string,unit_name:string):Promise<materialOutput | commonOutput>
 }

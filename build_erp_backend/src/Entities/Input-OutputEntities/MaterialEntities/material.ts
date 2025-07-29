@@ -1,8 +1,8 @@
 import { IBrandModelEntity } from "../../ModelEntities/Brand.Entity"
 import { ICategoryModelEntity } from "../../ModelEntities/Category.Entity"
+import { IMaterialModelEntity } from "../../ModelEntities/Material.Entity"
 import { IProjectModelEntity } from "../../ModelEntities/ProjectEntity"
 import { IUnitModelEntity } from "../../ModelEntities/Unit.Entity"
-import { Project } from "../ProjectEntities/project"
 import { addProjectStockInput, editProjectStockData, editprostockData } from "../StockEntities/projectstock"
 import { Brand } from "./brand"
 import { Category } from "./category"
@@ -113,7 +113,6 @@ export interface outEditMaterialData {
       updatedAt: Date
    } | null,
    projectStockData:editprostockData[]
-
 }
 
 //input of edit material
@@ -142,5 +141,13 @@ export interface getAddMaterialData {
    brandData: IBrandModelEntity[],
    unitData: IUnitModelEntity[] | null,
    projectData: IProjectModelEntity[]
+}
+
+export interface materialOutput {
+   success?:boolean
+   message?:string
+   status_code?:number
+   data:Material[] | getAddMaterialData | outEditMaterialData | string[] | IMaterialModelEntity | null
+   totalPage?:number
 }
 

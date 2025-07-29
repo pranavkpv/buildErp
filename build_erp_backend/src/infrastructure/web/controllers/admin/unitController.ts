@@ -6,7 +6,7 @@ import { IupdateUnitUseCase } from "../../../../Entities/useCaseEntities/AdminUs
 import { IdeleteUnitUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/UnitUseCaseEntities/DeleteUnitEntity"
 import { IFetchUnitUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/UnitUseCaseEntities/FetchUnitEntity"
 import { commonOutput } from "../../../../Entities/Input-OutputEntities/CommonEntities/common"
-import { IUnitModelEntity } from "../../../../Entities/ModelEntities/Unit.Entity"
+import { UnitOutput } from "../../../../Entities/Input-OutputEntities/MaterialEntities/unit"
 
 
 
@@ -33,7 +33,7 @@ export class UnitController implements IUnitControllerEntity {
 
    //------------------------------------ List the material unit based on search and pagination ------------------------------------//
 
-   getUnit = async (req: Request, res: Response, next: NextFunction): Promise<{ getUnitData: any[]; totalPage: number } | commonOutput> => {
+   getUnit = async (req: Request, res: Response, next: NextFunction): Promise<UnitOutput | commonOutput> => {
       const { page, search } = req.query
       const result = await this.displayUnitUseCase.execute(Number(page), String(search))
       return result
@@ -63,7 +63,7 @@ export class UnitController implements IUnitControllerEntity {
 
    //------------------------------------ List all the existing unit ------------------------------------//
 
-   displayAllUnit = async (req: Request, res: Response, next: NextFunction): Promise<IUnitModelEntity[] | [] | commonOutput> => {
+   displayAllUnit = async (req: Request, res: Response, next: NextFunction): Promise<UnitOutput | [] | commonOutput> => {
       const result = await this.fetchunitusecase.execute()
       return result
    }

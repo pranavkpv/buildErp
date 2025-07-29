@@ -8,7 +8,7 @@ export const postCategory = async (category_name: string, description: string) =
       const response = await axioInstance.post(`/admin/category`, { category_name, description });
       return response.data
    } catch (error: any) {
-      toast.error(error.message)
+      toast.error(error.response.data.message)
    }
 }
 
@@ -17,10 +17,9 @@ export const postCategory = async (category_name: string, description: string) =
 export const categoryList = async (page: number, search: string) => {
    try {
       const response = await axioInstance.get(`/admin/category`, { params: { page, search } });
-      console.log(response)
       return response.data
    } catch (error: any) {
-      toast.error(error.message)
+      toast.error(error.response.data.message)
    }
 }
 
@@ -31,7 +30,7 @@ export const deleteCategoryData = async (_id: string) => {
       const response = await axioInstance.delete(`/admin/category/${ _id }`);
       return response.data
    } catch (error: any) {
-      toast.error(error.message)
+     toast.error(error.response.data.message)
    }
 }
 
@@ -42,6 +41,6 @@ export const putCategory = async (_id: string, category_name: string, descriptio
       const response = await axioInstance.put(`/admin/category/${ _id }`, { category_name, description, });
       return response.data
    } catch (error: any) {
-      toast.error(error.message)
+      toast.error(error.response.data.message)
    }
 }

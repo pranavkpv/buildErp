@@ -1,4 +1,5 @@
 import { categoryDB } from "../../Database/Model/CategoryModel";
+import { CategoryOutput } from "../../Entities/Input-OutputEntities/MaterialEntities/category";
 import { ICategoryModelEntity } from "../../Entities/ModelEntities/Category.Entity";
 import { ICategoryRepository } from "../../Entities/repositoryEntities/Material-management/ICategoryRepository";
 
@@ -29,14 +30,11 @@ export class CategoryRepository implements ICategoryRepository {
    async deleteCategoryById(_id: string): Promise<void> {
       await categoryDB.findByIdAndDelete(_id)
    }
-   async findAllListCategory(page: number, search: string): Promise<{ getCategoryData: any[]; totalPage: number; }> {
+   async findAllListCategory(page: number, search: string): Promise<CategoryOutput> {
       const skip = (page) * 5
       const searchRegex = new RegExp(search, "i");
       const categorList = await categoryDB.find({category_name:{$regex:searchRegex}}).skip(skip).limit(5)
       const totalPage = await categoryDB.countDocuments({category_name:{$regex:searchRegex}})/5
-      return {
-         getCategoryData:categorList,
-         totalPage
-      }
+      return {data :categorList,totalPage:totalPage}
    }
 }

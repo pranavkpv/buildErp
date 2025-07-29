@@ -26,7 +26,7 @@ function Material() {
   const fetchMaterials = async () => {
       const data = await materialList(page,search) 
       setTotal(Math.ceil(data.totalPage))
-      setMaterialData(data.getMaterialData);
+      setMaterialData(data.data);
   };
 
   useEffect(() => {

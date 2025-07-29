@@ -10,7 +10,7 @@ export const postBrand = async (brand_name: string) => {
       });
       return response.data
    } catch (error: any) {
-      toast.error(error.message)
+      toast.error(error.response.data.message)
    }
 }
 
@@ -21,7 +21,7 @@ export const getbrandList = async (page: number, search: string) => {
       const response = await axioInstance.get(`/admin/brand`, { params: { page, search } });
       return response.data
    } catch (error: any) {
-      toast.error(error.message)
+       toast.error(error.response.data.message)
    }
 }
 
@@ -32,7 +32,7 @@ export const deleteBrandData = async (_id: string) => {
       const response = await axioInstance.delete(`/admin/brand/${ _id }`);
       return response.data
    } catch (error: any) {
-      toast.error(error.message)
+      toast.error(error.response.data.message)
    }
 }
 
@@ -43,6 +43,6 @@ export const putBrandData = async (_id: string, brand_name: string) => {
       const response = await axioInstance.put(`/admin/brand/${ _id }`, { brand_name });
       return response.data
    } catch (error: any) {
-      toast.error(error.message)
+       toast.error(error.response.data.message)
    }
 }

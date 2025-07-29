@@ -29,7 +29,7 @@ function Brand() {
   const fetchData = async () => {
       const search = searchBrand
       const data = await getbrandList(page,search)
-      setBrandList(data.getBrandData);
+      setBrandList(data.data);
       setTotal(Math.ceil(data.totalPage))
   };
 

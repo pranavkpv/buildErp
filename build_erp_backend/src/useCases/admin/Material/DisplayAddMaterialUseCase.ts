@@ -3,11 +3,12 @@ import { IBrandRepository } from "../../../Entities/repositoryEntities/Material-
 import { ICategoryRepository } from "../../../Entities/repositoryEntities/Material-management/ICategoryRepository"
 import { IMaterialRepository } from "../../../Entities/repositoryEntities/Material-management/IMaterialRepository"
 import { IUnitRepository } from "../../../Entities/repositoryEntities/Material-management/IUnitRepository"
-import { getAddMaterialData } from "../../../Entities/Input-OutputEntities/MaterialEntities/material"
+import { getAddMaterialData, materialOutput } from "../../../Entities/Input-OutputEntities/MaterialEntities/material"
 import { IDisplayAddMaterialUseCase } from "../../../Entities/useCaseEntities/AdminUseCaseEntities/MaterialUseCaseEntities/DisplayAddMaterialEntity"
 import { commonOutput } from "../../../Entities/Input-OutputEntities/CommonEntities/common"
 import { ResponseHelper } from "../../../Shared/utils/response"
 import { HTTP_STATUS } from "../../../Shared/Status_code"
+import { SUCCESS_MESSAGE } from "../../../Shared/Message"
 
 
 
@@ -23,13 +24,18 @@ export class DisplayAddMaterialDataUseCase implements IDisplayAddMaterialUseCase
       this.brandRepository = brandRepository
       this.unitRepository = unitRepository
    }
-   async execute(): Promise<getAddMaterialData | commonOutput> {
+   async execute(): Promise<materialOutput | commonOutput> {
       try {
          const categoryData = await this.categoryRepository.findAllCategory()
          const brandData = await this.brandRepository.findAllBrand()
          const unitData = await this.unitRepository.findUnit()
          const projectData = await this.materialRepository.findAllProject()
-         return { categoryData, brandData, unitData, projectData }
+         return {
+            success:true,
+            message:SUCCESS_MESSAGE.MATERIAL.ADDFETCH,
+            status_code:HTTP_STATUS.OK,
+            data:{ categoryData, brandData, unitData, projectData }
+         }
       } catch (error: any) {
          return ResponseHelper.failure(error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
       }

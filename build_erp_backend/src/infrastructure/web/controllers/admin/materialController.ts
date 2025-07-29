@@ -11,7 +11,7 @@ import { IFetchMaterialByMaterialName } from "../../../../Entities/useCaseEntiti
 import { IFetchBrandByMaterialName } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/MaterialUseCaseEntities/FetchBrandByMaterialNameEntity"
 import { IFetchUnitRateUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/MaterialUseCaseEntities/FetchUnitRateEntity"
 import { IFindMaterialByIdUsecase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/MaterialUseCaseEntities/FindMaterialByIdEntity"
-import { getAddMaterialData, outEditMaterialData } from "../../../../Entities/Input-OutputEntities/MaterialEntities/material"
+import { getAddMaterialData, materialOutput, outEditMaterialData } from "../../../../Entities/Input-OutputEntities/MaterialEntities/material"
 import { commonOutput } from "../../../../Entities/Input-OutputEntities/CommonEntities/common"
 import { IMaterialModelEntity } from "../../../../Entities/ModelEntities/Material.Entity"
 
@@ -58,7 +58,7 @@ export class MaterialController implements IMaterialControllerEntity {
 
    //------------------------------------ List material with search and pagination ------------------------------------//
 
-   materialList = async (req: Request, res: Response, next: NextFunction): Promise<{ getMaterialData: any[]; totalPage: number } | commonOutput> => {
+   materialList = async (req: Request, res: Response, next: NextFunction): Promise<materialOutput | commonOutput> => {
       const { page, search } = req.query
       const result = await this.displayAllMaterialUseCase.execute(Number(page), String(search))
       return result
@@ -66,7 +66,7 @@ export class MaterialController implements IMaterialControllerEntity {
 
    //------------------------------------ list category,brand,unit,project using in add material ------------------------------------//
 
-   addMaterialList = async (req: Request, res: Response, next: NextFunction): Promise<getAddMaterialData | commonOutput> => {
+   addMaterialList = async (req: Request, res: Response, next: NextFunction): Promise<materialOutput | commonOutput> => {
       const result = await this.getAddMaterialUseCase.execute()
       return result
    }
@@ -81,16 +81,17 @@ export class MaterialController implements IMaterialControllerEntity {
 
    //------------------------------------ list category,brand,unit,project using in edit material ------------------------------------//
 
-   editMaterialList = async (req: Request, res: Response, next: NextFunction): Promise<outEditMaterialData | commonOutput> => {
-      const { _id } = req.params
-      const result = await this.getEditMaterialUseCase.execute(_id)
+   editMaterialList = async (req: Request, res: Response, next: NextFunction): Promise<materialOutput | commonOutput> => {
+      const { id } = req.params
+      const result = await this.getEditMaterialUseCase.execute(id)
       return result
    }
 
    //------------------------------------ Update Material ------------------------------------//
 
    updateMaterial = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
-      const result = await this.updateMaterialUseCase.execute(req.body)
+      const _id = req.params.id
+      const result = await this.updateMaterialUseCase.execute({_id,...req.body})
       return result
    }
 
@@ -104,14 +105,14 @@ export class MaterialController implements IMaterialControllerEntity {
 
    //------------------------------------ Fetch unique material name using in specification registration ------------------------------------//
 
-   fetchUniqueMaterial = async (req: Request, res: Response, next: NextFunction): Promise<string[] | commonOutput> => {
+   fetchUniqueMaterial = async (req: Request, res: Response, next: NextFunction): Promise<materialOutput | commonOutput> => {
       const result = await this.fetchMaterialUseCase.execute()
       return result
    }
 
    //------------------------------------ Fetch unit list corresponding material name ------------------------------------//
 
-   fetchMaterialByUnit = async (req: Request, res: Response, next: NextFunction): Promise<string[] | commonOutput> => {
+   fetchMaterialByUnit = async (req: Request, res: Response, next: NextFunction): Promise<materialOutput | commonOutput> => {
       const material_name = req.params.material
       const result = await this.fetchMaterialByMaterialName.execute(material_name)
       return result
@@ -119,7 +120,7 @@ export class MaterialController implements IMaterialControllerEntity {
 
    //------------------------------------ Fetch brand list corresponding material name ------------------------------------//
 
-   fetchBrandbyName = async (req: Request, res: Response, next: NextFunction): Promise<string[] | commonOutput> => {
+   fetchBrandbyName = async (req: Request, res: Response, next: NextFunction): Promise<materialOutput | commonOutput> => {
       const material_name = req.params.material
       const result = await this.fetchbrandByname.execute(material_name)
       return result
@@ -127,7 +128,7 @@ export class MaterialController implements IMaterialControllerEntity {
 
    //------------------------------------ Fetch Unit Rate of the material with material name, brand name, unit name ------------------------------------//
 
-   fetchUnitrate = async (req: Request, res: Response, next: NextFunction): Promise<IMaterialModelEntity | null | commonOutput> => {
+   fetchUnitrate = async (req: Request, res: Response, next: NextFunction): Promise<materialOutput  | commonOutput> => {
       const { material_name, brand_name, unit_name } = req.query
       const result = await this.fetUnitRateUseCase.execute(String(material_name), String(brand_name), String(unit_name))
       return result
@@ -135,7 +136,7 @@ export class MaterialController implements IMaterialControllerEntity {
 
    //------------------------------------ List all Material ------------------------------------//
 
-   getMaterial = async (req: Request, res: Response, next: NextFunction): Promise<IMaterialModelEntity | null | commonOutput> => {
+   getMaterial = async (req: Request, res: Response, next: NextFunction): Promise<materialOutput  | commonOutput> => {
       const { id } = req.params
       const result = await this.findMaterialByIdUsecase.execute(id)
       return result

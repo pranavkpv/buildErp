@@ -14,7 +14,6 @@ import { IAddSiteControllerEntity } from "../../../Entities/ControllerEntities/A
 import { ISpecControllerEntity } from "../../../Entities/ControllerEntities/AdminControllerEntities/ISpecControllerEntity";
 import { IEstimationControllerEntity } from "../../../Entities/ControllerEntities/AdminControllerEntities/IEstimationControllerEntity";
 import { IStageControllerEntity } from "../../../Entities/ControllerEntities/AdminControllerEntities/IStageControllerEntity";
-import { LabourController } from "../controllers/admin/labourController";
 import { withLogging } from "../../../middlewares/withLoggingMiddleware";
 
 
@@ -54,7 +53,7 @@ const createAdminRoute = (adminController: IAdminControllerEntity,
    router.get("/addmaterial",adminMiddleWare(jwtService), withLogging(materialController.addMaterialList))
    router.post("/material",adminMiddleWare(jwtService), withLogging(materialController.saveMaterial))
    router.get("/editmaterial/:id",adminMiddleWare(jwtService), withLogging(materialController.editMaterialList))
-   router.put("/material",adminMiddleWare(jwtService), withLogging(materialController.updateMaterial))
+   router.put("/material/:id",adminMiddleWare(jwtService), withLogging(materialController.updateMaterial))
    router.delete("/material/:id",adminMiddleWare(jwtService), withLogging(materialController.removeMaterial))
    router.get("/fetchMaterial",adminMiddleWare(jwtService),withLogging(materialController.fetchUniqueMaterial))
    router.get("/fetMatbyUnit/:material",adminMiddleWare(jwtService),withLogging(materialController.fetchMaterialByUnit))

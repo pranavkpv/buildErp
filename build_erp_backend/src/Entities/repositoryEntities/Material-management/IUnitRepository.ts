@@ -1,3 +1,4 @@
+import { UnitOutput } from "../../Input-OutputEntities/MaterialEntities/unit"
 import { IUnitModelEntity } from "../../ModelEntities/Unit.Entity"
 
 export interface IUnitRepository{
@@ -7,6 +8,6 @@ export interface IUnitRepository{
    findUnitInEdit(_id:string,unit_name:string):Promise<IUnitModelEntity | null>
    updateUnitById(_id:string,unit_name:string,short_name:string):Promise<void>
    deleteUnitById(_id:string):Promise<void>
-   findAllListUnit(page:number,search:string):Promise<{getUnitData:any[];totalPage:number }>
+   findAllListUnit(page:number,search:string):Promise<UnitOutput>
    
 }

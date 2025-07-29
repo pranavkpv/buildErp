@@ -18,7 +18,7 @@ export class deleteUnitUseCase implements IdeleteUnitUseCase {
       try {
          const existUnit = await this.MaterialRepository.findMaterialByUnitId(_id)
          if (existUnit) {
-            return ResponseHelper.failure(ERROR_MESSAGE.UNIT.EXIST, HTTP_STATUS.CONFLICT)
+            return ResponseHelper.failure(ERROR_MESSAGE.UNIT.USED, HTTP_STATUS.CONFLICT)
          }
          await this.UnitRepository.deleteUnitById(_id)
          return ResponseHelper.success(SUCCESS_MESSAGE.UNIT.DELETE, HTTP_STATUS.OK)

@@ -1,6 +1,7 @@
 import { IBrandRepository } from "../../Entities/repositoryEntities/Material-management/IBrandRepository";
 import { brandDB } from "../../Database/Model/BrandModel";
 import { IBrandModelEntity } from "../../Entities/ModelEntities/Brand.Entity";
+import { brandOutput } from "../../Entities/Input-OutputEntities/MaterialEntities/brand";
 
 
 
@@ -29,13 +30,13 @@ export class BrandRepository implements IBrandRepository {
    async deleteBrandById(_id: string): Promise<void> {
       await brandDB.findByIdAndDelete(_id)
    }
-   async findAllListBrand(page: number, search: string): Promise<{ getBrandData: any[]; totalPage: number; }> {
+   async findAllListBrand(page: number, search: string): Promise<brandOutput> {
       const skip = (page) * 5
       const searchRegex = new RegExp(search, "i");
       const brandList = await brandDB.find({ brand_name: { $regex: searchRegex } }).skip(skip).limit(5)
       const totalPage = await brandDB.countDocuments({ brand_name: { $regex: searchRegex } }) / 5
       return {
-         getBrandData: brandList,
+         data: brandList,
          totalPage
       }
    }
