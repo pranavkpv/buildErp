@@ -9,7 +9,8 @@ import { IChangeStatusUseCase } from "../../../../Entities/useCaseEntities/Admin
 import { IFetchProjectUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/ProjectUseCaseEntities/FetchProjectEntity"
 import { IUserModelEntity } from "../../../../Entities/ModelEntities/User.Entity"
 import { commonOutput } from "../../../../Entities/Input-OutputEntities/CommonEntities/common"
-import { IProjectModelEntity } from "../../../../Entities/ModelEntities/ProjectEntity"
+import { projectOutput } from "../../../../Entities/Input-OutputEntities/ProjectEntities/project"
+import { userOutput } from "../../../../Entities/Input-OutputEntities/UserEntities/user"
 
 
 
@@ -42,7 +43,7 @@ export class ProjectController implements IProjectControllerEntity {
 
    //------------------------------------ List project with search and pagination ------------------------------------//
 
-   projectData = async (req: Request, res: Response, next: NextFunction): Promise<{ getProjectListData: any[]; totalPage: number } | commonOutput> => {
+   projectData = async (req: Request, res: Response, next: NextFunction): Promise<projectOutput | commonOutput> => {
       const { page, search } = req.query
       const result = await this.displayProjectUseCase.execute(Number(page), String(search))
       return result
@@ -50,7 +51,7 @@ export class ProjectController implements IProjectControllerEntity {
 
    //------------------------------------ Add project datas ,Fetch User datas ------------------------------------//
 
-   addProjectdata = async (req: Request, res: Response, next: NextFunction): Promise<IUserModelEntity[] | [] | commonOutput> => {
+   addProjectdata = async (req: Request, res: Response, next: NextFunction): Promise<userOutput | commonOutput> => {
       const result = await this.displayAddProjectUseCase.execute()
       return result
    }
@@ -85,8 +86,8 @@ export class ProjectController implements IProjectControllerEntity {
 
    //------------------------------------ List all Project  ------------------------------------//
 
-   getProject = async (req: Request, res: Response, next: NextFunction): Promise<IProjectModelEntity[] | commonOutput> => {
-      const result = await this.FetchProjectUseCase.axecute()
+   getProject = async (req: Request, res: Response, next: NextFunction): Promise<projectOutput | commonOutput> => {
+      const result = await this.FetchProjectUseCase.execute()
       return result
    }
 }

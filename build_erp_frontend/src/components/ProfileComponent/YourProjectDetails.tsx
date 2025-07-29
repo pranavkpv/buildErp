@@ -31,7 +31,8 @@ function ProjectDetails() {
         if (token) {
           const decoded = jwtDecode<{ userId: string }>(token);
           const response = await fetchUserProjectAPI(decoded.userId);
-          setProject(response);
+          console.log(response)
+          setProject(response.data);
         }
     };
 

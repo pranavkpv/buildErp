@@ -12,6 +12,6 @@ export const SiteManagerLoginAPI = async (email: string, password: string) => {
       );
       return response.data;
    } catch (error: any) {
-      toast.error(error.message);
+      toast.error(error.response.data.message)
    }
 };

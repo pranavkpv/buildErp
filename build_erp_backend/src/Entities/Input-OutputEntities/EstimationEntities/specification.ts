@@ -1,3 +1,4 @@
+import { ISpecModelEntity } from "../../ModelEntities/Spec.Entity"
 import { Unit } from "../MaterialEntities/unit"
 
 
@@ -39,4 +40,12 @@ export interface aggregateSpec{
    labourDetails:labourDetails[],
    additionalExpensePer:number,
    profitPer:number
+}
+
+export interface specOutput {
+   success?:boolean
+   message?:string
+   status_code?:number
+   data:ISpecModelEntity | ISpecModelEntity[] | number | any[]
+   totalPage?:number
 }

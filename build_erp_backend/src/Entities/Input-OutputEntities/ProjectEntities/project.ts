@@ -1,3 +1,4 @@
+import { IProjectModelEntity } from "../../ModelEntities/ProjectEntity"
 import { User } from "../UserEntities/user"
 
 
@@ -55,6 +56,14 @@ export interface editProjectInput {
 export interface statusChangeInput {
    _id: string,
    status: string
+}
+
+export interface projectOutput {
+   success?:boolean,
+   message?:string,
+   status_code?:number,
+   data:IProjectModelEntity[] | IProjectModelEntity,
+   totalPage?:number
 }
 
 

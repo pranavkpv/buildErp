@@ -74,6 +74,7 @@ function EditMaterial({ setEditEnable, editEnable, setEditId, editId, refreshDat
   const fetchData = async () => {
       const data = await getaddMaterial();
       const editData = await editMaterialData(editId);
+      console.log(editData)
       // Set dropdown data
       selectCategoryList(data.data.categoryData);
       setBrandlist(data.data.brandData);
@@ -89,7 +90,7 @@ function EditMaterial({ setEditEnable, editEnable, setEditId, editId, refreshDat
       setTotalStock(editData.data.materialData.stock);
 
       // Transform project stock data to match addRowData format
-      const transformedProjectData = editData.projectStockData.map((item: any) => ({
+      const transformedProjectData = editData.data.projectStockData.map((item: any) => ({
         project: item.project_id,
         stock: Number(item.stock),
         _id: item._id

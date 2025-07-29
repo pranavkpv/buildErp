@@ -41,7 +41,6 @@ function ListEstimation() {
 
    const fetchData = async () => {
          const response = await fetChEstimation(search, page);
-         console.log(response)
          setData(response.data);
          const projects = response.data.map((element: specdata) => element.projectObjectId);
          let x = []

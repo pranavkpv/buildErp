@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { IEstimationModelEntity } from "../../ModelEntities/Estimation.Entity";
 
 
 export interface rowData {
@@ -24,6 +25,15 @@ export interface EstimationData{
    unit_rate:number,
    project_id:string,
    specDetails?:SpecData
+}
+
+
+export interface estimationOutput {
+   success?:boolean
+   message?:string
+   status_code?:number
+   data:IEstimationModelEntity | IEstimationModelEntity[] | SpecData []
+   totalPage?:number
 }
 
 

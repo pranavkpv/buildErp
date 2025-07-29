@@ -28,7 +28,7 @@ function EditLabourSpec({ editrow }: prop) {
 
   const fetchLabour = async () => {
     const response = await labourDataFetch()
-    setLabour(response)
+    setLabour(response.data)
   }
 
   useEffect(() => {

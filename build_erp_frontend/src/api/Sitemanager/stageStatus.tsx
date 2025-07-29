@@ -8,7 +8,7 @@ export const getStage = async (projectId: string) => {
       const response = await axioInstance.get(`/site/stageFetch/${projectId}`);
       return response.data;
    } catch (error: any) {
-      toast.error(error.message);
+     toast.error(error.response.data.message)
    }
 };
 
@@ -26,7 +26,7 @@ export const changeStatusStage = async (
       });
       return response.data;
    } catch (error: any) {
-      toast.error(error.message);
+      toast.error(error.response.data.message)
    }
 };
 
@@ -56,6 +56,6 @@ export const uploadImageAPI = async (
 
       return response.data;
    } catch (error: any) {
-      toast.error(error.message);
+     toast.error(error.response.data.message)
    }
 };

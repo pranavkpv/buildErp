@@ -1,6 +1,7 @@
 import { commonOutput } from "../../../Input-OutputEntities/CommonEntities/common";
-import { ILabourModelEntity } from "../../../ModelEntities/Labour.Entity";
+import { labourOutput } from "../../../Input-OutputEntities/LabourEntities/labour";
+
 
 export interface IFetchLabourByIdUsecase{
-   execute(_id:string):Promise<ILabourModelEntity | null | commonOutput>
+   execute(_id:string):Promise<labourOutput | commonOutput>
 }

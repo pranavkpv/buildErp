@@ -59,22 +59,22 @@ function EditEstimation({ editEnable, setEditEnable, anEditSuccess, projectIds, 
 
    const fetchProject = async () => {
       const response = await getProject();
-      setProject(response);
+      setProject(response.data);
    };
 
    const fetchSpec = async () => {
       const response = await getSpec();
-      setSpec(response);
+      setSpec(response.data);
    };
 
    async function fetchSumOfMat(materialDetails: { material_id: string; quantity: number }[]): Promise<number> {
       const data = await sumOfMaterialFun(materialDetails);
-      return data;
+      return data.data;
    }
 
    async function fetSumOfLabour(labourDetails: { labour_id: string; numberoflabour: number }[]) {
       const data = await sumOfLabourFun(labourDetails);
-      return data;
+      return data.data;
    }
 
 
@@ -150,6 +150,7 @@ function EditEstimation({ editEnable, setEditEnable, anEditSuccess, projectIds, 
          return;
       }
          const response = await EstimationUpdate(projectId, row);
+         console.log(response)
          if (response.success) {
             toast.success(response.message);
             setEditEnable(false);
@@ -162,7 +163,7 @@ function EditEstimation({ editEnable, setEditEnable, anEditSuccess, projectIds, 
    const fetchUsedSpec = async () => {
          const response = await fetchExistEstimation(editProjectId)
          let x = []
-         for (let element of response) {
+         for (let element of response.data) {
             x.push({ spec_id: element.specDetails.spec_id, spec_name: element.specDetails.spec_name, unitrate: element.unit_rate, quantity: element.quantity, total: element.unit_rate * element.quantity })
          }
          setRow(x)

@@ -1,6 +1,6 @@
 import { commonOutput } from "../../../Input-OutputEntities/CommonEntities/common";
-import { IUserModelEntity } from "../../../ModelEntities/User.Entity";
+import { userOutput } from "../../../Input-OutputEntities/UserEntities/user";
 
 export interface IDisplayAddProjectUseCase {
-   execute(): Promise<IUserModelEntity[] | [] | commonOutput>
+   execute(): Promise<userOutput | commonOutput>
 }

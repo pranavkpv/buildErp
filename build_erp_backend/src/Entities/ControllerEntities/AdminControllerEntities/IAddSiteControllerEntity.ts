@@ -1,12 +1,12 @@
 import { NextFunction, Request, Response } from "express";
 import { commonOutput } from "../../Input-OutputEntities/CommonEntities/common";
-import { IProjectModelEntity } from "../../ModelEntities/ProjectEntity";
-import { ISitemanagerModelEntity } from "../../ModelEntities/Sitemanager.Entity";
+import { sitemanagerOutput } from "../../Input-OutputEntities/SitemanagerEntities/sitemanager";
+import { projectOutput } from "../../Input-OutputEntities/ProjectEntities/project";
 
 export interface IAddSiteControllerEntity {
    saveData(req: Request, res: Response, next: NextFunction): Promise<commonOutput>
-   listSite(req: Request, res: Response, next: NextFunction): Promise<{ getAddSiteData: any[]; totalPage: number } | commonOutput>
+   listSite(req: Request, res: Response, next: NextFunction): Promise<sitemanagerOutput | commonOutput>
    deleteSite(req: Request, res: Response, next: NextFunction): Promise<commonOutput>
-   fetchProject(req: Request, res: Response, next: NextFunction):  Promise<IProjectModelEntity[] | null | commonOutput >
-   fetchSitemanager(req: Request, res: Response, next: NextFunction): Promise<ISitemanagerModelEntity[] | null | commonOutput>
+   fetchProject(req: Request, res: Response, next: NextFunction):  Promise<projectOutput | commonOutput >
+   fetchSitemanager(req: Request, res: Response, next: NextFunction): Promise<sitemanagerOutput| commonOutput>
 }

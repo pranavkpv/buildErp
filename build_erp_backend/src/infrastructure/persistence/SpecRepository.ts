@@ -1,5 +1,5 @@
 import { ISpecRepository } from "../../Entities/repositoryEntities/Estimation-management/ISpecRepository";
-import { aggregateSpec, Specification } from "../../Entities/Input-OutputEntities/EstimationEntities/specification";
+import { aggregateSpec, Specification, specOutput } from "../../Entities/Input-OutputEntities/EstimationEntities/specification";
 import { specDB } from "../../Database/Model/SpecModel";
 import { ISpecModelEntity } from "../../Entities/ModelEntities/Spec.Entity";
 
@@ -61,8 +61,6 @@ export class SpecRepository implements ISpecRepository {
             }
          },
          { $unwind: { path: "$materialData.unit_info", preserveNullAndEmptyArrays: true } },
-
-         // Group materialDetails
          {
             $group: {
                _id: "$_id",
@@ -90,8 +88,6 @@ export class SpecRepository implements ISpecRepository {
                }
             }
          },
-
-         // Step 3: Labour details lookup
          { $unwind: { path: "$labourDetails", preserveNullAndEmptyArrays: true } },
          {
             $addFields: {
@@ -110,7 +106,6 @@ export class SpecRepository implements ISpecRepository {
          },
          { $unwind: { path: "$labourData", preserveNullAndEmptyArrays: true } },
 
-         // Group labourDetails
          {
             $group: {
                _id: "$_id",
@@ -152,18 +147,18 @@ export class SpecRepository implements ISpecRepository {
          description: specDescription,
          materialDetails,
          labourDetails,
-         additionalExpense_Per: additionalExpensePer,
+         additionalExpense_per: additionalExpensePer,
          profit_per: profitPer
 
       })
       await newSpec.save()
    }
    async existSpecname(specname: string): Promise<ISpecModelEntity | null> {
-      const existData = await specDB.findOne({ spec_name: specname })
+      const existData = await specDB.findOne({ spec_name: {$regex:specname,$options:"i"} })
       return existData
    }
    async existSpecId(specId: string): Promise<ISpecModelEntity | null> {
-      const existData = await specDB.findOne({ spec_id: specId })
+      const existData = await specDB.findOne({ spec_id: {$regex:specId,$options:"i"} })
       return existData
    }
    async editSpecFetch(_id: string): Promise<aggregateSpec[] | null> {
@@ -205,5 +200,12 @@ export class SpecRepository implements ISpecRepository {
 
       })
    }
-
+   async findSpecInEdit(_id: string, spec_id: string): Promise<ISpecModelEntity | null> {
+       const specData = await specDB.findOne({_id:{$ne:_id},spec_id:{$regex:spec_id,$options:"i"}})
+       return specData
+   }
+   async findSpecInEditByName(_id: string, specname: string): Promise<ISpecModelEntity | null> {
+        const specData = await specDB.findOne({_id:{$ne:_id},spec_id:{$regex:specname,$options:"i"}})
+       return specData
+   }
 }

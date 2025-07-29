@@ -1,3 +1,5 @@
+import { IAttendanceModelEntity } from "../../ModelEntities/Attendance.Entity"
+
 export interface rowData {
    labour_type: string,
    wage: number,
@@ -46,4 +48,12 @@ export interface pageWiseAttendance{
    totalPage:number
 }
 
+
+export interface attendanceOutput {
+   success?:boolean
+   message?:string
+   status_code?:number
+   data:IAttendanceModelEntity | IAttendanceModelEntity[] | pageWiseAttendance | null
+   totalPage?:number
+}
 

@@ -24,7 +24,7 @@ function AddLabourSpec() {
 
   const fetchLabour = async () => {
     const response = await labourDataFetch();
-    setLabour(response);
+    setLabour(response.data);
   };
 
   useEffect(() => {

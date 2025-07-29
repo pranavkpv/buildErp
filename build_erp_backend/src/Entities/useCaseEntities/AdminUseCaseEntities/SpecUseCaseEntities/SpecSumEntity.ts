@@ -1,6 +1,6 @@
 import { commonOutput } from "../../../Input-OutputEntities/CommonEntities/common";
-import { mixMatAndLabour } from "../../../Input-OutputEntities/EstimationEntities/specification";
+import { mixMatAndLabour, specOutput } from "../../../Input-OutputEntities/EstimationEntities/specification";
 
 export interface ISpecSumUseCase {
-   execute(input:mixMatAndLabour):Promise<number | commonOutput>
+   execute(input:mixMatAndLabour):Promise<specOutput | commonOutput>
 }

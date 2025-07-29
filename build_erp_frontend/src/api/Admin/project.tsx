@@ -8,7 +8,7 @@ export const fetchUser = async () => {
       const response = await axioInstance.get(`/admin/addproject`);
       return response.data;
    } catch (error: any) {
-      toast.error(error.message);
+      toast.error(error.response.data.message)
    }
 };
 
@@ -35,7 +35,7 @@ export const postProject = async (
       });
       return response.data;
    } catch (error: any) {
-      toast.error(error.message);
+      toast.error(error.response.data.message)
    }
 };
 
@@ -43,10 +43,10 @@ export const postProject = async (
 
 export const deleteProjectData = async (_id: string) => {
    try {
-      const response = await axioInstance.delete(`/admin/project/${_id}`);
+      const response = await axioInstance.delete(`/admin/project/${ _id }`);
       return response.data;
    } catch (error: any) {
-      toast.error(error.message);
+      toast.error(error.response.data.message)
    }
 };
 
@@ -63,7 +63,7 @@ export const putProject = async (
    description: string
 ) => {
    try {
-      const response = await axioInstance.put(`/admin/project/${_id}`, {
+      const response = await axioInstance.put(`/admin/project/${ _id }`, {
          project_name,
          user_id,
          address,
@@ -74,7 +74,7 @@ export const putProject = async (
       });
       return response.data;
    } catch (error: any) {
-      toast.error(error.message);
+      toast.error(error.response.data.message)
    }
 };
 
@@ -87,7 +87,7 @@ export const projectListData = async (page: number, search: string) => {
       });
       return response.data;
    } catch (error: any) {
-      toast.error(error.message);
+      toast.error(error.response.data.message)
    }
 };
 
@@ -95,10 +95,10 @@ export const projectListData = async (page: number, search: string) => {
 
 export const pustStatusChange = async (_id: string, status: string) => {
    try {
-      const response = await axioInstance.put(`/admin/status/${_id}`, { status });
+      const response = await axioInstance.put(`/admin/status/${ _id }`, { status });
       return response.data;
    } catch (error: any) {
-      toast.error(error.message);
+      toast.error(error.response.data.message)
    }
 };
 
@@ -109,6 +109,6 @@ export const getProject = async () => {
       const response = await axioInstance.get('/admin/getproject');
       return response.data;
    } catch (error: any) {
-      toast.error(error.message);
+      toast.error(error.response.data.message)
    }
 };

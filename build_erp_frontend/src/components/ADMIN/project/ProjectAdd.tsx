@@ -36,8 +36,8 @@ function ProjectAdd({ enableAdd, setEnableAdd, onAddSuccess }: EditType) {
 
   useEffect(() => {
     const fetchData = async () => {
-        const data = await fetchUser()
-        setUserList(data);
+      const data = await fetchUser()
+      setUserList(data.data);
     };
     fetchData();
   }, []);
@@ -102,21 +102,21 @@ function ProjectAdd({ enableAdd, setEnableAdd, onAddSuccess }: EditType) {
 
 
     if (hasError) return;
-      const data = await postProject(project_name,user_id,address,mobile_number,email,area,description)
-      if (data.success) {
-        toast.success(data.message);
-        setSelectedUserId("")
-        setProjectName("")
-        setAddress("")
-        setMobile("")
-        setEmail("")
-        setArea(0)
-        setDescription("")
-        setEnableAdd(false);
-        onAddSuccess();
-      } else {
-        toast.error(data.message);
-      }
+    const data = await postProject(project_name, user_id, address, mobile_number, email, area, description)
+    if (data.success) {
+      toast.success(data.message);
+      setSelectedUserId("")
+      setProjectName("")
+      setAddress("")
+      setMobile("")
+      setEmail("")
+      setArea(0)
+      setDescription("")
+      setEnableAdd(false);
+      onAddSuccess();
+    } else {
+      toast.error(data.message);
+    }
   };
 
   if (!enableAdd) return null;
@@ -240,7 +240,18 @@ function ProjectAdd({ enableAdd, setEnableAdd, onAddSuccess }: EditType) {
         <div className="flex justify-end gap-4 pt-6">
           <button
             type="button"
-            onClick={() => setEnableAdd(false)}
+            onClick={() => {
+              setEnableAdd(false)
+              setSelectedUserId("")
+              setProjectName("")
+              setAddress("")
+              setMobile("")
+              setEmail("")
+              setArea(0)
+              setDescription("")
+              setEnableAdd(false);
+              onAddSuccess();
+            }}
             className="bg-gray-600 hover:bg-gray-700 text-white px-5 py-2.5 rounded-md text-sm font-medium transition-colors duration-200"
           >
             Cancel

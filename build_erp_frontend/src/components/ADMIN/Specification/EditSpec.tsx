@@ -28,7 +28,7 @@ function EditSpec() {
 
   const getUnit = async () => {
     const response = await fetchUnitData();
-    setUnit(response);
+    setUnit(response.data);
   };
 
   useEffect(() => {

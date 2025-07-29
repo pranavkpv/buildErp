@@ -17,7 +17,7 @@ export class AddProjectUseCase implements IAddProjectUseCase {
          const { project_name, user_id, address, mobile_number, email, area, description } = input
          const existProject = await this.projectRepository.findProjectByName(project_name)
          if (existProject) {
-            return ResponseHelper.failure(ERROR_MESSAGE.PROJECT.EXIST_LABOUR, HTTP_STATUS.CONFLICT)
+            return ResponseHelper.failure(ERROR_MESSAGE.PROJECT.EXIST_PROJECT, HTTP_STATUS.CONFLICT)
          }
          const status = "pending"
          await this.projectRepository.saveProject(project_name, user_id, address, mobile_number, email, area, description, status)

@@ -23,7 +23,7 @@ export const takeAttendanceAPI = async (
       });
       return response.data;
    } catch (error: any) {
-      toast.error(error.message);
+      toast.error(error.response.data.message)
    }
 };
 
@@ -36,7 +36,7 @@ export const fetchAttendanceAPI = async (search: string, page: number) => {
       });
       return response.data;
    } catch (error: any) {
-      toast.error(error.message);
+      toast.error(error.response.data.message)
    }
 };
 
@@ -47,7 +47,7 @@ export const DeleteAttendanceAPI = async (deleteId: string) => {
       const response = await axioInstance.delete(`/site/attendance/${deleteId}`);
       return response.data;
    } catch (error: any) {
-      toast.error(error.message);
+       toast.error(error.response.data.message)
    }
 };
 
@@ -58,7 +58,7 @@ export const approveAttendanceAPI = async (approveId: string) => {
       const response = await axioInstance.put(`/site/attendance/${approveId}`);
       return response.data;
    } catch (error: any) {
-      toast.error(error.message);
+       toast.error(error.response.data.message)
    }
 };
 
@@ -69,7 +69,7 @@ export const getAttendanceBYIdAPI = async (editId: string) => {
       const response = await axioInstance.get(`/site/editfetchattendance/${editId}`);
       return response.data;
    } catch (error: any) {
-      toast.error(error.message);
+       toast.error(error.response.data.message)
    }
 };
 
@@ -90,6 +90,6 @@ export const editAttendanceAPI = async (
       });
       return response.data;
    } catch (error: any) {
-      toast.error(error.message);
+       toast.error(error.response.data.message)
    }
 };

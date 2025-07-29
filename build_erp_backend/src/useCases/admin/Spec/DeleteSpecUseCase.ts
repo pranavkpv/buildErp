@@ -20,7 +20,6 @@ export class DeleteSpecUseCase implements IDeleteSpecUseCase {
          if (existEstimationBySpec) {
             return ResponseHelper.failure(ERROR_MESSAGE.SPEC.USED_ESTIMATION, HTTP_STATUS.CONFLICT)
          }
-         console.log(_id)
          await this.specRepository.DeleteSpec(_id)
          return ResponseHelper.success(SUCCESS_MESSAGE.SPEC.DELETE, HTTP_STATUS.OK)
       } catch (error: any) {

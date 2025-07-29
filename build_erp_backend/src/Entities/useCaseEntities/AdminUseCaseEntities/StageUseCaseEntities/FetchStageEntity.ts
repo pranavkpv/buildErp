@@ -1,6 +1,6 @@
 import { commonOutput } from "../../../Input-OutputEntities/CommonEntities/common";
-import { IProjectModelEntity } from "../../../ModelEntities/ProjectEntity";
+import { projectOutput } from "../../../Input-OutputEntities/ProjectEntities/project";
 
 export interface IFetchStageUsecase {
-   execute(search:string,page:number):Promise<{data:IProjectModelEntity[],totalPage:number} | commonOutput>
+   execute(search:string,page:number):Promise<projectOutput | commonOutput>
 }

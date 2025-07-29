@@ -11,7 +11,7 @@ export const postSitemanager = async (username: string, email: string) => {
       });
       return response.data;
    } catch (error: any) {
-      toast.error(error.message);
+       toast.error(error.response.data.message)
    }
 };
 
@@ -22,7 +22,7 @@ export const deleteSitemanagerData = async (_id: string) => {
       const response = await axioInstance.delete(`/admin/sitemanager/${_id}`);
       return response.data;
    } catch (error: any) {
-      toast.error(error.message);
+       toast.error(error.response.data.message)
    }
 };
 
@@ -36,7 +36,7 @@ export const editSitemanagerData = async (_id: string, username: string, email: 
       });
       return response.data;
    } catch (error: any) {
-      toast.error(error.message);
+       toast.error(error.response.data.message)
    }
 };
 
@@ -49,6 +49,6 @@ export const fetchSitemanager = async (page: number, search: string) => {
       });
       return response.data;
    } catch (error: any) {
-      toast.error(error.message);
+      toast.error(error.response.data.message)
    }
 };

@@ -16,12 +16,12 @@ export class SaveSpecUseCase implements ISaveSpecUseCase {
       try {
          const { specId, specname, specUnit, specDescription,
             materialDetails, labourDetails, additionalExpense_per, profit_per } = input
-         const existSpec = this.specRepository.existSpecname(specname)
-         const existSpecId = this.specRepository.existSpecId(specId)
-         if (!existSpec) {
+         const existSpec = await this.specRepository.existSpecname(specname)
+         const existSpecId = await this.specRepository.existSpecId(specId)
+         if (existSpec) {
             return ResponseHelper.failure(ERROR_MESSAGE.SPEC.EXIST_NAME, HTTP_STATUS.CONFLICT)
          }
-         if (!existSpecId) {
+         if (existSpecId) {
             return ResponseHelper.failure(ERROR_MESSAGE.SPEC.EXIST_ID, HTTP_STATUS.CONFLICT)
          }
 

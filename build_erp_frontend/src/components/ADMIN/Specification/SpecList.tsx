@@ -78,20 +78,21 @@ function SpecList() {
 
   const fetchSpecList = async () => {
     const response = await fetchSpec(page, search);
-    setResponse(response.result);
+    console.log(response.data)
+    setResponse(response.data);
     setTotal(response.totalPage)
-    for (let element of response.result) {
+    for (let element of response.data) {
       for (let item of element.materialDetails) {
         const Materialdata = await findMaterialById(item.material_id);
-        item.unitRate = Materialdata.unit_rate;
+        item.unitRate = Materialdata.data.unit_rate;
       }
       for (let labours of element.labourDetails) {
         const labourData = await getLabourData(labours.labour_id);
-        labours.rate = labourData.daily_wage;
+        labours.rate = labourData.data.daily_wage;
       }
     }
     let x = [];
-    for (let element of response.result) {
+    for (let element of response.data) {
       let materialSum = element.materialDetails.reduce(
         (sum: number, item: materialData) => sum + item.unitRate * item.quantity,
         0

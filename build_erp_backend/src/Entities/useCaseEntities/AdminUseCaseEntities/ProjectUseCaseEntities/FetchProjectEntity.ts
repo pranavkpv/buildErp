@@ -1,6 +1,6 @@
 import { commonOutput } from "../../../Input-OutputEntities/CommonEntities/common";
-import { IProjectModelEntity } from "../../../ModelEntities/ProjectEntity";
+import { projectOutput } from "../../../Input-OutputEntities/ProjectEntities/project";
 
 export interface IFetchProjectUseCase {
-    axecute():Promise<IProjectModelEntity[] | commonOutput>
+    execute():Promise<projectOutput | commonOutput>
 }

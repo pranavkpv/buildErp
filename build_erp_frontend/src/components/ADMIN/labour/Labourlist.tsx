@@ -35,7 +35,7 @@ function Labourlist() {
 
   const fetchData = async () => {
       const data =await  getLabour(page,search)
-      setLabour(data.getLabourData);
+      setLabour(data.data);
       setTotal(Math.ceil(data.totalPage))
   };
 

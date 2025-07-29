@@ -5,10 +5,9 @@ import { IDisplayAllLabourUsecase } from "../../../../Entities/useCaseEntities/A
 import { IUpdateLabourUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/LabourUseCaseEntities/UpdateLabourEntity"
 import { IDeleteLabourUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/LabourUseCaseEntities/DeleteLabourEntity"
 import { IFetchAllLabourUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/LabourUseCaseEntities/FetchAllLabourEntity"
-import { HTTP_STATUS } from "../../../../Shared/Status_code"
 import { IFetchLabourByIdUsecase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/LabourUseCaseEntities/FetchLabourByIdEntity"
 import { commonOutput } from "../../../../Entities/Input-OutputEntities/CommonEntities/common"
-import { ILabourModelEntity } from "../../../../Entities/ModelEntities/Labour.Entity"
+import { labourOutput } from "../../../../Entities/Input-OutputEntities/LabourEntities/labour"
 
 
 
@@ -33,7 +32,7 @@ export class LabourController implements ILabourControllerEntity {
 
        //------------------------------------ List labour type with search and pagination ------------------------------------//
 
-      getLabour = async (req: Request, res: Response, next: NextFunction): Promise<{getLabourData:any[];totalPage:number } | commonOutput> => {
+      getLabour = async (req: Request, res: Response, next: NextFunction): Promise<labourOutput | commonOutput> => {
             const { page, search } = req.query
             const result = await this.displayAllLabourUseCase.execute(Number(page), String(search))
             return result
@@ -63,14 +62,14 @@ export class LabourController implements ILabourControllerEntity {
 
        //------------------------------------ List all labour type ------------------------------------//
 
-      fetchlabour = async (req: Request, res: Response, next: NextFunction): Promise<ILabourModelEntity[] | [] | commonOutput> => {
+      fetchlabour = async (req: Request, res: Response, next: NextFunction): Promise<labourOutput | commonOutput> => {
             const result = await this.fetchallLabourusecase.execute()
             return result
       }
 
        //------------------------------------ Fetch labour by Id ------------------------------------//
 
-      getLabourBYId = async (req: Request, res: Response, next: NextFunction):Promise<ILabourModelEntity | null | commonOutput> => {
+      getLabourBYId = async (req: Request, res: Response, next: NextFunction):Promise<labourOutput | commonOutput> => {
             const { id } = req.params
             const result = await this.fetchLabourByIdUseCase.execute(id)
             return result

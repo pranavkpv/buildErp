@@ -35,7 +35,7 @@ function EditStage({ editEnable, setEditEnable, editId, onEditSuccess }: stagePr
          const response = await getStage(projectId);
          if (response.success) {
              const updatedStage = []
-            for (let element of response.data.message) {
+            for (let element of response.message) {
                updatedStage.push({stage_name:element.stage_name,start_date:element.start_date,end_date:element.end_date,stage_percentage:element.stage_per,stage_amount:element.stage_amount})
             }
             setStages(updatedStage)
@@ -47,11 +47,11 @@ function EditStage({ editEnable, setEditEnable, editId, onEditSuccess }: stagePr
 
    const fetchProject = async () => {
          const response = await getProject();
-         const filteredProject = response.find((element: any) => element._id == editId)
+         const filteredProject = response.data.find((element: any) => element._id == editId)
          setCost(filteredProject.budgeted_cost)
          setStartDate(filteredProject.start_date)
          setEndDate(filteredProject.end_date)
-         setProject(response);
+         setProject(response.data);
    };
 
    const fetchBudgetedCost = async (projectId: string) => {

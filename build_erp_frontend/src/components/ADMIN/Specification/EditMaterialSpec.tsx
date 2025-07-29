@@ -28,7 +28,7 @@ function EditSpecMaterial({ editrow }: Props) {
 
    const fetchMaterial = async () => {
       const materialList = await fetchUniqueMaterial()
-      setMaterial(materialList)
+      setMaterial(materialList.data)
    }
 
    useEffect(() => {

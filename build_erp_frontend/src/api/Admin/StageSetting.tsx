@@ -16,7 +16,7 @@ export const fetchBugetAPI = async (projectId: string) => {
       const response = await axioInstance.get(`/admin/fetchbudget/${projectId}`);
       return response.data;
    } catch (error: any) {
-      toast.error(error.message);
+       toast.error(error.response.data.message)
    }
 };
 
@@ -35,7 +35,7 @@ export const stageSaveAPI = async (
       });
       return response.data;
    } catch (error: any) {
-      toast.error(error.message);
+       toast.error(error.response.data.message)
    }
 };
 
@@ -48,7 +48,7 @@ export const fetchStageDataAPI = async (search: string, page: number) => {
       });
       return response.data;
    } catch (error: any) {
-      toast.error(error.message);
+       toast.error(error.response.data.message)
    }
 };
 
@@ -59,7 +59,7 @@ export const stageDeleteAPI = async (deleteId: string) => {
       const response = await axioInstance.post("/admin/stageDelete", { deleteId });
       return response.data;
    } catch (error: any) {
-      toast.error(error.message);
+       toast.error(error.response.data.message)
    }
 };
 
@@ -81,6 +81,6 @@ export const editStageAPI = async (
       });
       return response.data;
    } catch (error: any) {
-      toast.error(error.message);
+      toast.error(error.response.data.message)
    }
 };

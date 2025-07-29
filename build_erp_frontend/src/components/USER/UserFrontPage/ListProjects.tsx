@@ -28,6 +28,7 @@ function ListProject() {
 
   const fetchProject = async () => {
     const response = await fetchStatusBaseProject(state, searchItem, selectedArea, page);
+    console.log(response)
     setProject(response.data);
     setArea(response.areas);
     let y = [];

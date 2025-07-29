@@ -10,7 +10,8 @@ export const SUCCESS_MESSAGE = {
     REGISTER: "OTP confirmed. User registered successfully",
     CREATED: "User created successfully",
     CONFIRM_OTP: "OTP confirmed. You can now change the password",
-    PASSWORD_UPDATE: "Password updated successfully"
+    PASSWORD_UPDATE: "Password updated successfully",
+    FETCH:"User data fetch successfully"
   },
   BRAND: {
     ADD: "Brand registered successfully",
@@ -29,12 +30,14 @@ export const SUCCESS_MESSAGE = {
     ADD: "Estimation added successfully",
     DELETE: "Estimation deleted successfully",
     UPLOAD: "Image uploaded successfully",
-    UPDATE: "Estimation updated successfully"
+    UPDATE: "Estimation updated successfully",
+    FETCH : "Estimation fetch successfully"
   },
   LABOUR: {
     ADD: "Labour type added successfully",
     DELETE: "Labour type deleted successfully",
-    UPDATE: "Labour type updated successfully"
+    UPDATE: "Labour type updated successfully",
+    FETCH:"Labour type fetch successfully"
   },
   MATERIAL: {
     ADD: "Material added successfully",
@@ -50,25 +53,32 @@ export const SUCCESS_MESSAGE = {
     ADD: "Project added successfully",
     UPDATE: "Project updated successfully",
     DELETE: "Project deleted successfully",
-    CHANGE_STATUS: "Project status changed successfully to"
+    CHANGE_STATUS: "Project status changed successfully to",
+    FETCH : "Project fetch successfully"
   },
   SITEMANAGER: {
     ADD: "Site manager registered successfully",
     UPDATE: "Site manager updated successfully",
     DELETE: "Site manager deleted successfully",
-    UPDATE_PASSWORD: "Password updated successfully"
+    UPDATE_PASSWORD: "Password updated successfully",
+    FETCH : "Sitemanager data fetched successfully"
   },
   SPEC: {
     ADD: "Specification added successfully",
     DELETE: "Specification deleted successfully",
-    UPDATE: "Specification updated successfully"
+    UPDATE: "Specification updated successfully",
+    FETCH:"Specification fetch successfully",
+    FETCH_UNITRATE:"Specification unit rate fetch successfully",
+    FETCH_LABOUR_SUM:"Fetch labour sum successfully",
+    FETCH_MATERIAL_SUM:"Fetch material sum successfully"
   },
   STAGE: {
     ADD: "Stage added successfully",
     DELETE: "Stage deleted successfully",
     UPDATE: "Stage updated successfully",
     STATUS_CHANGE: "Stage status changed successfully",
-    UPLOAD_IMAGE: "Image uploaded successfully"
+    UPLOAD_IMAGE: "Image uploaded successfully",
+    FETCH : "Stage data fetch successfully"
   },
   UNIT: {
     ADD: "Unit added successfully",
@@ -80,7 +90,8 @@ export const SUCCESS_MESSAGE = {
     ADD: "Attendance recorded successfully",
     UPDATE: "Attendance updated successfully",
     DELETE: "Attendance deleted successfully",
-    APPROVE: "Attendance approved successfully"
+    APPROVE: "Attendance approved successfully",
+    FETCH:"Attendance data fetch successfully"
   },
   PROFILE: {
     UPDATE_PROFILE: "User profile updated successfully",
@@ -124,7 +135,8 @@ export const ERROR_MESSAGE = {
     USED_SPEC: "Material is already used in a specification"
   },
   PROJECT: {
-    EXIST_LABOUR: "Project name already exists"
+    EXIST_PROJECT: "Project name already exists",
+    ALREADY_USED : "Project already used"
   },
   SITEMANAGER: {
     EXIST: "Site manager already exists",
@@ -143,7 +155,8 @@ export const ERROR_MESSAGE = {
     NOT_ESTIMATE: "The project must be estimated first",
     ALREADY_SET: "Stage setup has already been completed for this project",
     NOT_SET: "This project stage should not be set",
-    NO_IMAGE_UPLOAD: "No image file uploaded"
+    NO_IMAGE_UPLOAD: "No image file uploaded",
+    ALREADY_USED:"Should not change the stage details because the progress is changed"
   },
   UNIT: {
     EXIST: "Unit already exists",

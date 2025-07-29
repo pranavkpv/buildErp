@@ -1,3 +1,4 @@
+import { IUserModelEntity } from "../../ModelEntities/User.Entity";
 
 export interface User {
    _id: string;
@@ -42,6 +43,13 @@ export interface UpdatePassword {
    password:string
 }
 
+export interface userOutput {
+   success?:boolean,
+   message?:string,
+   status_code?:number,
+   data:IUserModelEntity | IUserModelEntity []
+   totalPage?:number
+}
 
 
 

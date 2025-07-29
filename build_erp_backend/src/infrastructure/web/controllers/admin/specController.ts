@@ -7,10 +7,10 @@ import { ISpecSumUseCase } from "../../../../Entities/useCaseEntities/AdminUseCa
 import { IDeleteSpecUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/SpecUseCaseEntities/DeleteSpecEntity";
 import { IgetSpecUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/SpecUseCaseEntities/GetSpecEntity";
 import { IFindlabourSumUsecase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/MaterialUseCaseEntities/FindLabourSumEntity";
-import { HTTP_STATUS } from "../../../../Shared/Status_code";
 import { IUpdateSpecUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/SpecUseCaseEntities/UpdateSpecEntity";
 import { commonOutput } from "../../../../Entities/Input-OutputEntities/CommonEntities/common";
 import { ISpecModelEntity } from "../../../../Entities/ModelEntities/Spec.Entity";
+import { specOutput } from "../../../../Entities/Input-OutputEntities/EstimationEntities/specification";
 
 export class SpecController implements ISpecControllerEntity {
    private speclistusecase: ISpeclistUseCase
@@ -37,7 +37,7 @@ export class SpecController implements ISpecControllerEntity {
 
    //------------------------------------ List all specification with search and pagination ------------------------------------//
 
-   getSpeclist = async (req: Request, res: Response, next: NextFunction): Promise<{result:any[],totalPage:number} | commonOutput> => {
+   getSpeclist = async (req: Request, res: Response, next: NextFunction): Promise<specOutput | commonOutput> => {
       const { page, search } = req.query
       const specData = await this.speclistusecase.execute(Number(page), String(search))
       return specData
@@ -46,13 +46,14 @@ export class SpecController implements ISpecControllerEntity {
    //------------------------------------ Save Spec  ------------------------------------//
 
    saveSpec = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
+      console.log(req.body)
       const result = await this.specSaveuseCase.execute(req.body)
       return result
    }
 
    //------------------------------------Fetch sum of labour and material amount  using in a specification ------------------------------------//
 
-   fetchlabourMaterial = async (req: Request, res: Response, next: NextFunction):Promise<number | commonOutput> => {
+   fetchlabourMaterial = async (req: Request, res: Response, next: NextFunction):Promise<specOutput | commonOutput> => {
       const result = await this.specsumusecase.execute(req.body)
       return result
    }
@@ -67,7 +68,7 @@ export class SpecController implements ISpecControllerEntity {
 
    //------------------------------------ List all Specification  ------------------------------------//
 
-   fetchSpec = async (req: Request, res: Response, next: NextFunction): Promise<ISpecModelEntity[] | commonOutput> => {
+   fetchSpec = async (req: Request, res: Response, next: NextFunction): Promise<specOutput | commonOutput> => {
       const result = await this.getspecUseCase.execute()
       return result
    }
@@ -75,7 +76,7 @@ export class SpecController implements ISpecControllerEntity {
 
    //------------------------------------ find the unit rate * quantity of a material with id and quantity    ------------------------------------//
 
-   findMaterialSum = async (req: Request, res: Response, next: NextFunction): Promise<number | commonOutput> => {
+   findMaterialSum = async (req: Request, res: Response, next: NextFunction): Promise<specOutput | commonOutput> => {
       const materials = JSON.parse(req.query.materials as string);
       const result = await this.findmaterialSumusecase.execute(materials);
       return result
@@ -83,7 +84,7 @@ export class SpecController implements ISpecControllerEntity {
 
    //------------------------------------ Find the daily wage * no of days of a labour with id and no of labour  ------------------------------------//
 
-   findLaboursum = async (req: Request, res: Response, next: NextFunction): Promise<number | commonOutput> => {
+   findLaboursum = async (req: Request, res: Response, next: NextFunction): Promise<specOutput | commonOutput> => {
       const labours = JSON.parse(req.query.labours as string)
       const result = await this.findlaboursumusecase.execute(labours)
       return result

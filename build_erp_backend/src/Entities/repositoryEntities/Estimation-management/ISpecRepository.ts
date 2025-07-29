@@ -1,4 +1,4 @@
-import { Specification } from "../../Input-OutputEntities/EstimationEntities/specification"
+import { Specification, specOutput } from "../../Input-OutputEntities/EstimationEntities/specification"
 import { ISpecModelEntity } from "../../ModelEntities/Spec.Entity"
 
 
@@ -22,4 +22,6 @@ export interface ISpecRepository{
    findSpecByLabourId(_id:string):Promise<ISpecModelEntity | null>
     UpdateSpec(_id:string,specId: String, specname: String, specUnit: String, specDescription: String, materialDetails: materialData[],
                 labourDetails: labourData[], additionalExpensePer: number, profitPer: number):Promise<void>;
+   findSpecInEdit(_id:string,spec_id:string) : Promise<ISpecModelEntity | null>
+   findSpecInEditByName(_id:string,specname:string): Promise<ISpecModelEntity | null>
 }

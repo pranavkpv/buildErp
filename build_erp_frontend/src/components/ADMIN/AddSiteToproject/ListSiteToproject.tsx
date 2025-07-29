@@ -32,7 +32,7 @@ function ListSiteToProject() {
   const fetchData = async () => {
       const data = await listOfsitemanager(page,search)
       setTotalPage(Math.ceil(data.totalPage))
-      setData(data.getAddSiteData);
+      setData(data.data);
   };
 
   useEffect(() => {

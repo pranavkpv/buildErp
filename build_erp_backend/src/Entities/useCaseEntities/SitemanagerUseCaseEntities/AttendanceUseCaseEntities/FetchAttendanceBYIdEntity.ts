@@ -1,6 +1,6 @@
 import { commonOutput } from "../../../Input-OutputEntities/CommonEntities/common";
-import { IAttendanceModelEntity } from "../../../ModelEntities/Attendance.Entity";
+import { attendanceOutput } from "../../../Input-OutputEntities/LabourEntities/attendance";
 
 export interface IFetchAttendanceByIdUseCase {
-   execute(_id:string):Promise<IAttendanceModelEntity | null | commonOutput>
+   execute(_id:string):Promise<attendanceOutput | commonOutput>
 }

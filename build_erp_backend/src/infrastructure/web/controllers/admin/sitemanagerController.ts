@@ -11,6 +11,8 @@ import { ResponseHelper } from "../../../../Shared/utils/response"
 import { SUCCESS_MESSAGE } from "../../../../Shared/Message"
 import { commonOutput } from "../../../../Entities/Input-OutputEntities/CommonEntities/common"
 import { IProjectModelEntity } from "../../../../Entities/ModelEntities/ProjectEntity"
+import { sitemanagerOutput } from "../../../../Entities/Input-OutputEntities/SitemanagerEntities/sitemanager"
+import { projectOutput } from "../../../../Entities/Input-OutputEntities/ProjectEntities/project"
 
 
 
@@ -40,7 +42,7 @@ export class SitemanagerController implements ISitemanagerControllerEntity {
 
    //------------------------------------ List sitemanager with search and pagination ------------------------------------//
 
-   getSitemanager = async (req: Request, res: Response, next: NextFunction): Promise<{ getSiteData: any[]; totalPage: number } | commonOutput> => {
+   getSitemanager = async (req: Request, res: Response, next: NextFunction): Promise<sitemanagerOutput | commonOutput> => {
       const { page, search } = req.query
       const result = await this.displayAllSitemanagerUseCase.execute(Number(page), String(search))
       return result
@@ -102,7 +104,7 @@ export class SitemanagerController implements ISitemanagerControllerEntity {
 
    //------------------------------------ List all sitemanager ------------------------------------//
 
-   getSitemanagerProject = async (req: Request, res: Response, next: NextFunction): Promise<IProjectModelEntity[] | commonOutput> => {
+   getSitemanagerProject = async (req: Request, res: Response, next: NextFunction): Promise<projectOutput | commonOutput> => {
       const { user } = req.params
       const result = await this.listProjectUseCase.execute(user)
       return result

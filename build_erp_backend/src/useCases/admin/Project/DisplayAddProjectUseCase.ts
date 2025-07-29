@@ -4,6 +4,8 @@ import { IUserModelEntity } from "../../../Entities/ModelEntities/User.Entity"
 import { commonOutput } from "../../../Entities/Input-OutputEntities/CommonEntities/common"
 import { ResponseHelper } from "../../../Shared/utils/response"
 import { HTTP_STATUS } from "../../../Shared/Status_code"
+import { userOutput } from "../../../Entities/Input-OutputEntities/UserEntities/user"
+import { SUCCESS_MESSAGE } from "../../../Shared/Message"
 
 
 export class DisplayAddProjectUseCase implements IDisplayAddProjectUseCase {
@@ -11,10 +13,15 @@ export class DisplayAddProjectUseCase implements IDisplayAddProjectUseCase {
    constructor(userRepository: IUserRepository) {
       this.userRepository = userRepository
    }
-   async execute(): Promise<IUserModelEntity[] | [] | commonOutput> {
+   async execute(): Promise<userOutput | commonOutput> {
       try {
          const userData = await this.userRepository.findAllUser()
-         return userData
+         return {
+            success:true,
+            message:SUCCESS_MESSAGE.USER.FETCH,
+            status_code:HTTP_STATUS.OK,
+            data:userData
+         }
       } catch (error: any) {
          return ResponseHelper.failure(error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
       }

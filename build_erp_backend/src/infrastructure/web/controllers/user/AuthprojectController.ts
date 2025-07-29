@@ -17,12 +17,8 @@ export class AuthProjectController implements IAuthProjectControllerEntity {
 
    //------------------------------------ fetching project by userId  ------------------------------------//
 
-   fetchProject = async (req: Request, res: Response, next: NextFunction): Promise<IProjectModelEntity[] | void | commonOutput> => {
+   fetchProject = async (req: Request, res: Response, next: NextFunction): Promise<IProjectModelEntity[]  | commonOutput> => {
       const userId = req.params.user
-      if (typeof userId !== "string") {
-         res.status(HTTP_STATUS.OK).json({ message: ERROR_MESSAGE.USER.USER_NOT_FOUND });
-         return
-      }
       const result = await this.fetchUserprojectUseCase.execute(userId)
       return result
    }

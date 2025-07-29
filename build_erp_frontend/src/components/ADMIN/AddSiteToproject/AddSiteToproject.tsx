@@ -30,7 +30,7 @@ function AddSiteToProject({ addEnable, setAddEnable, onAddSuccess }: AddPropData
   useEffect(() => {
     const fetchSiteManager = async () => {
         const data = await getSitemanager()
-        setSiteManager(data);
+        setSiteManager(data.data);
     };
     fetchSiteManager();
   }, []);
@@ -39,7 +39,7 @@ function AddSiteToProject({ addEnable, setAddEnable, onAddSuccess }: AddPropData
   useEffect(() => {
     const fetchProjects = async () => {
         const data = await getProject()
-        setProjectList(data);
+        setProjectList(data.data);
     };
     fetchProjects();
   }, []);

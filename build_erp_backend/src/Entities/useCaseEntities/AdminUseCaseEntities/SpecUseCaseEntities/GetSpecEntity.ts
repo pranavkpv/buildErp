@@ -1,6 +1,7 @@
 import { commonOutput } from "../../../Input-OutputEntities/CommonEntities/common";
-import { ISpecModelEntity } from "../../../ModelEntities/Spec.Entity";
+import { specOutput } from "../../../Input-OutputEntities/EstimationEntities/specification";
+
 
 export interface IgetSpecUseCase {
-   execute():Promise<ISpecModelEntity[] | commonOutput>
+   execute():Promise<specOutput | commonOutput>
 }

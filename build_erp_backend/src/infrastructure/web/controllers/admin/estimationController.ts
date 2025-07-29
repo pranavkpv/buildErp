@@ -10,7 +10,8 @@ import { IUpdateEstimationUseCase } from "../../../../Entities/useCaseEntities/A
 import { HTTP_STATUS } from "../../../../Shared/Status_code"
 import { ERROR_MESSAGE } from "../../../../Shared/Message"
 import { commonOutput } from "../../../../Entities/Input-OutputEntities/CommonEntities/common"
-import { EstimationData, SpecData } from "../../../../Entities/Input-OutputEntities/EstimationEntities/estimation"
+import { EstimationData, estimationOutput, SpecData } from "../../../../Entities/Input-OutputEntities/EstimationEntities/estimation"
+import { specOutput } from "../../../../Entities/Input-OutputEntities/EstimationEntities/specification"
 
 
 export class EstimationController implements IEstimationControllerEntity {
@@ -41,7 +42,7 @@ export class EstimationController implements IEstimationControllerEntity {
 
    //------------------------------------ List Estimation with search and pagination ------------------------------------//
 
-   fetchEstimation = async (req: Request, res: Response, next: NextFunction):Promise<{data:SpecData[],totalPage:number} | commonOutput> => {
+   fetchEstimation = async (req: Request, res: Response, next: NextFunction):Promise<estimationOutput | commonOutput> => {
       const { search, page } = req.query
       const result = await this.displayEstimationUseCase.axecute(String(search), Number(page))
       return result
@@ -72,7 +73,7 @@ export class EstimationController implements IEstimationControllerEntity {
 
    //------------------------------------ List all estimation data ------------------------------------//
 
-   fetchExistEstimation = async (req: Request, res: Response, next: NextFunction): Promise <EstimationData[] | commonOutput> => {
+   fetchExistEstimation = async (req: Request, res: Response, next: NextFunction): Promise <estimationOutput | commonOutput> => {
       const result = await this.fetchexistestimationusecase.execute(req.params.id)
       return result
    }

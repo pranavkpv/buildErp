@@ -24,9 +24,9 @@ function Projects() {
   const [searchProject, setSearchProject] = useState("");
 
   const fetchProject = async () => {
-    const result: projectData[] = await getProject();
+    const result: {data:projectData[]} = await getProject();
 
-    const filteredResult = result.filter(
+    const filteredResult = result.data.filter(
       (element) =>
         (element.project_name.toLowerCase().includes(searchProject.toLowerCase()) ||
           element.address.toLowerCase().includes(searchProject.toLowerCase())) &&
@@ -35,7 +35,7 @@ function Projects() {
 
     setProject(filteredResult);
 
-    const areas = result.map((element) => element.area);
+    const areas = result.data.map((element) => element.area);
     setArea([...new Set(areas)].sort((a, b) => a - b));
   };
 

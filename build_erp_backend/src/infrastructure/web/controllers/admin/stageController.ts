@@ -5,9 +5,8 @@ import { IFetchCostUseCase } from "../../../../Entities/useCaseEntities/AdminUse
 import { IFetchStageUsecase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/StageUseCaseEntities/FetchStageEntity";
 import { IDeleteStageUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/StageUseCaseEntities/DeleteStageEntity";
 import { IUpdateStageUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/StageUseCaseEntities/UpdateStageEntity";
-import { HTTP_STATUS } from "../../../../Shared/Status_code";
 import { commonOutput } from "../../../../Entities/Input-OutputEntities/CommonEntities/common";
-import { IProjectModelEntity } from "../../../../Entities/ModelEntities/ProjectEntity";
+import { projectOutput } from "../../../../Entities/Input-OutputEntities/ProjectEntities/project";
 
 
 export class StageController implements IStageControllerEntity {
@@ -42,7 +41,7 @@ export class StageController implements IStageControllerEntity {
 
    //------------------------------------ List of all stage with search and pagination------------------------------------//
 
-   fetchStage = async (req: Request, res: Response, next: NextFunction): Promise<{data:IProjectModelEntity[],totalPage:number} | commonOutput> => {
+   fetchStage = async (req: Request, res: Response, next: NextFunction): Promise<projectOutput | commonOutput> => {
       const { search, page } = req.query
       const result = await this.fetchStageusecase.execute(String(search), Number(page))
       return result

@@ -18,7 +18,7 @@ export class UpdateEstimationUsecase implements IUpdateEstimationUseCase {
       try {
          const { projectId, row } = input
          const existStage = await this.stageRepository.findStageByprojectId(projectId)
-         if (existStage) {
+         if (existStage.length>0) {
             return ResponseHelper.failure(ERROR_MESSAGE.ESTIMATION.USED_STAGE, HTTP_STATUS.CONFLICT)
          }
 

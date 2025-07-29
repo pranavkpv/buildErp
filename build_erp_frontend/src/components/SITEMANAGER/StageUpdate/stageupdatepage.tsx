@@ -53,7 +53,7 @@ function StageUpdatePage() {
          if (!token) return
          const decode: JwtPayload = jwtDecode(token)
          const response = await getSitemanagersProject(decode.userId);
-         setProject(response);
+         setProject(response.data);
    };
 
    const fetchStage = async (projectId: string): Promise<void> => {

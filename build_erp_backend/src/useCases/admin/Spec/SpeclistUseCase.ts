@@ -4,6 +4,8 @@ import { ISpecModelEntity } from "../../../Entities/ModelEntities/Spec.Entity";
 import { ResponseHelper } from "../../../Shared/utils/response";
 import { HTTP_STATUS } from "../../../Shared/Status_code";
 import { commonOutput } from "../../../Entities/Input-OutputEntities/CommonEntities/common";
+import { specOutput } from "../../../Entities/Input-OutputEntities/EstimationEntities/specification";
+import { SUCCESS_MESSAGE } from "../../../Shared/Message";
 
 
 export class SpeclistUseCase implements ISpeclistUseCase {
@@ -11,10 +13,16 @@ export class SpeclistUseCase implements ISpeclistUseCase {
    constructor(specRepository: ISpecRepository) {
       this.specRepository = specRepository
    }
-   async execute(page: number, search: string): Promise<{ result: any[], totalPage: number } | commonOutput> {
+   async execute(page: number, search: string): Promise<specOutput | commonOutput> {
       try {
-         const result = await this.specRepository.fetchSpecList(page, search)
-         return result
+         const {result,totalPage} = await this.specRepository.fetchSpecList(page, search)
+         return {
+            success:true,
+            message:SUCCESS_MESSAGE.SPEC.FETCH,
+            status_code:HTTP_STATUS.OK,
+            data : result,
+            totalPage
+         }
       } catch (error: any) {
          return ResponseHelper.failure(error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
       }

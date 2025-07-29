@@ -276,7 +276,7 @@ async function compositeRoot() {
       const displayAddProjectUseCase = new DisplayAddProjectUseCase(userRepository)
       const addProjectUseCase = new AddProjectUseCase(projectRepository)
       const editProjectUseCase = new EditProjectUseCase(projectRepository)
-      const removeProjectUseCase = new DeleteProjectUseCase(projectRepository)
+      const removeProjectUseCase = new DeleteProjectUseCase(projectRepository,projectStockRepository,estimationRepository)
       const changeStatusUseCase = new ChangeStatusUseCase(projectRepository)
       const displayAllLabourUseCase = new DisplayAllLabourUseCase(labourRepository)
       const addLabourUseCase = new AddLabourUseCase(labourRepository)

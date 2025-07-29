@@ -1,10 +1,11 @@
 import { ILabourRepository } from "../../../Entities/repositoryEntities/Labour-management/ILabourRepository";
 import { IMaterialRepository } from "../../../Entities/repositoryEntities/Material-management/IMaterialRepository";
-import { mixMatAndLabour } from "../../../Entities/Input-OutputEntities/EstimationEntities/specification";
+import { mixMatAndLabour, specOutput } from "../../../Entities/Input-OutputEntities/EstimationEntities/specification";
 import { ISpecSumUseCase } from "../../../Entities/useCaseEntities/AdminUseCaseEntities/SpecUseCaseEntities/SpecSumEntity";
 import { ResponseHelper } from "../../../Shared/utils/response";
 import { HTTP_STATUS } from "../../../Shared/Status_code";
 import { commonOutput } from "../../../Entities/Input-OutputEntities/CommonEntities/common";
+import { SUCCESS_MESSAGE } from "../../../Shared/Message";
 
 
 
@@ -16,7 +17,7 @@ export class SpecSumUseCase implements ISpecSumUseCase {
       this.materialRepository = materialRepository
       this.labourRepository = labourRepository
    }
-   async execute(input: mixMatAndLabour): Promise<number | commonOutput> {
+   async execute(input: mixMatAndLabour): Promise<specOutput | commonOutput> {
       try {
          const { materialDetails, labourDetails } = input
          let sumofMaterial = 0
@@ -34,7 +35,12 @@ export class SpecSumUseCase implements ISpecSumUseCase {
             }
 
          }
-         return sumofMaterial + sumOfLabour
+         return {
+            success:true,
+            message:SUCCESS_MESSAGE.SPEC.FETCH_UNITRATE,
+            status_code:HTTP_STATUS.OK,
+            data:sumofMaterial + sumOfLabour
+         }
       } catch (error: any) {
          return ResponseHelper.failure(error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)
       }

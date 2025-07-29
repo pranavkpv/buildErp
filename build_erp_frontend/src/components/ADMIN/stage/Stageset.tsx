@@ -31,7 +31,6 @@ function ListStage() {
 
   const fetchStage = async () => {
       const data = await fetchStageDataAPI(search,page);
-      console.log(data)
       setDatas(data.data);
       let x = []
       for(let i=0;i<data.totalPage;i++){

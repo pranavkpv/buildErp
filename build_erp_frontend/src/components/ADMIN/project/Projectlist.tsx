@@ -55,7 +55,7 @@ function Project() {
 
   const fetchData = async () => {
       const data = await projectListData(page,search)
-      setProjectList(data.getProjectListData);
+      setProjectList(data.data);
       setTotal(Math.ceil(data.totalPage))
   };
 

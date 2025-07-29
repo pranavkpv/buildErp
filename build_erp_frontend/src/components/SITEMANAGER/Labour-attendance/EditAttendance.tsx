@@ -70,12 +70,12 @@ function EditAttendance({ editId, editEnable, setEditEnable, onEditSuccess }: ed
 
    const fetchLabour = async () => {
          const response = await labourDataFetch();
-         setLabour(response);
+         setLabour(response.data);
    };
 
    const fetchAttendanceBYID = async () => {
          const result = await getAttendanceBYIdAPI(editId)
-         setData(result)
+         setData(result.data)
    }
 
   const fetchProject = async () => {
@@ -83,7 +83,7 @@ function EditAttendance({ editId, editEnable, setEditEnable, onEditSuccess }: ed
         if (!token) return
         const decode: JwtPayload = jwtDecode(token)
         const response = await getSitemanagersProject(decode.userId);
-        setProject(response);
+        setProject(response.data);
     };
   
    useEffect(() => {

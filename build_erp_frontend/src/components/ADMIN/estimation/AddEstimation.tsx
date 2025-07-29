@@ -57,22 +57,22 @@ function AddEstimation({ addEnable, setAddEnable, anAddSuccess, projectIds }: ad
 
   const fetchProject = async () => {
     const response = await getProject();
-    setProject(response);
+    setProject(response.data);
   };
 
   const fetchSpec = async () => {
     const response = await getSpec();
-    setSpec(response);
+    setSpec(response.data);
   };
 
   async function fetchSumOfMat(materialDetails: { material_id: string; quantity: number }[]): Promise<number> {
     const data = await sumOfMaterialFun(materialDetails);
-    return data;
+    return data.data;
   }
 
   async function fetSumOfLabour(labourDetails: { labour_id: string; numberoflabour: number }[]) {
     const data = await sumOfLabourFun(labourDetails);
-    return data;
+    return data.data;
   }
 
   const findSpecRate = async (

@@ -8,6 +8,8 @@ import { IAddSiteToprojectFetchSitemanagerUseCase } from "../../../../Entities/u
 import { commonOutput } from "../../../../Entities/Input-OutputEntities/CommonEntities/common";
 import { IProjectModelEntity } from "../../../../Entities/ModelEntities/ProjectEntity";
 import { ISitemanagerModelEntity } from "../../../../Entities/ModelEntities/Sitemanager.Entity";
+import { sitemanagerOutput } from "../../../../Entities/Input-OutputEntities/SitemanagerEntities/sitemanager";
+import { projectOutput } from "../../../../Entities/Input-OutputEntities/ProjectEntities/project";
 
 
 
@@ -36,7 +38,7 @@ export class AddSiteController implements IAddSiteControllerEntity {
 
     //------------------------------------ List project data with sitemanager exist using search and page ------------------------------------//
 
-   listSite = async (req: Request, res: Response, next: NextFunction):Promise<{ getAddSiteData: any[]; totalPage: number } | commonOutput> => {
+   listSite = async (req: Request, res: Response, next: NextFunction):Promise<sitemanagerOutput | commonOutput> => {
          const { page, search } = req.query
          const result = await this.listSiteToProjectUseCase.execute(Number(page), String(search))
          return result
@@ -53,14 +55,14 @@ export class AddSiteController implements IAddSiteControllerEntity {
 
     //------------------------------------ Add sitemanager in project ------------------------------------//
 
-   fetchProject = async (req: Request, res: Response, next: NextFunction):  Promise<IProjectModelEntity[] | null | commonOutput > => {
+   fetchProject = async (req: Request, res: Response, next: NextFunction):  Promise<projectOutput | commonOutput > => {
          const result = await this.addSiteToprojectFetchProjectUseCase.execute()
          return result
    }
 
     //------------------------------------ List project data with sitemanager exist ------------------------------------//
 
-   fetchSitemanager = async (req: Request, res: Response, next: NextFunction): Promise<ISitemanagerModelEntity[] | null | commonOutput> => {
+   fetchSitemanager = async (req: Request, res: Response, next: NextFunction): Promise<sitemanagerOutput | commonOutput> => {
          const result = await this.addSiteToprojectFetchSitemanagerUseCase.execute()
         return result
    }

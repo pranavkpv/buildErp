@@ -17,7 +17,7 @@ export const fetChEstimation = async (search: string, page: number) => {
       const response = await axioInstance("/admin/fetchEstimation", { params: { search, page } })
       return response.data
    } catch (error: any) {
-      toast.error(error.message)
+      toast.error(error.response.data.message)
    }
 }
 
@@ -28,7 +28,7 @@ export const RemoveEstimation = async (_id: string) => {
       const response = await axioInstance.delete(`/admin/deleteEstimation/${ _id }`)
       return response.data
    } catch (error: any) {
-      toast.error(error.message)
+      toast.error(error.response.data.message)
    }
 }
 
@@ -47,7 +47,7 @@ export const uploadEstimatImageAPI = async (uploadProjectId: string, file: File 
       })
       return response.data
    } catch (error: any) {
-      toast.error(error.message)
+      toast.error(error.response.data.message)
    }
 }
 
@@ -58,7 +58,7 @@ export const fetchExistEstimation = async (projectId: string) => {
       const response = await axioInstance.get(`/admin/fetchExistEstimation/${ projectId }`)
       return response.data
    } catch (error: any) {
-      toast.error(error.message)
+      toast.error(error.response.data.message)
    }
 }
 
@@ -69,6 +69,6 @@ export const EstimationUpdate = async (projectId: string, row: rowData[]) => {
       const response = await axioInstance.post("/admin/updateEstimation", { projectId, row })
       return response.data
    } catch (error: any) {
-      toast.error(error.message)
+      toast.error(error.response.data.message)
    }
 }

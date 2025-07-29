@@ -26,7 +26,7 @@ function AddSpecMaterial() {
 
   const fetchMaterial = async () => {
     const materialList = await fetchUniqueMaterial();
-    setMaterial(materialList);
+    setMaterial(materialList.data);
   };
 
   useEffect(() => {
@@ -39,16 +39,16 @@ function AddSpecMaterial() {
     const newRow = [...row];
     newRow[index].material_name = e.target.value;
     setRow(newRow);
-    setBrand(brandData);
-    setUnit(unitData);
+    setBrand(brandData.data);
+    setUnit(unitData.data);
   };
 
   const unitRateFetch = async (index: number) => {
     if (row[index].material_name === "" || row[index].brand_name === "" || row[index].unit_name === "") return;
     const response = await fetchUnitRate(row[index].material_name, row[index].unit_name, row[index].brand_name);
     const newRow = [...row];
-    newRow[index].unit_rate = response.unit_rate;
-    newRow[index].material_id = response._id;
+    newRow[index].unit_rate = response.data.unit_rate;
+    newRow[index].material_id = response.data._id;
     setRow(newRow);
   };
 

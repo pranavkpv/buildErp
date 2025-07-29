@@ -1,12 +1,13 @@
+import { toast } from "react-toastify";
 import { SaveSpec } from "../../../api/Admin/Spec";
 import AppContext from "../../../Context/AppContext";
 import React, { useContext, useEffect, useState } from "react";
 
 type prop = {
-  fetchSpecList:()=>void
+  fetchSpecList: () => void
 }
 
-function AddAdditionalSpec({fetchSpecList}:prop) {
+function AddAdditionalSpec({ fetchSpecList }: prop) {
   const {
     spec_id,
     spec_name,
@@ -33,10 +34,15 @@ function AddAdditionalSpec({fetchSpecList}:prop) {
   }, [labourDetails, materialDetails]);
 
   const SaveSpecData = async (e: React.FormEvent) => {
-    e.preventDefault(); 
-    await SaveSpec(spec_id, spec_name, spec_unit, description, materialDetails, labourDetails, additionalExpense_per, profit_per);
-    setAddAdditionalEnable(false); 
-    fetchSpecList()
+    e.preventDefault();
+    const specSave = await SaveSpec(spec_id, spec_name, spec_unit, description, materialDetails, labourDetails, additionalExpense_per, profit_per);
+    if (specSave.success) {
+      toast.success(specSave.message)
+      setAddAdditionalEnable(false);
+      fetchSpecList()
+    } else {
+      toast.error(specSave.message)
+    }
   };
 
   return (

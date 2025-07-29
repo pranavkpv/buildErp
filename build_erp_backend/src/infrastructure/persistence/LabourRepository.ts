@@ -1,16 +1,17 @@
 import { ILabourRepository } from "../../Entities/repositoryEntities/Labour-management/ILabourRepository";
 import { labourDB } from "../../Database/Model/LabourModel";
 import { ILabourModelEntity } from "../../Entities/ModelEntities/Labour.Entity";
+import { labourOutput } from "../../Entities/Input-OutputEntities/LabourEntities/labour";
 
 
 export class LabourRepository implements ILabourRepository {
-   async findAllLabour(page:number,search:string): Promise<{getLabourData:any[];totalPage:number }> {
+   async findAllLabour(page:number,search:string): Promise<labourOutput> {
       const skip = (page) * 5
       const searchRegex = new RegExp(search, "i");
       const labourList = await labourDB.find({labour_type:{$regex:searchRegex}}).skip(skip).limit(5)
       const totalPage = await labourDB.countDocuments({labour_type:{$regex:searchRegex}})/5
       return {
-         getLabourData:labourList,
+         data:labourList,
          totalPage
       }
    }

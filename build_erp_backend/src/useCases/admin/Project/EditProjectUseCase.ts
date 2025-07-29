@@ -17,7 +17,7 @@ export class EditProjectUseCase implements IEditProjectUseCase {
          const { _id, project_name, user_id, address, mobile_number, email, area, description } = input
          const existData = await this.projectRepository.findProjectInEdit(_id, project_name)
          if (existData) {
-            return ResponseHelper.failure(ERROR_MESSAGE.PROJECT.EXIST_LABOUR, HTTP_STATUS.CONFLICT)
+            return ResponseHelper.failure(ERROR_MESSAGE.PROJECT.EXIST_PROJECT, HTTP_STATUS.CONFLICT)
          }
          await this.projectRepository.UpdateProjectById(_id, project_name, user_id, address, mobile_number, email, area, description)
          return ResponseHelper.success(SUCCESS_MESSAGE.PROJECT.UPDATE, HTTP_STATUS.OK)

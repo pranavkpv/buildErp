@@ -39,7 +39,7 @@ export const fetchSpec = async (page: number, search: string) => {
       });
       return response.data;
    } catch (error: any) {
-      toast.error(error.message);
+      toast.error(error.response.data.message)
    }
 };
 
@@ -55,6 +55,7 @@ export const SaveSpec = async (
    additionalExpensePer: number,
    profitPer: number
 ) => {
+   console.log(additionalExpensePer)
    try {
       const response = await axioInstance.post("/admin/spec", {
          specId,
@@ -68,7 +69,7 @@ export const SaveSpec = async (
       });
       return response.data;
    } catch (error: any) {
-      toast.error(error.message);
+      toast.error(error.response.data.message)
    }
 };
 
@@ -98,7 +99,7 @@ export const UpdateSpec = async (
       });
       return response.data;
    } catch (error: any) {
-      toast.error(error.message);
+     toast.error(error.response.data.message)
    }
 };
 
@@ -114,7 +115,7 @@ export const fetchSum = async (
       });
       return response.data;
    } catch (error: any) {
-      toast.error(error.message);
+      toast.error(error.response.data.message)
    }
 };
 
@@ -125,7 +126,7 @@ export const DeleteSpecFunction = async (id: string) => {
       const response = await axioInstance.delete(`/admin/deleteSpec/${id}`);
       return response.data;
    } catch (error: any) {
-      toast.error(error.message);
+      toast.error(error.response.data.message)
    }
 };
 
@@ -136,7 +137,7 @@ export const getSpec = async () => {
       const response = await axioInstance.get("/admin/getSpec");
       return response.data;
    } catch (error: any) {
-      toast.error(error.message);
+      toast.error(error.response.data.message)
    }
 };
 
@@ -151,7 +152,7 @@ export const sumOfMaterialFun = async (
       });
       return response.data;
    } catch (error: any) {
-      toast.error(error.message);
+      toast.error(error.response.data.message)
    }
 };
 
@@ -166,7 +167,7 @@ export const sumOfLabourFun = async (
       });
       return response.data;
    } catch (error: any) {
-      toast.error(error.message);
+      toast.error(error.response.data.message)
    }
 };
 
@@ -180,6 +181,6 @@ export const EstimationSave = async (projectId: string, row: rowData[]) => {
       });
       return response.data;
    } catch (error: any) {
-      toast.error(error.message);
+      toast.error(error.response.data.message)
    }
 };

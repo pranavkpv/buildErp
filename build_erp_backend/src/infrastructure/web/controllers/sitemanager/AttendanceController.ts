@@ -7,7 +7,7 @@ import { IApproveAttendanceUseCase } from "../../../../Entities/useCaseEntities/
 import { IFetchAttendanceByIdUseCase } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/AttendanceUseCaseEntities/FetchAttendanceBYIdEntity"
 import { IEditAttendanceUseCase } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/AttendanceUseCaseEntities/EditAttendanceEntity"
 import { commonOutput } from "../../../../Entities/Input-OutputEntities/CommonEntities/common"
-import { pageWiseAttendance } from "../../../../Entities/Input-OutputEntities/LabourEntities/attendance"
+import { attendanceOutput, pageWiseAttendance } from "../../../../Entities/Input-OutputEntities/LabourEntities/attendance"
 import { IAttendanceModelEntity } from "../../../../Entities/ModelEntities/Attendance.Entity"
 
 export class AttendanceController implements IAttendanceControllerEntity {
@@ -45,7 +45,7 @@ export class AttendanceController implements IAttendanceControllerEntity {
 
    //------------------------------------ List of searched and paginated attendance of labour ------------------------------------//
 
-   fetchAttendance = async (req: Request, res: Response, next: NextFunction): Promise<{ data: pageWiseAttendance | null } | commonOutput> => {
+   fetchAttendance = async (req: Request, res: Response, next: NextFunction): Promise<attendanceOutput | commonOutput> => {
       const { search, page } = req.query
       const result = await this.fetchattendanceusecase.execute(String(search), Number(page))
       return result
@@ -69,7 +69,7 @@ export class AttendanceController implements IAttendanceControllerEntity {
 
    //------------------------------------ Fetch labour attendance data in edit  ------------------------------------//
 
-   fetchEditcontroller = async (req: Request, res: Response, next: NextFunction): Promise<IAttendanceModelEntity | null | commonOutput> => {
+   fetchEditcontroller = async (req: Request, res: Response, next: NextFunction): Promise<attendanceOutput | commonOutput> => {
       const _id = req.params.id
       const result = await this.fetchattendancebyIdusecase.execute(_id)
       return result

@@ -15,7 +15,7 @@ export const changePassword = async (
       });
       return response.data;
    } catch (error: any) {
-      toast.error(error.message);
+      toast.error(error.response.data.message)
    }
 };
 
@@ -26,7 +26,7 @@ export const logoutSitemanager = async () => {
       const response = await axioInstance.post(`/site/logout`, {}, { withCredentials: true });
       return response.data;
    } catch (error: any) {
-      toast.error(error.message);
+       toast.error(error.response.data.message)
    }
 };
 
@@ -37,6 +37,6 @@ export const getSitemanagersProject = async (user: string) => {
       const response = await axioInstance.get(`/site/siteproject/${user}`);
       return response.data;
    } catch (error: any) {
-      toast.error(error.message);
+       toast.error(error.response.data.message)
    }
 };

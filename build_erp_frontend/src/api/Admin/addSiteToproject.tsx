@@ -19,7 +19,7 @@ export const getProject = async () => {
       const response = await axioInstance.get(`/admin/addSiteToProjectData`);
       return response.data
    } catch (error: any) {
-      toast.error(error.message)
+      toast.error(error.response.data.message)
    }
 }
 
@@ -33,7 +33,7 @@ export const postSitemanagerToProject = async (siteManager_id: string, selectedp
       });
       return response.data
    } catch (error: any) {
-      toast.error(error.message)
+      toast.error(error.response.data.message)
    }
 }
 
@@ -44,7 +44,7 @@ export const deleteSitemanagerToProject = async (_id: string, sitemanager_id: st
       const response = await axioInstance.delete(`/admin/addToSite/${ _id }/${ sitemanager_id }`);
       return response.data
    } catch (error: any) {
-      toast.error(error.message)
+      toast.error(error.response.data.message)
    }
 }
 
@@ -55,6 +55,6 @@ export const listOfsitemanager = async (page: number, search: string) => {
       const response = await axioInstance.get(`/admin/addToSite`, { params: { page, search } });
       return response.data
    } catch (error: any) {
-      toast.error(error.message)
+       toast.error(error.response.data.message)
    }
 }

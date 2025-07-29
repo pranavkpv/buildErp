@@ -67,7 +67,7 @@ function EditProject({
   useEffect(() => {
     const fetchUsers = async () => {
         const data = await fetchUser()
-        setUserList(data);
+        setUserList(data.data);
     };
     fetchUsers();
   }, []);
@@ -105,7 +105,7 @@ function EditProject({
       emailRef.current.innerText = "";
     }
 
-    if (mobile_number.trim() === "") {
+    if (mobile_number === "") {
       if (mobileRef.current) mobileRef.current.innerText = "Mobile number is required.";
       hasError = true;
     } else if (mobileRef.current) {
@@ -119,12 +119,6 @@ function EditProject({
       areaRef.current.innerText = "";
     }
 
-    if (description.trim() === "") {
-      if (descriptionRef.current) descriptionRef.current.innerText = "Description is required.";
-      hasError = true;
-    } else if (descriptionRef.current) {
-      descriptionRef.current.innerText = "";
-    }
 
     if (hasError) return;
       const _id = editProjectId

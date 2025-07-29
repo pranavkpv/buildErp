@@ -1,6 +1,8 @@
 import { commonOutput } from "../../../Entities/Input-OutputEntities/CommonEntities/common";
+import { labourOutput } from "../../../Entities/Input-OutputEntities/LabourEntities/labour";
 import { ILabourRepository } from "../../../Entities/repositoryEntities/Labour-management/ILabourRepository";
 import { IDisplayAllLabourUsecase } from "../../../Entities/useCaseEntities/AdminUseCaseEntities/LabourUseCaseEntities/DisplayAllLoabourEntity";
+import { SUCCESS_MESSAGE } from "../../../Shared/Message";
 import { HTTP_STATUS } from "../../../Shared/Status_code";
 import { ResponseHelper } from "../../../Shared/utils/response";
 
@@ -11,11 +13,14 @@ export class DisplayAllLabourUseCase implements IDisplayAllLabourUsecase {
    constructor(labourRepository: ILabourRepository) {
       this.labourRepository = labourRepository
    }
-   async execute(page: number, search: string): Promise<{ getLabourData: any[]; totalPage: number } | commonOutput> {
+   async execute(page: number, search: string): Promise<labourOutput | commonOutput> {
       try {
-         const { getLabourData, totalPage } = await this.labourRepository.findAllLabour(page, search)
+         const { data , totalPage } = await this.labourRepository.findAllLabour(page, search)
          return {
-            getLabourData,
+            success:true,
+            message:SUCCESS_MESSAGE.LABOUR.FETCH,
+            status_code:HTTP_STATUS.OK,
+            data,
             totalPage
          }
       } catch (error: any) {
