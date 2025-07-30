@@ -63,7 +63,8 @@ export interface projectOutput {
    message?:string,
    status_code?:number,
    data:IProjectModelEntity[] | IProjectModelEntity,
-   totalPage?:number
+   totalPage?:number,
+   areas?:number[]
 }
 
 
