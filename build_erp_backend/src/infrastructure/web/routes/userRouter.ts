@@ -4,29 +4,34 @@ import { authMiddleware } from "../../../middlewares/authMiddleware";
 import { IAuthControllerEntity } from "../../../Entities/ControllerEntities/UserControllerEntities/AuthControllerEntity";
 import { IAuthProjectControllerEntity } from "../../../Entities/ControllerEntities/UserControllerEntities/AuthProjectControllerEntity";
 import { withLogging } from "../../../middlewares/withLoggingMiddleware";
+import { injectAuthController, InjectAuthprojectController } from "../../../DI/userInject";
 
-const createAuthRoute = (authcontroller: IAuthControllerEntity, authprojectController: IAuthProjectControllerEntity): Router => {
-   const router = Router()
-   const jwtService = new JwtServiceImpl()
-  
+export class userRoute {
+   public userRoute: Router
+   constructor() {
+      this.userRoute = Router()
+      this.setRoute()
+   }
+   private setRoute() {
+      const jwtService = new JwtServiceImpl()
 
-   router.post("/googleLogin",withLogging(authcontroller.GoogleLogin))
-   router.post('/signup', withLogging(authcontroller.signUp))
-   router.post('/verifyOtp', withLogging(authcontroller.verifyOTP))
-   router.post('/resendOtp', withLogging(authcontroller.resendOtp))
-   router.post('/login', withLogging(authcontroller.login))
-   router.post("/forgotOTP", withLogging(authcontroller.SendOTP))
-   router.post("/verifyForgotOtp", withLogging(authcontroller.verifyForgotOTP))
-   router.put("/updatepassword", withLogging(authcontroller.updatePassword))
-   router.put("/changepassword/:id",authMiddleware(jwtService),withLogging(authcontroller.ChangePassword))
-   router.post("/logout", authMiddleware(jwtService), withLogging(authcontroller.logout))
-   //your project
-   router.get("/fetchuserproject/:user", authMiddleware(jwtService), withLogging(authprojectController.fetchProject))
-   //status based project list
-   router.get("/fetchstatusbaseproject/:status", withLogging(authprojectController.fetchProjectStatusBaseProject))
-   router.patch('/updateprofile/:id', authMiddleware(jwtService), withLogging(authcontroller.UpdateProfile))
-   router.patch("/updateprofileImage/:id",authMiddleware(jwtService),withLogging(authcontroller.updateProfileImage))
-   return router
+      this.userRoute.post("/googleLogin", withLogging(injectAuthController.GoogleLogin))
+      this.userRoute.post('/signup', withLogging(injectAuthController.signUp))
+      this.userRoute.post('/verifyOtp', withLogging(injectAuthController.verifyOTP))
+      this.userRoute.post('/resendOtp', withLogging(injectAuthController.resendOtp))
+      this.userRoute.post('/login', withLogging(injectAuthController.login)) 
+
+      this.userRoute.post("/forgotOTP", withLogging(injectAuthController.SendOTP))
+      this.userRoute.post("/verifyForgotOtp", withLogging(injectAuthController.verifyForgotOTP))
+      this.userRoute.put("/updatepassword", withLogging(injectAuthController.updatePassword))
+      this.userRoute.put("/changepassword/:id", authMiddleware(jwtService), withLogging(injectAuthController.ChangePassword))
+      this.userRoute.post("/logout", authMiddleware(jwtService), withLogging(injectAuthController.logout))
+
+      this.userRoute.get("/fetchuserproject/:user", authMiddleware(jwtService), withLogging(InjectAuthprojectController.fetchProject))
+      this.userRoute.get("/fetchstatusbaseproject/:status", withLogging(InjectAuthprojectController.fetchProjectStatusBaseProject))
+      this.userRoute.patch('/updateprofile/:id', authMiddleware(jwtService), withLogging(injectAuthController.UpdateProfile))
+      this.userRoute.patch("/updateprofileImage/:id", authMiddleware(jwtService), withLogging(injectAuthController.updateProfileImage))
+
+   }
 }
 
-export default createAuthRoute;

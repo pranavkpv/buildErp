@@ -25,10 +25,10 @@ function ProgressBar({ progressEnable, projectId }: progressProp) {
 
 
   const fetchStage = async (): Promise<void> => {
-      const response = await getStage(projectId);
-      if (response.data.success) {
-        setStage(response.data.message);
-      } 
+    const response = await getStage(projectId);
+    if (response.success) {
+      setStage(response.message);
+    }
   };
 
   const calculateProjectProgress = () => {
@@ -49,8 +49,7 @@ function ProgressBar({ progressEnable, projectId }: progressProp) {
         <h4 className="text-lg font-semibold text-gray-900 mb-4">Project Progress</h4>
         <div className="w-full bg-gray-200 rounded-full h-4 mb-4">
           <div
-            className="bg-blue-600 h-4 rounded-full transition-all duration-300"
-            style={{ width: `${ calculateProjectProgress() }%` }}
+            className={`bg-blue-600 h-4 rounded-full transition-all duration-300 w-[${ calculateProjectProgress() }%]`}
           />
         </div>
         <p className="text-sm text-gray-600 mb-4">
@@ -69,9 +68,9 @@ function ProgressBar({ progressEnable, projectId }: progressProp) {
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
                   <div
-                    className="bg-blue-600 h-2.5 rounded-full transition-all duration-300"
-                    style={{ width: `${ element.progress }%` }}
+                    className={`bg-blue-600 h-2.5 rounded-full transition-all duration-300 w-[${ element.progress }%]`}
                   />
+
                 </div>
                 <p className="text-sm text-gray-600 mt-1">Progress: {element.progress}%</p>
               </div>

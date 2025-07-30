@@ -1,37 +1,38 @@
 import { Router } from "express";
 import { JwtServiceImpl } from "../../../services/JwtService";
 import { siteManagerMiddleware } from "../../../middlewares/siteMiddleware";
-import { ISitemanagerControllerEntity } from "../../../Entities/ControllerEntities/AdminControllerEntities/ISitemanagerControllerEntity";
-import { IchangePasswordControllerEntity } from "../../../Entities/ControllerEntities/SitemanagerControllerEntities/IChangePasswordControllerEntity";
-import { IstatusControllerEntity } from "../../../Entities/ControllerEntities/SitemanagerControllerEntities/IStatusControllerEntity";
-import { IAttendanceControllerEntity } from "../../../Entities/ControllerEntities/SitemanagerControllerEntities/IAttendanceControllerEntity";
 import { withLogging } from "../../../middlewares/withLoggingMiddleware";
+import { injectedSitemanagerController } from "../../../DI/adminInject";
+import { injectAttendanceController, injectedChangepasswordcontroller, injectedStatusController } from "../../../DI/sitemanagerInject";
 
 
-const createSitemanagerRoute = (sitemanagerController: ISitemanagerControllerEntity,
-   changepasswordcontroller: IchangePasswordControllerEntity, statusController: IstatusControllerEntity,
-   attendanceController: IAttendanceControllerEntity): Router => {
-   const router = Router()
-    const jwtService = new JwtServiceImpl()
-   router.post("/login", withLogging(sitemanagerController.loginSitemanager))
-   router.post("/logout",siteManagerMiddleware(jwtService), withLogging(sitemanagerController.logoutSitemanager))
-   router.get("/siteproject/:user",siteManagerMiddleware(jwtService),withLogging(sitemanagerController.getSitemanagerProject))
+export class SitemanagerRoute {
+   public sitemanagerRoute: Router
+   constructor() {
+      this.sitemanagerRoute = Router()
+      this.setRoute()
+   }
+   private setRoute() {
+      const jwtService = new JwtServiceImpl()
+
+      this.sitemanagerRoute.post("/login", withLogging(injectedSitemanagerController.loginSitemanager))
+      this.sitemanagerRoute.post("/logout", siteManagerMiddleware(jwtService), withLogging(injectedSitemanagerController.logoutSitemanager))
+      this.sitemanagerRoute.get("/siteproject/:user", siteManagerMiddleware(jwtService), withLogging(injectedSitemanagerController.getSitemanagerProject))
 
 
-   router.put("/changepass/:id",siteManagerMiddleware(jwtService), withLogging(changepasswordcontroller.changedPassword))
-   router.get("/stageFetch/:id",withLogging(statusController.fetchStageData))
-   router.put("/status/:id",siteManagerMiddleware(jwtService), withLogging(statusController.changeStatus))
-   router.put("/upload",siteManagerMiddleware(jwtService),withLogging(statusController.uploadImage))
- 
+      this.sitemanagerRoute.put("/changepass/:id", siteManagerMiddleware(jwtService), withLogging(injectedChangepasswordcontroller.changedPassword))
 
-   router.post("/attendance",siteManagerMiddleware(jwtService), withLogging(attendanceController.addAttendance))
-   router.put("/editAttendance",siteManagerMiddleware(jwtService),withLogging(attendanceController.editAttendance))
-   router.get("/attendance",siteManagerMiddleware(jwtService),withLogging(attendanceController.fetchAttendance))
-   router.delete("/attendance/:id",siteManagerMiddleware(jwtService),withLogging(attendanceController.deleteAttendance))
-   router.put("/attendance/:id",siteManagerMiddleware(jwtService),withLogging(attendanceController.approveAttendance))
-   router.get("/editfetchattendance/:id",siteManagerMiddleware(jwtService),withLogging(attendanceController.fetchEditcontroller))
+      this.sitemanagerRoute.get("/stageFetch/:id", withLogging(injectedStatusController.fetchStageData))
+      this.sitemanagerRoute.put("/status/:id", siteManagerMiddleware(jwtService), withLogging(injectedStatusController.changeStatus))
+      this.sitemanagerRoute.put("/upload", siteManagerMiddleware(jwtService), withLogging(injectedStatusController.uploadImage))
 
-   return router
+
+      this.sitemanagerRoute.post("/attendance", siteManagerMiddleware(jwtService), withLogging(injectAttendanceController.addAttendance))
+      this.sitemanagerRoute.put("/editAttendance", siteManagerMiddleware(jwtService), withLogging(injectAttendanceController.editAttendance))
+      this.sitemanagerRoute.get("/attendance", siteManagerMiddleware(jwtService), withLogging(injectAttendanceController.fetchAttendance))
+      this.sitemanagerRoute.delete("/attendance/:id", siteManagerMiddleware(jwtService), withLogging(injectAttendanceController.deleteAttendance))
+      this.sitemanagerRoute.put("/attendance/:id", siteManagerMiddleware(jwtService), withLogging(injectAttendanceController.approveAttendance))
+      this.sitemanagerRoute.get("/editfetchattendance/:id", siteManagerMiddleware(jwtService), withLogging(injectAttendanceController.fetchEditcontroller))
+   }
 }
 
-export default createSitemanagerRoute;

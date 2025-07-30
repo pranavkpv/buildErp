@@ -16,9 +16,9 @@ function ProjectImage({ imageEnable, setImageEnable, projectId }: imageProp) {
 
   const fetchStage = async (): Promise<void> => {
       const response = await getStage(projectId);
-      if (response.data.success) {
+      if (response.success) {
         let x = [];
-        for (let element of response.data.message) {
+        for (let element of response.message) {
           for (let item of element.stage_image) {
             for (let char of item.image) {
               x.push({ date: item.date, image: char });
