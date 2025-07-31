@@ -1,6 +1,6 @@
-import { labourDataFetch } from "../../../api/Admin/labour";
 import { useContext, useEffect, useState } from "react";
 import AppContext from "../../../Context/AppContext";
+import { labourDataFetch } from "../../../api/Admin/labour";
 
 type labourData = {
   sl: number;

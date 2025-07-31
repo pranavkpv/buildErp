@@ -1,5 +1,5 @@
+
 import { deleteMaterial } from "../../../api/Admin/material";
-import axios from "axios";
 import { toast } from "react-toastify";
 
 type DeleteMaterialProp = {

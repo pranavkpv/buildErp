@@ -3,6 +3,7 @@ import AppContext from "../../../Context/AppContext"
 import { useContext } from "react"
 import { DeleteSpecFunction } from "../../../api/Admin/Spec"
 
+
 type prop = {
   fetchSpecList:()=>void
 }

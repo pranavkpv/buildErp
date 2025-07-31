@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import LabourAdd from "./LabourAdd";
 import LabourEdit from "./LabourEdit";

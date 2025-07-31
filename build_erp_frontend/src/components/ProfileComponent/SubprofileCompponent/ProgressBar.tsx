@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react"
-import { getStage } from "../../../api/Sitemanager/stageStatus"
 import { Calendar } from "lucide-react"
-import { toast } from "react-toastify"
+import { getStage } from "../../../api/Sitemanager/stageStatus"
 
 type progressProp = {
   progressEnable: boolean

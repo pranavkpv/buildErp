@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import AddCategory from "./AddCategory";
 import EditCategory from "./EditCategory";
 import DeleteCategory from "./DeleteCategory";
-
-import { toast } from "react-toastify";
 import { PlusIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { categoryList } from "../../../api/Admin/category";
 

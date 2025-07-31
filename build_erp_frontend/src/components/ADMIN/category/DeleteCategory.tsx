@@ -1,7 +1,7 @@
-import axios from "axios";
 import { toast } from "react-toastify";
-import { ExclamationTriangleIcon } from "@heroicons/react/24/outline"; // Import the warning icon
+import { ExclamationTriangleIcon } from "@heroicons/react/24/outline"; 
 import { deleteCategoryData } from "../../../api/Admin/category";
+
 
 type CategoryProps = {
   enable: boolean;

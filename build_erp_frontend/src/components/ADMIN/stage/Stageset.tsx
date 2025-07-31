@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import AddStage from "./AddStage";
-import { fetchStageDataAPI } from "../../../api/Admin/StageSetting";
 import { PlusCircleIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
-import { toast } from "react-toastify";
 import DeleteStage from "./DeleteStage";
 import EditStage from "./EditStage";
+import { fetchStageDataAPI } from "../../../api/Admin/StageSetting";
 
 type stageData = {
   _id: string

@@ -7,43 +7,43 @@ interface HeroSlide {
 }
 
 
-function Banner(){
-   const [activeSlide, setActiveSlide] = useState<number>(0);
+function Banner() {
+  const [activeSlide, setActiveSlide] = useState<number>(0);
 
-    const heroSlides: HeroSlide[] = [
-        {
-          image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&h=800&fit=crop',
-          title: 'Premium Luxury Homes',
-          subtitle: 'Experience the finest in modern living'
-        },
-        {
-          image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&h=800&fit=crop',
-          title: 'Smart Urban Living',
-          subtitle: 'Designed for the modern lifestyle'
-        },
-        {
-          image: 'https://thumbs.dreamstime.com/b/beautiful-new-home-exterior-clear-evening-provides-setting-luxurious-34711767.jpg',
-          title: 'Affordable Excellence',
-          subtitle: 'Quality homes within your reach'
-        }
-      ];
-      useEffect(() => {
-          const interval = setInterval(() => {
-            setActiveSlide((prev) => (prev + 1) % heroSlides.length);
-          }, 5000);
-          return () => clearInterval(interval);
-        }, [heroSlides.length]);
+  const heroSlides: HeroSlide[] = [
+    {
+      image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&h=800&fit=crop',
+      title: 'Premium Luxury Homes',
+      subtitle: 'Experience the finest in modern living'
+    },
+    {
+      image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&h=800&fit=crop',
+      title: 'Smart Urban Living',
+      subtitle: 'Designed for the modern lifestyle'
+    },
+    {
+      image: 'https://thumbs.dreamstime.com/b/beautiful-new-home-exterior-clear-evening-provides-setting-luxurious-34711767.jpg',
+      title: 'Affordable Excellence',
+      subtitle: 'Quality homes within your reach'
+    }
+  ];
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveSlide((prev) => (prev + 1) % heroSlides.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [heroSlides.length]);
 
-         const handleSlideChange = (index: number): void => {
+  const handleSlideChange = (index: number): void => {
     setActiveSlide(index);
   };
-      
-       
 
 
 
-   return(
-      <>
+
+
+  return (
+    <>
       {/* Hero Section */}
       <section className="relative h-screen overflow-hidden">
         {heroSlides.map((slide, index) => (
@@ -52,10 +52,13 @@ function Banner(){
             className={`absolute inset-0 transition-opacity duration-1000 ${ index === activeSlide ? 'opacity-100' : 'opacity-0'
               }`}
           >
-            <div
-              className="absolute inset-0 bg-cover bg-center"
-              style={{ backgroundImage: `url(${ slide.image })` }}
-            />
+            <div className="absolute inset-0">
+              <img
+                src={slide.image}
+                className="w-full h-full object-cover"
+                alt="slide"
+              />
+            </div>
             <div className="absolute inset-0 bg-black bg-opacity-50" />
             <div className="relative z-10 flex items-center justify-center h-full text-center text-white">
               <div className="max-w-4xl mx-auto px-4">
@@ -83,8 +86,8 @@ function Banner(){
           ))}
         </div>
       </section>
-      </>
-   )
+    </>
+  )
 }
 
 export default Banner

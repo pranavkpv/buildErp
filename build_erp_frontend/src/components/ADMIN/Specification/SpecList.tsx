@@ -1,7 +1,4 @@
 import AppContext from "../../../Context/AppContext";
-import { fetchSpec } from "../../../api/Admin/Spec";
-import { getLabourData } from "../../../api/Admin/labour";
-import { findMaterialById } from "../../../api/Admin/material";
 import { useContext, useEffect, useState } from "react";
 import AddSpec from "./AddSpec";
 import AddSpecMaterial from "./AddSpecMaterial";
@@ -13,6 +10,9 @@ import EditLabourSpec from "./EditLabourSpec";
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 import DeleteSpec from "./DeleteSpec";
 import EditAdditionalSpec from "./EditAdditional";
+import { fetchSpec } from "../../../api/Admin/Spec";
+import { findMaterialById } from "../../../api/Admin/material";
+import { getLabourData } from "../../../api/Admin/labour";
 
 export interface materialData {
   material_id: string;

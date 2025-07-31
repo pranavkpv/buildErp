@@ -1,10 +1,8 @@
-import { adminLogout } from "api/Admin/dashboard";
 import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import LogoutModal from "../UserFrontPage/LogoutModal";
 import { jwtDecode } from "jwt-decode";
-import { toast } from "react-toastify";
 
 function UserHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);

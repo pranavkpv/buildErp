@@ -1,5 +1,5 @@
+
 import { putBrandData } from "../../../api/Admin/brand";
-import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 

@@ -1,4 +1,3 @@
-
 import { toast } from "react-toastify";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline"; 
 import { deleteLabourData } from "../../../api/Admin/labour";

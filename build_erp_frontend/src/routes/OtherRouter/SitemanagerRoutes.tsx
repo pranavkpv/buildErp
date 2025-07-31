@@ -8,6 +8,7 @@ import BackLoginSitemanagerProtected from "../protectedRoute/sitemanager/blockLo
 import SiteBackDashProtected from "../../routes/protectedRoute/sitemanager/siteBackDashprotected";
 import ListAttendance from "../../components/SITEMANAGER/Labour-attendance/listAttendance";
 import StageUpdatePage from "../../components/SITEMANAGER/StageUpdate/stageupdatepage";
+import PurchaseList from "../../components/SITEMANAGER/purchase/purchaselist";
 
 export const SitemanagerRoutes = () => {
   return (
@@ -25,6 +26,7 @@ export const SitemanagerRoutes = () => {
         <Route path="changepass" element={<SiteBackDashProtected><DisplaySitemanagerData /></SiteBackDashProtected>} />
         <Route path="stage-updation" element={<SiteBackDashProtected><StageUpdatePage /></SiteBackDashProtected>} />
         <Route path = "attendance" element={<SiteBackDashProtected><ListAttendance /></SiteBackDashProtected>} />
+        <Route path="purchase" element={<SiteBackDashProtected><PurchaseList /></SiteBackDashProtected>} />
       </Route>
     </Routes>
   );

@@ -5,6 +5,7 @@ import axios from 'axios';
 import { verifyOTPAPI } from '../../api/User/user';
 
 
+
 ///this page verify otp for signup page
 function Otp() {
   const [otp, setOtp] = useState('');

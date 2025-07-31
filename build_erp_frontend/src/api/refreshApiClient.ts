@@ -12,9 +12,10 @@ export class ApiClient {
     });
 
 
-    this.instance.interceptors.response.use(
+    this.instance.interceptors.response.use(    
       (response) => response,
       async (error) => {
+         console.log("haai")
         const originalRequest = error.config;
         if (error.response?.status === 401 && !originalRequest._retry) {
           originalRequest._retry = true;

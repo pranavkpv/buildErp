@@ -1,5 +1,4 @@
 import { deleteSitemanagerData } from "../../../api/Admin/sitemanager";
-import axios from "axios";
 import { toast } from "react-toastify";
 
 type DeleteDataProps = {

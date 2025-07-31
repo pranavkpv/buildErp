@@ -9,7 +9,7 @@ export const StockSchema = new mongoose.Schema<IProjectStockModel>({
       type: String
    },
     stock: {
-      type: String
+      type: Number
    }
 },{timestamps:true})
 

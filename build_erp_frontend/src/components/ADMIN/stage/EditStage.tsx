@@ -1,9 +1,10 @@
 import { toast } from "react-toastify";
-import {  editStageAPI, fetchBugetAPI, stageSaveAPI } from "../../../api/Admin/StageSetting";
-import { getProject } from "../../../api/Admin/project";
 import { useEffect, useRef, useState } from "react";
 import { PlusCircleIcon, MinusCircleIcon } from "@heroicons/react/24/outline";
 import { getStage } from "../../../api/Sitemanager/stageStatus";
+import { getProject } from "../../../api/Admin/project";
+import { editStageAPI, fetchBugetAPI } from "../../../api/Admin/StageSetting";
+
 
 type Project = {
    _id: string;

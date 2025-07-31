@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import axioInstance from "../../api/axio";
+import axioInstance from "../axio";
 
 // ---------------- Change Site Manager Password ---------------- //
 

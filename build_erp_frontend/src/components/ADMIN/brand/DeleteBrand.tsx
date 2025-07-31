@@ -1,7 +1,7 @@
-import axios from "axios";
 import { toast } from "react-toastify";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline"; 
 import { deleteBrandData } from "../../../api/Admin/brand";
+
 
 type BrandProps = {
   enable: boolean;

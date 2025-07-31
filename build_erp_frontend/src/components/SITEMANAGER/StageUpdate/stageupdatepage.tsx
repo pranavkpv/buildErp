@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-
 import ConfirmStatus from "./ConfirmStatus";
 import ImageUpload from "./ImageUpload";
-
 import { jwtDecode } from "jwt-decode";
 import { getSitemanagersProject } from "../../../api/Sitemanager/profile";
 import { getStage } from "../../../api/Sitemanager/stageStatus";
+
 
 type Project = {
    _id: string;

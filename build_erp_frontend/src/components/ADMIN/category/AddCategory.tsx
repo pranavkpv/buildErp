@@ -1,5 +1,4 @@
 import { postCategory } from "../../../api/Admin/category";
-import axios from "axios";
 import { useRef, useState } from "react";
 import { toast } from "react-toastify";
 

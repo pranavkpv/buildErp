@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import AddSitemanager from "./Addsitemanager";
 import EditSitemanager from "./EditSitemanager";

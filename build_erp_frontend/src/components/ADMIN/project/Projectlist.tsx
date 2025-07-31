@@ -1,11 +1,9 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
 import ProjectAdd from "./ProjectAdd";
 import DeleteProject from "./ProjectDelete";
 import EditProject from "./ProjectEdit";
 import ChangeStatus from "./Status";
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
-import { toast } from "react-toastify";
 import { projectListData } from "../../../api/Admin/project";
 
 type ProjectType = {

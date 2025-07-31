@@ -1,7 +1,6 @@
 import React, { useRef, useState } from 'react';
-import axios from 'axios';
 import { toast } from 'react-toastify';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { SiteManagerLoginAPI } from '../../api/Sitemanager/dashboard';
 
 function SiteLogin() {

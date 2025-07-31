@@ -1,8 +1,8 @@
-import { editMaterialData, getaddMaterial, UpdateMaterialAPI } from "../../../api/Admin/material";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { MinusCircleIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
-import axios from "axios";
+import { editMaterialData, getaddMaterial, UpdateMaterialAPI } from "../../../api/Admin/material";
+
 
 type category = {
   _id: string;

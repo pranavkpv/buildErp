@@ -1,9 +1,8 @@
-
 import UserHeader from "../common/UserHeader";
 import Footer from "../common/Footer";
 import SidebarUser from "../../ProfileComponent/SidebarUser";
 import { Outlet, useLocation } from "react-router-dom";
-import ProfileEdit from "../../../components/ProfileComponent/ProfileEdit";
+
 
 function Profile() {
   const location = useLocation();

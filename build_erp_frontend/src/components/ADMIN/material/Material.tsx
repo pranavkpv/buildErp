@@ -2,9 +2,8 @@ import { useState, useEffect } from "react";
 import MaterialList from "./MaterialList";
 import AddMaterial from "./AddMaterial";
 import DeleteMaterial from "./Deletematerial";
-import { toast } from "react-toastify";
-import { materialList } from "../../../api/Admin/material";
 import EditMaterial from "./EditMaterial";
+import { materialList } from "../../../api/Admin/material";
 
 function Material() {
   const [addMaterialEnable, setAddMaterialEnable] = useState(false);

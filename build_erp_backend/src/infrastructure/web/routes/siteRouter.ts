@@ -3,7 +3,7 @@ import { JwtServiceImpl } from "../../../services/JwtService";
 import { siteManagerMiddleware } from "../../../middlewares/siteMiddleware";
 import { withLogging } from "../../../middlewares/withLoggingMiddleware";
 import { injectedSitemanagerController } from "../../../DI/adminInject";
-import { injectAttendanceController, injectedChangepasswordcontroller, injectedStatusController } from "../../../DI/sitemanagerInject";
+import { injectAttendanceController, injectedChangepasswordcontroller, injectedPurchaseController, injectedStatusController } from "../../../DI/sitemanagerInject";
 
 
 export class SitemanagerRoute {
@@ -33,6 +33,9 @@ export class SitemanagerRoute {
       this.sitemanagerRoute.delete("/attendance/:id", siteManagerMiddleware(jwtService), withLogging(injectAttendanceController.deleteAttendance))
       this.sitemanagerRoute.put("/attendance/:id", siteManagerMiddleware(jwtService), withLogging(injectAttendanceController.approveAttendance))
       this.sitemanagerRoute.get("/editfetchattendance/:id", siteManagerMiddleware(jwtService), withLogging(injectAttendanceController.fetchEditcontroller))
+
+      this.sitemanagerRoute.get("/purchase",siteManagerMiddleware(jwtService),withLogging(injectedPurchaseController.getpurchase))
+      this.sitemanagerRoute.post("/purchase",siteManagerMiddleware(jwtService),withLogging(injectedPurchaseController.savePurchase))
    }
 }
 

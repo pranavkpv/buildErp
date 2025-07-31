@@ -1,11 +1,11 @@
 import { MinusCircleIcon, PlusCircleIcon } from "lucide-react"
-import { editAttendanceAPI, getAttendanceBYIdAPI } from "../../../api/Sitemanager/attendance"
 import { useEffect, useState } from "react"
 import { toast } from "react-toastify"
-import { getProject } from "../../../api/Admin/project"
-import { labourDataFetch } from "../../../api/Admin/labour"
 import { jwtDecode } from "jwt-decode"
-import { getSitemanagersProject } from "../../../api/Sitemanager/profile"
+import { labourDataFetch } from "../../../api/Admin/labour";
+import { editAttendanceAPI, getAttendanceBYIdAPI } from "../../../api/Sitemanager/attendance";
+import { getSitemanagersProject } from "../../../api/Sitemanager/profile";
+
 
 type Project = {
    _id: string;

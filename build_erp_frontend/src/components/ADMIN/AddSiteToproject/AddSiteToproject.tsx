@@ -1,4 +1,6 @@
-import { getProject, getSitemanager, postSitemanagerToProject } from "../../../api/Admin/addSiteToproject";
+
+import { getSitemanager, postSitemanagerToProject } from "../../../api/Admin/addSiteToproject";
+import { getProject } from "../../../api/Admin/project";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 

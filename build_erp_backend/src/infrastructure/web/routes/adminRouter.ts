@@ -42,10 +42,10 @@ export class AdminRoute {
       this.adminRoute.get("/editmaterial/:id", adminMiddleWare(jwtService), withLogging(injectedMaterialController.editMaterialList))
       this.adminRoute.put("/material/:id", adminMiddleWare(jwtService), withLogging(injectedMaterialController.updateMaterial))
       this.adminRoute.delete("/material/:id", adminMiddleWare(jwtService), withLogging(injectedMaterialController.removeMaterial))
-      this.adminRoute.get("/fetchMaterial", adminMiddleWare(jwtService), withLogging(injectedMaterialController.fetchUniqueMaterial))
-      this.adminRoute.get("/fetMatbyUnit/:material", adminMiddleWare(jwtService), withLogging(injectedMaterialController.fetchMaterialByUnit))
-      this.adminRoute.get("/fetchMatbyBrand/:material", adminMiddleWare(jwtService), withLogging(injectedMaterialController.fetchBrandbyName))
-      this.adminRoute.get("/unitRate", adminMiddleWare(jwtService), withLogging(injectedMaterialController.fetchUnitrate))
+      this.adminRoute.get("/fetchMaterial", withLogging(injectedMaterialController.fetchUniqueMaterial))
+      this.adminRoute.get("/fetMatbyUnit/:material", withLogging(injectedMaterialController.fetchMaterialByUnit))
+      this.adminRoute.get("/fetchMatbyBrand/:material", withLogging(injectedMaterialController.fetchBrandbyName))
+      this.adminRoute.get("/unitRate", withLogging(injectedMaterialController.fetchUnitrate))
       this.adminRoute.get("/getmaterial/:id", adminMiddleWare(jwtService), withLogging(injectedMaterialController.getMaterial))
 
 

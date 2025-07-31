@@ -1,6 +1,4 @@
-
 import { editSitemanagerData } from "../../../api/Admin/sitemanager";
-import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 

@@ -1,5 +1,4 @@
 import { postBrand } from "../../../api/Admin/brand";
-import axios from "axios";
 import { useRef, useState } from "react";
 import { toast } from "react-toastify";
 

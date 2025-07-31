@@ -1,5 +1,4 @@
 import { postLabour } from "../../../api/Admin/labour";
-import axios from "axios";
 import { useRef, useState } from "react";
 import { toast } from "react-toastify";
 

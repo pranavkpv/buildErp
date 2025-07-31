@@ -1,6 +1,6 @@
-import { putLabour } from "../../../api/Admin/labour";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
+import { putLabour } from "../../../api/Admin/labour";
 
 type labourProps = {
   labourId: string;

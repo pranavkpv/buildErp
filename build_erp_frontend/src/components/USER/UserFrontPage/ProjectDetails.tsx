@@ -1,10 +1,9 @@
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import UserHeader from '../common/UserHeader';
 import { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
-import { fetchExistEstimation } from '../../../api/Admin/Estimation';
-import { getStage } from '../../../api/Sitemanager/stageStatus';
 import { Calendar } from 'lucide-react';
+import { getStage } from '../../../api/Sitemanager/stageStatus';
+import { fetchExistEstimation } from '../../../api/Admin/Estimation';
 
 type specData = {
   spec_name: string;
@@ -41,24 +40,24 @@ function DetailProject() {
   const [stage, setStage] = useState<StageData[]>([]);
 
   const fetchSpec = async () => {
-      const response = await fetchExistEstimation(projectId);
-      setSpec(response);
+    const response = await fetchExistEstimation(projectId);
+    setSpec(response);
   };
 
   const fetchStage = async () => {
-      const response = await getStage(projectId);
-      if (response.success) {
-        setStage(response.message);
-        let x = [];
-        for (let element of response.message) {
-          for (let item of element.stage_image) {
-            for (let char of item.image) {
-              x.push({ date: item.date, url: char });
-            }
+    const response = await getStage(projectId);
+    if (response.success) {
+      setStage(response.message);
+      let x = [];
+      for (let element of response.message) {
+        for (let item of element.stage_image) {
+          for (let char of item.image) {
+            x.push({ date: item.date, url: char });
           }
         }
-        setImage(x);
       }
+      setImage(x);
+    }
   };
 
   useEffect(() => {
@@ -80,12 +79,15 @@ function DetailProject() {
 
       {/* Hero Section */}
       <section className="relative h-[500px] overflow-hidden">
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url(${expectedImage})` }}
-        >
+        <div className="absolute inset-0">
+          <img
+            src={expectedImage}
+            alt="Background"
+            className="w-full h-full object-cover"
+          />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/50 to-black/70"></div>
         </div>
+
         <div className="relative max-w-7xl mx-auto px-6 py-24 text-center">
           <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-[#04a09c] to-[#22d6d1] bg-clip-text text-transparent mb-4">
             {projectName}
@@ -194,7 +196,7 @@ function DetailProject() {
               <div key={index} className="group relative">
                 <img
                   src={src.url}
-                  alt={`Project Gallery ${index + 1}`}
+                  alt={`Project Gallery ${ index + 1 }`}
                   className="w-full h-64 object-cover rounded-xl shadow-lg hover:scale-105 transition-transform duration-300"
                 />
                 <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-[#04a09c] to-[#22d6d1] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -252,8 +254,7 @@ function DetailProject() {
                   </div>
                   <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2.5 mt-4">
                     <div
-                      className="bg-gradient-to-r from-[#04a09c] to-[#22d6d1] h-2.5 rounded-full transition-all duration-300"
-                      style={{ width: `${element.progress}%` }}
+                      className={`progress-bar progress-${ Math.floor(element.progress) }`}
                     />
                   </div>
                   <p className="text-sm text-slate-600 dark:text-slate-300 mt-2">
@@ -302,16 +303,7 @@ function DetailProject() {
             </ul>
           </div>
           <div className="flex justify-center">
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3929.639!2d76.298!3d9.969!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zOcKwNTgnMDguMCJOIDc2wrAxNyc0OC4wIkU!5e0!3m2!1sen!2sin!4v1634567890123"
-              width="100%"
-              height="300"
-              style={{ border: 0 }}
-              allowFullScreen
-              loading="lazy"
-              title="Project Location"
-              className="rounded-xl shadow-lg"
-            ></iframe>
+
           </div>
         </div>
       </section>

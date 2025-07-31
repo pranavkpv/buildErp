@@ -96,6 +96,10 @@ export const SUCCESS_MESSAGE = {
   PROFILE: {
     UPDATE_PROFILE: "User profile updated successfully",
     UPDATE_IMAGE: "Profile image updated successfully"
+  },
+  PURCHASE : {
+    FETCH : "Purchase fetch successfully",
+    SAVE : "Purchase Saved Successfully"
   }
 };
 
@@ -168,5 +172,8 @@ export const ERROR_MESSAGE = {
   UPDATEPASSWORD:{
     EXIST_GOOGLE : "User logged using google authentication so password not need",
     CURRENTPASSWORD_WRONG : "Current password entered user is incoreect check again"
+  },
+  PURCHASE :{
+    ERROR : "An error occurred when saving purchase"
   }
 };

@@ -2,9 +2,9 @@ import UserHeader from "../../components/USER/common/UserHeader";
 import Banner from "../../components/USER/UserFrontPage/Banner";
 import ProjectCard from "../../components/USER/UserFrontPage/ProjectCard";
 import { useEffect, useState } from "react";
-import { getProject } from "../../api/Admin/project";
 import Footer from "../../components/USER/common/Footer";
 import { Link } from "react-router-dom";
+import { getProject } from "../../api/Admin/project";
 
 type projectData = {
   _id: string;
@@ -24,7 +24,7 @@ function Projects() {
   const [searchProject, setSearchProject] = useState("");
 
   const fetchProject = async () => {
-    const result: {data:projectData[]} = await getProject();
+    const result: { data: projectData[] } = await getProject();
 
     const filteredResult = result.data.filter(
       (element) =>
@@ -109,17 +109,17 @@ function Projects() {
         <div className="relative mb-8 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-r opacity-5 -skew-y-1 transform scale-110"></div>
           <div className="relative flex items-center gap-4 pb-6">
-            <div className={`p-3 rounded-xl bg-white dark:bg-slate-800 shadow-lg border-2 ${config.accentColor} ${config.iconColor} group-hover:scale-110 transition-transform duration-300`}>
+            <div className={`p-3 rounded-xl bg-white dark:bg-slate-800 shadow-lg border-2 ${ config.accentColor } ${ config.iconColor } group-hover:scale-110 transition-transform duration-300`}>
               {getSectionIcon(status)}
             </div>
             <div>
-              <h2 className={`text-4xl font-bold bg-gradient-to-r ${config.gradient} bg-clip-text text-transparent`}>
+              <h2 className={`text-4xl font-bold bg-gradient-to-r ${ config.gradient } bg-clip-text text-transparent`}>
                 {config.title}
               </h2>
               <p className="text-slate-600 dark:text-slate-300 mt-1 font-medium">{config.subtitle}</p>
             </div>
             <div className="flex-1 h-px bg-gradient-to-r from-slate-300 to-transparent ml-8 relative overflow-hidden">
-              <div className={`absolute inset-0 bg-gradient-to-r ${config.gradient} transform -translate-x-full group-hover:translate-x-full transition-transform duration-1000`}></div>
+              <div className={`absolute inset-0 bg-gradient-to-r ${ config.gradient } transform -translate-x-full group-hover:translate-x-full transition-transform duration-1000`}></div>
             </div>
           </div>
         </div>
@@ -129,13 +129,11 @@ function Projects() {
           {filteredProjects.map((p, index) => (
             <div
               key={p._id}
-              className="transform transition-all duration-500"
-              style={{
-                animationDelay: `${index * 150}ms`,
-              }}
+              className={`animated-card transform transition-all duration-500 delay-${ index * 150 }`}
             >
               <ProjectCard {...p} index={index} />
             </div>
+
           ))}
         </div>
 
@@ -145,7 +143,7 @@ function Projects() {
             to="/projectlist"
             state={status}
             className="group/more inline-flex items-center gap-3 px-6 py-3 bg-[#04a09c] hover:bg-[#03b7b1] rounded-xl shadow-lg hover:shadow-xl border-2 border-white/30 backdrop-blur-sm transition-all duration-300"
-            aria-label={`View more ${status} projects`}
+            aria-label={`View more ${ status } projects`}
           >
             <span className="text-lg font-semibold text-white">View More {config.title}</span>
             <svg

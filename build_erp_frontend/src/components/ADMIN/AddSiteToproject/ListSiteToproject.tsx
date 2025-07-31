@@ -1,9 +1,8 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
 import AddSiteToProject from "./AddSiteToproject";
 import DeleteSiteToProject from "./DeleteSiteToproject";
 import { listOfsitemanager } from "../../../api/Admin/addSiteToproject";
+
 
 
 

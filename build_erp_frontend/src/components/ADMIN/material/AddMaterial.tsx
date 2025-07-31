@@ -1,7 +1,6 @@
-import axios from "axios";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
-import { MinusCircleIcon, PlusCircleIcon } from "@heroicons/react/24/outline"; // For modern add/delete row icons
+import { MinusCircleIcon, PlusCircleIcon } from "@heroicons/react/24/outline"; 
 import { getaddMaterial, SaveMaterialApi } from "../../../api/Admin/material";
 
 type category = {

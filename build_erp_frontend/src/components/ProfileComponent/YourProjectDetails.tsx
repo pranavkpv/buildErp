@@ -1,10 +1,10 @@
 import { Calendar, MapPin, Square, DollarSign, ChevronDown, ChevronUp, Image } from "lucide-react";
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
-import { toast } from "react-toastify";
 import ProjectImage from "./SubprofileCompponent/ProjectImage";
 import ProgressBar from "./SubprofileCompponent/ProgressBar";
 import { fetchUserProjectAPI } from "../../api/User/project";
+
 
 type ProjectData = {
   _id: string;

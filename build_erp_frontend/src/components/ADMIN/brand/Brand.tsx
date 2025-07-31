@@ -2,10 +2,9 @@ import { useEffect, useState } from "react";
 import AddBrand from "./AddBrand";
 import EditBrand from "./EditBrand";
 import DeleteBrand from "./DeleteBrand"; // Corrected import name
-import axios from "axios";
-import { toast } from "react-toastify";
 import { PlusIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/outline"; // Import icons
 import { getbrandList } from "../../../api/Admin/brand";
+
 
 type BrandType = {
   _id: string;

@@ -17,8 +17,6 @@ import Material from "../../components/ADMIN/material/Material";
 import Labourlist from "../../components/ADMIN/labour/Labourlist";
 import SpecList from "../../components/ADMIN/Specification/SpecList";
 
-
-
 export const AdminRoutes = () => {
   return (
     <Routes>

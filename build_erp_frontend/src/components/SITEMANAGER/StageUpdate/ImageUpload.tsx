@@ -2,6 +2,7 @@ import { toast } from "react-toastify"
 import { useState } from "react"
 import { uploadImageAPI } from "../../../api/Sitemanager/stageStatus"
 
+
 type uploadProp = {
    uploadEnable: boolean
    setUploadEnable: React.Dispatch<React.SetStateAction<boolean>>
