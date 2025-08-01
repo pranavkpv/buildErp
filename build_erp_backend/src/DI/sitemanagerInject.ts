@@ -16,8 +16,11 @@ import { EditAttendanceUseCase } from "../useCases/sitemanager/Attendance/EditAt
 import { FetchAttendanceByIdUseCase } from "../useCases/sitemanager/Attendance/FetchAttendanceBYIdUseCase";
 import { fetchAttendanceUseCase } from "../useCases/sitemanager/Attendance/FetchAttendanceUseCase";
 import { UpdateSitemanagerPasswordUseCase } from "../useCases/sitemanager/Authentication/UpdateSitemanagerPasswordUseCase";
+import { ApprovePurchaseUseCase } from "../useCases/sitemanager/Purchase/ApprovePurchaseUseCase";
+import { DeletePurchaseUseCase } from "../useCases/sitemanager/Purchase/DeletePurchaseUseCase";
 import { GetPurchaseUseCase } from "../useCases/sitemanager/Purchase/GetpurchaseUseCase";
 import { SavePurchaseUseCase } from "../useCases/sitemanager/Purchase/SavePurchaseUseCase";
+import { UpdatePurchaseUseCase } from "../useCases/sitemanager/Purchase/UpdatePurchaseUseCase";
 import { FetchStatusUseCase } from "../useCases/sitemanager/StageStatusUpdation/FetchStatusUseCase";
 import { StageStatusChangeUseCase } from "../useCases/sitemanager/StageStatusUpdation/StageSatusChangeUseCase";
 import { UploadStatusImageUseCase } from "../useCases/sitemanager/StageStatusUpdation/UploadStatusImageUseCase";
@@ -54,4 +57,7 @@ const jwtService = new JwtServiceImpl()
 const purchaseRepository = new PurchaseRepository()
 const getPurchaseUsecase = new GetPurchaseUseCase(purchaseRepository)
 const savePurchaseUseCase = new SavePurchaseUseCase(purchaseRepository)
-export const injectedPurchaseController = new PurchaseController(getPurchaseUsecase,savePurchaseUseCase,jwtService)
+const updatePurchaseUseCase = new UpdatePurchaseUseCase(purchaseRepository)
+const DeletePurchasaeUseCase = new DeletePurchaseUseCase(purchaseRepository)
+const approvePurchaseUseCase = new ApprovePurchaseUseCase(purchaseRepository)
+export const injectedPurchaseController = new PurchaseController(getPurchaseUsecase,savePurchaseUseCase,jwtService,updatePurchaseUseCase,DeletePurchasaeUseCase,approvePurchaseUseCase)

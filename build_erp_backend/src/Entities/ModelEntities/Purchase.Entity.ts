@@ -1,7 +1,8 @@
 interface materialData {
    material_id:string
-   brand_id?:string
-   unit_id?:string
+   material_name?:string
+   brand_name?:string
+   unit_name?:string
    quantity:number
    unit_rate:number
 }

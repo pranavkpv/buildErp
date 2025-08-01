@@ -34,8 +34,12 @@ export class SitemanagerRoute {
       this.sitemanagerRoute.put("/attendance/:id", siteManagerMiddleware(jwtService), withLogging(injectAttendanceController.approveAttendance))
       this.sitemanagerRoute.get("/editfetchattendance/:id", siteManagerMiddleware(jwtService), withLogging(injectAttendanceController.fetchEditcontroller))
 
-      this.sitemanagerRoute.get("/purchase",siteManagerMiddleware(jwtService),withLogging(injectedPurchaseController.getpurchase))
-      this.sitemanagerRoute.post("/purchase",siteManagerMiddleware(jwtService),withLogging(injectedPurchaseController.savePurchase))
+      this.sitemanagerRoute.get("/purchase", siteManagerMiddleware(jwtService), withLogging(injectedPurchaseController.getpurchase))
+      this.sitemanagerRoute.post("/purchase", siteManagerMiddleware(jwtService), withLogging(injectedPurchaseController.savePurchase))
+      this.sitemanagerRoute.put("/purchase/:id", siteManagerMiddleware(jwtService), withLogging(injectedPurchaseController.updatePurchase))
+      this.sitemanagerRoute.delete("/purchase/:id", siteManagerMiddleware(jwtService), withLogging(injectedPurchaseController.deletePurchase))
+      this.sitemanagerRoute.patch("/purchase/:id", siteManagerMiddleware(jwtService), withLogging(injectedPurchaseController.approvePurchase))
+
    }
 }
 

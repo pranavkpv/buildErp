@@ -1,14 +1,14 @@
 import { approveAttendanceAPI } from "../../../api/Sitemanager/attendance";
 import { toast } from "react-toastify";
 
-type deleteProp = {
+type approveProp = {
   approveId: string;
   onApproveSuccess: () => void;
   setApproveEnable: React.Dispatch<React.SetStateAction<boolean>>;
   approveEnable: boolean;
 };
 
-function ApproveAttendance({ approveId, setApproveEnable, approveEnable, onApproveSuccess }: deleteProp) {
+function ApproveAttendance({ approveId, setApproveEnable, approveEnable, onApproveSuccess }: approveProp) {
   if (!approveEnable) return null;
 
   const approveFun = async (approveId: string) => {

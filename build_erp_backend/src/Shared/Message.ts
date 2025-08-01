@@ -99,7 +99,10 @@ export const SUCCESS_MESSAGE = {
   },
   PURCHASE : {
     FETCH : "Purchase fetch successfully",
-    SAVE : "Purchase Saved Successfully"
+    SAVE : "Purchase Saved Successfully",
+    UPDATE : "Purchase updated successfully",
+    DELETE : "Purchase deleted successfully",
+    APPROVE : "Purchase approved successfully"
   }
 };
 

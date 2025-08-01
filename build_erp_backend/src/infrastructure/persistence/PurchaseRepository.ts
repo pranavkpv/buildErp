@@ -26,10 +26,10 @@ export class PurchaseRepository implements IPurchaseRepository {
             $match: {
                $or: [
                   { "projectDetails.project_name": { $regex: search, $options: "i" } },
-                  {"approval_status":false},
                   { "invoice_number": { $regex: search, $options: "i" } }
                ],
-               "projectDetails.sitemanager_id": id
+               "projectDetails.sitemanager_id": id,
+                "approval_status": false ,
             }
          }, { $unwind: "$materialDetails" },
          {
@@ -46,13 +46,38 @@ export class PurchaseRepository implements IPurchaseRepository {
             }
          }, { $unwind: "$materialDetails.materialInfo" },
          {
+            $addFields: {
+               "materialDetails.brandObjectId": { $toObjectId: "$materialDetails.materialInfo.brand_id" }
+            }
+         }, {
+            $lookup: {
+               from: "brands",
+               localField: "materialDetails.brandObjectId",
+               foreignField: "_id",
+               as: "materialDetails.brandInfo"
+            }
+         }, { $unwind: "$materialDetails.brandInfo" },
+         {
+            $addFields: {
+               "materialDetails.unitObjectId": { $toObjectId: "$materialDetails.materialInfo.unit_id" }
+            }
+         }, {
+            $lookup: {
+               from: "units",
+               localField: "materialDetails.unitObjectId",
+               foreignField: "_id",
+               as: "materialDetails.unitInfo"
+            }
+         }, { $unwind: "$materialDetails.unitInfo" },
+         {
             $group: {
                _id: "$_id", project_id: { $first: "$project_id" }, project_name: { $first: "$projectDetails.project_name" },
                invoice_number: { $first: "$invoice_number" }, date: { $first: "$date" }, description: { $first: "$description" }, materialDetails: {
                   $push: {
                      material_id: "$materialDetails.material_id",
-                     brand_id: "$materialDetails.materialInfo.brand_id",
-                     unit_id: "$materialDetails.materialInfo.unit_id",
+                     material_name: "$materialDetails.materialInfo.material_name",
+                     brand_name: "$materialDetails.brandInfo.brand_name",
+                     unit_name: "$materialDetails.unitInfo.unit_name",
                      quantity: "$materialDetails.quantity",
                      unit_rate: "$materialDetails.unit_rate"
                   }
@@ -94,7 +119,8 @@ export class PurchaseRepository implements IPurchaseRepository {
                   { "projectDetails.project_name": { $regex: search, $options: "i" } },
                   { "invoice_number": { $regex: search, $options: "i" } }
                ],
-               "projectDetails.sitemanager_id": id
+               "projectDetails.sitemanager_id": id,
+               "approval_status": false 
             }
          },
          { $count: "total" }
@@ -115,11 +141,28 @@ export class PurchaseRepository implements IPurchaseRepository {
          project_id,
          invoice_number,
          date: new Date(date),
-         approval_status:false,
+         approval_status: false,
          description,
          materialDetails
       })
       await newPurchaseDB.save()
       return true
+   }
+   async updatePurchase(input: purchaseInput): Promise<boolean> {
+      const { _id, project_id, invoice_number, date, description, materialDetails } = input
+      await purchaseDB.findByIdAndUpdate(_id, {
+         project_id,
+         invoice_number,
+         date,
+         description,
+         materialDetails
+      })
+      return true
+   }
+   async deletePurchase(_id: string): Promise<void> {
+      await purchaseDB.findByIdAndDelete(_id)
+   }
+   async approvePurchase(_id: string): Promise<void> {
+      await purchaseDB.findByIdAndUpdate(_id, { approval_status: true })
    }
 }

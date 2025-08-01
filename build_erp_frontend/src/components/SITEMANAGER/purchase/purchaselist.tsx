@@ -2,18 +2,20 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { PencilIcon, TrashIcon, CheckCircleIcon } from "@heroicons/react/24/outline";
 import AddPurchase from "./AddPurchase";
-// import DeletePurchase from "./DeletePurchase";
-// import ApprovePurchase from "./ApprovePurchase";
-// import EditPurchase from "./EditPurchase";
 import { getPurchaseDataAPI } from "../../../api/Sitemanager/purchase";
+import EditPurchase from "./EditPurchase";
+import DeletePurchase from "./DeletePurchase";
+import ApprovePurchase from "./ApprovePurchase";
 
 
 type materialData = {
-   material_id: string;
-   brand_id:string;
-   unit_id:string
-   quantity: number;
-   unit_rate: number;
+   sl: number
+   material_id: string
+   material_name: string
+   brand_name: string
+   unit_name: string
+   quantity: number
+   unit_rate: number
 };
 
 export type Purchase = {
@@ -48,11 +50,13 @@ function PurchaseList() {
    // Edit
    const [editId, setEditId] = useState("");
    const [editEnable, setEditEnable] = useState(false);
+   const [editData, setEditData] = useState<Purchase>()
+
+
 
    const fetchPurchaseData = async () => {
       try {
          const response = await getPurchaseDataAPI(search, page);
-         console.log(response)
          if (response.success) {
             setPurchaseData(response.data);
             setTotalpage(response.totalPage);
@@ -138,7 +142,16 @@ function PurchaseList() {
                                     className="text-teal-400 hover:text-teal-300 p-2 rounded-md hover:bg-gray-600/50 transition-all duration-200"
                                     aria-label={`Edit purchase for ${ element.project_name }`}
                                     onClick={() => {
-                                       setEditId(element.invoice_number);
+                                       setEditId(element._id);
+                                       const updatedElement = {
+                                          ...element,
+                                          date: element.date.split("T")[0],
+                                          materialDetails: element.materialDetails.map((item, i) => ({
+                                             ...item,
+                                             sl: i + 1,
+                                          })),
+                                       };
+                                       setEditData(updatedElement);
                                        setEditEnable(true);
                                     }}
                                  >
@@ -149,7 +162,7 @@ function PurchaseList() {
                                     className="text-red-400 hover:text-red-300 p-2 rounded-md hover:bg-gray-600/50 transition-all duration-200"
                                     aria-label={`Delete purchase for ${ element.project_name }`}
                                     onClick={() => {
-                                       setDeleteId(element.invoice_number);
+                                       setDeleteId(element._id);
                                        setDeleteEnable(true);
                                     }}
                                  >
@@ -160,7 +173,7 @@ function PurchaseList() {
                                     className="text-green-400 hover:text-green-300 p-2 rounded-md hover:bg-gray-600/50 transition-all duration-200"
                                     aria-label={`Approve purchase for ${ element.project_name }`}
                                     onClick={() => {
-                                       setApproveId(element.invoice_number);
+                                       setApproveId(element._id);
                                        setApproveEnable(true);
                                     }}
                                  >
@@ -192,25 +205,28 @@ function PurchaseList() {
             )}
             <AddPurchase addEnable={addEnable} setAddEnable={setAddEnable} onAddSuccess={fetchPurchaseData} />
 
-            {/* 
+
             <DeletePurchase
-          deleteId={deleteId}
-          onDeleteSuccess={fetchPurchaseData}
-          setDeleteEnable={setDeleteEnable}
-          deleteEnable={deleteEnable}
-        />
-        <ApprovePurchase
-          approveId={approveId}
-          setApproveEnable={setApproveEnable}
-          approveEnable={approveEnable}
-          onApproveSuccess={fetchPurchaseData}
-        />
-        <EditPurchase
-          editId={editId}
-          editEnable={editEnable}
-          setEditEnable={setEditEnable}
-          onEditSuccess={fetchPurchaseData}
-        /> */}
+               deleteId={deleteId}
+               onDeleteSuccess={fetchPurchaseData}
+               setDeleteEnable={setDeleteEnable}
+               deleteEnable={deleteEnable}
+            />
+
+            <ApprovePurchase
+               approveId={approveId}
+               setApproveEnable={setApproveEnable}
+               approveEnable={approveEnable}
+               onApproveSuccess={fetchPurchaseData}
+            />
+
+            <EditPurchase
+               editId={editId}
+               editEnable={editEnable}
+               setEditEnable={setEditEnable}
+               onEditSuccess={fetchPurchaseData}
+               editData={editData}
+            />
          </div>
       </div>
    );

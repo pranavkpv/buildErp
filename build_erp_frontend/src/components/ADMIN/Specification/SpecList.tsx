@@ -61,7 +61,6 @@ function SpecList() {
   const [response, setResponse] = useState<any[]>([]);
   const [editMaterialRow, setEditMaterialRow] = useState<listMaterail[]>([]);
   const [editLabourRow, setEditLabourRow] = useState<labourList[]>([]);
-
   const [total, setTotal] = useState(0)
 
   const {
@@ -78,17 +77,18 @@ function SpecList() {
 
   const fetchSpecList = async () => {
     const response = await fetchSpec(page, search);
-    console.log(response.data)
     setResponse(response.data);
     setTotal(response.totalPage)
     for (let element of response.data) {
       for (let item of element.materialDetails) {
         const Materialdata = await findMaterialById(item.material_id);
-        item.unitRate = Materialdata.data.unit_rate;
+        console.log(Materialdata)
+        item.unitRate = Materialdata.unit_rate;
       }
       for (let labours of element.labourDetails) {
         const labourData = await getLabourData(labours.labour_id);
-        labours.rate = labourData.data.daily_wage;
+         console.log(labourData)
+        labours.rate = labourData.daily_wage;
       }
     }
     let x = [];

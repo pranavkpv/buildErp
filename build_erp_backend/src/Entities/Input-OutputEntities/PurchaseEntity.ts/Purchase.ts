@@ -22,6 +22,7 @@ export interface purchaseOutput {
 //----------------------input ---------------------- //
 
 export interface purchaseInput {
+   _id?:string
    project_id:string,
    invoice_number:string,
    date:string,
