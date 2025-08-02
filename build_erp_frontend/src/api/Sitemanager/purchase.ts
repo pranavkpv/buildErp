@@ -1,3 +1,4 @@
+import type { Purchase } from "../../components/SITEMANAGER/purchase/ApprovePurchase";
 import axioInstance from "../../api/axio"
 import { toast } from "react-toastify"
 
@@ -46,9 +47,9 @@ export const deletePurchaseAPI = async (_id: string) => {
    }
 }
 
-export const ApprovePurchaseAPI = async (_id: string) => {
+export const ApprovePurchaseAPI = async (_id: string,data:Purchase) => {
    try {
-      const response = await axioInstance.patch(`/site/purchase/${ _id }`)
+      const response = await axioInstance.patch(`/site/purchase/${ _id }`,{data})
       return response.data
    } catch (error: any) {
       toast.error(error.response.data.message)

@@ -103,6 +103,13 @@ export const SUCCESS_MESSAGE = {
     UPDATE : "Purchase updated successfully",
     DELETE : "Purchase deleted successfully",
     APPROVE : "Purchase approved successfully"
+  },
+  TRANSFER : {
+    FETCH : "Transfer fetch successfully",
+    SAVE:"Transfer save successfully",
+    UPDATE:"Transfer update successfully",
+    DELETE : "Transfer delete successfully",
+    APPROVE : "Transfer approved successfully"
   }
 };
 
@@ -178,5 +185,10 @@ export const ERROR_MESSAGE = {
   },
   PURCHASE :{
     ERROR : "An error occurred when saving purchase"
+  },
+  TRANSFER :{
+    ERROR : "An error occurred when saving transfer",
+    STOCK_EXCEED : "Stock Exceed in ",
+    EXIST_TRANSFER : "Transfer Id already Exist"
   }
 };

@@ -3,7 +3,7 @@ import { JwtServiceImpl } from "../../../services/JwtService";
 import { siteManagerMiddleware } from "../../../middlewares/siteMiddleware";
 import { withLogging } from "../../../middlewares/withLoggingMiddleware";
 import { injectedSitemanagerController } from "../../../DI/adminInject";
-import { injectAttendanceController, injectedChangepasswordcontroller, injectedPurchaseController, injectedStatusController } from "../../../DI/sitemanagerInject";
+import { injectAttendanceController, injectedChangepasswordcontroller, injectedPurchaseController, injectedStatusController, injectedTransferController } from "../../../DI/sitemanagerInject";
 
 
 export class SitemanagerRoute {
@@ -40,6 +40,12 @@ export class SitemanagerRoute {
       this.sitemanagerRoute.delete("/purchase/:id", siteManagerMiddleware(jwtService), withLogging(injectedPurchaseController.deletePurchase))
       this.sitemanagerRoute.patch("/purchase/:id", siteManagerMiddleware(jwtService), withLogging(injectedPurchaseController.approvePurchase))
 
+      this.sitemanagerRoute.get("/transfer", siteManagerMiddleware(jwtService), withLogging(injectedTransferController.getTransfer))
+      this.sitemanagerRoute.get("/toProject/:id", siteManagerMiddleware(jwtService), withLogging(injectedTransferController.getToProject))
+      this.sitemanagerRoute.post("/transfer", siteManagerMiddleware(jwtService), withLogging(injectedTransferController.saveTransfer))
+      this.sitemanagerRoute.put("/transfer/:id", siteManagerMiddleware(jwtService), withLogging(injectedTransferController.updateTransfer))
+      this.sitemanagerRoute.delete("/transfer/:id", siteManagerMiddleware(jwtService), withLogging(injectedTransferController.deleteTransfer))
+      this.sitemanagerRoute.patch("/transfer/:id", siteManagerMiddleware(jwtService), withLogging(injectedTransferController.approveTransfer))
    }
 }
 

@@ -9,7 +9,7 @@ export class ProjectStockRepository implements IProjectStockRepository {
       const newProjectWiseStock = new projectStockDB({
          project_id,
          material_id,
-         stock:Number(stock)
+         stock: Number(stock)
       })
 
       await newProjectWiseStock.save()
@@ -50,18 +50,28 @@ export class ProjectStockRepository implements IProjectStockRepository {
    async deleteProjectStockByMaterialId(material_id: string): Promise<void> {
       await projectStockDB.deleteMany({ material_id })
    }
-   async IncrementStockById(material_id: string,project_id:string, quantity: number): Promise<void> {
-       const exist = await projectStockDB.findOne({material_id,project_id})
-       if(exist){
-          await projectStockDB.findOneAndUpdate({material_id,project_id},{$inc:{stock:quantity}})
-       }else{
+   async IncrementStockById(material_id: string, project_id: string, quantity: number): Promise<void> {
+      const exist = await projectStockDB.findOne({ material_id, project_id })
+      if (exist) {
+         await projectStockDB.findOneAndUpdate({ material_id, project_id }, { $inc: { stock: quantity } })
+      } else {
          const newStock = new projectStockDB({
             project_id,
             material_id,
-            stock:quantity
+            stock: quantity
          })
          await newStock.save()
-       }
+      }
+   }
+   async DecrementStockByID(material_id: string, project_id: string, quantity: number): Promise<void> {
+      const exist = await projectStockDB.findOne({ material_id, project_id })
+      if (exist) {
+         await projectStockDB.findOneAndUpdate({ material_id, project_id }, { $inc: { stock: -quantity } })
+      }
+   }
+   async findProjectStockByProjectAndMaterialId(material_id: string, project_id: string): Promise<number | undefined> {
+       const data = await projectStockDB.findOne({material_id,project_id})
+       return data?.stock
    }
 
 }

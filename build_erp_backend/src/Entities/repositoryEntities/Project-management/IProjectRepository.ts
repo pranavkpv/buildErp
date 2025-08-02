@@ -18,4 +18,5 @@ export interface IprojectRepository{
    findProjectByUserId(user_id:string):Promise<IProjectModelEntity[]>
    findSitemanagerProject(user:string):Promise<IProjectModelEntity[]>
    findStatusBaseProject(status: string,search:string,area:number,page:number): Promise<{data:IProjectModelEntity[],totalPage:number,areas:number[]}>
+   findProjectById(_id:string):Promise<IProjectModelEntity | null>
 }

@@ -9,4 +9,6 @@ export interface IProjectStockRepository{
    updateProjectStockById(_id:string,project_id:string,material:string,stock:number):Promise<void>;
    deleteProjectStockByMaterialId(material_id:string):Promise<void>;
    IncrementStockById(material_id:string,project_id:string,quantity:number):Promise<void>
+   DecrementStockByID(material_id:string,project_id:string,quantity:number):Promise<void>
+   findProjectStockByProjectAndMaterialId(material_id:string,project_id:string):Promise<number | undefined>
 }

@@ -16,9 +16,7 @@ export class SavePurchaseUseCase implements ISavePurchaseUseCase {
       try {
          const response = await this.purchaseRepository.savePurchase(input)
          if (response) {
-            // for (let char of input.materialDetails) {
-            //    await this.projectStockRepository.IncrementStockById(char.material_id,input.project_id,char.quantity)
-            // }
+        
             return ResponseHelper.success(SUCCESS_MESSAGE.PURCHASE.SAVE, HTTP_STATUS.CREATED)
          } else {
             return ResponseHelper.failure(ERROR_MESSAGE.PURCHASE.ERROR, HTTP_STATUS.BAD_REQUEST)

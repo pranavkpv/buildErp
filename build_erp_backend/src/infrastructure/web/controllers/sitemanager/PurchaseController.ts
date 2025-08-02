@@ -60,7 +60,7 @@ export class PurchaseController implements IPurchaseControllerEntity {
    }
    approvePurchase = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
       const _id = req.params.id
-      const result = await this.approvePurchaseUseCase.execute(_id)
+      const result = await this.approvePurchaseUseCase.execute({_id,...req.body.data})
       return result
    }
 }

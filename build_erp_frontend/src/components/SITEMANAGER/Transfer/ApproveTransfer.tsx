@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import { ApprovePurchaseAPI } from "../../../api/Sitemanager/purchase";
+import { ApproveTransferAPI } from "../../../api/Sitemanager/transfer";
 
 type materialData = {
    sl: number
@@ -11,15 +11,17 @@ type materialData = {
    unit_rate: number
 };
 
-export type Purchase = {
+export type Transfer = {
    _id: string
-   project_id: string;
-   project_name: string;
-   invoice_number: string;
-   date: string;
-   description: string;
-   materialDetails: materialData[];
-   finalAmount: number;
+   from_project_id: string
+   fromproject_name: string
+   to_project_id: string
+   toproject_name: string
+   transfer_id: string
+   description:string
+   date: string
+   materialDetails: materialData[]
+   finalAmount: number
 };
 
 type approveProp = {
@@ -27,18 +29,18 @@ type approveProp = {
    onApproveSuccess: () => void;
    setApproveEnable: React.Dispatch<React.SetStateAction<boolean>>;
    approveEnable: boolean;
-   approveData:Purchase | undefined
+   approveData:Transfer | undefined
 };
 
 
 
-function ApprovePurchase({ approveId, setApproveEnable, approveEnable, onApproveSuccess,approveData }: approveProp) {
+function ApproveTransfer({ approveId, setApproveEnable, approveEnable, onApproveSuccess,approveData }: approveProp) {
    if (!approveEnable) return null
    const approveFun = async (approveId: string) => {
       if(!approveData){
          return toast.error("Not Exist approved Data")
       }
-      const response = await ApprovePurchaseAPI(approveId,approveData)
+      const response = await ApproveTransferAPI(approveId,approveData)
       if (response.success) {
          toast.success(response.message)
          setApproveEnable(false)
@@ -51,11 +53,11 @@ function ApprovePurchase({ approveId, setApproveEnable, approveEnable, onApprove
       <div className="fixed inset-0 bg-gray-900/80 flex items-center justify-center z-50 p-4 sm:p-6">
          <div className="bg-gray-800/90 backdrop-blur-sm rounded-xl shadow-2xl p-6 sm:p-8 w-full max-w-md border border-gray-700/50">
             <h2 className="text-xl font-bold text-gray-100 mb-6 text-center">
-               Confirm Approve Purchase
+               Confirm Approve Transfer
             </h2>
             <div className="space-y-6">
                <p className="text-gray-200 text-sm font-medium text-center">
-                  Do you want to approve this labour Purchase?
+                  Do you want to approve this Transfer?
                </p>
                <div className="flex justify-end gap-4">
                   <button
@@ -79,4 +81,4 @@ function ApprovePurchase({ approveId, setApproveEnable, approveEnable, onApprove
    )
 }
 
-export default ApprovePurchase
+export default ApproveTransfer

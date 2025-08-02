@@ -167,5 +167,9 @@ export class ProjectRepository implements IprojectRepository {
          areas:uniqueArea
       };
    }
+   async findProjectById(_id: string): Promise<IProjectModelEntity | null> {
+       const data = await projectDB.findById(_id)
+       return data
+   }
 
 }
