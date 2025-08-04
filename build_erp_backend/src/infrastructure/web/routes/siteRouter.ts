@@ -3,7 +3,7 @@ import { JwtServiceImpl } from "../../../services/JwtService";
 import { siteManagerMiddleware } from "../../../middlewares/siteMiddleware";
 import { withLogging } from "../../../middlewares/withLoggingMiddleware";
 import { injectedSitemanagerController } from "../../../DI/adminInject";
-import { injectAttendanceController, injectedChangepasswordcontroller, injectedPurchaseController, injectedStatusController, injectedTransferController } from "../../../DI/sitemanagerInject";
+import { injectAttendanceController, injectedChangepasswordcontroller, injectedPurchaseController, injectedReceiveController, injectedStatusController, injectedTransferController } from "../../../DI/sitemanagerInject";
 
 
 export class SitemanagerRoute {
@@ -46,6 +46,11 @@ export class SitemanagerRoute {
       this.sitemanagerRoute.put("/transfer/:id", siteManagerMiddleware(jwtService), withLogging(injectedTransferController.updateTransfer))
       this.sitemanagerRoute.delete("/transfer/:id", siteManagerMiddleware(jwtService), withLogging(injectedTransferController.deleteTransfer))
       this.sitemanagerRoute.patch("/transfer/:id", siteManagerMiddleware(jwtService), withLogging(injectedTransferController.approveTransfer))
+      this.sitemanagerRoute.get("/receiveTransfer/:id", siteManagerMiddleware(jwtService), withLogging(injectedTransferController.receiveTransfer))
+
+      this.sitemanagerRoute.get("/receive", siteManagerMiddleware(jwtService), withLogging(injectedReceiveController.getRecieve))
+      this.sitemanagerRoute.post("/receive", siteManagerMiddleware(jwtService), withLogging(injectedReceiveController.saveRecieve))
+
    }
 }
 

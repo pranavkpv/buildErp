@@ -3,6 +3,7 @@ import { MaterialRepository } from "../infrastructure/persistence/MaterialReposi
 import { ProjectRepository } from "../infrastructure/persistence/ProjectRepository";
 import { ProjectStockRepository } from "../infrastructure/persistence/ProjectStockRepository";
 import { PurchaseRepository } from "../infrastructure/persistence/PurchaseRepository";
+import { ReceiveRepository } from "../infrastructure/persistence/ReceiveRepository";
 import { SitemanagerRepository } from "../infrastructure/persistence/SitemanagerRepository";
 import { StageRepository } from "../infrastructure/persistence/StageRepository";
 import { TransferRepository } from "../infrastructure/persistence/TransferRepository";
@@ -10,6 +11,7 @@ import { BcryptHasher } from "../infrastructure/secuirity/BcryptHasher";
 import { AttendanceController } from "../infrastructure/web/controllers/sitemanager/AttendanceController";
 import { changePasswordController } from "../infrastructure/web/controllers/sitemanager/changePasswordController";
 import { PurchaseController } from "../infrastructure/web/controllers/sitemanager/PurchaseController";
+import { RecieveController } from "../infrastructure/web/controllers/sitemanager/RecieveController";
 import { statusController } from "../infrastructure/web/controllers/sitemanager/statusController";
 import { TransferController } from "../infrastructure/web/controllers/sitemanager/TransferController";
 import { JwtServiceImpl } from "../services/JwtService";
@@ -25,6 +27,8 @@ import { DeletePurchaseUseCase } from "../useCases/sitemanager/Purchase/DeletePu
 import { GetPurchaseUseCase } from "../useCases/sitemanager/Purchase/GetpurchaseUseCase";
 import { SavePurchaseUseCase } from "../useCases/sitemanager/Purchase/SavePurchaseUseCase";
 import { UpdatePurchaseUseCase } from "../useCases/sitemanager/Purchase/UpdatePurchaseUseCase";
+import { GetReceiveUseCase } from "../useCases/sitemanager/Receive/GetReceiveUseCase";
+import { SaveReceiveUseCase } from "../useCases/sitemanager/Receive/SaveReceiveUseCase";
 import { FetchStatusUseCase } from "../useCases/sitemanager/StageStatusUpdation/FetchStatusUseCase";
 import { StageStatusChangeUseCase } from "../useCases/sitemanager/StageStatusUpdation/StageSatusChangeUseCase";
 import { UploadStatusImageUseCase } from "../useCases/sitemanager/StageStatusUpdation/UploadStatusImageUseCase";
@@ -32,6 +36,7 @@ import { ApproveTransferUseCase } from "../useCases/sitemanager/Transfer/Approve
 import { DeleteTransferUseCase } from "../useCases/sitemanager/Transfer/DeleteTransferUseCase";
 import { GetToProjectUseCase } from "../useCases/sitemanager/Transfer/GetToProjectUseCase";
 import { GetTransferUseCase } from "../useCases/sitemanager/Transfer/GetTransferUseCase";
+import { ReceiveTransferUseCase } from "../useCases/sitemanager/Transfer/ReceiveTransferUseCase";
 import { SaveTransferUsecase } from "../useCases/sitemanager/Transfer/SaveTransferUsecase";
 import { UpdateTransferUseCase } from "../useCases/sitemanager/Transfer/UpdateTransferUseCase";
 
@@ -62,7 +67,7 @@ const editAttendanceUseCase = new EditAttendanceUseCase(attendanceRepository)
 export const injectAttendanceController = new AttendanceController(addAttendaceUseCase, fetchattendanceusecase, deleteattendanceUsecase, approveattendanceuseCase, fetchattendancebyIdusecase, editAttendanceUseCase)
 
 // ---------------------- Purchase  Injection ---------------------- //
- 
+
 const jwtService = new JwtServiceImpl()
 const purchaseRepository = new PurchaseRepository()
 const projectStockRepository = new ProjectStockRepository()
@@ -70,8 +75,8 @@ const getPurchaseUsecase = new GetPurchaseUseCase(purchaseRepository)
 const savePurchaseUseCase = new SavePurchaseUseCase(purchaseRepository)
 const updatePurchaseUseCase = new UpdatePurchaseUseCase(purchaseRepository)
 const DeletePurchasaeUseCase = new DeletePurchaseUseCase(purchaseRepository)
-const approvePurchaseUseCase = new ApprovePurchaseUseCase(purchaseRepository,projectStockRepository)
-export const injectedPurchaseController = new PurchaseController(getPurchaseUsecase,savePurchaseUseCase,jwtService,updatePurchaseUseCase,DeletePurchasaeUseCase,approvePurchaseUseCase)
+const approvePurchaseUseCase = new ApprovePurchaseUseCase(purchaseRepository, projectStockRepository)
+export const injectedPurchaseController = new PurchaseController(getPurchaseUsecase, savePurchaseUseCase, jwtService, updatePurchaseUseCase, DeletePurchasaeUseCase, approvePurchaseUseCase)
 
 // ---------------------- Transfer  Injection ---------------------- //
 
@@ -80,9 +85,17 @@ const materialRepository = new MaterialRepository()
 const projectRepository = new ProjectRepository()
 const getTransferUseCase = new GetTransferUseCase(transferRepository)
 const getToprojectUseCase = new GetToProjectUseCase(transferRepository)
-const saveTransferUsecase = new SaveTransferUsecase(transferRepository,projectStockRepository,materialRepository,projectRepository)
-const updateTransferUseCase = new UpdateTransferUseCase(transferRepository,projectStockRepository,materialRepository,projectRepository)
+const saveTransferUsecase = new SaveTransferUsecase(transferRepository, projectStockRepository, materialRepository, projectRepository)
+const updateTransferUseCase = new UpdateTransferUseCase(transferRepository, projectStockRepository, materialRepository, projectRepository)
 const deleteTransferUseCase = new DeleteTransferUseCase(transferRepository)
-const approveTransferUseCase = new ApproveTransferUseCase(transferRepository,projectStockRepository,materialRepository,projectRepository)
-export const injectedTransferController = new TransferController(jwtService,getTransferUseCase,getToprojectUseCase,
-   saveTransferUsecase,updateTransferUseCase,deleteTransferUseCase,approveTransferUseCase)
+const receiveTransferUseCase = new ReceiveTransferUseCase(transferRepository)
+const approveTransferUseCase = new ApproveTransferUseCase(transferRepository, projectStockRepository, materialRepository, projectRepository)
+export const injectedTransferController = new TransferController(jwtService, getTransferUseCase, getToprojectUseCase,
+   saveTransferUsecase, updateTransferUseCase, deleteTransferUseCase, approveTransferUseCase,receiveTransferUseCase)
+
+// ---------------------- Reveive  Injection ---------------------- //
+
+const receiveRepository = new ReceiveRepository()
+const saveRecieveUseCase = new SaveReceiveUseCase(receiveRepository)
+const getReceiveUseCase = new GetReceiveUseCase(receiveRepository)
+export const injectedReceiveController = new RecieveController(saveRecieveUseCase,getReceiveUseCase)

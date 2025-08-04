@@ -11,6 +11,7 @@ import { ISaveTransferUseCase } from "../../../../Entities/useCaseEntities/Sitem
 import { IUpdateTransferUseCase } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/TransferUseCaseEntities/UpdateTransferUseCaseEntity";
 import { IDeleteTransferUseCase } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/TransferUseCaseEntities/DeleteTransferUsecaseEntity";
 import { IApproveTransferUseCase } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/TransferUseCaseEntities/ApproveTransferUseCaseEntity";
+import { IReceiveTransferUseCase } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/TransferUseCaseEntities/ReceiveTransferUseCaseEntity";
 
 export class TransferController implements ITransferController {
    private jwtService: JwtServiceImpl
@@ -18,11 +19,12 @@ export class TransferController implements ITransferController {
    private getToprojectUseCase: IGetToProjectUseCase
    private saveTransferUsecase: ISaveTransferUseCase
    private updateTransferUseCase: IUpdateTransferUseCase
-   private deleteTransferUseCase : IDeleteTransferUseCase
-   private approveTransferUseCase : IApproveTransferUseCase
+   private deleteTransferUseCase: IDeleteTransferUseCase
+   private approveTransferUseCase: IApproveTransferUseCase
+   private receiveTransferUseCase : IReceiveTransferUseCase
    constructor(jwtService: JwtServiceImpl, getTransferUseCase: IGetTransferUseCase, getToprojectUseCase: IGetToProjectUseCase,
-      saveTransferUsecase: ISaveTransferUseCase, updateTransferUseCase: IUpdateTransferUseCase,deleteTransferUseCase : IDeleteTransferUseCase,
-       approveTransferUseCase : IApproveTransferUseCase
+      saveTransferUsecase: ISaveTransferUseCase, updateTransferUseCase: IUpdateTransferUseCase, deleteTransferUseCase: IDeleteTransferUseCase,
+      approveTransferUseCase: IApproveTransferUseCase,receiveTransferUseCase : IReceiveTransferUseCase
    ) {
       this.jwtService = jwtService
       this.getTransferUseCase = getTransferUseCase
@@ -31,6 +33,7 @@ export class TransferController implements ITransferController {
       this.updateTransferUseCase = updateTransferUseCase
       this.deleteTransferUseCase = deleteTransferUseCase
       this.approveTransferUseCase = approveTransferUseCase
+      this.receiveTransferUseCase = receiveTransferUseCase
    }
    getTransfer = async (req: Request, res: Response, next: NextFunction): Promise<TransferOutput | commonOutput> => {
       const { search, page } = req.query
@@ -60,14 +63,23 @@ export class TransferController implements ITransferController {
       const response = await this.updateTransferUseCase.execute({ _id, ...req.body })
       return response
    }
-   deleteTransfer = async(req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
-     const _id = req.params.id
-     const response = await this.deleteTransferUseCase.execute(_id)
-     return response
-   }
-   approveTransfer =async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
+   deleteTransfer = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
       const _id = req.params.id
-     const response = await this.approveTransferUseCase.execute({_id,...req.body.data})
-     return response
+      const response = await this.deleteTransferUseCase.execute(_id)
+      return response
+   }
+   approveTransfer = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
+      const _id = req.params.id
+      const response = await this.approveTransferUseCase.execute({ _id, ...req.body.data })
+      return response
+   }
+
+   // ----------------- Fetch Transfer Data need to Material Receive -----------------------//
+
+   receiveTransfer = async (req: Request, res: Response, next: NextFunction): Promise<TransferOutput | commonOutput> => {
+      const _id = req.params.id
+      const date = req.query.date
+      const data = await this.receiveTransferUseCase.execute(_id,String(date))
+      return data
    }
 }

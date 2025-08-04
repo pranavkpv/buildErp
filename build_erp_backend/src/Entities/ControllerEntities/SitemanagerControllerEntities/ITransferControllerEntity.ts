@@ -9,4 +9,5 @@ export interface ITransferController {
    updateTransfer(req: Request, res: Response, next: NextFunction):  Promise<commonOutput>
    deleteTransfer(req: Request, res: Response, next: NextFunction):  Promise<commonOutput>
    approveTransfer(req: Request, res: Response, next: NextFunction):  Promise<commonOutput>
+   receiveTransfer(req: Request, res: Response, next: NextFunction):  Promise<TransferOutput | commonOutput>
 }

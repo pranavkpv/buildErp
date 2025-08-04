@@ -3,10 +3,11 @@ import { ITransferModelEntity } from "../../ModelEntities/Transfer.Entity";
 
 export interface ITransferRepository {
    fetchTransferList(search: string, page: number, id: string): Promise<TransferOutput>
-   fectToproject(projectId:string):Promise<projectData[]>
-   saveTransfer(input:transferInput):Promise<boolean>
-   updateTransfer(input:transferInput):Promise<boolean>
-   deleteTransfer(_id:string):Promise<boolean>
-   approveTransfer(_id:string):Promise<void>
-   findTransferBytransferId(transfer_id:string):Promise<ITransferModelEntity | null>
+   fectToproject(projectId: string): Promise<projectData[]>
+   saveTransfer(input: transferInput): Promise<boolean>
+   updateTransfer(input: transferInput): Promise<boolean>
+   deleteTransfer(_id: string): Promise<boolean>
+   approveTransfer(_id: string): Promise<void>
+   findTransferBytransferId(transfer_id: string): Promise<ITransferModelEntity | null>
+   findTransferDataByToProjectAndDate(_id: string, date: string): Promise<TransferOutput>
 }

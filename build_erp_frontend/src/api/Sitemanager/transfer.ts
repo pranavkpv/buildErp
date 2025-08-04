@@ -56,7 +56,16 @@ export const deleteTransferAPI = async (_id: string) => {
 
 export const ApproveTransferAPI = async (_id: string, data: Transfer) => {
    try {
-      const response = await axioInstance.patch(`/site/transfer/${ _id }`,{data})
+      const response = await axioInstance.patch(`/site/transfer/${ _id }`, { data })
+      return response.data
+   } catch (error: any) {
+      toast.error(error.response.data.message)
+   }
+}
+
+export const getProjectBaseTransferAPI = async (_id: string, date: string) => {
+   try {
+      const response = await axioInstance.get(`/site/receiveTransfer/${ _id }`, { params: { date } })
       return response.data
    } catch (error: any) {
       toast.error(error.response.data.message)

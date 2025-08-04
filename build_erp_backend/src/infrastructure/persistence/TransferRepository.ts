@@ -1,6 +1,8 @@
+import mongoose from "mongoose";
 import { projectDB } from "../../Database/Model/ProjectModel";
 import { transferDB } from "../../Database/Model/TransferModel";
-import { projectData, transferInput, transferModel, TransferOutput } from "../../Entities/Input-OutputEntities/PurchaseEntity.ts/Transfer";
+import { materialDetails } from "../../Entities/Input-OutputEntities/EstimationEntities/specification";
+import { materialData, projectData, transferInput, transferModel, TransferOutput } from "../../Entities/Input-OutputEntities/PurchaseEntity.ts/Transfer";
 import { ITransferModelEntity } from "../../Entities/ModelEntities/Transfer.Entity";
 import { ITransferRepository } from "../../Entities/repositoryEntities/Purchase-management/ITransferRepository";
 
@@ -189,7 +191,8 @@ export class TransferRepository implements ITransferRepository {
          date,
          description,
          materialDetails,
-         approval_status: false
+         approval_status: false,
+         receive_status: false
       })
       await newTransfer.save()
       return true
@@ -209,7 +212,98 @@ export class TransferRepository implements ITransferRepository {
       return true
    }
    async findTransferBytransferId(transfer_id: string): Promise<ITransferModelEntity | null> {
-       const data = await transferDB.findOne({transfer_id})
-       return data ? data :null
+      const data = await transferDB.findOne({ transfer_id })
+      return data ? data : null
+   }
+   async findTransferDataByToProjectAndDate(_id: string, date: string): Promise<TransferOutput> {
+      const dt = new Date(date)
+      const projectId =  new mongoose.Types.ObjectId(_id)
+      const allTransfer = await transferDB.aggregate([
+         {
+            $addFields: {
+               toprojectObjectId: { $toObjectId: "$to_project_id" }
+            }
+         },
+         {
+            $lookup: {
+               from: "projects",
+               localField: "toprojectObjectId",
+               foreignField: "_id",
+               as: "toprojectDetails"
+            }
+         },
+         { $unwind: "$toprojectDetails" },
+         {
+            $match: {
+               "toprojectObjectId": projectId,
+               date: { $lte: dt }
+            }
+         }
+         , 
+         { $unwind: "$materialDetails" },
+         {
+            $addFields: {
+               "materialDetails.materialObjectId": { $toObjectId: "$materialDetails.material_id" }
+            }
+         },
+         {
+            $lookup: {
+               from: "materials",
+               localField: "materialDetails.materialObjectId",
+               foreignField: "_id",
+               as: "materialDetails.materialInfo"
+            }
+         }, { $unwind: "$materialDetails.materialInfo" },
+         {
+            $addFields: {
+               "materialDetails.brandObjectId": { $toObjectId: "$materialDetails.materialInfo.brand_id" }
+            }
+         }, {
+            $lookup: {
+               from: "brands",
+               localField: "materialDetails.brandObjectId",
+               foreignField: "_id",
+               as: "materialDetails.brandInfo"
+            }
+         }, { $unwind: "$materialDetails.brandInfo" },
+         {
+            $addFields: {
+               "materialDetails.unitObjectId": { $toObjectId: "$materialDetails.materialInfo.unit_id" }
+            }
+         }, {
+            $lookup: {
+               from: "units",
+               localField: "materialDetails.unitObjectId",
+               foreignField: "_id",
+               as: "materialDetails.unitInfo"
+            }
+         }, { $unwind: "$materialDetails.unitInfo" },
+         {
+            $group: {
+               _id: "$_id", project_name: { $first: "$toprojectDetails.project_name" },
+               transfer_id: { $first: "$transfer_id" }, date: { $first: "$date" }, description: { $first: "$description" }, materialDetails: {
+                  $push: {
+                     material_id: "$materialDetails.material_id",
+                     material_name: "$materialDetails.materialInfo.material_name",
+                     brand_name: "$materialDetails.brandInfo.brand_name",
+                     unit_name: "$materialDetails.unitInfo.unit_name",
+                     quantity: "$materialDetails.quantity",
+                     unit_rate: "$materialDetails.unit_rate"
+                  }
+               }
+            }
+         }
+      ]);
+
+
+      const neededData = []
+      for (let element of allTransfer) {
+         neededData.push({
+            _id: element._id, date: element.date, fromproject_name: element.project_name,
+            transfer_id: element.transfer_id, materialDetails: element.materialDetails,
+            finalAmount: element.materialDetails.reduce((sum: number, num: materialData) => sum += (num.quantity * num.unit_rate), 0)
+         })
+      }
+      return { data: neededData }
    }
 }

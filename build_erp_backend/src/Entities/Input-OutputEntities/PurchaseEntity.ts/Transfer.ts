@@ -1,38 +1,46 @@
 import { ITransferModelEntity } from "../../ModelEntities/Transfer.Entity"
 
 export interface transferModel extends ITransferModelEntity {
-   _id:string
-   finalAmount : number
-   fromproject_name:string
-   toproject_name:string
+   _id: string
+   finalAmount: number
+   fromproject_name: string
+   toproject_name: string
 }
 export interface projectData {
-   _id:string
-   project_name:string
+   _id: string
+   project_name: string
+}
+interface transferData {
+   _id: string
+   date: string
+   fromproject_name: string
+   transfer_id: string
+   materialDetails: materialData[]
+   finalAmount: number
 }
 export interface TransferOutput {
    success?: boolean
    message?: string
    status_code?: number
-   data: transferModel | transferModel[] | projectData[]
+   data: ITransferModelEntity | ITransferModelEntity[] | projectData[] | transferData[]
    totalPage?: number
 }
 
 
 //----------------------input ---------------------- //
 
-interface materialData{
+export interface materialData {
    material_id: string;
    quantity: number;
    unit_rate: number;
 };
 
 export interface transferInput {
-   _id?:string
-   from_project_id:string,
-   to_project_id:string
-   transfer_id:string,
-   date:string,
-   description:string,
-   materialDetails:materialData[]
+   _id?: string
+   from_project_id: string,
+   to_project_id: string
+   transfer_id: string,
+   date: string,
+   description: string,
+   materialDetails: materialData[]
 }

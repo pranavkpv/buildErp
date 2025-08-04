@@ -1,4 +1,4 @@
-interface materialData {
+export interface materialData {
    material_id:string
    material_name?:string
    brand_name?:string
@@ -13,5 +13,6 @@ export interface ITransferModelEntity {
    date:Date
    description:string
    approval_status?:boolean
+   receive_status?:boolean
    materialDetails:materialData[]
 }

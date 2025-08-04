@@ -1,13 +1,9 @@
 import mongoose from "mongoose";
-import { ITransferModel } from "../Model/TransferModel";
+import { IReceiveModelEntity } from "../../Entities/ModelEntities/Recieve.Entity";
 
 
-
-export const TransferSchema = new mongoose.Schema<ITransferModel>({
-   from_project_id: {
-      type: String
-   },
-   to_project_id: {
+export const ReceiveSchema = new mongoose.Schema<IReceiveModelEntity>({
+   project_id: {
       type: String
    },
    approval_status: {
@@ -18,12 +14,6 @@ export const TransferSchema = new mongoose.Schema<ITransferModel>({
    },
    description: {
       type: String
-   },
-   transfer_id: {
-      type: String
-   },
-   receive_status :{
-      type:Boolean
    },
    materialDetails: [
       {
@@ -37,6 +27,9 @@ export const TransferSchema = new mongoose.Schema<ITransferModel>({
             type: Number
          }
       }
-   ]
+   ],
+   transfer_id: {
+      type: [String]
+   }
 }, { timestamps: true })
 

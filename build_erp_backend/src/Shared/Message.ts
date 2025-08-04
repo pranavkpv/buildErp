@@ -11,66 +11,66 @@ export const SUCCESS_MESSAGE = {
     CREATED: "User created successfully",
     CONFIRM_OTP: "OTP confirmed. You can now change the password",
     PASSWORD_UPDATE: "Password updated successfully",
-    FETCH:"User data fetch successfully"
+    FETCH: "User data fetch successfully"
   },
   BRAND: {
     ADD: "Brand registered successfully",
     UPDATE: "Brand updated successfully",
     DELETE: "Brand deleted successfully",
-    FETCH : "Brand fetch successfully",
-    FETCH_BRAND_BY_MATERIAL_NAME:"Fetch Brands by material name is successfully"
+    FETCH: "Brand fetch successfully",
+    FETCH_BRAND_BY_MATERIAL_NAME: "Fetch Brands by material name is successfully"
   },
   CATEGORY: {
     ADD: "Category added successfully",
     UPDATE: "Category updated successfully",
     DELETE: "Category deleted successfully",
-    FETCH : "Category data fetch successfully"
+    FETCH: "Category data fetch successfully"
   },
   ESTIMATION: {
     ADD: "Estimation added successfully",
     DELETE: "Estimation deleted successfully",
     UPLOAD: "Image uploaded successfully",
     UPDATE: "Estimation updated successfully",
-    FETCH : "Estimation fetch successfully"
+    FETCH: "Estimation fetch successfully"
   },
   LABOUR: {
     ADD: "Labour type added successfully",
     DELETE: "Labour type deleted successfully",
     UPDATE: "Labour type updated successfully",
-    FETCH:"Labour type fetch successfully"
+    FETCH: "Labour type fetch successfully"
   },
   MATERIAL: {
     ADD: "Material added successfully",
     UPDATE: "Material updated successfully",
     DELETE: "Material deleted successfully",
-    FETCH:"Material fetch successfully",
-    ADDFETCH : "Add material datas fetch successfully",
-    EDITFETCH : "Edit material datas fetch successfully",
-    UNIQUE_MATERIAL_FETCH:"Unique material fetch successfully",
-    FETCHUNITRATE : "Fetch unit rate successfully"
+    FETCH: "Material fetch successfully",
+    ADDFETCH: "Add material datas fetch successfully",
+    EDITFETCH: "Edit material datas fetch successfully",
+    UNIQUE_MATERIAL_FETCH: "Unique material fetch successfully",
+    FETCHUNITRATE: "Fetch unit rate successfully"
   },
   PROJECT: {
     ADD: "Project added successfully",
     UPDATE: "Project updated successfully",
     DELETE: "Project deleted successfully",
     CHANGE_STATUS: "Project status changed successfully to",
-    FETCH : "Project fetch successfully"
+    FETCH: "Project fetch successfully"
   },
   SITEMANAGER: {
     ADD: "Site manager registered successfully",
     UPDATE: "Site manager updated successfully",
     DELETE: "Site manager deleted successfully",
     UPDATE_PASSWORD: "Password updated successfully",
-    FETCH : "Sitemanager data fetched successfully"
+    FETCH: "Sitemanager data fetched successfully"
   },
   SPEC: {
     ADD: "Specification added successfully",
     DELETE: "Specification deleted successfully",
     UPDATE: "Specification updated successfully",
-    FETCH:"Specification fetch successfully",
-    FETCH_UNITRATE:"Specification unit rate fetch successfully",
-    FETCH_LABOUR_SUM:"Fetch labour sum successfully",
-    FETCH_MATERIAL_SUM:"Fetch material sum successfully"
+    FETCH: "Specification fetch successfully",
+    FETCH_UNITRATE: "Specification unit rate fetch successfully",
+    FETCH_LABOUR_SUM: "Fetch labour sum successfully",
+    FETCH_MATERIAL_SUM: "Fetch material sum successfully"
   },
   STAGE: {
     ADD: "Stage added successfully",
@@ -78,38 +78,42 @@ export const SUCCESS_MESSAGE = {
     UPDATE: "Stage updated successfully",
     STATUS_CHANGE: "Stage status changed successfully",
     UPLOAD_IMAGE: "Image uploaded successfully",
-    FETCH : "Stage data fetch successfully"
+    FETCH: "Stage data fetch successfully"
   },
   UNIT: {
     ADD: "Unit added successfully",
     UPDATE: "Unit updated successfully",
     DELETE: "Unit deleted successfully",
-    FETCH : "Unit fetch successfully"
+    FETCH: "Unit fetch successfully"
   },
   ATTENDANCE: {
     ADD: "Attendance recorded successfully",
     UPDATE: "Attendance updated successfully",
     DELETE: "Attendance deleted successfully",
     APPROVE: "Attendance approved successfully",
-    FETCH:"Attendance data fetch successfully"
+    FETCH: "Attendance data fetch successfully"
   },
   PROFILE: {
     UPDATE_PROFILE: "User profile updated successfully",
     UPDATE_IMAGE: "Profile image updated successfully"
   },
-  PURCHASE : {
-    FETCH : "Purchase fetch successfully",
-    SAVE : "Purchase Saved Successfully",
-    UPDATE : "Purchase updated successfully",
-    DELETE : "Purchase deleted successfully",
-    APPROVE : "Purchase approved successfully"
+  PURCHASE: {
+    FETCH: "Purchase fetch successfully",
+    SAVE: "Purchase Saved Successfully",
+    UPDATE: "Purchase updated successfully",
+    DELETE: "Purchase deleted successfully",
+    APPROVE: "Purchase approved successfully"
   },
-  TRANSFER : {
-    FETCH : "Transfer fetch successfully",
-    SAVE:"Transfer save successfully",
-    UPDATE:"Transfer update successfully",
-    DELETE : "Transfer delete successfully",
-    APPROVE : "Transfer approved successfully"
+  TRANSFER: {
+    FETCH: "Transfer fetch successfully",
+    SAVE: "Transfer save successfully",
+    UPDATE: "Transfer update successfully",
+    DELETE: "Transfer delete successfully",
+    APPROVE: "Transfer approved successfully"
+  },
+  RECEIVE: {
+    ADD: "Receive saved successfully",
+    FETCH:"Receive data fetch successfully"
   }
 };
 
@@ -150,7 +154,7 @@ export const ERROR_MESSAGE = {
   },
   PROJECT: {
     EXIST_PROJECT: "Project name already exists",
-    ALREADY_USED : "Project already used"
+    ALREADY_USED: "Project already used"
   },
   SITEMANAGER: {
     EXIST: "Site manager already exists",
@@ -170,25 +174,30 @@ export const ERROR_MESSAGE = {
     ALREADY_SET: "Stage setup has already been completed for this project",
     NOT_SET: "This project stage should not be set",
     NO_IMAGE_UPLOAD: "No image file uploaded",
-    ALREADY_USED:"Should not change the stage details because the progress is changed"
+    ALREADY_USED: "Should not change the stage details because the progress is changed"
   },
   UNIT: {
     EXIST: "Unit already exists",
-    USED : "Unit has already been used"
+    USED: "Unit has already been used"
   },
   ATTENDANCE: {
     EXIST: "Attendance has already been recorded for this project on the same day"
   },
-  UPDATEPASSWORD:{
-    EXIST_GOOGLE : "User logged using google authentication so password not need",
-    CURRENTPASSWORD_WRONG : "Current password entered user is incoreect check again"
+  UPDATEPASSWORD: {
+    EXIST_GOOGLE: "User logged using google authentication so password not need",
+    CURRENTPASSWORD_WRONG: "Current password entered user is incoreect check again"
   },
-  PURCHASE :{
-    ERROR : "An error occurred when saving purchase"
+  PURCHASE: {
+    ERROR: "An error occurred when saving purchase"
   },
-  TRANSFER :{
-    ERROR : "An error occurred when saving transfer",
-    STOCK_EXCEED : "Stock Exceed in ",
-    EXIST_TRANSFER : "Transfer Id already Exist"
+  TRANSFER: {
+    ERROR: "An error occurred when saving transfer",
+    STOCK_EXCEED: "Stock Exceed in ",
+    EXIST_TRANSFER: "Transfer Id already Exist",
+    NOT_EXIST : "No transfer data exist corresponding this project with date"
+  },
+  RECEIVE: {
+    ERROR: "An error occurred when saving receive",
+    FETCH:"An error occured when fetching the receive data"
   }
 };

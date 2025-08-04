@@ -1,12 +1,9 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { PencilIcon, TrashIcon, CheckCircleIcon } from "@heroicons/react/24/outline";
-import AddTransfer from "./AddTransfer";
-import EditTransfer from "./EditTransfer";
-import { getTransferDataAPI } from "../../../api/Sitemanager/transfer";
-import DeleteTransfer from "./DeleteTransfer";
-import ApproveTransfer from "./ApproveTransfer";
-
+import { getReceiveDataAPI } from "../../../api/Sitemanager/receive";
+import AddReceive from "./AddReceive";
+import EditReceive from "./EditReceive";
 
 
 
@@ -19,22 +16,28 @@ type materialData = {
    quantity: number
    unit_rate: number
 };
+type transferData = {
+   _id:string
+   transfer_id:string
+   from_project_id:string
+   from_project_name:string
+   date:string
+   materialDetails:materialData[]
+}
 
-export type Transfer = {
+export type ReceiveData = {
    _id: string
-   from_project_id: string
-   fromproject_name: string
-   to_project_id: string
-   toproject_name: string
-   transfer_id: string
-   description: string
-   date: string
-   materialDetails: materialData[]
-   finalAmount: number
+   to_project_id: string;
+   Toproject_name: string;
+   description: string;
+   date: string;
+   transferDetails:transferData[]
+   materialDetails: materialData[];
+   finalAmount: number;
 };
 
-function TransferList() {
-   const [transferData, setTransferData] = useState<Transfer[]>([]);
+function ReceiveList() {
+   const [receiveData, setReceiveData] = useState<ReceiveData[]>([]);
    const [search, setSearch] = useState("");
    const [page, setPage] = useState(0);
    const [totalpage, setTotalpage] = useState(0);
@@ -50,27 +53,28 @@ function TransferList() {
    // Approve
    const [approveId, setApproveId] = useState("");
    const [approveEnable, setApproveEnable] = useState(false);
-   const [approveData, setApproveData] = useState<Transfer>()
+   const [approveData, setApproveData] = useState<ReceiveData>()
 
    // Edit
    const [editId, setEditId] = useState("");
    const [editEnable, setEditEnable] = useState(false);
-   const [editData, setEditData] = useState<Transfer>()
+   const [editData, setEditData] = useState<ReceiveData>()
 
 
 
-   const fetchTransferData = async () => {
-      const response = await getTransferDataAPI(search, page);
+   const fetchRecieveData = async () => {
+      const response = await getReceiveDataAPI(search, page);
+      console.log(response)
       if (response.success) {
-         setTransferData(response.data);
+         setReceiveData(response.data);
          setTotalpage(response.totalPage);
       } else {
-         toast.error("Error occurred while fetching purchase data");
+         toast.error("Error occurred while fetching receive data");
       }
    };
 
    useEffect(() => {
-      fetchTransferData();
+      fetchRecieveData();
    }, [search, page]);
 
    const formatDate = (dateString: string) => {
@@ -116,34 +120,30 @@ function TransferList() {
                      <tr>
                         <th className="px-6 py-4 w-[10%]">SL NO</th>
                         <th className="px-6 py-4 w-[20%]">Date</th>
-                        <th className="px-6 py-4 w-[25%]">From Project</th>
-                        <th className="px-6 py-4 w-[25%]">To Project</th>
-                        <th className="px-6 py-4 w-[20%]">TransferId</th>
+                        <th className="px-6 py-4 w-[25%]">Project Name</th>
                         <th className="px-6 py-4 w-[15%]">Net Amount</th>
                         <th className="px-6 py-4 w-[20%] text-center">Action</th>
                      </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-700/50">
-                     {transferData.length === 0 ? (
+                     {receiveData.length === 0 ? (
                         <tr>
                            <td colSpan={6} className="text-center py-8 text-gray-400 text-sm font-medium">
                               No purchase records available. Click "Add Purchase" to create one.
                            </td>
                         </tr>
                      ) : (
-                        transferData.map((element, index) => (
+                        receiveData.map((element, index) => (
                            <tr key={element._id} className="hover:bg-gray-700/50 transition-colors duration-150">
                               <td className="px-6 py-4 font-medium text-gray-200 text-center">{index + 1 + page * itemsPerPage}</td>
                               <td className="px-6 py-4 text-gray-100">{formatDate(element.date)}</td>
-                              <td className="px-6 py-4 text-gray-100">{element.fromproject_name}</td>
-                              <td className="px-6 py-4 text-gray-100">{element.toproject_name}</td>
-                              <td className="px-6 py-4 text-gray-100">{element.transfer_id}</td>
+                              <td className="px-6 py-4 text-gray-100">{element.Toproject_name}</td>
                               <td className="px-6 py-4 text-gray-100">₹{element.finalAmount.toLocaleString()}</td>
                               <td className="px-6 py-4 text-center flex justify-center gap-2">
                                  <button
                                     type="button"
                                     className="text-teal-400 hover:text-teal-300 p-2 rounded-md hover:bg-gray-600/50 transition-all duration-200"
-                                    aria-label={`Edit purchase for ${ element.fromproject_name }`}
+                                    aria-label={`Edit purchase for ${ element.Toproject_name }`}
                                     onClick={() => {
                                        setEditId(element._id);
                                        const updatedElement = {
@@ -163,7 +163,7 @@ function TransferList() {
                                  <button
                                     type="button"
                                     className="text-red-400 hover:text-red-300 p-2 rounded-md hover:bg-gray-600/50 transition-all duration-200"
-                                    aria-label={`Delete purchase for ${ element.fromproject_name }`}
+                                    aria-label={`Delete purchase for ${ element.Toproject_name }`}
                                     onClick={() => {
                                        setDeleteId(element._id);
                                        setDeleteEnable(true);
@@ -174,7 +174,7 @@ function TransferList() {
                                  <button
                                     type="button"
                                     className="text-green-400 hover:text-green-300 p-2 rounded-md hover:bg-gray-600/50 transition-all duration-200"
-                                    aria-label={`Approve purchase for ${ element.fromproject_name }`}
+                                    aria-label={`Approve purchase for ${ element.Toproject_name }`}
                                     onClick={() => {
                                        setApproveId(element._id);
                                        setApproveEnable(true);
@@ -215,29 +215,29 @@ function TransferList() {
                   ))}
                </div>
             )}
-            <AddTransfer addEnable={addEnable} setAddEnable={setAddEnable} onAddSuccess={fetchTransferData} />
+            <AddReceive addEnable={addEnable} setAddEnable={setAddEnable} onAddSuccess={fetchRecieveData} />
 
 
-            <DeleteTransfer
+            {/* <DeletePurchase
                deleteId={deleteId}
-               onDeleteSuccess={fetchTransferData}
+               onDeleteSuccess={fetchPurchaseData}
                setDeleteEnable={setDeleteEnable}
                deleteEnable={deleteEnable}
-            />
-
-            <ApproveTransfer
+            /> */}
+            {/* 
+            <ApprovePurchase
                approveId={approveId}
                setApproveEnable={setApproveEnable}
                approveEnable={approveEnable}
-               onApproveSuccess={fetchTransferData}
-               approveData={approveData}
-            />
+               onApproveSuccess={fetchPurchaseData}
+               approveData = {approveData}
+            /> */}
 
-            <EditTransfer
+            <EditReceive
                editId={editId}
                editEnable={editEnable}
                setEditEnable={setEditEnable}
-               onEditSuccess={fetchTransferData}
+               onEditSuccess={fetchRecieveData}
                editData={editData}
             />
          </div>
@@ -245,4 +245,4 @@ function TransferList() {
    );
 }
 
-export default TransferList
+export default ReceiveList
