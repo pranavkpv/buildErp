@@ -1,4 +1,4 @@
-import { deleteTransferAPI } from "../../../api/Sitemanager/transfer";
+import { deleteReceiveAPI } from "../../../api/Sitemanager/receive";
 import { toast } from "react-toastify";
 
 type deleteProp = {
@@ -10,7 +10,7 @@ type deleteProp = {
 function DeleteTransfer({ deleteId, onDeleteSuccess, deleteEnable, setDeleteEnable }: deleteProp) {
    if(!deleteEnable) return null
    const deleteTransferfun = async(deleteId:string)=>{
-      const response = await deleteTransferAPI(deleteId)
+      const response = await deleteReceiveAPI(deleteId)
       if(response.success){
          toast.success(response.message)
          setDeleteEnable(false)
@@ -23,11 +23,11 @@ function DeleteTransfer({ deleteId, onDeleteSuccess, deleteEnable, setDeleteEnab
       <div className="fixed inset-0 bg-gray-900/80 flex items-center justify-center z-50 p-4 sm:p-6">
          <div className="bg-gray-800/90 backdrop-blur-sm rounded-xl shadow-2xl p-6 sm:p-8 w-full max-w-md border border-gray-700/50">
             <h2 className="text-xl font-bold text-gray-100 mb-6 text-center">
-               Confirm Delete Transfer
+               Confirm Delete Receive
             </h2>
             <div className="space-y-6">
                <p className="text-gray-200 text-sm font-medium text-center">
-                  Do you want to delete this Transfer?
+                  Do you want to delete this Receive?
                </p>
                <div className="flex justify-end gap-4">
                   <button

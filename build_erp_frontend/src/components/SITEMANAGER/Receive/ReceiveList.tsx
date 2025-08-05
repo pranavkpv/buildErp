@@ -4,6 +4,8 @@ import { PencilIcon, TrashIcon, CheckCircleIcon } from "@heroicons/react/24/outl
 import { getReceiveDataAPI } from "../../../api/Sitemanager/receive";
 import AddReceive from "./AddReceive";
 import EditReceive from "./EditReceive";
+import DeleteTransfer from "../Transfer/DeleteTransfer";
+import ApproveReceive from "./ApproveReceive";
 
 
 
@@ -27,12 +29,12 @@ type transferData = {
 
 export type ReceiveData = {
    _id: string
-   to_project_id: string;
+   project_id: string;
    Toproject_name: string;
    description: string;
    date: string;
    transferDetails:transferData[]
-   materialDetails: materialData[];
+   materialData: materialData[];
    finalAmount: number;
 };
 
@@ -64,7 +66,6 @@ function ReceiveList() {
 
    const fetchRecieveData = async () => {
       const response = await getReceiveDataAPI(search, page);
-      console.log(response)
       if (response.success) {
          setReceiveData(response.data);
          setTotalpage(response.totalPage);
@@ -145,17 +146,19 @@ function ReceiveList() {
                                     className="text-teal-400 hover:text-teal-300 p-2 rounded-md hover:bg-gray-600/50 transition-all duration-200"
                                     aria-label={`Edit purchase for ${ element.Toproject_name }`}
                                     onClick={() => {
+                               
                                        setEditId(element._id);
                                        const updatedElement = {
                                           ...element,
                                           date: element.date.split("T")[0],
-                                          materialDetails: element.materialDetails.map((item, i) => ({
+                                          materialDetails: element.materialData.map((item, i) => ({
                                              ...item,
                                              sl: i + 1,
                                           })),
                                        };
                                        setEditData(updatedElement);
                                        setEditEnable(true);
+                                      
                                     }}
                                  >
                                     <PencilIcon className="h-5 w-5" />
@@ -181,7 +184,7 @@ function ReceiveList() {
                                        const updatedElement = {
                                           ...element,
                                           date: element.date.split("T")[0],
-                                          materialDetails: element.materialDetails.map((item, i) => ({
+                                          materialDetails: element.materialData.map((item, i) => ({
                                              ...item,
                                              sl: i + 1,
                                           })),
@@ -218,20 +221,19 @@ function ReceiveList() {
             <AddReceive addEnable={addEnable} setAddEnable={setAddEnable} onAddSuccess={fetchRecieveData} />
 
 
-            {/* <DeletePurchase
+          <DeleteTransfer
                deleteId={deleteId}
-               onDeleteSuccess={fetchPurchaseData}
+               onDeleteSuccess={fetchRecieveData}
                setDeleteEnable={setDeleteEnable}
                deleteEnable={deleteEnable}
-            /> */}
-            {/* 
-            <ApprovePurchase
+            /> 
+            <ApproveReceive
                approveId={approveId}
                setApproveEnable={setApproveEnable}
                approveEnable={approveEnable}
-               onApproveSuccess={fetchPurchaseData}
+               onApproveSuccess={fetchRecieveData}
                approveData = {approveData}
-            /> */}
+            /> 
 
             <EditReceive
                editId={editId}

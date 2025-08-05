@@ -1,12 +1,13 @@
 import { IReceiveModelEntity } from "../../ModelEntities/Recieve.Entity";
 
-type materialData = {
+export type materialData = {
    material_id: string;
    quantity: number;
    unit_rate: number;
 };
 
 export interface RecieveInput {
+   _id?:string
    project_id: string,
    date: string,
    description: string,

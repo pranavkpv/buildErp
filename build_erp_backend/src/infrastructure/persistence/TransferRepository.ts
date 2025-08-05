@@ -217,7 +217,7 @@ export class TransferRepository implements ITransferRepository {
    }
    async findTransferDataByToProjectAndDate(_id: string, date: string): Promise<TransferOutput> {
       const dt = new Date(date)
-      const projectId =  new mongoose.Types.ObjectId(_id)
+      const projectId = new mongoose.Types.ObjectId(_id)
       const allTransfer = await transferDB.aggregate([
          {
             $addFields: {
@@ -236,10 +236,12 @@ export class TransferRepository implements ITransferRepository {
          {
             $match: {
                "toprojectObjectId": projectId,
-               date: { $lte: dt }
+               approval_status:true,
+               date: { $lte: dt },
+               receive_status:false
             }
          }
-         , 
+         ,
          { $unwind: "$materialDetails" },
          {
             $addFields: {
@@ -305,5 +307,11 @@ export class TransferRepository implements ITransferRepository {
          })
       }
       return { data: neededData }
+   }
+   async UpdateReceiveStatus(transferId: string[]): Promise<void> {
+      await transferDB.updateMany({ _id: { $in: transferId } }, { receive_status: true })
+   }
+   async updateReceiveStatusToFalse(transfer_id: string[]): Promise<void> {
+      await transferDB.updateMany({ _id: { $in: transfer_id } }, { receive_status: false })
    }
 }

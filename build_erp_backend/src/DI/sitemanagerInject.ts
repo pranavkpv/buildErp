@@ -27,8 +27,11 @@ import { DeletePurchaseUseCase } from "../useCases/sitemanager/Purchase/DeletePu
 import { GetPurchaseUseCase } from "../useCases/sitemanager/Purchase/GetpurchaseUseCase";
 import { SavePurchaseUseCase } from "../useCases/sitemanager/Purchase/SavePurchaseUseCase";
 import { UpdatePurchaseUseCase } from "../useCases/sitemanager/Purchase/UpdatePurchaseUseCase";
+import { ApproveReceiveUseCase } from "../useCases/sitemanager/Receive/ApproveReceiveUseCase";
+import { DeleteReceiveUsecase } from "../useCases/sitemanager/Receive/DeleteReceiveUseCase";
 import { GetReceiveUseCase } from "../useCases/sitemanager/Receive/GetReceiveUseCase";
 import { SaveReceiveUseCase } from "../useCases/sitemanager/Receive/SaveReceiveUseCase";
+import { UpdateReceiveUsecase } from "../useCases/sitemanager/Receive/UpdateReceiveUseCase";
 import { FetchStatusUseCase } from "../useCases/sitemanager/StageStatusUpdation/FetchStatusUseCase";
 import { StageStatusChangeUseCase } from "../useCases/sitemanager/StageStatusUpdation/StageSatusChangeUseCase";
 import { UploadStatusImageUseCase } from "../useCases/sitemanager/StageStatusUpdation/UploadStatusImageUseCase";
@@ -96,6 +99,9 @@ export const injectedTransferController = new TransferController(jwtService, get
 // ---------------------- Reveive  Injection ---------------------- //
 
 const receiveRepository = new ReceiveRepository()
-const saveRecieveUseCase = new SaveReceiveUseCase(receiveRepository)
+const saveRecieveUseCase = new SaveReceiveUseCase(receiveRepository,transferRepository)
 const getReceiveUseCase = new GetReceiveUseCase(receiveRepository)
-export const injectedReceiveController = new RecieveController(saveRecieveUseCase,getReceiveUseCase)
+const updateReceiveUseCase = new UpdateReceiveUsecase(receiveRepository,transferRepository)
+const deleteReceiveUseCase = new DeleteReceiveUsecase(receiveRepository,transferRepository)
+const approveReceiveUseCase = new ApproveReceiveUseCase(receiveRepository,projectStockRepository,transferRepository)
+export const injectedReceiveController = new RecieveController(saveRecieveUseCase,getReceiveUseCase,updateReceiveUseCase,deleteReceiveUseCase,approveReceiveUseCase)

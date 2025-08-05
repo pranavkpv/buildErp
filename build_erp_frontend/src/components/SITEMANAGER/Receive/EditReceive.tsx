@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { getSitemanagersProject } from "../../../api/Sitemanager/profile";
 
 import TransferModal from "./TransferModal";
+import { updateReceiveAPI } from "../../../api/Sitemanager/receive";
 
 type listMaterial = {
   sl: number;
@@ -28,12 +29,12 @@ type JwtPayload = {
 
 type ReceiveData = {
   _id: string;
-  to_project_id: string;
+  project_id: string;
   Toproject_name: string;
   description: string;
   date: string;
   transferDetails: any[];
-  materialDetails: listMaterial[];
+  materialData: listMaterial[];
   finalAmount: number;
 };
 
@@ -47,9 +48,8 @@ type EditReceiveProps = {
 
 function EditReceive({ editId, editEnable, setEditEnable, onEditSuccess, editData }: EditReceiveProps) {
   if (!editEnable || !editData) return null;
-
-  const [row, setRow] = useState<listMaterial[]>(editData.materialDetails || []);
-  const [project_id, setProjectId] = useState(editData.to_project_id || "");
+  const [row, setRow] = useState<listMaterial[]>(editData.materialData || []);
+  const [project_id, setProjectId] = useState(editData.project_id || "");
   const [date, setDate] = useState(editData.date || "");
   const [description, setDescription] = useState(editData.description || "");
   const [project, setProject] = useState<Project[]>([]);
@@ -144,7 +144,7 @@ function EditReceive({ editId, editEnable, setEditEnable, onEditSuccess, editDat
                 onChange={(e) => setProjectId(e.target.value)}
                 className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 text-white"
               >
-                <option value="">Select Project</option>
+                <option value={editData.project_id}>{editData.Toproject_name}</option>
                 {project.map((element) => (
                   <option key={element._id} value={element._id}>
                     {element.project_name}
@@ -214,7 +214,7 @@ function EditReceive({ editId, editEnable, setEditEnable, onEditSuccess, editDat
                 ) : (
                   row.map((element, idx) => (
                     <tr key={element.sl} className="hover:bg-gray-700 transition-colors duration-150">
-                      <td className="px-8 py-4 font-medium text-gray-200 w-[80px]">{element.sl}</td>
+                      <td className="px-8 py-4 font-medium text-gray-200 w-[80px]">{idx+1}</td>
                       <td className="px-8 py-4 w-[600px]">
                         <select
                           aria-label="Select material"

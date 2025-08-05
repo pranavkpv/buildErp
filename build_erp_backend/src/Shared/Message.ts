@@ -113,7 +113,10 @@ export const SUCCESS_MESSAGE = {
   },
   RECEIVE: {
     ADD: "Receive saved successfully",
-    FETCH:"Receive data fetch successfully"
+    FETCH:"Receive data fetch successfully",
+    UPDATE:"Receive data update successfully",
+    DELETE:"Receive data deleted successfully",
+    APPROVE:"Receive data approved successfully"
   }
 };
 
@@ -198,6 +201,9 @@ export const ERROR_MESSAGE = {
   },
   RECEIVE: {
     ERROR: "An error occurred when saving receive",
-    FETCH:"An error occured when fetching the receive data"
+    FETCH:"An error occured when fetching the receive data",
+    GREATER_DATE : "Receive date always greater than transfer date of each item",
+    UPDATE : "An error occured when update receive",
+    DELETE : "An error occured when delete receive"
   }
 };

@@ -1,5 +1,7 @@
 import { receiveDB } from "../../Database/Model/ReceiveModel";
+import { transferDB } from "../../Database/Model/TransferModel";
 import { RecieveInput, RecieveOutput } from "../../Entities/Input-OutputEntities/PurchaseEntity.ts/Receive";
+import { IReceiveModelEntity } from "../../Entities/ModelEntities/Recieve.Entity";
 import { IReceiveRepository } from "../../Entities/repositoryEntities/Purchase-management/IReceiveRepository";
 
 export class ReceiveRepository implements IReceiveRepository {
@@ -32,7 +34,7 @@ export class ReceiveRepository implements IReceiveRepository {
             }
          },
          { $unwind: "$projectDetails" },
-         { $match: { "projectDetails.project_name": { $regex: search, $options: "i" } } },
+         { $match: { "projectDetails.project_name": { $regex: search, $options: "i" },approval_status:false } },
          {
             $addFields: {
                net_amount: {
@@ -152,8 +154,49 @@ export class ReceiveRepository implements IReceiveRepository {
             }
          }, { $skip: page * 5 }, { $limit: 5 }
       ]);
+      const totalData = await receiveDB.aggregate([
+         {
+            $addFields: {
+               projectObjectId: { $toObjectId: "$project_id" }
+            }
+         },
+         {
+            $lookup: {
+               from: "projects",
+               localField: "projectObjectId",
+               foreignField: "_id",
+               as: "projectDetails"
+            }
+         },
+         { $unwind: "$projectDetails" },
+         { $match: { "projectDetails.project_name": { $regex: search, $options: "i" },approval_status:false } }
+      ])
 
-      return { data: receiveData };
+      return { data: receiveData,totalPage:Math.ceil(totalData.length/5) };
+   }
+   async updateReceive(input: RecieveInput): Promise<boolean> {
+      const { _id, project_id, date, description, materialDetails, transferId } = input
+      await receiveDB.findByIdAndUpdate(_id,
+         {
+            project_id,
+            date,
+            description,
+            materialDetails,
+            transfer_id: transferId
+         })
+      return true
+
+   }
+   async deleteReceiveById(_id: string): Promise<boolean> {
+      await receiveDB.findByIdAndDelete(_id)
+      return true
+   }
+   async getReceiveById(_id: string): Promise<IReceiveModelEntity | null> {
+      const data = await receiveDB.findById(_id)
+      return data ? data : null
+   }
+   async approveReceive(_id: string): Promise<void> {
+      await receiveDB.findByIdAndUpdate(_id, { approval_status: true })
    }
 
 }

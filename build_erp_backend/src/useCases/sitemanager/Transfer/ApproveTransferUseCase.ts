@@ -26,10 +26,6 @@ export class ApproveTransferUseCase implements IApproveTransferUseCase {
    async execute(input: transferInput): Promise<commonOutput> {
       try {
          if (!input._id) return ResponseHelper.failure(ERROR_MESSAGE.TRANSFER.ERROR, HTTP_STATUS.BAD_REQUEST)
-         const duplicateTransfer = await this.transferRepository.findTransferBytransferId(input.transfer_id)
-         if (duplicateTransfer) {
-            return ResponseHelper.failure(ERROR_MESSAGE.TRANSFER.EXIST_TRANSFER, HTTP_STATUS.CONFLICT)
-         }
          for (let element of input.materialDetails) {
             const ToProjectStock = await this.projectStockRepository.findProjectStockByProjectAndMaterialId(element.material_id, input.from_project_id) || 0
             const materialData = await this.materialRepository.findMaterialById(element.material_id)

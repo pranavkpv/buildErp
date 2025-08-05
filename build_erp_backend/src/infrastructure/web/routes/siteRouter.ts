@@ -50,6 +50,9 @@ export class SitemanagerRoute {
 
       this.sitemanagerRoute.get("/receive", siteManagerMiddleware(jwtService), withLogging(injectedReceiveController.getRecieve))
       this.sitemanagerRoute.post("/receive", siteManagerMiddleware(jwtService), withLogging(injectedReceiveController.saveRecieve))
+      this.sitemanagerRoute.put("/receive/:id", siteManagerMiddleware(jwtService), withLogging(injectedReceiveController.updateRecieve))
+      this.sitemanagerRoute.delete("/receive/:id", siteManagerMiddleware(jwtService), withLogging(injectedReceiveController.deleteReceive))
+      this.sitemanagerRoute.patch("/receive/:id", siteManagerMiddleware(jwtService), withLogging(injectedReceiveController.approveReceive))
 
    }
 }

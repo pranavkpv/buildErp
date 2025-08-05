@@ -10,4 +10,6 @@ export interface ITransferRepository {
    approveTransfer(_id: string): Promise<void>
    findTransferBytransferId(transfer_id: string): Promise<ITransferModelEntity | null>
    findTransferDataByToProjectAndDate(_id: string, date: string): Promise<TransferOutput>
+   UpdateReceiveStatus(transferId:string[]):Promise<void>
+   updateReceiveStatusToFalse(transfer_id:string[]):Promise<void>
 }
