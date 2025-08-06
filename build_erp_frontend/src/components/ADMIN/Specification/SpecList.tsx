@@ -42,6 +42,8 @@ export interface specTable {
   unitRate: number;
   materialDetails: materialData[];
   labourDetails: labourData[];
+  additionalExpense_per:number;
+  profit_per:number
 }
 
 type listMaterail = {
@@ -72,23 +74,22 @@ function SpecList() {
     setEditSpecUnit,
     setEditDescription,
     setDeleteSpecEnable,
-    setDeleteId
+    setDeleteId,
+    seteditadditionalExpense_per,
+    seteditprofit_per
   } = useContext(AppContext);
 
   const fetchSpecList = async () => {
     const response = await fetchSpec(page, search);
-    setResponse(response.data);
     setTotal(response.totalPage)
     for (let element of response.data) {
       for (let item of element.materialDetails) {
         const Materialdata = await findMaterialById(item.material_id);
-        console.log(Materialdata)
-        item.unitRate = Materialdata.unit_rate;
+        item.unitRate = Materialdata.data.unit_rate;
       }
       for (let labours of element.labourDetails) {
         const labourData = await getLabourData(labours.labour_id);
-         console.log(labourData)
-        labours.rate = labourData.daily_wage;
+        labours.rate = labourData.data.daily_wage;
       }
     }
     let x = [];
@@ -114,9 +115,12 @@ function SpecList() {
         _id: element._id,
         materialDetails: element.materialDetails,
         labourDetails: element.labourDetails,
+        additionalExpense_per:element.additionalExpense_per,
+        profit_per:element.profit_per
       });
     }
     setData(x);
+    setResponse(x)
   };
 
   useEffect(() => {
@@ -198,7 +202,7 @@ function SpecList() {
                           setEditSpecEnable(true);
                           let editMatRow: listMaterail[] = [];
                           for (let item of response.filter(
-                            (x) => x._id === element._id
+                            (x) => x._id == element._id
                           )[0].materialDetails) {
                             editMatRow.push({
                               sl: editMatRow.length + 1,
@@ -224,6 +228,9 @@ function SpecList() {
                             });
                           }
                           setEditLabourRow(editLabRow);
+                          seteditadditionalExpense_per(element.additionalExpense_per)
+                          seteditprofit_per(element.profit_per)
+                          
                         }}
                       >
                         <PencilIcon className="h-5 w-5" />

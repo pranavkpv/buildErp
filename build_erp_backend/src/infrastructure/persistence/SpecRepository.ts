@@ -5,15 +5,15 @@ import { ISpecModelEntity } from "../../Entities/ModelEntities/Spec.Entity";
 
 
 export class SpecRepository implements ISpecRepository {
-     async fetchSpecList(page: number, search: string): Promise<{ result: any[], totalPage: number }> {
+   async fetchSpecList(page: number, search: string): Promise<{ result: any[], totalPage: number }> {
       const skip = page * 5;
 
-  
+
       const totalDocuments = await specDB.countDocuments();
       const totalPage = Math.ceil(totalDocuments / 5);
 
       const sample = await specDB.aggregate([
-    
+
          {
             $match: {
                spec_name: { $regex: search, $options: "i" }
@@ -69,6 +69,7 @@ export class SpecRepository implements ISpecRepository {
                spec_unit: { $first: "$spec_unit" },
                description: { $first: "$description" },
                profit_per: { $first: "$profit_per" },
+               additionalExpense_per: { $first: "$additionalExpense_per" },
                createdAt: { $first: "$createdAt" },
                updatedAt: { $first: "$updatedAt" },
                labourDetails: { $first: "$labourDetails" },
@@ -113,6 +114,7 @@ export class SpecRepository implements ISpecRepository {
                spec_name: { $first: "$spec_name" },
                spec_unit: { $first: "$spec_unit" },
                description: { $first: "$description" },
+               additionalExpense_per:{$first:"$additionalExpense_per"},
                profit_per: { $first: "$profit_per" },
                createdAt: { $first: "$createdAt" },
                updatedAt: { $first: "$updatedAt" },
@@ -134,7 +136,7 @@ export class SpecRepository implements ISpecRepository {
          { $skip: skip },
          { $limit: 5 }
       ]);
-     
+
 
       return { result: sample, totalPage };
    }
@@ -154,11 +156,11 @@ export class SpecRepository implements ISpecRepository {
       await newSpec.save()
    }
    async existSpecname(specname: string): Promise<ISpecModelEntity | null> {
-      const existData = await specDB.findOne({ spec_name: {$regex:specname,$options:"i"} })
+      const existData = await specDB.findOne({ spec_name: { $regex: specname, $options: "i" } })
       return existData
    }
    async existSpecId(specId: string): Promise<ISpecModelEntity | null> {
-      const existData = await specDB.findOne({ spec_id: {$regex:specId,$options:"i"} })
+      const existData = await specDB.findOne({ spec_id: { $regex: specId, $options: "i" } })
       return existData
    }
    async editSpecFetch(_id: string): Promise<aggregateSpec[] | null> {
@@ -201,11 +203,11 @@ export class SpecRepository implements ISpecRepository {
       })
    }
    async findSpecInEdit(_id: string, spec_id: string): Promise<ISpecModelEntity | null> {
-       const specData = await specDB.findOne({_id:{$ne:_id},spec_id:{$regex:spec_id,$options:"i"}})
-       return specData
+      const specData = await specDB.findOne({ _id: { $ne: _id }, spec_id: { $regex: spec_id, $options: "i" } })
+      return specData
    }
    async findSpecInEditByName(_id: string, specname: string): Promise<ISpecModelEntity | null> {
-        const specData = await specDB.findOne({_id:{$ne:_id},spec_id:{$regex:specname,$options:"i"}})
-       return specData
+      const specData = await specDB.findOne({ _id: { $ne: _id }, spec_id: { $regex: specname, $options: "i" } })
+      return specData
    }
 }

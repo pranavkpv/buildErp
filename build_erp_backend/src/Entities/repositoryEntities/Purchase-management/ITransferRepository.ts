@@ -12,4 +12,5 @@ export interface ITransferRepository {
    findTransferDataByToProjectAndDate(_id: string, date: string): Promise<TransferOutput>
    UpdateReceiveStatus(transferId:string[]):Promise<void>
    updateReceiveStatusToFalse(transfer_id:string[]):Promise<void>
+   findAllTransfer():Promise<ITransferModelEntity[]>
 }

@@ -29,7 +29,7 @@ export class PurchaseRepository implements IPurchaseRepository {
                   { "invoice_number": { $regex: search, $options: "i" } }
                ],
                "projectDetails.sitemanager_id": id,
-                "approval_status": false ,
+               "approval_status": false,
             }
          }, { $unwind: "$materialDetails" },
          {
@@ -120,7 +120,7 @@ export class PurchaseRepository implements IPurchaseRepository {
                   { "invoice_number": { $regex: search, $options: "i" } }
                ],
                "projectDetails.sitemanager_id": id,
-               "approval_status": false 
+               "approval_status": false
             }
          },
          { $count: "total" }
@@ -164,5 +164,9 @@ export class PurchaseRepository implements IPurchaseRepository {
    }
    async approvePurchase(_id: string): Promise<void> {
       await purchaseDB.findByIdAndUpdate(_id, { approval_status: true })
+   }
+   async findAllPurchase(): Promise<purchaseOutput> {
+      const data = await purchaseDB.find({approval_status:true})
+      return { data }
    }
 }

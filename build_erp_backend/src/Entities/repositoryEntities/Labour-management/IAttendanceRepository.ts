@@ -11,4 +11,5 @@ export interface IAttendanceRepository{
    findAttendanceById(_id:string):Promise<IAttendanceModelEntity | null>
    findExistInEdit(_id:string,project_id:string,date:string):Promise<IAttendanceModelEntity | null>
    UpdateAttendance(_id:string,project_id:string,date:string,labourDetails:StoreLabour[]):Promise<void>
+   findAllAttendance():Promise<IAttendanceModelEntity[]>
 }

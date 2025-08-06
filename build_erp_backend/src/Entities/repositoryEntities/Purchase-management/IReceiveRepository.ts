@@ -8,4 +8,5 @@ export interface IReceiveRepository {
    deleteReceiveById(_id:string):Promise<boolean>
    getReceiveById(_id:string):Promise<IReceiveModelEntity | null>
    approveReceive(_id:string):Promise<void>
+   findAllReceive() : Promise<IReceiveModelEntity[]>
 }

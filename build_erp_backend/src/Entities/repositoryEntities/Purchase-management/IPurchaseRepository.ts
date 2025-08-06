@@ -6,4 +6,5 @@ export interface IPurchaseRepository {
    updatePurchase(input:purchaseInput):Promise<boolean>
    deletePurchase(_id:string):Promise<void>
    approvePurchase(_id:string):Promise<void>
+   findAllPurchase():Promise<purchaseOutput>
 }

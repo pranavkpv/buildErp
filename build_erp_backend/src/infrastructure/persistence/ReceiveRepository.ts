@@ -198,5 +198,9 @@ export class ReceiveRepository implements IReceiveRepository {
    async approveReceive(_id: string): Promise<void> {
       await receiveDB.findByIdAndUpdate(_id, { approval_status: true })
    }
+   async findAllReceive(): Promise<IReceiveModelEntity[]> {
+       const data = await receiveDB.find({approval_status:true})
+       return data
+   }
 
 }

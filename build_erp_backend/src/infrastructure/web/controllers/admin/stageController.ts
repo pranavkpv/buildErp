@@ -9,6 +9,7 @@ import { commonOutput } from "../../../../Entities/Input-OutputEntities/CommonEn
 import { projectOutput } from "../../../../Entities/Input-OutputEntities/ProjectEntities/project";
 
 
+
 export class StageController implements IStageControllerEntity {
    private stagesaveusecase: IStageSaveUseCase
    private fetchCostusecase: IFetchCostUseCase
@@ -16,7 +17,8 @@ export class StageController implements IStageControllerEntity {
    private deletestageusecase: IDeleteStageUseCase
    private updateStageUseCase: IUpdateStageUseCase
    constructor(fetchCostusecase: IFetchCostUseCase, stagesaveusecase: IStageSaveUseCase,
-      fetchStageusecase: IFetchStageUsecase, deletestageusecase: IDeleteStageUseCase, updateStageUseCase: IUpdateStageUseCase) {
+      fetchStageusecase: IFetchStageUsecase, deletestageusecase: IDeleteStageUseCase,
+      updateStageUseCase: IUpdateStageUseCase) {
       this.fetchCostusecase = fetchCostusecase
       this.stagesaveusecase = stagesaveusecase
       this.fetchStageusecase = fetchStageusecase
@@ -26,7 +28,7 @@ export class StageController implements IStageControllerEntity {
 
    //------------------------------------ Display the project with projectId  ------------------------------------//
 
-   fetchCost = async (req: Request, res: Response, next: NextFunction):Promise<commonOutput> => {
+   fetchCost = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
       const projectId = req.params.id
       const result = await this.fetchCostusecase.execute({ projectId });
       return result
@@ -34,7 +36,7 @@ export class StageController implements IStageControllerEntity {
 
    //------------------------------------Save stage ------------------------------------//
 
-   stageSave = async (req: Request, res: Response, next: NextFunction):  Promise<commonOutput> => {
+   stageSave = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
       const result = await this.stagesaveusecase.execute(req.body.data)
       return result
    }
@@ -52,7 +54,7 @@ export class StageController implements IStageControllerEntity {
 
    deleteStage = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
       const result = await this.deletestageusecase.execute(req.body)
-     return result
+      return result
    }
 
    //------------------------------------ Update the stage ------------------------------------//
@@ -61,5 +63,7 @@ export class StageController implements IStageControllerEntity {
       const result = await this.updateStageUseCase.execute({ projectId: req.params.id, ...req.body })
       return result
    }
+
+  
 
 }

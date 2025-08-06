@@ -28,3 +28,13 @@ export const adminLogout = async () => {
     toast.error(error.message)
   }
 }
+
+export const fetchBudgetAndActual = async (search:string,page:number) => {
+  try {
+
+    const response = await axioInstance.get(`/admin/budgetActual`,{params:{search,page}})
+    return response.data
+  } catch (error: any) {
+    toast.error(error.message)
+  }
+}

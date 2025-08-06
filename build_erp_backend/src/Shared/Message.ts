@@ -117,6 +117,9 @@ export const SUCCESS_MESSAGE = {
     UPDATE:"Receive data update successfully",
     DELETE:"Receive data deleted successfully",
     APPROVE:"Receive data approved successfully"
+  },
+  BUDGET_VS_ACTUAL :{
+    FETCH :"Budgeted vs actual data fetch successfully"
   }
 };
 

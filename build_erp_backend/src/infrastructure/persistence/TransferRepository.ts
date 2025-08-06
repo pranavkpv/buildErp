@@ -236,9 +236,9 @@ export class TransferRepository implements ITransferRepository {
          {
             $match: {
                "toprojectObjectId": projectId,
-               approval_status:true,
+               approval_status: true,
                date: { $lte: dt },
-               receive_status:false
+               receive_status: false
             }
          }
          ,
@@ -313,5 +313,9 @@ export class TransferRepository implements ITransferRepository {
    }
    async updateReceiveStatusToFalse(transfer_id: string[]): Promise<void> {
       await transferDB.updateMany({ _id: { $in: transfer_id } }, { receive_status: false })
+   }
+   async findAllTransfer(): Promise<ITransferModelEntity[]> {
+      const data = await transferDB.find({ approval_status: true })
+      return data
    }
 }

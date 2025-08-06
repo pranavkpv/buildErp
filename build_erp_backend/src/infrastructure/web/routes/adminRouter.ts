@@ -3,7 +3,7 @@ import { Router } from "express";
 import { adminMiddleWare } from "../../../middlewares/adminMiddleware";
 import { JwtServiceImpl } from "../../../services/JwtService";
 
-import { injectAddSiteController, injectBrandController, injectedAdminController, injectedCategoryController, injectedLabourController, injectedMaterialController, injectedProjectController, injectedSitemanagerController, injectedUnitController, injectEstimationController, injectSpecController, injectStageController } from "../../../DI/adminInject";
+import { injectAddSiteController, injectAdminDashboardController, injectBrandController, injectedAdminController, injectedCategoryController, injectedLabourController, injectedMaterialController, injectedProjectController, injectedSitemanagerController, injectedUnitController, injectEstimationController, injectSpecController, injectStageController } from "../../../DI/adminInject";
 import { withLogging } from "../../../middlewares/withLoggingMiddleware";
 
 
@@ -97,6 +97,9 @@ export class AdminRoute {
       this.adminRoute.get("/fetchstage", adminMiddleWare(jwtService), withLogging(injectStageController.fetchStage))
       this.adminRoute.post("/stageDelete", adminMiddleWare(jwtService), withLogging(injectStageController.deleteStage))
       this.adminRoute.put("/editStage/:id", adminMiddleWare(jwtService), withLogging(injectStageController.updateStage))
+
+      this.adminRoute.get("/budgetActual", adminMiddleWare(jwtService), withLogging(injectAdminDashboardController.fetchBudgetVsActual))
+
       
    }
 

@@ -2,9 +2,9 @@ import { IPurchaseModelEntity } from "../../ModelEntities/Purchase.Entity"
 
 
 export interface purchaseModel extends IPurchaseModelEntity {
-   _id:string
-   finalAmount : number
-   project_name:string
+   _id:string | Object
+   finalAmount ?: number
+   project_name?:string
 }
 interface materialData{
    material_id: string;

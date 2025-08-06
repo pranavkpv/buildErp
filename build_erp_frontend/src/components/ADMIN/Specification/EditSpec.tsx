@@ -22,9 +22,12 @@ function EditSpec() {
     editDescription,
   } = useContext(AppContext);
 
-  if (!editSpecEnable) return null;
-
   const [unit, setUnit] = useState<unitData[]>([]);
+  const [localSpecId, setLocalSpecId] = useState<string>(editSpec_id || "");
+  const [localSpecName, setLocalSpecName] = useState<string>(editSpec_name || "");
+  const [localSpecUnit, setLocalSpecUnit] = useState<string>(editSpec_unit || "");
+  const [localDescription, setLocalDescription] = useState<string>(editDescription || "");
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   const getUnit = async () => {
     const response = await fetchUnitData();
@@ -34,6 +37,43 @@ function EditSpec() {
   useEffect(() => {
     getUnit();
   }, []);
+
+  useEffect(() => {
+    setLocalSpecId(editSpec_id || "");
+    setLocalSpecName(editSpec_name || "");
+    setLocalSpecUnit(editSpec_unit || "");
+    setLocalDescription(editDescription || "");
+  }, [editSpec_id, editSpec_name, editSpec_unit, editDescription]);
+
+  const validateForm = () => {
+    const newErrors: { [key: string]: string } = {};
+
+    if (!localSpecId.trim()) {
+      newErrors.specId = "Specification ID is required";
+    }
+    if (!localSpecName.trim()) {
+      newErrors.specName = "Specification Name is required";
+    }
+    if (!localSpecUnit) {
+      newErrors.specUnit = "Unit is required";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleNext = () => {
+    if (validateForm()) {
+      seteditSpec_id(localSpecId);
+      setEditSpec_name(localSpecName);
+      setEditSpecUnit(localSpecUnit);
+      setEditDescription(localDescription);
+      setEditSpecEnable(false);
+      setEditMaterialEnable(true);
+    }
+  };
+
+  if (!editSpecEnable) return null;
 
   return (
     <div className="fixed inset-0 bg-gray-900/80 backdrop-blur-sm flex items-center justify-center z-50">
@@ -45,31 +85,43 @@ function EditSpec() {
             <input
               id="specId"
               type="text"
-              value={editSpec_id || ""}
+              value={localSpecId}
               placeholder="Enter specification ID"
-              onChange={(e) => seteditSpec_id(e.target.value)}
-              className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent transition-all duration-200 placeholder:text-gray-400 text-gray-100 text-sm font-medium"
+              onChange={(e) => setLocalSpecId(e.target.value)}
+              className={`w-full px-4 py-3 bg-gray-800/50 border ${
+                errors.specId ? "border-red-500" : "border-gray-600"
+              } rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent transition-all duration-200 placeholder:text-gray-400 text-gray-100 text-sm font-medium`}
             />
+            {errors.specId && (
+              <p className="mt-1 text-red-500 text-xs">{errors.specId}</p>
+            )}
           </div>
           <div>
             <label htmlFor="specName" className="sr-only">Specification Name</label>
             <input
               id="specName"
               type="text"
-              value={editSpec_name || ""}
+              value={localSpecName}
               placeholder="Enter specification name"
-              onChange={(e) => setEditSpec_name(e.target.value)}
-              className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent transition-all duration-200 placeholder:text-gray-400 text-gray-100 text-sm font-medium"
+              onChange={(e) => setLocalSpecName(e.target.value)}
+              className={`w-full px-4 py-3 bg-gray-800/50 border ${
+                errors.specName ? "border-red-500" : "border-gray-600"
+              } rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent transition-all duration-200 placeholder:text-gray-400 text-gray-100 text-sm font-medium`}
             />
+            {errors.specName && (
+              <p className="mt-1 text-red-500 text-xs">{errors.specName}</p>
+            )}
           </div>
           <div>
             <label htmlFor="specUnit" className="sr-only">Select Unit</label>
             <select
               id="specUnit"
-              value={editSpec_unit || ""}
+              value={localSpecUnit}
               aria-label="Select unit"
-              onChange={(e) => setEditSpecUnit(e.target.value)}
-              className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent transition-all duration-200 text-gray-100 text-sm font-medium"
+              onChange={(e) => setLocalSpecUnit(e.target.value)}
+              className={`w-full px-4 py-3 bg-gray-800/50 border ${
+                errors.specUnit ? "border-red-500" : "border-gray-600"
+              } rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent transition-all duration-200 text-gray-100 text-sm font-medium`}
             >
               <option value="" className="text-gray-400">Select unit</option>
               {unit.map((element) => (
@@ -78,14 +130,17 @@ function EditSpec() {
                 </option>
               ))}
             </select>
+            {errors.specUnit && (
+              <p className="mt-1 text-red-500 text-xs">{errors.specUnit}</p>
+            )}
           </div>
           <div>
             <label htmlFor="specDescription" className="sr-only">Description</label>
             <textarea
               id="specDescription"
-              value={editDescription || ""}
+              value={localDescription}
               placeholder="Enter description"
-              onChange={(e) => setEditDescription(e.target.value)}
+              onChange={(e) => setLocalDescription(e.target.value)}
               className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent transition-all duration-200 placeholder:text-gray-400 text-gray-100 text-sm font-medium resize-y min-h-[100px]"
             />
           </div>
@@ -99,10 +154,7 @@ function EditSpec() {
             </button>
             <button
               type="button"
-              onClick={() => {
-                setEditSpecEnable(false);
-                setEditMaterialEnable(true);
-              }}
+              onClick={handleNext}
               className="px-6 py-3 bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white rounded-lg shadow-md hover:shadow-xl transition-all duration-200 font-semibold text-sm"
             >
               Next

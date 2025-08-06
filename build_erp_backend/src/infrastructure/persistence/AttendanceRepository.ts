@@ -78,7 +78,7 @@ export class AttendanceRepository implements IAttendanceRepository {
         }
       }
     ]);
-    
+
     return { result: result, totalPage: Math.ceil(numberOfdoc.length / 5) }
 
   }
@@ -101,6 +101,10 @@ export class AttendanceRepository implements IAttendanceRepository {
   }
   async UpdateAttendance(_id: string, project_id: string, date: string, labourDetails: StoreLabour[]): Promise<void> {
     await attendanceDB.findByIdAndUpdate(_id, { project_id, date, labourDetails })
+  }
+  async findAllAttendance(): Promise<IAttendanceModelEntity[]> {
+    const data = await attendanceDB.find({ approvalStatus: true })
+    return data
   }
 
 }

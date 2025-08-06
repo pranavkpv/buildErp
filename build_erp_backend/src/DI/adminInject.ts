@@ -8,9 +8,12 @@ import { LabourRepository } from "../infrastructure/persistence/LabourRepository
 import { MaterialRepository } from "../infrastructure/persistence/MaterialRepository"
 import { ProjectRepository } from "../infrastructure/persistence/ProjectRepository"
 import { ProjectStockRepository } from "../infrastructure/persistence/ProjectStockRepository"
+import { PurchaseRepository } from "../infrastructure/persistence/PurchaseRepository"
+import { ReceiveRepository } from "../infrastructure/persistence/ReceiveRepository"
 import { SitemanagerRepository } from "../infrastructure/persistence/SitemanagerRepository"
 import { SpecRepository } from "../infrastructure/persistence/SpecRepository"
 import { StageRepository } from "../infrastructure/persistence/StageRepository"
+import { TransferRepository } from "../infrastructure/persistence/TransferRepository"
 import { UnitRepository } from "../infrastructure/persistence/UnitRepository"
 import { UserRepository } from "../infrastructure/persistence/UserRepository"
 import { BcryptHasher } from "../infrastructure/secuirity/BcryptHasher"
@@ -18,6 +21,7 @@ import { AddSiteController } from "../infrastructure/web/controllers/admin/addSi
 import { AdminController } from "../infrastructure/web/controllers/admin/adminController"
 import { BrandController } from "../infrastructure/web/controllers/admin/brandController"
 import { CategoryController } from "../infrastructure/web/controllers/admin/categoryController"
+import { AdminDashboardController } from "../infrastructure/web/controllers/admin/dashboardController"
 import { EstimationController } from "../infrastructure/web/controllers/admin/estimationController"
 import { LabourController } from "../infrastructure/web/controllers/admin/labourController"
 import { MaterialController } from "../infrastructure/web/controllers/admin/materialController"
@@ -36,6 +40,7 @@ import { DisplayAllCategoryUseCase } from "../useCases/admin/Category/DisplayAll
 import { SaveCategoryUseCase } from "../useCases/admin/Category/SaveCategoryUseCase"
 import { UpdateCategoryUseCase } from "../useCases/admin/Category/UpdateCategoryUseCase"
 import { AdminLoginUseCase } from "../useCases/admin/Dashboard/AdminLoginUseCase"
+import { BudgetAndActualUseCase } from "../useCases/admin/Dashboard/BudgetAndActualUseCase"
 import { DeleteEstimationUseCase } from "../useCases/admin/Estimation/DeleteEstimationUseCase"
 import { DisplayEstimationUseCase } from "../useCases/admin/Estimation/DisplayEstimationUseCase"
 import { FetchExistEstimationUseCase } from "../useCases/admin/Estimation/FetchExistEstimationUseCase"
@@ -234,5 +239,13 @@ const fetchStageusecase = new FetchStageUsecase(projectRepository)
 const deletestageusecase = new DeleteStageUseCase(stageRepository)
 const updateStageUseCase = new UpdateStageUseCase(stageRepository, projectRepository)
 export const injectStageController = new StageController(fetchCostusecase, stagesaveusecase, fetchStageusecase, deletestageusecase, updateStageUseCase)
+
+
+const purchaseRepository = new PurchaseRepository()
+const transferRepository = new TransferRepository()
+const receiveRepository = new ReceiveRepository()
+const attendanceRepository = new AttendanceRepository()
+const bugetAndActualuseCase = new BudgetAndActualUseCase(projectRepository,purchaseRepository,transferRepository,receiveRepository,attendanceRepository)
+export const injectAdminDashboardController = new AdminDashboardController(bugetAndActualuseCase)
 
 
