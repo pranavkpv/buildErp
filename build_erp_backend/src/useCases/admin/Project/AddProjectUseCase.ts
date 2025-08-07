@@ -14,13 +14,13 @@ export class AddProjectUseCase implements IAddProjectUseCase {
    }
    async execute(input: addProjectInput): Promise<commonOutput> {
       try {
-         const { project_name, user_id, address, mobile_number, email, area, description } = input
+         const { project_name, user_id, address, mobile_number, email, area, description,latitude,longitude } = input
          const existProject = await this.projectRepository.findProjectByName(project_name)
          if (existProject) {
             return ResponseHelper.failure(ERROR_MESSAGE.PROJECT.EXIST_PROJECT, HTTP_STATUS.CONFLICT)
          }
          const status = "pending"
-         await this.projectRepository.saveProject(project_name, user_id, address, mobile_number, email, area, description, status)
+         await this.projectRepository.saveProject(project_name, user_id, address, mobile_number, email, area, description, status,latitude,longitude )
          return ResponseHelper.success(SUCCESS_MESSAGE.PROJECT.ADD, HTTP_STATUS.CREATED)
       } catch (error: any) {
          return ResponseHelper.failure(error.message, HTTP_STATUS.INTERNAL_SERVER_ERROR)

@@ -6,21 +6,21 @@ export interface Project {
    _id: string
    project_name: string
    user_id: string
-   address:string
-   mobile_number:number
-   email:string
+   address: string
+   mobile_number: number
+   email: string
    description: string
-   area:number
-   status: string[] 
+   area: number
+   status: string[]
    sitemanager_id: string
-   start_date : Date
-   end_date : Date
-   budgeted_cost ?: number 
+   start_date: Date
+   end_date: Date
+   budgeted_cost?: number
    expected_image: string
    finalImage: string
-   createdAt:Date
-   updatedAt:Date
-   userDetails ?: User[]
+   createdAt: Date
+   updatedAt: Date
+   userDetails?: User[]
 }
 
 // input of add project
@@ -32,6 +32,8 @@ export interface addProjectInput {
    email: string,
    area: string,
    description: string
+   latitude: number,
+   longitude: number
 }
 
 
@@ -59,12 +61,12 @@ export interface statusChangeInput {
 }
 
 export interface projectOutput {
-   success?:boolean,
-   message?:string,
-   status_code?:number,
-   data:IProjectModelEntity[] | IProjectModelEntity,
-   totalPage?:number,
-   areas?:number[]
+   success?: boolean,
+   message?: string,
+   status_code?: number,
+   data: IProjectModelEntity[] | IProjectModelEntity,
+   totalPage?: number,
+   areas?: number[]
 }
 
 

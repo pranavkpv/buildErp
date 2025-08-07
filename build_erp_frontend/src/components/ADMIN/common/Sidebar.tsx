@@ -125,7 +125,7 @@ function Sidebar() {
   };
 
   return (
-    <div className="w-64 min-h-screen bg-gradient-to-b from-slate-900 to-slate-800 text-white shadow-xl border-r border-slate-700">
+    <div className="w-64 min-h-screen  bg-gradient-to-b from-slate-900 to-slate-800 text-white shadow-xl border-r border-slate-700">
       <nav className="p-4">
         <ul className="space-y-2">
           {sidebarItems.map((item, index) => {

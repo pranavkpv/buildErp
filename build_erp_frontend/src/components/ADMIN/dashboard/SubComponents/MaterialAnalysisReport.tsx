@@ -1,4 +1,3 @@
-import React from "react";
 
 type reportData = {
    project_name: string;
@@ -7,47 +6,23 @@ type reportData = {
 };
 
 type prop = {
-   data:reportData[]
+   Data:reportData[]
    total:number[]
-   setPage:React.Dispatch<React.SetStateAction<number>>
-   search:string
-   setSearch:React.Dispatch<React.SetStateAction<string>>
-   page:number
+   setMaterialPage:React.Dispatch<React.SetStateAction<number>>
+   materialPage:number
+   heading:string
 }
 
-function BudgetVsActual({data,total,setPage,search,setSearch,page}:prop) {
-   return (
+function MaterialLabourAnalysis({Data,total,setMaterialPage,materialPage,heading}:prop){
+   return(
       <div className="w-full max-w-7xl mx-auto p-6 bg-gradient-to-b from-slate-900 to-slate-800 rounded-xl shadow-lg border border-slate-700/50">
          <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-bold text-white border-b border-slate-600 pb-3 tracking-tight">
-               Budget vs Actual Report
+               {heading}
             </h2>
-            <div className="relative">
-               <input
-                  type="text"
-                  placeholder="Search project name..."
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  className="w-64 py-2 px-4 pl-10 bg-slate-800/50 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all duration-200"
-               />
-               <svg
-                  className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-slate-400"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-               >
-                  <path
-                     strokeLinecap="round"
-                     strokeLinejoin="round"
-                     strokeWidth="2"
-                     d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                  />
-               </svg>
-            </div>
          </div>
-
          <div className="overflow-x-auto">
-           {data.length === 0 ? (
+           {Data.length === 0 ? (
                <div className="text-center py-12 text-slate-400">
                   <p className="text-lg font-medium">No data available</p>
                   <p className="text-sm">Please check back later or add new projects.</p>
@@ -64,7 +39,7 @@ function BudgetVsActual({data,total,setPage,search,setSearch,page}:prop) {
                      </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-700/50">
-                     {data.map((element, index) => {
+                     {Data.map((element, index) => {
                         const variance = element.budgeted_cost - element.actual_expense;
                         return (
                            <tr
@@ -96,8 +71,8 @@ function BudgetVsActual({data,total,setPage,search,setSearch,page}:prop) {
          {total.length >= 1 && (
             <div className="mt-6 flex justify-center gap-2">
                <button
-                  onClick={() => setPage((prev) => Math.max(prev - 1, 0))}
-                  disabled={page === 0}
+                  onClick={() => setMaterialPage((prev) => Math.max(prev - 1, 0))}
+                  disabled={materialPage === 0}
                   className="px-3 py-1 bg-slate-800/50 text-slate-300 rounded-md hover:bg-orange-500 hover:text-white transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                >
                   Previous
@@ -105,8 +80,8 @@ function BudgetVsActual({data,total,setPage,search,setSearch,page}:prop) {
                {total.map((_, index) => (
                   <button
                      key={index}
-                     onClick={() => setPage(index)}
-                     className={`px-3 py-1 rounded-md transition-colors duration-200 ${ page === index
+                     onClick={() => setMaterialPage(index)}
+                     className={`px-3 py-1 rounded-md transition-colors duration-200 ${ materialPage === index
                         ? "bg-teal-600 text-white"
                         : "bg-gray-700 text-gray-300 hover:bg-teal-500 hover:text-white"
                         }`}
@@ -115,8 +90,8 @@ function BudgetVsActual({data,total,setPage,search,setSearch,page}:prop) {
                   </button>
                ))}
                <button
-                  onClick={() => setPage((prev) => Math.min(prev + 1, total.length - 1))}
-                  disabled={page === total.length - 1}
+                  onClick={() => setMaterialPage((prev) => Math.min(prev + 1, total.length - 1))}
+                  disabled={materialPage === total.length - 1}
                   className="px-3 py-1 bg-slate-800/50 text-slate-300 rounded-md hover:bg-orange-500 hover:text-white transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                >
                   Next
@@ -124,7 +99,7 @@ function BudgetVsActual({data,total,setPage,search,setSearch,page}:prop) {
             </div>
          )}
       </div>
-   );
+   )
 }
 
-export default BudgetVsActual;
+export default MaterialLabourAnalysis

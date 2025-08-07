@@ -99,8 +99,8 @@ export class AdminRoute {
       this.adminRoute.put("/editStage/:id", adminMiddleWare(jwtService), withLogging(injectStageController.updateStage))
 
       this.adminRoute.get("/budgetActual", adminMiddleWare(jwtService), withLogging(injectAdminDashboardController.fetchBudgetVsActual))
-
-      
+      this.adminRoute.get("/budgetActualMaterial", adminMiddleWare(jwtService), withLogging(injectAdminDashboardController.fetchBudgetVsActualMaterial)) 
+      this.adminRoute.get("/budgetActualLabour", adminMiddleWare(jwtService), withLogging(injectAdminDashboardController.fetchBudgetVsActualLabour))    
    }
 
 }

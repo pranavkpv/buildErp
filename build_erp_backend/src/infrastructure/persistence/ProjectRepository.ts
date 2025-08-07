@@ -63,7 +63,7 @@ export class ProjectRepository implements IprojectRepository {
 
       return existProject
    }
-   async saveProject(project_name: string, user_id: string, address: string, mobile_number: number, email: string, area: string, description: string, status: string): Promise<void> {
+   async saveProject(project_name: string, user_id: string, address: string, mobile_number: number, email: string, area: string, description: string, status: string,latitude:number,longitude:number): Promise<void> {
       const newProject = new projectDB({
          project_name,
          user_id,
@@ -72,7 +72,9 @@ export class ProjectRepository implements IprojectRepository {
          email,
          area,
          description,
-         status: "pending"
+         status: "pending",
+         latitude,
+         longitude
       })
       await newProject.save()
    }

@@ -9,6 +9,8 @@ import { estimationMaterialDB } from "../../Database/Model/EstimationMaterialMod
 import { estimationLabourDB } from "../../Database/Model/EstimationLabourModel";
 import { estimationAdditionalDB } from "../../Database/Model/EstimationAdditionalModel";
 import { IEstimationModelEntity } from "../../Entities/ModelEntities/Estimation.Entity";
+import { IEstimationMaterialModelEntity } from "../../Entities/ModelEntities/EstimationMaterial.Entity";
+import { IEstimationLabourModelEntity } from "../../Entities/ModelEntities/EstimationLabour.Entity";
 
 
 export class EstimationRepository implements IEstimationRepository {
@@ -97,7 +99,7 @@ export class EstimationRepository implements IEstimationRepository {
             }
          }, { $unwind: "$projectDetails" }, { $match: { "projectDetails.project_name": { $regex: search, $options: "i" } } }, { $skip: skip }, { $limit: 5 }
       ]);
-      
+
       const totalDoc = await estimationDB.aggregate<SpecData>([
          {
             $group: {
@@ -162,7 +164,15 @@ export class EstimationRepository implements IEstimationRepository {
             foreignField: "_id",
             as: "specDetails"
          }
-      },{$unwind:"$specDetails"}])
+      }, { $unwind: "$specDetails" }])
       return existData
+   }
+   async findAllEstimationMaterial(): Promise<IEstimationMaterialModelEntity[]> {
+      const data = await estimationMaterialDB.find()
+      return data
+   }
+   async findAllEstimationLabour(): Promise<IEstimationLabourModelEntity[]> {
+      const data = await estimationLabourDB.find()
+      return data
    }
 }

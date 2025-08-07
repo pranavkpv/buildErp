@@ -15,7 +15,6 @@ import ListStage from "../../components/ADMIN/stage/Stageset";
 import Material from "../../components/ADMIN/material/Material";
 import Labourlist from "../../components/ADMIN/labour/Labourlist";
 import SpecList from "../../components/ADMIN/Specification/SpecList";
-import ReportList from "../../components/ADMIN/ProjectAnalysisReport/ReportList";
 
 export const AdminRoutes = () => {
   return (
@@ -42,7 +41,7 @@ export const AdminRoutes = () => {
           <Route path="spec" element={<AdminbackDashprotected><SpecList /></AdminbackDashprotected>} />
           <Route path="estimation" element={<AdminbackDashprotected><ListEstimation /></AdminbackDashprotected>} />
           <Route path="stage" element={<AdminbackDashprotected><ListStage /></AdminbackDashprotected>} />
-          <Route path="report" element={<AdminbackDashprotected><ReportList /></AdminbackDashprotected>} />
+
         </Route>
 
 

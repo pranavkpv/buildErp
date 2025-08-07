@@ -14,4 +14,6 @@ export interface IProjectModelEntity{
    expected_image ?: string
    finalImage ?: string
    budgeted_cost ?: number
+   latitude?:number
+   longitude?:number
 }

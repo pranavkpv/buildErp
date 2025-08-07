@@ -16,6 +16,12 @@ export const ProjectSchema = new mongoose.Schema<IProjectModel>(
     address:{
       type:String
     },
+    latitude:{
+      type:Number
+    },
+    longitude:{
+      type:Number
+    },
     mobile_number:{
       type:Number
     },

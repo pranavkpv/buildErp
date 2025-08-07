@@ -1,6 +1,7 @@
 import { toast } from "react-toastify";
 import axioInstance from "../axio";
 
+
 // ---------------- Fetch Users for Project Assignment ---------------- //
 
 export const fetchUser = async () => {
@@ -21,7 +22,10 @@ export const postProject = async (
    mobile_number: string,
    email: string,
    area: number,
-   description: string
+   description: string,
+   latitude:number,
+   longitude:number
+  
 ) => {
    try {
       const response = await axioInstance.post(`/admin/project`, {
@@ -32,6 +36,8 @@ export const postProject = async (
          email,
          area,
          description,
+         latitude,
+         longitude
       });
       return response.data;
    } catch (error: any) {

@@ -29,10 +29,28 @@ export const adminLogout = async () => {
   }
 }
 
-export const fetchBudgetAndActual = async (search:string,page:number) => {
+export const fetchBudgetAndActual = async (search: string) => {
   try {
 
-    const response = await axioInstance.get(`/admin/budgetActual`,{params:{search,page}})
+    const response = await axioInstance.get(`/admin/budgetActual`, { params: { search } })
+    return response.data
+  } catch (error: any) {
+    toast.error(error.message)
+  }
+}
+
+export const fetMaterialAnalysis = async (search: string) => {
+  try {
+    const response = await axioInstance.get(`/admin/budgetActualMaterial`, { params: { search } })
+    return response.data
+  } catch (error: any) {
+    toast.error(error.message)
+  }
+}
+
+export const fetLabourAnalysis = async (search: string) => {
+  try {
+    const response = await axioInstance.get(`/admin/budgetActualLabour`, { params: { search } })
     return response.data
   } catch (error: any) {
     toast.error(error.message)

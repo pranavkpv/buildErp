@@ -3,7 +3,7 @@ import { IProjectModelEntity } from "../../ModelEntities/ProjectEntity";
 export interface IprojectRepository{
    findAllProjectWithUser(page:number,search:string):Promise<{getProjectListData:any[];totalPage:number }>
    findProjectByName(project_name:string):Promise<IProjectModelEntity | null>
-   saveProject( project_name:string,user_id:string,address:string,mobile_number:number,email:string,area:string,description:string,status:string):Promise<void>;
+   saveProject( project_name:string,user_id:string,address:string,mobile_number:number,email:string,area:string,description:string,status:string,latitude:number,longitude:number ):Promise<void>;
    findProjectInEdit(_id:string,project_name:string):Promise<IProjectModelEntity | null>
    UpdateProjectById(_id:string,project_name:string,user_id:string,address:string,mobile_number:number,email:string,area:number,description:string):Promise<void>;
    DeleteProjectById(_id:string):Promise<void>

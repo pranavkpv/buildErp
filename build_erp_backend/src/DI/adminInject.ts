@@ -40,6 +40,8 @@ import { DisplayAllCategoryUseCase } from "../useCases/admin/Category/DisplayAll
 import { SaveCategoryUseCase } from "../useCases/admin/Category/SaveCategoryUseCase"
 import { UpdateCategoryUseCase } from "../useCases/admin/Category/UpdateCategoryUseCase"
 import { AdminLoginUseCase } from "../useCases/admin/Dashboard/AdminLoginUseCase"
+import { BudgetAndActualLabourUseCase } from "../useCases/admin/Dashboard/BudgetAndActualLabourUseCase"
+import { BudgetAndActualMaterialUseCase } from "../useCases/admin/Dashboard/BudgetAndActualMaterialUsecase"
 import { BudgetAndActualUseCase } from "../useCases/admin/Dashboard/BudgetAndActualUseCase"
 import { DeleteEstimationUseCase } from "../useCases/admin/Estimation/DeleteEstimationUseCase"
 import { DisplayEstimationUseCase } from "../useCases/admin/Estimation/DisplayEstimationUseCase"
@@ -246,6 +248,8 @@ const transferRepository = new TransferRepository()
 const receiveRepository = new ReceiveRepository()
 const attendanceRepository = new AttendanceRepository()
 const bugetAndActualuseCase = new BudgetAndActualUseCase(projectRepository,purchaseRepository,transferRepository,receiveRepository,attendanceRepository)
-export const injectAdminDashboardController = new AdminDashboardController(bugetAndActualuseCase)
+const bugetAndActualMaterialUseCase = new BudgetAndActualMaterialUseCase(projectRepository,purchaseRepository,transferRepository,receiveRepository,estimationRepository)
+const bugetAndActualLabourUseCase = new BudgetAndActualLabourUseCase(projectRepository,estimationRepository,attendanceRepository)
+export const injectAdminDashboardController = new AdminDashboardController(bugetAndActualuseCase,bugetAndActualMaterialUseCase,bugetAndActualLabourUseCase)
 
 

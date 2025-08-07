@@ -30,6 +30,7 @@ function Project() {
   const [page, setPage] = useState(0)
   const [totalPage, setTotal] = useState(0)
 
+
   // delete
   const [deleteEnable, setDeleteEnable] = useState(false);
   const [deleteId, setDeleteId] = useState("");
@@ -46,6 +47,7 @@ function Project() {
   const [editEnable, setEditEnable] = useState(false);
   const [editProjectId, setEditProjectId] = useState("");
 
+
   // change
   const [changeProjectId, setChangeProjectId] = useState("");
   const [changeStatus, setChangeStatus] = useState("");
@@ -54,7 +56,7 @@ function Project() {
   const fetchData = async () => {
       const data = await projectListData(page,search)
       setProjectList(data.data);
-      setTotal(Math.ceil(data.totalPage))
+      setTotal(Math.ceil(data.totalPage)/5 +1)
   };
 
   useEffect(() => {

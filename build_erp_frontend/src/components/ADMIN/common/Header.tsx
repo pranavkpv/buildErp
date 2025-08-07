@@ -33,7 +33,7 @@ function Header() {
    }
 
    return (
-      <header className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 shadow-lg border-b border-slate-700">
+      <header className="bg-gradient-to-r   from-slate-900 via-slate-800 to-slate-900 shadow-lg border-b border-slate-700">
          <div className="flex items-center justify-between px-6 py-4">
             {/* Logo and Brand */}
             <div className="flex items-center space-x-4">

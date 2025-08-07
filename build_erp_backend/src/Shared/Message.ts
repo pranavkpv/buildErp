@@ -124,6 +124,9 @@ export const SUCCESS_MESSAGE = {
 };
 
 export const ERROR_MESSAGE = {
+  DASHBOARD :{
+    ERROR : "An error occured when fetching the data"
+  },
   USER: {
     INVALID_USER: "The username or password you entered is invalid",
     EXIST: "User already exists",
