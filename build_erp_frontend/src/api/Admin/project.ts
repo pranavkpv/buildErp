@@ -23,9 +23,9 @@ export const postProject = async (
    email: string,
    area: number,
    description: string,
-   latitude:number,
-   longitude:number
-  
+   latitude: number,
+   longitude: number
+
 ) => {
    try {
       const response = await axioInstance.post(`/admin/project`, {
@@ -66,7 +66,9 @@ export const putProject = async (
    mobile_number: string,
    email: string,
    area: number,
-   description: string
+   description: string,
+   latitude: number,
+   longitude: number
 ) => {
    try {
       const response = await axioInstance.put(`/admin/project/${ _id }`, {
@@ -77,6 +79,8 @@ export const putProject = async (
          email,
          area,
          description,
+         latitude,
+         longitude
       });
       return response.data;
    } catch (error: any) {

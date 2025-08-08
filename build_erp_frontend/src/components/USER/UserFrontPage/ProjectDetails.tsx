@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { Calendar } from 'lucide-react';
 import { getStage } from '../../../api/Sitemanager/stageStatus';
 import { fetchExistEstimation } from '../../../api/Admin/Estimation';
+import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet';
 
 type specData = {
   spec_name: string;
@@ -26,14 +27,30 @@ type StageData = {
   status_date: string;
 };
 
+interface Location {
+  lat: number;
+  lng: number;
+  name: string;
+}
+
+ type prop ={
+    latitude:number 
+    longitude:number
+  }
+
+
 function DetailProject() {
   const location = useLocation();
+  console.log(location)
   const projectId = location.state?.projectId;
   const projectName = location.state?.projectname;
   const expectedImage = location.state?.expectedImage;
   const area = location.state?.area;
   const address = location.state?.address;
   const description = location.state?.description;
+  const latitude = location.state?.latitude;
+  const longitude = location.state?.longitude;
+
 
   const [spec, setSpec] = useState<estimationData[]>([]);
   const [image, setImage] = useState<any[]>([]);
@@ -65,12 +82,25 @@ function DetailProject() {
     fetchStage();
   }, []);
 
+
+
   const calculateProjectProgress = () => {
     if (stage.length > 0) {
       const totalProgress = stage.reduce((sum, num) => sum + num.progress, 0) || 0;
       return (totalProgress / (stage.length * 100)) * 100;
     }
     return 0;
+  };
+
+ 
+  const MapViewUpdater = ({ latitude,longitude }:prop) => {
+    const map = useMap();
+    useEffect(() => {
+      if (location) {
+        map.setView([latitude, longitude], 13);
+      }
+    }, [location, map]);
+    return null;
   };
 
   return (
@@ -303,6 +333,26 @@ function DetailProject() {
             </ul>
           </div>
           <div className="flex justify-center">
+
+            <MapContainer
+              center={[51.505, -0.09]}
+              zoom={13}
+              style={{ height: '400px', width: '100%', borderRadius: '8px', overflow: 'hidden' }}
+              className="border border-gray-600"
+            >
+              <TileLayer
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              />
+              <MapViewUpdater latitude={latitude} longitude={longitude} />
+                <Marker key={`search-${ latitude }-${ longitude }`} position={[latitude,longitude]}>
+                  <Popup>{address}</Popup>
+                </Marker>
+    
+                <Marker position={[latitude,longitude]}>
+                </Marker>
+            </MapContainer>
+
 
           </div>
         </div>

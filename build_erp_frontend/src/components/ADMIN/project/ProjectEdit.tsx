@@ -1,6 +1,7 @@
 import { fetchUser, putProject } from "../../../api/Admin/project";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
+import MapIntegrationApp from "../Map/Map";
 
 type UserType = {
   _id: string;
@@ -24,6 +25,12 @@ type EditProjectProp = {
   onEditSuccess: () => void;
 };
 
+interface Location {
+  lat: number;
+  lng: number;
+  name: string;
+}
+
 function EditProject({
   editProject,
   editUserId,
@@ -45,6 +52,8 @@ function EditProject({
   const [description, setDescription] = useState(editDescription);
   const [area, setArea] = useState<number>(editArea);
   const [userList, setUserList] = useState<UserType[]>([]);
+  const [onMap, setOnMap] = useState(false);
+  const [selectedLocation, setSelectedLocation] = useState<Location | null>(null);
 
   const projectRef = useRef<HTMLParagraphElement>(null);
   const userRef = useRef<HTMLParagraphElement>(null);
@@ -66,8 +75,8 @@ function EditProject({
 
   useEffect(() => {
     const fetchUsers = async () => {
-        const data = await fetchUser()
-        setUserList(data.data);
+      const data = await fetchUser();
+      setUserList(data.data);
     };
     fetchUsers();
   }, []);
@@ -119,35 +128,61 @@ function EditProject({
       areaRef.current.innerText = "";
     }
 
+    if (!selectedLocation) {
+      if (addressRef.current) addressRef.current.innerText = "Please select a location on the map.";
+      hasError = true;
+    }
 
     if (hasError) return;
-      const _id = editProjectId
-      const data = await putProject(_id,project_name,user_id,address,mobile_number,email,area,description,)
-      if (data.success) {
-        toast.success(data.message);
-        setEnableEdit(false);
-        onEditSuccess();
-      } else {
-        toast.error(data.message);
-      }
+
+    let latitude = selectedLocation?.lat;
+    let longitude = selectedLocation?.lng
+    if(!latitude || !longitude)return
+    const data = await putProject(
+      editProjectId,
+      project_name,
+      user_id,
+      address,
+      mobile_number,
+      email,
+      area,
+      description,
+      latitude,
+      longitude
+    );
+    if (data.success) {
+      toast.success(data.message);
+      setEnableEdit(false);
+      setProjectName("");
+      setUserId("");
+      setAddress("");
+      setEmail("");
+      setMobile("");
+      setDescription("");
+      setArea(0);
+      setSelectedLocation(null);
+      onEditSuccess();
+    } else {
+      toast.error(data.message);
+    }
   };
 
   if (!editEnable) return null;
 
   return (
-    <div className="absolute top-20 inset-0 bg-gray-900/80 flex items-center justify-center z-50 p-4 sm:p-6">
+    <div className="fixed inset-0 bg-gray-900/80 flex items-center justify-center z-50 p-4 sm:p-6">
       <form
         onSubmit={editFormSubmit}
-        className="bg-gray-800/90 backdrop-blur-md rounded-xl shadow-2xl w-full max-w-4xl p-6 border border-gray-700/50 max-h-[95vh] overflow-y-auto"
+        className="bg-gray-800/90 backdrop-blur-md rounded-xl shadow-2xl w-full max-w-4xl p-6 sm:p-8 border border-gray-700/50 max-h-[90vh] overflow-y-auto"
       >
-        <h1 className="text-2xl font-bold text-center text-gray-100 mb-6 border-b border-gray-700 pb-4">
+        <h1 className="text-2xl sm:text-3xl font-bold text-center text-gray-100 mb-6 sm:mb-8 border-b border-gray-700 pb-4">
           Edit Project
         </h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
           {/* Project Name */}
           <div>
-            <label htmlFor="projectName" className="block text-sm font-medium text-gray-200 mb-1">
+            <label htmlFor="projectName" className="block text-sm font-medium text-gray-200 mb-2">
               Project Name
             </label>
             <input
@@ -156,21 +191,21 @@ function EditProject({
               value={project_name}
               onChange={(e) => setProjectName(e.target.value)}
               placeholder="Enter project name"
-              className="w-full px-4 py-2.5 bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors duration-200 text-gray-100 placeholder-gray-400 text-sm"
+              className="w-full px-4 py-2.5 bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors duration-200 text-gray-100 placeholder-gray-400 text-sm sm:text-base"
             />
-            <p ref={projectRef} className="text-sm text-red-400 mt-1.5"></p>
+            <p ref={projectRef} className="text-sm text-red-400 mt-2"></p>
           </div>
 
           {/* Client */}
           <div>
-            <label htmlFor="clientSelect" className="block text-sm font-medium text-gray-200 mb-1">
+            <label htmlFor="clientSelect" className="block text-sm font-medium text-gray-200 mb-2">
               Client
             </label>
             <select
               id="clientSelect"
               value={user_id}
               onChange={(e) => setUserId(e.target.value)}
-              className="w-full px-4 py-2.5 bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors duration-200 text-gray-100 placeholder-gray-400 text-sm"
+              className="w-full px-4 py-2.5 bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors duration-200 text-gray-100 placeholder-gray-400 text-sm sm:text-base"
             >
               <option value="">Select a client</option>
               {userList.map((user) => (
@@ -179,28 +214,37 @@ function EditProject({
                 </option>
               ))}
             </select>
-            <p ref={userRef} className="text-sm text-red-400 mt-1.5"></p>
+            <p ref={userRef} className="text-sm text-red-400 mt-2"></p>
           </div>
 
           {/* Address */}
           <div>
-            <label htmlFor="address" className="block text-sm font-medium text-gray-200 mb-1">
+            <label htmlFor="address" className="block text-sm font-medium text-gray-200 mb-2">
               Address
             </label>
-            <input
-              id="address"
-              type="text"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-              placeholder="Enter address"
-              className="w-full px-4 py-2.5 bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors duration-200 text-gray-100 placeholder-gray-400 text-sm"
-            />
-            <p ref={addressRef} className="text-sm text-red-400 mt-1.5"></p>
+            <div className="flex gap-2">
+              <input
+                id="address"
+                type="text"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                placeholder="Enter address"
+                className="flex-grow px-4 py-2.5 bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors duration-200 text-gray-100 placeholder-gray-400 text-sm sm:text-base"
+              />
+              <button
+                type="button"
+                onClick={() => setOnMap(true)}
+                className="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition-colors duration-200"
+              >
+                Select on Map
+              </button>
+            </div>
+            <p ref={addressRef} className="text-sm text-red-400 mt-2"></p>
           </div>
 
           {/* Mobile Number */}
           <div>
-            <label htmlFor="mobileNumber" className="block text-sm font-medium text-gray-200 mb-1">
+            <label htmlFor="mobileNumber" className="block text-sm font-medium text-gray-200 mb-2">
               Mobile Number
             </label>
             <input
@@ -209,14 +253,14 @@ function EditProject({
               value={mobile_number}
               onChange={(e) => setMobile(e.target.value)}
               placeholder="Enter mobile number"
-              className="w-full px-4 py-2.5 bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors duration-200 text-gray-100 placeholder-gray-400 text-sm"
+              className="w-full px-4 py-2.5 bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors duration-200 text-gray-100 placeholder-gray-400 text-sm sm:text-base"
             />
-            <p ref={mobileRef} className="text-sm text-red-400 mt-1.5"></p>
+            <p ref={mobileRef} className="text-sm text-red-400 mt-2"></p>
           </div>
 
           {/* Email */}
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-200 mb-1">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-200 mb-2">
               Email
             </label>
             <input
@@ -225,14 +269,14 @@ function EditProject({
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter email"
-              className="w-full px-4 py-2.5 bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors duration-200 text-gray-100 placeholder-gray-400 text-sm"
+              className="w-full px-4 py-2.5 bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors duration-200 text-gray-100 placeholder-gray-400 text-sm sm:text-base"
             />
-            <p ref={emailRef} className="text-sm text-red-400 mt-1.5"></p>
+            <p ref={emailRef} className="text-sm text-red-400 mt-2"></p>
           </div>
 
           {/* Area */}
           <div>
-            <label htmlFor="area" className="block text-sm font-medium text-gray-200 mb-1">
+            <label htmlFor="area" className="block text-sm font-medium text-gray-200 mb-2">
               Area (sqft)
             </label>
             <input
@@ -241,15 +285,15 @@ function EditProject({
               value={area}
               onChange={(e) => setArea(Number(e.target.value))}
               placeholder="Enter area"
-              className="w-full px-4 py-2.5 bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors duration-200 text-gray-100 placeholder-gray-400 text-sm"
+              className="w-full px-4 py-2.5 bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors duration-200 text-gray-100 placeholder-gray-400 text-sm sm:text-base"
             />
-            <p ref={areaRef} className="text-sm text-red-400 mt-1.5"></p>
+            <p ref={areaRef} className="text-sm text-red-400 mt-2"></p>
           </div>
         </div>
 
-        {/* Description (full width) */}
-        <div className="mt-6">
-          <label htmlFor="description" className="block text-sm font-medium text-gray-200 mb-1">
+        {/* Description */}
+        <div className="mt-6 sm:mt-8">
+          <label htmlFor="description" className="block text-sm font-medium text-gray-200 mb-2">
             Description
           </label>
           <textarea
@@ -257,27 +301,53 @@ function EditProject({
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Enter project description"
-            className="w-full px-4 py-2.5 bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors duration-200 text-gray-100 placeholder-gray-400 text-sm min-h-[100px]"
+            className="w-full px-4 py-2.5 bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors duration-200 text-gray-100 placeholder-gray-400 text-sm sm:text-base min-h-[120px]"
           />
-          <p ref={descriptionRef} className="text-sm text-red-400 mt-1.5"></p>
+          <p ref={descriptionRef} className="text-sm text-red-400 mt-2"></p>
         </div>
 
         {/* Buttons */}
-        <div className="flex justify-end gap-4 pt-6">
+        <div className="flex justify-end gap-4 pt-6 sm:pt-8">
           <button
             type="button"
-            onClick={() => setEnableEdit(false)}
-            className="bg-gray-600 hover:bg-gray-700 text-white px-5 py-2.5 rounded-md text-sm font-medium transition-colors duration-200"
+            onClick={() => {
+              setEnableEdit(false);
+              setProjectName("");
+              setUserId("");
+              setAddress("");
+              setEmail("");
+              setMobile("");
+              setDescription("");
+              setArea(0);
+              setSelectedLocation(null);
+            }}
+            className="bg-gray-600 hover:bg-gray-700 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition-colors duration-200"
           >
             Cancel
           </button>
           <button
             type="submit"
-            className="bg-teal-600 hover:bg-teal-700 text-white px-5 py-2.5 rounded-md text-sm font-medium transition-colors duration-200"
+            className="bg-teal-600 hover:bg-teal-700 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition-colors duration-200"
           >
             Save
           </button>
         </div>
+
+        {/* Map Modal */}
+        {onMap && (
+          <div className="fixed inset-0 bg-gray-900/80 flex items-center justify-center z-50 p-4 sm:p-6">
+            <div className="bg-gray-800/90 backdrop-blur-md rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto p-6 sm:p-8">
+              <MapIntegrationApp
+                address={address}
+                onMap={onMap}
+                setOnMap={setOnMap}
+                setSelectedLocation={setSelectedLocation}
+                selectedLocation={selectedLocation}
+                setAddress={setAddress}
+              />
+            </div>
+          </div>
+        )}
       </form>
     </div>
   );

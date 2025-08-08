@@ -14,6 +14,8 @@ type projectData = {
   address: string;
   status: string;
   description: string;
+  latitude:number,
+  longitude:number
 };
 
 function ListProject() {
@@ -28,7 +30,6 @@ function ListProject() {
 
   const fetchProject = async () => {
     const response = await fetchStatusBaseProject(state, searchItem, selectedArea, page);
-    console.log(response)
     setProject(response.data);
     setArea(response.areas);
     let y = [];
@@ -188,7 +189,7 @@ function ListProject() {
                 key={p._id}
                 className={`transform transition-all duration-500 hover:scale-105 delay-${ index * 100 }`}
               >
-                <ProjectCard {...p} />
+                <ProjectCard {...p} index={index} />
               </div>
             ))}
           </div>

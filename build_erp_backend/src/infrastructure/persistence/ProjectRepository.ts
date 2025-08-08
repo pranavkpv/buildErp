@@ -30,7 +30,7 @@ export class ProjectRepository implements IprojectRepository {
          },
          { $skip: skip }, { $limit: 5 }])
 
-      const totalDoc =await projectDB.aggregate([
+      const totalDoc = await projectDB.aggregate([
          {
             $addFields: {
                userObjectId: { $toObjectId: "$user_id" }
@@ -53,7 +53,7 @@ export class ProjectRepository implements IprojectRepository {
 
       return {
          getProjectListData: projectData || [],
-         totalPage:totalDoc.length
+         totalPage: totalDoc.length
       };
    }
    async findProjectByName(project_name: string): Promise<IProjectModelEntity | null> {
@@ -63,7 +63,7 @@ export class ProjectRepository implements IprojectRepository {
 
       return existProject
    }
-   async saveProject(project_name: string, user_id: string, address: string, mobile_number: number, email: string, area: string, description: string, status: string,latitude:number,longitude:number): Promise<void> {
+   async saveProject(project_name: string, user_id: string, address: string, mobile_number: number, email: string, area: string, description: string, status: string, latitude: number, longitude: number): Promise<void> {
       const newProject = new projectDB({
          project_name,
          user_id,
@@ -82,8 +82,8 @@ export class ProjectRepository implements IprojectRepository {
       const existProject = await projectDB.findOne({ _id: { $ne: _id }, project_name: { $regex: new RegExp(`^${ project_name }$`, 'i') } })
       return existProject
    }
-   async UpdateProjectById(_id: string, project_name: string, user_id: string, address: string, mobile_number: number, email: string, area: number, description: string): Promise<void> {
-      await projectDB.findByIdAndUpdate(_id, { project_name, user_id, address, mobile_number, email, area, description })
+   async UpdateProjectById(_id: string, project_name: string, user_id: string, address: string, mobile_number: number, email: string, area: number, description: string, latitude: number, longitude: number): Promise<void> {
+      await projectDB.findByIdAndUpdate(_id, { project_name, user_id, address, mobile_number, email, area, description, latitude, longitude })
    }
    async DeleteProjectById(_id: string): Promise<void> {
       await projectDB.findByIdAndDelete(_id)
@@ -130,18 +130,18 @@ export class ProjectRepository implements IprojectRepository {
       search: string,
       area: number,
       page: number
-   ): Promise<{ data: IProjectModelEntity[]; totalPage: number,areas:number[] }> {
+   ): Promise<{ data: IProjectModelEntity[]; totalPage: number, areas: number[] }> {
       const ITEMS_PER_PAGE = 6;
       const skip = page * ITEMS_PER_PAGE;
       let query;
 
-      area==0 ?  query = {
+      area == 0 ? query = {
          status,
          $or: [
             { project_name: { $regex: search, $options: "i" } },
             { address: { $regex: search, $options: "i" } },
          ],
-      } : query ={
+      } : query = {
          status,
          area,
          $or: [
@@ -158,20 +158,20 @@ export class ProjectRepository implements IprojectRepository {
       const totalPage = Math.ceil(count / ITEMS_PER_PAGE);
       const allProject = await projectDB.find()
       let areas = []
-      for(let element of allProject){
+      for (let element of allProject) {
          areas.push(element.area)
       }
-      let uniqueArea = [...new Set(areas.filter(element=>element!=undefined))].sort((a,b)=>a-b)
+      let uniqueArea = [...new Set(areas.filter(element => element != undefined))].sort((a, b) => a - b)
 
       return {
          data: projects,
          totalPage,
-         areas:uniqueArea
+         areas: uniqueArea
       };
    }
    async findProjectById(_id: string): Promise<IProjectModelEntity | null> {
-       const data = await projectDB.findById(_id)
-       return data
+      const data = await projectDB.findById(_id)
+      return data
    }
 
 }

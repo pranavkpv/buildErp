@@ -56,7 +56,7 @@ function Project() {
   const fetchData = async () => {
       const data = await projectListData(page,search)
       setProjectList(data.data);
-      setTotal(Math.ceil(data.totalPage)/5 +1)
+      setTotal(Math.ceil(data.totalPage)/5 )
   };
 
   useEffect(() => {

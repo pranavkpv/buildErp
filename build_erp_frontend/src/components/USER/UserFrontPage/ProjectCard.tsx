@@ -9,7 +9,9 @@ type projectProp = {
   address: string;
   status: string;
   description: string;
-  index?: number;
+  latitude:number,
+  longitude:number,
+  index: number;
 };
 
 function ProjectCard({
@@ -21,6 +23,8 @@ function ProjectCard({
   address,
   status,
   description,
+  latitude,
+  longitude,
   index,
 }: projectProp) {
   const getStatusConfig = (status: string) => {
@@ -113,6 +117,8 @@ function ProjectCard({
               area,
               address,
               description,
+              latitude,
+              longitude
             }}
             className="group/link inline-flex items-center gap-2 text-sm font-semibold text-transparent bg-gradient-to-r from-[#04a09c] to-[#22d6d1] bg-clip-text hover:from-[#03b7b1] hover:to-[#04a09c] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-offset-2 rounded-md p-1"
             aria-label={`View details for ${project_name}`}

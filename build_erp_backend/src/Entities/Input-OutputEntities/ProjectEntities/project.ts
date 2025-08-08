@@ -46,7 +46,9 @@ export interface editProjectInput {
    mobile_number: number,
    email: string,
    area: number,
-   description: string
+   description: string,
+   latitude:number,
+   longitude:number
 }
 
 

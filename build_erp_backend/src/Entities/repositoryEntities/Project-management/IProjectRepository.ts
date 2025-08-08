@@ -5,7 +5,7 @@ export interface IprojectRepository{
    findProjectByName(project_name:string):Promise<IProjectModelEntity | null>
    saveProject( project_name:string,user_id:string,address:string,mobile_number:number,email:string,area:string,description:string,status:string,latitude:number,longitude:number ):Promise<void>;
    findProjectInEdit(_id:string,project_name:string):Promise<IProjectModelEntity | null>
-   UpdateProjectById(_id:string,project_name:string,user_id:string,address:string,mobile_number:number,email:string,area:number,description:string):Promise<void>;
+   UpdateProjectById(_id:string,project_name:string,user_id:string,address:string,mobile_number:number,email:string,area:number,description:string,latitude:number,longitude:number):Promise<void>;
    DeleteProjectById(_id:string):Promise<void>
    changeProjectStatus(_id:string,status:string):Promise<void>
    addSitemanagerToProject(_id:string,siteManager_id:string):Promise<void>

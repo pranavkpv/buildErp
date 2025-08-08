@@ -15,6 +15,8 @@ type projectData = {
   address: string;
   status: string;
   description: string;
+  latitude:number;
+  longitude:number
 };
 
 function Projects() {
@@ -25,13 +27,13 @@ function Projects() {
 
   const fetchProject = async () => {
     const result: { data: projectData[] } = await getProject();
-
     const filteredResult = result.data.filter(
       (element) =>
         (element.project_name.toLowerCase().includes(searchProject.toLowerCase()) ||
           element.address.toLowerCase().includes(searchProject.toLowerCase())) &&
         (selectedArea === "" || element.area === Number(selectedArea))
     );
+ 
 
     setProject(filteredResult);
 
