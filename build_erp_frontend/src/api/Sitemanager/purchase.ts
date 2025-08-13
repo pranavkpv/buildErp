@@ -1,5 +1,5 @@
 import type { Purchase } from "../../components/SITEMANAGER/purchase/ApprovePurchase";
-import axioInstance from "../../api/axio"
+import axioInstance from "../../axios/authAxios"
 import { toast } from "react-toastify"
 
 

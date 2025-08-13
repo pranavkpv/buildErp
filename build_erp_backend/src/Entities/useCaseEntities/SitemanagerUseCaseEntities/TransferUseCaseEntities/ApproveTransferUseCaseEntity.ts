@@ -1,6 +1,6 @@
-import { commonOutput } from "../../../Input-OutputEntities/CommonEntities/common";
-import { transferInput } from "../../../Input-OutputEntities/PurchaseEntity.ts/Transfer";
+import { commonOutput } from "../../../../DTO/CommonEntities/common";
+import { transferInput } from "../../../../DTO/PurchaseEntity.ts/Transfer";
 
-export interface IApproveTransferUseCase {
+export interface IApproveTransferUseCaseEntity {
    execute(input:transferInput):Promise<commonOutput>
 }

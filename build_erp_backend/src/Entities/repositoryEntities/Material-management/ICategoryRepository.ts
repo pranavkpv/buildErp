@@ -1,12 +1,13 @@
-import { Category, CategoryOutput } from "../../Input-OutputEntities/MaterialEntities/category";
+import { categoryInput, listCategoryOutput } from "../../../DTO/CategoryEntities/Category.Entity";
 import { ICategoryModelEntity } from "../../ModelEntities/Category.Entity";
 
-export interface ICategoryRepository{
+export interface ICategoryRepositoryEntity{
    findAllCategory():Promise<ICategoryModelEntity[] | []> 
-   findByCategoryName(category_name:string):Promise<ICategoryModelEntity | null> 
-   saveCategory(category_name:string,description:string):Promise<void>
-   findCategoryInEdit(_id:string,category_name:string):Promise<ICategoryModelEntity | null>
-   updateCategoryById(_id:string,category_name:string,description:string):Promise<void>
-   deleteCategoryById(_id:string):Promise<void>
-   findAllListCategory(page:number,search:string):Promise<CategoryOutput>
+   findByCategoryName(input:categoryInput):Promise<ICategoryModelEntity | null> 
+   saveCategory(input:categoryInput):Promise<ICategoryModelEntity>
+   findCategoryInEdit(input:categoryInput):Promise<ICategoryModelEntity | null>
+   updateCategoryById(input:categoryInput):Promise<ICategoryModelEntity | null>
+   deleteCategoryById(_id:string):Promise<ICategoryModelEntity | null>
+   findAllListCategory(page:number,search:string):Promise<listCategoryOutput>
+   findCategoryById(_id:string):Promise<ICategoryModelEntity | null>
 }

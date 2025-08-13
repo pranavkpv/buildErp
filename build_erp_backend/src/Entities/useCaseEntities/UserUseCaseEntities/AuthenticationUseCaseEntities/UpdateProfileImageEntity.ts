@@ -1,5 +1,5 @@
-import { commonOutput } from "../../../Input-OutputEntities/CommonEntities/common";
+import { commonOutput } from "../../../../DTO/CommonEntities/common";
 
-export interface IUpdateProfileImageUseCase {
+export interface IUpdateProfileImageUseCaseEntity {
    execute(url:string,_id:string) : Promise<commonOutput>
 }

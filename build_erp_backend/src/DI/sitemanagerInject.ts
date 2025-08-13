@@ -10,44 +10,46 @@ import { TransferRepository } from "../infrastructure/persistence/TransferReposi
 import { BcryptHasher } from "../infrastructure/secuirity/BcryptHasher";
 import { AttendanceController } from "../infrastructure/web/controllers/sitemanager/AttendanceController";
 import { changePasswordController } from "../infrastructure/web/controllers/sitemanager/changePasswordController";
+import { ChatController } from "../infrastructure/web/controllers/sitemanager/ChatController";
 import { PurchaseController } from "../infrastructure/web/controllers/sitemanager/PurchaseController";
 import { RecieveController } from "../infrastructure/web/controllers/sitemanager/RecieveController";
 import { statusController } from "../infrastructure/web/controllers/sitemanager/statusController";
 import { TransferController } from "../infrastructure/web/controllers/sitemanager/TransferController";
-import { JwtServiceImpl } from "../services/JwtService";
-import { addAttendanceUseCase } from "../useCases/sitemanager/Attendance/AddAttendanceUseCase";
-import { ApproveAttendanceUseCase } from "../useCases/sitemanager/Attendance/approveAttendanceuseCase";
-import { DeleteAttendanceUseCase } from "../useCases/sitemanager/Attendance/DeleteAttandanceUseCase";
-import { EditAttendanceUseCase } from "../useCases/sitemanager/Attendance/EditAttendanceUseCase";
-import { FetchAttendanceByIdUseCase } from "../useCases/sitemanager/Attendance/FetchAttendanceBYIdUseCase";
-import { fetchAttendanceUseCase } from "../useCases/sitemanager/Attendance/FetchAttendanceUseCase";
-import { UpdateSitemanagerPasswordUseCase } from "../useCases/sitemanager/Authentication/UpdateSitemanagerPasswordUseCase";
-import { ApprovePurchaseUseCase } from "../useCases/sitemanager/Purchase/ApprovePurchaseUseCase";
-import { DeletePurchaseUseCase } from "../useCases/sitemanager/Purchase/DeletePurchaseUseCase";
-import { GetPurchaseUseCase } from "../useCases/sitemanager/Purchase/GetpurchaseUseCase";
-import { SavePurchaseUseCase } from "../useCases/sitemanager/Purchase/SavePurchaseUseCase";
-import { UpdatePurchaseUseCase } from "../useCases/sitemanager/Purchase/UpdatePurchaseUseCase";
-import { ApproveReceiveUseCase } from "../useCases/sitemanager/Receive/ApproveReceiveUseCase";
-import { DeleteReceiveUsecase } from "../useCases/sitemanager/Receive/DeleteReceiveUseCase";
-import { GetReceiveUseCase } from "../useCases/sitemanager/Receive/GetReceiveUseCase";
-import { SaveReceiveUseCase } from "../useCases/sitemanager/Receive/SaveReceiveUseCase";
-import { UpdateReceiveUsecase } from "../useCases/sitemanager/Receive/UpdateReceiveUseCase";
-import { FetchStatusUseCase } from "../useCases/sitemanager/StageStatusUpdation/FetchStatusUseCase";
-import { StageStatusChangeUseCase } from "../useCases/sitemanager/StageStatusUpdation/StageSatusChangeUseCase";
-import { UploadStatusImageUseCase } from "../useCases/sitemanager/StageStatusUpdation/UploadStatusImageUseCase";
-import { ApproveTransferUseCase } from "../useCases/sitemanager/Transfer/ApproveTransferUseCase";
-import { DeleteTransferUseCase } from "../useCases/sitemanager/Transfer/DeleteTransferUseCase";
-import { GetToProjectUseCase } from "../useCases/sitemanager/Transfer/GetToProjectUseCase";
-import { GetTransferUseCase } from "../useCases/sitemanager/Transfer/GetTransferUseCase";
-import { ReceiveTransferUseCase } from "../useCases/sitemanager/Transfer/ReceiveTransferUseCase";
-import { SaveTransferUsecase } from "../useCases/sitemanager/Transfer/SaveTransferUsecase";
-import { UpdateTransferUseCase } from "../useCases/sitemanager/Transfer/UpdateTransferUseCase";
+import { JwtService } from "../services/JwtService";
+import { addAttendanceUseCase } from "../useCases/AttendanceUseCase/AddAttendanceUseCase";
+import { ApproveAttendanceUseCase } from "../useCases/AttendanceUseCase/approveAttendanceuseCase";
+import { DeleteAttendanceUseCase } from "../useCases/AttendanceUseCase/DeleteAttandanceUseCase";
+import { EditAttendanceUseCase } from "../useCases/AttendanceUseCase/EditAttendanceUseCase";
+import { FetchAttendanceByIdUseCase } from "../useCases/AttendanceUseCase/FetchAttendanceBYIdUseCase";
+import { fetchAttendanceUseCase } from "../useCases/AttendanceUseCase/FetchAttendanceUseCase";
+import { ApprovePurchaseUseCase } from "../useCases/PurchaseUseCase/ApprovePurchaseUseCase";
+import { DeletePurchaseUseCase } from "../useCases/PurchaseUseCase/DeletePurchaseUseCase";
+import { GetPurchaseUseCase } from "../useCases/PurchaseUseCase/GetpurchaseUseCase";
+import { SavePurchaseUseCase } from "../useCases/PurchaseUseCase/SavePurchaseUseCase";
+import { UpdatePurchaseUseCase } from "../useCases/PurchaseUseCase/UpdatePurchaseUseCase";
+import { ApproveReceiveUseCase } from "../useCases/ReceiveUseCase/ApproveReceiveUseCase";
+import { DeleteReceiveUsecase } from "../useCases/ReceiveUseCase/DeleteReceiveUseCase";
+import { GetReceiveUseCase } from "../useCases/ReceiveUseCase/GetReceiveUseCase";
+import { SaveReceiveUseCase } from "../useCases/ReceiveUseCase/SaveReceiveUseCase";
+import { UpdateReceiveUsecase } from "../useCases/ReceiveUseCase/UpdateReceiveUseCase";
+import { UpdateSitemanagerPasswordUseCase } from "../useCases/SitemanagerAuthenticationUseCase/UpdateSitemanagerPasswordUseCase";
+import { FetchStatusUseCase } from "../useCases/StageStatusUpdationUseCase/FetchStatusUseCase";
+import { FetchUserUseCase } from "../useCases/StageStatusUpdationUseCase/FetchUserUseCase";
+import { StageStatusChangeUseCase } from "../useCases/StageStatusUpdationUseCase/StageSatusChangeUseCase";
+import { UploadStatusImageUseCase } from "../useCases/StageStatusUpdationUseCase/UploadStatusImageUseCase";
+import { ApproveTransferUseCase } from "../useCases/TransferUseCase/ApproveTransferUseCase";
+import { DeleteTransferUseCase } from "../useCases/TransferUseCase/DeleteTransferUseCase";
+import { GetToProjectUseCase } from "../useCases/TransferUseCase/GetToProjectUseCase";
+import { GetTransferUseCase } from "../useCases/TransferUseCase/GetTransferUseCase";
+import { ReceiveTransferUseCase } from "../useCases/TransferUseCase/ReceiveTransferUseCase";
+import { SaveTransferUsecase } from "../useCases/TransferUseCase/SaveTransferUsecase";
+import { UpdateTransferUseCase } from "../useCases/TransferUseCase/UpdateTransferUseCase";
 
 // ---------------------- Change Password Injection ---------------------- //
 
 const sitemanagerRepository = new SitemanagerRepository()
 const hasher = new BcryptHasher()
-const updateSitemanagerPassword = new UpdateSitemanagerPasswordUseCase(sitemanagerRepository, hasher)
+const updateSitemanagerPassword = new UpdateSitemanagerPasswordUseCase(sitemanagerRepository,hasher)
 export const injectedChangepasswordcontroller = new changePasswordController(updateSitemanagerPassword)
 
 // ---------------------- Status Updation Injection ---------------------- //
@@ -71,7 +73,7 @@ export const injectAttendanceController = new AttendanceController(addAttendaceU
 
 // ---------------------- Purchase  Injection ---------------------- //
 
-const jwtService = new JwtServiceImpl()
+const jwtService = new JwtService()
 const purchaseRepository = new PurchaseRepository()
 const projectStockRepository = new ProjectStockRepository()
 const getPurchaseUsecase = new GetPurchaseUseCase(purchaseRepository)
@@ -103,5 +105,9 @@ const saveRecieveUseCase = new SaveReceiveUseCase(receiveRepository,transferRepo
 const getReceiveUseCase = new GetReceiveUseCase(receiveRepository)
 const updateReceiveUseCase = new UpdateReceiveUsecase(receiveRepository,transferRepository)
 const deleteReceiveUseCase = new DeleteReceiveUsecase(receiveRepository,transferRepository)
-const approveReceiveUseCase = new ApproveReceiveUseCase(receiveRepository,projectStockRepository,transferRepository)
+const approveReceiveUseCase = new ApproveReceiveUseCase(receiveRepository,projectStockRepository)
 export const injectedReceiveController = new RecieveController(saveRecieveUseCase,getReceiveUseCase,updateReceiveUseCase,deleteReceiveUseCase,approveReceiveUseCase)
+
+
+const fetchUseruseCase = new FetchUserUseCase(projectRepository)
+export const injectedChatController = new ChatController(fetchUseruseCase,jwtService)

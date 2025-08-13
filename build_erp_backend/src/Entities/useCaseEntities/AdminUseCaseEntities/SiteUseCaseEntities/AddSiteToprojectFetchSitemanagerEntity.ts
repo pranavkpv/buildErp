@@ -1,7 +1,7 @@
-import { commonOutput } from "../../../Input-OutputEntities/CommonEntities/common";
-import { sitemanagerOutput } from "../../../Input-OutputEntities/SitemanagerEntities/sitemanager";
+import { commonOutput } from "../../../../DTO/CommonEntities/common";
+import { sitemanagerOutput } from "../../../../DTO/SitemanagerEntities/sitemanager";
 
 
-export interface IAddSiteToprojectFetchSitemanagerUseCase {
+export interface IAddSiteToprojectFetchSitemanagerUseCaseEntity {
    execute():Promise<sitemanagerOutput | commonOutput>
 }

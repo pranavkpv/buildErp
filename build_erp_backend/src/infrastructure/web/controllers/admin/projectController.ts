@@ -1,36 +1,35 @@
 import { NextFunction, Request, Response } from "express"
 import { IProjectControllerEntity } from "../../../../Entities/ControllerEntities/AdminControllerEntities/IProjectControllerEntity"
-import { IDisplayAllProjectUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/ProjectUseCaseEntities/DisplayAllProjectEntity"
-import { IDisplayAddProjectUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/ProjectUseCaseEntities/DisplayAddProjectEntity"
-import { IAddProjectUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/ProjectUseCaseEntities/AddProjectEntity"
-import { IEditProjectUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/ProjectUseCaseEntities/EditProjectEntity"
-import { IDeleteProjectUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/ProjectUseCaseEntities/DeleteProjectEntity"
-import { IChangeStatusUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/ProjectUseCaseEntities/ChangeStatusEntity"
-import { IFetchProjectUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/ProjectUseCaseEntities/FetchProjectEntity"
-import { IUserModelEntity } from "../../../../Entities/ModelEntities/User.Entity"
-import { commonOutput } from "../../../../Entities/Input-OutputEntities/CommonEntities/common"
-import { projectOutput } from "../../../../Entities/Input-OutputEntities/ProjectEntities/project"
-import { userOutput } from "../../../../Entities/Input-OutputEntities/UserEntities/user"
+import { IDisplayAllProjectUseCaseEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/ProjectUseCaseEntities/DisplayAllProjectEntity"
+import { IDisplayAddProjectUseCaseEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/ProjectUseCaseEntities/DisplayAddProjectEntity"
+import { IAddProjectUseCaseEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/ProjectUseCaseEntities/AddProjectEntity"
+import { IEditProjectUseCaseEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/ProjectUseCaseEntities/EditProjectEntity"
+import { IDeleteProjectUseCaseEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/ProjectUseCaseEntities/DeleteProjectEntity"
+import { IChangeStatusUseCaseEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/ProjectUseCaseEntities/ChangeStatusEntity"
+import { IFetchProjectUseCaseEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/ProjectUseCaseEntities/FetchProjectEntity"
+import { commonOutput } from "../../../../DTO/CommonEntities/common"
+import { projectOutput } from "../../../../DTO/ProjectEntities/project"
+import { userOutput } from "../../../../DTO/UserEntities/user"
 
 
 
 
 export class ProjectController implements IProjectControllerEntity {
-   private displayProjectUseCase: IDisplayAllProjectUseCase
-   private displayAddProjectUseCase: IDisplayAddProjectUseCase
-   private addProjectUseCase: IAddProjectUseCase
-   private editProjectUseCase: IEditProjectUseCase
-   private removeProjectUseCase: IDeleteProjectUseCase
-   private changeStatusUseCase: IChangeStatusUseCase
-   private FetchProjectUseCase: IFetchProjectUseCase
+   private displayProjectUseCase: IDisplayAllProjectUseCaseEntity
+   private displayAddProjectUseCase: IDisplayAddProjectUseCaseEntity
+   private addProjectUseCase: IAddProjectUseCaseEntity
+   private editProjectUseCase: IEditProjectUseCaseEntity
+   private removeProjectUseCase: IDeleteProjectUseCaseEntity
+   private changeStatusUseCase: IChangeStatusUseCaseEntity
+   private FetchProjectUseCase: IFetchProjectUseCaseEntity
    constructor(
-      displayProjectUseCase: IDisplayAllProjectUseCase,
-      displayAddProjectUseCase: IDisplayAddProjectUseCase,
-      addProjectUseCase: IAddProjectUseCase,
-      editProjectUseCase: IEditProjectUseCase,
-      removeProjectUseCase: IDeleteProjectUseCase,
-      changeStatusUseCase: IChangeStatusUseCase,
-      FetchProjectUseCase: IFetchProjectUseCase
+      displayProjectUseCase: IDisplayAllProjectUseCaseEntity,
+      displayAddProjectUseCase: IDisplayAddProjectUseCaseEntity,
+      addProjectUseCase: IAddProjectUseCaseEntity,
+      editProjectUseCase: IEditProjectUseCaseEntity,
+      removeProjectUseCase: IDeleteProjectUseCaseEntity,
+      changeStatusUseCase: IChangeStatusUseCaseEntity,
+      FetchProjectUseCase: IFetchProjectUseCaseEntity
    ) {
       this.displayProjectUseCase = displayProjectUseCase
       this.displayAddProjectUseCase = displayAddProjectUseCase

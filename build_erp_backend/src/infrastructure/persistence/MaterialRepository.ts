@@ -1,172 +1,266 @@
 import mongoose from "mongoose";
-import { IMaterialRepository } from "../../Entities/repositoryEntities/Material-management/IMaterialRepository";
-import { getMaterialEditData, MaterialList, materialOutput } from "../../Entities/Input-OutputEntities/MaterialEntities/material";
+import { IMaterialRepositoryEntity } from "../../Entities/repositoryEntities/Material-management/IMaterialRepository";
+import {
+  addMaterialInput,
+  findMaterialBynameCatBrandInput,
+  getMaterialEditData,
+  materialOutput,
+  unitRateInput
+} from "../../DTO/MaterialEntities/material";
 import { materialDB } from "../../Database/Model/MaterialModel";
 import { projectDB } from "../../Database/Model/ProjectModel";
 import { unitDB } from "../../Database/Model/UnitModel";
 import { brandDB } from "../../Database/Model/BrandModel";
 import { IProjectModelEntity } from "../../Entities/ModelEntities/ProjectEntity";
 import { IMaterialModelEntity } from "../../Entities/ModelEntities/Material.Entity";
+import { listingInput } from "../../DTO/CommonEntities/common";
 
-export class MaterialRepository implements IMaterialRepository {
-   async findAllMaterial(page: number, search: string): Promise<materialOutput> {
-      const skip = (page) * 5
-      const searchRegex = new RegExp(search, "i");
-      const MaterialData = await materialDB.aggregate([
-         {
-            $addFields: {
-               categoryObjectId: { $toObjectId: "$category_id" },
-               unitObjectId: { $toObjectId: "$unit_id" },
-               brandObjectId: { $toObjectId: "$brand_id" }
-            }
-         },
-         {
-            $lookup: {
-               from: "categories",
-               localField: "categoryObjectId",
-               foreignField: "_id",
-               as: "categoryDetails"
-            }
-         },
-         {
-            $lookup: {
-               from: "units",
-               localField: "unitObjectId",
-               foreignField: "_id",
-               as: "unitDetails"
-            }
-         },
-         {
-            $lookup: {
-               from: "brands",
-               localField: "brandObjectId",
-               foreignField: "_id",
-               as: "brandDetails"
-            }
-         }, {
-            $match: {
-               material_name: { $regex: searchRegex }
-            }
-         }, {
-            $skip: skip
-         }, { $limit: 5 }])
+/**
+ * MaterialRepository
+ *
+ * Handles CRUD operations and lookups related to materials.
+ * Implements `IMaterialRepositoryEntity`.
+ */
+export class MaterialRepository implements IMaterialRepositoryEntity {
 
-      const totalPage = await materialDB.countDocuments({material_name:{$regex:searchRegex}}) / 5
-      return {
-         data: MaterialData,
-         totalPage
+  /**
+   * Retrieves a paginated list of materials with category, unit, and brand details.
+   * @param input - Contains pagination and search keyword.
+   * @returns Paginated material list and total pages.
+   */
+  async findAllMaterial(input: listingInput): Promise<materialOutput> {
+    const { page, search } = input;
+    const skip = page * 5;
+    const searchRegex = new RegExp(search, "i");
+
+    const MaterialData = await materialDB.aggregate([
+      {
+        $addFields: {
+          categoryObjectId: { $toObjectId: "$category_id" },
+          unitObjectId: { $toObjectId: "$unit_id" },
+          brandObjectId: { $toObjectId: "$brand_id" }
+        }
+      },
+      {
+        $lookup: {
+          from: "categories",
+          localField: "categoryObjectId",
+          foreignField: "_id",
+          as: "categoryDetails"
+        }
+      },
+      {
+        $lookup: {
+          from: "units",
+          localField: "unitObjectId",
+          foreignField: "_id",
+          as: "unitDetails"
+        }
+      },
+      {
+        $lookup: {
+          from: "brands",
+          localField: "brandObjectId",
+          foreignField: "_id",
+          as: "brandDetails"
+        }
+      },
+      { $match: { material_name: { $regex: searchRegex } } },
+      { $skip: skip },
+      { $limit: 5 }
+    ]);
+
+    const totalPage = await materialDB.countDocuments({ material_name: { $regex: searchRegex } }) / 5;
+
+    return { data: MaterialData, totalPage };
+  }
+
+  /**
+   * Retrieves all projects from the database.
+   * @returns Array of project documents.
+   */
+  async findAllProject(): Promise<IProjectModelEntity[] | []> {
+    return await projectDB.find();
+  }
+
+  /**
+   * Finds a material by name, category, and brand (case-insensitive).
+   */
+  async findMaterailWithNameCategoryBrand(
+    input: findMaterialBynameCatBrandInput
+  ): Promise<IMaterialModelEntity | null> {
+    const { material_name, category_id, brand_id } = input;
+    return await materialDB.findOne({
+      material_name: { $regex: new RegExp(`^${material_name}$`, "i") },
+      category_id,
+      brand_id
+    });
+  }
+
+  /**
+   * Saves a new material.
+   */
+  async saveMaterial(input: addMaterialInput): Promise<IMaterialModelEntity> {
+    const { material_name, category_id, brand_id, unit_id, unit_rate, stock } = input;
+    const newMaterial = new materialDB({
+      material_name,
+      category_id,
+      brand_id,
+      unit_id,
+      unit_rate,
+      stock
+    });
+    return await newMaterial.save();
+  }
+
+  /**
+   * Retrieves a material with its category, brand, and unit details by ID.
+   */
+  async findMaterialById(_id: string): Promise<getMaterialEditData | null> {
+    const objectId = new mongoose.Types.ObjectId(_id);
+    const materialData = await materialDB.aggregate([
+      { $match: { _id: objectId } },
+      {
+        $addFields: {
+          categoryObjectId: { $toObjectId: "$category_id" },
+          brandObjectId: { $toObjectId: "$brand_id" },
+          unitObjectId: { $toObjectId: "$unit_id" }
+        }
+      },
+      {
+        $lookup: {
+          from: "category",
+          localField: "categoryObjectId",
+          foreignField: "_id",
+          as: "categoryDetails"
+        }
+      },
+      {
+        $lookup: {
+          from: "brand",
+          localField: "brandObjectId",
+          foreignField: "_id",
+          as: "brandDetails"
+        }
+      },
+      {
+        $lookup: {
+          from: "unit",
+          localField: "unitObjectId",
+          foreignField: "_id",
+          as: "unitDetails"
+        }
       }
-   }
+    ]);
+    return materialData[0] || null;
+  }
 
-   async findAllProject(): Promise<IProjectModelEntity[] | []> {
-      const projectData = await projectDB.find()
-      return projectData 
-   }
+  /**
+   * Checks for duplicate material during edit.
+   */
+  async findMaterialInEdit(
+    input: findMaterialBynameCatBrandInput
+  ): Promise<IMaterialModelEntity | null> {
+    const { _id, material_name, category_id, brand_id } = input;
+    return await materialDB.findOne({
+      _id: { $ne: _id },
+      material_name: { $regex: new RegExp(`^${material_name}$`, "i") },
+      category_id,
+      brand_id
+    });
+  }
 
-   async findMaterailWithNameCategoryBrand(material_name: string, category_id: string, brand_id: string): Promise<IMaterialModelEntity | null> {
-      const existMaterial = await materialDB.findOne({ material_name: { $regex: new RegExp(`^${ material_name }$`, 'i') }, category_id, brand_id })
-      return existMaterial 
-   }
-   async saveMaterial(material_name: string, category_id: string, brand_id: string, unit_id: string, unit_rate: number, stock: number): Promise<IMaterialModelEntity> {
-      const newMaterial = new materialDB({
-         material_name,
-         category_id,
-         brand_id,
-         unit_id,
-         unit_rate,
-         stock
-      })
-      const savedMaterial = await newMaterial.save()
-      return savedMaterial
-   }
-   async findMaterialById(_id: string): Promise<getMaterialEditData | null> {
-      const objectId = new mongoose.Types.ObjectId(_id);
-      const materialData = await materialDB.aggregate([{
-         $match:{
-            _id:objectId
-         }
-      },{
-         $addFields:{
-            categoryObjectId :{$toObjectId:"$category_id"},
-            brandObjectId : {$toObjectId:"$brand_id"},
-            unitObjectId:{$toObjectId:"$unit_id"}
-         }
-      },{
-         $lookup:{
-            from:"category",
-            localField:"categoryObjectId",
-            foreignField:"_id",
-            as:"categoryDetails"
-         }
-      },{
-          $lookup:{
-            from:"brand",
-            localField:"brandObjectId",
-            foreignField:"_id",
-            as:"brandDetails"
-         }
-      },{
-         $lookup:{
-            from : "unit",
-            localField:"unitObjectId",
-            foreignField:"_id",
-            as:"unitDetails"
-         }
-      }])
-      return materialData[0] || null;
-   }
-   async findMaterialInEdit(_id: string, material_name: string, brand_id: string, category_id: string): Promise<IMaterialModelEntity | null> {
-      const existMaterial = await materialDB.findOne({ _id: { $ne: _id }, material_name: { $regex: new RegExp(`^${ material_name }$`, 'i') }, category_id, brand_id  })
-      return existMaterial 
-   }
-   async updateMaterialById(_id: string, material_name: string, category_id: string, brand_id: string, unit_id: string, unit_rate: number, stock: number): Promise<void> {
-      await materialDB.findByIdAndUpdate(_id, { material_name, category_id, brand_id, unit_id, unit_rate, stock })
-   }
-   async deleteMaterialById(_id: string): Promise<void> {
-      await materialDB.findByIdAndDelete(_id);
-   }
-   async findMaterialByBrandId(brand_id: string): Promise<IMaterialModelEntity | null> {
-      const Data = await materialDB.findOne({ brand_id })
-      return Data 
+  /**
+   * Updates an existing material by ID.
+   */
+  async updateMaterialById(input: addMaterialInput): Promise<void> {
+    const { _id, material_name, category_id, brand_id, unit_id, unit_rate, stock } = input;
+    await materialDB.findByIdAndUpdate(_id, {
+      material_name,
+      category_id,
+      brand_id,
+      unit_id,
+      unit_rate,
+      stock
+    });
+  }
 
-   }
-   async findMaterialByCategoryId(category_id: string): Promise<IMaterialModelEntity | null> {
-      const Data = await materialDB.findOne({ category_id })
-      return Data 
-   }
-   async findMaterialByUnitId(unit_id: string): Promise<IMaterialModelEntity | null> {
-      const Data = await materialDB.findOne({ unit_id })
-      return Data 
-   }
-   async findAllUniqueMaterial(): Promise<string[]> {
-       const result = await materialDB.distinct("material_name")
-       return result 
-   }
-   async findUnitByMaterialName(material_name: string): Promise<string[]> {
-       const result = await materialDB.find({material_name}).distinct("unit_id")
-       const exact = await unitDB.find({_id:{$in:result}}).distinct("unit_name")
-       return exact
-   }
-     async findBrandByMaterialName(material_name: string): Promise<string[]> {
-       const result = await materialDB.find({material_name}).distinct("brand_id")
-       const exact = await brandDB.find({_id:{$in:result}}).distinct("brand_name")
-       return exact
-   }
-   async findUnitRate(material_name:string,brand_name:string,unit_name:string):Promise<IMaterialModelEntity | null>{
-      const brandId = await brandDB.findOne({brand_name})
-      const unitId = await unitDB.findOne({unit_name})
-      const Material = await materialDB.findOne({material_name,brand_id:brandId?._id,unit_id:unitId?._id})
-      return Material
-   }
-   async findSumOfMaterial(materials: { material_id: string; quantity: number; }[]): Promise<number> {
-      let sum=0
-       for(let element of materials){
-           const x = await materialDB.findById(element.material_id)
-           if(x){
-            sum+=(x.unit_rate * element.quantity)
-           }
-       }
-       return sum
-   }
-   
+  /**
+   * Deletes a material by ID.
+   */
+  async deleteMaterialById(_id: string): Promise<void> {
+    await materialDB.findByIdAndDelete(_id);
+  }
+
+  /**
+   * Finds a material by its brand ID.
+   */
+  async findMaterialByBrandId(brand_id: string): Promise<IMaterialModelEntity | null> {
+    return await materialDB.findOne({ brand_id });
+  }
+
+  /**
+   * Finds a material by its category ID.
+   */
+  async findMaterialByCategoryId(category_id: string): Promise<IMaterialModelEntity | null> {
+    return await materialDB.findOne({ category_id });
+  }
+
+  /**
+   * Finds a material by its unit ID.
+   */
+  async findMaterialByUnitId(unit_id: string): Promise<IMaterialModelEntity | null> {
+    return await materialDB.findOne({ unit_id });
+  }
+
+  /**
+   * Retrieves all unique material names.
+   */
+  async findAllUniqueMaterial(): Promise<string[]> {
+    return await materialDB.distinct("material_name");
+  }
+
+  /**
+   * Retrieves all unit names for a given material name.
+   */
+  async findUnitByMaterialName(material_name: string): Promise<string[]> {
+    const result = await materialDB.find({ material_name }).distinct("unit_id");
+    return await unitDB.find({ _id: { $in: result } }).distinct("unit_name");
+  }
+
+  /**
+   * Retrieves all brand names for a given material name.
+   */
+  async findBrandByMaterialName(material_name: string): Promise<string[]> {
+    const result = await materialDB.find({ material_name }).distinct("brand_id");
+    return await brandDB.find({ _id: { $in: result } }).distinct("brand_name");
+  }
+
+  /**
+   * Finds the unit rate of a material by its name, brand, and unit.
+   */
+  async findUnitRate(input: unitRateInput): Promise<IMaterialModelEntity | null> {
+    const { material_name, brand_name, unit_name } = input;
+    const brandId = await brandDB.findOne({ brand_name });
+    const unitId = await unitDB.findOne({ unit_name });
+    return await materialDB.findOne({
+      material_name,
+      brand_id: brandId?._id,
+      unit_id: unitId?._id
+    });
+  }
+
+  /**
+   * Calculates the total cost of a list of materials based on quantity.
+   */
+  async findSumOfMaterial(materials: { material_id: string; quantity: number }[]): Promise<number> {
+    let sum = 0;
+    for (const element of materials) {
+      const material = await materialDB.findById(element.material_id);
+      if (material) {
+        sum += material.unit_rate * element.quantity;
+      }
+    }
+    return sum;
+  }
 }

@@ -1,13 +1,13 @@
 import { NextFunction, Request, Response } from "express"
 import { IchangePasswordControllerEntity } from "../../../../Entities/ControllerEntities/SitemanagerControllerEntities/IChangePasswordControllerEntity"
-import { IUpdateSitemanagerPasswordUseCase } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/AuthenticationUsecaseEntities/UpdateSitemanagerPasswordEntity"
-import { commonOutput } from "../../../../Entities/Input-OutputEntities/CommonEntities/common"
+import { IUpdateSitemanagerPasswordUseCaseEntity } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/AuthenticationUsecaseEntities/UpdateSitemanagerPasswordEntity"
+import { commonOutput } from "../../../../DTO/CommonEntities/common"
 
 
 
 export class changePasswordController implements IchangePasswordControllerEntity {
-   private updateSitemanagerPassword: IUpdateSitemanagerPasswordUseCase
-   constructor(updateSitemanagerPassword: IUpdateSitemanagerPasswordUseCase) {
+   private updateSitemanagerPassword: IUpdateSitemanagerPasswordUseCaseEntity
+   constructor(updateSitemanagerPassword: IUpdateSitemanagerPasswordUseCaseEntity) {
       this.updateSitemanagerPassword = updateSitemanagerPassword
    }
 

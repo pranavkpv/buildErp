@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from "express"
-import { commonOutput } from "../../Input-OutputEntities/CommonEntities/common";
-import { brandOutput } from "../../Input-OutputEntities/MaterialEntities/brand";
+import { commonOutput } from "../../../DTO/CommonEntities/common";
+
 
 export interface IBrandControllerEntity {
-   brandList(req: Request, res: Response, next: NextFunction):Promise<brandOutput | commonOutput>
-   addBrand(req: Request, res: Response, next: NextFunction): Promise<commonOutput>
-   editBrand(req: Request, res: Response, next: NextFunction):  Promise<commonOutput>
-   removeBrand(req: Request, res: Response, next: NextFunction):  Promise<commonOutput>
+   brandList(req: Request, res: Response, next: NextFunction):Promise<commonOutput | void>
+   addBrand(req: Request, res: Response, next: NextFunction): Promise<commonOutput | void>
+   editBrand(req: Request, res: Response, next: NextFunction):  Promise<commonOutput | void>
+   removeBrand(req: Request, res: Response, next: NextFunction):  Promise<commonOutput | void>
 }

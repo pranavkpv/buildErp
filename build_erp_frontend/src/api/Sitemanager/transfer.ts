@@ -1,5 +1,5 @@
 import type { Transfer } from "../../components/SITEMANAGER/Transfer/ApproveTransfer";
-import axioInstance from "../../api/axio"
+import axioInstance from "../../axios/authAxios"
 import { toast } from "react-toastify"
 
 

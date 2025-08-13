@@ -11,6 +11,7 @@ import StageUpdatePage from "../../components/SITEMANAGER/StageUpdate/stageupdat
 import PurchaseList from "../../components/SITEMANAGER/purchase/purchaselist";
 import TransferList from "../../components/SITEMANAGER/Transfer/TransferList";
 import ReceiveList from "../../components/SITEMANAGER/Receive/ReceiveList";
+import SiteChatList from "../../components/SITEMANAGER/Chat/SiteChatList";
 
 export const SitemanagerRoutes = () => {
   return (
@@ -29,8 +30,9 @@ export const SitemanagerRoutes = () => {
         <Route path="stage-updation" element={<SiteBackDashProtected><StageUpdatePage /></SiteBackDashProtected>} />
         <Route path = "attendance" element={<SiteBackDashProtected><ListAttendance /></SiteBackDashProtected>} />
         <Route path="purchase" element={<SiteBackDashProtected><PurchaseList /></SiteBackDashProtected>} />
-        <Route path="transfer" element={<SiteBackDashProtected><TransferList /></SiteBackDashProtected>} />\
+        <Route path="transfer" element={<SiteBackDashProtected><TransferList /></SiteBackDashProtected>} />
         <Route path="receive" element={<SiteBackDashProtected><ReceiveList /></SiteBackDashProtected>} />
+        <Route path="chat" element={<SiteBackDashProtected><SiteChatList /></SiteBackDashProtected>} />
       </Route>
     </Routes>
   );

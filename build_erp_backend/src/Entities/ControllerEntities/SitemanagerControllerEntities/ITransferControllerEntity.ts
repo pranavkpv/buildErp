@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-import { commonOutput } from "../../Input-OutputEntities/CommonEntities/common";
-import { TransferOutput } from "../../Input-OutputEntities/PurchaseEntity.ts/Transfer";
+import { commonOutput } from "../../../DTO/CommonEntities/common";
+import { TransferOutput } from "../../../DTO/PurchaseEntity.ts/Transfer";
 
 export interface ITransferController {
    getTransfer(req: Request, res: Response, next: NextFunction):  Promise<TransferOutput | commonOutput>

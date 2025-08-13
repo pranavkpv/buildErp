@@ -8,7 +8,7 @@ export const AttendanceSchema = new mongoose.Schema<IAttendanceModel>({
       required: true
    },
    date:{
-      type:String,
+      type:Date,
       required:true
    },
    approvalStatus:{

@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import axioInstance from "../axio";
+import axioInstance from "../../axios/authAxios";
 
 type rowData = {
    labour_type: string;

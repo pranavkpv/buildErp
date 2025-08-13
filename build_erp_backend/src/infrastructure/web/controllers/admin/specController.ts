@@ -1,30 +1,29 @@
 import { NextFunction, Request, Response } from "express"
 import { ISpecControllerEntity } from "../../../../Entities/ControllerEntities/AdminControllerEntities/ISpecControllerEntity";
-import { IFindmaterialSumUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/MaterialUseCaseEntities/FindMaterialSumEntity";
-import { ISpeclistUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/SpecUseCaseEntities/SpecListEntity";
-import { ISaveSpecUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/SpecUseCaseEntities/SpecSaveEntity";
-import { ISpecSumUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/SpecUseCaseEntities/SpecSumEntity";
-import { IDeleteSpecUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/SpecUseCaseEntities/DeleteSpecEntity";
-import { IgetSpecUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/SpecUseCaseEntities/GetSpecEntity";
-import { IFindlabourSumUsecase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/MaterialUseCaseEntities/FindLabourSumEntity";
-import { IUpdateSpecUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/SpecUseCaseEntities/UpdateSpecEntity";
-import { commonOutput } from "../../../../Entities/Input-OutputEntities/CommonEntities/common";
-import { ISpecModelEntity } from "../../../../Entities/ModelEntities/Spec.Entity";
-import { specOutput } from "../../../../Entities/Input-OutputEntities/EstimationEntities/specification";
+import { IFindmaterialSumUseCaseEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/MaterialUseCaseEntities/FindMaterialSumEntity";
+import { ISpeclistUseCaseEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/SpecUseCaseEntities/SpecListEntity";
+import { ISaveSpecUseCaseEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/SpecUseCaseEntities/SpecSaveEntity";
+import { ISpecSumUseCaseEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/SpecUseCaseEntities/SpecSumEntity";
+import { IDeleteSpecUseCaseEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/SpecUseCaseEntities/DeleteSpecEntity";
+import { IgetSpecUseCaseEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/SpecUseCaseEntities/GetSpecEntity";
+import { IFindlabourSumUsecaseEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/MaterialUseCaseEntities/FindLabourSumEntity";
+import { IUpdateSpecUseCaseEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/SpecUseCaseEntities/UpdateSpecEntity";
+import { commonOutput } from "../../../../DTO/CommonEntities/common";
+import { specOutput } from "../../../../DTO/EstimationEntities/specification";
 
 export class SpecController implements ISpecControllerEntity {
-   private speclistusecase: ISpeclistUseCase
-   private specSaveuseCase: ISaveSpecUseCase
-   private specsumusecase: ISpecSumUseCase
-   private deleteSpecusecase: IDeleteSpecUseCase
-   private getspecUseCase: IgetSpecUseCase
-   private findmaterialSumusecase: IFindmaterialSumUseCase
-   private findlaboursumusecase: IFindlabourSumUsecase
-   private updateSpecUseCase: IUpdateSpecUseCase
-   constructor(speclistusecase: ISpeclistUseCase, specSaveuseCase: ISaveSpecUseCase,
-      specsumusecase: ISpecSumUseCase, deleteSpecusecase: IDeleteSpecUseCase, getspecUseCase: IgetSpecUseCase,
-      findmaterialSumusecase: IFindmaterialSumUseCase, findlaboursumusecase: IFindlabourSumUsecase,
-      updateSpecUseCase: IUpdateSpecUseCase) {
+   private speclistusecase: ISpeclistUseCaseEntity
+   private specSaveuseCase: ISaveSpecUseCaseEntity
+   private specsumusecase: ISpecSumUseCaseEntity
+   private deleteSpecusecase: IDeleteSpecUseCaseEntity
+   private getspecUseCase: IgetSpecUseCaseEntity
+   private findmaterialSumusecase: IFindmaterialSumUseCaseEntity
+   private findlaboursumusecase: IFindlabourSumUsecaseEntity
+   private updateSpecUseCase: IUpdateSpecUseCaseEntity
+   constructor(speclistusecase: ISpeclistUseCaseEntity, specSaveuseCase: ISaveSpecUseCaseEntity,
+      specsumusecase: ISpecSumUseCaseEntity, deleteSpecusecase: IDeleteSpecUseCaseEntity, getspecUseCase: IgetSpecUseCaseEntity,
+      findmaterialSumusecase: IFindmaterialSumUseCaseEntity, findlaboursumusecase: IFindlabourSumUsecaseEntity,
+      updateSpecUseCase: IUpdateSpecUseCaseEntity) {
       this.speclistusecase = speclistusecase
       this.specSaveuseCase = specSaveuseCase
       this.specsumusecase = specsumusecase

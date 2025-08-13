@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express"
-import { commonOutput } from "../../Input-OutputEntities/CommonEntities/common";
+import { commonOutput } from "../../../DTO/CommonEntities/common";
 import { ILabourModelEntity } from "../../ModelEntities/Labour.Entity";
-import { labourOutput } from "../../Input-OutputEntities/LabourEntities/labour";
+import { labourOutput } from "../../../DTO/LabourEntities/labour";
 
 export interface ILabourControllerEntity {
    getLabour(req: Request, res: Response, next: NextFunction): Promise<labourOutput | commonOutput>

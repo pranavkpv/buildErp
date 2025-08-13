@@ -6,8 +6,11 @@ interface ILabourDetail{
 
 
 export interface IAttendanceModelEntity {
+   _id:string
    project_id :string
-   date : string
+   date : Date
    approvalStatus :boolean
    labourDetails:ILabourDetail[]
+   createdAt: Date
+   updatedAt: Date
 }

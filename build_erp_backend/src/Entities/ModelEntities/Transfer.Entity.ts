@@ -7,6 +7,7 @@ export interface materialData {
    unit_rate:number
 }
 export interface ITransferModelEntity {
+   _id:string
    from_project_id:string
    to_project_id:string
    transfer_id:string
@@ -15,4 +16,6 @@ export interface ITransferModelEntity {
    approval_status?:boolean
    receive_status?:boolean
    materialDetails:materialData[]
+   createdAt: Date
+   updatedAt: Date
 }

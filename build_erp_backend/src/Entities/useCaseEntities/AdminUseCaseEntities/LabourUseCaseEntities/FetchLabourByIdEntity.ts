@@ -1,7 +1,7 @@
-import { commonOutput } from "../../../Input-OutputEntities/CommonEntities/common";
-import { labourOutput } from "../../../Input-OutputEntities/LabourEntities/labour";
+import { commonOutput } from "../../../../DTO/CommonEntities/common";
+import { labourOutput } from "../../../../DTO/LabourEntities/labour";
 
 
-export interface IFetchLabourByIdUsecase{
+export interface IFetchLabourByIdUsecaseEntity{
    execute(_id:string):Promise<labourOutput | commonOutput>
 }

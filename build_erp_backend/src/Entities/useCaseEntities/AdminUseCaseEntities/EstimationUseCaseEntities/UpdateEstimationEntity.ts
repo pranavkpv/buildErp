@@ -1,6 +1,6 @@
-import { commonOutput } from "../../../Input-OutputEntities/CommonEntities/common";
-import { rowData } from "../../../Input-OutputEntities/EstimationEntities/estimation";
+import { commonOutput } from "../../../../DTO/CommonEntities/common";
+import { rowData } from "../../../../DTO/EstimationEntities/estimation";
 
-export interface IUpdateEstimationUseCase{
+export interface IUpdateEstimationUseCaseEntity{
    execute(input: { projectId: string, row: rowData[] }):Promise<commonOutput>
 }

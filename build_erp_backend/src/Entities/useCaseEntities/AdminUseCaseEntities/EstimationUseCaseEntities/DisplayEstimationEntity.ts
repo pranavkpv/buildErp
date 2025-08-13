@@ -1,6 +1,6 @@
-import { commonOutput } from "../../../Input-OutputEntities/CommonEntities/common";
-import { estimationOutput, SpecData } from "../../../Input-OutputEntities/EstimationEntities/estimation";
+import { commonOutput } from "../../../../DTO/CommonEntities/common";
+import { estimationOutput } from "../../../../DTO/EstimationEntities/estimation";
 
-export interface IDisplayEstimationUseCase{
+export interface IDisplayEstimationUseCaseEntity{
    axecute(search:string,page:number):Promise<estimationOutput | commonOutput>
 }

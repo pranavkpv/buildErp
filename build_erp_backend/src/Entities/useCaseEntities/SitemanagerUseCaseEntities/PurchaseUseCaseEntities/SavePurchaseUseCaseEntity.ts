@@ -1,6 +1,6 @@
-import { commonOutput } from "../../../Input-OutputEntities/CommonEntities/common";
-import { purchaseInput } from "../../../Input-OutputEntities/PurchaseEntity.ts/Purchase";
+import { commonOutput } from "../../../../DTO/CommonEntities/common";
+import { purchaseInput } from "../../../../DTO/PurchaseEntity.ts/Purchase";
 
-export interface ISavePurchaseUseCase {
+export interface ISavePurchaseUseCaseEntity {
    execute(input:purchaseInput):Promise<commonOutput>
 }

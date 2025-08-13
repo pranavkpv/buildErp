@@ -1,6 +1,6 @@
-import { adminloginInput } from "../../../Input-OutputEntities/AdminEntities/admin";
-import { commonOutput } from "../../../Input-OutputEntities/CommonEntities/common";
+import { inputAdmin } from "../../../../DTO/AdminEntities/admin";
+import { commonOutput } from "../../../../DTO/CommonEntities/common";
 
-export interface IAdminLoginUseCase{
-   execute(input:adminloginInput):Promise<commonOutput>
+export interface IAdminLoginUseCaseEntity{
+   execute(input:inputAdmin):Promise<commonOutput>
 }

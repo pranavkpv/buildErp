@@ -1,43 +1,86 @@
-import { IBrandRepository } from "../../Entities/repositoryEntities/Material-management/IBrandRepository";
 import { brandDB } from "../../Database/Model/BrandModel";
 import { IBrandModelEntity } from "../../Entities/ModelEntities/Brand.Entity";
-import { brandOutput } from "../../Entities/Input-OutputEntities/MaterialEntities/brand";
+import { inputBrand, listBrandOutput } from "../../DTO/BrandEntities/Brand.Entity";
+import { listingInput } from "../../DTO/CommonEntities/common";
+import { IBrandRepositoryEntity } from "../../Entities/repositoryEntities/Material-management/IBrandRepository";
 
+/**
+ * Repository class for Brand-related database operations.
+ */
+export class BrandRepository implements IBrandRepositoryEntity {
 
+  /**
+   * Retrieves all brands from the database.
+   */
+  async findAllBrand(): Promise<IBrandModelEntity[] | []> {
+    return await brandDB.find();
+  }
 
-export class BrandRepository implements IBrandRepository {
-   async findAllBrand(): Promise<IBrandModelEntity[] | []> {
-      const brandData = await brandDB.find()
-      return brandData 
-   }
-   async findBrandByName(brand_name: string): Promise<IBrandModelEntity | null> {
-      const existBrand = await brandDB.findOne({ brand_name:{$regex:new RegExp(`^${brand_name}$`,"i")} })
-      return existBrand 
-   }
-   async saveBrand(brand_name: string): Promise<void> {
-      const newBrand = new brandDB({
-         brand_name
-      })
-      await newBrand.save()
-   }
-   async findBrandInEdit(_id: string, brand_name: string): Promise<IBrandModelEntity | null> {
-      const existBrand = await brandDB.findOne({ _id: { $ne: _id }, brand_name:{$regex:new RegExp(`^${brand_name}$`,"i")} })
-      return existBrand 
-   }
-   async updateBrandById(_id: string, brand_name: string): Promise<void> {
-      await brandDB.findByIdAndUpdate(_id, { brand_name })
-   }
-   async deleteBrandById(_id: string): Promise<void> {
-      await brandDB.findByIdAndDelete(_id)
-   }
-   async findAllListBrand(page: number, search: string): Promise<brandOutput> {
-      const skip = (page) * 5
-      const searchRegex = new RegExp(search, "i");
-      const brandList = await brandDB.find({ brand_name: { $regex: searchRegex } }).skip(skip).limit(5)
-      const totalPage = await brandDB.countDocuments({ brand_name: { $regex: searchRegex } }) / 5
-      return {
-         data: brandList,
-         totalPage
-      }
-   }
+  /**
+   * Finds a brand by its name (case-insensitive).
+   */
+  async findBrandByName(input: inputBrand): Promise<IBrandModelEntity | null> {
+    return await brandDB.findOne({
+      brand_name: { $regex: new RegExp(`^${input.brand_name}$`, "i") }
+    });
+  }
+
+  /**
+   * Saves a new brand into the database.
+   */
+  async saveBrand(input: inputBrand): Promise<void> {
+    const newBrand = new brandDB({
+      brand_name: input.brand_name
+    });
+    await newBrand.save();
+  }
+
+  /**
+   * Finds a brand by name (excluding a specific brand ID, used in edit scenarios).
+   */
+  async findBrandInEdit(input: inputBrand): Promise<IBrandModelEntity | null> {
+    return await brandDB.findOne({
+      _id: { $ne: input._id },
+      brand_name: { $regex: new RegExp(`^${input.brand_name}$`, "i") }
+    });
+  }
+
+  /**
+   * Updates a brand's name by its ID.
+   */
+  async updateBrandById(input: inputBrand): Promise<void> {
+    await brandDB.findByIdAndUpdate(input._id, {
+      brand_name: input.brand_name
+    });
+  }
+
+  /**
+   * Deletes a brand by its ID.
+   */
+  async deleteBrandById(_id: string): Promise<void> {
+    await brandDB.findByIdAndDelete(_id);
+  }
+
+  /**
+   * Retrieves a paginated list of brands filtered by search term.
+   */
+  async findAllListBrand(input: listingInput): Promise<listBrandOutput> {
+    const { search, page } = input;
+    const skip = page * 5;
+    const searchRegex = new RegExp(search, "i");
+
+    const brandList = await brandDB
+      .find({ brand_name: { $regex: searchRegex } })
+      .skip(skip)
+      .limit(5);
+
+    const totalPage = await brandDB.countDocuments({
+      brand_name: { $regex: searchRegex }
+    }) / 5;
+
+    return {
+      data: brandList,
+      totalPage
+    };
+  }
 }

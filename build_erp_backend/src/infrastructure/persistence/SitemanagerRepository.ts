@@ -1,60 +1,87 @@
-import { ISitemanagerRepository } from "../../Entities/repositoryEntities/Site-management/ISitemanagerRepository";
-import { Sitemanager } from "../../Entities/Input-OutputEntities/SitemanagerEntities/sitemanager";
+import { ISitemanagerRepositoryEntity } from "../../Entities/repositoryEntities/Site-management/ISitemanagerRepository";
 import { sitemanagerDB } from "../../Database/Model/SitemanagerModel";
 import { ISitemanagerModelEntity } from "../../Entities/ModelEntities/Sitemanager.Entity";
+import { listingInput } from "../../DTO/CommonEntities/common";
+import {
+   editSitemanagerInput,
+   saveSitemanagerInput,
+   updatePasswordInput
+} from "../../DTO/SitemanagerEntities/sitemanager";
 
+export class SitemanagerRepository implements ISitemanagerRepositoryEntity {
 
-
-export class SitemanagerRepository implements ISitemanagerRepository {
-   async findAllSitemanager(page:number,search:string): Promise<{getSiteData:any[];totalPage:number }> {
-       const skip = (page) * 5
+   /** 📄 Fetch paginated list of site managers with search */
+   async findAllSitemanager(input: listingInput): Promise<{ getSiteData: any[]; totalPage: number }> {
+      const { page, search } = input;
+      const skip = page * 5;
       const searchRegex = new RegExp(search, "i");
-      const list = await sitemanagerDB.find({username:{$regex:searchRegex}}).skip(skip).limit(5)
-      const totalPage = await sitemanagerDB.countDocuments({username:{$regex:searchRegex}})/5
+      const list = await sitemanagerDB
+         .find({ username: { $regex: searchRegex } })
+         .skip(skip)
+         .limit(5);
+      const totalPage = (await sitemanagerDB.countDocuments({ username: { $regex: searchRegex } })) / 5;
       return {
          getSiteData: list,
          totalPage
-      }
+      };
    }
+
+   /** 📄 Find site manager by email (case-insensitive) */
    async findSitemanagerByEmail(email: string): Promise<ISitemanagerModelEntity | null> {
-      const ExistSitemanager = await sitemanagerDB.findOne({ email:{$regex:new RegExp(`^${email}$`,"i")} })
-      return ExistSitemanager 
+      return await sitemanagerDB.findOne({ email: { $regex: new RegExp(`^${ email }$`, "i") } });
    }
-   async saveSitemanager(username: string, email: string, password: string): Promise<void> {
+
+   /** 📄 Save a new site manager to DB */
+   async saveSitemanager(input: saveSitemanagerInput): Promise<void> {
+      const { username, email, password } = input;
       const newSitemanager = new sitemanagerDB({
          username,
          email,
          password
-      })
-      await newSitemanager.save()
+      });
+      await newSitemanager.save();
    }
+
+   /** 📄 Check if email exists in edit (excluding current ID) */
    async findSitemanagerInEdit(_id: string, email: string): Promise<ISitemanagerModelEntity | null> {
-      const existData = await sitemanagerDB.findOne({ _id: { $ne: _id }, email: {$regex:new RegExp(`^${email}$`,"i")} })
-      return existData 
+      return await sitemanagerDB.findOne({
+         _id: { $ne: _id },
+         email: { $regex: new RegExp(`^${ email }$`, "i") }
+      });
    }
-   async updateSitemanager(_id: string, username: string, email: string): Promise<void> {
+
+   /** 📄 Update site manager's username and email */
+   async updateSitemanager(input: editSitemanagerInput): Promise<void> {
+      const { _id, username, email } = input;
       await sitemanagerDB.findByIdAndUpdate(_id, {
          username,
          email
-      })
+      });
    }
+
+   /** 📄 Delete a site manager by ID */
    async deleteSitemanager(_id: string): Promise<void> {
-      await sitemanagerDB.findByIdAndDelete(_id)
+      await sitemanagerDB.findByIdAndDelete(_id);
    }
+
+   /** 🔑 Generate a random password (10 chars, letters/numbers/symbols) */
    async generatePassword(): Promise<string> {
-      let result = ""
-      let char = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()><?"
-      for(let i=0;i<10;i++){
-         result+=char[Math.floor(Math.random() * char.length)]
+      let result = "";
+      let char = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()><?";
+      for (let i = 0; i < 10; i++) {
+         result += char[Math.floor(Math.random() * char.length)];
       }
-      return result
+      return result;
    }
-   async findSitemanagerById(_id:string):Promise<ISitemanagerModelEntity | null>{
-      const data = await sitemanagerDB.findById(_id)
-      return data 
+
+   /** 📄 Find site manager by ID */
+   async findSitemanagerById(_id: string): Promise<ISitemanagerModelEntity | null> {
+      return await sitemanagerDB.findById(_id);
    }
-   async updatePassword(_id: string, password: string): Promise<void> {
-      await sitemanagerDB.findByIdAndUpdate(_id,{password})
+
+   /** 📄 Update password for a site manager */
+   async updatePassword(input: updatePasswordInput): Promise<void> {
+      const { _id, password } = input;
+      await sitemanagerDB.findByIdAndUpdate(_id, { password });
    }
-  
 }

@@ -6,4 +6,6 @@ export interface IMaterialModelEntity {
    unit_id : string
    unit_rate : number
    stock : number
+   createdAt: Date
+   updatedAt: Date
 }

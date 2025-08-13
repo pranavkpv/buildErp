@@ -11,4 +11,6 @@ export interface IReceiveModelEntity {
    materialDetails: materialData[],
    approval_status: boolean
    transfer_id : string[]
+   createdAt: Date
+   updatedAt: Date
 }

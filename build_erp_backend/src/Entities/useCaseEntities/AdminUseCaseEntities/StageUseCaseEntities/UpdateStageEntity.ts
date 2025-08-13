@@ -1,6 +1,6 @@
-import { commonOutput } from "../../../Input-OutputEntities/CommonEntities/common";
-import { stageInputData } from "../../../Input-OutputEntities/ProjectEntities/Stage";
+import { commonOutput } from "../../../../DTO/CommonEntities/common";
+import { stageInputData } from "../../../../DTO/ProjectEntities/Stage";
 
-export interface IUpdateStageUseCase {
+export interface IUpdateStageUseCaseEntity {
    execute(input: stageInputData): Promise<commonOutput>
 }

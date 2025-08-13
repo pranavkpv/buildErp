@@ -1,27 +1,25 @@
 import { NextFunction, Request, Response } from "express";
 import { IAddSiteControllerEntity } from "../../../../Entities/ControllerEntities/AdminControllerEntities/IAddSiteControllerEntity";
-import { IAddSiteToProjectUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/SiteUseCaseEntities/AddSiteToProjectEntity";
-import { IListSiteToProject } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/SiteUseCaseEntities/ListSiteToProjectEntity";
-import { IDeleteSiteToProjectUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/SiteUseCaseEntities/DeleteSitemanagerInProjectEntity";
-import { IAddSiteToprojectFetchProjectUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/SiteUseCaseEntities/AddSiteToProjectFetchProjectEntity";
-import { IAddSiteToprojectFetchSitemanagerUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/SiteUseCaseEntities/AddSiteToprojectFetchSitemanagerEntity";
-import { commonOutput } from "../../../../Entities/Input-OutputEntities/CommonEntities/common";
-import { IProjectModelEntity } from "../../../../Entities/ModelEntities/ProjectEntity";
-import { ISitemanagerModelEntity } from "../../../../Entities/ModelEntities/Sitemanager.Entity";
-import { sitemanagerOutput } from "../../../../Entities/Input-OutputEntities/SitemanagerEntities/sitemanager";
-import { projectOutput } from "../../../../Entities/Input-OutputEntities/ProjectEntities/project";
+import { IAddSiteToProjectUseCaseEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/SiteUseCaseEntities/AddSiteToProjectEntity";
+import { IListSiteToProjectUseCaseEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/SiteUseCaseEntities/ListSiteToProjectEntity";
+import { IDeleteSiteToProjectUseCaseEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/SiteUseCaseEntities/DeleteSitemanagerInProjectEntity";
+import { IAddSiteToprojectFetchProjectUseCaseEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/SiteUseCaseEntities/AddSiteToProjectFetchProjectEntity";
+import { IAddSiteToprojectFetchSitemanagerUseCaseEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/SiteUseCaseEntities/AddSiteToprojectFetchSitemanagerEntity";
+import { commonOutput } from "../../../../DTO/CommonEntities/common";
+import { sitemanagerOutput } from "../../../../DTO/SitemanagerEntities/sitemanager";
+import { projectOutput } from "../../../../DTO/ProjectEntities/project";
 
 
 
 export class AddSiteController implements IAddSiteControllerEntity {
-   private addSiteToProjectUseCase: IAddSiteToProjectUseCase
-   private listSiteToProjectUseCase: IListSiteToProject
-   private deleteSitetoprojectuseCase: IDeleteSiteToProjectUseCase
-   private addSiteToprojectFetchProjectUseCase: IAddSiteToprojectFetchProjectUseCase
-   private addSiteToprojectFetchSitemanagerUseCase: IAddSiteToprojectFetchSitemanagerUseCase
-   constructor(addSiteToProjectUseCase: IAddSiteToProjectUseCase, listSiteToProjectUseCase: IListSiteToProject,
-      deleteSitetoprojectuseCase: IDeleteSiteToProjectUseCase, addSiteToprojectFetchProjectUseCase: IAddSiteToprojectFetchProjectUseCase,
-      addSiteToprojectFetchSitemanagerUseCase: IAddSiteToprojectFetchSitemanagerUseCase) {
+   private addSiteToProjectUseCase: IAddSiteToProjectUseCaseEntity
+   private listSiteToProjectUseCase: IListSiteToProjectUseCaseEntity
+   private deleteSitetoprojectuseCase: IDeleteSiteToProjectUseCaseEntity
+   private addSiteToprojectFetchProjectUseCase: IAddSiteToprojectFetchProjectUseCaseEntity
+   private addSiteToprojectFetchSitemanagerUseCase: IAddSiteToprojectFetchSitemanagerUseCaseEntity
+   constructor(addSiteToProjectUseCase: IAddSiteToProjectUseCaseEntity, listSiteToProjectUseCase: IListSiteToProjectUseCaseEntity,
+      deleteSitetoprojectuseCase: IDeleteSiteToProjectUseCaseEntity, addSiteToprojectFetchProjectUseCase: IAddSiteToprojectFetchProjectUseCaseEntity,
+      addSiteToprojectFetchSitemanagerUseCase: IAddSiteToprojectFetchSitemanagerUseCaseEntity) {
       this.addSiteToProjectUseCase = addSiteToProjectUseCase
       this.listSiteToProjectUseCase = listSiteToProjectUseCase
       this.deleteSitetoprojectuseCase = deleteSitetoprojectuseCase

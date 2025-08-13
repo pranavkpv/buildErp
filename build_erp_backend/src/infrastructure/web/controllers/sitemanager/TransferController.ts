@@ -1,30 +1,30 @@
 import { Request, Response, NextFunction } from "express";
 import { ITransferController } from "../../../../Entities/ControllerEntities/SitemanagerControllerEntities/ITransferControllerEntity";
-import { commonOutput } from "../../../../Entities/Input-OutputEntities/CommonEntities/common";
-import { TransferOutput } from "../../../../Entities/Input-OutputEntities/PurchaseEntity.ts/Transfer";
-import { JwtServiceImpl } from "../../../../services/JwtService";
-import { ERROR_MESSAGE } from "../../../../Shared/Message";
-import { HTTP_STATUS } from "../../../../Shared/Status_code";
-import { IGetTransferUseCase } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/TransferUseCaseEntities/GetTransferUseCaseEntity";
-import { IGetToProjectUseCase } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/TransferUseCaseEntities/GetToProjectUseCaseEntity";
-import { ISaveTransferUseCase } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/TransferUseCaseEntities/SaveTransferUseCaseEntity";
-import { IUpdateTransferUseCase } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/TransferUseCaseEntities/UpdateTransferUseCaseEntity";
-import { IDeleteTransferUseCase } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/TransferUseCaseEntities/DeleteTransferUsecaseEntity";
-import { IApproveTransferUseCase } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/TransferUseCaseEntities/ApproveTransferUseCaseEntity";
-import { IReceiveTransferUseCase } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/TransferUseCaseEntities/ReceiveTransferUseCaseEntity";
+import { commonOutput } from "../../../../DTO/CommonEntities/common";
+import { TransferOutput } from "../../../../DTO/PurchaseEntity.ts/Transfer";
+import { IGetTransferUseCaseEntity } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/TransferUseCaseEntities/GetTransferUseCaseEntity";
+import { IGetToProjectUseCaseEntity } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/TransferUseCaseEntities/GetToProjectUseCaseEntity";
+import { ISaveTransferUseCaseEntity } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/TransferUseCaseEntities/SaveTransferUseCaseEntity";
+import { IUpdateTransferUseCaseEntity } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/TransferUseCaseEntities/UpdateTransferUseCaseEntity";
+import { IDeleteTransferUseCaseEntity } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/TransferUseCaseEntities/DeleteTransferUsecaseEntity";
+import { IApproveTransferUseCaseEntity } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/TransferUseCaseEntities/ApproveTransferUseCaseEntity";
+import { IReceiveTransferUseCaseEntity } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/TransferUseCaseEntities/ReceiveTransferUseCaseEntity";
+import { IJwtServiceEntity } from "../../../../Entities/Service.Entities/IToken.Entity";
+import { ResponseHelper } from "../../../../Shared/ResponseHelper/response";
+import { userFailedMessage } from "../../../../Shared/Messages/User.Message";
 
 export class TransferController implements ITransferController {
-   private jwtService: JwtServiceImpl
-   private getTransferUseCase: IGetTransferUseCase
-   private getToprojectUseCase: IGetToProjectUseCase
-   private saveTransferUsecase: ISaveTransferUseCase
-   private updateTransferUseCase: IUpdateTransferUseCase
-   private deleteTransferUseCase: IDeleteTransferUseCase
-   private approveTransferUseCase: IApproveTransferUseCase
-   private receiveTransferUseCase : IReceiveTransferUseCase
-   constructor(jwtService: JwtServiceImpl, getTransferUseCase: IGetTransferUseCase, getToprojectUseCase: IGetToProjectUseCase,
-      saveTransferUsecase: ISaveTransferUseCase, updateTransferUseCase: IUpdateTransferUseCase, deleteTransferUseCase: IDeleteTransferUseCase,
-      approveTransferUseCase: IApproveTransferUseCase,receiveTransferUseCase : IReceiveTransferUseCase
+   private jwtService: IJwtServiceEntity
+   private getTransferUseCase: IGetTransferUseCaseEntity
+   private getToprojectUseCase: IGetToProjectUseCaseEntity
+   private saveTransferUsecase: ISaveTransferUseCaseEntity
+   private updateTransferUseCase: IUpdateTransferUseCaseEntity
+   private deleteTransferUseCase: IDeleteTransferUseCaseEntity
+   private approveTransferUseCase: IApproveTransferUseCaseEntity
+   private receiveTransferUseCase : IReceiveTransferUseCaseEntity
+   constructor(jwtService: IJwtServiceEntity, getTransferUseCase: IGetTransferUseCaseEntity, getToprojectUseCase: IGetToProjectUseCaseEntity,
+      saveTransferUsecase: ISaveTransferUseCaseEntity, updateTransferUseCase: IUpdateTransferUseCaseEntity, deleteTransferUseCase: IDeleteTransferUseCaseEntity,
+      approveTransferUseCase: IApproveTransferUseCaseEntity,receiveTransferUseCase : IReceiveTransferUseCaseEntity
    ) {
       this.jwtService = jwtService
       this.getTransferUseCase = getTransferUseCase
@@ -40,11 +40,7 @@ export class TransferController implements ITransferController {
       const refreshToken = req.cookies.refreshToken
       const decoded = await this.jwtService.verifyRefreshToken(refreshToken)
       if (!decoded?.userId) {
-         return {
-            success: false,
-            message: ERROR_MESSAGE.USER.USER_NOT_FOUND,
-            status_code: HTTP_STATUS.UNAUTHORIZED
-         }
+         return ResponseHelper.conflictData(userFailedMessage.USER_NOT_FOUND)
       }
       const data = await this.getTransferUseCase.execute(String(search), Number(page), decoded?.userId)
       return data

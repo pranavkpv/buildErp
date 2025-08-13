@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express"
-import { commonOutput } from "../../Input-OutputEntities/CommonEntities/common"
-import { EstimationData, estimationOutput, SpecData } from "../../Input-OutputEntities/EstimationEntities/estimation"
+import { commonOutput } from "../../../DTO/CommonEntities/common"
+import { EstimationData, estimationOutput, SpecData } from "../../../DTO/EstimationEntities/estimation"
 
 export interface IEstimationControllerEntity {
    SaveEstimation(req: Request, res: Response, next: NextFunction): Promise<commonOutput> 

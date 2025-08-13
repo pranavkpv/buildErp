@@ -1,6 +1,6 @@
-import { commonOutput } from "../../../Input-OutputEntities/CommonEntities/common";
-import { attendanceOutput } from "../../../Input-OutputEntities/LabourEntities/attendance";
+import { commonOutput } from "../../../../DTO/CommonEntities/common";
+import { attendanceOutput } from "../../../../DTO/LabourEntities/attendance";
 
-export interface IfetchAttendanceUseCase{
+export interface IfetchAttendanceUseCaseEntity{
    execute(search:string,page:number):Promise<attendanceOutput | commonOutput>
 }

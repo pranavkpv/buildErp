@@ -1,27 +1,27 @@
 import { NextFunction, Request, Response } from "express"
 import { ILabourControllerEntity } from "../../../../Entities/ControllerEntities/AdminControllerEntities/ILabourControllerEntity"
-import { IAddLabourUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/LabourUseCaseEntities/AddLabourEntity"
-import { IDisplayAllLabourUsecase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/LabourUseCaseEntities/DisplayAllLoabourEntity"
-import { IUpdateLabourUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/LabourUseCaseEntities/UpdateLabourEntity"
-import { IDeleteLabourUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/LabourUseCaseEntities/DeleteLabourEntity"
-import { IFetchAllLabourUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/LabourUseCaseEntities/FetchAllLabourEntity"
-import { IFetchLabourByIdUsecase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/LabourUseCaseEntities/FetchLabourByIdEntity"
-import { commonOutput } from "../../../../Entities/Input-OutputEntities/CommonEntities/common"
-import { labourOutput } from "../../../../Entities/Input-OutputEntities/LabourEntities/labour"
+import { IAddLabourUseCaseEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/LabourUseCaseEntities/AddLabourEntity"
+import { IDisplayAllLabourUsecaseEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/LabourUseCaseEntities/DisplayAllLoabourEntity"
+import { IUpdateLabourUseCaseEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/LabourUseCaseEntities/UpdateLabourEntity"
+import { IDeleteLabourUseCaseEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/LabourUseCaseEntities/DeleteLabourEntity"
+import { IFetchAllLabourUseCaseEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/LabourUseCaseEntities/FetchAllLabourEntity"
+import { IFetchLabourByIdUsecaseEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/LabourUseCaseEntities/FetchLabourByIdEntity"
+import { commonOutput } from "../../../../DTO/CommonEntities/common"
+import { labourOutput } from "../../../../DTO/LabourEntities/labour"
 
 
 
 export class LabourController implements ILabourControllerEntity {
-      private displayAllLabourUseCase: IDisplayAllLabourUsecase
-      private addLabourUseCase: IAddLabourUseCase
-      private updateLabourUseCase: IUpdateLabourUseCase
-      private deleteLabourUseCase: IDeleteLabourUseCase
-      private fetchallLabourusecase: IFetchAllLabourUseCase
-      private fetchLabourByIdUseCase: IFetchLabourByIdUsecase
-      constructor(displayAllLabourUseCase: IDisplayAllLabourUsecase,
-            addLabourUseCase: IAddLabourUseCase, updateLabourUseCase: IUpdateLabourUseCase,
-            deleteLabourUseCase: IDeleteLabourUseCase, fetchallLabourusecase: IFetchAllLabourUseCase,
-            fetchLabourByIdUseCase: IFetchLabourByIdUsecase) {
+      private displayAllLabourUseCase: IDisplayAllLabourUsecaseEntity
+      private addLabourUseCase: IAddLabourUseCaseEntity
+      private updateLabourUseCase: IUpdateLabourUseCaseEntity
+      private deleteLabourUseCase: IDeleteLabourUseCaseEntity
+      private fetchallLabourusecase: IFetchAllLabourUseCaseEntity
+      private fetchLabourByIdUseCase: IFetchLabourByIdUsecaseEntity
+      constructor(displayAllLabourUseCase: IDisplayAllLabourUsecaseEntity,
+            addLabourUseCase: IAddLabourUseCaseEntity, updateLabourUseCase: IUpdateLabourUseCaseEntity,
+            deleteLabourUseCase: IDeleteLabourUseCaseEntity, fetchallLabourusecase: IFetchAllLabourUseCaseEntity,
+            fetchLabourByIdUseCase: IFetchLabourByIdUsecaseEntity) {
             this.addLabourUseCase = addLabourUseCase
             this.deleteLabourUseCase = deleteLabourUseCase
             this.displayAllLabourUseCase = displayAllLabourUseCase

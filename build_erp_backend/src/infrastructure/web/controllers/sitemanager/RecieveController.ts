@@ -1,22 +1,22 @@
 import { Request, Response, NextFunction } from "express";
 import { IReceiveControllerEntity } from "../../../../Entities/ControllerEntities/SitemanagerControllerEntities/IRecieveControllerEntity";
-import { commonOutput } from "../../../../Entities/Input-OutputEntities/CommonEntities/common";
-import { ISaveReceiveUseCase } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/ReceiveUseCaseEntities/SaveReceiveUseCaseEntity";
-import { RecieveOutput } from "../../../../Entities/Input-OutputEntities/PurchaseEntity.ts/Receive";
-import { IGetReceiveUseCase } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/ReceiveUseCaseEntities/GetRecieveUseCaseEntity";
-import { IUpdateReceiveUseCase } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/ReceiveUseCaseEntities/UpdateRecieveUseCaseEntity";
-import { IDeleteReceiveUsecase } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/ReceiveUseCaseEntities/DeleteReceiveUseCaseEntity";
-import { IApproveReceiveUseCase } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/ReceiveUseCaseEntities/ApproveReceiveUseCaseEntity";
+import { commonOutput } from "../../../../DTO/CommonEntities/common";
+import { ISaveReceiveUseCaseEntity } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/ReceiveUseCaseEntities/SaveReceiveUseCaseEntity";
+import { RecieveOutput } from "../../../../DTO/PurchaseEntity.ts/Receive";
+import { IGetReceiveUseCaseEntity } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/ReceiveUseCaseEntities/GetRecieveUseCaseEntity";
+import { IUpdateReceiveUseCaseEntity } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/ReceiveUseCaseEntities/UpdateRecieveUseCaseEntity";
+import { IDeleteReceiveUsecaseEntity } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/ReceiveUseCaseEntities/DeleteReceiveUseCaseEntity";
+import { IApproveReceiveUseCaseEntity } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/ReceiveUseCaseEntities/ApproveReceiveUseCaseEntity";
 
 export class RecieveController implements IReceiveControllerEntity {
-   private saveRecieveUseCase: ISaveReceiveUseCase
-   private GetReceiveUseCase: IGetReceiveUseCase
-   private UpdateReceiveUseCase: IUpdateReceiveUseCase
-   private deleteReceiveUseCase: IDeleteReceiveUsecase
-   private approveReceiveUseCase: IApproveReceiveUseCase
-   constructor(saveRecieveUseCase: ISaveReceiveUseCase, GetReceiveUseCase: IGetReceiveUseCase,
-      UpdateReceiveUseCase: IUpdateReceiveUseCase, deleteReceiveUseCase: IDeleteReceiveUsecase,
-      approveReceiveUseCase: IApproveReceiveUseCase) {
+   private saveRecieveUseCase: ISaveReceiveUseCaseEntity
+   private GetReceiveUseCase: IGetReceiveUseCaseEntity
+   private UpdateReceiveUseCase: IUpdateReceiveUseCaseEntity
+   private deleteReceiveUseCase: IDeleteReceiveUsecaseEntity
+   private approveReceiveUseCase: IApproveReceiveUseCaseEntity
+   constructor(saveRecieveUseCase: ISaveReceiveUseCaseEntity, GetReceiveUseCase: IGetReceiveUseCaseEntity,
+      UpdateReceiveUseCase: IUpdateReceiveUseCaseEntity, deleteReceiveUseCase: IDeleteReceiveUsecaseEntity,
+      approveReceiveUseCase: IApproveReceiveUseCaseEntity) {
       this.saveRecieveUseCase = saveRecieveUseCase
       this.GetReceiveUseCase = GetReceiveUseCase
       this.UpdateReceiveUseCase = UpdateReceiveUseCase

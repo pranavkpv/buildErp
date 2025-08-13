@@ -1,6 +1,6 @@
-import { commonOutput } from "../../../Input-OutputEntities/CommonEntities/common";
-import { materialOutput } from "../../../Input-OutputEntities/MaterialEntities/material";
+import { commonOutput } from "../../../../DTO/CommonEntities/common";
+import { materialOutput } from "../../../../DTO/MaterialEntities/material";
 
-export interface IFetchUnitRateUseCase{
+export interface IFetchUnitRateUseCaseEntity{
    execute(material_name:string,brand_name:string,unit_name:string):Promise<materialOutput | commonOutput>
 }

@@ -2,9 +2,8 @@ import { Route, Routes } from "react-router-dom";
 import Adminlogin from "../../pages/Admin/Adminlogin";
 import Adminlayout from "../../pages/Admin/Adminlayout";
 import Dashboard from "../../components/ADMIN/dashboard/Dashboard";
-import Category from "../../components/ADMIN/category/Category";
-import Unit from "../../components/ADMIN/Unit/Unit";
-import Brand from "../../components/ADMIN/brand/Brand";
+import Category from "../../components/CategoryComponent/Category";
+import Brand from "../../components/BrandComponent/Brand";
 import Project from "../../components/ADMIN/project/Projectlist";
 import SitemanagerList from "../../components/ADMIN/sitemanager/SitemanagerList";
 import ListSiteToProject from "../../components/ADMIN/AddSiteToproject/ListSiteToproject";
@@ -15,6 +14,7 @@ import ListStage from "../../components/ADMIN/stage/Stageset";
 import Material from "../../components/ADMIN/material/Material";
 import Labourlist from "../../components/ADMIN/labour/Labourlist";
 import SpecList from "../../components/ADMIN/Specification/SpecList";
+import Unit from "../../components/UnitComponent/Unit";
 
 export const AdminRoutes = () => {
   return (

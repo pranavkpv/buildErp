@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { ResponseHelper } from "../Shared/utils/response";
+import { ResponseHelper } from "../Shared/ResponseHelper/response";
 
 export const errorHandler = (
   err: Error,

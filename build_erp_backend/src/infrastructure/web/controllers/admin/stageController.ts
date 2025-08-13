@@ -1,24 +1,24 @@
 import { Request, Response, NextFunction } from "express";
 import { IStageControllerEntity } from "../../../../Entities/ControllerEntities/AdminControllerEntities/IStageControllerEntity";
-import { IStageSaveUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/StageUseCaseEntities/StageSaveEntity";
-import { IFetchCostUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/StageUseCaseEntities/FetchCostEntity";
-import { IFetchStageUsecase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/StageUseCaseEntities/FetchStageEntity";
-import { IDeleteStageUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/StageUseCaseEntities/DeleteStageEntity";
-import { IUpdateStageUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/StageUseCaseEntities/UpdateStageEntity";
-import { commonOutput } from "../../../../Entities/Input-OutputEntities/CommonEntities/common";
-import { projectOutput } from "../../../../Entities/Input-OutputEntities/ProjectEntities/project";
+import { IStageSaveUseCaseEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/StageUseCaseEntities/StageSaveEntity";
+import { IFetchCostUseCaseEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/StageUseCaseEntities/FetchCostEntity";
+import { IFetchStageUsecaseEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/StageUseCaseEntities/FetchStageEntity";
+import { IDeleteStageUseCaseEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/StageUseCaseEntities/DeleteStageEntity";
+import { IUpdateStageUseCaseEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/StageUseCaseEntities/UpdateStageEntity";
+import { commonOutput } from "../../../../DTO/CommonEntities/common";
+import { projectOutput } from "../../../../DTO/ProjectEntities/project";
 
 
 
 export class StageController implements IStageControllerEntity {
-   private stagesaveusecase: IStageSaveUseCase
-   private fetchCostusecase: IFetchCostUseCase
-   private fetchStageusecase: IFetchStageUsecase
-   private deletestageusecase: IDeleteStageUseCase
-   private updateStageUseCase: IUpdateStageUseCase
-   constructor(fetchCostusecase: IFetchCostUseCase, stagesaveusecase: IStageSaveUseCase,
-      fetchStageusecase: IFetchStageUsecase, deletestageusecase: IDeleteStageUseCase,
-      updateStageUseCase: IUpdateStageUseCase) {
+   private stagesaveusecase: IStageSaveUseCaseEntity
+   private fetchCostusecase: IFetchCostUseCaseEntity
+   private fetchStageusecase: IFetchStageUsecaseEntity
+   private deletestageusecase: IDeleteStageUseCaseEntity
+   private updateStageUseCase: IUpdateStageUseCaseEntity
+   constructor(fetchCostusecase: IFetchCostUseCaseEntity, stagesaveusecase: IStageSaveUseCaseEntity,
+      fetchStageusecase: IFetchStageUsecaseEntity, deletestageusecase: IDeleteStageUseCaseEntity,
+      updateStageUseCase: IUpdateStageUseCaseEntity) {
       this.fetchCostusecase = fetchCostusecase
       this.stagesaveusecase = stagesaveusecase
       this.fetchStageusecase = fetchStageusecase

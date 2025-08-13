@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { commonOutput } from "../../Input-OutputEntities/CommonEntities/common";
+import { commonOutput } from "../../../DTO/CommonEntities/common";
 
 export interface IstatusControllerEntity {
    fetchStageData(req: Request, res: Response, next: NextFunction):  Promise<commonOutput>

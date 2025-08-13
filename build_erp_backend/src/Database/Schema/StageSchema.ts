@@ -12,10 +12,10 @@ export const StageSchema= new mongoose.Schema<IStageModel>(
          required: true
       },
       start_date: {
-         type: String,
+         type: Date,
       },
       end_date: {
-         type: String,
+         type: Date,
       },
       stage_per: {
          type: Number,

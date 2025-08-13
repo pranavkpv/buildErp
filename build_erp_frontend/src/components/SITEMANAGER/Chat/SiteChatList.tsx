@@ -1,0 +1,104 @@
+import { fetchProjectBySitemanager } from "../../../api/Sitemanager/profile";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import SiteChatRoom from "./SiteChatRoom";
+
+
+interface Data {
+  _id: string;
+  project_name: string;
+  user_id: string;
+  username: string;
+  user_image?: string;
+}
+
+function SiteChatList() {
+  const [projectData, setProjectData] = useState<Data[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const [selectedName, setSelectedName] = useState<string | null>(null);
+  const [selectedId,setSelectedId] = useState<string | null>(null)
+
+  const fetchSitemanager = async () => {
+      setLoading(true);
+      const response = await fetchProjectBySitemanager();
+      console.log(response)
+      if (response.success) {
+        setProjectData(response.data ?? []);
+      } else {
+        setError(response.message);
+        toast.error(response.message);
+      }
+      setLoading(false)
+  };
+
+  useEffect(() => {
+    fetchSitemanager();
+  }, []);
+
+  const handleChatClick = (username: string,userId:string) => {
+    setSelectedName(username);
+    setSelectedId(userId)
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50 py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex">
+        <aside className="w-1/4 bg-white rounded-xl shadow-lg p-6 mr-6">
+          <h2 className="text-2xl font-bold text-teal-600 mb-6">Chat List</h2>
+          {loading && (
+            <div className="flex justify-center items-center py-4">
+              <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-teal-500"></div>
+            </div>
+          )}
+          {error && (
+            <div className="text-center py-4 text-red-500">
+              <p>{error}</p>
+            </div>
+          )}
+          {!loading && !error && projectData.length === 0 && (
+            <div className="text-center py-4">
+              <p className="text-slate-500">No chats available</p>
+            </div>
+          )}
+          {!loading && !error && projectData.length > 0 && (
+            <ul className="space-y-4">
+              {projectData.map((element) => (
+                <li
+                  key={element._id}
+                  className={`flex items-center p-4 bg-slate-100 rounded-lg cursor-pointer hover:bg-slate-200 transition-colors duration-300 ${selectedName === element.username ? 'bg-slate-200' : ''}`}
+                  onClick={() => handleChatClick(element.username,element.user_id)}
+                >
+                  <img
+                    src={element.user_image || "https://via.placeholder.com/50"}
+                    alt={element.username}
+                    className="w-12 h-12 rounded-full object-cover mr-4"
+                  />
+                  <div>
+                    <h3 className="text-lg font-semibold text-teal-600">
+                      {element.username}
+                    </h3>
+                    <p className="text-sm text-slate-500">{element.project_name}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </aside>
+
+        {/* Main Content Area */}
+        <main className="flex-1 bg-white rounded-xl shadow-lg p-6">
+          {selectedName ? (
+            <SiteChatRoom username={selectedName} userId = {selectedId} />
+          ) : (
+            <div className="flex items-center justify-center h-full">
+              <p className="text-lg text-slate-500">Select a chat from the sidebar to start messaging</p>
+            </div>
+          )}
+        </main>
+      </div>
+    </div>
+  );
+}
+
+export default SiteChatList;

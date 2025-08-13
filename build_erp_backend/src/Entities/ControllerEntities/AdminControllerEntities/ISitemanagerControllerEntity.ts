@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express"
-import { commonOutput } from "../../Input-OutputEntities/CommonEntities/common";
-import { sitemanagerOutput } from "../../Input-OutputEntities/SitemanagerEntities/sitemanager";
-import { projectOutput } from "../../Input-OutputEntities/ProjectEntities/project";
+import { commonOutput } from "../../../DTO/CommonEntities/common";
+import { sitemanagerOutput } from "../../../DTO/SitemanagerEntities/sitemanager";
+import { projectOutput } from "../../../DTO/ProjectEntities/project";
 
 export interface ISitemanagerControllerEntity {
    getSitemanager(req: Request, res: Response, next: NextFunction): Promise<sitemanagerOutput | commonOutput>

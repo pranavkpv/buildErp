@@ -1,7 +1,7 @@
-import { commonOutput } from "../../../Input-OutputEntities/CommonEntities/common";
-import { materialData } from "../../../Input-OutputEntities/PurchaseEntity.ts/Receive";
+import { commonOutput } from "../../../../DTO/CommonEntities/common";
+import { materialData } from "../../../../DTO/PurchaseEntity.ts/Receive";
 
 
-export interface IApproveReceiveUseCase {
+export interface IApproveReceiveUseCaseEntity {
    execute(_id:string,project_id:string,materialDetails:materialData[]):Promise<commonOutput>
 }

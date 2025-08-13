@@ -1,5 +1,5 @@
-import { commonOutput } from "../../../Input-OutputEntities/CommonEntities/common";
+import { commonOutput } from "../../../../DTO/CommonEntities/common";
 
-export interface ISendOTPUseCase{
+export interface ISendOTPUseCaseEntity{
    execute(input: { email: string }):Promise<commonOutput>
 }

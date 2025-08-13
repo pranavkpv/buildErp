@@ -1,5 +1,5 @@
-import { commonOutput } from "../../../Input-OutputEntities/CommonEntities/common";
+import { commonOutput } from "../../../../DTO/CommonEntities/common";
 
-export interface IUpdatePasswordUseCase {
+export interface IUpdatePasswordUseCaseEntity {
    execute(input: { email: string, password: string }):Promise<commonOutput>
 }

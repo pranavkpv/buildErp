@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express-serve-static-core"
-import { commonOutput } from "../../Input-OutputEntities/CommonEntities/common"
-import { attendanceOutput } from "../../Input-OutputEntities/LabourEntities/attendance"
+import { commonOutput } from "../../../DTO/CommonEntities/common"
+import { attendanceOutput } from "../../../DTO/LabourEntities/attendance"
 
 export interface IAttendanceControllerEntity {
    addAttendance(req: Request, res: Response, next: NextFunction):Promise<commonOutput>

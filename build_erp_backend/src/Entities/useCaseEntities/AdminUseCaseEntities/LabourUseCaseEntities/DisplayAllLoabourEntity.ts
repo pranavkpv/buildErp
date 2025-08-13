@@ -1,6 +1,6 @@
-import { commonOutput } from "../../../Input-OutputEntities/CommonEntities/common";
-import { labourOutput } from "../../../Input-OutputEntities/LabourEntities/labour";
+import { commonOutput } from "../../../../DTO/CommonEntities/common";
+import { labourOutput } from "../../../../DTO/LabourEntities/labour";
 
-export interface IDisplayAllLabourUsecase{
+export interface IDisplayAllLabourUsecaseEntity{
    execute(page:number,search:string): Promise<labourOutput | commonOutput>
 }

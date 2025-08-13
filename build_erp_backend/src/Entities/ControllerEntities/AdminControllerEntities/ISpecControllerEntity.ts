@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express"
-import { commonOutput } from "../../Input-OutputEntities/CommonEntities/common"
-import { specOutput } from "../../Input-OutputEntities/EstimationEntities/specification"
+import { commonOutput } from "../../../DTO/CommonEntities/common"
+import { specOutput } from "../../../DTO/EstimationEntities/specification"
 
 export interface ISpecControllerEntity {
    getSpeclist(req: Request, res: Response, next: NextFunction): Promise<specOutput | commonOutput>

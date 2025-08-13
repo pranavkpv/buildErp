@@ -1,25 +1,25 @@
 import { NextFunction, Request, Response } from "express-serve-static-core"
 import { IAttendanceControllerEntity } from "../../../../Entities/ControllerEntities/SitemanagerControllerEntities/IAttendanceControllerEntity"
-import { IaddAttendanceUseCase } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/AttendanceUseCaseEntities/AddAttendanceEntity"
-import { IfetchAttendanceUseCase } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/AttendanceUseCaseEntities/FetchAttendanceEntity"
-import { IDeleteAttendanceUseCase } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/AttendanceUseCaseEntities/DeleteAttendanceEntity"
-import { IApproveAttendanceUseCase } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/AttendanceUseCaseEntities/ApproveAttendanceEntities"
-import { IFetchAttendanceByIdUseCase } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/AttendanceUseCaseEntities/FetchAttendanceBYIdEntity"
-import { IEditAttendanceUseCase } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/AttendanceUseCaseEntities/EditAttendanceEntity"
-import { commonOutput } from "../../../../Entities/Input-OutputEntities/CommonEntities/common"
-import { attendanceOutput, pageWiseAttendance } from "../../../../Entities/Input-OutputEntities/LabourEntities/attendance"
-import { IAttendanceModelEntity } from "../../../../Entities/ModelEntities/Attendance.Entity"
+import { IaddAttendanceUseCaseEntity } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/AttendanceUseCaseEntities/AddAttendanceEntity"
+import { IfetchAttendanceUseCaseEntity } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/AttendanceUseCaseEntities/FetchAttendanceEntity"
+import { IDeleteAttendanceUseCaseEntity } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/AttendanceUseCaseEntities/DeleteAttendanceEntity"
+import { IApproveAttendanceUseCaseEntity } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/AttendanceUseCaseEntities/ApproveAttendanceEntities"
+import { IFetchAttendanceByIdUseCaseEntity } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/AttendanceUseCaseEntities/FetchAttendanceBYIdEntity"
+import { IEditAttendanceUseCaseEntity } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/AttendanceUseCaseEntities/EditAttendanceEntity"
+import { commonOutput } from "../../../../DTO/CommonEntities/common"
+import { attendanceOutput } from "../../../../DTO/LabourEntities/attendance"
+
 
 export class AttendanceController implements IAttendanceControllerEntity {
-   private addAttendaceUseCase: IaddAttendanceUseCase
-   private fetchattendanceusecase: IfetchAttendanceUseCase
-   private deleteattendanceUsecase: IDeleteAttendanceUseCase
-   private approveattendanceuseCase: IApproveAttendanceUseCase
-   private fetchattendancebyIdusecase: IFetchAttendanceByIdUseCase
-   private editAttendanceUseCase: IEditAttendanceUseCase
-   constructor(addAttendaceUseCase: IaddAttendanceUseCase, fetchattendanceusecase: IfetchAttendanceUseCase,
-      deleteattendanceUsecase: IDeleteAttendanceUseCase, approveattendanceuseCase: IApproveAttendanceUseCase,
-      fetchattendancebyIdusecase: IFetchAttendanceByIdUseCase, editAttendanceUseCase: IEditAttendanceUseCase
+   private addAttendaceUseCase: IaddAttendanceUseCaseEntity
+   private fetchattendanceusecase: IfetchAttendanceUseCaseEntity
+   private deleteattendanceUsecase: IDeleteAttendanceUseCaseEntity
+   private approveattendanceuseCase: IApproveAttendanceUseCaseEntity
+   private fetchattendancebyIdusecase: IFetchAttendanceByIdUseCaseEntity
+   private editAttendanceUseCase: IEditAttendanceUseCaseEntity
+   constructor(addAttendaceUseCase: IaddAttendanceUseCaseEntity, fetchattendanceusecase: IfetchAttendanceUseCaseEntity,
+      deleteattendanceUsecase: IDeleteAttendanceUseCaseEntity, approveattendanceuseCase: IApproveAttendanceUseCaseEntity,
+      fetchattendancebyIdusecase: IFetchAttendanceByIdUseCaseEntity, editAttendanceUseCase: IEditAttendanceUseCaseEntity
    ) {
       this.addAttendaceUseCase = addAttendaceUseCase
       this.fetchattendanceusecase = fetchattendanceusecase

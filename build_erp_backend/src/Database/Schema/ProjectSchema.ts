@@ -44,10 +44,10 @@ export const ProjectSchema = new mongoose.Schema<IProjectModel>(
       type: String,
     },
     start_date: {
-      type: String,
+      type: Date,
     },
     end_date: {
-      type: String,
+      type: Date,
     },
     expected_image: {
       type: String,

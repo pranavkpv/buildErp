@@ -14,13 +14,10 @@ import { SitemanagerRepository } from "../infrastructure/persistence/Sitemanager
 import { SpecRepository } from "../infrastructure/persistence/SpecRepository"
 import { StageRepository } from "../infrastructure/persistence/StageRepository"
 import { TransferRepository } from "../infrastructure/persistence/TransferRepository"
-import { UnitRepository } from "../infrastructure/persistence/UnitRepository"
 import { UserRepository } from "../infrastructure/persistence/UserRepository"
 import { BcryptHasher } from "../infrastructure/secuirity/BcryptHasher"
 import { AddSiteController } from "../infrastructure/web/controllers/admin/addSiteController"
 import { AdminController } from "../infrastructure/web/controllers/admin/adminController"
-import { BrandController } from "../infrastructure/web/controllers/admin/brandController"
-import { CategoryController } from "../infrastructure/web/controllers/admin/categoryController"
 import { AdminDashboardController } from "../infrastructure/web/controllers/admin/dashboardController"
 import { EstimationController } from "../infrastructure/web/controllers/admin/estimationController"
 import { LabourController } from "../infrastructure/web/controllers/admin/labourController"
@@ -29,123 +26,90 @@ import { ProjectController } from "../infrastructure/web/controllers/admin/proje
 import { SitemanagerController } from "../infrastructure/web/controllers/admin/sitemanagerController"
 import { SpecController } from "../infrastructure/web/controllers/admin/specController"
 import { StageController } from "../infrastructure/web/controllers/admin/stageController"
-import { UnitController } from "../infrastructure/web/controllers/admin/unitController"
-import { JwtServiceImpl } from "../services/JwtService"
-import { DeleteBrandUseCase } from "../useCases/admin/Brand/DeleteBrandUseCase"
-import { DisplayAllBrandUseCase } from "../useCases/admin/Brand/DisplayAllBrandUseCase"
-import { SaveBrandUseCase } from "../useCases/admin/Brand/SaveBrandUseCase"
-import { UpdateBrandUseCase } from "../useCases/admin/Brand/UpdateBrandUseCase"
-import { DeleteCategoryUseCase } from "../useCases/admin/Category/DeleteCategoryUseCase"
-import { DisplayAllCategoryUseCase } from "../useCases/admin/Category/DisplayAllCategoryUseCase"
-import { SaveCategoryUseCase } from "../useCases/admin/Category/SaveCategoryUseCase"
-import { UpdateCategoryUseCase } from "../useCases/admin/Category/UpdateCategoryUseCase"
-import { AdminLoginUseCase } from "../useCases/admin/Dashboard/AdminLoginUseCase"
-import { BudgetAndActualLabourUseCase } from "../useCases/admin/Dashboard/BudgetAndActualLabourUseCase"
-import { BudgetAndActualMaterialUseCase } from "../useCases/admin/Dashboard/BudgetAndActualMaterialUsecase"
-import { BudgetAndActualUseCase } from "../useCases/admin/Dashboard/BudgetAndActualUseCase"
-import { DeleteEstimationUseCase } from "../useCases/admin/Estimation/DeleteEstimationUseCase"
-import { DisplayEstimationUseCase } from "../useCases/admin/Estimation/DisplayEstimationUseCase"
-import { FetchExistEstimationUseCase } from "../useCases/admin/Estimation/FetchExistEstimationUseCase"
-import { SaveEstimationUseCase } from "../useCases/admin/Estimation/saveEstimationUseCase"
-import { UpdateEstimationUsecase } from "../useCases/admin/Estimation/UpdateEstimationUseCase"
-import { UploadEstimateImageUseCase } from "../useCases/admin/Estimation/UploadEstimateImageUseCase"
-import { AddLabourUseCase } from "../useCases/admin/Labour/AddLabourUseCase"
-import { DeleteLabourUseCase } from "../useCases/admin/Labour/DeleteLabourUseCase"
-import { DisplayAllLabourUseCase } from "../useCases/admin/Labour/DisplayAllLabourUseCase"
-import { FetchAllLabourUseCase } from "../useCases/admin/Labour/fetchAllLabourUseCase"
-import { FetchLabourByIdUseCase } from "../useCases/admin/Labour/FetchLabourByIdUseCase"
-import { UpdateLabourUseCase } from "../useCases/admin/Labour/UpdateLabourUseCase"
-import { AddMaterialUseCase } from "../useCases/admin/Material/AddMaterialUseCase"
-import { DeleteMaterialUseCase } from "../useCases/admin/Material/DeleteMaterialUseCase"
-import { DisplayAddMaterialDataUseCase } from "../useCases/admin/Material/DisplayAddMaterialUseCase"
-import { DisplayAllMaterialUseCase } from "../useCases/admin/Material/DisplayAllMaterialUseCase"
-import { FetchBrandByMaterialName } from "../useCases/admin/Material/fetchBrandByMaterialName"
-import { FetchMaterialByMaterialName } from "../useCases/admin/Material/FetchmaterialByMaterialName"
-import { FetchMaterialUseCase } from "../useCases/admin/Material/FetchMaterialUseCase"
-import { FetchUnitRateUseCase } from "../useCases/admin/Material/fetChUnitRateUseCase"
-import { FindlabourSumUsecase } from "../useCases/admin/Material/FindLabourSumUseCase"
-import { FindMaterialByIdUseCase } from "../useCases/admin/Material/FindMaterialByIdUseCase"
-import { FindmaterialSumUseCase } from "../useCases/admin/Material/FindMaterialSumUseCase"
-import { GetEditMaterialUseCase } from "../useCases/admin/Material/GetEditMaterialUseCase"
-import { UpdateMaterialUseCase } from "../useCases/admin/Material/UpdateMaterialUseCase"
-import { AddProjectUseCase } from "../useCases/admin/Project/AddProjectUseCase"
-import { ChangeStatusUseCase } from "../useCases/admin/Project/ChangeStatusUseCase"
-import { DeleteProjectUseCase } from "../useCases/admin/Project/DeleteProjectUseCase"
-import { DisplayAddProjectUseCase } from "../useCases/admin/Project/DisplayAddProjectUseCase"
-import { DisplayAllProjectUseCase } from "../useCases/admin/Project/DisplayAllProjectUseCase"
-import { EditProjectUseCase } from "../useCases/admin/Project/EditProjectUseCase"
-import { FetchProjectUseCase } from "../useCases/admin/Project/fetchProjectUseCase"
-import { AddSiteToprojectFetchProjectUseCase } from "../useCases/admin/Site/AddSiteToprojectFetchProjectUseCase"
-import { AddSiteToprojectFetchSitemanagerUseCase } from "../useCases/admin/Site/AddSiteToprojectFetchSitemanagerUseCase"
-import { AddSiteToProjectUseCase } from "../useCases/admin/Site/AddSiteToProjectUseCase"
-import { DeleteSiteToProjectUseCase } from "../useCases/admin/Site/DeleteSitemanagerInProjectUseCase"
-import { DeleteSitemanagerUseCase } from "../useCases/admin/Site/DeleteSitemanagerUseCase"
-import { DisplayAllSitemanagerUseCase } from "../useCases/admin/Site/DisplayAllsitemanagerUseCase"
-import { ListSiteToProject } from "../useCases/admin/Site/ListSiteToProjectUseCase"
-import { SaveSitemanagerUseCase } from "../useCases/admin/Site/SaveSitemanagerUseCase"
-import { UpdateSitemanagerUseCase } from "../useCases/admin/Site/UpdateSitemanagerUseCase"
-import { DeleteSpecUseCase } from "../useCases/admin/Spec/DeleteSpecUseCase"
-import { getSpecUseCase } from "../useCases/admin/Spec/getSpecUseCase"
-import { SpeclistUseCase } from "../useCases/admin/Spec/SpeclistUseCase"
-import { SaveSpecUseCase } from "../useCases/admin/Spec/SpecSaveUseCase"
-import { SpecSumUseCase } from "../useCases/admin/Spec/specSumUseCase"
-import { UpdateSpecUseCase } from "../useCases/admin/Spec/UpdateSpecUseCase"
-import { DeleteStageUseCase } from "../useCases/admin/Stage/DeleteStageUseCase"
-import { FetchCostUseCase } from "../useCases/admin/Stage/FetchCostUseCase"
-import { FetchStageUsecase } from "../useCases/admin/Stage/FetchStageUseCase"
-import { StageSaveUseCase } from "../useCases/admin/Stage/StageSaveUseCase"
-import { UpdateStageUseCase } from "../useCases/admin/Stage/UpdateStageUseCase"
-import { deleteUnitUseCase } from "../useCases/admin/Unit/DeleteUnitUseCase"
-import { DisplayAllUnitUseCase } from "../useCases/admin/Unit/DisplayAllUnitUseCase"
-import { FetchUnitUseCase } from "../useCases/admin/Unit/FetchUnitUseCase"
-import { SaveUnitUseCase } from "../useCases/admin/Unit/SaveUnitUseCase"
-import { updateUnitUseCase } from "../useCases/admin/Unit/updateUnitUseCase"
-import { SitemanagerLoginUseCase } from "../useCases/sitemanager/Authentication/SitemanagerLoginUseCase"
-import { ListProjectUseCase } from "../useCases/sitemanager/StageStatusUpdation/ListProjectUseCase"
+import { AdminLoginUseCase } from "../useCases/AdminUseCase/AdminLoginUseCase"
+import { BudgetAndActualLabourUseCase } from "../useCases/AdminUseCase/BudgetAndActualLabourUseCase"
+import { BudgetAndActualMaterialUseCase } from "../useCases/AdminUseCase/BudgetAndActualMaterialUsecase"
+import { BudgetAndActualUseCase } from "../useCases/AdminUseCase/BudgetAndActualUseCase"
+import { DeleteEstimationUseCase } from "../useCases/EstimationUseCase/DeleteEstimationUseCase"
+import { DisplayEstimationUseCase } from "../useCases/EstimationUseCase/DisplayEstimationUseCase"
+import { FetchExistEstimationUseCase } from "../useCases/EstimationUseCase/FetchExistEstimationUseCase"
+import { SaveEstimationUseCase } from "../useCases/EstimationUseCase/saveEstimationUseCase"
+import { UpdateEstimationUsecase } from "../useCases/EstimationUseCase/UpdateEstimationUseCase"
+import { UploadEstimateImageUseCase } from "../useCases/EstimationUseCase/UploadEstimateImageUseCase"
+import { AddLabourUseCase } from "../useCases/LabourUseCase/AddLabourUseCase"
+import { DeleteLabourUseCase } from "../useCases/LabourUseCase/DeleteLabourUseCase"
+import { DisplayAllLabourUseCase } from "../useCases/LabourUseCase/DisplayAllLabourUseCase"
+import { FetchAllLabourUseCase } from "../useCases/LabourUseCase/fetchAllLabourUseCase"
+import { FetchLabourByIdUseCase } from "../useCases/LabourUseCase/FetchLabourByIdUseCase"
+import { UpdateLabourUseCase } from "../useCases/LabourUseCase/UpdateLabourUseCase"
+import { AddMaterialUseCase } from "../useCases/MaterialUseCase/AddMaterialUseCase"
+import { DeleteMaterialUseCase } from "../useCases/MaterialUseCase/DeleteMaterialUseCase"
+import { DisplayAddMaterialDataUseCase } from "../useCases/MaterialUseCase/DisplayAddMaterialUseCase"
+import { DisplayAllMaterialUseCase } from "../useCases/MaterialUseCase/DisplayAllMaterialUseCase"
+import { FetchBrandByMaterialName } from "../useCases/MaterialUseCase/fetchBrandByMaterialName"
+import { FetchMaterialByMaterialName } from "../useCases/MaterialUseCase/FetchmaterialByMaterialName"
+import { FetchMaterialUseCase } from "../useCases/MaterialUseCase/FetchMaterialUseCase"
+import { FetchUnitRateUseCase } from "../useCases/MaterialUseCase/fetChUnitRateUseCase"
+import { FindlabourSumUsecase } from "../useCases/MaterialUseCase/FindLabourSumUseCase"
+import { FindMaterialByIdUseCase } from "../useCases/MaterialUseCase/FindMaterialByIdUseCase"
+import { FindmaterialSumUseCase } from "../useCases/MaterialUseCase/FindMaterialSumUseCase"
+import { GetEditMaterialUseCase } from "../useCases/MaterialUseCase/GetEditMaterialUseCase"
+import { UpdateMaterialUseCase } from "../useCases/MaterialUseCase/UpdateMaterialUseCase"
+import { AddProjectUseCase } from "../useCases/ProjectUseCase/AddProjectUseCase"
+import { ChangeStatusUseCase } from "../useCases/ProjectUseCase/ChangeStatusUseCase"
+import { DeleteProjectUseCase } from "../useCases/ProjectUseCase/DeleteProjectUseCase"
+import { DisplayAddProjectUseCase } from "../useCases/ProjectUseCase/DisplayAddProjectUseCase"
+import { DisplayAllProjectUseCase } from "../useCases/ProjectUseCase/DisplayAllProjectUseCase"
+import { EditProjectUseCase } from "../useCases/ProjectUseCase/EditProjectUseCase"
+import { FetchProjectUseCase } from "../useCases/ProjectUseCase/fetchProjectUseCase"
+import { AddSiteToprojectFetchProjectUseCase } from "../useCases/SiteManagerUsecase/AddSiteToprojectFetchProjectUseCase"
+import { AddSiteToprojectFetchSitemanagerUseCase } from "../useCases/SiteManagerUsecase/AddSiteToprojectFetchSitemanagerUseCase"
+import { AddSiteToProjectUseCase } from "../useCases/SiteManagerUsecase/AddSiteToProjectUseCase"
+import { DeleteSiteToProjectUseCase } from "../useCases/SiteManagerUsecase/DeleteSitemanagerInProjectUseCase"
+import { DeleteSitemanagerUseCase } from "../useCases/SiteManagerUsecase/DeleteSitemanagerUseCase"
+import { DisplayAllSitemanagerUseCase } from "../useCases/SiteManagerUsecase/DisplayAllsitemanagerUseCase"
+import { ListSiteToProject } from "../useCases/SiteManagerUsecase/ListSiteToProjectUseCase"
+import { SaveSitemanagerUseCase } from "../useCases/SiteManagerUsecase/SaveSitemanagerUseCase"
+import { UpdateSitemanagerUseCase } from "../useCases/SiteManagerUsecase/UpdateSitemanagerUseCase"
+import { DeleteSpecUseCase } from "../useCases/SpecUsecase/DeleteSpecUseCase"
+import { getSpecUseCase } from "../useCases/SpecUsecase/getSpecUseCase"
+import { SpeclistUseCase } from "../useCases/SpecUsecase/SpeclistUseCase"
+import { SaveSpecUseCase } from "../useCases/SpecUsecase/SpecSaveUseCase"
+import { SpecSumUseCase } from "../useCases/SpecUsecase/specSumUseCase"
+import { UpdateSpecUseCase } from "../useCases/SpecUsecase/UpdateSpecUseCase"
+import { DeleteStageUseCase } from "../useCases/StageUseCase/DeleteStageUseCase"
+import { FetchCostUseCase } from "../useCases/StageUseCase/FetchCostUseCase"
+import { FetchStageUsecase } from "../useCases/StageUseCase/FetchStageUseCase"
+import { StageSaveUseCase } from "../useCases/StageUseCase/StageSaveUseCase"
+import { UpdateStageUseCase } from "../useCases/StageUseCase/UpdateStageUseCase"
+import { deleteUnitUseCase } from "../useCases/UnitUseCase/DeleteUnitUseCase"
+import { DisplayAllUnitUseCase } from "../useCases/UnitUseCase/DisplayAllUnitUseCase"
+import { FetchUnitUseCase } from "../useCases/UnitUseCase/FetchUnitUseCase"
+import { SaveUnitUseCase } from "../useCases/UnitUseCase/SaveUnitUseCase"
+import { updateUnitUseCase } from "../useCases/UnitUseCase/updateUnitUseCase"
+import { ListProjectUseCase } from "../useCases/StageStatusUpdationUseCase/ListProjectUseCase"
+import { JwtService } from "../services/JwtService"
+import { UnitRepository } from "../infrastructure/persistence/UnitRepository"
+import { SitemanagerLoginUseCase } from "../useCases/SitemanagerAuthenticationUseCase/SitemanagerLoginUseCase"
 
 
 
 // ---------------------- Admin Injection ---------------------- //
 
 const adminRepository = new AdminRepository()
-const JwtService = new JwtServiceImpl()
-const adminLoginUsecase = new AdminLoginUseCase(adminRepository, JwtService)
+const jwtService = new JwtService()
+const adminLoginUsecase = new AdminLoginUseCase(adminRepository, jwtService)
 export const injectedAdminController = new AdminController(adminLoginUsecase)
 
 // ---------------------- Category Injection ---------------------- //
 
-const categoryRepository = new CategoryRepository()
+
 const materialRepository = new MaterialRepository()
-const displayAllCategoryUseCase = new DisplayAllCategoryUseCase(categoryRepository)
-const addCategoryUseCase = new SaveCategoryUseCase(categoryRepository)
-const editcategoryUseCase = new UpdateCategoryUseCase(categoryRepository)
-const deleteCategoryUseCase = new DeleteCategoryUseCase(categoryRepository, materialRepository)
-export const injectedCategoryController = new CategoryController(displayAllCategoryUseCase, addCategoryUseCase, editcategoryUseCase, deleteCategoryUseCase)
-
-// ---------------------- Unit Injection ---------------------- //
-
-
-const unitRepository = new UnitRepository()
-const displayUnitUseCase = new DisplayAllUnitUseCase(unitRepository)
-const addUnitUseCase = new SaveUnitUseCase(unitRepository)
-const editUnitUseCase = new updateUnitUseCase(unitRepository)
-const newdeleteUnitUseCase = new deleteUnitUseCase(unitRepository, materialRepository)
-const fetchunitusecase = new FetchUnitUseCase(unitRepository)
-export const injectedUnitController = new UnitController(displayUnitUseCase, addUnitUseCase, editUnitUseCase, newdeleteUnitUseCase, fetchunitusecase)
-
-// ---------------------- Brand Injection ---------------------- //
-
+const categoryRepository = new CategoryRepository()
 const brandRepository = new BrandRepository()
-const displayBrandUseCase = new DisplayAllBrandUseCase(brandRepository)
-const addBrandUseCase = new SaveBrandUseCase(brandRepository)
-const editBrandUseCase = new UpdateBrandUseCase(brandRepository)
-const deleteBrandUseCase = new DeleteBrandUseCase(brandRepository, materialRepository)
-export const injectBrandController = new BrandController(displayBrandUseCase, addBrandUseCase, editBrandUseCase, deleteBrandUseCase)
-
-// ---------------------- Material Injection ---------------------- //
-
 const projectStockRepository = new ProjectStockRepository()
 const specRepository = new SpecRepository()
+const unitRepository = new UnitRepository()
 const displayAllMaterialUseCase = new DisplayAllMaterialUseCase(materialRepository)
 const getAddMaterialUseCase = new DisplayAddMaterialDataUseCase(materialRepository, categoryRepository, brandRepository, unitRepository)
 const saveMaterialUseCase = new AddMaterialUseCase(materialRepository, projectStockRepository)
@@ -189,14 +153,14 @@ export const injectedLabourController = new LabourController(displayAllLabourUse
 
 // ---------------------- Sitemanager Injection ---------------------- //
 
-const hasher = new BcryptHasher()
+const Hasher = new BcryptHasher()
 const sitemanagerRepository = new SitemanagerRepository()
 const displayAllSitemanagerUseCase = new DisplayAllSitemanagerUseCase(sitemanagerRepository)
 const addSitemanagerUseCase = new SaveSitemanagerUseCase(sitemanagerRepository)
 const editSitemanagerUsecase = new UpdateSitemanagerUseCase(sitemanagerRepository)
 const deleteSitemanagerUseCase = new DeleteSitemanagerUseCase(sitemanagerRepository)
-const sitemanagerLoginUseCase = new SitemanagerLoginUseCase(sitemanagerRepository, JwtService, hasher)
 const listProjectUseCase = new ListProjectUseCase(projectRepository)
+const sitemanagerLoginUseCase = new SitemanagerLoginUseCase(sitemanagerRepository,jwtService,Hasher)
 export const injectedSitemanagerController = new SitemanagerController(displayAllSitemanagerUseCase, addSitemanagerUseCase, editSitemanagerUsecase, deleteSitemanagerUseCase, sitemanagerLoginUseCase, listProjectUseCase)
 
 // ---------------------- Add Sitemanager To Project Injection ---------------------- //

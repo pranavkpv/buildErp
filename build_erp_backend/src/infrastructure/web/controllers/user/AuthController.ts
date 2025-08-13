@@ -1,47 +1,57 @@
 import { NextFunction, Request, Response } from "express";
 import { IAuthControllerEntity } from "../../../../Entities/ControllerEntities/UserControllerEntities/AuthControllerEntity";
-import { ISignupUserUseCase } from "../../../../Entities/useCaseEntities/UserUseCaseEntities/AuthenticationUseCaseEntities/SignupUserEntity";
-import { IVerifyOTPUseCases } from "../../../../Entities/useCaseEntities/UserUseCaseEntities/AuthenticationUseCaseEntities/VerifyOTPEntity";
-import { IResendOTPUseCase } from "../../../../Entities/useCaseEntities/UserUseCaseEntities/AuthenticationUseCaseEntities/ResendOTPEntity";
-import { IRefreshTokenUseCase } from "../../../../Entities/useCaseEntities/UserUseCaseEntities/AuthenticationUseCaseEntities/RefreshTokenEntity";
-import { IUserLoginUseCase } from "../../../../Entities/useCaseEntities/UserUseCaseEntities/AuthenticationUseCaseEntities/UserLoginEntity";
-import { IgooglAuthUseCase } from "../../../../Entities/useCaseEntities/UserUseCaseEntities/AuthenticationUseCaseEntities/GoogleAuthEntity";
-import { ISendOTPUseCase } from "../../../../Entities/useCaseEntities/UserUseCaseEntities/AuthenticationUseCaseEntities/SendOTPEntity";
-import { IVerifyForgotUseCase } from "../../../../Entities/useCaseEntities/UserUseCaseEntities/AuthenticationUseCaseEntities/VerifyForgotEntity";
-import { IUpdatePasswordUseCase } from "../../../../Entities/useCaseEntities/UserUseCaseEntities/AuthenticationUseCaseEntities/UpdatePasswordEntity";
-import { ResponseHelper } from "../../../../Shared/utils/response";
-import { ERROR_MESSAGE, SUCCESS_MESSAGE } from "../../../../Shared/Message";
+import { ISignupUserUseCaseEntity } from "../../../../Entities/useCaseEntities/UserUseCaseEntities/AuthenticationUseCaseEntities/SignupUserEntity";
+import { IVerifyOTPUseCasesEntity } from "../../../../Entities/useCaseEntities/UserUseCaseEntities/AuthenticationUseCaseEntities/VerifyOTPEntity";
+import { IResendOTPUseCaseEntity } from "../../../../Entities/useCaseEntities/UserUseCaseEntities/AuthenticationUseCaseEntities/ResendOTPEntity";
+import { IRefreshTokenUseCaseEntity } from "../../../../Entities/useCaseEntities/UserUseCaseEntities/AuthenticationUseCaseEntities/RefreshTokenEntity";
+import { IUserLoginUseCaseEntity } from "../../../../Entities/useCaseEntities/UserUseCaseEntities/AuthenticationUseCaseEntities/UserLoginEntity";
+import { IgooglAuthUseCaseEntity } from "../../../../Entities/useCaseEntities/UserUseCaseEntities/AuthenticationUseCaseEntities/GoogleAuthEntity";
+import { ISendOTPUseCaseEntity } from "../../../../Entities/useCaseEntities/UserUseCaseEntities/AuthenticationUseCaseEntities/SendOTPEntity";
+import { IVerifyForgotUseCaseEntity } from "../../../../Entities/useCaseEntities/UserUseCaseEntities/AuthenticationUseCaseEntities/VerifyForgotEntity";
+import { IUpdatePasswordUseCaseEntity } from "../../../../Entities/useCaseEntities/UserUseCaseEntities/AuthenticationUseCaseEntities/UpdatePasswordEntity";
+import { ResponseHelper } from "../../../../Shared/ResponseHelper/response";
 import { HTTP_STATUS } from "../../../../Shared/Status_code";
-import { IUpdateProfileUseCase } from "../../../../Entities/useCaseEntities/UserUseCaseEntities/AuthenticationUseCaseEntities/UpdateProfileEntity";
+import { IUpdateProfileUseCaseEntity } from "../../../../Entities/useCaseEntities/UserUseCaseEntities/AuthenticationUseCaseEntities/UpdateProfileEntity";
 import cloudinary from "../../../../config/cloudinary";
-import { IUpdateProfileImageUseCase } from "../../../../Entities/useCaseEntities/UserUseCaseEntities/AuthenticationUseCaseEntities/UpdateProfileImageEntity";
+import { IUpdateProfileImageUseCaseEntity } from "../../../../Entities/useCaseEntities/UserUseCaseEntities/AuthenticationUseCaseEntities/UpdateProfileImageEntity";
 import { UploadedFile, FileArray } from "express-fileupload";
-import { IChangePasswordUseCase } from "../../../../Entities/useCaseEntities/UserUseCaseEntities/AuthenticationUseCaseEntities/ChangePasswordEntity";
-import { commonOutput } from "../../../../Entities/Input-OutputEntities/CommonEntities/common";
-import { Tokens } from "../../../../Entities/Input-OutputEntities/auth";
+import { IChangePasswordUseCaseEntity } from "../../../../Entities/useCaseEntities/UserUseCaseEntities/AuthenticationUseCaseEntities/ChangePasswordEntity";
+import { commonOutput } from "../../../../DTO/CommonEntities/common";
+import { Tokens } from "../../../../DTO/AuthEntities/auth";
+import { chatListOutput } from "../../../../DTO/Chat.Entities/Chatlist.Entity";
+import { IGetSitemanagerListDataUseCaseEntity } from "../../../../Entities/useCaseEntities/UserUseCaseEntities/ProjectDisplayUseCaseEntities/GetSitemanagerListUseCase";
+import { IGetMessageDataUseCaseEntity } from "../../../../Entities/useCaseEntities/UserUseCaseEntities/ChatUseCaseEntities/GetmessageDatauseCase";
+import { JwtService } from "../../../../services/JwtService";
+import { EstimationFailedMessage } from "../../../../Shared/Messages/Estimation.Message";
+import { userSuccessMessage } from "../../../../Shared/Messages/User.Message";
 
 
 
 
 export class AuthController implements IAuthControllerEntity {
-   private signupUserUseCase: ISignupUserUseCase
-   private verifyOTPUseCase: IVerifyOTPUseCases
-   private resendOTPUseCase: IResendOTPUseCase
-   private userLoginUseCase: IUserLoginUseCase
-   private refreshTokenUseCase: IRefreshTokenUseCase
-   private googleauthuseCase: IgooglAuthUseCase
-   private sendotpUsecase: ISendOTPUseCase
-   private verifyforgotUsecase: IVerifyForgotUseCase
-   private updatePasswordUseCase: IUpdatePasswordUseCase
-   private updateProfileUseCase: IUpdateProfileUseCase
-   private updateProfileImageUseCase: IUpdateProfileImageUseCase
-   private changePasswordUseCase: IChangePasswordUseCase
-   constructor(signupUserUseCase: ISignupUserUseCase, verifyOTPUseCase: IVerifyOTPUseCases,
-      resendOTPUseCase: IResendOTPUseCase, userLoginUseCase: IUserLoginUseCase,
-      refreshTokenUseCase: IRefreshTokenUseCase, googleauthuseCase: IgooglAuthUseCase,
-      sendotpUsecase: ISendOTPUseCase, verifyforgotUsecase: IVerifyForgotUseCase,
-      updatePasswordUseCase: IUpdatePasswordUseCase, updateProfileUseCase: IUpdateProfileUseCase,
-      updateProfileImageUseCase: IUpdateProfileImageUseCase, changePasswordUseCase: IChangePasswordUseCase) {
+   private signupUserUseCase: ISignupUserUseCaseEntity
+   private verifyOTPUseCase: IVerifyOTPUseCasesEntity
+   private resendOTPUseCase: IResendOTPUseCaseEntity
+   private userLoginUseCase: IUserLoginUseCaseEntity
+   private refreshTokenUseCase: IRefreshTokenUseCaseEntity
+   private googleauthuseCase: IgooglAuthUseCaseEntity
+   private sendotpUsecase: ISendOTPUseCaseEntity
+   private verifyforgotUsecase: IVerifyForgotUseCaseEntity
+   private updatePasswordUseCase: IUpdatePasswordUseCaseEntity
+   private updateProfileUseCase: IUpdateProfileUseCaseEntity
+   private updateProfileImageUseCase: IUpdateProfileImageUseCaseEntity
+   private changePasswordUseCase: IChangePasswordUseCaseEntity
+   private jwtService: JwtService
+   private getSitemanagerListDatauseCase: IGetSitemanagerListDataUseCaseEntity
+   private getmessageDataUsecase: IGetMessageDataUseCaseEntity
+   constructor(signupUserUseCase: ISignupUserUseCaseEntity, verifyOTPUseCase: IVerifyOTPUseCasesEntity,
+      resendOTPUseCase: IResendOTPUseCaseEntity, userLoginUseCase: IUserLoginUseCaseEntity,
+      refreshTokenUseCase: IRefreshTokenUseCaseEntity, googleauthuseCase: IgooglAuthUseCaseEntity,
+      sendotpUsecase: ISendOTPUseCaseEntity, verifyforgotUsecase: IVerifyForgotUseCaseEntity,
+      updatePasswordUseCase: IUpdatePasswordUseCaseEntity, updateProfileUseCase: IUpdateProfileUseCaseEntity,
+      updateProfileImageUseCase: IUpdateProfileImageUseCaseEntity, changePasswordUseCase: IChangePasswordUseCaseEntity,
+      jwtService: JwtService, getSitemanagerListDatauseCase: IGetSitemanagerListDataUseCaseEntity,
+      getmessageDataUsecase: IGetMessageDataUseCaseEntity) {
       this.signupUserUseCase = signupUserUseCase
       this.verifyOTPUseCase = verifyOTPUseCase
       this.resendOTPUseCase = resendOTPUseCase
@@ -54,11 +64,15 @@ export class AuthController implements IAuthControllerEntity {
       this.updateProfileUseCase = updateProfileUseCase
       this.updateProfileImageUseCase = updateProfileImageUseCase
       this.changePasswordUseCase = changePasswordUseCase
+      this.jwtService = jwtService
+      this.getSitemanagerListDatauseCase = getSitemanagerListDatauseCase
+      this.getmessageDataUsecase = getmessageDataUsecase
    }
 
    //------------------------------------ Signup user controller  ------------------------------------//
 
    signUp = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
+      console.log(req.body)
       const result = await this.signupUserUseCase.execute(req.body)
       return result
    }
@@ -97,7 +111,7 @@ export class AuthController implements IAuthControllerEntity {
    refreshToken = async (req: Request, res: Response, next: NextFunction): Promise<Tokens | commonOutput> => {
       const refreshToken = req.cookies.refreshToken;
       if (!refreshToken) {
-         const result = ResponseHelper.failure(ERROR_MESSAGE.USER.NO_REFRESH_TOKEN, HTTP_STATUS.UNAUTHORIZED)
+         const result = ResponseHelper.unAuthor()
          return result
       }
       const tokens = await this.refreshTokenUseCase.execute(refreshToken);
@@ -148,7 +162,7 @@ export class AuthController implements IAuthControllerEntity {
          sameSite: "lax",
          secure: process.env.NODE_ENV === "production"
       });
-      const result = ResponseHelper.success(SUCCESS_MESSAGE.USER.LOGOUT, HTTP_STATUS.OK)
+      const result = ResponseHelper.success(userSuccessMessage.LOGOUT)
       return result
    }
 
@@ -167,7 +181,7 @@ export class AuthController implements IAuthControllerEntity {
       const files = req.files as FileArray;
       const file = files?.file as UploadedFile | undefined;
       if (!file || Array.isArray(file)) {
-         res.status(HTTP_STATUS.BAD_REQUEST).json({ error: ERROR_MESSAGE.ESTIMATION.NO_IMAGE });
+         res.status(HTTP_STATUS.BAD_REQUEST).json({ error: EstimationFailedMessage.NO_IMAGE });
          return
       }
       const result = await cloudinary.uploader.upload(file.tempFilePath, {
@@ -186,6 +200,30 @@ export class AuthController implements IAuthControllerEntity {
       const result = await this.changePasswordUseCase.execute({ _id: id, ...req.body })
       return result
    }
+
+
+   fetChatList = async (req: Request, res: Response, next: NextFunction): Promise<chatListOutput | commonOutput> => {
+      const token = req.cookies.refreshToken
+      const tokenData = await this.jwtService.verifyRefreshToken(token)
+      if (tokenData) {
+         const data = await this.getSitemanagerListDatauseCase.execute(tokenData.userId)
+         return data
+      } else {
+         return ResponseHelper.unAuthor()
+      }
+   }
+   fetchMessage = async (req: Request, res: Response, next: NextFunction): Promise<chatListOutput | commonOutput> => {
+      const token = req.cookies.refreshToken
+      const sitemanagerId = req.params.id
+      const tokenData = await this.jwtService.verifyRefreshToken(token)
+      if (tokenData) {
+         const data = await this.getmessageDataUsecase.execute(tokenData.userId, sitemanagerId)
+         return data
+      } else {
+         return ResponseHelper.unAuthor()
+      }
+   }
 }
+
 
 

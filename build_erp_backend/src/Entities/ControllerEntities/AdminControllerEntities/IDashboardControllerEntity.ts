@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-import { budgetOutput } from "../../Input-OutputEntities/DashboardEntities/BudgetVsActualEntity";
-import { commonOutput } from "../../Input-OutputEntities/CommonEntities/common";
+import { budgetOutput } from "../../../DTO/DashboardEntities/BudgetVsActualEntity";
+import { commonOutput } from "../../../DTO/CommonEntities/common";
 
 export interface IAdminDashboardControllerEntity {
    fetchBudgetVsActual(req: Request, res: Response, next: NextFunction): Promise<budgetOutput | commonOutput>

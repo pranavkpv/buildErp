@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import axioInstance from "../axio";
+import axioInstance from "../../axios/authAxios";
 
 // ---------------- User Login ---------------- //
 
@@ -60,7 +60,7 @@ export const userLogout = async () => {
 
 export const UpdateProfileAPI = async (_id: string, username: string, email: string, phone: number) => {
    try {
-      const response = await axioInstance.patch(`/updateprofile/${_id}`, { username, email, phone });
+      const response = await axioInstance.patch(`/updateprofile/${ _id }`, { username, email, phone });
       return response.data;
    } catch (error: any) {
       toast.error(error.response?.data?.message || "Profile update failed");
@@ -71,7 +71,7 @@ export const UpdateProfileAPI = async (_id: string, username: string, email: str
 
 export const UpdateProfileImageAPI = async (file: File | null, _id: string) => {
    try {
-      const response = await axioInstance.patch(`/updateprofileImage/${_id}`, { file }, {
+      const response = await axioInstance.patch(`/updateprofileImage/${ _id }`, { file }, {
          headers: { "Content-Type": "multipart/form-data" }
       });
       return response.data;
@@ -100,7 +100,7 @@ export const UpdatePasswordInCheckCurrentPassword = async (
    password: string
 ) => {
    try {
-      const response = await axioInstance.put(`/changepassword/${_id}`, {
+      const response = await axioInstance.put(`/changepassword/${ _id }`, {
          email,
          currentPassword,
          password
@@ -110,3 +110,13 @@ export const UpdatePasswordInCheckCurrentPassword = async (
       toast.error(error.response?.data?.message || "Password change failed");
    }
 };
+
+
+export const userSignupApi = async (username: string, email: string, phone: string, password: string) => {
+   try {
+      const response = await axioInstance.post('/signup', { username, email, phone, password })
+      return response.data
+   } catch (error: any) {
+      toast.error(error.response?.data?.message);
+   }
+}

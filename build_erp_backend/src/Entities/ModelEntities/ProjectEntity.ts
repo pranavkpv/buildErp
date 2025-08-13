@@ -9,11 +9,13 @@ export interface IProjectModelEntity{
    area?:number
    status:string
    sitemanager_id?:string
-   start_date ?: string
-   end_date ?: string
+   start_date ?: Date
+   end_date ?: Date
    expected_image ?: string
    finalImage ?: string
    budgeted_cost ?: number
    latitude?:number
    longitude?:number
+   createdAt: Date
+   updatedAt: Date
 }

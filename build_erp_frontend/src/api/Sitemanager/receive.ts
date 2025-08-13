@@ -1,5 +1,5 @@
 import type { ReceiveData } from "../../components/SITEMANAGER/Receive/ApproveReceive";
-import axioInstance from "../../api/axio"
+import axioInstance from "../../axios/authAxios"
 import { toast } from "react-toastify"
 
 type materialData = {

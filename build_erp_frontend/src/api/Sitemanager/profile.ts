@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import axioInstance from "../axio";
+import axioInstance from "../../axios/authAxios";
 
 // ---------------- Change Site Manager Password ---------------- //
 
@@ -9,7 +9,7 @@ export const changePassword = async (
    changedpassword: string
 ) => {
    try {
-      const response = await axioInstance.put(`/site/changepass/${_id}`, {
+      const response = await axioInstance.put(`/site/changepass/${ _id }`, {
          password,
          changedpassword,
       });
@@ -26,7 +26,7 @@ export const logoutSitemanager = async () => {
       const response = await axioInstance.post(`/site/logout`, {}, { withCredentials: true });
       return response.data;
    } catch (error: any) {
-       toast.error(error.response.data.message)
+      toast.error(error.response.data.message)
    }
 };
 
@@ -34,9 +34,19 @@ export const logoutSitemanager = async () => {
 
 export const getSitemanagersProject = async (user: string) => {
    try {
-      const response = await axioInstance.get(`/site/siteproject/${user}`);
+      const response = await axioInstance.get(`/site/siteproject/${ user }`);
       return response.data;
    } catch (error: any) {
-       toast.error(error.response.data.message)
+      toast.error(error.response.data.message)
    }
 };
+
+
+export const fetchProjectBySitemanager = async () => {
+   try {
+      const response = await axioInstance.get(`/site/chatProject`);
+      return response.data;
+   } catch (error: any) {
+      toast.error(error.response.data.message)
+   }
+}

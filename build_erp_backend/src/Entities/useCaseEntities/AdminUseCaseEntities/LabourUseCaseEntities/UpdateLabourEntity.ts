@@ -1,6 +1,6 @@
-import { commonOutput } from "../../../Input-OutputEntities/CommonEntities/common";
-import { editLabourInput } from "../../../Input-OutputEntities/LabourEntities/labour";
+import { commonOutput } from "../../../../DTO/CommonEntities/common";
+import { inputLabour } from "../../../../DTO/LabourEntities/labour";
 
-export interface IUpdateLabourUseCase{
-   execute(input:editLabourInput):Promise<commonOutput>
+export interface IUpdateLabourUseCaseEntity{
+   execute(input:inputLabour):Promise<commonOutput>
 }

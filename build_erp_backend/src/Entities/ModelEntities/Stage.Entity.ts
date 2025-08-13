@@ -4,13 +4,16 @@ export interface IStageImageEntry {
 } 
 
 export interface IStageModelEntity {
+  _id:string
    project_id: string;
    stage_name: string;
-   start_date: string;
-   end_date: string;
+   start_date: Date;
+   end_date: Date;
    stage_per: number;
    stage_amount: number;
    stage_image?: IStageImageEntry[];
    progress: number,
    status_date?: string
+   createdAt: Date
+   updatedAt: Date
 }

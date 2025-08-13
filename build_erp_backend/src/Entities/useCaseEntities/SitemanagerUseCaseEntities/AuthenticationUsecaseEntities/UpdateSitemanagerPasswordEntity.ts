@@ -1,6 +1,6 @@
-import { commonOutput } from "../../../Input-OutputEntities/CommonEntities/common";
-import { changePasswordInput } from "../../../Input-OutputEntities/SitemanagerEntities/sitemanager";
+import { commonOutput } from "../../../../DTO/CommonEntities/common";
+import { changePasswordInput } from "../../../../DTO/SitemanagerEntities/sitemanager";
 
-export interface IUpdateSitemanagerPasswordUseCase {
+export interface IUpdateSitemanagerPasswordUseCaseEntity {
    execute(input: changePasswordInput): Promise<commonOutput>
 }

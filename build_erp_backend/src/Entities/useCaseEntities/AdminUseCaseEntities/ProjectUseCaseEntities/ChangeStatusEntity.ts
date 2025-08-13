@@ -1,6 +1,6 @@
-import { commonOutput } from "../../../Input-OutputEntities/CommonEntities/common";
-import { statusChangeInput } from "../../../Input-OutputEntities/ProjectEntities/project";
+import { commonOutput } from "../../../../DTO/CommonEntities/common";
+import { statusChangeInput } from "../../../../DTO/ProjectEntities/project";
 
-export interface IChangeStatusUseCase{
+export interface IChangeStatusUseCaseEntity{
    execute(input: statusChangeInput): Promise<commonOutput>
 }

@@ -1,46 +1,46 @@
 import { NextFunction, Request, Response } from "express"
 import { IMaterialControllerEntity } from "../../../../Entities/ControllerEntities/AdminControllerEntities/IMaterialControllerEntity"
-import { IDisplayAllMaterialUsecase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/MaterialUseCaseEntities/DisplayAllMaterialEntity"
-import { IAddMaterialUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/MaterialUseCaseEntities/AddMaterialEntity"
-import { IGetEditMaterialUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/MaterialUseCaseEntities/GetEditMaterialEntity"
-import { IDisplayAddMaterialUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/MaterialUseCaseEntities/DisplayAddMaterialEntity"
-import { IUpdateMaterialUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/MaterialUseCaseEntities/UpdateMaterialEntity"
-import { IDeleteMaterialUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/MaterialUseCaseEntities/DeleteMaterialEntity"
-import { IFetchMaterialUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/MaterialUseCaseEntities/FetchMaterialEntity"
-import { IFetchMaterialByMaterialName } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/MaterialUseCaseEntities/FetchMaterialByMaterialNameEntity"
-import { IFetchBrandByMaterialName } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/MaterialUseCaseEntities/FetchBrandByMaterialNameEntity"
-import { IFetchUnitRateUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/MaterialUseCaseEntities/FetchUnitRateEntity"
-import { IFindMaterialByIdUsecase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/MaterialUseCaseEntities/FindMaterialByIdEntity"
-import { getAddMaterialData, materialOutput, outEditMaterialData } from "../../../../Entities/Input-OutputEntities/MaterialEntities/material"
-import { commonOutput } from "../../../../Entities/Input-OutputEntities/CommonEntities/common"
+import { IDisplayAllMaterialUsecaseEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/MaterialUseCaseEntities/DisplayAllMaterialEntity"
+import { IAddMaterialUseCaseEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/MaterialUseCaseEntities/AddMaterialEntity"
+import { IGetEditMaterialUseCaseEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/MaterialUseCaseEntities/GetEditMaterialEntity"
+import { IDisplayAddMaterialUseCaseEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/MaterialUseCaseEntities/DisplayAddMaterialEntity"
+import { IUpdateMaterialUseCaseEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/MaterialUseCaseEntities/UpdateMaterialEntity"
+import { IDeleteMaterialUseCaseEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/MaterialUseCaseEntities/DeleteMaterialEntity"
+import { IFetchMaterialUseCaseEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/MaterialUseCaseEntities/FetchMaterialEntity"
+import { IFetchMaterialByMaterialNameEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/MaterialUseCaseEntities/FetchMaterialByMaterialNameEntity"
+import { IFetchBrandByMaterialNameEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/MaterialUseCaseEntities/FetchBrandByMaterialNameEntity"
+import { IFetchUnitRateUseCaseEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/MaterialUseCaseEntities/FetchUnitRateEntity"
+import { IFindMaterialByIdUsecaseEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/MaterialUseCaseEntities/FindMaterialByIdEntity"
+import { getAddMaterialData, materialOutput, outEditMaterialData } from "../../../../DTO/MaterialEntities/material"
+import { commonOutput } from "../../../../DTO/CommonEntities/common"
 import { IMaterialModelEntity } from "../../../../Entities/ModelEntities/Material.Entity"
 
 
 
 export class MaterialController implements IMaterialControllerEntity {
-   private displayAllMaterialUseCase: IDisplayAllMaterialUsecase
-   private getAddMaterialUseCase: IDisplayAddMaterialUseCase
-   private saveMaterialUseCase: IAddMaterialUseCase
-   private getEditMaterialUseCase: IGetEditMaterialUseCase
-   private updateMaterialUseCase: IUpdateMaterialUseCase
-   private deleteMaterialUseCase: IDeleteMaterialUseCase
-   private fetchMaterialUseCase: IFetchMaterialUseCase
-   private fetchMaterialByMaterialName: IFetchMaterialByMaterialName
-   private fetchbrandByname: IFetchBrandByMaterialName
-   private fetUnitRateUseCase: IFetchUnitRateUseCase
-   private findMaterialByIdUsecase: IFindMaterialByIdUsecase
+   private displayAllMaterialUseCase: IDisplayAllMaterialUsecaseEntity
+   private getAddMaterialUseCase: IDisplayAddMaterialUseCaseEntity
+   private saveMaterialUseCase: IAddMaterialUseCaseEntity
+   private getEditMaterialUseCase: IGetEditMaterialUseCaseEntity
+   private updateMaterialUseCase: IUpdateMaterialUseCaseEntity
+   private deleteMaterialUseCase: IDeleteMaterialUseCaseEntity
+   private fetchMaterialUseCase: IFetchMaterialUseCaseEntity
+   private fetchMaterialByMaterialName: IFetchMaterialByMaterialNameEntity
+   private fetchbrandByname: IFetchBrandByMaterialNameEntity
+   private fetUnitRateUseCase: IFetchUnitRateUseCaseEntity
+   private findMaterialByIdUsecase: IFindMaterialByIdUsecaseEntity
    constructor(
-      displayAllMaterialUseCase: IDisplayAllMaterialUsecase,
-      getAddMaterialUseCase: IDisplayAddMaterialUseCase,
-      saveMaterialUseCase: IAddMaterialUseCase,
-      getEditMaterialUseCase: IGetEditMaterialUseCase,
-      updateMaterialUseCase: IUpdateMaterialUseCase,
-      deleteMaterialUseCase: IDeleteMaterialUseCase,
-      fetchMaterialUseCase: IFetchMaterialUseCase,
-      fetchMaterialByMaterialName: IFetchMaterialByMaterialName,
-      fetchbrandByname: IFetchBrandByMaterialName,
-      fetUnitRateUseCase: IFetchUnitRateUseCase,
-      findMaterialByIdUsecase: IFindMaterialByIdUsecase
+      displayAllMaterialUseCase: IDisplayAllMaterialUsecaseEntity,
+      getAddMaterialUseCase: IDisplayAddMaterialUseCaseEntity,
+      saveMaterialUseCase: IAddMaterialUseCaseEntity,
+      getEditMaterialUseCase: IGetEditMaterialUseCaseEntity,
+      updateMaterialUseCase: IUpdateMaterialUseCaseEntity,
+      deleteMaterialUseCase: IDeleteMaterialUseCaseEntity,
+      fetchMaterialUseCase: IFetchMaterialUseCaseEntity,
+      fetchMaterialByMaterialName: IFetchMaterialByMaterialNameEntity,
+      fetchbrandByname: IFetchBrandByMaterialNameEntity,
+      fetUnitRateUseCase: IFetchUnitRateUseCaseEntity,
+      findMaterialByIdUsecase: IFindMaterialByIdUsecaseEntity
    ) {
       this.displayAllMaterialUseCase = displayAllMaterialUseCase
       this.getAddMaterialUseCase = getAddMaterialUseCase

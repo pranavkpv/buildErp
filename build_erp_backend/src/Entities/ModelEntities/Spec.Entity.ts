@@ -7,6 +7,7 @@ interface LabourData{
    numberoflabour:number
 }
 export interface ISpecModelEntity{
+   _id:string
    spec_id:string
    spec_name:string
    spec_unit:string
@@ -15,4 +16,6 @@ export interface ISpecModelEntity{
    labourDetails:LabourData[]
    additionalExpense_per:number
    profit_per:number
+   createdAt: Date
+   updatedAt: Date
 }

@@ -1,6 +1,6 @@
-import { commonOutput } from "../../../Input-OutputEntities/CommonEntities/common";
-import { OTPInput } from "../../../Input-OutputEntities/UserEntities/Otp";
+import { commonOutput } from "../../../../DTO/CommonEntities/common";
+import { OTPInput } from "../../../../DTO/UserEntities/Otp";
 
-export interface IVerifyOTPUseCases{
+export interface IVerifyOTPUseCasesEntity{
    execute(input: OTPInput):Promise<commonOutput>
 }

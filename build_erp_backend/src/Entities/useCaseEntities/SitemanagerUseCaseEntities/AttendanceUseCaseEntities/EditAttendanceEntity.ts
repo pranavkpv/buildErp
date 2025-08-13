@@ -1,6 +1,6 @@
-import { commonOutput } from "../../../Input-OutputEntities/CommonEntities/common";
-import { editAttendanceInput } from "../../../Input-OutputEntities/LabourEntities/attendance";
+import { commonOutput } from "../../../../DTO/CommonEntities/common";
+import { editAttendanceInput } from "../../../../DTO/LabourEntities/attendance";
 
-export interface IEditAttendanceUseCase {
+export interface IEditAttendanceUseCaseEntity {
    execute(input: editAttendanceInput):Promise<commonOutput>
 }

@@ -1,7 +1,7 @@
-import { commonOutput } from "../../../Input-OutputEntities/CommonEntities/common";
-import { projectOutput } from "../../../Input-OutputEntities/ProjectEntities/project";
+import { commonOutput } from "../../../../DTO/CommonEntities/common";
+import { projectOutput } from "../../../../DTO/ProjectEntities/project";
 
 
-export interface IFetchUserProjectUseCase {
+export interface IFetchUserProjectUseCaseEntity {
    execute(user:string):Promise<projectOutput | commonOutput >
 }

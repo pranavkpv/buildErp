@@ -1,6 +1,6 @@
-import { commonOutput } from "../../../Input-OutputEntities/CommonEntities/common";
-import { ResendOTPInput } from "../../../Input-OutputEntities/UserEntities/Otp";
+import { commonOutput } from "../../../../DTO/CommonEntities/common";
+import { ResendOTPInput } from "../../../../DTO/UserEntities/Otp";
 
-export interface IResendOTPUseCase {
+export interface IResendOTPUseCaseEntity {
    execute(input: ResendOTPInput): Promise<commonOutput>
 }

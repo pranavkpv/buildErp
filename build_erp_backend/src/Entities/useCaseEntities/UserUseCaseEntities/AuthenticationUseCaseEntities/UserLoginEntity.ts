@@ -1,6 +1,6 @@
-import { commonOutput } from "../../../Input-OutputEntities/CommonEntities/common";
-import { loginInput } from "../../../Input-OutputEntities/UserEntities/user";
+import { commonOutput } from "../../../../DTO/CommonEntities/common";
+import { loginInput } from "../../../../DTO/UserEntities/user";
 
-export interface IUserLoginUseCase {
+export interface IUserLoginUseCaseEntity {
     execute(input: loginInput): Promise<commonOutput>
 }

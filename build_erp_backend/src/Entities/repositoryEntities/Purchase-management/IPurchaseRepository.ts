@@ -1,6 +1,6 @@
-import { purchaseInput, purchaseOutput } from "../../Input-OutputEntities/PurchaseEntity.ts/Purchase";
+import { purchaseInput, purchaseOutput } from "../../../DTO/PurchaseEntity.ts/Purchase";
 
-export interface IPurchaseRepository {
+export interface IPurchaseRepositoryEntity {
    findAllPurchaseBySearchandPage(search:string,page:number,id:string):Promise<purchaseOutput>
    savePurchase(input:purchaseInput):Promise<boolean>
    updatePurchase(input:purchaseInput):Promise<boolean>

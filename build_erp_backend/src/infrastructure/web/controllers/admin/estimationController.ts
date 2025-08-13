@@ -1,29 +1,29 @@
 import { NextFunction, Request, Response } from "express"
 import cloudinary from "../../../../config/cloudinary"
 import { IEstimationControllerEntity } from "../../../../Entities/ControllerEntities/AdminControllerEntities/IEstimationControllerEntity"
-import { ISaveEstimationUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/EstimationUseCaseEntities/SaveEstimationEntity"
-import { IDisplayEstimationUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/EstimationUseCaseEntities/DisplayEstimationEntity"
-import { IDeleteEstimationUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/EstimationUseCaseEntities/DeleteEstimationEntity"
-import { IFetchExistEstimationUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/EstimationUseCaseEntities/FetchExistEstimationEntity"
-import { IUploadEstimateImageUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/EstimationUseCaseEntities/UploadEstimateImageEntity"
-import { IUpdateEstimationUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/EstimationUseCaseEntities/UpdateEstimationEntity"
+import { ISaveEstimationUseCaseEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/EstimationUseCaseEntities/SaveEstimationEntity"
+import { IDisplayEstimationUseCaseEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/EstimationUseCaseEntities/DisplayEstimationEntity"
+import { IDeleteEstimationUseCaseEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/EstimationUseCaseEntities/DeleteEstimationEntity"
+import { IFetchExistEstimationUseCaseEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/EstimationUseCaseEntities/FetchExistEstimationEntity"
+import { IUploadEstimateImageUseCaseEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/EstimationUseCaseEntities/UploadEstimateImageEntity"
+import { IUpdateEstimationUseCaseEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/EstimationUseCaseEntities/UpdateEstimationEntity"
 import { HTTP_STATUS } from "../../../../Shared/Status_code"
-import { ERROR_MESSAGE } from "../../../../Shared/Message"
-import { commonOutput } from "../../../../Entities/Input-OutputEntities/CommonEntities/common"
-import { EstimationData, estimationOutput, SpecData } from "../../../../Entities/Input-OutputEntities/EstimationEntities/estimation"
-import { specOutput } from "../../../../Entities/Input-OutputEntities/EstimationEntities/specification"
+import { commonOutput } from "../../../../DTO/CommonEntities/common"
+import {  estimationOutput } from "../../../../DTO/EstimationEntities/estimation"
+import { EstimationFailedMessage } from "../../../../Shared/Messages/Estimation.Message"
+
 
 
 export class EstimationController implements IEstimationControllerEntity {
-   private saveestimationuseCase: ISaveEstimationUseCase
-   private displayEstimationUseCase: IDisplayEstimationUseCase
-   private deleteEstimationuseCase: IDeleteEstimationUseCase
-   private uploadestimationUsecase: IUploadEstimateImageUseCase
-   private fetchexistestimationusecase: IFetchExistEstimationUseCase
-   private updateEstimationUsecase: IUpdateEstimationUseCase
-   constructor(saveestimationuseCase: ISaveEstimationUseCase, displayEstimationUseCase: IDisplayEstimationUseCase,
-      deleteEstimationuseCase: IDeleteEstimationUseCase, uploadestimationUsecase: IUploadEstimateImageUseCase,
-      fetchexistestimationusecase: IFetchExistEstimationUseCase, updateEstimationUsecase: IUpdateEstimationUseCase) {
+   private saveestimationuseCase: ISaveEstimationUseCaseEntity
+   private displayEstimationUseCase: IDisplayEstimationUseCaseEntity
+   private deleteEstimationuseCase: IDeleteEstimationUseCaseEntity
+   private uploadestimationUsecase: IUploadEstimateImageUseCaseEntity
+   private fetchexistestimationusecase: IFetchExistEstimationUseCaseEntity
+   private updateEstimationUsecase: IUpdateEstimationUseCaseEntity
+   constructor(saveestimationuseCase: ISaveEstimationUseCaseEntity, displayEstimationUseCase: IDisplayEstimationUseCaseEntity,
+      deleteEstimationuseCase: IDeleteEstimationUseCaseEntity, uploadestimationUsecase: IUploadEstimateImageUseCaseEntity,
+      fetchexistestimationusecase: IFetchExistEstimationUseCaseEntity, updateEstimationUsecase: IUpdateEstimationUseCaseEntity) {
       this.saveestimationuseCase = saveestimationuseCase
       this.displayEstimationUseCase = displayEstimationUseCase,
          this.deleteEstimationuseCase = deleteEstimationuseCase
@@ -61,7 +61,7 @@ export class EstimationController implements IEstimationControllerEntity {
       const file = req.files?.image;
       const projectId = req.body._id;
       if (!file || Array.isArray(file)) {
-         res.status(HTTP_STATUS.OK).json({ error: ERROR_MESSAGE.ESTIMATION.NO_IMAGE });
+         res.status(HTTP_STATUS.OK).json({ error: EstimationFailedMessage.IMAGE_ADD });
          return
       }
       const result = await cloudinary.uploader.upload(file.tempFilePath, {

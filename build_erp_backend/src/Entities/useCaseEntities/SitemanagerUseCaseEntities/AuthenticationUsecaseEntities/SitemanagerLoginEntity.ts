@@ -1,5 +1,5 @@
-import { commonOutput } from "../../../Input-OutputEntities/CommonEntities/common";
+import { commonOutput } from "../../../../DTO/CommonEntities/common";
 
-export interface ISitemanagerLoginUseCase{
+export interface ISitemanagerLoginUseCaseEntity{
    execute(email:string,password:string):Promise<commonOutput>
 }

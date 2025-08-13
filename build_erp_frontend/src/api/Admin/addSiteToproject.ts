@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import axioInstance from "../axio";
+import axioInstance from "../../axios/authAxios";
 
 // --------------- sitemanager list needs to add sitemanager to project --------------- //
 

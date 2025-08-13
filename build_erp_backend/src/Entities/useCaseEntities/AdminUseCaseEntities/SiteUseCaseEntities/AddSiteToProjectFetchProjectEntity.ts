@@ -1,7 +1,7 @@
-import { commonOutput } from "../../../Input-OutputEntities/CommonEntities/common";
-import { projectOutput } from "../../../Input-OutputEntities/ProjectEntities/project";
+import { commonOutput } from "../../../../DTO/CommonEntities/common";
+import { projectOutput } from "../../../../DTO/ProjectEntities/project";
 
 
-export interface IAddSiteToprojectFetchProjectUseCase {
+export interface IAddSiteToprojectFetchProjectUseCaseEntity {
    execute(): Promise<projectOutput | commonOutput>
 }

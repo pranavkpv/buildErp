@@ -1,6 +1,6 @@
-import { commonOutput } from "../../../Input-OutputEntities/CommonEntities/common";
-import { googleAuthLogin } from "../../../Input-OutputEntities/UserEntities/GoogleAuth";
+import { commonOutput } from "../../../../DTO/CommonEntities/common";
+import { googleAuthLogin } from "../../../../DTO/UserEntities/GoogleAuth";
 
-export interface IgooglAuthUseCase {
+export interface IgooglAuthUseCaseEntity {
     execute(input:googleAuthLogin): Promise<commonOutput> 
 }

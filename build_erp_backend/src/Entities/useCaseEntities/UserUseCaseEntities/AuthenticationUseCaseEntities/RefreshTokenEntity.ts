@@ -1,6 +1,6 @@
-import { Tokens } from "../../../Input-OutputEntities/auth";
-import { commonOutput } from "../../../Input-OutputEntities/CommonEntities/common";
+import { Tokens } from "../../../../DTO/AuthEntities/auth";
+import { commonOutput } from "../../../../DTO/CommonEntities/common";
 
-export interface IRefreshTokenUseCase {
+export interface IRefreshTokenUseCaseEntity {
    execute(refreshToken: string): Promise<Tokens | commonOutput>
 }

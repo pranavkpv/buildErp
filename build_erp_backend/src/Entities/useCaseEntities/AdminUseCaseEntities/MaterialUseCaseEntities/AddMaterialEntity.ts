@@ -1,6 +1,6 @@
-import { commonOutput } from "../../../Input-OutputEntities/CommonEntities/common";
-import { addMaterialInput } from "../../../Input-OutputEntities/MaterialEntities/material";
+import { commonOutput } from "../../../../DTO/CommonEntities/common";
+import { addMaterialInput } from "../../../../DTO/MaterialEntities/material";
 
-export interface IAddMaterialUseCase{
+export interface IAddMaterialUseCaseEntity{
    execute(input: addMaterialInput): Promise<commonOutput>
 }

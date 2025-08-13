@@ -1,13 +1,13 @@
-import { UnitOutput } from "../../Input-OutputEntities/MaterialEntities/unit"
+import { inputUnit, listUnitOutput } from "../../../DTO/UnitEntities/Unit.Entity"
 import { IUnitModelEntity } from "../../ModelEntities/Unit.Entity"
 
-export interface IUnitRepository{
-   findUnit():Promise<IUnitModelEntity[] | []>
-   findUnitByunit_name(unit_name:string):Promise<IUnitModelEntity |null>
-   saveUnit(unit_name:string,short_name:string):Promise<void>
-   findUnitInEdit(_id:string,unit_name:string):Promise<IUnitModelEntity | null>
-   updateUnitById(_id:string,unit_name:string,short_name:string):Promise<void>
-   deleteUnitById(_id:string):Promise<void>
-   findAllListUnit(page:number,search:string):Promise<UnitOutput>
-   
+export interface IUnitRepositoryEntity {
+   findUnit(): Promise<IUnitModelEntity[] | []>
+   findUnitByunit_name(input: inputUnit): Promise<IUnitModelEntity | null>
+   saveUnit(input: inputUnit): Promise<IUnitModelEntity | null>
+   findUnitInEdit(input: inputUnit): Promise<IUnitModelEntity | null>
+   updateUnitById(input: inputUnit): Promise<IUnitModelEntity | null>
+   deleteUnitById(_id: string): Promise<IUnitModelEntity | null>
+   findAllListUnit(page: number, search: string): Promise<listUnitOutput>
+   findUnitById(_id:string):Promise<IUnitModelEntity | null>
 }

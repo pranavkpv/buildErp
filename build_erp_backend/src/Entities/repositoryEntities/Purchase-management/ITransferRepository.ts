@@ -1,7 +1,7 @@
-import { projectData, transferInput, TransferOutput } from "../../Input-OutputEntities/PurchaseEntity.ts/Transfer";
+import { projectData, transferInput, TransferOutput } from "../../../DTO/PurchaseEntity.ts/Transfer";
 import { ITransferModelEntity } from "../../ModelEntities/Transfer.Entity";
 
-export interface ITransferRepository {
+export interface ITransferRepositoryEntity {
    fetchTransferList(search: string, page: number, id: string): Promise<TransferOutput>
    fectToproject(projectId: string): Promise<projectData[]>
    saveTransfer(input: transferInput): Promise<boolean>

@@ -1,6 +1,6 @@
-import { commonOutput } from "../../../Input-OutputEntities/CommonEntities/common";
-import { addSite } from "../../../Input-OutputEntities/SitemanagerEntities/addSite";
+import { commonOutput } from "../../../../DTO/CommonEntities/common";
+import { addSite } from "../../../../DTO/SitemanagerEntities/addSite";
 
-export interface IAddSiteToProjectUseCase {
+export interface IAddSiteToProjectUseCaseEntity {
    execute(input: addSite): Promise<commonOutput>
 }

@@ -1,9 +1,9 @@
-import { User } from "../../Input-OutputEntities/UserEntities/user";
+import { User } from "../../../DTO/UserEntities/user";
 import { ITempUserModelEntity } from "../../ModelEntities/TempUser.Entity";
 import { IUserModelEntity } from "../../ModelEntities/User.Entity";
 
 
-export interface IUserRepository{
+export interface IUserRepositoryEntity{
    findUserByEmail(email:string):Promise<IUserModelEntity | null>;
    findAuthUserByEmail(email:string):Promise<IUserModelEntity | null>
    findExistAuthUser(email:string):Promise<IUserModelEntity | null>

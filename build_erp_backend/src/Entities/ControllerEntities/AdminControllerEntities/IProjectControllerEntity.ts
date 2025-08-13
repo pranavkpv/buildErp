@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express"
 import { IUserModelEntity } from "../../ModelEntities/User.Entity";
-import { commonOutput } from "../../Input-OutputEntities/CommonEntities/common";
-import { projectOutput } from "../../Input-OutputEntities/ProjectEntities/project";
-import { userOutput } from "../../Input-OutputEntities/UserEntities/user";
+import { commonOutput } from "../../../DTO/CommonEntities/common";
+import { projectOutput } from "../../../DTO/ProjectEntities/project";
+import { userOutput } from "../../../DTO/UserEntities/user";
 
 export interface IProjectControllerEntity {
    projectData(req: Request, res: Response, next: NextFunction): Promise<projectOutput | commonOutput>

@@ -1,35 +1,33 @@
 import { NextFunction, Request, Response } from "express"
 import { ISitemanagerControllerEntity } from "../../../../Entities/ControllerEntities/AdminControllerEntities/ISitemanagerControllerEntity"
-import { IDisplayAllSitemanagerUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/SiteUseCaseEntities/DisplayAllsitemanagerEntity"
-import { IUpdateSitemanagerUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/SiteUseCaseEntities/UpdateSitemanagerEntity"
-import { ISaveSitemanagerUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/SiteUseCaseEntities/SaveSitemanagerEntity"
-import { IDeleteSitemanagerUseCase } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/SiteUseCaseEntities/DeleteSitemanagerEntity"
-import { ISitemanagerLoginUseCase } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/AuthenticationUsecaseEntities/SitemanagerLoginEntity"
-import { IListProjectUseCase } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/StageStatusUpdationUseCaseEntities/ListProjectUseCaseEntity"
-import { HTTP_STATUS } from "../../../../Shared/Status_code"
-import { ResponseHelper } from "../../../../Shared/utils/response"
-import { SUCCESS_MESSAGE } from "../../../../Shared/Message"
-import { commonOutput } from "../../../../Entities/Input-OutputEntities/CommonEntities/common"
-import { IProjectModelEntity } from "../../../../Entities/ModelEntities/ProjectEntity"
-import { sitemanagerOutput } from "../../../../Entities/Input-OutputEntities/SitemanagerEntities/sitemanager"
-import { projectOutput } from "../../../../Entities/Input-OutputEntities/ProjectEntities/project"
+import { IDisplayAllSitemanagerUseCaseEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/SiteUseCaseEntities/DisplayAllsitemanagerEntity"
+import { IUpdateSitemanagerUseCaseEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/SiteUseCaseEntities/UpdateSitemanagerEntity"
+import { ISaveSitemanagerUseCaseEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/SiteUseCaseEntities/SaveSitemanagerEntity"
+import { IDeleteSitemanagerUseCaseEntity } from "../../../../Entities/useCaseEntities/AdminUseCaseEntities/SiteUseCaseEntities/DeleteSitemanagerEntity"
+import { ISitemanagerLoginUseCaseEntity } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/AuthenticationUsecaseEntities/SitemanagerLoginEntity"
+import { IListProjectUseCaseEntity } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/StageStatusUpdationUseCaseEntities/ListProjectUseCaseEntity"
+import { ResponseHelper } from "../../../../Shared/ResponseHelper/response"
+import { commonOutput } from "../../../../DTO/CommonEntities/common"
+import { sitemanagerOutput } from "../../../../DTO/SitemanagerEntities/sitemanager"
+import { projectOutput } from "../../../../DTO/ProjectEntities/project"
+import { userSuccessMessage } from "../../../../Shared/Messages/User.Message"
 
 
 
 export class SitemanagerController implements ISitemanagerControllerEntity {
-   private displayAllSitemanagerUseCase: IDisplayAllSitemanagerUseCase
-   private addSitemanagerUseCase: ISaveSitemanagerUseCase
-   private editSitemanagerUsecase: IUpdateSitemanagerUseCase
-   private deleteSitemanagerUseCase: IDeleteSitemanagerUseCase
-   private sitemanagerLoginUseCase: ISitemanagerLoginUseCase
-   private listProjectUseCase: IListProjectUseCase
+   private displayAllSitemanagerUseCase: IDisplayAllSitemanagerUseCaseEntity
+   private addSitemanagerUseCase: ISaveSitemanagerUseCaseEntity
+   private editSitemanagerUsecase: IUpdateSitemanagerUseCaseEntity
+   private deleteSitemanagerUseCase: IDeleteSitemanagerUseCaseEntity
+   private sitemanagerLoginUseCase: ISitemanagerLoginUseCaseEntity
+   private listProjectUseCase: IListProjectUseCaseEntity
    constructor(
-      displayAllSitemanagerUseCase: IDisplayAllSitemanagerUseCase,
-      addSitemanagerUseCase: ISaveSitemanagerUseCase,
-      editSitemanagerUsecase: IUpdateSitemanagerUseCase,
-      deleteSitemanagerUseCase: IDeleteSitemanagerUseCase,
-      sitemanagerLoginUseCase: ISitemanagerLoginUseCase,
-      listProjectUseCase: IListProjectUseCase
+      displayAllSitemanagerUseCase: IDisplayAllSitemanagerUseCaseEntity,
+      addSitemanagerUseCase: ISaveSitemanagerUseCaseEntity,
+      editSitemanagerUsecase: IUpdateSitemanagerUseCaseEntity,
+      deleteSitemanagerUseCase: IDeleteSitemanagerUseCaseEntity,
+      sitemanagerLoginUseCase: ISitemanagerLoginUseCaseEntity,
+      listProjectUseCase: IListProjectUseCaseEntity
    ) {
       this.displayAllSitemanagerUseCase = displayAllSitemanagerUseCase
       this.addSitemanagerUseCase = addSitemanagerUseCase
@@ -97,7 +95,7 @@ export class SitemanagerController implements ISitemanagerControllerEntity {
          sameSite: "lax",
          path: '/',
       });
-      const result = ResponseHelper.success(SUCCESS_MESSAGE.USER.LOGOUT, HTTP_STATUS.OK)
+      const result = ResponseHelper.success(userSuccessMessage.LOGOUT)
       return result
    }
 

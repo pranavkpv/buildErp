@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { toast } from 'react-toastify';
-import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
+import { userSignupApi } from '../../api/User/user';
 
 function Signup() {
   const [username, setUsername] = useState('');
@@ -83,13 +83,7 @@ function Signup() {
     if (hasError) {
       return;
     }
-      const baseUrl = import.meta.env.VITE_BASE_URL;
-      const response = await axios.post(`${baseUrl}/signup`, {
-        username,
-        email,
-        phone,
-        password,
-      });
+      const response = await userSignupApi(username,email,phone,password)
 
       if (response.data.success) {
         localStorage.setItem('otpEmail', email);

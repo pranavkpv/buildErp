@@ -1,5 +1,5 @@
-import { commonOutput } from "../../../Input-OutputEntities/CommonEntities/common";
+import { commonOutput } from "../../../../DTO/CommonEntities/common";
 
-export interface IDeleteTransferUseCase {
+export interface IDeleteTransferUseCaseEntity {
    execute(_id:string):Promise<commonOutput>
 }

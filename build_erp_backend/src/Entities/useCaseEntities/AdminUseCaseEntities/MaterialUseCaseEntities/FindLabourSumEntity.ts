@@ -1,6 +1,6 @@
-import { commonOutput } from "../../../Input-OutputEntities/CommonEntities/common";
-import { specOutput } from "../../../Input-OutputEntities/EstimationEntities/specification";
+import { commonOutput } from "../../../../DTO/CommonEntities/common";
+import { specOutput } from "../../../../DTO/EstimationEntities/specification";
 
-export interface IFindlabourSumUsecase {
+export interface IFindlabourSumUsecaseEntity {
    execute(labours:{ labour_id: string, numberoflabour: number }[]):Promise<specOutput | commonOutput>
 }

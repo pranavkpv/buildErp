@@ -1,14 +1,14 @@
 import { NextFunction, Request, Response } from "express-serve-static-core";
 import { IAuthProjectControllerEntity } from "../../../../Entities/ControllerEntities/UserControllerEntities/AuthProjectControllerEntity";
-import { IFetchUserProjectUseCase } from "../../../../Entities/useCaseEntities/UserUseCaseEntities/ProjectDisplayUseCaseEntities/FetchUserProjectUsecaseEntity";
-import { IFetchStatusBaseProjectUseCase } from "../../../../Entities/useCaseEntities/UserUseCaseEntities/ProjectDisplayUseCaseEntities/FetchStatusBaseProjectUseCaseEntity";
-import { commonOutput } from "../../../../Entities/Input-OutputEntities/CommonEntities/common";
-import { projectOutput } from "../../../../Entities/Input-OutputEntities/ProjectEntities/project";
+import { IFetchUserProjectUseCaseEntity } from "../../../../Entities/useCaseEntities/UserUseCaseEntities/ProjectDisplayUseCaseEntities/FetchUserProjectUsecaseEntity";
+import { IFetchStatusBaseProjectUseCaseEntity } from "../../../../Entities/useCaseEntities/UserUseCaseEntities/ProjectDisplayUseCaseEntities/FetchStatusBaseProjectUseCaseEntity";
+import { commonOutput } from "../../../../DTO/CommonEntities/common";
+import { projectOutput } from "../../../../DTO/ProjectEntities/project";
 
 export class AuthProjectController implements IAuthProjectControllerEntity {
-   private fetchUserprojectUseCase: IFetchUserProjectUseCase
-   private fetchStatusBaseProjectUseCase: IFetchStatusBaseProjectUseCase
-   constructor(fetchUserprojectUseCase: IFetchUserProjectUseCase, fetchStatusBaseProjectUseCase: IFetchStatusBaseProjectUseCase) {
+   private fetchUserprojectUseCase: IFetchUserProjectUseCaseEntity
+   private fetchStatusBaseProjectUseCase: IFetchStatusBaseProjectUseCaseEntity
+   constructor(fetchUserprojectUseCase: IFetchUserProjectUseCaseEntity, fetchStatusBaseProjectUseCase: IFetchStatusBaseProjectUseCaseEntity) {
       this.fetchUserprojectUseCase = fetchUserprojectUseCase
       this.fetchStatusBaseProjectUseCase = fetchStatusBaseProjectUseCase
    }

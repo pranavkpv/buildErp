@@ -1,7 +1,7 @@
-import { RecieveInput, RecieveOutput } from "../../Input-OutputEntities/PurchaseEntity.ts/Receive";
+import { RecieveInput, RecieveOutput } from "../../../DTO/PurchaseEntity.ts/Receive";
 import { IReceiveModelEntity } from "../../ModelEntities/Recieve.Entity";
 
-export interface IReceiveRepository {
+export interface IReceiveRepositoryEntity {
    saveReceive(input:RecieveInput):Promise<boolean>
    getReceive(search:string,page:number):Promise<RecieveOutput>
    updateReceive(input:RecieveInput):Promise<boolean>

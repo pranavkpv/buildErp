@@ -1,21 +1,24 @@
-
 import { Request, Response, NextFunction } from 'express';
-import { JwtService } from '../Entities/repositoryEntities/Auth-management/IToken';
+import { JwtService } from '../services/JwtService';
+import { HTTP_STATUS } from '../Shared/Status_code';
+import { AuthErrorMessage } from '../Shared/Messages/Auth.Message';
+import { Role } from '../Shared/ConstantValues/Role.constant';
 
 export const siteManagerMiddleware = (jwtService: JwtService) => {
   return (req: Request, res: Response, next: NextFunction): void => {
-    const token = req.cookies.refreshToken
-    if (!token) {
-      res.status(401).json({ message: 'No token provided' });
+    const adminHeader = req.headers.authorization
+    const accessToken = adminHeader?.split(" ")[1]
+    if (!accessToken) {
+      res.status(HTTP_STATUS.UNAUTHORIZED).json({ message: AuthErrorMessage.NO_TOKEN });
       return;
     }
-     const payload = jwtService.verifyRefreshToken(token);
-    if (!payload || !payload.role) {
-      res.status(401).json({ message: 'Invalid token' });
+    const payload = jwtService.verifyAccessToken(accessToken);
+    if (!payload) {
+      res.status(HTTP_STATUS.UNAUTHORIZED).json({ message: AuthErrorMessage.INVALID_ACCESS_TOKEN });
       return;
     }
-    if(payload.role != "sitemanager"){
-      res.status(401).json({ message: 'This user cannot be accessible' });
+    if (payload.role != Role.SITEMANAGER) {
+      res.status(HTTP_STATUS.UNAUTHORIZED).json({ message: AuthErrorMessage.NOT_ACCESS });
       return
     }
     next();

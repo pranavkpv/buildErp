@@ -1,27 +1,27 @@
 import { NextFunction, Request, Response } from "express";
 import { IPurchaseControllerEntity } from "../../../../Entities/ControllerEntities/SitemanagerControllerEntities/IPurchaseControllerEntity";
-import { commonOutput } from "../../../../Entities/Input-OutputEntities/CommonEntities/common";
-import { purchaseOutput } from "../../../../Entities/Input-OutputEntities/PurchaseEntity.ts/Purchase";
-import { IGetPurchaseUseCase } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/PurchaseUseCaseEntities/GetPurchaseUseCaseEntity";
-import { ISavePurchaseUseCase } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/PurchaseUseCaseEntities/SavePurchaseUseCaseEntity";
-import { JwtServiceImpl } from "../../../../services/JwtService";
-import { ERROR_MESSAGE } from "../../../../Shared/Message";
-import { HTTP_STATUS } from "../../../../Shared/Status_code";
-import { IUpdatePurchaseUseCase } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/PurchaseUseCaseEntities/UpdatePurchaseUseCaseEntity";
-import { IDeletePurchaseUseCase } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/PurchaseUseCaseEntities/DeletePurchaseUseCaseEntity";
-import { IApprovePurchaseUseCase } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/PurchaseUseCaseEntities/ApprovePurchaseUseCaseEntitty";
+import { commonOutput } from "../../../../DTO/CommonEntities/common";
+import { purchaseOutput } from "../../../../DTO/PurchaseEntity.ts/Purchase";
+import { IGetPurchaseUseCaseEntity } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/PurchaseUseCaseEntities/GetPurchaseUseCaseEntity";
+import { ISavePurchaseUseCaseEntity } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/PurchaseUseCaseEntities/SavePurchaseUseCaseEntity";
+import { IUpdatePurchaseUseCaseEntity } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/PurchaseUseCaseEntities/UpdatePurchaseUseCaseEntity";
+import { IDeletePurchaseUseCaseEntity } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/PurchaseUseCaseEntities/DeletePurchaseUseCaseEntity";
+import { IApprovePurchaseUseCaseEntity } from "../../../../Entities/useCaseEntities/SitemanagerUseCaseEntities/PurchaseUseCaseEntities/ApprovePurchaseUseCaseEntitty";
+import { IJwtServiceEntity } from "../../../../Entities/Service.Entities/IToken.Entity";
+import { ResponseHelper } from "../../../../Shared/ResponseHelper/response";
+import { userFailedMessage } from "../../../../Shared/Messages/User.Message";
 
 export class PurchaseController implements IPurchaseControllerEntity {
-   private getPurchaseUsecase: IGetPurchaseUseCase
-   private savePurchaseUseCase: ISavePurchaseUseCase
-   private jwtService: JwtServiceImpl
-   private updatePurchaseUseCase: IUpdatePurchaseUseCase
-   private DeletePurchasaeUseCase: IDeletePurchaseUseCase
-   private approvePurchaseUseCase : IApprovePurchaseUseCase
-   constructor(getPurchaseUsecase: IGetPurchaseUseCase, savePurchaseUseCase: ISavePurchaseUseCase,
-      jwtService: JwtServiceImpl, updatePurchaseUseCase: IUpdatePurchaseUseCase,
-      DeletePurchasaeUseCase: IDeletePurchaseUseCase,
-      approvePurchaseUseCase : IApprovePurchaseUseCase
+   private getPurchaseUsecase: IGetPurchaseUseCaseEntity
+   private savePurchaseUseCase: ISavePurchaseUseCaseEntity
+   private jwtService: IJwtServiceEntity
+   private updatePurchaseUseCase: IUpdatePurchaseUseCaseEntity
+   private DeletePurchasaeUseCase: IDeletePurchaseUseCaseEntity
+   private approvePurchaseUseCase : IApprovePurchaseUseCaseEntity
+   constructor(getPurchaseUsecase: IGetPurchaseUseCaseEntity, savePurchaseUseCase: ISavePurchaseUseCaseEntity,
+      jwtService: IJwtServiceEntity, updatePurchaseUseCase: IUpdatePurchaseUseCaseEntity,
+      DeletePurchasaeUseCase: IDeletePurchaseUseCaseEntity,
+      approvePurchaseUseCase : IApprovePurchaseUseCaseEntity
    ) {
       this.getPurchaseUsecase = getPurchaseUsecase
       this.savePurchaseUseCase = savePurchaseUseCase
@@ -35,11 +35,7 @@ export class PurchaseController implements IPurchaseControllerEntity {
       const refreshToken = req.cookies.refreshToken
       const decoded = await this.jwtService.verifyRefreshToken(refreshToken)
       if (!decoded?.userId) {
-         return {
-            success: false,
-            message: ERROR_MESSAGE.USER.USER_NOT_FOUND,
-            status_code: HTTP_STATUS.UNAUTHORIZED
-         }
+         return ResponseHelper.conflictData(userFailedMessage.USER_NOT_FOUND)
       }
       const data = await this.getPurchaseUsecase.execute(String(search), Number(page), decoded?.userId)
       return data

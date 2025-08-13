@@ -1,6 +1,6 @@
-import { commonOutput } from "../../../Input-OutputEntities/CommonEntities/common";
-import { materialOutput } from "../../../Input-OutputEntities/MaterialEntities/material";
+import { commonOutput } from "../../../../DTO/CommonEntities/common";
+import { materialOutput } from "../../../../DTO/MaterialEntities/material";
 
-export interface IGetEditMaterialUseCase {
+export interface IGetEditMaterialUseCaseEntity {
    execute(_id:string): Promise<materialOutput | commonOutput>
 }

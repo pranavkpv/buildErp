@@ -1,6 +1,6 @@
-import { commonOutput } from "../../../Input-OutputEntities/CommonEntities/common";
-import { UpdateProfile } from "../../../Input-OutputEntities/UserEntities/user";
+import { commonOutput } from "../../../../DTO/CommonEntities/common";
+import { UpdateProfile } from "../../../../DTO/UserEntities/user";
 
-export interface IUpdateProfileUseCase{
+export interface IUpdateProfileUseCaseEntity{
    execute(input:UpdateProfile) : Promise<commonOutput>
 }

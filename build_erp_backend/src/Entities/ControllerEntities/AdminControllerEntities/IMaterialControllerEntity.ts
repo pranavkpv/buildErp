@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express"
-import {  materialOutput, outEditMaterialData } from "../../Input-OutputEntities/MaterialEntities/material";
-import { commonOutput } from "../../Input-OutputEntities/CommonEntities/common";
+import {  materialOutput, outEditMaterialData } from "../../../DTO/MaterialEntities/material";
+import { commonOutput } from "../../../DTO/CommonEntities/common";
 
 
 export interface IMaterialControllerEntity {
