@@ -22,7 +22,6 @@ function SiteChatList() {
   const fetchSitemanager = async () => {
       setLoading(true);
       const response = await fetchProjectBySitemanager();
-      console.log(response)
       if (response.success) {
         setProjectData(response.data ?? []);
       } else {

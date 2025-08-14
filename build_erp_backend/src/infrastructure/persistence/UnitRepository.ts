@@ -13,7 +13,8 @@ export class UnitRepository implements IUnitRepositoryEntity {
      * Find all units.
      */
     async findUnit(): Promise<IUnitModelEntity[]> {
-        return await unitDB.find({});
+        const data = await unitDB.find();
+        return data
     }
 
     /**

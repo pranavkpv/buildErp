@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import axios from "../../axios/AdminAxioInterceptors";
+import adminAxios from "../../axios/AdminAxioInterceptors"
 import type { listingInput } from "../../ApiInterface/CommonApiInterface";
 import type { CategoryInput } from "../../ApiInterface/CategoryApiInterface";
 
@@ -13,7 +13,7 @@ import type { CategoryInput } from "../../ApiInterface/CategoryApiInterface";
  */
 export const postCategory = async (input: CategoryInput) => {
   try {
-    const response = await axios.post(`/admin/category`, input);
+    const response = await adminAxios.post(`/category`, input);
     return response.data;
   } catch (error: any) {
     toast.error(error.response?.data?.message || "Failed to add category");
@@ -26,7 +26,7 @@ export const postCategory = async (input: CategoryInput) => {
  */
 export const categoryList = async (input: listingInput) => {
   try {
-    const response = await axios.get(`/admin/category`, { params: input });
+    const response = await adminAxios.get(`/category`, { params: input });
     return response.data;
   } catch (error: any) {
     toast.error(error.response?.data?.message || "Failed to fetch categories");
@@ -39,7 +39,7 @@ export const categoryList = async (input: listingInput) => {
  */
 export const deleteCategoryData = async (_id: string) => {
   try {
-    const response = await axios.delete(`/admin/category/${_id}`);
+    const response = await adminAxios.delete(`/category/${_id}`);
     return response.data;
   } catch (error: any) {
     toast.error(error.response?.data?.message || "Failed to delete category");
@@ -53,7 +53,7 @@ export const deleteCategoryData = async (_id: string) => {
 export const putCategory = async (input: CategoryInput) => {
   try {
     const { _id, category_name, description } = input;
-    const response = await axios.put(`/admin/category/${_id}`, {
+    const response = await adminAxios.put(`/category/${_id}`, {
       category_name,
       description,
     });

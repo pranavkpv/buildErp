@@ -79,15 +79,15 @@ export interface statusBaseProjectInput {
 }
 
 export interface costInput {
-   projectId:string,
-   startDate:string,
-   endDate:string,
-   cost:number
+   projectId: string,
+   startDate: string,
+   endDate: string,
+   cost: number
 }
 
 export interface addSitToProjectInput {
-   _id:string,
-   siteManager_id:string
+   _id: string,
+   siteManager_id: string
 }
 
 

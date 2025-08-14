@@ -17,6 +17,8 @@ function AddSpec() {
     setSpecUnit,
     setSpecDescription,
   } = useContext(AppContext);
+  
+   if (!AddEnable) return null;
 
   const [unit, setUnit] = useState<unitData[]>([]);
   const [specId, setLocalSpecId] = useState<string>("");
@@ -62,7 +64,7 @@ function AddSpec() {
     }
   };
 
-  if (!AddEnable) return null;
+ 
 
   return (
     <div className="fixed inset-0 bg-gray-900/80 backdrop-blur-sm flex items-center justify-center z-50">

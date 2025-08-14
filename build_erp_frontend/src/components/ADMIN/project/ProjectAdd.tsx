@@ -116,7 +116,7 @@ function ProjectAdd({ enableAdd, setEnableAdd, onAddSuccess }: EditType) {
     if (hasError) return;
     let latitude = selectedLocation?.lat
     let longitude = selectedLocation?.lng
-    if(!latitude || !longitude){
+    if (!latitude || !longitude) {
       return
     }
     const data = await postProject(
@@ -150,7 +150,7 @@ function ProjectAdd({ enableAdd, setEnableAdd, onAddSuccess }: EditType) {
   if (!enableAdd) return null;
 
   return (
-    <div className=" absolute top-20 inset-0 bg-gray-900/80 flex items-center justify-center z-50 p-4 sm:p-6">
+    <div className=" absolute  inset-0 bg-gray-900/80 flex items-center justify-center z-50 p-4 sm:p-6">
       <form
         onSubmit={addFormSubmit}
         className="bg-gray-800/90 backdrop-blur-md rounded-xl shadow-2xl w-full max-w-4xl p-6 sm:p-8 border border-gray-700/50 max-h-[90vh] overflow-y-auto"

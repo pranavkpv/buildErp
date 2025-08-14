@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import axioInstance from "../../axios/authAxios";
+import adminAxios from "../../axios/AdminAxioInterceptors"
 import type { unitInput } from "../../ApiInterface/UnitApiInterface";
 import type { listingInput } from "../../ApiInterface/CommonApiInterface";
 
@@ -7,7 +7,7 @@ import type { listingInput } from "../../ApiInterface/CommonApiInterface";
 
 export const postUnit = async (input: unitInput) => {
    try {
-      const response = await axioInstance.post(`/admin/unit`, input);
+      const response = await adminAxios.post(`/unit`, input);
       return response.data;
    } catch (error: any) {
       toast.error(error.response.data.message)
@@ -18,7 +18,7 @@ export const postUnit = async (input: unitInput) => {
 
 export const deleteUnitData = async (_id: string) => {
    try {
-      const response = await axioInstance.delete(`/admin/unit/${ _id }`);
+      const response = await adminAxios.delete(`/unit/${ _id }`);
       return response.data;
    } catch (error: any) {
       toast.error(error.response.data.message)
@@ -30,7 +30,7 @@ export const deleteUnitData = async (_id: string) => {
 export const editUnitData = async (input: unitInput) => {
    try {
       const { _id, unit_name, short_name } = input
-      const response = await axioInstance.put(`/admin/unit/${ _id }`, {
+      const response = await adminAxios.put(`/unit/${ _id }`, {
          unit_name,
          short_name,
       });
@@ -44,7 +44,7 @@ export const editUnitData = async (input: unitInput) => {
 
 export const getUnit = async (input:listingInput) => {
    try {
-      const response = await axioInstance.get(`/admin/unit`, {
+      const response = await adminAxios.get(`/unit`, {
          params:input,
       });
       return response.data;
@@ -57,7 +57,7 @@ export const getUnit = async (input:listingInput) => {
 
 export const fetchUnitData = async () => {
    try {
-      const response = await axioInstance.get('/admin/getUnit');
+      const response = await adminAxios.get('/getUnit');
       return response.data;
    } catch (error: any) {
       toast.error(error.response.data.message)

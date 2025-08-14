@@ -1,12 +1,12 @@
 import { toast } from "react-toastify";
-import axioInstance from "../../axios/authAxios";
+import adminAxios from "../../axios/AdminAxioInterceptors"
 
 
 // ---------------- Fetch Users for Project Assignment ---------------- //
 
 export const fetchUser = async () => {
    try {
-      const response = await axioInstance.get(`/admin/addproject`);
+      const response = await adminAxios.get(`/addproject`);
       return response.data;
    } catch (error: any) {
       toast.error(error.response.data.message)
@@ -28,7 +28,7 @@ export const postProject = async (
 
 ) => {
    try {
-      const response = await axioInstance.post(`/admin/project`, {
+      const response = await adminAxios.post(`/project`, {
          project_name,
          user_id,
          address,
@@ -49,7 +49,7 @@ export const postProject = async (
 
 export const deleteProjectData = async (_id: string) => {
    try {
-      const response = await axioInstance.delete(`/admin/project/${ _id }`);
+      const response = await adminAxios.delete(`/project/${ _id }`);
       return response.data;
    } catch (error: any) {
       toast.error(error.response.data.message)
@@ -71,7 +71,7 @@ export const putProject = async (
    longitude: number
 ) => {
    try {
-      const response = await axioInstance.put(`/admin/project/${ _id }`, {
+      const response = await adminAxios.put(`/project/${ _id }`, {
          project_name,
          user_id,
          address,
@@ -92,7 +92,7 @@ export const putProject = async (
 
 export const projectListData = async (page: number, search: string) => {
    try {
-      const response = await axioInstance.get(`/admin/project`, {
+      const response = await adminAxios.get(`/project`, {
          params: { page, search },
       });
       return response.data;
@@ -105,7 +105,7 @@ export const projectListData = async (page: number, search: string) => {
 
 export const pustStatusChange = async (_id: string, status: string) => {
    try {
-      const response = await axioInstance.put(`/admin/status/${ _id }`, { status });
+      const response = await adminAxios.put(`/status/${ _id }`, { status });
       return response.data;
    } catch (error: any) {
       toast.error(error.response.data.message)
@@ -116,7 +116,7 @@ export const pustStatusChange = async (_id: string, status: string) => {
 
 export const getProject = async () => {
    try {
-      const response = await axioInstance.get('/admin/getproject');
+      const response = await adminAxios.get('/getproject');
       return response.data;
    } catch (error: any) {
       toast.error(error.response.data.message)

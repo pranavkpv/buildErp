@@ -101,10 +101,10 @@ function ListStage() {
                     <td className="px-6 py-4 font-medium text-gray-200 text-center">{index + 1}</td>
                     <td className="px-6 py-4 text-gray-100">{element.project_name}</td>
                     <td className="px-6 py-4 text-gray-100">
-                     {element.start_date}
+                     {element.start_date.split("T")[0]}
                     </td>
                     <td className="px-6 py-4 text-gray-100">
-                      {element.end_date}
+                      {element.end_date.split("T")[0]}
                     </td>
                     <td className="px-6 py-4 text-center flex justify-center gap-2">
                       <button

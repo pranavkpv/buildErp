@@ -195,10 +195,9 @@ function Project() {
               </button>
             ))}
           </div>
-
-
-          <ProjectAdd enableAdd={addEnable} setEnableAdd={setAddEnable} onAddSuccess={fetchData} />
         </div>
+      </div>
+      <ProjectAdd enableAdd={addEnable} setEnableAdd={setAddEnable} onAddSuccess={fetchData} />
 
 
         <ChangeStatus
@@ -230,7 +229,6 @@ function Project() {
           setEnable={setDeleteEnable}
           onDeleteSuccess={fetchData}
         />
-      </div>
     </div>
 
 

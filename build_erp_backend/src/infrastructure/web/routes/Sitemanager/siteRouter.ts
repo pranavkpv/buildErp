@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { siteManagerMiddleware } from "../../../../middlewares/siteMiddleware";
 import { withLogging } from "../../../../middlewares/withLoggingMiddleware";
-import { injectedSitemanagerController } from "../../../../DI/adminInject";
+import { injectedLabourController, injectedMaterialController, injectedSitemanagerController } from "../../../../DI/adminInject";
 import {
    injectAttendanceController,
    injectedChangepasswordcontroller,
@@ -12,6 +12,7 @@ import {
    injectedTransferController
 } from "../../../../DI/sitemanagerInject";
 import { JwtService } from "../../../../services/JwtService";
+import { injectAuthController } from "../../../../DI/userInject";
 
 /**
  * SitemanagerRoute
@@ -202,5 +203,32 @@ export class SitemanagerRoute {
          "/chatProject",
          withLogging(injectedChatController.fetchUserDetailsforChat)
       );
+
+      this.sitemanagerRoute.get(
+         "/fetchMaterial",
+         withLogging(injectedMaterialController.fetchUniqueMaterial)
+      );
+      this.sitemanagerRoute.get(
+         "/fetchMatbyBrand/:material",
+         withLogging(injectedMaterialController.fetchBrandbyName)
+      );
+      this.sitemanagerRoute.get(
+         "/fetMatbyUnit/:material",
+         withLogging(injectedMaterialController.fetchMaterialByUnit)
+      );
+      this.sitemanagerRoute.get(
+         "/unitRate",
+         withLogging(injectedMaterialController.fetchUnitrate)
+      );
+      this.sitemanagerRoute.get(
+         "/fetchlabour",
+         withLogging(injectedLabourController.fetchlabour)
+      );
+      this.sitemanagerRoute.get(
+         "/chats/:id",
+         withLogging(injectAuthController.fetchMessage)
+      );
+
+
    }
 }

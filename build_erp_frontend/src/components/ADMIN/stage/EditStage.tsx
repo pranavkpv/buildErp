@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { PlusCircleIcon, MinusCircleIcon } from "@heroicons/react/24/outline";
 import { getStage } from "../../../api/Sitemanager/stageStatus";
 import { getProject } from "../../../api/Admin/project";
-import { editStageAPI, fetchBugetAPI } from "../../../api/Admin/StageSetting";
+import { editStageAPI, fetchBugetAPI, getStageInAdmin } from "../../../api/Admin/StageSetting";
 
 
 type Project = {
@@ -33,11 +33,11 @@ function EditStage({ editEnable, setEditEnable, editId, onEditSuccess }: stagePr
    const endRef = useRef<HTMLParagraphElement>(null)
 
    const fetchStage = async (projectId: string): Promise<void> => {
-         const response = await getStage(projectId);
+         const response = await getStageInAdmin(projectId);
          if (response.success) {
              const updatedStage = []
-            for (let element of response.message) {
-               updatedStage.push({stage_name:element.stage_name,start_date:element.start_date,end_date:element.end_date,stage_percentage:element.stage_per,stage_amount:element.stage_amount})
+            for (let element of response.data) {
+               updatedStage.push({stage_name:element.stage_name,start_date:element.start_date.split("T")[0],end_date:element.end_date.split("T")[0],stage_percentage:element.stage_per,stage_amount:element.stage_amount})
             }
             setStages(updatedStage)
          } else {
@@ -50,8 +50,8 @@ function EditStage({ editEnable, setEditEnable, editId, onEditSuccess }: stagePr
          const response = await getProject();
          const filteredProject = response.data.find((element: any) => element._id == editId)
          setCost(filteredProject.budgeted_cost)
-         setStartDate(filteredProject.start_date)
-         setEndDate(filteredProject.end_date)
+         setStartDate(filteredProject.start_date.split("T")[0])
+         setEndDate(filteredProject.end_date.split("T")[0])
          setProject(response.data);
    };
 

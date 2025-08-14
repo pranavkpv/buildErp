@@ -12,7 +12,7 @@ export class FetchCategoryListController implements IFetchCategoryListController
          const { page, search } = req.query
          // Convert page to number and validate
          const pageNum = Number(page);
-         if (isNaN(pageNum) || pageNum <= 0) {
+         if (isNaN(pageNum) || pageNum < 0) {
             return ResponseHelper.badRequest(commonFailedMessage.PAGE_NEGATIVE)
          }
          //  limit search query length

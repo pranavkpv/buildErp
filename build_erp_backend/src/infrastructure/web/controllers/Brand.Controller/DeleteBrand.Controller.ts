@@ -5,7 +5,7 @@ import { IRemoveBrandControllerEntity } from "../../../../Entities/ControllerEnt
 
 export class DeleteBrandController implements IRemoveBrandControllerEntity {
    constructor(private deleteBrandUseCase: IDeleteBrandUsecaseEntity) { }
-   async removeBrandHandler(req: Request, res: Response, next: NextFunction): Promise<commonOutput | void> {
+    removeBrandHandler = async(req: Request, res: Response, next: NextFunction): Promise<commonOutput | void> => {
       return await this.deleteBrandUseCase.execute(req.params.id);
    }
 }

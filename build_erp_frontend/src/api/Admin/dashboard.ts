@@ -1,11 +1,11 @@
 import { toast } from "react-toastify";
-import axioInstance from "../../axios/authAxios"
+import adminAxios from "../../axios/AdminAxioInterceptors"
 
 //--------------- Admin login --------------- //
 
 export const adminLoginAPI = async (username: string, password: string) => {
   try {
-    const response = await axioInstance.post("/admin/login",
+    const response = await adminAxios.post("/login",
       {
         username,
         password,
@@ -22,7 +22,7 @@ export const adminLoginAPI = async (username: string, password: string) => {
 // --------------- admin logout --------------- //
 export const adminLogout = async () => {
   try {
-    const response = await axioInstance.post(`/admin/logout`, {}, { withCredentials: true })
+    const response = await adminAxios.post(`/logout`, {}, { withCredentials: true })
     return response.data
   } catch (error: any) {
     toast.error(error.message)
@@ -32,7 +32,7 @@ export const adminLogout = async () => {
 export const fetchBudgetAndActual = async (search: string) => {
   try {
 
-    const response = await axioInstance.get(`/admin/budgetActual`, { params: { search } })
+    const response = await adminAxios.get(`/budgetActual`, { params: { search } })
     return response.data
   } catch (error: any) {
     toast.error(error.message)
@@ -41,7 +41,7 @@ export const fetchBudgetAndActual = async (search: string) => {
 
 export const fetMaterialAnalysis = async (search: string) => {
   try {
-    const response = await axioInstance.get(`/admin/budgetActualMaterial`, { params: { search } })
+    const response = await adminAxios.get(`/budgetActualMaterial`, { params: { search } })
     return response.data
   } catch (error: any) {
     toast.error(error.message)
@@ -50,7 +50,7 @@ export const fetMaterialAnalysis = async (search: string) => {
 
 export const fetLabourAnalysis = async (search: string) => {
   try {
-    const response = await axioInstance.get(`/admin/budgetActualLabour`, { params: { search } })
+    const response = await adminAxios.get(`/budgetActualLabour`, { params: { search } })
     return response.data
   } catch (error: any) {
     toast.error(error.message)

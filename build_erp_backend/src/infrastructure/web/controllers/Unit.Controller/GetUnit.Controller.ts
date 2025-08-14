@@ -7,12 +7,12 @@ import { commonFailedMessage } from "../../../../Shared/Messages/Common.Message"
 
 export class GetUnitController implements IGetUnitControllerEntity {
     constructor(private displayUnitUseCase: IDisplayAllUnitUseCaseEntity) { }
-    async getUnitHandler(req: Request, res: Response, next: NextFunction): Promise<commonOutput | void> {
+    getUnitHandler = async(req: Request, res: Response, next: NextFunction): Promise<commonOutput | void> => {
         try {
             const { page, search } = req.query
             // Convert page to number and validate
             const pageNum = Number(page);
-            if (isNaN(pageNum) || pageNum <= 0) {
+            if (isNaN(pageNum) || pageNum < 0) {
                 return ResponseHelper.badRequest(commonFailedMessage.PAGE_NEGATIVE)
             }
             //  limit search query length

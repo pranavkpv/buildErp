@@ -5,7 +5,7 @@ import { IBrandListControllerEntity } from "../../../../Entities/ControllerEntit
 
 export class DisplayBrandController implements IBrandListControllerEntity {
    constructor(private displayBrandUseCase: IDisplayAllBrandUseCaseEntity) { }
-   async brandListHandler(req: Request, res: Response, next: NextFunction): Promise<commonOutput | void> {
+    brandListHandler = async(req: Request, res: Response, next: NextFunction): Promise<commonOutput | void> =>{
       try {
          const { page, search } = req.query;
          return await this.displayBrandUseCase.execute({page:Number(page), search:String(search)});

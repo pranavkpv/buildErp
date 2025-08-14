@@ -1,7 +1,7 @@
 import { jwtDecode } from "jwt-decode";
-import { fetchBrandCorrespondingMaterial, fetchUniqueMaterial, fetchUnitCorrespondingMaterial, fetchUnitRate } from "../../../api/Admin/material";
+import { fetchUnitRate } from "../../../api/Admin/material";
 import { getSitemanagersProject } from "../../../api/Sitemanager/profile";
-import { savePurchaseAPI } from "../../../api/Sitemanager/purchase";
+import { fetchBrandCorrespondingMaterialInSitemanager, fetchUniqueMaterialInSiteManager, fetchUnitCorrespondingMaterialInsitemanager, fetchUnitRateInSitemanager, savePurchaseAPI } from "../../../api/Sitemanager/purchase";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
@@ -48,7 +48,7 @@ function AddPurchase({ addEnable, setAddEnable, onAddSuccess }: setAdd) {
    const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
    const fetchMaterial = async () => {
-      const materialList = await fetchUniqueMaterial();
+      const materialList = await fetchUniqueMaterialInSiteManager();
       setMaterial(materialList.data);
    };
 
@@ -76,8 +76,8 @@ function AddPurchase({ addEnable, setAddEnable, onAddSuccess }: setAdd) {
       }
       setErrors((prev) => ({ ...prev, [`material_${idx}`]: "" }));
       
-      const brandData = await fetchBrandCorrespondingMaterial(selectedMaterial);
-      const unitData = await fetchUnitCorrespondingMaterial(selectedMaterial);
+      const brandData = await fetchBrandCorrespondingMaterialInSitemanager(selectedMaterial);
+      const unitData = await fetchUnitCorrespondingMaterialInsitemanager(selectedMaterial);
       const newRow = [...row];
       newRow[idx].material_name = selectedMaterial;
       newRow[idx].brand_name = "";
@@ -91,7 +91,7 @@ function AddPurchase({ addEnable, setAddEnable, onAddSuccess }: setAdd) {
    const unitRateFetch = async (index: number) => {
       const { material_name, brand_name, unit_name } = row[index];
       if (!material_name || !brand_name || !unit_name) return;
-      const response = await fetchUnitRate(material_name, unit_name, brand_name);
+      const response = await fetchUnitRateInSitemanager(material_name, unit_name, brand_name);
       const newRow = [...row];
       newRow[index].unit_rate = response.data.unit_rate;
       newRow[index].material_id = response.data._id;

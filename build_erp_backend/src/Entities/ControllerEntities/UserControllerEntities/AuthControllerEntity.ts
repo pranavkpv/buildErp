@@ -19,4 +19,5 @@ export interface IAuthControllerEntity {
    ChangePassword(req: Request, res: Response, next: NextFunction): Promise<commonOutput>
    fetChatList(req: Request, res: Response, next: NextFunction): Promise<chatListOutput | commonOutput>
    fetchMessage(req: Request, res: Response, next: NextFunction): Promise<chatListOutput | commonOutput>
+   fetchAllProjectListInUser(req: Request, res: Response, next: NextFunction): Promise<commonOutput>
 }

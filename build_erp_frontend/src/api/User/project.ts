@@ -1,11 +1,12 @@
 import { toast } from "react-toastify";
-import axioInstance from "../../axios/authAxios";
+import userAxios from "../../axios/UserAxioInterceptors";
+import authAxios from "../../axios/authAxios"
 
 // ---------------- Fetch User Projects ---------------- //
 
 export const fetchUserProjectAPI = async (user: string) => {
    try {
-      const response = await axioInstance.get(`/fetchuserproject/${ user }`);
+      const response = await userAxios.get(`/fetchuserproject/${ user }`);
       return response.data;
    } catch (error: any) {
       toast.error(error.response?.data?.message || "Failed to fetch user projects");
@@ -21,7 +22,7 @@ export const fetchStatusBaseProject = async (
    page: number
 ) => {
    try {
-      const response = await axioInstance.get(`/fetchstatusbaseproject/${ status }`, {
+      const response = await userAxios.get(`/fetchstatusbaseproject/${ status }`, {
          params: { searchItem, selectedArea, page }
       });
       return response.data;
@@ -32,7 +33,7 @@ export const fetchStatusBaseProject = async (
 
 export const fetchSitemanagerApI = async () => {
    try {
-      const response = await axioInstance.get(`/fetchatList`)
+      const response = await userAxios.get(`/fetchatList`)
       return response.data
    } catch (error: any) {
       toast.error(error.response?.data?.message);
@@ -40,11 +41,21 @@ export const fetchSitemanagerApI = async () => {
 }
 
 
-export const fetchMessagesApi = async(sitemanagerId:string | null)=>{
+export const fetchMessagesApi = async (sitemanagerId: string | null) => {
    try {
-      const response = await axioInstance.get(`/chats/${sitemanagerId}`)
+      const response = await userAxios.get(`chats/${ sitemanagerId }`)
       return response.data
-   } catch (error:any) {
-       toast.error(error.response?.data?.message);
+   } catch (error: any) {
+      toast.error(error.response?.data?.message);
+   }
+}
+
+
+export const getAllProjectInUserSideApi = async () => {
+   try {
+      const response = await authAxios.get(`/projectListUser`)
+      return response.data
+   } catch (error: any) {
+      toast.error(error.response?.data?.message);
    }
 }

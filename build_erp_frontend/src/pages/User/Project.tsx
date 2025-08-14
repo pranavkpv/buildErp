@@ -4,7 +4,7 @@ import ProjectCard from "../../components/USER/UserFrontPage/ProjectCard";
 import { useEffect, useState } from "react";
 import Footer from "../../components/USER/common/Footer";
 import { Link } from "react-router-dom";
-import { getProject } from "../../api/Admin/project";
+import { getAllProjectInUserSideApi } from "../../api/User/project";
 
 type projectData = {
   _id: string;
@@ -26,7 +26,7 @@ function Projects() {
   const [searchProject, setSearchProject] = useState("");
 
   const fetchProject = async () => {
-    const result: { data: projectData[] } = await getProject();
+    const result: { data: projectData[] } = await getAllProjectInUserSideApi();
     const filteredResult = result.data.filter(
       (element) =>
         (element.project_name.toLowerCase().includes(searchProject.toLowerCase()) ||

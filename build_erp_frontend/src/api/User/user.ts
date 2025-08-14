@@ -1,11 +1,12 @@
 import { toast } from "react-toastify";
-import axioInstance from "../../axios/authAxios";
+import userAxios from "../../axios/UserAxioInterceptors";
+import authAxios from "../../axios/authAxios"
 
 // ---------------- User Login ---------------- //
 
 export const userLoginAPI = async (email: string, password: string) => {
    try {
-      const response = await axioInstance.post("/login", { email, password }, { withCredentials: true });
+      const response = await authAxios.post("/login", { email, password }, { withCredentials: true });
       return response.data;
    } catch (error: any) {
       toast.error(error.response?.data?.message || "Login failed");
@@ -16,7 +17,7 @@ export const userLoginAPI = async (email: string, password: string) => {
 
 export const SendOTP = async (email: string) => {
    try {
-      const response = await axioInstance.post("/forgotOTP", { email });
+      const response = await authAxios.post("/forgotOTP", { email });
       return response.data;
    } catch (error: any) {
       toast.error(error.response?.data?.message || "Failed to send OTP");
@@ -27,7 +28,7 @@ export const SendOTP = async (email: string) => {
 
 export const verifyOTPAPI = async (otp: string, email: string) => {
    try {
-      const response = await axioInstance.post("/verifyOtp", { otp, email });
+      const response = await authAxios.post("/verifyOtp", { otp, email });
       return response.data;
    } catch (error: any) {
       toast.error(error.response?.data?.message || "OTP verification failed");
@@ -38,7 +39,7 @@ export const verifyOTPAPI = async (otp: string, email: string) => {
 
 export const updatePasswordAPI = async (otpEmail: string | null, password: string) => {
    try {
-      const response = await axioInstance.put("/updatepassword", { email: otpEmail, password });
+      const response = await authAxios.put("/updatepassword", { email: otpEmail, password });
       return response.data;
    } catch (error: any) {
       toast.error(error.response?.data?.message || "Password update failed");
@@ -49,7 +50,8 @@ export const updatePasswordAPI = async (otpEmail: string | null, password: strin
 
 export const userLogout = async () => {
    try {
-      const response = await axioInstance.post("/logout", {}, { withCredentials: true });
+      console.log("helloooo")
+      const response = await userAxios.post("/logout", {}, { withCredentials: true });
       return response.data;
    } catch (error: any) {
       toast.error(error.response?.data?.message || "Logout failed");
@@ -60,7 +62,7 @@ export const userLogout = async () => {
 
 export const UpdateProfileAPI = async (_id: string, username: string, email: string, phone: number) => {
    try {
-      const response = await axioInstance.patch(`/updateprofile/${ _id }`, { username, email, phone });
+      const response = await userAxios.patch(`/updateprofile/${ _id }`, { username, email, phone });
       return response.data;
    } catch (error: any) {
       toast.error(error.response?.data?.message || "Profile update failed");
@@ -71,7 +73,7 @@ export const UpdateProfileAPI = async (_id: string, username: string, email: str
 
 export const UpdateProfileImageAPI = async (file: File | null, _id: string) => {
    try {
-      const response = await axioInstance.patch(`/updateprofileImage/${ _id }`, { file }, {
+      const response = await userAxios.patch(`/updateprofileImage/${ _id }`, { file }, {
          headers: { "Content-Type": "multipart/form-data" }
       });
       return response.data;
@@ -84,7 +86,7 @@ export const UpdateProfileImageAPI = async (file: File | null, _id: string) => {
 
 export const SignInWithGoogle = async (email: string, username: string, profile_image: string) => {
    try {
-      const response = await axioInstance.post("/googleLogin", { email, username, profile_image });
+      const response = await authAxios.post("/googleLogin", { email, username, profile_image });
       return response.data;
    } catch (error: any) {
       toast.error(error.response?.data?.message || "Google sign-in failed");
@@ -100,7 +102,7 @@ export const UpdatePasswordInCheckCurrentPassword = async (
    password: string
 ) => {
    try {
-      const response = await axioInstance.put(`/changepassword/${ _id }`, {
+      const response = await userAxios.put(`/changepassword/${ _id }`, {
          email,
          currentPassword,
          password
@@ -114,9 +116,27 @@ export const UpdatePasswordInCheckCurrentPassword = async (
 
 export const userSignupApi = async (username: string, email: string, phone: string, password: string) => {
    try {
-      const response = await axioInstance.post('/signup', { username, email, phone, password })
+      const response = await authAxios.post('/signup', { username, email, phone, password })
       return response.data
    } catch (error: any) {
       toast.error(error.response?.data?.message);
+   }
+}
+
+export const resendOTPApi = async (email: string) => {
+   try {
+      const response = await authAxios.post('/resendOtp', { email })
+      return response.data
+   } catch (error: any) {
+      toast.error(error.response?.data?.message);
+   }
+}
+
+export const verifyForgotApi = async (otp:string,email:string) => {
+   try {
+      const response = await authAxios.post('/verifyForgotOtp', { otp,email })
+      return response.data
+   } catch (error:any) {
+       toast.error(error.response?.data?.message)
    }
 }

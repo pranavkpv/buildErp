@@ -55,14 +55,13 @@ function Login() {
       return;
     }
       const response = await userLoginAPI(email, password)
-      console.log(response)
       if (response.success) {
         toast.success(response.message);
         localStorage.setItem('accessToken', response.token.accessToken);
         dispatch(login({
-          _id: response.userData._id, username: response.userData.username,
-          email: response.userData.email, phone: response.userData.phone,
-          profile_image: response.userData?.profile_image, token: response.token.accessToken
+          _id: response.data._id, username: response.data.username,
+          email: response.data.email, phone: response.data.phone,
+          profile_image: response.data?.profile_image, token: response.token.accessToken
         }))
         setTimeout(() => {
           navigate('/');
@@ -80,9 +79,9 @@ function Login() {
         toast.success(response.message)
          localStorage.setItem('accessToken', response.token.accessToken);
         dispatch(login({
-          _id: response.userData._id, username: response.userData.username,
-          email: response.userData.email, phone: response.userData.phone,
-          profile_image: response.userData?.profile_image, token: response.token.accessToken
+          _id: response.data._id, username: response.data.username,
+          email: response.data.email, phone: response.data.phone,
+          profile_image: response.data?.profile_image, token: response.token.accessToken
         }))
          setTimeout(() => {
           navigate('/');

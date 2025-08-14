@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import axioInstance from "../../axios/authAxios";
+import adminAxios from "../../axios/AdminAxioInterceptors"
 import type { brandInput } from "../../ApiInterface/BrandApiInterface";
 import type { listingInput } from "../../ApiInterface/CommonApiInterface";
 
@@ -7,7 +7,7 @@ import type { listingInput } from "../../ApiInterface/CommonApiInterface";
 
 export const postBrand = async (input:brandInput) => {
    try {
-      const response = await axioInstance.post(`/admin/brand`,input);
+      const response = await adminAxios.post(`/brand`,input);
       return response.data
    } catch (error: any) {
       toast.error(error.response.data.message)
@@ -18,7 +18,7 @@ export const postBrand = async (input:brandInput) => {
 
 export const getbrandList = async (input:listingInput) => {
    try {
-      const response = await axioInstance.get(`/admin/brand`, { params: input });
+      const response = await adminAxios.get(`/brand`, { params: input });
       return response.data
    } catch (error: any) {
        toast.error(error.response.data.message)
@@ -29,7 +29,7 @@ export const getbrandList = async (input:listingInput) => {
 
 export const deleteBrandData = async (_id: string) => {
    try {
-      const response = await axioInstance.delete(`/admin/brand/${ _id }`);
+      const response = await adminAxios.delete(`/brand/${ _id }`);
       return response.data
    } catch (error: any) {
       toast.error(error.response.data.message)
@@ -41,7 +41,7 @@ export const deleteBrandData = async (_id: string) => {
 export const putBrandData = async (input:brandInput) => {
    try {
       const {_id,brand_name} = input
-      const response = await axioInstance.put(`/admin/brand/${ _id }`, { brand_name });
+      const response = await adminAxios.put(`/brand/${ _id }`, { brand_name });
       return response.data
    } catch (error: any) {
        toast.error(error.response.data.message)

@@ -23,11 +23,11 @@ function ProfileEdit() {
       if (response.success) {
         toast.success(response.message);
         dispatch(login({
-          _id: response.userData._id,
-          username: response.userData.username,
-          email: response.userData.email,
-          phone: response.userData.phone,
-          profile_image: response.userData?.profile_image,
+          _id: response.data._id,
+          username: response.data.username,
+          email: response.data.email,
+          phone: response.data.phone,
+          profile_image: response.data?.profile_image,
           token: localStorage.getItem("accessToken") || "",
         }));
         setEditAccess(false);

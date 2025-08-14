@@ -1,11 +1,12 @@
 import { toast } from "react-toastify";
-import axioInstance from "../../axios/authAxios";
+import siteAxios from "../../axios/SitemanagerAxioInterceptor"
 
 // ---------------- Fetch Stages for a Project ---------------- //
 
 export const getStage = async (projectId: string) => {
    try {
-      const response = await axioInstance.get(`/site/stageFetch/${projectId}`);
+ 
+      const response = await siteAxios.get(`/stageFetch/${projectId}`);
       return response.data;
    } catch (error: any) {
      toast.error(error.response.data.message)
@@ -20,7 +21,7 @@ export const changeStatusStage = async (
    date: string
 ) => {
    try {
-      const response = await axioInstance.put(`/site/status/${stageId}`, {
+      const response = await siteAxios.put(`/status/${stageId}`, {
          newProgress,
          date,
       });
@@ -48,7 +49,7 @@ export const uploadImageAPI = async (
          formData.append("image", file);
       });
 
-      const response = await axioInstance.put("/site/upload", formData, {
+      const response = await siteAxios.put("/upload", formData, {
          headers: {
             "Content-Type": "multipart/form-data",
          },

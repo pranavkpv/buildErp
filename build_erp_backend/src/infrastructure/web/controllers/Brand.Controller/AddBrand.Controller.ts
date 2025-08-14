@@ -5,7 +5,7 @@ import { IAddBrandControllerEntity } from "../../../../Entities/ControllerEntiti
 
 export class AddBrandController implements IAddBrandControllerEntity {
     constructor(private addBrandUseCase: ISaveBrandUseCaseEntity) { }
-    async addBrandHandler(req: Request, res: Response, next: NextFunction): Promise<commonOutput | void> {
+     addBrandHandler = async(req: Request, res: Response, next: NextFunction): Promise<commonOutput | void>=> {
         try {
             return await this.addBrandUseCase.execute(req.body);
         } catch (error) {

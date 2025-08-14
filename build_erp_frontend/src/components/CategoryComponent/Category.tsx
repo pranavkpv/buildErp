@@ -27,6 +27,7 @@ function Category() {
   const fetchData = async () => {
     const search = searchCategory
     const data = await categoryList({page, search})
+    console.log(data)
     setTotal(Math.ceil(data.totalPage))
     setCategories(data.data);
   };

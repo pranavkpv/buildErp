@@ -1,5 +1,5 @@
 import { toast } from "react-toastify"
-import axioInstance from "../../axios/authAxios"
+import adminAxios from "../../axios/AdminAxioInterceptors"
 
 
 type rowData = {
@@ -14,7 +14,7 @@ type rowData = {
 
 export const fetChEstimation = async (search: string, page: number) => {
    try {
-      const response = await axioInstance("/admin/fetchEstimation", { params: { search, page } })
+      const response = await adminAxios("/fetchEstimation", { params: { search, page } })
       return response.data
    } catch (error: any) {
       toast.error(error.response.data.message)
@@ -25,7 +25,7 @@ export const fetChEstimation = async (search: string, page: number) => {
 
 export const RemoveEstimation = async (_id: string) => {
    try {
-      const response = await axioInstance.delete(`/admin/deleteEstimation/${ _id }`)
+      const response = await adminAxios.delete(`/deleteEstimation/${ _id }`)
       return response.data
    } catch (error: any) {
       toast.error(error.response.data.message)
@@ -40,7 +40,7 @@ export const uploadEstimatImageAPI = async (uploadProjectId: string, file: File 
       const formData = new FormData()
       formData.append("image", file)
       formData.append("_id", uploadProjectId)
-      const response = await axioInstance.post("/admin/uploadEstimated", formData, {
+      const response = await adminAxios.post("/uploadEstimated", formData, {
          headers: {
             "Content-Type": "multipart/form-data"
          }
@@ -55,7 +55,7 @@ export const uploadEstimatImageAPI = async (uploadProjectId: string, file: File 
 
 export const fetchExistEstimation = async (projectId: string) => {
    try {
-      const response = await axioInstance.get(`/admin/fetchExistEstimation/${ projectId }`)
+      const response = await adminAxios.get(`/fetchExistEstimation/${ projectId }`)
       return response.data
    } catch (error: any) {
       toast.error(error.response.data.message)
@@ -66,7 +66,7 @@ export const fetchExistEstimation = async (projectId: string) => {
 
 export const EstimationUpdate = async (projectId: string, row: rowData[]) => {
    try {
-      const response = await axioInstance.post("/admin/updateEstimation", { projectId, row })
+      const response = await adminAxios.post("/updateEstimation", { projectId, row })
       return response.data
    } catch (error: any) {
       toast.error(error.response.data.message)

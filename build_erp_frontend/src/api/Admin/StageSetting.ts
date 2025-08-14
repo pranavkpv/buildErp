@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import axioInstance from "../../axios/authAxios";
+import adminAxios from "../../axios/AdminAxioInterceptors"
 
 type stageData = {
    stage_name: string;
@@ -13,7 +13,7 @@ type stageData = {
 
 export const fetchBugetAPI = async (projectId: string) => {
    try {
-      const response = await axioInstance.get(`/admin/fetchbudget/${projectId}`);
+      const response = await adminAxios.get(`/fetchbudget/${projectId}`);
       return response.data;
    } catch (error: any) {
        toast.error(error.response.data.message)
@@ -30,7 +30,7 @@ export const stageSaveAPI = async (
    cost: number
 ) => {
    try {
-      const response = await axioInstance.post("/admin/saveStage", {
+      const response = await adminAxios.post("/saveStage", {
          data: { stages, projectId, startDate, endDate, cost },
       });
       return response.data;
@@ -43,7 +43,7 @@ export const stageSaveAPI = async (
 
 export const fetchStageDataAPI = async (search: string, page: number) => {
    try {
-      const response = await axioInstance.get("/admin/fetchstage", {
+      const response = await adminAxios.get("/fetchstage", {
          params: { search, page },
       });
       return response.data;
@@ -56,7 +56,7 @@ export const fetchStageDataAPI = async (search: string, page: number) => {
 
 export const stageDeleteAPI = async (deleteId: string) => {
    try {
-      const response = await axioInstance.post("/admin/stageDelete", { deleteId });
+      const response = await adminAxios.post("/stageDelete", { deleteId });
       return response.data;
    } catch (error: any) {
        toast.error(error.response.data.message)
@@ -73,7 +73,7 @@ export const editStageAPI = async (
    cost: number
 ) => {
    try {
-      const response = await axioInstance.put(`/admin/editStage/${projectId}`, {
+      const response = await adminAxios.put(`/editStage/${projectId}`, {
          stages,
          startDate,
          endDate,
@@ -84,3 +84,15 @@ export const editStageAPI = async (
       toast.error(error.response.data.message)
    }
 };
+
+
+export const getStageInAdmin =  async (projectId: string) => {
+   try {
+ 
+      const response = await adminAxios.get(`/stageFetch/${projectId}`);
+      return response.data;
+   } catch (error: any) {
+     toast.error(error.response.data.message)
+   }
+};
+

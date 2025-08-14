@@ -1,12 +1,12 @@
 import { toast } from "react-toastify";
-import axioInstance from "../../axios/authAxios";
+import siteAxios from "../../axios/SitemanagerAxioInterceptor"
 
 // ---------------- Site Manager Login ---------------- //
 
 export const SiteManagerLoginAPI = async (email: string, password: string) => {
    try {
-      const response = await axioInstance.post(
-         "/site/login",
+      const response = await siteAxios.post(
+         "/login",
          { email, password },
          { withCredentials: true }
       );

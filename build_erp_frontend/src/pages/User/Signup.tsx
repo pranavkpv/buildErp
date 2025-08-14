@@ -85,14 +85,14 @@ function Signup() {
     }
       const response = await userSignupApi(username,email,phone,password)
 
-      if (response.data.success) {
+      if (response.success) {
         localStorage.setItem('otpEmail', email);
-        toast.success(response.data.message);
+        toast.success(response.message);
         setTimeout(() => {
           navigate('/otp');
         }, 1500);
       } else {
-        toast.error(response.data.message);
+        toast.error(response.message);
       }
   };
 

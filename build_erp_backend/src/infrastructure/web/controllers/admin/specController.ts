@@ -45,7 +45,6 @@ export class SpecController implements ISpecControllerEntity {
    //------------------------------------ Save Spec  ------------------------------------//
 
    saveSpec = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
-      console.log(req.body)
       const result = await this.specSaveuseCase.execute(req.body)
       return result
    }

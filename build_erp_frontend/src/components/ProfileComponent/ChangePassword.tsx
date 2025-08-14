@@ -45,7 +45,6 @@ function ChangePassword() {
         toast.error("User Not Exist");
         return;
       }
-      console.log(user);
       const response = await UpdatePasswordInCheckCurrentPassword(
         user._id,
         user.email,

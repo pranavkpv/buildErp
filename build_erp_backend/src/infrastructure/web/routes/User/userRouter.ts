@@ -24,43 +24,7 @@ export class userRoute {
     */
    private setRoute() {
       const jwtService = new JwtService();
-
-      // ================================
-      // 🔹 Public Auth Routes
-      // ================================
-      this.userRoute.post(
-         "/googleLogin",
-         withLogging(injectAuthController.GoogleLogin)
-      );
-      this.userRoute.post(
-         "/verifyOtp",
-         withLogging(injectAuthController.verifyOTP)
-      );
-      this.userRoute.post(
-         "/resendOtp",
-         withLogging(injectAuthController.resendOtp)
-      );
-      this.userRoute.post(
-         "/login",
-         withLogging(injectAuthController.login)
-      );
-
-      // ================================
-      // 🔹 Forgot Password Flow
-      // ================================
-      this.userRoute.post(
-         "/forgotOTP",
-         withLogging(injectAuthController.SendOTP)
-      );
-      this.userRoute.post(
-         "/verifyForgotOtp",
-         withLogging(injectAuthController.verifyForgotOTP)
-      );
-      this.userRoute.put(
-         "/updatepassword",
-         withLogging(injectAuthController.updatePassword)
-      );
-
+   
       // ================================
       // 🔹 Middleware for authentication
       // ================================

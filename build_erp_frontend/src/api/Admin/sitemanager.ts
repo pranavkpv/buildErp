@@ -1,11 +1,11 @@
 import { toast } from "react-toastify";
-import axioInstance from "../../axios/authAxios";
+import adminAxios from "../../axios/AdminAxioInterceptors"
 
 // ---------------- Add Site Manager ---------------- //
 
 export const postSitemanager = async (username: string, email: string) => {
    try {
-      const response = await axioInstance.post(`/admin/sitemanager`, {
+      const response = await adminAxios.post(`/sitemanager`, {
          username,
          email,
       });
@@ -19,7 +19,7 @@ export const postSitemanager = async (username: string, email: string) => {
 
 export const deleteSitemanagerData = async (_id: string) => {
    try {
-      const response = await axioInstance.delete(`/admin/sitemanager/${_id}`);
+      const response = await adminAxios.delete(`/sitemanager/${_id}`);
       return response.data;
    } catch (error: any) {
        toast.error(error.response.data.message)
@@ -30,7 +30,7 @@ export const deleteSitemanagerData = async (_id: string) => {
 
 export const editSitemanagerData = async (_id: string, username: string, email: string) => {
    try {
-      const response = await axioInstance.put(`/admin/sitemanager/${_id}`, {
+      const response = await adminAxios.put(`/sitemanager/${_id}`, {
          username,
          email,
       });
@@ -44,7 +44,7 @@ export const editSitemanagerData = async (_id: string, username: string, email: 
 
 export const fetchSitemanager = async (page: number, search: string) => {
    try {
-      const response = await axioInstance.get(`/admin/sitemanager`, {
+      const response = await adminAxios.get(`/sitemanager`, {
          params: { page, search },
       });
       return response.data;

@@ -18,6 +18,7 @@ export class ChatRepository implements IChatRepositoryEntity {
     input: messageData
   ): Promise<messageData[]> {
     const { senderId, receiverId } = input;
+    console.log(input)
 
     return await chatDB.find({
       $or: [

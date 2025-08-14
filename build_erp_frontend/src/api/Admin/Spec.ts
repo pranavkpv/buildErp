@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import axioInstance from "../../axios/authAxios";
+import adminAxios from "../../axios/AdminAxioInterceptors"
 
 type materialData = {
    material_id: string;
@@ -34,7 +34,7 @@ type rowData = {
 
 export const fetchSpec = async (page: number, search: string) => {
    try {
-      const response = await axioInstance.get("/admin/spec", {
+      const response = await adminAxios.get("/spec", {
          params: { page, search },
       });
       return response.data;
@@ -57,7 +57,7 @@ export const SaveSpec = async (
 ) => {
    console.log(additionalExpensePer)
    try {
-      const response = await axioInstance.post("/admin/spec", {
+      const response = await adminAxios.post("/spec", {
          specId,
          specname,
          specUnit,
@@ -87,7 +87,7 @@ export const UpdateSpec = async (
    profit_per: number
 ) => {
    try {
-      const response = await axioInstance.put(`/admin/spec/${_id}`, {
+      const response = await adminAxios.put(`/spec/${_id}`, {
          specId,
          specname,
          specUnit,
@@ -110,7 +110,7 @@ export const fetchSum = async (
    labourDetails: labourData[]
 ) => {
    try {
-      const response = await axioInstance.get("/admin/fetchSum", {
+      const response = await adminAxios.get("/fetchSum", {
          data: { materialDetails, labourDetails },
       });
       return response.data;
@@ -123,7 +123,7 @@ export const fetchSum = async (
 
 export const DeleteSpecFunction = async (id: string) => {
    try {
-      const response = await axioInstance.delete(`/admin/deleteSpec/${id}`);
+      const response = await adminAxios.delete(`/deleteSpec/${id}`);
       return response.data;
    } catch (error: any) {
       toast.error(error.response.data.message)
@@ -134,7 +134,7 @@ export const DeleteSpecFunction = async (id: string) => {
 
 export const getSpec = async () => {
    try {
-      const response = await axioInstance.get("/admin/getSpec");
+      const response = await adminAxios.get("/getSpec");
       return response.data;
    } catch (error: any) {
       toast.error(error.response.data.message)
@@ -147,7 +147,7 @@ export const sumOfMaterialFun = async (
    materials: { material_id: string; quantity: number }[]
 ) => {
    try {
-      const response = await axioInstance.get("/admin/getMatsum", {
+      const response = await adminAxios.get("/getMatsum", {
          params: { materials: JSON.stringify(materials) },
       });
       return response.data;
@@ -162,7 +162,7 @@ export const sumOfLabourFun = async (
    labours: { labour_id: string; numberoflabour: number }[]
 ) => {
    try {
-      const response = await axioInstance.get("/admin/getLabSum", {
+      const response = await adminAxios.get("/getLabSum", {
          params: { labours: JSON.stringify(labours) },
       });
       return response.data;
@@ -175,7 +175,7 @@ export const sumOfLabourFun = async (
 
 export const EstimationSave = async (projectId: string, row: rowData[]) => {
    try {
-      const response = await axioInstance.post("/admin/saveEstimation", {
+      const response = await adminAxios.post("/saveEstimation", {
          projectId,
          row,
       });

@@ -7,7 +7,7 @@ import { unitFailedMessage } from "../../../../Shared/Messages/Unit.Message";
 
 export class AddUnitController implements IAddUnitControllerEntity {
     constructor(private addUnitUseCase: ISaveUnitUseCaseEntity) { }
-    async addUnitHandler(req: Request, res: Response, next: NextFunction): Promise<commonOutput | void> {
+     addUnitHandler = async(req: Request, res: Response, next: NextFunction): Promise<commonOutput | void> => {
         try {
             const { unit_name, short_name } = req.body
             if (!unit_name || typeof unit_name !== "string" || unit_name.trim() === "") {

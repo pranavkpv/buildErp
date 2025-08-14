@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import axioInstance from "../../axios/authAxios";
+import siteAxios from "../../axios/SitemanagerAxioInterceptor"
 
 // ---------------- Change Site Manager Password ---------------- //
 
@@ -9,7 +9,7 @@ export const changePassword = async (
    changedpassword: string
 ) => {
    try {
-      const response = await axioInstance.put(`/site/changepass/${ _id }`, {
+      const response = await siteAxios.put(`/changepass/${ _id }`, {
          password,
          changedpassword,
       });
@@ -23,7 +23,7 @@ export const changePassword = async (
 
 export const logoutSitemanager = async () => {
    try {
-      const response = await axioInstance.post(`/site/logout`, {}, { withCredentials: true });
+      const response = await siteAxios.post(`/logout`, {}, { withCredentials: true });
       return response.data;
    } catch (error: any) {
       toast.error(error.response.data.message)
@@ -34,7 +34,7 @@ export const logoutSitemanager = async () => {
 
 export const getSitemanagersProject = async (user: string) => {
    try {
-      const response = await axioInstance.get(`/site/siteproject/${ user }`);
+      const response = await siteAxios.get(`/siteproject/${ user }`);
       return response.data;
    } catch (error: any) {
       toast.error(error.response.data.message)
@@ -44,9 +44,19 @@ export const getSitemanagersProject = async (user: string) => {
 
 export const fetchProjectBySitemanager = async () => {
    try {
-      const response = await axioInstance.get(`/site/chatProject`);
+      const response = await siteAxios.get(`/chatProject`);
       return response.data;
    } catch (error: any) {
       toast.error(error.response.data.message)
+   }
+}
+
+
+export const fetchMessagesApiInSitemanager =  async (sitemanagerId: string | null) => {
+   try {
+      const response = await siteAxios.get(`chats/${ sitemanagerId }`)
+      return response.data
+   } catch (error: any) {
+      toast.error(error.response?.data?.message);
    }
 }

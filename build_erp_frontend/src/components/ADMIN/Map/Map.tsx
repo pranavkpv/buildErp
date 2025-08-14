@@ -190,7 +190,7 @@ function MapIntegrationApp({ address, onMap, setOnMap, setSelectedLocation, sele
           onClick={() => setOnMap(false)}
           className="bg-gray-600 hover:bg-gray-700 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition-colors duration-200"
         >
-          Cancel
+          save
         </button>
       </div>
     </div>

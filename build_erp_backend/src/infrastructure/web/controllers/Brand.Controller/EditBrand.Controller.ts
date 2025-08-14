@@ -5,7 +5,7 @@ import { IEditBrandControllerEntity } from "../../../../Entities/ControllerEntit
 
 export class EditBrandController implements IEditBrandControllerEntity {
     constructor(private editBrandUseCase: IUpdateBrandUseCaseEntity) { }
-    async editBrandHandler(req: Request, res: Response, next: NextFunction): Promise<commonOutput | void> {
+     editBrandHandler = async(req: Request, res: Response, next: NextFunction): Promise<commonOutput | void> => {
         try {
             return await this.editBrandUseCase.execute({ _id: req.params.id, ...req.body });
         } catch (error) {

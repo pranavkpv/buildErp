@@ -21,6 +21,7 @@ import { FetchStatusBaseProjectUseCase } from "../useCases/ProjectDisplayUseCase
 import { FetchUserProjectUseCase } from "../useCases/ProjectDisplayUseCase/fetchUsersProjectUsecase"
 import { GetSitemanagerListDataUseCase } from "../useCases/ProjectDisplayUseCase/getSitemanagerListDataUsecase"
 import { GetMessageDataUseCase } from "../useCases/ChatUsecases/getMessageDataUsecase"
+import { GetAllProjectListInUserUseCase } from "../useCases/ProjectDisplayUseCase/GetAllProjectListInUserUseCase"
 
 // ---------------------- User Injection ---------------------- //
 
@@ -43,9 +44,10 @@ const updateProfileImageUseCase = new UpdateProfileImageUseCase(userRepository)
 const changePasswordUseCase = new ChangePasswordUsecase(userRepository, hasher)
 const getSitemanagerListDatauseCase = new GetSitemanagerListDataUseCase(projectRepository)
 const getmessageDataUsecase = new GetMessageDataUseCase(chatRepository)
+const getAllProjectListInUserUseCase = new GetAllProjectListInUserUseCase(projectRepository)
 export const injectAuthController = new AuthController(signupUserUseCase, verifyOTPUseCase, resendOTPUseCase, userLoginUseCase, refreshTokenUseCase, googleauthuseCase, sendotpUsecase,
    verifyforgotUsecase, updatePasswordUseCase, updateProfileUseCase, updateProfileImageUseCase, changePasswordUseCase,jwtService,
-   getSitemanagerListDatauseCase,getmessageDataUsecase
+   getSitemanagerListDatauseCase,getmessageDataUsecase,getAllProjectListInUserUseCase
 )
 
 // ---------------------- User Project Injection ---------------------- //

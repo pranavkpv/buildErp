@@ -1,5 +1,6 @@
 import { toast } from "react-toastify";
-import axioInstance from "../../axios/authAxios";
+import adminAxios from "../../axios/AdminAxioInterceptors"
+import authAxios from "../../axios/authAxios"
 
 type addRowData = {
   project: string;
@@ -10,7 +11,7 @@ type addRowData = {
 
 export const getaddMaterial = async () => {
   try {
-    const response = await axioInstance.get(`/admin/addmaterial`);
+    const response = await adminAxios.get(`/addmaterial`);
     return response.data;
   } catch (error: any) {
     toast.error(error.response.data.message)
@@ -29,7 +30,7 @@ export const SaveMaterialApi = async (
   projectWiseStock: addRowData[]
 ) => {
   try {
-    const response = await axioInstance.post("/admin/material", {
+    const response = await adminAxios.post("/material", {
       material_name,
       category_id,
       brand_id,
@@ -48,7 +49,7 @@ export const SaveMaterialApi = async (
 
 export const deleteMaterial = async (_id: string) => {
   try {
-    const response = await axioInstance.delete(`/admin/material/${_id}`);
+    const response = await adminAxios.delete(`/material/${_id}`);
     return response.data;
   } catch (error: any) {
     toast.error(error.response.data.message)
@@ -59,7 +60,7 @@ export const deleteMaterial = async (_id: string) => {
 
 export const materialList = async (page: number, search: string) => {
   try {
-    const response = await axioInstance.get(`/admin/material`, {
+    const response = await adminAxios.get(`/material`, {
       params: { page, search },
     });
     return response.data;
@@ -72,7 +73,7 @@ export const materialList = async (page: number, search: string) => {
 
 export const editMaterialData = async (_id: string) => {
   try {
-    const response = await axioInstance.get(`/admin/editmaterial/${_id}`);
+    const response = await adminAxios.get(`/editmaterial/${_id}`);
     return response.data;
   } catch (error: any) {
    toast.error(error.response.data.message)
@@ -83,7 +84,7 @@ export const editMaterialData = async (_id: string) => {
 
 export const fetchUniqueMaterial = async () => {
   try {
-    const response = await axioInstance.get(`/admin/fetchMaterial`);
+    const response = await adminAxios.get(`/fetchMaterial`);
     return response.data;
   } catch (error: any) {
     toast.error(error.response.data.message)
@@ -94,7 +95,7 @@ export const fetchUniqueMaterial = async () => {
 
 export const fetchUnitCorrespondingMaterial = async (material: string) => {
   try {
-    const response = await axioInstance.get(`/admin/fetMatbyUnit/${material}`);
+    const response = await adminAxios.get(`/fetMatbyUnit/${material}`);
     return response.data;
   } catch (error: any) {
     toast.error(error.response.data.message)
@@ -105,7 +106,7 @@ export const fetchUnitCorrespondingMaterial = async (material: string) => {
 
 export const fetchBrandCorrespondingMaterial = async (material: string) => {
   try {
-    const response = await axioInstance.get(`/admin/fetchMatbyBrand/${material}`);
+    const response = await adminAxios.get(`/fetchMatbyBrand/${material}`);
     return response.data;
   } catch (error: any) {
    toast.error(error.response.data.message)
@@ -120,7 +121,7 @@ export const fetchUnitRate = async (
   selectedBrand: string
 ) => {
   try {
-    const response = await axioInstance.get('/admin/unitRate', {
+    const response = await adminAxios.get('/unitRate', {
       params: {
         material_name: selectedMaterial,
         brand_name: selectedBrand,
@@ -137,7 +138,7 @@ export const fetchUnitRate = async (
 
 export const findMaterialById = async (_id: string) => {
   try {
-    const response = await axioInstance.get(`/admin/getmaterial/${_id}`);
+    const response = await adminAxios.get(`/getmaterial/${_id}`);
     return response.data;
   } catch (error: any) {
    toast.error(error.response.data.message)
@@ -148,7 +149,7 @@ export const findMaterialById = async (_id: string) => {
 
 export const UpdateMaterialAPI = async(_id:string,material_name:string,category_id:string,brand_id:string,unit_id:string,unit_rate:number,stock:number,projectWiseStock:addRowData[])=>{
    try {
-    const response = await axioInstance.put(`/admin/material/${_id}`,{material_name,category_id,brand_id,unit_id,unit_rate,stock,projectWiseStock});
+    const response = await adminAxios.put(`/material/${_id}`,{material_name,category_id,brand_id,unit_id,unit_rate,stock,projectWiseStock});
     return response.data;
   } catch (error: any) {
    toast.error(error.response.data.message)

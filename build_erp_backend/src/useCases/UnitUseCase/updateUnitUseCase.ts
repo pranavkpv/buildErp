@@ -15,7 +15,7 @@ export class updateUnitUseCase implements IupdateUnitUseCaseEntity {
       const { _id, unit_name, short_name } = input
       if (!_id) throw new Error(unitFailedMessage.MISS_UNIT_ID)
       const findUnit = await this.UnitRepository.findUnitById(_id)
-      if (findUnit) return ResponseHelper.badRequest(unitFailedMessage.NOT_EXIST)
+      if (!findUnit) return ResponseHelper.badRequest(unitFailedMessage.NOT_EXIST)
       const existUnit = await this.UnitRepository.findUnitInEdit({ _id, unit_name })
       if (existUnit) return ResponseHelper.conflictData(unitFailedMessage.EXIST)
       const response = await this.UnitRepository.updateUnitById({ _id, unit_name, short_name })

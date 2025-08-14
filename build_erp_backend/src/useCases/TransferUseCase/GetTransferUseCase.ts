@@ -12,6 +12,6 @@ export class GetTransferUseCase implements IGetTransferUseCaseEntity {
    }
    async execute(search: string, page: number, id: string): Promise<TransferOutput | commonOutput> {
       const { data, totalPage } = await this.transferRepository.fetchTransferList(search, page, id)
-      return ResponseHelper.success(TransferSuccessMessage.FETCH)
+      return ResponseHelper.success(TransferSuccessMessage.FETCH,data,totalPage)
    }
 }

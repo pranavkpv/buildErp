@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import { toast } from "react-toastify"
 import { jwtDecode } from "jwt-decode"
 import { labourDataFetch } from "../../../api/Admin/labour";
-import { editAttendanceAPI, getAttendanceBYIdAPI } from "../../../api/Sitemanager/attendance";
+import { editAttendanceAPI, getAttendanceBYIdAPI, labourDataFetchInsitemanager } from "../../../api/Sitemanager/attendance";
 import { getSitemanagersProject } from "../../../api/Sitemanager/profile";
 
 
@@ -69,7 +69,7 @@ function EditAttendance({ editId, editEnable, setEditEnable, onEditSuccess }: ed
 
 
    const fetchLabour = async () => {
-         const response = await labourDataFetch();
+         const response = await labourDataFetchInsitemanager();
          setLabour(response.data);
    };
 

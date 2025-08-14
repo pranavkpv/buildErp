@@ -1,8 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import axios from 'axios';
-import { verifyOTPAPI } from '../../api/User/user';
+import { resendOTPApi, verifyOTPAPI } from '../../api/User/user';
 
 
 
@@ -62,8 +61,6 @@ function Otp() {
       return;
     }
       const response = await verifyOTPAPI(otp,otpEmail)
-      console.log(response)
-
       if (response.success) {
         toast.success(response.message);
         localStorage.removeItem('otpEmail');
@@ -80,17 +77,17 @@ function Otp() {
       toast.error('No email found. Please sign up again.');
       return;
     }
-      const baseUrl = import.meta.env.VITE_BASE_URL;
-      const response = await axios.post(`${baseUrl}/resendOtp`, { email: otpEmail });
-      if (response.data.success) {
-        toast.success(response.data.message);
+      
+      const response = await resendOTPApi(otpEmail)
+      if (response.success) {
+        toast.success(response.message);
         setTimer(0);
         setResend(false);
         if (timerRef.current) {
           timerRef.current.innerText = '';
         }
       } else {
-        toast.error(response.data.message);
+        toast.error(response.message);
       }
   };
 

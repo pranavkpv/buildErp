@@ -24,6 +24,7 @@ import { IGetMessageDataUseCaseEntity } from "../../../../Entities/useCaseEntiti
 import { JwtService } from "../../../../services/JwtService";
 import { EstimationFailedMessage } from "../../../../Shared/Messages/Estimation.Message";
 import { userSuccessMessage } from "../../../../Shared/Messages/User.Message";
+import { IGetAllProjectListInUserUseCaseEntity } from "../../../../Entities/useCaseEntities/UserUseCaseEntities/AuthenticationUseCaseEntities/GetAllProjectListInUserUseCaseEntity";
 
 
 
@@ -44,6 +45,7 @@ export class AuthController implements IAuthControllerEntity {
    private jwtService: JwtService
    private getSitemanagerListDatauseCase: IGetSitemanagerListDataUseCaseEntity
    private getmessageDataUsecase: IGetMessageDataUseCaseEntity
+   private getAllProjectListInUserUseCase: IGetAllProjectListInUserUseCaseEntity
    constructor(signupUserUseCase: ISignupUserUseCaseEntity, verifyOTPUseCase: IVerifyOTPUseCasesEntity,
       resendOTPUseCase: IResendOTPUseCaseEntity, userLoginUseCase: IUserLoginUseCaseEntity,
       refreshTokenUseCase: IRefreshTokenUseCaseEntity, googleauthuseCase: IgooglAuthUseCaseEntity,
@@ -51,7 +53,7 @@ export class AuthController implements IAuthControllerEntity {
       updatePasswordUseCase: IUpdatePasswordUseCaseEntity, updateProfileUseCase: IUpdateProfileUseCaseEntity,
       updateProfileImageUseCase: IUpdateProfileImageUseCaseEntity, changePasswordUseCase: IChangePasswordUseCaseEntity,
       jwtService: JwtService, getSitemanagerListDatauseCase: IGetSitemanagerListDataUseCaseEntity,
-      getmessageDataUsecase: IGetMessageDataUseCaseEntity) {
+      getmessageDataUsecase: IGetMessageDataUseCaseEntity, getAllProjectListInUserUseCase: IGetAllProjectListInUserUseCaseEntity) {
       this.signupUserUseCase = signupUserUseCase
       this.verifyOTPUseCase = verifyOTPUseCase
       this.resendOTPUseCase = resendOTPUseCase
@@ -67,12 +69,12 @@ export class AuthController implements IAuthControllerEntity {
       this.jwtService = jwtService
       this.getSitemanagerListDatauseCase = getSitemanagerListDatauseCase
       this.getmessageDataUsecase = getmessageDataUsecase
+      this.getAllProjectListInUserUseCase = getAllProjectListInUserUseCase
    }
 
    //------------------------------------ Signup user controller  ------------------------------------//
 
    signUp = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
-      console.log(req.body)
       const result = await this.signupUserUseCase.execute(req.body)
       return result
    }
@@ -222,6 +224,10 @@ export class AuthController implements IAuthControllerEntity {
       } else {
          return ResponseHelper.unAuthor()
       }
+   }
+   fetchAllProjectListInUser = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
+      const data = await this.getAllProjectListInUserUseCase.execute()
+      return data
    }
 }
 

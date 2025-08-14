@@ -13,7 +13,7 @@ export enum userFailedMessage {
 }
 
 export enum userSuccessMessage {
-   LOGIN = "Admin Logged in successfully",
+   LOGIN = "User Logged in successfully",
    FETCH = "User data fetch successfully",
    PASSWORD_UPDATE = "User Password Updated successfully",
    OTP_SEND = "An OTP has been sent to your email. Please check your inbox and enter the OTP for verification",

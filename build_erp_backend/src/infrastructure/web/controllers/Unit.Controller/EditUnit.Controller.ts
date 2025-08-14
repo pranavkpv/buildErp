@@ -7,7 +7,7 @@ import { unitFailedMessage } from "../../../../Shared/Messages/Unit.Message";
 
 export class EditUnitController implements IEditUnitControllerEntity {
     constructor(private editUnitUseCase: IupdateUnitUseCaseEntity) { }
-    async editUnitHandler(req: Request, res: Response, next: NextFunction): Promise<commonOutput | void> {
+    editUnitHandler = async(req: Request, res: Response, next: NextFunction): Promise<commonOutput | void> => {
         try {
             const { id } = req.params;
             const { unit_name, short_name } = req.body;

@@ -58,7 +58,7 @@ function StageUpdatePage() {
    const fetchStage = async (projectId: string): Promise<void> => {
          const response = await getStage(projectId);
          if (response.success) {
-            setStage(response.message);
+            setStage(response.data);
          } else {
             toast.error(response.message);
          }

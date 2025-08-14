@@ -18,6 +18,7 @@ import {
 import { injectedAddCategoryController, injectedDeleteCategoryController, injectedEditCategoryController, injectedFetchCategoryListController } from "../../../../DI/Categoryi.Injection";
 import { injectedAddUnitController, injectedDeleteUnitController, injectedDisplayAllUnitController, injectedEditUnitController, injectedGetUnitController } from "../../../../DI/Unit.Injection";
 import { injectedAddBrandController, injectedDeleteBrandController, injectedDisplayBrandController, injectedEditBrandController } from "../../../../DI/Brand.Injection";
+import { injectedStatusController } from "../../../../DI/sitemanagerInject";
 
 // ---------------------------- ROUTE CLASS ---------------------------- //
 export class AdminRoute {
@@ -149,6 +150,7 @@ export class AdminRoute {
     this.adminRoute.get("/fetchstage", withLogging(injectStageController.fetchStage));
     this.adminRoute.post("/stageDelete", withLogging(injectStageController.deleteStage));
     this.adminRoute.put("/editStage/:id", withLogging(injectStageController.updateStage));
+    this.adminRoute.get("/stageFetch/:id",withLogging(injectedStatusController.fetchStageData));
 
     // =====================================================================
     // 🟢 DASHBOARD ROUTES

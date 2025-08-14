@@ -7,7 +7,7 @@ import { unitFailedMessage } from "../../../../Shared/Messages/Unit.Message";
 
 export class DeleteUnitController implements IDeleteUnitControllerEntity {
    constructor(private deleteUnitUseCase: IdeleteUnitUseCaseEntity) { }
-   async removeUnitHandler(req: Request, res: Response, next: NextFunction): Promise<commonOutput | void> {
+   removeUnitHandler = async(req: Request, res: Response, next: NextFunction): Promise<commonOutput | void> => {
       try {
          const { id } = req.params;
          if (!id || typeof id !== "string" || id.trim().length === 0) {

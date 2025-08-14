@@ -76,6 +76,7 @@ function EditProject({
   useEffect(() => {
     const fetchUsers = async () => {
       const data = await fetchUser();
+      console.log(data)
       setUserList(data.data);
     };
     fetchUsers();

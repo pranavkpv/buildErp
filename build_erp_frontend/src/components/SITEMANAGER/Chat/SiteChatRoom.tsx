@@ -1,7 +1,7 @@
 import { jwtDecode } from "jwt-decode";
 import { socket } from "../../../api/socket";
-import { fetchMessagesApi } from "../../../api/User/project";
 import { useEffect, useState } from "react";
+import { fetchMessagesApiInSitemanager } from "../../../api/Sitemanager/profile";
 
 
 
@@ -31,7 +31,7 @@ function SiteChatRoom({ username, userId }: ChatRoomProps) {
 
 
    const messageFetch = async () => {
-      const response = await fetchMessagesApi(userId)
+      const response = await fetchMessagesApiInSitemanager(userId)
       if (response.success) {
          setMessages(response.data)
       }
@@ -47,7 +47,7 @@ function SiteChatRoom({ username, userId }: ChatRoomProps) {
          socket.off("receiveMessage");
       };
 
-   }, []);
+   }, [userId]);
    const handleSendMessage = () => {
       console.log(decoded?.userId)
       console.log(userId)

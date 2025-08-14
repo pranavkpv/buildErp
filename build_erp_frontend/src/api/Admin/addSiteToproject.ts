@@ -1,11 +1,12 @@
 import { toast } from "react-toastify";
-import axioInstance from "../../axios/authAxios";
+import adminAxios from "../../axios/AdminAxioInterceptors"
+
 
 // --------------- sitemanager list needs to add sitemanager to project --------------- //
 
 export const getSitemanager = async () => {
    try {
-      const response = await axioInstance.get(`/admin/addSiteToSiteData`);
+      const response = await adminAxios.get(`/addSiteToSiteData`);
       return response.data
    } catch (error: any) {
       toast.error(error.message)
@@ -16,7 +17,7 @@ export const getSitemanager = async () => {
 
 export const getProject = async () => {
    try {
-      const response = await axioInstance.get(`/admin/addSiteToProjectData`);
+      const response = await adminAxios.get(`/addSiteToProjectData`);
       return response.data
    } catch (error: any) {
       toast.error(error.response.data.message)
@@ -27,7 +28,7 @@ export const getProject = async () => {
 
 export const postSitemanagerToProject = async (siteManager_id: string, selectedproject: string[]) => {
    try {
-      const response = await axioInstance.post(`/admin/addToSite`, {
+      const response = await adminAxios.post(`/addToSite`, {
          siteManager_id,
          selectedproject
       });
@@ -41,7 +42,7 @@ export const postSitemanagerToProject = async (siteManager_id: string, selectedp
 
 export const deleteSitemanagerToProject = async (_id: string, sitemanager_id: string) => {
    try {
-      const response = await axioInstance.delete(`/admin/addToSite/${ _id }/${ sitemanager_id }`);
+      const response = await adminAxios.delete(`/addToSite/${ _id }/${ sitemanager_id }`);
       return response.data
    } catch (error: any) {
       toast.error(error.response.data.message)
@@ -52,7 +53,7 @@ export const deleteSitemanagerToProject = async (_id: string, sitemanager_id: st
 
 export const listOfsitemanager = async (page: number, search: string) => {
    try {
-      const response = await axioInstance.get(`/admin/addToSite`, { params: { page, search } });
+      const response = await adminAxios.get(`/addToSite`, { params: { page, search } });
       return response.data
    } catch (error: any) {
        toast.error(error.response.data.message)

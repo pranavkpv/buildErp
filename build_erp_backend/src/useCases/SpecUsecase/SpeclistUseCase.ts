@@ -13,6 +13,6 @@ export class SpeclistUseCase implements ISpeclistUseCaseEntity {
    }
    async execute(page: number, search: string): Promise<specOutput | commonOutput> {
          const {result,totalPage} = await this.specRepository.fetchSpecList({page, search})
-         return ResponseHelper.success(SpecSuccessMessage.FETCH,DataTransfer,totalPage)
+         return ResponseHelper.success(SpecSuccessMessage.FETCH,result,totalPage)
    }
 }

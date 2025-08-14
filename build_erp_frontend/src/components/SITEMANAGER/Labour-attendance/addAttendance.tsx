@@ -4,7 +4,7 @@ import { PlusCircleIcon, MinusCircleIcon } from "@heroicons/react/24/outline";
 import { jwtDecode } from "jwt-decode";
 import { getSitemanagersProject } from "../../../api/Sitemanager/profile";
 import { labourDataFetch } from "../../../api/Admin/labour";
-import { takeAttendanceAPI } from "../../../api/Sitemanager/attendance";
+import { labourDataFetchInsitemanager, takeAttendanceAPI } from "../../../api/Sitemanager/attendance";
 
 
 type Project = {
@@ -57,7 +57,7 @@ function AddAttendance({ addEnable, setAddEnable, onAddSuccess }: setAdd) {
   };
 
   const fetchLabour = async () => {
-      const response = await labourDataFetch();
+      const response = await labourDataFetchInsitemanager();
       setLabour(response.data);
   };
 

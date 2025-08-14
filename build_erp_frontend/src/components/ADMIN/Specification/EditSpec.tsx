@@ -21,6 +21,7 @@ function EditSpec() {
     editSpec_unit,
     editDescription,
   } = useContext(AppContext);
+  if (!editSpecEnable) return null;
 
   const [unit, setUnit] = useState<unitData[]>([]);
   const [localSpecId, setLocalSpecId] = useState<string>(editSpec_id || "");
@@ -73,7 +74,7 @@ function EditSpec() {
     }
   };
 
-  if (!editSpecEnable) return null;
+
 
   return (
     <div className="fixed inset-0 bg-gray-900/80 backdrop-blur-sm flex items-center justify-center z-50">
@@ -88,9 +89,8 @@ function EditSpec() {
               value={localSpecId}
               placeholder="Enter specification ID"
               onChange={(e) => setLocalSpecId(e.target.value)}
-              className={`w-full px-4 py-3 bg-gray-800/50 border ${
-                errors.specId ? "border-red-500" : "border-gray-600"
-              } rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent transition-all duration-200 placeholder:text-gray-400 text-gray-100 text-sm font-medium`}
+              className={`w-full px-4 py-3 bg-gray-800/50 border ${ errors.specId ? "border-red-500" : "border-gray-600"
+                } rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent transition-all duration-200 placeholder:text-gray-400 text-gray-100 text-sm font-medium`}
             />
             {errors.specId && (
               <p className="mt-1 text-red-500 text-xs">{errors.specId}</p>
@@ -104,9 +104,8 @@ function EditSpec() {
               value={localSpecName}
               placeholder="Enter specification name"
               onChange={(e) => setLocalSpecName(e.target.value)}
-              className={`w-full px-4 py-3 bg-gray-800/50 border ${
-                errors.specName ? "border-red-500" : "border-gray-600"
-              } rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent transition-all duration-200 placeholder:text-gray-400 text-gray-100 text-sm font-medium`}
+              className={`w-full px-4 py-3 bg-gray-800/50 border ${ errors.specName ? "border-red-500" : "border-gray-600"
+                } rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent transition-all duration-200 placeholder:text-gray-400 text-gray-100 text-sm font-medium`}
             />
             {errors.specName && (
               <p className="mt-1 text-red-500 text-xs">{errors.specName}</p>
@@ -119,9 +118,8 @@ function EditSpec() {
               value={localSpecUnit}
               aria-label="Select unit"
               onChange={(e) => setLocalSpecUnit(e.target.value)}
-              className={`w-full px-4 py-3 bg-gray-800/50 border ${
-                errors.specUnit ? "border-red-500" : "border-gray-600"
-              } rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent transition-all duration-200 text-gray-100 text-sm font-medium`}
+              className={`w-full px-4 py-3 bg-gray-800/50 border ${ errors.specUnit ? "border-red-500" : "border-gray-600"
+                } rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent transition-all duration-200 text-gray-100 text-sm font-medium`}
             >
               <option value="" className="text-gray-400">Select unit</option>
               {unit.map((element) => (

@@ -4,7 +4,7 @@ import { fetchBrandCorrespondingMaterial, fetchUniqueMaterial, fetchUnitCorrespo
 import { toast } from "react-toastify";
 import { jwtDecode } from "jwt-decode";
 import { getSitemanagersProject } from "../../../api/Sitemanager/profile";
-import { updatePurchaseAPI } from "../../../api/Sitemanager/purchase";
+import { fetchBrandCorrespondingMaterialInSitemanager, fetchUniqueMaterialInSiteManager, fetchUnitCorrespondingMaterialInsitemanager, fetchUnitRateInSitemanager, updatePurchaseAPI } from "../../../api/Sitemanager/purchase";
 
 type editProps = {
    editId: string;
@@ -52,8 +52,8 @@ function EditPurchase({ editId, editEnable, setEditEnable, onEditSuccess, editDa
             unit_rate: item.unit_rate || 0,
             material_id: item.material_id || "",
             quantity: item.quantity || 0,
-            brands: [], // Initialize empty brands
-            units: [], // Initialize empty units
+            brands: [],
+            units: [], 
          }))
          : []
    );
@@ -64,7 +64,7 @@ function EditPurchase({ editId, editEnable, setEditEnable, onEditSuccess, editDa
    const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
    const fetchMaterial = async () => {
-      const materialList = await fetchUniqueMaterial();
+      const materialList = await fetchUniqueMaterialInSiteManager();
       setMaterial(materialList.data);
    };
 
@@ -87,8 +87,8 @@ function EditPurchase({ editId, editEnable, setEditEnable, onEditSuccess, editDa
       }
       setErrors((prev) => ({ ...prev, [`material_${ idx }`]: "" }));
 
-      const brandData = await fetchBrandCorrespondingMaterial(materialName);
-      const unitData = await fetchUnitCorrespondingMaterial(materialName);
+      const brandData = await fetchBrandCorrespondingMaterialInSitemanager(materialName);
+      const unitData = await fetchUnitCorrespondingMaterialInsitemanager(materialName);
 
       const newRow = [...row];
       newRow[idx] = {
@@ -107,7 +107,7 @@ function EditPurchase({ editId, editEnable, setEditEnable, onEditSuccess, editDa
    const unitRateFetch = async (index: number) => {
       const { material_name, brand_name, unit_name } = row[index];
       if (!material_name || !brand_name || !unit_name) return;
-      const response = await fetchUnitRate(material_name, unit_name, brand_name);
+      const response = await fetchUnitRateInSitemanager(material_name, unit_name, brand_name);
       const newRow = [...row];
       newRow[index] = {
          ...newRow[index],
@@ -182,8 +182,8 @@ function EditPurchase({ editId, editEnable, setEditEnable, onEditSuccess, editDa
          if (editData?.materialDetails) {
             const updatedRows = await Promise.all(
                editData.materialDetails.map(async (item, index) => {
-                  const brandData = await fetchBrandCorrespondingMaterial(item.material_name);
-                  const unitData = await fetchUnitCorrespondingMaterial(item.material_name);
+                  const brandData = await fetchBrandCorrespondingMaterialInSitemanager(item.material_name);
+                  const unitData = await fetchUnitCorrespondingMaterialInsitemanager(item.material_name);
                   return {
                      sl: index + 1,
                      material_name: item.material_name || "",

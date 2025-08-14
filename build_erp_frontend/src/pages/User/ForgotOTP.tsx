@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import { resendOTPApi, verifyForgotApi } from '../../api/User/user';
 
 
 ///confirm otp for forgot password is done by this component
@@ -60,19 +61,14 @@ function ForgotOTP() {
       }
       return;
     }
-      const baseUrl = import.meta.env.VITE_BASE_URL || 'http://localhost:3000';
-      const response = await axios.post(`${baseUrl}/verifyForgotOtp`, {
-        otp,
-        email: otpEmail,
-      });
-
-      if (response.data.success) {
-        toast.success(response.data.message);
+      const response = await verifyForgotApi(otp,otpEmail)
+      if (response.success) {
+        toast.success(response.message);
         setTimeout(() => {
           navigate('/newPassword');
         }, 1500);
       } else {
-        toast.error(response.data.message);
+        toast.error(response.message);
       }
   };
 
@@ -81,17 +77,16 @@ function ForgotOTP() {
       toast.error('No email found. Please sign up again.');
       return;
     }
-      const baseUrl = import.meta.env.VITE_BASE_URL;
-      const response = await axios.post(`${baseUrl}/resendOtp`, { email: otpEmail });
-      if (response.data.success) {
-        toast.success(response.data.message);
+      const response = await resendOTPApi(otpEmail)
+      if (response.success) {
+        toast.success(response.message);
         setTimer(0);
         setResend(false);
         if (timerRef.current) {
           timerRef.current.innerText = '';
         }
       } else {
-        toast.error(response.data.message);
+        toast.error(response.message);
       }
   };
 

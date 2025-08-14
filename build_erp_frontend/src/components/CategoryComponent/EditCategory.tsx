@@ -47,7 +47,7 @@ function EditCategory({
     }
       const _id= editId
       const category_name=category
-      const data = await putCategory(_id,category_name,description)
+      const data = await putCategory({_id,category_name,description})
       if (data.success) {
         toast.success(data.message);
         onUpdate(); 
