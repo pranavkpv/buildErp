@@ -1,9 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import axios from 'axios';
-import { resendOTPApi, verifyForgotApi } from '../../api/User/user';
-
+import { resendOTPApi, verifyForgotApi } from '../../api/auth';
 
 ///confirm otp for forgot password is done by this component
 function ForgotOTP() {
@@ -61,7 +59,7 @@ function ForgotOTP() {
       }
       return;
     }
-      const response = await verifyForgotApi(otp,otpEmail)
+      const response = await verifyForgotApi({otp,email:otpEmail})
       if (response.success) {
         toast.success(response.message);
         setTimeout(() => {

@@ -28,31 +28,18 @@ export const adminLogout = async () => {
     toast.error(error.message)
   }
 }
-
+//budget and actual report
 export const fetchBudgetAndActual = async (search: string) => {
-  try {
-
-    const response = await adminAxios.get(`/budgetActual`, { params: { search } })
-    return response.data
-  } catch (error: any) {
-    toast.error(error.message)
-  }
+  const response = await adminAxios.get(`/budgetActual`, { params: { search } })
+  return response.data
 }
-
+//budget and actual of material
 export const fetMaterialAnalysis = async (search: string) => {
-  try {
-    const response = await adminAxios.get(`/budgetActualMaterial`, { params: { search } })
-    return response.data
-  } catch (error: any) {
-    toast.error(error.message)
-  }
+  const response = await adminAxios.get(`/budgetActualMaterial`, { params: { search } })
+  return response.data
 }
 
 export const fetLabourAnalysis = async (search: string) => {
-  try {
     const response = await adminAxios.get(`/budgetActualLabour`, { params: { search } })
     return response.data
-  } catch (error: any) {
-    toast.error(error.message)
-  }
 }

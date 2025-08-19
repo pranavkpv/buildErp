@@ -1,15 +1,12 @@
 import { toast } from "react-toastify";
 import adminAxios from "../../axios/AdminAxioInterceptors"
+import type { addLabourInterface } from "ApiInterface/labour.interface";
 
 // ---------------- Add Labour ---------------- //
 
-export const postLabour = async (labour_type: string, daily_wage: number) => {
-   try {
-      const response = await adminAxios.post(`/labour`, { labour_type, daily_wage });
-      return response.data;
-   } catch (error: any) {
-      toast.error(error.response.data.message)
-   }
+export const postLabour = async (input:addLabourInterface) => {
+   const response = await adminAxios.post(`/labour`, input);
+   return response.data;
 };
 
 // ---------------- Delete Labour ---------------- //

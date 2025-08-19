@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router-dom';
-import { userSignupApi } from '../../api/User/user';
+import { userSignupApi } from '../../api/auth';
 
 function Signup() {
   const [username, setUsername] = useState('');
@@ -83,7 +83,7 @@ function Signup() {
     if (hasError) {
       return;
     }
-      const response = await userSignupApi(username,email,phone,password)
+      const response = await userSignupApi({username,email,phone,password})
 
       if (response.success) {
         localStorage.setItem('otpEmail', email);

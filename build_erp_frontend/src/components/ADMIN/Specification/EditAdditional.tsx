@@ -1,7 +1,7 @@
 import { toast } from "react-toastify";
 import AppContext from "../../../Context/AppContext";
 import React, { useContext, useEffect, useState } from "react";
-import { UpdateSpec } from "../../../api/Admin/Spec";
+import { UpdateSpec } from "../../../api/Specification";
 
 type prop = {
   fetchSpecList: () => void;

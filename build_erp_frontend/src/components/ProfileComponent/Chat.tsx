@@ -1,7 +1,7 @@
-import { fetchSitemanagerApI } from "../../api/User/project";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import ChatRoom from "./ChatRoom";
+import { fetchSitemanagerApI } from "../../api/userprofile";
 
 interface Data {
   _id: string;

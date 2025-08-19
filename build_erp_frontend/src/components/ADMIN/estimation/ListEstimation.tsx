@@ -4,7 +4,7 @@ import { PencilSquareIcon, TrashIcon, PlusCircleIcon } from "@heroicons/react/24
 import DeleteEstimation from "./DeleteEstimation";
 import UploadConfirm from "./Uploadconfirm";
 import EditEstimation from "./EditEstimation";
-import { fetChEstimation } from "../../../api/Admin/Estimation";
+import { fetChEstimation } from "../../../api/Estimation";
 
 type project = {
    project_name: string;
@@ -35,23 +35,28 @@ function ListEstimation() {
    const [uploadProjectId, setUploadProjectId] = useState("");
 
    //edit estimation
-   const [editEnable,setEditEnable] = useState(false)
-   const [editProjectId,setEditProjectId] = useState("")
+   const [editEnable, setEditEnable] = useState(false)
+   const [editProjectId, setEditProjectId] = useState("")
 
    const fetchData = async () => {
-         const response = await fetChEstimation(search, page);
-         setData(response.data);
-         const projects = response.data.map((element: specdata) => element.projectObjectId);
-         let x = []
-         for (let i = 0; i < response.totalPage; i++) {
-            x.push(i)
-         }
-         setTotal(x)
-         setProjectIds(projects);
+      const response = await fetChEstimation(search, page);
+      setData(response.data);
+      const projects = response.data.map((element: specdata) => element.projectObjectId);
+      let x = []
+      for (let i = 0; i < response.totalPage; i++) {
+         x.push(i)
+      }
+      setTotal(x)
+      setProjectIds(projects);
    };
 
    useEffect(() => {
-      fetchData();
+      const handler = setTimeout(() => {
+         fetchData();
+      }, 500);
+      return () => {
+         clearTimeout(handler);
+      };
    }, [page, search]);
 
    return (
@@ -147,7 +152,7 @@ function ListEstimation() {
                                        type="button"
                                        className="text-teal-400 hover:text-teal-300 p-2 rounded-md hover:bg-gray-600/50 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-teal-400"
                                        aria-label={`Edit estimation for ${ element.projectDetails.project_name }`}
-                                       onClick={() =>{
+                                       onClick={() => {
                                           setEditEnable(true)
                                           setEditProjectId(element.projectObjectId)
                                        }}
@@ -205,12 +210,12 @@ function ListEstimation() {
                uploadSuccess={fetchData}
             />
             <EditEstimation
-            editEnable={editEnable}
-            setEditEnable={setEditEnable}
-            anEditSuccess={fetchData}
-            projectIds={projectIds}
-            editProjectId={editProjectId}
-             />
+               editEnable={editEnable}
+               setEditEnable={setEditEnable}
+               anEditSuccess={fetchData}
+               projectIds={projectIds}
+               editProjectId={editProjectId}
+            />
          </div>
       </div>
    );

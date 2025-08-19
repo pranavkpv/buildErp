@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt'
-import { IHasherEntity } from '../../Entities/repositoryEntities/Auth-management/IHasher'
+import { IHasher } from '../../domain/interfaces/Auth-management/IHasher'
 
-export class BcryptHasher implements IHasherEntity{
+export class BcryptHasher implements IHasher{
    private readonly saltRounds : number = 10
    async hash(plaintext:string):Promise<string>{
       return await bcrypt.hash(plaintext,this.saltRounds)

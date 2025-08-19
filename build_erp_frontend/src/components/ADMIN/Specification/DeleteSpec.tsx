@@ -1,7 +1,7 @@
 import { toast } from "react-toastify"
 import AppContext from "../../../Context/AppContext"
 import { useContext } from "react"
-import { DeleteSpecFunction } from "../../../api/Admin/Spec"
+import { DeleteSpecFunction } from "../../../api/Specification"
 
 
 type prop = {

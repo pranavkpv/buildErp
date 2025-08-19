@@ -1,4 +1,4 @@
-import { updatePasswordAPI } from "../../api/User/user";
+import { updatePasswordAPI } from "../../api/auth";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -48,7 +48,7 @@ function NewPassword() {
     if (hasError) {
       return;
     }
-      const response = await updatePasswordAPI(otpEmail, password);
+      const response = await updatePasswordAPI({email:otpEmail, password});
       if (response.success) {
         toast.success(response.message);
         localStorage.removeItem("otpEmail");

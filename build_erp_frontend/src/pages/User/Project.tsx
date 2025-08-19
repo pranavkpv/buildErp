@@ -4,7 +4,8 @@ import ProjectCard from "../../components/USER/UserFrontPage/ProjectCard";
 import { useEffect, useState } from "react";
 import Footer from "../../components/USER/common/Footer";
 import { Link } from "react-router-dom";
-import { getAllProjectInUserSideApi } from "../../api/User/project";
+import { getAllProjectInUserSideApi } from "../../api/auth";
+
 
 type projectData = {
   _id: string;

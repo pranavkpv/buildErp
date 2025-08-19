@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { PlusCircleIcon, MinusCircleIcon } from "@heroicons/react/24/outline";
-import { getProject } from "../../../api/Admin/project";
-import { EstimationSave, getSpec, sumOfLabourFun, sumOfMaterialFun } from "../../../api/Admin/Spec";
+import {  getSpec, sumOfLabourFun, sumOfMaterialFun } from "../../../api/Specification";
+import { getProjectAll } from "../../../api/project";
+import { EstimationSave } from "../../../api/Estimation";
 
 type rowData = {
   spec_id: string;
@@ -56,7 +57,7 @@ function AddEstimation({ addEnable, setAddEnable, anAddSuccess, projectIds }: ad
   const [projectId, setProjectId] = useState("");
 
   const fetchProject = async () => {
-    const response = await getProject();
+    const response = await getProjectAll();
     setProject(response.data);
   };
 

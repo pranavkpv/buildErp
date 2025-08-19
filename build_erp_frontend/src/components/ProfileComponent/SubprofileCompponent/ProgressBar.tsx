@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { Calendar } from "lucide-react"
-import { getStage } from "../../../api/Sitemanager/stageStatus"
+import { getStageInUser } from "../../../api/auth"
+
 
 type progressProp = {
   progressEnable: boolean
@@ -24,7 +25,7 @@ function ProgressBar({ progressEnable, projectId }: progressProp) {
 
 
   const fetchStage = async (): Promise<void> => {
-    const response = await getStage(projectId);
+    const response = await getStageInUser(projectId);
     if (response.success) {
       setStage(response.message);
     }

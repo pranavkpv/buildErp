@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { PlusCircleIcon, MinusCircleIcon } from "@heroicons/react/24/outline";
-import { getProject } from "../../../api/Admin/project";
-import { getSpec, sumOfLabourFun, sumOfMaterialFun } from "../../../api/Admin/Spec";
-import { EstimationUpdate, fetchExistEstimation } from "../../../api/Admin/Estimation";
+import {  getProjectAll } from "../../../api/project";
+import { getSpec, sumOfLabourFun, sumOfMaterialFun } from "../../../api/Specification";
+import { EstimationUpdate, fetchExistEstimation } from "../../../api/Estimation";
 
 
 type rowData = {
@@ -59,7 +59,7 @@ function EditEstimation({ editEnable, setEditEnable, anEditSuccess, projectIds, 
    const [projectId, setProjectId] = useState(editProjectId);
 
    const fetchProject = async () => {
-      const response = await getProject();
+      const response = await getProjectAll();
       setProject(response.data);
    };
 
@@ -125,21 +125,16 @@ function EditEstimation({ editEnable, setEditEnable, anEditSuccess, projectIds, 
 
 
    const UpdateEstimation = async () => {
-      // Validation: Check if projectId is selected
       if (!projectId) {
          toast.error("Please select a project.");
          return;
       }
-
-      // Validation: Check for duplicate spec_id
       const specIds = row.map((r) => r.spec_id);
       const uniqueSpecIds = new Set(specIds);
       if (uniqueSpecIds.size !== specIds.length) {
          toast.error("Duplicate specification IDs detected. Each row must have a unique specification.");
          return;
       }
-
-      // Validation: Check if any row has total = 0
       if (row.some((r) => r.total === 0)) {
          toast.error("All specification rows must have a total greater than 0.");
          return;
@@ -151,7 +146,6 @@ function EditEstimation({ editEnable, setEditEnable, anEditSuccess, projectIds, 
          return;
       }
          const response = await EstimationUpdate(projectId, row);
-         console.log(response)
          if (response.success) {
             toast.success(response.message);
             setEditEnable(false);

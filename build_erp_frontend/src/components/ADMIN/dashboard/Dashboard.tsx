@@ -3,7 +3,6 @@ import BudgetVsActual from "./SubComponents/BudgetVsActualReport";
 import CostComparisonGraph from "./SubComponents/CostComparisonGraph";
 import { toast } from "react-toastify";
 import { fetchBudgetAndActual, fetLabourAnalysis, fetMaterialAnalysis } from "../../../api/Admin/dashboard";
-import MaterialAnalysis from "./SubComponents/MaterialAnalysisReport";
 import MaterialLabourAnalysis from "./SubComponents/MaterialAnalysisReport";
 
 type reportData = {
@@ -22,9 +21,9 @@ function Dashboard() {
   const [materialData, setMaterialData] = useState<reportData[]>([])
   const [materialPage, setMaterialPage] = useState(0)
 
-   //-------Labour analysis data --------//
-   const [labourData,setLabourData] = useState<reportData[]>([])
-   const [labourPage,setLabourPage] = useState(0)
+  //-------Labour analysis data --------//
+  const [labourData, setLabourData] = useState<reportData[]>([])
+  const [labourPage, setLabourPage] = useState(0)
 
   const fetchBugetAndActualData = async () => {
     const response = await fetchBudgetAndActual(search);
@@ -44,7 +43,7 @@ function Dashboard() {
     const response = await fetMaterialAnalysis(search)
     if (response.success) {
       setMaterialData(response.data)
-    }else{
+    } else {
       toast.error(response.message);
     }
   }
@@ -54,16 +53,23 @@ function Dashboard() {
     console.log(response)
     if (response.success) {
       setLabourData(response.data)
-    }else{
+    } else {
       toast.error(response.message);
     }
   }
 
   useEffect(() => {
-    fetchBugetAndActualData();
-    fetchMaterialAnalysisData();
-    fetchLabourAnalysisData()
+    const handler = setTimeout(() => {
+      fetchBugetAndActualData();
+      fetchMaterialAnalysisData();
+      fetchLabourAnalysisData();
+    }, 500);
+
+    return () => {
+      clearTimeout(handler);
+    };
   }, [search]);
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-900 to-slate-800 text-white">
       <div className="flex">
@@ -78,14 +84,14 @@ function Dashboard() {
                 page={page} />
               <CostComparisonGraph data={data} heading={"Budgeted Vs Actual Cost Comparison"} />
               <MaterialLabourAnalysis Data={materialData.slice(materialPage * 5, materialPage * 5 + 5)}
-              total={total}   setMaterialPage={setMaterialPage} materialPage={materialPage} heading={"Material Analysis"}
+                total={total} setMaterialPage={setMaterialPage} materialPage={materialPage} heading={"Material Analysis"}
               />
-               <CostComparisonGraph data={materialData} heading={"Material-Cost Analysis"} />
+              <CostComparisonGraph data={materialData} heading={"Material-Cost Analysis"} />
 
-                 <MaterialLabourAnalysis Data={labourData.slice(labourPage * 5, labourPage * 5 + 5)}
-              total={total}   setMaterialPage={setLabourPage} materialPage={labourPage} heading={"Labour Analysis"}
+              <MaterialLabourAnalysis Data={labourData.slice(labourPage * 5, labourPage * 5 + 5)}
+                total={total} setMaterialPage={setLabourPage} materialPage={labourPage} heading={"Labour Analysis"}
               />
-               <CostComparisonGraph data={labourData} heading={"Labour-Cost Analysis"} />
+              <CostComparisonGraph data={labourData} heading={"Labour-Cost Analysis"} />
             </div>
           </div>
         </main>

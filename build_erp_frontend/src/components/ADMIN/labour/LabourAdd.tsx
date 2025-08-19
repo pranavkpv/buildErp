@@ -10,16 +10,15 @@ type addLabourData = {
 
 function LabourAdd({ addEnable, setAddEnable, onsuccessAdd }: addLabourData) {
   const [labour, setLabour] = useState("");
-  const [wage, setWage] = useState(0); // Initialize with 0 or a sensible default
+  const [wage, setWage] = useState(0); 
   const labourRef = useRef<HTMLParagraphElement>(null);
-  const wageRef = useRef<HTMLParagraphElement>(null); // Ref for wage validation message
+  const wageRef = useRef<HTMLParagraphElement>(null);
 
   const addLabour = async (e: React.FormEvent) => {
     e.preventDefault();
 
     let hasError = false;
 
-    // Validate labour type
     if (labour.trim() === "") {
       if (labourRef.current) labourRef.current.innerText = "Labour type is required.";
       hasError = true;
@@ -27,7 +26,6 @@ function LabourAdd({ addEnable, setAddEnable, onsuccessAdd }: addLabourData) {
       if (labourRef.current) labourRef.current.innerText = "";
     }
 
-    // Validate daily wage
     if (wage <= 0) {
       if (wageRef.current) wageRef.current.innerText = "Daily wage must be greater than 0.";
       hasError = true;
@@ -69,7 +67,7 @@ function LabourAdd({ addEnable, setAddEnable, onsuccessAdd }: addLabourData) {
               id="labourType"
               type="text"
               placeholder="Enter labour type"
-              value={labour} // Controlled component
+              value={labour} 
               onChange={(e) => setLabour(e.target.value)}
               className="w-full px-4 py-2.5 bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors duration-200 text-gray-100 placeholder-gray-400 text-sm"
             />
@@ -84,7 +82,7 @@ function LabourAdd({ addEnable, setAddEnable, onsuccessAdd }: addLabourData) {
               id="dailyWage"
               type="number"
               placeholder="Enter daily wage"
-              value={wage === 0 ? "" : wage} // Display empty string if wage is 0 for better UX
+              value={wage === 0 ? "" : wage} 
               onChange={(e) => setWage(Number(e.target.value))}
               className="w-full px-4 py-2.5 bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors duration-200 text-gray-100 placeholder-gray-400 text-sm"
             />
@@ -96,9 +94,9 @@ function LabourAdd({ addEnable, setAddEnable, onsuccessAdd }: addLabourData) {
               type="button"
               onClick={() => {
                 setAddEnable(false);
-                setLabour(""); // Clear fields on cancel
+                setLabour("");
                 setWage(0);
-                if (labourRef.current) labourRef.current.innerText = ""; // Clear validation messages
+                if (labourRef.current) labourRef.current.innerText = ""; 
                 if (wageRef.current) wageRef.current.innerText = "";
               }}
               className="bg-gray-600 hover:bg-gray-700 text-white px-5 py-2.5 rounded-lg shadow-md transition-all duration-200 font-semibold"

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../redux/store";
-import { fetchMessagesApi } from "../../api/User/project";
 import { socket } from "../../api/socket";
+import { fetchMessagesApi } from "../../api/userprofile";
 
 interface Message {
    id: string;

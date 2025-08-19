@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline"; 
-import { RemoveEstimation } from "../../../api/Admin/Estimation";
+import { RemoveEstimation } from "../../../api/Estimation";
 
 type deleteDataprop = {
   projectId: string;

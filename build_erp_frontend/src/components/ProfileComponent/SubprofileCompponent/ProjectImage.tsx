@@ -1,4 +1,4 @@
-import { getStage } from "../../../api/Sitemanager/stageStatus";
+import { getStageInUser } from "api/auth";
 import { X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
@@ -15,7 +15,7 @@ function ProjectImage({ imageEnable, setImageEnable, projectId }: imageProp) {
   const [count, setCount] = useState(0);
 
   const fetchStage = async (): Promise<void> => {
-      const response = await getStage(projectId);
+      const response = await getStageInUser(projectId);
       if (response.success) {
         let x = [];
         for (let element of response.message) {

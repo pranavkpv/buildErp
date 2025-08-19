@@ -37,7 +37,8 @@ instance.interceptors.response.use(
                 }
                 return instance(originalRequest)
             } catch (refreshError) {
-                window.location.href = '/login';
+                console.log(refreshError)
+                window.location.href = '/admin/login';
                 console.log('error while handling refresh token in the vendor side', refreshError)
                 return Promise.reject(refreshError)
             }

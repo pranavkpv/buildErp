@@ -3,7 +3,8 @@ import type { RootState } from "../../redux/store";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { login } from "../../redux/slice/authslice";
-import { UpdateProfileAPI } from "../../api/User/user";
+import { UpdateProfileAPI } from "../../api/userprofile";
+
 
 function ProfileEdit() {
   const dispatch = useDispatch();
@@ -19,7 +20,7 @@ function ProfileEdit() {
       toast.error("The Required Field is Missing");
       return;
     }
-      const response = await UpdateProfileAPI(user._id, username, email, phone);
+      const response = await UpdateProfileAPI({username, email, phone});
       if (response.success) {
         toast.success(response.message);
         dispatch(login({

@@ -1,4 +1,4 @@
-import { pustStatusChange } from "../../../api/Admin/project";
+import { pustStatusChange } from "../../../api/project";
 import { toast } from "react-toastify";
 
 type Statusprop = {

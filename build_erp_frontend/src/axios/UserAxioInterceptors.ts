@@ -1,6 +1,7 @@
 import axios from 'axios';
 import type { AxiosError, AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios';
 import AuthAxios from './authAxios'
+import { toast } from 'react-toastify';
 
 const instance = axios.create({
    baseURL: import.meta.env.VITE_USER_URL,
@@ -23,7 +24,8 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
    response => response,
-   async (error: AxiosError) => {
+   async (error: AxiosError<{ message: string }>) => {
+      toast.error(error.response?.data?.message || "Something went wrong");
       const originalRequest = error.config as CustomAxiosRequestConfig
       if (error.response?.status === 401 && !originalRequest._retry) {
          originalRequest._retry = true

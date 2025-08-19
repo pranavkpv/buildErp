@@ -4,7 +4,7 @@ import DeleteProject from "./ProjectDelete";
 import EditProject from "./ProjectEdit";
 import ChangeStatus from "./Status";
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
-import { projectListData } from "../../../api/Admin/project";
+import { projectListData } from "../../../api/project";
 
 type ProjectType = {
   _id: string;

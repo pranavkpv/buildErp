@@ -10,7 +10,7 @@ import EditLabourSpec from "./EditLabourSpec";
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 import DeleteSpec from "./DeleteSpec";
 import EditAdditionalSpec from "./EditAdditional";
-import { fetchSpec } from "../../../api/Admin/Spec";
+import { fetchSpec } from "../../../api/Specification";
 import { findMaterialById } from "../../../api/Admin/material";
 import { getLabourData } from "../../../api/Admin/labour";
 

@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { logout } from "../../../redux/slice/authslice";
-import { userLogout } from "../../../api/User/user";
+import { userLogout } from "../../../api/userprofile";
 
 type logoutProp = {
   logoutEnable: boolean;

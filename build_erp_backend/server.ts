@@ -5,18 +5,18 @@ import fileUpload from 'express-fileupload';
 import logger from "./src/Shared/utils/logger";
 import express, { Request, Response, NextFunction, Express } from "express";
 import { Server as SocketIOServer } from 'socket.io';
-import { connectMongo } from './src/Database/DB/ConnectDB';
+import { connectMongo } from './src/infrastructure/database/ConnectDB';
 import onFinished from 'on-finished';
 import passport from 'passport';
 import http from 'http';
 import { userRoute } from './src/infrastructure/web/routes/User/userRouter';
 import { AdminRoute } from './src/infrastructure/web/routes/Admin/adminRouter';
 import { SitemanagerRoute } from './src/infrastructure/web/routes/Sitemanager/siteRouter';
-import { ChatRepository } from './src/infrastructure/persistence/ChatRepository';
-import { errorHandler } from './src/middlewares/errorHandler';
+import { ChatRepository } from './src/infrastructure/repositories/ChatRepository';
+import { errorHandler } from './src/infrastructure/middlewares/errorHandler';
 import { authRoute } from './src/infrastructure/web/routes/Auth/authRouter';
-import { ChatSaveusecase } from './src/useCases/ChatUsecases/chatSaveUseCase';
-import { ChatSocket } from './src/useCases/ChatUsecases/chatSocket';
+import { ChatSaveusecase } from './src/application/usecases/ChatUsecases/chatSaveUseCase';
+import { ChatSocket } from './src/application/usecases/ChatUsecases/chatSocket';
 
 
 require("dotenv").config();

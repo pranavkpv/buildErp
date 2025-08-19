@@ -3,7 +3,8 @@ import { useLocation } from "react-router-dom";
 import ProjectCard from "./ProjectCard";
 import UserHeader from "../common/UserHeader";
 import Footer from "../common/Footer";
-import { fetchStatusBaseProject } from "../../../api/User/project";
+import { fetchStatusBaseProject } from "../../../api/auth";
+
 
 type projectData = {
   _id: string;
@@ -29,7 +30,7 @@ function ListProject() {
   const [page, setPage] = useState(0);
 
   const fetchProject = async () => {
-    const response = await fetchStatusBaseProject(state, searchItem, selectedArea, page);
+    const response = await fetchStatusBaseProject({state, searchItem, selectedArea, page});
     setProject(response.data);
     setArea(response.areas);
     let y = [];

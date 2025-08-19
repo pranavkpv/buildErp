@@ -1,4 +1,4 @@
-import { fetchUser, putProject } from "../../../api/Admin/project";
+import { fetchUser, putProject } from "../../../api/project";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import MapIntegrationApp from "../Map/Map";

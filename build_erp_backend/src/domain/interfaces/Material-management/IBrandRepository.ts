@@ -1,0 +1,14 @@
+import { inputBrand, listBrandOutput } from "../../../application/dto/BrandEntities/Brand.Entity"
+import { listingInput } from "../../../application/dto/CommonEntities/common"
+import { IBrandModelEntity } from "../../Entities/modelEntities/brand.entity"
+
+
+export interface IBrandRepositoryEntity {
+   findAllBrand(): Promise<IBrandModelEntity[] | []>
+   findBrandByName(input: inputBrand): Promise<IBrandModelEntity | null>
+   saveBrand(input: inputBrand): Promise<void>
+   findBrandInEdit(input: inputBrand): Promise<IBrandModelEntity | null>
+   updateBrandById(input: inputBrand): Promise<void>
+   deleteBrandById(_id: string): Promise<void>
+   findAllListBrand(input: listingInput): Promise<listBrandOutput>
+}

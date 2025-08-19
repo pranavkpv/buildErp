@@ -1,8 +1,7 @@
-import { SendOTP } from "../../api/User/user";
+import { SendOTP } from "../../api/auth";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-
 
 ///this page is enter email and send OTP for forgot password
 function OtpSend() {

@@ -2,9 +2,9 @@ import { useLocation } from 'react-router-dom';
 import UserHeader from '../common/UserHeader';
 import { useEffect, useState } from 'react';
 import { Calendar } from 'lucide-react';
-import { getStage } from '../../../api/Sitemanager/stageStatus';
-import { fetchExistEstimation } from '../../../api/Admin/Estimation';
 import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet';
+import { fetchExistEstimationInUser, getStageInUser } from '../../../api/auth';
+
 
 type specData = {
   spec_name: string;
@@ -41,7 +41,6 @@ interface Location {
 
 function DetailProject() {
   const location = useLocation();
-  console.log(location)
   const projectId = location.state?.projectId;
   const projectName = location.state?.projectname;
   const expectedImage = location.state?.expectedImage;
@@ -57,14 +56,14 @@ function DetailProject() {
   const [stage, setStage] = useState<StageData[]>([]);
 
   const fetchSpec = async () => {
-    const response = await fetchExistEstimation(projectId);
+    const response = await fetchExistEstimationInUser(projectId);
     setSpec(response);
   };
 
   const fetchStage = async () => {
-    const response = await getStage(projectId);
+    const response = await getStageInUser(projectId);
     if (response.success) {
-      setStage(response.message);
+      setStage(response.data);
       let x = [];
       for (let element of response.message) {
         for (let item of element.stage_image) {

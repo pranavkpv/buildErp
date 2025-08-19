@@ -10,6 +10,20 @@ export enum userFailedMessage {
    OTP_WRONG = "The OTP you entered is incorrect",
    TIMESTAMP_MISS = "OTP creation timestamp is missing",
    EXPIRE_OTP = "Your OTP has expired. Please resend and try again",
+   MAX_LIMIT_USER_NAME = "User name field has atmost 20 character",
+   MIN_LIMIT_USER_NAME = "User name field should atleast  3 character",
+   EXIST_CHAR = "Username should exist character ",
+   MAX_LIMIT_EMAIL = "User name field has atmost 50 character",
+   MIN_LIMIT_EMAIL = "please enter valid email",
+   INVALID_PHONE = "phone number is invalid",
+   INVALID_EMAIL = "Email is invalid",
+   INVALID_PHONE_LENGTH ="must exist 10 character in a phone number ",
+   MIN_LIMIT_PASSWORD ="must password exist 8 character",
+   MAX_LIMIT_PASSWORD = " must password size less than 20",
+   WEAK_PASSWORD = "make sure password is strong",
+   MIS_MATCH_OTP_LENGTH = "Otp length should be 6 character",
+   INVALID_OTP = "Otp is invalid",
+   PASSWORD_NOT_MATCH ="Password is not match"
 }
 
 export enum userSuccessMessage {

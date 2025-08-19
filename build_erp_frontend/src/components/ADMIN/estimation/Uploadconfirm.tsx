@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import { uploadEstimatImageAPI } from "../../../api/Admin/Estimation";
+import { uploadEstimatImageAPI } from "../../../api/Estimation";
 
 type uploadProp = {
   file: File | null;

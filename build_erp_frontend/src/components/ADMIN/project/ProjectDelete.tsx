@@ -1,4 +1,4 @@
-import { deleteProjectData } from "../../../api/Admin/project";
+import { deleteProjectData } from "../../../api/project";
 import { toast } from "react-toastify";
 
 type ProjectProp = {

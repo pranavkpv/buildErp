@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { login } from '../../redux/slice/authslice';
 import { GoogleLogin, type CredentialResponse } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
-import { SignInWithGoogle, userLoginAPI } from '../../api/User/user';
+import { SignInWithGoogle, userLoginAPI } from '../../api/auth';
 
 
 type GoogleUser ={
@@ -54,14 +54,17 @@ function Login() {
     if (hasError) {
       return;
     }
-      const response = await userLoginAPI(email, password)
+      const response = await userLoginAPI({email, password})
       if (response.success) {
         toast.success(response.message);
         localStorage.setItem('accessToken', response.token.accessToken);
         dispatch(login({
-          _id: response.data._id, username: response.data.username,
-          email: response.data.email, phone: response.data.phone,
-          profile_image: response.data?.profile_image, token: response.token.accessToken
+          _id: response.data._id, 
+          username: response.data.username,
+          email: response.data.email, 
+          phone: response.data.phone,
+          profile_image: response.data?.profile_image, 
+          token: response.token.accessToken
         }))
         setTimeout(() => {
           navigate('/');
@@ -74,7 +77,7 @@ function Login() {
   const loginWithGoogle = async (credentialResponse: CredentialResponse) => {
     if (credentialResponse.credential) {
       const user:GoogleUser = jwtDecode(credentialResponse.credential)
-      const response = await SignInWithGoogle(user.email,user.given_name+user.family_name,user.picture)
+      const response = await SignInWithGoogle({email:user.email,username:user.given_name+user.family_name,profile_image:user.picture})
       if(response.success){
         toast.success(response.message)
          localStorage.setItem('accessToken', response.token.accessToken);

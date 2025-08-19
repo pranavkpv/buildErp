@@ -1,8 +1,8 @@
-
-import { getSitemanager, postSitemanagerToProject } from "../../../api/Admin/addSiteToproject";
-import { getProject } from "../../../api/Admin/project";
+import {  getSitemanageridandname } from "../../../api/sitemanager";
+import {  postSitemanagerToProject } from "../../../api/Admin/addSiteToproject";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { getProjectidandname } from "api/project";
 
 type SiteManagerData = {
   _id: string;
@@ -31,7 +31,7 @@ function AddSiteToProject({ addEnable, setAddEnable, onAddSuccess }: AddPropData
   // Fetch site managers on component mount
   useEffect(() => {
     const fetchSiteManager = async () => {
-        const data = await getSitemanager()
+        const data = await getSitemanageridandname()
         setSiteManager(data.data);
     };
     fetchSiteManager();
@@ -40,7 +40,7 @@ function AddSiteToProject({ addEnable, setAddEnable, onAddSuccess }: AddPropData
   // Fetch projects on component mount
   useEffect(() => {
     const fetchProjects = async () => {
-        const data = await getProject()
+        const data = await getProjectidandname()
         setProjectList(data.data);
     };
     fetchProjects();

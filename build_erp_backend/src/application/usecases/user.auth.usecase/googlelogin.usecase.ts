@@ -1,0 +1,39 @@
+import { IGoogleloginUseCase } from "../../interfaces/useCase.Entity/Auth.UseCase/IGooglelogin.usecase";
+import { ResponseHelper } from "../../../Shared/responseHelpers/response";
+import { IUserRepository } from "../../../domain/interfaces/User-management/IUserRepository";
+import { JwtService } from "../../services/JwtService";
+import { userFailedMessage, userSuccessMessage } from "../../../Shared/Messages/User.Message";
+import { userLoginDTO } from "../../dto/user.dto";
+import { Tokens } from "../../entities/token.entity";
+import { googleLoginInput } from "../../entities/user.entity";
+import { commonOutput } from "../../dto/common";
+import { IUserMapper } from "../../../domain/mappers/IUser.mapper";
+
+export class GoogleloginUseCase implements IGoogleloginUseCase {
+   constructor(
+      private _userRepository: IUserRepository,
+      private _jwtService: JwtService,
+      private _usermapper: IUserMapper
+   ) { }
+   async execute(input: googleLoginInput): Promise<commonOutput<{ userData: userLoginDTO; tokens: Tokens }> | commonOutput> {
+      const { email, username, profile_image } = input
+      const existUser = await this._userRepository.getAuthUserByEmail(email)
+      if (existUser) {
+         return ResponseHelper.conflictData(userFailedMessage.EXIST_GOOGLE)
+      }
+      const existAuthUser = await this._userRepository.checkUserExistsByEmail(email)
+      if (existAuthUser) {
+         const mappedUser = this._usermapper.touserLoginDTO(existAuthUser)
+         const tokens = this._jwtService.generateTokens(existAuthUser._id, existAuthUser.email, "user")
+         return ResponseHelper.success(userSuccessMessage.LOGIN, { userData: mappedUser, tokens })
+      }
+      await this._userRepository.createGoogleUser({ email, username, profile_image })
+      const savedUser = await this._userRepository.getUserByEmail(email)
+      if (!savedUser) {
+         return ResponseHelper.badRequest(userFailedMessage.USER_NOT_FOUND)
+      }
+      const mappedUser = this._usermapper.touserLoginDTO(savedUser)
+      const tokens = this._jwtService.generateTokens(savedUser._id, savedUser.email, "user")
+      return ResponseHelper.success(userSuccessMessage.LOGIN, { userData: mappedUser, tokens })
+   }
+}

@@ -1,0 +1,24 @@
+import { projectMapper } from "../../application/Mapper/project.mapper.js";
+import { sitemanagerMapper } from "../../application/Mapper/sitemanager.mapper.ts";
+import { AddSiteToprojectFetchSitemanagerUseCase } from "../../application/usecases/SiteManagerUsecase/AddSiteToprojectFetchSitemanagerUseCase";
+import { AddSiteToProjectUseCase } from "../../application/usecases/SiteManagerUsecase/AddSiteToProjectUseCase";
+import { DeleteSiteToProjectUseCase } from "../../application/usecases/SiteManagerUsecase/DeleteSitemanagerInProjectUseCase";
+import { ListSiteToProjectUsecase } from "../../application/usecases/SiteManagerUsecase/ListSiteToProjectUseCase.js";
+import { AddSiteToProjectRepository } from "../../infrastructure/repositories/AddSiteToProjectRepository";
+import { ProjectRepository } from "../../infrastructure/repositories/ProjectRepository.js";
+import { AddSiteManagerToProjectController } from "../controllers/addSiteManagerToProject.controller";
+
+const addSiteToProjectRepository = new AddSiteToProjectRepository()
+const sitemanagermapper = new sitemanagerMapper()
+const projectRepository = new ProjectRepository()
+const projectmapper = new projectMapper()
+
+const addSiteToprojectFetchSitemanagerUseCase = new AddSiteToprojectFetchSitemanagerUseCase(addSiteToProjectRepository, sitemanagermapper)
+const addSiteToProjectUseCase = new AddSiteToProjectUseCase(projectRepository)
+const deleteSitetoprojectuseCase = new DeleteSiteToProjectUseCase(projectRepository)
+const listSiteToProjectUseCase = new ListSiteToProjectUsecase(addSiteToProjectRepository, projectmapper)
+
+export const injectAddSitemanagerToprojectController = new AddSiteManagerToProjectController(
+   addSiteToprojectFetchSitemanagerUseCase, addSiteToProjectUseCase, deleteSitetoprojectuseCase,
+   listSiteToProjectUseCase
+)

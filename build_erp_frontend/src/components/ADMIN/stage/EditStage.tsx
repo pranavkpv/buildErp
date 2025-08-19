@@ -2,7 +2,7 @@ import { toast } from "react-toastify";
 import { useEffect, useRef, useState } from "react";
 import { PlusCircleIcon, MinusCircleIcon } from "@heroicons/react/24/outline";
 import { getStage } from "../../../api/Sitemanager/stageStatus";
-import { getProject } from "../../../api/Admin/project";
+import { getProject } from "../../../api/project";
 import { editStageAPI, fetchBugetAPI, getStageInAdmin } from "../../../api/Admin/StageSetting";
 
 

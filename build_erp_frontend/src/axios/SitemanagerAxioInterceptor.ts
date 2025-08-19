@@ -24,12 +24,14 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
     response => response,
     async (error: AxiosError) => {
-        const originalRequest = error.config as CustomAxiosRequestConfig
+        const originalRequest = error.config as CustomAxiosRequestConfig | undefined
+        if (!originalRequest) return Promise.reject(error);
         if (error.response?.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true
 
             try {
                 const refreshToken = await AuthAxios.post<{ data: string }>('/refreshToken')
+                console.log(refreshToken)
                 const newAccessToken = refreshToken.data.data
                 localStorage.setItem('accessToken', newAccessToken)
                 originalRequest.headers = {
@@ -37,8 +39,9 @@ instance.interceptors.response.use(
                 }
                 return instance(originalRequest)
             } catch (refreshError) {
-                window.location.href = '/login';
-                console.log('error while handling refresh token in the vendor side', refreshError)
+                 console.log('error while handling refresh token in the vendor side', refreshError)
+            
+               
                 return Promise.reject(refreshError)
             }
         }

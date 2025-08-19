@@ -4,7 +4,7 @@ export enum AuthErrorMessage {
    NO_REFRESH_TOKEN = "No refreshToken Found",
    INVALID_REFRESH_TOKEN = "Invalid or Expired Refresh Token",
    NO_USER_EXIST = "No User Exist",
-   INVALID_ACCESS_TOKEN = "No AccessToken Found"
+   INVALID_ACCESS_TOKEN = "No AccessToken Found",
 }
 
 export enum AuthSuccessMessage {

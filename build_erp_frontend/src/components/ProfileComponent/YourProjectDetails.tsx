@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 import ProjectImage from "./SubprofileCompponent/ProjectImage";
 import ProgressBar from "./SubprofileCompponent/ProgressBar";
-import { fetchUserProjectAPI } from "../../api/User/project";
+import { fetchUserProjectAPI } from "../../api/userprofile";
+
 
 
 type ProjectData = {
@@ -30,8 +31,7 @@ function ProjectDetails() {
         const token = localStorage.getItem("accessToken");
         if (token) {
           const decoded = jwtDecode<{ userId: string }>(token);
-          const response = await fetchUserProjectAPI(decoded.userId);
-          console.log(response)
+          const response = await fetchUserProjectAPI();
           setProject(response.data);
         }
     };

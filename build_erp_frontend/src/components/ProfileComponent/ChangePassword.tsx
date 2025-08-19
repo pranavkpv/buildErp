@@ -1,4 +1,4 @@
-import { UpdatePasswordInCheckCurrentPassword } from "../../api/User/user";
+import { UpdatePasswordInCheckCurrentPassword } from "../../api/userprofile";
 import { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -46,7 +46,6 @@ function ChangePassword() {
         return;
       }
       const response = await UpdatePasswordInCheckCurrentPassword(
-        user._id,
         user.email,
         currentPassword,
         password

@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { login } from "../../redux/slice/authslice";
 import type { RootState } from "redux/store";
-import { UpdateProfileImageAPI } from "../../api/User/user";
+import { UpdateProfileImageAPI } from "../../api/userprofile";
+
 
 function SidebarUser() {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ function SidebarUser() {
           toast.error("User Not Exist")
           return 
         }
-        const response = await UpdateProfileImageAPI(file, user?._id)
+        const response = await UpdateProfileImageAPI(file)
         if (response.success) {
           toast.success(response.message)
           dispatch(login({

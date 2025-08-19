@@ -1,17 +1,6 @@
 import { toast } from "react-toastify";
 import siteAxios from "../../axios/SitemanagerAxioInterceptor"
 
-// ---------------- Fetch Stages for a Project ---------------- //
-
-export const getStage = async (projectId: string) => {
-   try {
- 
-      const response = await siteAxios.get(`/stageFetch/${projectId}`);
-      return response.data;
-   } catch (error: any) {
-     toast.error(error.response.data.message)
-   }
-};
 
 // ---------------- Change Stage Progress Status ---------------- //
 

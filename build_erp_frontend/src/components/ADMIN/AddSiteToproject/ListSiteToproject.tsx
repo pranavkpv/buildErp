@@ -29,13 +29,18 @@ function ListSiteToProject() {
   const [addEnable, setAddEnable] = useState(false);
 
   const fetchData = async () => {
-      const data = await listOfsitemanager(page,search)
-      setTotalPage(Math.ceil(data.totalPage))
-      setData(data.data);
+    const data = await listOfsitemanager(page, search)
+    setTotalPage(Math.ceil(data.totalPage))
+    setData(data.data);
   };
 
   useEffect(() => {
-    fetchData();
+    const handler = setTimeout(() => {
+      fetchData();
+    }, 500);
+    return () => {
+      clearTimeout(handler);
+    };
   }, [page, search]);
 
 
@@ -138,7 +143,7 @@ function ListSiteToProject() {
           </div>
         </div>
 
-      <AddSiteToProject
+        <AddSiteToProject
           addEnable={addEnable}
           setAddEnable={setAddEnable}
           onAddSuccess={fetchData}
@@ -150,7 +155,7 @@ function ListSiteToProject() {
           deleteProjectId={deleteProjectId}
           deleteSiteManagerId={deleteSiteManagerId}
           onDeleteSuccess={fetchData}
-        /> 
+        />
       </div>
     </div>
   );

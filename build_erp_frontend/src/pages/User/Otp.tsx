@@ -1,8 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { resendOTPApi, verifyOTPAPI } from '../../api/User/user';
-
+import { resendOTPApi, verifyOTPAPI } from '../../api/auth';
 
 
 ///this page verify otp for signup page
@@ -17,21 +16,21 @@ function Otp() {
   const otpEmail = localStorage.getItem('otpEmail');
 
   useEffect(() => {
-  let interval:number;
+    let interval: number;
 
-  if (timer < 30) {
-    interval = setInterval(() => {
-      setTimer(prev => prev + 1);
-    }, 1000);
-  } else {
-    setResend(true);
-    if (timerRef.current) {
-      timerRef.current.innerText = 'Time out. You can now resend OTP.';
+    if (timer < 30) {
+      interval = setInterval(() => {
+        setTimer(prev => prev + 1);
+      }, 1000);
+    } else {
+      setResend(true);
+      if (timerRef.current) {
+        timerRef.current.innerText = 'Time out. You can now resend OTP.';
+      }
     }
-  }
 
-  return () => clearInterval(interval);
-}, [timer]);
+    return () => clearInterval(interval);
+  }, [timer]);
 
 
   const verifyOTP = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -60,16 +59,16 @@ function Otp() {
       }
       return;
     }
-      const response = await verifyOTPAPI(otp,otpEmail)
-      if (response.success) {
-        toast.success(response.message);
-        localStorage.removeItem('otpEmail');
-        setTimeout(() => {
-          navigate('/login');
-        }, 1500);
-      } else {
-        toast.error(response.message);
-      }
+    const response = await verifyOTPAPI({ otp, email: otpEmail })
+    if (response.success) {
+      toast.success(response.message);
+      localStorage.removeItem('otpEmail');
+      setTimeout(() => {
+        navigate('/login');
+      }, 1500);
+    } else {
+      toast.error(response.message);
+    }
   };
 
   const resendOTP = async () => {
@@ -77,18 +76,18 @@ function Otp() {
       toast.error('No email found. Please sign up again.');
       return;
     }
-      
-      const response = await resendOTPApi(otpEmail)
-      if (response.success) {
-        toast.success(response.message);
-        setTimer(0);
-        setResend(false);
-        if (timerRef.current) {
-          timerRef.current.innerText = '';
-        }
-      } else {
-        toast.error(response.message);
+
+    const response = await resendOTPApi(otpEmail)
+    if (response.success) {
+      toast.success(response.message);
+      setTimer(0);
+      setResend(false);
+      if (timerRef.current) {
+        timerRef.current.innerText = '';
       }
+    } else {
+      toast.error(response.message);
+    }
   };
 
   return (
@@ -118,7 +117,7 @@ function Otp() {
         </div>
 
         <div className="text-center text-gray-300 text-sm">
-          {timer < 30 ? `Time remaining: ${30 - timer} seconds` : ''}
+          {timer < 30 ? `Time remaining: ${ 30 - timer } seconds` : ''}
           <p ref={timerRef} className="text-red-400 text-sm mt-1"></p>
         </div>
 
