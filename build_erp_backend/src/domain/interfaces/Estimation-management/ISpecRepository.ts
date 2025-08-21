@@ -1,3 +1,4 @@
+import { aggregateUnitSpecDTO } from "../../../application/dto/specification.dto";
 import { listingInput } from "../../../application/entities/common.entity";
 import { InputSpecification } from "../../../application/entities/spec.entity";
 import { ISpecModelEntity } from "../../Entities/modelEntities/spec.entity"
@@ -15,4 +16,5 @@ export interface ISpecRepository {
    UpdateSpec(input: InputSpecification): Promise<void>;
    findSpecInEdit(_id: string, spec_id: string): Promise<ISpecModelEntity | null>
    findSpecInEditByName(_id: string, specname: string): Promise<ISpecModelEntity | null>
+   editSpecFetch(_id: string): Promise<aggregateUnitSpecDTO[] | null>
 }

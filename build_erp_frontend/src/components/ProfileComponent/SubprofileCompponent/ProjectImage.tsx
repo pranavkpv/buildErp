@@ -1,4 +1,4 @@
-import { getStageInUser } from "api/auth";
+import { getStageInUser } from "../../../api/auth";
 import { X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";

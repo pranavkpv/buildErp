@@ -1,3 +1,6 @@
+import { ISpecModelEntity } from "../../domain/Entities/modelEntities/spec.entity";
+import { IUnitModelEntity } from "../../domain/Entities/modelEntities/unit.entity";
+
 export interface publicspecDTO {
    spec_name: string
    description: string
@@ -23,4 +26,8 @@ export interface specFullDTO {
    labourDetails: labourDetails[];
    additionalExpense_per: number;
    profit_per: number;
+}
+
+export interface aggregateUnitSpecDTO extends ISpecModelEntity {
+    unitDetails :IUnitModelEntity
 }

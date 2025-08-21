@@ -1,22 +1,19 @@
-import { ILabourRepositoryEntity } from "../../../domain/interfaces/Labour-management/ILabourRepository";
-import { IMaterialRepositoryEntity } from "../../../domain/interfaces/Material-management/IMaterialRepository";
-import { mixMatAndLabour, specOutput } from "../../dto/EstimationEntities/specification";
 import { ISpecSumUseCaseEntity } from "../../interfaces/AdminUseCaseEntities/SpecUseCaseEntities/SpecSumEntity";
 import { ResponseHelper } from "../../../Shared/responseHelpers/response";
-import { commonOutput } from "../../dto/CommonEntities/common";
 import { SpecSuccessMessage } from "../../../Shared/Messages/Specification.Message";
-
+import { IMaterialRepository } from "../../../domain/interfaces/Material-management/IMaterialRepository";
+import { ILabourRepository } from "../../../domain/interfaces/Labour-management/ILabourRepository";
+import { mixMatAndLabour } from "../../entities/spec.entity";
+import { commonOutput } from "../../dto/common";
 
 
 
 export class SpecSumUseCase implements ISpecSumUseCaseEntity {
-   private materialRepository: IMaterialRepositoryEntity
-   private labourRepository: ILabourRepositoryEntity
-   constructor(materialRepository: IMaterialRepositoryEntity, labourRepository: ILabourRepositoryEntity) {
-      this.materialRepository = materialRepository
-      this.labourRepository = labourRepository
-   }
-   async execute(input: mixMatAndLabour): Promise<specOutput | commonOutput> {
+   constructor(
+      private materialRepository: IMaterialRepository,
+      private labourRepository: ILabourRepository
+   ) { }
+   async execute(input: mixMatAndLabour): Promise<commonOutput<number> | commonOutput> {
       const { materialDetails, labourDetails } = input
       let sumofMaterial = 0
       let sumOfLabour = 0

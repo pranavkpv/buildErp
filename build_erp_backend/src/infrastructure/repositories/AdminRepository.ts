@@ -1,5 +1,5 @@
 import { adminDB } from "../../api/models/AdminModel";
-import { inputAdmin } from "../../application/dto/AdminEntities/admin";
+import { inputAdmin } from "../../application/entities/admin.entity";
 import { IAdminModelEntity } from "../../domain/Entities/modelEntities/admin.entity";
 import { IAdminRepositoryEntity } from "../../domain/interfaces/Admin-management/IAdminRepository";
 

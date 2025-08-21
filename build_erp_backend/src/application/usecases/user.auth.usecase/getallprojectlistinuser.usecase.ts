@@ -1,4 +1,4 @@
-import { IprojectRepositoryEntity } from "../../../domain/interfaces/Project-management/IProjectRepository";
+import { IprojectRepository } from "../../../domain/interfaces/Project-management/IProjectRepository";
 import { IGetAllProjectListInUserusecase } from "../../interfaces/useCase.Entity/Auth.UseCase/IGetallproject.usecase";
 import { ProjectSuccessMessage } from "../../../Shared/Messages/Project.Message";
 import { ResponseHelper } from "../../../Shared/responseHelpers/response";
@@ -8,7 +8,7 @@ import { publicProjectDTO } from "../../dto/project.dto";
 
 export class GetAllProjectListInUserUseCase implements IGetAllProjectListInUserusecase {
    constructor(
-      private _projectRepository: IprojectRepositoryEntity,
+      private _projectRepository: IprojectRepository,
       private _projectmapper: IProjectmapper
    ) { }
    async execute(): Promise<commonOutput<publicProjectDTO[]>> {

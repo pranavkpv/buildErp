@@ -8,14 +8,15 @@ import { IFindlabourSumUsecase } from "../../application/interfaces/AdminUseCase
 import { ISaveSpecUseCase } from "../../application/interfaces/AdminUseCaseEntities/SpecUseCaseEntities/SpecSaveEntity"
 import { IDeleteSpecUseCase } from "../../application/interfaces/AdminUseCaseEntities/SpecUseCaseEntities/DeleteSpecEntity"
 import { IUpdateSpecUseCase } from "../../application/interfaces/AdminUseCaseEntities/SpecUseCaseEntities/UpdateSpecEntity"
-import { ISpeclistUseCaseEntity } from "../../application/interfaces/AdminUseCaseEntities/SpecUseCaseEntities/SpecListEntity"
+import { ISpeclistUseCase } from "../../application/interfaces/AdminUseCaseEntities/SpecUseCaseEntities/SpecListEntity"
+import { ISpecSumUseCaseEntity } from "../../application/interfaces/AdminUseCaseEntities/SpecUseCaseEntities/SpecSumEntity"
 
 export class SpecController implements ISpecController {
    constructor(
       private _getspecUseCase: IgetSpecUseCase,
       private _findmaterialSumusecase: IFindmaterialSumUseCase,
       private _findlaboursumusecase: IFindlabourSumUsecase,
-      private _speclistusecase: ISpeclistUseCaseEntity,
+      private _speclistusecase: ISpeclistUseCase,
       private _specSaveuseCase: ISaveSpecUseCase,
       private specsumusecase: ISpecSumUseCaseEntity,
       private _deleteSpecusecase: IDeleteSpecUseCase,
@@ -62,7 +63,7 @@ export class SpecController implements ISpecController {
 
    //------------------------------------Fetch sum of labour and material amount  using in a specification ------------------------------------//
 
-   fetchlabourMaterial = async (req: Request, res: Response, next: NextFunction): Promise<specOutput | commonOutput> => {
+   fetchlabourMaterial = async (req: Request, res: Response, next: NextFunction):Promise<commonOutput<number> | commonOutput> => {
       const result = await this.specsumusecase.execute(req.body)
       return result
    }

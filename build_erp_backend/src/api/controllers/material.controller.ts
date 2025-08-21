@@ -13,7 +13,7 @@ import { IFetchUnitRateUseCase } from "../../application/interfaces/AdminUseCase
 import { IFindMaterialByIdUsecase } from "../../application/interfaces/AdminUseCaseEntities/MaterialUseCaseEntities/FindMaterialByIdEntity"
 import { addMaterialFetch, editMaterialFetch, editMaterialFullDatafetch } from "../../application/entities/material.entity"
 import { commonOutput } from "../../application/dto/common"
-import { listingMaterialDTO } from "../../application/dto/material.dto"
+import { EditmaterialDetailsDTO, EditprojectDetailsDTO, listingMaterialDTO } from "../../application/dto/material.dto"
 
 
 
@@ -59,7 +59,7 @@ export class MaterialController implements IMaterialControllerEntity {
 
    //------------------------------------ list category,brand,unit,project using in edit material ------------------------------------//
 
-   editMaterialList = async (req: Request, res: Response, next: NextFunction):  Promise<commonOutput<editMaterialFetch> | commonOutput> => {
+   editMaterialList = async (req: Request, res: Response, next: NextFunction):  Promise<commonOutput<{materialData:EditmaterialDetailsDTO,projectStockData:EditprojectDetailsDTO[]}> | commonOutput> => {
       const { id } = req.params
       const result = await this._getEditMaterialUseCase.execute(id)
       return result

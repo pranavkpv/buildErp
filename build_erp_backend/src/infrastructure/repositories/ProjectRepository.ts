@@ -1,5 +1,4 @@
 import { projectDB } from "../../api/models/ProjectModel";
-import { userBasechatListDTO } from "../../application/dto/project.dto";
 import { chatListDTO } from "../../application/dto/user.dto";
 import { AddsitetoprojectInput } from "../../application/entities/addsitemanagertoproject.entity";
 import { listingInput } from "../../application/entities/common.entity";

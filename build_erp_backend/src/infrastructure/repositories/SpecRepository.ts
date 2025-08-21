@@ -1,4 +1,5 @@
 import { specDB } from "../../api/models/SpecModel";
+import { aggregateUnitSpecDTO } from "../../application/dto/specification.dto";
 import { listingInput } from "../../application/entities/common.entity";
 import { InputSpecification } from "../../application/entities/spec.entity";
 import { ISpecModelEntity } from "../../domain/Entities/modelEntities/spec.entity";
@@ -150,7 +151,7 @@ export class SpecRepository implements ISpecRepository {
     }
 
 
-    async editSpecFetch(_id: string): Promise<aggregateSpec[] | null> {
+    async editSpecFetch(_id: string): Promise<aggregateUnitSpecDTO[] | null> {
         const specData = await specDB.aggregate([
             { $match: { _id: _id } },
             { $addFields: { unitObjectId: { $toObjectId: "spec_unit" } } },

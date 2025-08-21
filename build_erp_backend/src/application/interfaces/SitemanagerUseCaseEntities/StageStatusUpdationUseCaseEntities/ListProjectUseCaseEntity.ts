@@ -1,6 +1,8 @@
-import { commonOutput } from "../../../dto/CommonEntities/common";
-import { projectOutput } from "../../../dto/ProjectEntities/project";
+import { IProjectModelEntity } from "../../../../domain/Entities/modelEntities/project.entity";
+import { commonOutput } from "../../../dto/common";
+
+
 
 export interface IListProjectUseCaseEntity {
-   execute(user:string):Promise<projectOutput | commonOutput>
+   execute(user:string):Promise<commonOutput<IProjectModelEntity[]> | commonOutput>
 }

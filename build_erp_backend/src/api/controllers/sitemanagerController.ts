@@ -7,9 +7,12 @@ import { IDeleteSitemanagerUseCase } from "../../application/interfaces/AdminUse
 import { ISitemanagerLoginUseCaseEntity } from "../../application/interfaces/SitemanagerUseCaseEntities/AuthenticationUsecaseEntities/SitemanagerLoginEntity"
 import { IListProjectUseCaseEntity } from "../../application/interfaces/SitemanagerUseCaseEntities/StageStatusUpdationUseCaseEntities/ListProjectUseCaseEntity"
 import { ResponseHelper } from "../../Shared/responseHelpers/response"
-import { userSuccessMessage } from "../../Shared/Messages/User.Message"
+import { userFailedMessage, userSuccessMessage } from "../../Shared/Messages/User.Message"
 import { commonOutput } from "../../application/dto/common"
 import { listSitemanagerDTO } from "../../application/dto/sitemanager.dto"
+import { ISitemanagerModelEntity } from "../../domain/Entities/modelEntities/sitemanager.entity"
+import { Tokens } from "../../application/entities/token.entity"
+import { IProjectModelEntity } from "../../domain/Entities/modelEntities/project.entity"
 
 
 
@@ -56,11 +59,14 @@ export class SitemanagerController implements ISitemanagerControllerEntity {
 
    //------------------------------------ Login sitemanager  ------------------------------------//
 
-   loginSitemanager = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
+   loginSitemanager = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput<{data:ISitemanagerModelEntity,token:Tokens}> | commonOutput> => {
       const { email, password } = req.body
       const result = await this.sitemanagerLoginUseCase.execute(email, password)
-      if (result.success && result.token?.refreshToken) {
-         res.cookie('refreshToken', result.token.refreshToken, {
+      if(!result.data){
+         return ResponseHelper.conflictData(userFailedMessage.ERROR)
+      }
+      if (result.success && result.data.token?.refreshToken) {
+         res.cookie('refreshToken', result.data.token.refreshToken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
             sameSite: 'lax',
@@ -82,14 +88,13 @@ export class SitemanagerController implements ISitemanagerControllerEntity {
          sameSite: "lax",
          path: '/',
       });
-      const result = ResponseHelper.success(userSuccessMessage.LOGOUT)
-      return result
+      return ResponseHelper.success(userSuccessMessage.LOGOUT)
    }
 
 
    //------------------------------------ List all sitemanager ------------------------------------//
 
-   getSitemanagerProject = async (req: Request, res: Response, next: NextFunction): Promise<projectOutput | commonOutput> => {
+   getSitemanagerProject = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput<IProjectModelEntity[]> | commonOutput> => {
       const { user } = req.params
       const result = await this.listProjectUseCase.execute(user)
       return result

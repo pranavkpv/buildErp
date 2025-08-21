@@ -8,8 +8,8 @@ export interface ISpecController {
    findMaterialSum(req: Request, res: Response, next: NextFunction): Promise<commonOutput<number> | commonOutput>
    findLaboursum(req: Request, res: Response, next: NextFunction): Promise<commonOutput<number> | commonOutput>
    saveSpec(req: Request, res: Response, next: NextFunction): Promise<commonOutput>
-   fetchlabourMaterial(req: Request, res: Response, next: NextFunction): Promise<specOutput | commonOutput>
+   fetchlabourMaterial(req: Request, res: Response, next: NextFunction): Promise<commonOutput<number> | commonOutput>
    deleteSpec(req: Request, res: Response, next: NextFunction): Promise<commonOutput>
-   getSpeclist(req: Request, res: Response, next: NextFunction): Promise<specOutput | commonOutput>
+   getSpeclist(req: Request, res: Response, next: NextFunction): Promise<commonOutput<{data:any[],totalPage:number}> | commonOutput>
    updateSpec(req: Request, res: Response, next: NextFunction): Promise<commonOutput>
 }

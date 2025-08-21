@@ -8,7 +8,6 @@ import { commonOutput } from "../../dto/common"
 import { ISitemanagerModelEntity } from "../../../domain/Entities/modelEntities/sitemanager.entity"
 import { Tokens } from "../../entities/token.entity"
 
-
 export class SitemanagerLoginUseCase implements ISitemanagerLoginUseCaseEntity {
    constructor(
       private sitemanagerRepository: ISitemanagerRepository,

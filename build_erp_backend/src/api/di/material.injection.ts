@@ -37,9 +37,8 @@ const specRepository = new SpecRepository()
 
 const displayAllMaterialUseCase = new DisplayAllMaterialUseCase(materialRepository,materialmapper)
 const getAddMaterialUseCase = new DisplayAddMaterialDataUseCase(materialRepository,categoryRepository,brandRepository,unitRepository,unitmapper,brandMapper,categorymapper,projectmapper)
-const getEditMaterialUseCase = new GetEditMaterialUseCase(materialRepository,categoryRepository,brandRepository,unitRepository,projectStockRepository,
-   unitmapper,categorymapper,brandMapper,projectmapper
-)
+const getEditMaterialUseCase = new GetEditMaterialUseCase(materialRepository,projectStockRepository,materialmapper)
+
 const saveMaterialUseCase = new AddMaterialUseCase(materialRepository,projectStockRepository)
 const updateMaterialUseCase = new UpdateMaterialUseCase(materialRepository,projectStockRepository)
 const deleteMaterialUseCase = new DeleteMaterialUseCase(materialRepository,projectStockRepository,specRepository)

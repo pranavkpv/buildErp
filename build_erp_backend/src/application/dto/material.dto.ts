@@ -11,8 +11,24 @@ export interface ProjectStockOutputDTO extends IProjectStockModelEntity {
 export interface listingMaterialDTO {
    _id: string
    material_name: string
-   unit_rate:number
+   unit_rate: number
    brandDetails: idBrandnameDTO[],
    unitDetails: idUnitnameDTO[],
    categoryDetails: idCategorynameDTO[]
 }
+
+export interface EditmaterialDetailsDTO {
+   material_name: string
+   category_id: string
+   brand_id: string
+   unit_id: string
+   unit_rate: number
+   stock: number
+}
+
+export interface EditprojectDetailsDTO {
+   project: string
+   stock: number
+   _id: string
+}
+

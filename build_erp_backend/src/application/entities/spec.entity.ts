@@ -20,3 +20,10 @@ export interface InputSpecification {
    profitPer: number
 }
 
+export interface mixMatAndLabour {
+   materialDetails:materialData[]
+   labourDetails:labourData[]
+}
+
+
+

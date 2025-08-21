@@ -3,12 +3,12 @@ import { projectMapper } from "../../application/Mapper/project.mapper"
 import { stagemapper } from "../../application/Mapper/stage.mapper"
 import { UserMapper } from "../../application/Mapper/user.mapper"
 import { JwtService } from "../../application/services/JwtService"
-import { RefreshTokenUseCase } from "../../application/usecases/AdminUseCase/AdminRefreshTokenUseCase"
 import { FetchExistEstimationUseCase } from "../../application/usecases/EstimationUseCase/fetchExistEstimation.usecase"
 import { FetchStatusBaseProjectUseCase } from "../../application/usecases/ProjectDisplayUseCase/fetchStatusBaseProjectUseCase"
 import { FetchStatusUseCase } from "../../application/usecases/StageStatusUpdationUseCase/fetchstatus.usecase"
 import { GetAllProjectListInUserUseCase } from "../../application/usecases/user.auth.usecase/getallprojectlistinuser.usecase"
 import { GoogleloginUseCase } from "../../application/usecases/user.auth.usecase/googlelogin.usecase"
+import { RefreshTokenUseCase } from "../../application/usecases/user.auth.usecase/RefreshTokenUseCase"
 import { ResendOTPUseCase } from "../../application/usecases/user.auth.usecase/resendotp.usecase"
 import { SendOTPUseCase } from "../../application/usecases/user.auth.usecase/sendotp.usecase"
 import { SignupUserUseCase } from "../../application/usecases/user.auth.usecase/signup.usecase"
@@ -19,6 +19,7 @@ import { VerifyOTPUseCases } from "../../application/usecases/user.auth.usecase/
 import { AdminRepository } from "../../infrastructure/repositories/AdminRepository"
 import { EstimationRepository } from "../../infrastructure/repositories/EstimationRepository"
 import { ProjectRepository } from "../../infrastructure/repositories/ProjectRepository"
+import { SitemanagerRepository } from "../../infrastructure/repositories/SitemanagerRepository"
 import { StageRepository } from "../../infrastructure/repositories/StageRepository"
 import { UserRepository } from "../../infrastructure/repositories/user.repository"
 import { BcryptHasher } from "../../infrastructure/secuirity/BcryptHasher"
@@ -35,6 +36,7 @@ const estimationmapper = new estimationMapper()
 const stageRepository = new StageRepository()
 const stageMapper = new stagemapper()
 const adminRepository = new AdminRepository()
+const sitemanagerRepository = new SitemanagerRepository()
 
 const signupUserUseCase = new SignupUserUseCase(userRepository)
 const verifyOTPUseCase = new VerifyOTPUseCases(userRepository,hasher)
@@ -48,7 +50,7 @@ const getUserProjectsUseCase = new GetAllProjectListInUserUseCase(projectReposit
 const fetchexistestimationusecase = new FetchExistEstimationUseCase(estimationRepository,estimationmapper)
 const fetchStatusUseCase = new FetchStatusUseCase(stageRepository,stageMapper)
 const fetchStatusBaseProjectUseCase = new FetchStatusBaseProjectUseCase(projectRepository,projectmapper)
-const refreshTokenUseCase = new RefreshTokenUseCase(jwtService,adminRepository)
+const refreshTokenUseCase = new RefreshTokenUseCase(userRepository,jwtService,adminRepository,sitemanagerRepository)
 
 export const injectAuthController = new AuthController(signupUserUseCase, verifyOTPUseCase, resendOTPUseCase, userLoginUseCase,  
    googleauthuseCase, sendotpUsecase,verifyforgotUsecase, updatePasswordUseCase,getUserProjectsUseCase,

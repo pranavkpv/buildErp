@@ -27,7 +27,7 @@ type project = {
 type addRowData = {
   project: string;
   stock: number;
-  _id?: string; // For existing project stock data
+  _id?: string; 
 };
 
 type editMatDat = {

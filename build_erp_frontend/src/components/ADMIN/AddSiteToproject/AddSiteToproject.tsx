@@ -2,7 +2,7 @@ import {  getSitemanageridandname } from "../../../api/sitemanager";
 import {  postSitemanagerToProject } from "../../../api/Admin/addSiteToproject";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { getProjectidandname } from "api/project";
+import { getProjectidandname } from "../../../api/project";
 
 type SiteManagerData = {
   _id: string;

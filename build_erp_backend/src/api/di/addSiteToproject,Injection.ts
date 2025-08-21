@@ -1,11 +1,11 @@
-import { projectMapper } from "../../application/Mapper/project.mapper.js";
+import { projectMapper } from "../../application/Mapper/project.mapper";
 import { sitemanagerMapper } from "../../application/Mapper/sitemanager.mapper.ts";
 import { AddSiteToprojectFetchSitemanagerUseCase } from "../../application/usecases/SiteManagerUsecase/AddSiteToprojectFetchSitemanagerUseCase";
 import { AddSiteToProjectUseCase } from "../../application/usecases/SiteManagerUsecase/AddSiteToProjectUseCase";
 import { DeleteSiteToProjectUseCase } from "../../application/usecases/SiteManagerUsecase/DeleteSitemanagerInProjectUseCase";
-import { ListSiteToProjectUsecase } from "../../application/usecases/SiteManagerUsecase/ListSiteToProjectUseCase.js";
+import { ListSiteToProjectUsecase } from "../../application/usecases/SiteManagerUsecase/ListSiteToProjectUseCase";
 import { AddSiteToProjectRepository } from "../../infrastructure/repositories/AddSiteToProjectRepository";
-import { ProjectRepository } from "../../infrastructure/repositories/ProjectRepository.js";
+import { ProjectRepository } from "../../infrastructure/repositories/ProjectRepository";
 import { AddSiteManagerToProjectController } from "../controllers/addSiteManagerToProject.controller";
 
 const addSiteToProjectRepository = new AddSiteToProjectRepository()
