@@ -54,11 +54,7 @@ export const uploadEstimatImageAPI = async (uploadProjectId: string, file: File 
 // --------------- Fetch existing estimation data in edit --------------- //
 
 export const fetchExistEstimation = async (projectId: string) => {
-   try {
       const response = await adminAxios.get(`/fetchExistEstimation/${ projectId }`)
       return response.data
-   } catch (error: any) {
-      toast.error(error.response.data.message)
-   }
 }
 

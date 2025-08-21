@@ -1,32 +1,23 @@
 import { Request, Response, NextFunction } from "express";
 import cloudinary from "../../../infrastructure/config/cloudinary";
-import { IstatusControllerEntity } from "../../../domain/Entities/ControllerEntities/SitemanagerControllerEntities/IStatusControllerEntity";
-import { IFetchStatusUseCaseEntity } from "../../../application/interfaces/SitemanagerUseCaseEntities/StageStatusUpdationUseCaseEntities/IFetchstatus.usecase";
-import { IStageStatusChangeUseCaseEntity } from "../../../application/interfaces/SitemanagerUseCaseEntities/StageStatusUpdationUseCaseEntities/StageStatusChangeUseCaseEntuty";
-import { IUploadStatusImageUseCaseEntity } from "../../../application/interfaces/SitemanagerUseCaseEntities/StageStatusUpdationUseCaseEntities/UploadStatusImageUseCaseEntity";
-import { commonOutput } from "../../../application/dto/CommonEntities/common";
+import { IstatusController } from "../../../domain/Entities/ControllerEntities/SitemanagerControllerEntities/IStatusControllerEntity";
+import { IStageStatusChangeUseCase} from "../../../application/interfaces/SitemanagerUseCaseEntities/StageStatusUpdationUseCaseEntities/StageStatusChangeUseCaseEntuty";
+import { IUploadStatusImageUseCase } from "../../../application/interfaces/SitemanagerUseCaseEntities/StageStatusUpdationUseCaseEntities/UploadStatusImageUseCaseEntity";
 import { StageFailedMessage } from "../../../Shared/Messages/Stage.Message";
 import { HTTP_STATUS } from "../../../Shared/statusCodes/statusCodes";
+import { commonOutput } from "../../../application/dto/common";
 
-export class statusController implements IstatusControllerEntity {
-   private fetchStatusUseCase: IFetchStatusUseCaseEntity
-   private stageStatusChangeUseCase: IStageStatusChangeUseCaseEntity
-   private uploadstatusImageusecase: IUploadStatusImageUseCaseEntity
-   constructor(fetchStatusUseCase: IFetchStatusUseCaseEntity, stageStatusChangeUseCase: IStageStatusChangeUseCaseEntity,
-      uploadstatusImageusecase: IUploadStatusImageUseCaseEntity) {
-      this.fetchStatusUseCase = fetchStatusUseCase
-      this.stageStatusChangeUseCase = stageStatusChangeUseCase
-      this.uploadstatusImageusecase = uploadstatusImageusecase
-   }
+export class statusController implements IstatusController {
 
-   //------------------------------------ Fetch the stages corresponding project  ------------------------------------//
-
-  
+   constructor(
+      private _stageStatusChangeUseCase: IStageStatusChangeUseCase,
+      private _uploadstatusImageusecase: IUploadStatusImageUseCase
+   ) { }
 
    //------------------------------------ Change the status of stage  ------------------------------------//
 
    changeStatus = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
-      const result = await this.stageStatusChangeUseCase.execute({ stageId: req.params.id, ...req.body })
+      const result = await this._stageStatusChangeUseCase.execute({ stageId: req.params.id, ...req.body })
       return result
    }
 
@@ -53,7 +44,7 @@ export class statusController implements IstatusControllerEntity {
          });
          urls.push(result.secure_url);
       }
-      const ExactResult = await this.uploadstatusImageusecase.execute(urls, _id, date);
+      const ExactResult = await this._uploadstatusImageusecase.execute(urls, _id, date);
       return ExactResult
    }
 

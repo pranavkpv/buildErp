@@ -2,8 +2,8 @@ import { NextFunction, Request, Response } from "express";
 import { IAdminController } from "../../../domain/Entities/ControllerEntities/AdminControllerEntities/IAdminControllerEntity";
 import { IAdminLoginUseCaseEntity } from "../../../application/interfaces/AdminUseCaseEntities/DashboardUseCaseEntities/AdminLoginEntity";
 import { ResponseHelper } from "../../../Shared/responseHelpers/response";
-import { commonOutput } from "../../../application/dto/CommonEntities/common";
 import { userSuccessMessage } from "../../../Shared/Messages/User.Message";
+import { commonOutput } from "../../../application/dto/common";
 
 
 
@@ -36,7 +36,6 @@ export class AdminController implements IAdminController {
       sameSite: "lax",
       secure: process.env.NODE_ENV === "production"
     });
-    const result = ResponseHelper.success(userSuccessMessage.LOGOUT)
-    return result
+    return ResponseHelper.success(userSuccessMessage.LOGOUT)
   }
 }

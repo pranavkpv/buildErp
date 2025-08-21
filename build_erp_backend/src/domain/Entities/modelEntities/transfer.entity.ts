@@ -1,5 +1,5 @@
 export interface materialData {
-   _id:string
+   _id?:string
    material_id:string
    material_name?:string
    brand_name?:string

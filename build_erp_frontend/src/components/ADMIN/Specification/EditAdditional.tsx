@@ -64,15 +64,9 @@ function EditAdditionalSpec({ fetchSpecList }: prop) {
       return;
     }
     const Response = await UpdateSpec(
-      editId,
-      editSpec_id,
-      editSpec_name,
-      editSpec_unit,
-      editDescription,
-      editMaterialDetails,
-      editlabourDetails,
-      editadditionalExpense_per,
-      editprofit_per
+   { _id:editId,specId:editSpec_id,specname:editSpec_name,specUnit:editSpec_unit,specDescription:editDescription,
+    materialDetails:editMaterialDetails,labourDetails:editlabourDetails,additionalExpensePer:editadditionalExpense_per,
+    profitPer:editprofit_per}
     );
     if (Response.success) {
       toast.success(Response.message);

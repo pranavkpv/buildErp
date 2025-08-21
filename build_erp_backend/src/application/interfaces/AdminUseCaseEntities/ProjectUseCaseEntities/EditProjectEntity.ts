@@ -1,6 +1,6 @@
-import { commonOutput } from "../../../dto/CommonEntities/common";
-import { editProjectInput } from "../../../dto/ProjectEntities/project";
+import { commonOutput } from "../../../dto/common";
+import { editProjectInput } from "../../../entities/project.entity";
 
-export interface IEditProjectUseCaseEntity {
+export interface IEditProjectUseCase {
     execute(input: editProjectInput): Promise<commonOutput> 
 }

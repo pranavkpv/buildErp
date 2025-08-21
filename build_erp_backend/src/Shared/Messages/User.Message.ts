@@ -35,5 +35,6 @@ export enum userSuccessMessage {
    UPDATE_PROFILE = "User Profile Updated SuccessFully",
    CONFIRM_OTP = "OTP confirmed. You can now change the password",
    REGISTER = "OTP confirmed. User registered successfully",
-   LOGOUT = "User Logout Successfully"
+   LOGOUT = "User Logout Successfully",
+   ACCESSTOKEN_CREATE = "New Access Token Created successfully"
 }

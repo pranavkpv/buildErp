@@ -7,7 +7,8 @@ import { IDeleteEstimationUseCase } from "../../application/interfaces/AdminUseC
 import { IUploadEstimateImageUseCase } from "../../application/interfaces/AdminUseCaseEntities/EstimationUseCaseEntities/UploadEstimateImageEntity"
 import { IUpdateEstimationUseCase } from "../../application/interfaces/AdminUseCaseEntities/EstimationUseCaseEntities/UpdateEstimationEntity"
 import { commonOutput } from "../../application/dto/common"
-import { listEstimationDTO } from "../../application/dto/estimation.dto"
+import { listEstimationDTO, specListInProjectDTO } from "../../application/dto/estimation.dto"
+import { IFetchSpecListUsingEstimationUsecase } from "../../application/interfaces/AdminUseCaseEntities/EstimationUseCaseEntities/IFetchSpecListUsingEstimationUsecase"
 
 
 
@@ -19,9 +20,8 @@ export class EstimationController implements IEstimationController {
       private _updateEstimationUsecase: IUpdateEstimationUseCase,
       private _displayEstimationUseCase: IDisplayEstimationUseCase,
       private _uploadestimationUsecase: IUploadEstimateImageUseCase,
-
-      private fetchexistestimationusecase: IFetchExistEstimationUseCaseEntity,
-     ) { }
+      private _fetchSpecListUsingEstimationUsecase:IFetchSpecListUsingEstimationUsecase,
+   ) { }
 
    //------------------------------------ Save Estimation ------------------------------------//
 
@@ -37,7 +37,7 @@ export class EstimationController implements IEstimationController {
       return result
    }
 
-   
+
    //------------------------------------ Update estimation ------------------------------------//
 
    updateEstimation = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
@@ -48,7 +48,7 @@ export class EstimationController implements IEstimationController {
 
    //------------------------------------ List Estimation with search and pagination ------------------------------------//
 
-   fetchEstimation = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput<{data:listEstimationDTO[],totalPage:number}> | commonOutput> => {
+   fetchEstimation = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput<{ data: listEstimationDTO[], totalPage: number }> | commonOutput> => {
       const { search, page } = req.query
       const result = await this._displayEstimationUseCase.axecute(String(search), Number(page))
       return result
@@ -69,6 +69,11 @@ export class EstimationController implements IEstimationController {
       })
       const ExactResult = await this._uploadestimationUsecase.execute(result.secure_url, projectId)
       return ExactResult
+   }
+
+   fetchExistEstimation = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput<specListInProjectDTO[]>> => {
+        const data = await this._fetchSpecListUsingEstimationUsecase.execute(req.params.id)
+        return data
    }
 
 }

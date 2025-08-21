@@ -1,18 +1,18 @@
-import { commonOutput } from "../../dto/CommonEntities/common";
-import { InputSpecification } from "../../dto/EstimationEntities/specification";
-import { ISpecRepositoryEntity } from "../../../domain/interfaces/Estimation-management/ISpecRepository";
-import { IUpdateSpecUseCaseEntity } from "../../interfaces/AdminUseCaseEntities/SpecUseCaseEntities/UpdateSpecEntity";
+
+import { IUpdateSpecUseCase } from "../../interfaces/AdminUseCaseEntities/SpecUseCaseEntities/UpdateSpecEntity";
 import { ResponseHelper } from "../../../Shared/responseHelpers/response";
 import { SpecFailedMessage, SpecSuccessMessage } from "../../../Shared/Messages/Specification.Message";
+import { ISpecRepository } from "../../../domain/interfaces/Estimation-management/ISpecRepository";
+import { InputSpecification } from "../../entities/spec.entity";
+import { commonOutput } from "../../dto/common";
 
-export class UpdateSpecUseCase implements IUpdateSpecUseCaseEntity {
-   private SpecRepository: ISpecRepositoryEntity
-   constructor(SpecRepository: ISpecRepositoryEntity) {
-      this.SpecRepository = SpecRepository
-   }
+export class UpdateSpecUseCase implements IUpdateSpecUseCase {
+   constructor(
+      private SpecRepository: ISpecRepository
+   ) { }
    async execute(input: InputSpecification): Promise<commonOutput> {
       const { _id, specId, specname, specUnit, specDescription,
-         materialDetails, labourDetails, additionalExpense_per, profit_per } = input
+         materialDetails, labourDetails, additionalExpensePer, profitPer } = input
       if (!_id) return ResponseHelper.badRequest(SpecFailedMessage.SPEC_ID_MISS)
       const existSpecIDInEdit = await this.SpecRepository.findSpecInEdit(_id, specId)
       const existSpecNameInEdit = await this.SpecRepository.findSpecInEditByName(_id, specname)
@@ -24,7 +24,7 @@ export class UpdateSpecUseCase implements IUpdateSpecUseCaseEntity {
       }
       await this.SpecRepository.UpdateSpec({
          _id, specId, specname, specUnit, specDescription,
-         materialDetails, labourDetails, additionalExpense_per, profit_per
+         materialDetails, labourDetails, additionalExpensePer, profitPer
       })
       return ResponseHelper.success(SpecSuccessMessage.UPDATE)
    }

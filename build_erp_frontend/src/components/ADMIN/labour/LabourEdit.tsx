@@ -47,7 +47,7 @@ function LabourEdit({
       const _id = labourId
       const labour_type = labourData
       const daily_wage = wageData
-      const data = await putLabour(_id, labour_type, daily_wage)
+      const data = await putLabour({_id, labour_type, daily_wage})
       if (data.success) {
         toast.success(data.message);
         setEditEnable(false);

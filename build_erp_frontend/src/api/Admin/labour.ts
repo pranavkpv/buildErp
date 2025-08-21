@@ -1,10 +1,11 @@
 import { toast } from "react-toastify";
 import adminAxios from "../../axios/AdminAxioInterceptors"
-import type { addLabourInterface } from "ApiInterface/labour.interface";
+import type { addLabourInterface, editLabourInterface } from "ApiInterface/labour.interface";
+import type { listingInput } from "ApiInterface/CommonApiInterface";
 
 // ---------------- Add Labour ---------------- //
 
-export const postLabour = async (input:addLabourInterface) => {
+export const postLabour = async (input: addLabourInterface) => {
    const response = await adminAxios.post(`/labour`, input);
    return response.data;
 };
@@ -12,54 +13,35 @@ export const postLabour = async (input:addLabourInterface) => {
 // ---------------- Delete Labour ---------------- //
 
 export const deleteLabourData = async (labourId: string) => {
-   try {
-      const response = await adminAxios.delete(`/labour/${ labourId }`);
-      return response.data;
-   } catch (error: any) {
-      toast.error(error.response.data.message)
-   }
+   const response = await adminAxios.delete(`/labour/${ labourId }`);
+   return response.data;
 };
 
 // ---------------- Edit Labour ---------------- //
 
-export const putLabour = async (_id: string, labour_type: string, daily_wage: number) => {
-   try {
-      const response = await adminAxios.put(`/labour/${ _id }`, { labour_type, daily_wage });
-      return response.data;
-   } catch (error: any) {
-      toast.error(error.response.data.message)
-   }
+export const putLabour = async (input: editLabourInterface) => {
+   const { _id, labour_type, daily_wage } = input
+   const response = await adminAxios.put(`/labour/${ _id }`, { labour_type, daily_wage });
+   return response.data;
 };
 
 // ---------------- Labour List with Pagination & Search ---------------- //
 
-export const getLabour = async (page: number, search: string) => {
-   try {
-      const response = await adminAxios.get(`/labour`, { params: { page, search } });
-      return response.data;
-   } catch (error: any) {
-      toast.error(error.response.data.message)
-   }
+export const getLabour = async (input: listingInput) => {
+   const response = await adminAxios.get(`/labour`, { params: input });
+   return response.data;
 };
 
 // ---------------- Fetch All Labour ---------------- //
 
 export const labourDataFetch = async () => {
-   try {
-      const response = await adminAxios.get('/fetchlabour');
-      return response.data;
-   } catch (error: any) {
-      toast.error(error.response.data.message)
-   }
+   const response = await adminAxios.get('/fetchlabour');
+   return response.data;
 };
 
 // ---------------- Get Single Labour ---------------- //
 
 export const getLabourData = async (_id: string) => {
-   try {
       const response = await adminAxios.get(`/getLabour/${ _id }`);
       return response.data;
-   } catch (error: any) {
-      toast.error(error.response.data.message)
-   }
 };

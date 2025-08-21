@@ -1,19 +1,18 @@
-import { commonOutput } from "../../dto/CommonEntities/common";
-import { RecieveInput } from "../../dto/PurchaseEntity.ts/Receive";
-import { IReceiveRepositoryEntity } from "../../../domain/interfaces/Purchase-management/IReceiveRepository";
-import { ITransferRepositoryEntity } from "../../../domain/interfaces/Purchase-management/ITransferRepository";
+
 import { ISaveReceiveUseCaseEntity } from "../../interfaces/SitemanagerUseCaseEntities/ReceiveUseCaseEntities/SaveReceiveUseCaseEntity";
 import { ResponseHelper } from "../../../Shared/responseHelpers/response";
 import { ReceiveFailedMessage, ReceiveSuccessMessage } from "../../../Shared/Messages/Receive.Message";
+import { ReceiveInput } from "../../entities/receive.entity";
+import { commonOutput } from "../../dto/common";
+import { ITransferRepository } from "../../../domain/interfaces/Purchase-management/ITransferRepository";
+import { IReceiveRepository } from "../../../domain/interfaces/Purchase-management/IReceiveRepository";
 
 export class SaveReceiveUseCase implements ISaveReceiveUseCaseEntity {
-   private ReceiveRepository: IReceiveRepositoryEntity
-   private transferRepository: ITransferRepositoryEntity
-   constructor(ReceiveRepository: IReceiveRepositoryEntity, transferRepository: ITransferRepositoryEntity) {
-      this.ReceiveRepository = ReceiveRepository
-      this.transferRepository = transferRepository
-   }
-   async execute(input: RecieveInput): Promise<commonOutput> {
+   constructor(
+      private ReceiveRepository: IReceiveRepository,
+      private transferRepository: ITransferRepository
+   ) { }
+   async execute(input: ReceiveInput): Promise<commonOutput> {
       for (let element of input.transferId) {
          const transferData = await this.transferRepository.findTransferBytransferId(element)
          if (transferData) {

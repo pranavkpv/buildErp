@@ -1,6 +1,6 @@
-import { commonOutput } from "../../../dto/CommonEntities/common";
-import { fetchcost } from "../../../dto/ProjectEntities/Stage";
+import { commonOutput } from "../../../dto/common";
 
-export interface IFetchCostUseCaseEntity {
-   execute(input: fetchcost): Promise<commonOutput>
+
+export interface IFetchCostUseCase {
+   execute(projectId:string): Promise<commonOutput<number> | commonOutput> 
 }

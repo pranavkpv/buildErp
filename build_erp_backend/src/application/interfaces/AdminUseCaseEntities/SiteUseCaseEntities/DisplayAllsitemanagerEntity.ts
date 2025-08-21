@@ -1,6 +1,7 @@
-import { commonOutput } from "../../../dto/CommonEntities/common";
-import { sitemanagerOutput } from "../../../dto/SitemanagerEntities/sitemanager";
+import { commonOutput } from "../../../dto/common";
+import { listSitemanagerDTO } from "../../../dto/sitemanager.dto";
+import { listingInput } from "../../../entities/common.entity";
 
-export interface IDisplayAllSitemanagerUseCaseEntity {
-   execute(page:number,search:string): Promise<sitemanagerOutput | commonOutput>
+export interface IDisplayAllSitemanagerUseCase {
+   execute(input:listingInput): Promise<commonOutput<{data:listSitemanagerDTO[],totalPage:number}> | commonOutput>
 }

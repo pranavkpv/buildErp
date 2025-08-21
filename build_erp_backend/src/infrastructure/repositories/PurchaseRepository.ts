@@ -1,4 +1,6 @@
 import { purchaseDB } from "../../api/models/PurchaseModel";
+import { PurchaseDTO } from "../../application/dto/purchase.dto";
+import { purchaseInput } from "../../application/entities/purchase.entity";
 import { IPurchaseModelEntity } from "../../domain/Entities/modelEntities/purchase.entity";
 import { IPurchaseRepository } from "../../domain/interfaces/Purchase-management/IPurchaseRepository";
 
@@ -7,7 +9,7 @@ export class PurchaseRepository implements IPurchaseRepository {
         search: string, 
         page: number, 
         id: string
-    ): Promise<purchaseOutput> {
+    ): Promise<{ data: PurchaseDTO[], totalPage: number }> {
         
         const skip = page * 5;
 
@@ -101,7 +103,7 @@ export class PurchaseRepository implements IPurchaseRepository {
         ]);
 
         // Format data and calculate final amount
-        const data: purchaseDataOutput[] = allPurchase.map((element: any) => ({
+        const data: PurchaseDTO[] = allPurchase.map((element: any) => ({
             _id: element._id,
             project_id: element.project_id,
             project_name: element.project_name,

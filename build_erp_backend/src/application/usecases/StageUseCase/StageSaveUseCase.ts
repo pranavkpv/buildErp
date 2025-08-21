@@ -1,28 +1,25 @@
-import { IprojectRepositoryEntity } from "../../../domain/interfaces/Project-management/IProjectRepository";
-import { IStageRepositoryEntity } from "../../../domain/interfaces/Project-management/IStageRepository";
-import { commonOutput } from "../../dto/CommonEntities/common";
-import { stageInputData } from "../../dto/ProjectEntities/Stage";
-import { IStageSaveUseCaseEntity } from "../../interfaces/AdminUseCaseEntities/StageUseCaseEntities/StageSaveEntity";
 import { ResponseHelper } from "../../../Shared/responseHelpers/response";
 import { StageFailedMessage, StageSuccessMessage } from "../../../Shared/Messages/Stage.Message";
+import { IStageSaveUseCase } from "../../interfaces/AdminUseCaseEntities/StageUseCaseEntities/StageSaveEntity";
+import { IprojectRepository } from "../../../domain/interfaces/Project-management/IProjectRepository";
+import { IStageRepository } from "../../../domain/interfaces/Project-management/IStageRepository";
+import { stageInputData } from "../../entities/stage.entity";
+import { commonOutput } from "../../dto/common";
 
-export class StageSaveUseCase implements IStageSaveUseCaseEntity {
-   private projectRepository: IprojectRepositoryEntity;
-   private stageRepository: IStageRepositoryEntity;
-   constructor(projectRepository: IprojectRepositoryEntity, stageRepository: IStageRepositoryEntity) {
-      this.projectRepository = projectRepository;
-      this.stageRepository = stageRepository;
-   }
-
+export class StageSaveUseCase implements IStageSaveUseCase {
+   constructor(
+      private _projectRepository: IprojectRepository,
+      private _stageRepository: IStageRepository
+   ) { }
    async execute(input: stageInputData): Promise<commonOutput> {
       const { stages, projectId, startDate, endDate, cost } = input;
-      const existStage = await this.projectRepository.findProjectWithCost(projectId);
+      const existStage = await this._projectRepository.findProjectWithCost(projectId);
       if (existStage && existStage.budgeted_cost) {
          return ResponseHelper.conflictData(StageFailedMessage.ALREADY_SET)
       }
-      await this.projectRepository.SetCostInProject({ projectId, startDate, endDate, cost });
+      await this._projectRepository.SetCostInProject({ projectId, startDate, endDate, cost });
       for (let element of stages) {
-         await this.stageRepository.stageDataSave(projectId, element);
+         await this._stageRepository.stageDataSave(projectId, element);
       }
       return ResponseHelper.createdSuccess(StageSuccessMessage.ADD)
    }

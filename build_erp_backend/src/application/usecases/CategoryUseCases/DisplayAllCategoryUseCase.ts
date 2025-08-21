@@ -1,24 +1,22 @@
-import { commonOutput } from "../../dto/CommonEntities/common";
 import { ResponseHelper } from "../../../Shared/responseHelpers/response";
-import { IDisplayAllCategoryUseCaseEntity } from "../../interfaces/Category.UseCase.Entities/DisplayAllCategoryEntity";
+import { IDisplayAllCategoryUseCase } from "../../interfaces/Category.UseCase.Entities/DisplayAllCategoryEntity";
 import { CategorySuccessMessage } from "../../../Shared/Messages/Category.Message";
-import { ICategoryRepositoryEntity } from "../../../domain/interfaces/Material-management/ICategoryRepository";
-import { categoryInput } from "../../dto/CategoryEntities/Category.Entity";
+import { ICategoryRepository } from "../../../domain/interfaces/Material-management/ICategoryRepository";
+import { listingInput } from "../../entities/common.entity";
+import { commonOutput } from "../../dto/common";
+import { categoryListDTO } from "../../dto/category.dto";
+import { ICategorymapper } from "../../../domain/mappers/ICategory.mapper";
 
 
-export class DisplayAllCategoryUseCase implements IDisplayAllCategoryUseCaseEntity {
-   private categoryRepository: ICategoryRepositoryEntity
-   constructor(categoryRepository: ICategoryRepositoryEntity) {
-      this.categoryRepository = categoryRepository
-   }
-   async execute(page: number, search: string): Promise<commonOutput> {
-      const { data, totalPage } = await this.categoryRepository.findAllListCategory(page, search)
-      const mappedData = data.map((cat: categoryInput) => ({
-         _id: cat._id,
-         category_name: cat.category_name,
-         description: cat.description
-      }))
-      return ResponseHelper.success(CategorySuccessMessage.FETCH, mappedData, totalPage)
+export class DisplayAllCategoryUseCase implements IDisplayAllCategoryUseCase {
+   constructor(
+      private _categoryRepository: ICategoryRepository,
+      private _categorymapper: ICategorymapper
+   ) { }
+   async execute(input: listingInput): Promise<commonOutput<{ data: categoryListDTO[], totalPage: number }> | void> {
+      const { data, totalPage } = await this._categoryRepository.findAllListCategory(input)
+      const mappedData = this._categorymapper.toListCategoryDTO(data)
+      return ResponseHelper.success(CategorySuccessMessage.FETCH, { data: mappedData, totalPage })
    }
 }
 

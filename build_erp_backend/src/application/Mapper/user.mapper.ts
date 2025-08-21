@@ -12,4 +12,12 @@ export class UserMapper implements IUserMapper {
       profile_image: user.profile_image
     }
   }
+  touserDisplayDTO(user: IUserModelEntity[]): userLoginDTO[] {
+      return user.map((item)=>({
+        _id:item._id,
+        email:item.email,
+        username:item.username,
+        phone:item.phone,
+      }))
+  }
 }

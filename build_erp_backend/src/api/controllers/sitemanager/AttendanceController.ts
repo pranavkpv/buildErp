@@ -6,28 +6,21 @@ import { IDeleteAttendanceUseCaseEntity } from "../../../application/interfaces/
 import { IApproveAttendanceUseCaseEntity } from "../../../application/interfaces/SitemanagerUseCaseEntities/AttendanceUseCaseEntities/ApproveAttendanceEntities"
 import { IFetchAttendanceByIdUseCaseEntity } from "../../../application/interfaces/SitemanagerUseCaseEntities/AttendanceUseCaseEntities/FetchAttendanceBYIdEntity"
 import { IEditAttendanceUseCaseEntity } from "../../../application/interfaces/SitemanagerUseCaseEntities/AttendanceUseCaseEntities/EditAttendanceEntity"
-import { commonOutput } from "../../../application/dto/CommonEntities/common"
-import { attendanceOutput } from "../../../application/dto/LabourEntities/attendance"
+import { commonOutput } from "../../../application/dto/common"
+import { fetchEditAttendance, pageWiseAttendance } from "../../../application/entities/attendance.entity"
+
 
 
 export class AttendanceController implements IAttendanceControllerEntity {
-   private addAttendaceUseCase: IaddAttendanceUseCaseEntity
-   private fetchattendanceusecase: IfetchAttendanceUseCaseEntity
-   private deleteattendanceUsecase: IDeleteAttendanceUseCaseEntity
-   private approveattendanceuseCase: IApproveAttendanceUseCaseEntity
-   private fetchattendancebyIdusecase: IFetchAttendanceByIdUseCaseEntity
-   private editAttendanceUseCase: IEditAttendanceUseCaseEntity
-   constructor(addAttendaceUseCase: IaddAttendanceUseCaseEntity, fetchattendanceusecase: IfetchAttendanceUseCaseEntity,
-      deleteattendanceUsecase: IDeleteAttendanceUseCaseEntity, approveattendanceuseCase: IApproveAttendanceUseCaseEntity,
-      fetchattendancebyIdusecase: IFetchAttendanceByIdUseCaseEntity, editAttendanceUseCase: IEditAttendanceUseCaseEntity
-   ) {
-      this.addAttendaceUseCase = addAttendaceUseCase
-      this.fetchattendanceusecase = fetchattendanceusecase
-      this.deleteattendanceUsecase = deleteattendanceUsecase
-      this.approveattendanceuseCase = approveattendanceuseCase
-      this.fetchattendancebyIdusecase = fetchattendancebyIdusecase
-      this.editAttendanceUseCase = editAttendanceUseCase
-   }
+
+   constructor(
+      private addAttendaceUseCase: IaddAttendanceUseCaseEntity,
+      private fetchattendanceusecase: IfetchAttendanceUseCaseEntity,
+      private deleteattendanceUsecase: IDeleteAttendanceUseCaseEntity,
+      private approveattendanceuseCase: IApproveAttendanceUseCaseEntity,
+      private fetchattendancebyIdusecase: IFetchAttendanceByIdUseCaseEntity,
+      private editAttendanceUseCase: IEditAttendanceUseCaseEntity,
+   ) { }
 
    //------------------------------------ Take the attendance of labour in project and date ------------------------------------//
 
@@ -45,9 +38,9 @@ export class AttendanceController implements IAttendanceControllerEntity {
 
    //------------------------------------ List of searched and paginated attendance of labour ------------------------------------//
 
-   fetchAttendance = async (req: Request, res: Response, next: NextFunction): Promise<attendanceOutput | commonOutput> => {
+   fetchAttendance = async (req: Request, res: Response, next: NextFunction):  Promise<commonOutput<{data:pageWiseAttendance[],totalPage:number}>> => {
       const { search, page } = req.query
-      const result = await this.fetchattendanceusecase.execute(String(search), Number(page))
+      const result = await this.fetchattendanceusecase.execute({page:Number(page),search:String(search)})
       return result
    }
 
@@ -69,7 +62,7 @@ export class AttendanceController implements IAttendanceControllerEntity {
 
    //------------------------------------ Fetch labour attendance data in edit  ------------------------------------//
 
-   fetchEditcontroller = async (req: Request, res: Response, next: NextFunction): Promise<attendanceOutput | commonOutput> => {
+   fetchEditcontroller = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput<fetchEditAttendance> | commonOutput> => {
       const _id = req.params.id
       const result = await this.fetchattendancebyIdusecase.execute(_id)
       return result

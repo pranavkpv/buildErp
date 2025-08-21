@@ -1,16 +1,17 @@
-import { commonOutput } from "../../dto/CommonEntities/common";
-import { materialData } from "../../dto/PurchaseEntity.ts/Receive";
+
 import { IApproveReceiveUseCaseEntity } from "../../interfaces/SitemanagerUseCaseEntities/ReceiveUseCaseEntities/ApproveReceiveUseCaseEntity";
 import { ResponseHelper } from "../../../Shared/responseHelpers/response";
-import { IProjectStockRepositoryEntity } from "../../../domain/interfaces/Stock-management/IProjectStockRepository";
-import { IReceiveRepositoryEntity } from "../../../domain/interfaces/Purchase-management/IReceiveRepository";
 import { ReceiveSuccessMessage } from "../../../Shared/Messages/Receive.Message";
+import { IProjectStockRepository } from "../../../domain/interfaces/Stock-management/IProjectStockRepository";
+import { IReceiveRepository } from "../../../domain/interfaces/Purchase-management/IReceiveRepository";
+import { materialData } from "../../../domain/Entities/modelEntities/transfer.entity";
+import { commonOutput } from "../../dto/common";
 
 export class ApproveReceiveUseCase implements IApproveReceiveUseCaseEntity {
-   private receiveRepository: IReceiveRepositoryEntity
-   private projectStockRepository: IProjectStockRepositoryEntity
-   constructor(receiveRepository: IReceiveRepositoryEntity, projectStockRepository: IProjectStockRepositoryEntity,
 
+   constructor(
+      private receiveRepository: IReceiveRepository,
+   private projectStockRepository: IProjectStockRepository
    ) {
       this.receiveRepository = receiveRepository
       this.projectStockRepository = projectStockRepository

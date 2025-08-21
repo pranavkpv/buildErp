@@ -1,18 +1,19 @@
-import { ISpecRepositoryEntity } from "../../../domain/interfaces/Estimation-management/ISpecRepository";
-import { ISpeclistUseCaseEntity } from "../../interfaces/AdminUseCaseEntities/SpecUseCaseEntities/SpecListEntity";
+
 import { ResponseHelper } from "../../../Shared/responseHelpers/response";
-import { commonOutput } from "../../dto/CommonEntities/common";
-import { specOutput } from "../../dto/EstimationEntities/specification";
 import { SpecSuccessMessage } from "../../../Shared/Messages/Specification.Message";
+import { ISpeclistUseCase } from "../../interfaces/AdminUseCaseEntities/SpecUseCaseEntities/SpecListEntity";
+import { ISpecRepository } from "../../../domain/interfaces/Estimation-management/ISpecRepository";
+import { commonOutput } from "../../dto/common";
+import { listingInput } from "../../entities/common.entity";
 
 
-export class SpeclistUseCase implements ISpeclistUseCaseEntity {
-   private specRepository: ISpecRepositoryEntity
-   constructor(specRepository: ISpecRepositoryEntity) {
-      this.specRepository = specRepository
-   }
-   async execute(page: number, search: string): Promise<specOutput | commonOutput> {
-         const {result,totalPage} = await this.specRepository.fetchSpecList({page, search})
-         return ResponseHelper.success(SpecSuccessMessage.FETCH,result,totalPage)
+export class SpeclistUseCase implements ISpeclistUseCase {
+  
+   constructor( 
+      private specRepository: ISpecRepository
+   ) { }
+   async execute(input:listingInput): Promise<commonOutput<{data:any[],totalPage:number}> | commonOutput> {
+         const {result,totalPage} = await this.specRepository.fetchSpecList(input)
+         return ResponseHelper.success(SpecSuccessMessage.FETCH,{data:result,totalPage})
    }
 }

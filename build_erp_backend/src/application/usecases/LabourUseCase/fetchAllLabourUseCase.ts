@@ -1,17 +1,20 @@
-import { IFetchAllLabourUseCaseEntity } from "../../interfaces/AdminUseCaseEntities/LabourUseCaseEntities/FetchAllLabourEntity";
 import { ResponseHelper } from "../../../Shared/responseHelpers/response";
-import { commonOutput } from "../../dto/CommonEntities/common";
-import { labourOutput } from "../../dto/LabourEntities/labour";
-import { ILabourRepositoryEntity } from "../../../domain/interfaces/Labour-management/ILabourRepository";
 import { LabourSuccessMessage } from "../../../Shared/Messages/Labour.Message";
+import { ILabourRepository } from "../../../domain/interfaces/Labour-management/ILabourRepository";
+import { IFetchAllLabourUseCase } from "../../interfaces/AdminUseCaseEntities/LabourUseCaseEntities/FetchAllLabourEntity";
+import { commonOutput } from "../../dto/common";
+import { labourDataDisplayDTO } from "../../dto/labour.dto";
+import { ILabourMapper } from "../../../domain/mappers/ILabour.mapper";
 
-export class FetchAllLabourUseCase implements IFetchAllLabourUseCaseEntity {
-   private labourRepository: ILabourRepositoryEntity
-   constructor(labourRepository: ILabourRepositoryEntity) {
-      this.labourRepository = labourRepository
+export class FetchAllLabourUseCase implements IFetchAllLabourUseCase {
+   constructor(
+      private _labourRepository: ILabourRepository,
+      private _labourmapper: ILabourMapper
+   ) {
    }
-   async execute(): Promise<labourOutput | commonOutput> {
-      const data = await this.labourRepository.fetchLabourData()
-      return ResponseHelper.success(LabourSuccessMessage.FETCH, data)
+   async execute(): Promise<commonOutput<labourDataDisplayDTO[]> | commonOutput> {
+      const data = await this._labourRepository.fetchLabourData()
+      const mappedData = this._labourmapper.toDisplayLabourDTO(data)
+      return ResponseHelper.success(LabourSuccessMessage.FETCH, mappedData)
    }
 }

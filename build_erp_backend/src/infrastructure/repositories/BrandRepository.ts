@@ -1,13 +1,13 @@
 import { brandDB } from "../../api/models/BrandModel";
+import { listingInput } from "../../application/entities/common.entity";
 import { IBrandModelEntity } from "../../domain/Entities/modelEntities/brand.entity";
-import { inputBrand, listBrandOutput } from "../../application/dto/BrandEntities/Brand.Entity";
-import { listingInput } from "../../application/dto/CommonEntities/common";
-import { IBrandRepositoryEntity } from "../../domain/interfaces/Material-management/IBrandRepository";
+import { IBrandRepository } from "../../domain/interfaces/Material-management/IBrandRepository";
+
 
 /**
  * Repository class for Brand-related database operations.
  */
-export class BrandRepository implements IBrandRepositoryEntity {
+export class BrandRepository implements IBrandRepository {
 
   /**
    * Retrieves all brands from the database.
@@ -19,18 +19,18 @@ export class BrandRepository implements IBrandRepositoryEntity {
   /**
    * Finds a brand by its name (case-insensitive).
    */
-  async findBrandByName(input: inputBrand): Promise<IBrandModelEntity | null> {
+  async findBrandByName(brand_name:string): Promise<IBrandModelEntity | null> {
     return await brandDB.findOne({
-      brand_name: { $regex: new RegExp(`^${input.brand_name}$`, "i") }
+      brand_name: { $regex: new RegExp(`^${brand_name}$`, "i") }
     });
   }
 
   /**
    * Saves a new brand into the database.
    */
-  async saveBrand(input: inputBrand): Promise<void> {
+  async saveBrand(brand_name:string): Promise<void> {
     const newBrand = new brandDB({
-      brand_name: input.brand_name
+      brand_name: brand_name
     });
     await newBrand.save();
   }
@@ -38,19 +38,19 @@ export class BrandRepository implements IBrandRepositoryEntity {
   /**
    * Finds a brand by name (excluding a specific brand ID, used in edit scenarios).
    */
-  async findBrandInEdit(input: inputBrand): Promise<IBrandModelEntity | null> {
+  async findBrandInEdit(_id:string,brand_name:string): Promise<IBrandModelEntity | null> {
     return await brandDB.findOne({
-      _id: { $ne: input._id },
-      brand_name: { $regex: new RegExp(`^${input.brand_name}$`, "i") }
+      _id: { $ne: _id },
+      brand_name: { $regex: new RegExp(`^${brand_name}$`, "i") }
     });
   }
 
   /**
    * Updates a brand's name by its ID.
    */
-  async updateBrandById(input: inputBrand): Promise<void> {
-    await brandDB.findByIdAndUpdate(input._id, {
-      brand_name: input.brand_name
+  async updateBrandById(_id:string,brand_name:string): Promise<void> {
+    await brandDB.findByIdAndUpdate(_id, {
+      brand_name: brand_name
     });
   }
 
@@ -64,7 +64,7 @@ export class BrandRepository implements IBrandRepositoryEntity {
   /**
    * Retrieves a paginated list of brands filtered by search term.
    */
-  async findAllListBrand(input: listingInput): Promise<listBrandOutput> {
+  async findAllListBrand(input: listingInput): Promise<{data:IBrandModelEntity[],totalPage:number}> {
     const { search, page } = input;
     const skip = page * 5;
     const searchRegex = new RegExp(search, "i");

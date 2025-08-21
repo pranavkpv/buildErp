@@ -1,18 +1,18 @@
-import { IMaterialRepositoryEntity } from "../../../domain/interfaces/Material-management/IMaterialRepository";
-import { IFetchUnitRateUseCaseEntity } from "../../interfaces/AdminUseCaseEntities/MaterialUseCaseEntities/FetchUnitRateEntity";
-import { commonOutput } from "../../dto/CommonEntities/common";
-import { materialOutput } from "../../dto/MaterialEntities/material";
 import { ResponseHelper } from "../../../Shared/responseHelpers/response";
 import { MaterialSuccessMessage } from "../../../Shared/Messages/Material.Message";
+import { IFetchUnitRateUseCase } from "../../interfaces/AdminUseCaseEntities/MaterialUseCaseEntities/FetchUnitRateEntity";
+import { IMaterialRepository } from "../../../domain/interfaces/Material-management/IMaterialRepository";
+import { commonOutput } from "../../dto/common";
+import { fetchUnitRateInput } from "../../entities/material.entity";
 
 
-export class FetchUnitRateUseCase implements IFetchUnitRateUseCaseEntity {
-   private materialRepository: IMaterialRepositoryEntity
-   constructor(materialRepository: IMaterialRepositoryEntity) {
-      this.materialRepository = materialRepository
-   }
-   async execute(material_name: string, brand_name: string, unit_name: string): Promise<materialOutput | commonOutput> {
-      const existMaterial = await this.materialRepository.findUnitRate({ material_name, brand_name, unit_name })
-      return ResponseHelper.success(MaterialSuccessMessage.FETCHUNITRATE, existMaterial)
+export class FetchUnitRateUseCase implements IFetchUnitRateUseCase {
+   constructor(
+      private materialRepository: IMaterialRepository
+   ) { }
+   async execute(input:fetchUnitRateInput): Promise<commonOutput<number> | void> {
+      const existMaterial = await this.materialRepository.findUnitRate(input)
+      if(!existMaterial) return
+      return ResponseHelper.success(MaterialSuccessMessage.FETCHUNITRATE, existMaterial.unit_rate)
    }
 }

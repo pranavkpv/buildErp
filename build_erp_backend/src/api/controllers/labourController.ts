@@ -1,12 +1,13 @@
 import { NextFunction, Request, Response } from "express"
 import { IAddLabourUseCase } from "../../application/interfaces/AdminUseCaseEntities/LabourUseCaseEntities/AddLabourEntity"
 import { IDisplayAllLabourUsecase } from "../../application/interfaces/AdminUseCaseEntities/LabourUseCaseEntities/DisplayAllLoabourEntity"
-import { IUpdateLabourUseCaseEntity } from "../../application/interfaces/AdminUseCaseEntities/LabourUseCaseEntities/UpdateLabourEntity"
-import { IDeleteLabourUseCaseEntity } from "../../application/interfaces/AdminUseCaseEntities/LabourUseCaseEntities/DeleteLabourEntity"
-import { IFetchAllLabourUseCaseEntity } from "../../application/interfaces/AdminUseCaseEntities/LabourUseCaseEntities/FetchAllLabourEntity"
+import { IUpdateLabourUseCase } from "../../application/interfaces/AdminUseCaseEntities/LabourUseCaseEntities/UpdateLabourEntity"
+import { IDeleteLabourUseCase } from "../../application/interfaces/AdminUseCaseEntities/LabourUseCaseEntities/DeleteLabourEntity"
+import { IFetchAllLabourUseCase } from "../../application/interfaces/AdminUseCaseEntities/LabourUseCaseEntities/FetchAllLabourEntity"
 import { IFetchLabourByIdUsecaseEntity } from "../../application/interfaces/AdminUseCaseEntities/LabourUseCaseEntities/FetchLabourByIdEntity"
 import { ILabourController } from "../../domain/Entities/ControllerEntities/AdminControllerEntities/ILabourControllerEntity"
 import { commonOutput } from "../../application/dto/common"
+import { labourDataDisplayDTO } from "../../application/dto/labour.dto"
 
 
 
@@ -14,19 +15,19 @@ import { commonOutput } from "../../application/dto/common"
 export class LabourController implements ILabourController {
 
       constructor(
-            private displayAllLabourUseCase: IDisplayAllLabourUsecase,
+            private _displayAllLabourUseCase: IDisplayAllLabourUsecase,
             private _addLabourUseCase: IAddLabourUseCase,
-            private updateLabourUseCase: IUpdateLabourUseCaseEntity,
-            private deleteLabourUseCase: IDeleteLabourUseCaseEntity,
-            private fetchallLabourusecase: IFetchAllLabourUseCaseEntity,
+            private _updateLabourUseCase: IUpdateLabourUseCase,
+            private _deleteLabourUseCase: IDeleteLabourUseCase,
+            private _fetchallLabourusecase: IFetchAllLabourUseCase,
             private fetchLabourByIdUseCase: IFetchLabourByIdUsecaseEntity
       ) { }
 
       //------------------------------------ List labour type with search and pagination ------------------------------------//
 
-      getLabour = async (req: Request, res: Response, next: NextFunction): Promise<labourOutput | commonOutput> => {
+      getLabour = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput<{ data: labourDataDisplayDTO[], totalPage: number }> | commonOutput> => {
             const { page, search } = req.query
-            const result = await this.displayAllLabourUseCase.execute(Number(page), String(search))
+            const result = await this._displayAllLabourUseCase.execute(Number(page), String(search))
             return result
       }
 
@@ -41,33 +42,31 @@ export class LabourController implements ILabourController {
       //------------------------------------ Delete labour type  ------------------------------------//
 
       removeLabour = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
-            const result = await this.deleteLabourUseCase.execute(req.params.id)
+            const result = await this._deleteLabourUseCase.execute(req.params.id)
             return result
       }
 
       //------------------------------------ Update labour type ------------------------------------//
 
       updateLabour = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
-            const result = await this.updateLabourUseCase.execute({ _id: req.params.id, ...req.body })
+            const result = await this._updateLabourUseCase.execute({ _id: req.params.id, ...req.body })
             return result
       }
 
       //------------------------------------ List all labour type ------------------------------------//
 
-      fetchlabour = async (req: Request, res: Response, next: NextFunction): Promise<labourOutput | commonOutput> => {
-            const result = await this.fetchallLabourusecase.execute()
+      fetchlabour = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput<labourDataDisplayDTO[]> | commonOutput> => {
+            const result = await this._fetchallLabourusecase.execute()
             return result
       }
 
       //------------------------------------ Fetch labour by Id ------------------------------------//
 
-      getLabourBYId = async (req: Request, res: Response, next: NextFunction): Promise<labourOutput | commonOutput> => {
+      getLabourBYId = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput<labourDataDisplayDTO> | commonOutput> => {
             const { id } = req.params
             const result = await this.fetchLabourByIdUseCase.execute(id)
             return result
       }
-
-
 }
 
 

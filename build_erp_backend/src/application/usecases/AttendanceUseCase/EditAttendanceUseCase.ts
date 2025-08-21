@@ -1,19 +1,19 @@
-import { editAttendanceInput } from "../../dto/LabourEntities/attendance";
-import { commonOutput } from "../../dto/CommonEntities/common";
+
 import { IEditAttendanceUseCaseEntity } from "../../interfaces/SitemanagerUseCaseEntities/AttendanceUseCaseEntities/EditAttendanceEntity";
 import { ResponseHelper } from "../../../Shared/responseHelpers/response";
-import { HTTP_STATUS } from "../../../Shared/statusCodes/statusCodes";
-import { IAttendanceRepositoryEntity } from "../../../domain/interfaces/Labour-management/IAttendanceRepository";
 import { AttendanceFailedMessage, AttendanceSuccessMessage } from "../../../Shared/Messages/Attendance.Message";
+import { IAttendanceRepository } from "../../../domain/interfaces/Labour-management/IAttendanceRepository";
+import { InputAttendance } from "../../entities/attendance.entity";
+import { commonOutput } from "../../dto/common";
 
 export class EditAttendanceUseCase implements IEditAttendanceUseCaseEntity {
-   private attendanceRepository: IAttendanceRepositoryEntity
-   constructor(attendanceRepository: IAttendanceRepositoryEntity) {
-      this.attendanceRepository = attendanceRepository
-   }
-   async execute(input: editAttendanceInput): Promise<commonOutput> {
-      const { editId, selectedProject, selectedDate, row } = input
-      const _id = editId
+   
+   constructor(
+      private attendanceRepository: IAttendanceRepository
+   ) { }
+   async execute(input: InputAttendance): Promise<commonOutput> {
+      const { _id, selectedProject, selectedDate, row } = input
+      if(!_id) return ResponseHelper.conflictData("Error")
       const project_id = selectedProject
       const date = selectedDate
       const labourDetails = []
@@ -24,7 +24,7 @@ export class EditAttendanceUseCase implements IEditAttendanceUseCaseEntity {
       if (existAttendance) {
          return ResponseHelper.conflictData(AttendanceFailedMessage.EXIST)
       }
-      await this.attendanceRepository.UpdateAttendance({ _id, project_id, date, labourDetails })
+      await this.attendanceRepository.UpdateAttendance({ _id, selectedProject, selectedDate, row })
       return ResponseHelper.success(AttendanceSuccessMessage.UPDATE)
    }
 }

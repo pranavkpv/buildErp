@@ -1,6 +1,7 @@
-import { commonOutput } from "../../../dto/CommonEntities/common";
-import { TransferOutput } from "../../../dto/PurchaseEntity.ts/Transfer";
+import { commonOutput } from "../../../dto/common";
+import { listTransferDTO } from "../../../dto/transfer.dto";
+
 
 export interface IGetTransferUseCaseEntity {
-   execute(search: string, page: number, id: string): Promise<TransferOutput | commonOutput>
+   execute(search: string, page: number, id: string): Promise<commonOutput<{data:listTransferDTO[],totalPage:number}> | commonOutput>
 }

@@ -1,6 +1,6 @@
-import { commonOutput } from "../../dto/CommonEntities/common";
-import { ICategoryModelEntity } from "../../../domain/Entities/modelEntities/category.entity";
+import { commonOutput } from "../../dto/common";
+import { saveCategoryInput } from "../../entities/category.entity";
 
 export interface ISaveCategoryUseCaseEntity{
-   execute(input: ICategoryModelEntity): Promise<commonOutput>
+   execute(input: saveCategoryInput): Promise<commonOutput>
 }

@@ -1,14 +1,16 @@
-import { IStageRepositoryEntity } from "../../domain/interfaces/Project-management/IStageRepository";
-import { changeStatusInput, Stage, uploadImageInput } from "../../application/dto/ProjectEntities/Stage";
+
 import { stageDB } from "../../api/models/StageModel";
 import { projectDB } from "../../api/models/ProjectModel";
 import { IStageModelEntity } from "../../domain/Entities/modelEntities/stage.entity";
+import { IStageRepository } from "../../domain/interfaces/Project-management/IStageRepository";
+import { stage, uploadImageInput } from "../../application/entities/stage.entity";
+import { changeStatusInput } from "../../application/entities/sitemanager.entity";
 
 
-export class StageRepository implements IStageRepositoryEntity {
+export class StageRepository implements IStageRepository {
 
     // Save new stage data for a given project
-    async stageDataSave(projectId: string, element: Stage): Promise<void> {
+    async stageDataSave(projectId: string, element: stage): Promise<void> {
         const newStage = new stageDB({
             project_id: projectId,
             stage_name: element.stage_name,
@@ -16,8 +18,8 @@ export class StageRepository implements IStageRepositoryEntity {
             end_date: element.end_date,
             stage_per: element.stage_percentage,
             stage_amount: element.stage_amount,
-            progress: 0,              // Initial progress set to 0
-            status_date: element.start_date
+            progress: 0,             
+            status_date: element.status_date
         })
         await newStage.save()
     }
@@ -40,7 +42,7 @@ export class StageRepository implements IStageRepositoryEntity {
     }
 
     // Delete all stages belonging to a specific project
-    async DeleteDtageByproject(_id: string): Promise<void> {
+    async DeleteStageByproject(_id: string): Promise<void> {
         await stageDB.deleteMany({ project_id: _id })
     }
 

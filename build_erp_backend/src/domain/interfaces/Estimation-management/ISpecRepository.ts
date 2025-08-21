@@ -1,3 +1,5 @@
+import { listingInput } from "../../../application/entities/common.entity";
+import { InputSpecification } from "../../../application/entities/spec.entity";
 import { ISpecModelEntity } from "../../Entities/modelEntities/spec.entity"
 
 

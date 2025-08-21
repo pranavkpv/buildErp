@@ -1,6 +1,7 @@
-import { commonOutput } from "../../../dto/CommonEntities/common";
-import { materialOutput } from "../../../dto/MaterialEntities/material";
+import { commonOutput } from "../../../dto/common";
+import { listingMaterialDTO } from "../../../dto/material.dto";
+import { listingInput } from "../../../entities/common.entity";
 
-export interface IDisplayAllMaterialUsecaseEntity{
-   execute(page:number,search:string): Promise<materialOutput | commonOutput>
+export interface IDisplayAllMaterialUsecase{
+   execute(input:listingInput):Promise<commonOutput<{data:listingMaterialDTO[],totalPage:number}> | commonOutput>
 }

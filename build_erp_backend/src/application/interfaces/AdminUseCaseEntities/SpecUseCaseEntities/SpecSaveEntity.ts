@@ -1,7 +1,6 @@
-import { commonOutput } from "../../../dto/CommonEntities/common";
-import { InputSpecification } from "../../../dto/EstimationEntities/specification";
+import { commonOutput } from "../../../dto/common";
+import { InputSpecification } from "../../../entities/spec.entity";
 
-
-export interface ISaveSpecUseCaseEntity {
+export interface ISaveSpecUseCase {
    execute(input:InputSpecification): Promise<commonOutput>
 }

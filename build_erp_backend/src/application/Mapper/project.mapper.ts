@@ -1,9 +1,10 @@
 import { IProjectModelEntity } from "../../domain/Entities/modelEntities/project.entity";
 import { IProjectmapper } from "../../domain/mappers/IProject.mapper";
 import { listAddsiteDTO } from "../dto/addsitemanagerToproject";
-import { fetchProjectIdnameDTO, publicProjectDTO, userBasechatListDTO, userBaseProjectDTO } from "../dto/project.dto";
+import { displayProjectDTO, fetchProjectIdnameDTO, publicProjectDTO, userBasechatListDTO, userBaseProjectDTO } from "../dto/project.dto";
+import { stageListDTO } from "../dto/stage.dto";
 import { listAddSiteToproject } from "../entities/addsitemanagertoproject.entity";
-import { userBaseChatoutput } from "../entities/project.entity";
+import { projectwithClient, userBaseChatoutput } from "../entities/project.entity";
 
 export class projectMapper implements IProjectmapper {
    toPublicProjectDto(projects: IProjectModelEntity[]): publicProjectDTO[] {
@@ -59,5 +60,31 @@ export class projectMapper implements IProjectmapper {
             email: item.email,
          }))
       }))
+   }
+   todisplayProjectDTO(projects: projectwithClient[]): displayProjectDTO[] {
+       return projects.map((element)=>({
+         _id:element._id,
+         address:element.address,
+         area:element.area,
+         description:element.description,
+         email:element.email,
+         mobile_number:element.mobile_number,
+         project_name:element.project_name,
+         status:element.status,
+         userDetails:{
+          _id:element.userDetails._id,
+          username:element.userDetails.username,
+          email:element.userDetails.email,
+          phone:element.userDetails.phone
+         }
+       }))
+   }
+   toStageListDto(stage: IProjectModelEntity[]): stageListDTO[] {
+       return stage.map((element)=>({
+        _id:element._id,
+        end_date:element.end_date,
+        project_name:element.project_name,
+        start_date:element.start_date,
+       }))
    }
 }

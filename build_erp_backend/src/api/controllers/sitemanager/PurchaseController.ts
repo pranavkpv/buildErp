@@ -1,27 +1,23 @@
 import { NextFunction, Request, Response } from "express";
 import { IPurchaseControllerEntity } from "../../../domain/Entities/ControllerEntities/SitemanagerControllerEntities/IPurchaseControllerEntity";
-import { commonOutput } from "../../../application/dto/CommonEntities/common";
-import { purchaseOutput } from "../../../application/dto/PurchaseEntity.ts/Purchase";
 import { IGetPurchaseUseCaseEntity } from "../../../application/interfaces/SitemanagerUseCaseEntities/PurchaseUseCaseEntities/GetPurchaseUseCaseEntity";
 import { ISavePurchaseUseCaseEntity } from "../../../application/interfaces/SitemanagerUseCaseEntities/PurchaseUseCaseEntities/SavePurchaseUseCaseEntity";
 import { IUpdatePurchaseUseCaseEntity } from "../../../application/interfaces/SitemanagerUseCaseEntities/PurchaseUseCaseEntities/UpdatePurchaseUseCaseEntity";
 import { IDeletePurchaseUseCaseEntity } from "../../../application/interfaces/SitemanagerUseCaseEntities/PurchaseUseCaseEntities/DeletePurchaseUseCaseEntity";
 import { IApprovePurchaseUseCaseEntity } from "../../../application/interfaces/SitemanagerUseCaseEntities/PurchaseUseCaseEntities/ApprovePurchaseUseCaseEntitty";
-import { IJwtServiceEntity } from "../../../domain/Entities/Service.Entities/IJwtservice";
 import { ResponseHelper } from "../../../Shared/responseHelpers/response";
-import { userFailedMessage } from "../../../Shared/Messages/User.Message";
+import { IJwtService } from "../../../domain/Entities/Service.Entities/IJwtservice";
+import { commonOutput } from "../../../application/dto/common";
+import { PurchaseDTO } from "../../../application/dto/purchase.dto";
 
 export class PurchaseController implements IPurchaseControllerEntity {
-   private getPurchaseUsecase: IGetPurchaseUseCaseEntity
-   private savePurchaseUseCase: ISavePurchaseUseCaseEntity
-   private jwtService: IJwtServiceEntity
-   private updatePurchaseUseCase: IUpdatePurchaseUseCaseEntity
-   private DeletePurchasaeUseCase: IDeletePurchaseUseCaseEntity
-   private approvePurchaseUseCase : IApprovePurchaseUseCaseEntity
-   constructor(getPurchaseUsecase: IGetPurchaseUseCaseEntity, savePurchaseUseCase: ISavePurchaseUseCaseEntity,
-      jwtService: IJwtServiceEntity, updatePurchaseUseCase: IUpdatePurchaseUseCaseEntity,
-      DeletePurchasaeUseCase: IDeletePurchaseUseCaseEntity,
-      approvePurchaseUseCase : IApprovePurchaseUseCaseEntity
+   constructor(
+      private getPurchaseUsecase: IGetPurchaseUseCaseEntity,
+      private savePurchaseUseCase: ISavePurchaseUseCaseEntity,
+      private jwtService: IJwtService,
+      private updatePurchaseUseCase: IUpdatePurchaseUseCaseEntity,
+      private DeletePurchasaeUseCase: IDeletePurchaseUseCaseEntity,
+      private approvePurchaseUseCase: IApprovePurchaseUseCaseEntity
    ) {
       this.getPurchaseUsecase = getPurchaseUsecase
       this.savePurchaseUseCase = savePurchaseUseCase
@@ -30,14 +26,18 @@ export class PurchaseController implements IPurchaseControllerEntity {
       this.DeletePurchasaeUseCase = DeletePurchasaeUseCase
       this.approvePurchaseUseCase = approvePurchaseUseCase
    }
-   getpurchase = async (req: Request, res: Response, next: NextFunction): Promise<purchaseOutput | commonOutput> => {
+   getpurchase = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput<{data:PurchaseDTO[],totalPage:number}> | commonOutput> => {
       const { search, page } = req.query
-      const refreshToken = req.cookies.refreshToken
-      const decoded = await this.jwtService.verifyRefreshToken(refreshToken)
-      if (!decoded?.userId) {
-         return ResponseHelper.conflictData(userFailedMessage.USER_NOT_FOUND)
+      const userHeader = req.headers.authorization
+      const accessToken = userHeader?.split(" ")[1]
+      if (!accessToken) {
+         return ResponseHelper.unAuthor()
       }
-      const data = await this.getPurchaseUsecase.execute(String(search), Number(page), decoded?.userId)
+      const payload = await this.jwtService.verifyAccessToken(accessToken);
+      if (!payload) {
+         return ResponseHelper.unAuthor()
+      }
+      const data = await this.getPurchaseUsecase.execute(String(search), Number(page), payload._id)
       return data
    }
    savePurchase = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
@@ -56,7 +56,7 @@ export class PurchaseController implements IPurchaseControllerEntity {
    }
    approvePurchase = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
       const _id = req.params.id
-      const result = await this.approvePurchaseUseCase.execute({_id,...req.body.data})
+      const result = await this.approvePurchaseUseCase.execute({ _id, ...req.body.data })
       return result
    }
 }

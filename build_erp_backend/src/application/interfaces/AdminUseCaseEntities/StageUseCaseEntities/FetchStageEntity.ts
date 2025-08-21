@@ -1,6 +1,7 @@
-import { commonOutput } from "../../../dto/CommonEntities/common";
-import { projectOutput } from "../../../dto/ProjectEntities/project";
+import { commonOutput } from "../../../dto/common";
+import { stageListDTO } from "../../../dto/stage.dto";
+import { listingInput } from "../../../entities/common.entity";
 
-export interface IFetchStageUsecaseEntity {
-   execute(search:string,page:number):Promise<projectOutput | commonOutput>
+export interface IFetchStageUsecase {
+   execute(input:listingInput):Promise<commonOutput<{data:stageListDTO[],totalPage:number}> | commonOutput>
 }

@@ -1,6 +1,7 @@
-import { commonOutput } from "../../../dto/CommonEntities/common";
-import { labourOutput } from "../../../dto/LabourEntities/labour";
+import { commonOutput } from "../../../dto/common";
+import { labourDataDisplayDTO } from "../../../dto/labour.dto";
 
-export interface IFetchAllLabourUseCaseEntity{
-   execute():Promise<labourOutput | commonOutput>
+
+export interface IFetchAllLabourUseCase{
+   execute():Promise<commonOutput<labourDataDisplayDTO[]> | commonOutput>
 }

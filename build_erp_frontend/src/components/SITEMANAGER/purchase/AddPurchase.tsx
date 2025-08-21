@@ -1,5 +1,4 @@
 import { jwtDecode } from "jwt-decode";
-import { fetchUnitRate } from "../../../api/Admin/material";
 import { getSitemanagersProject } from "../../../api/Sitemanager/profile";
 import { fetchBrandCorrespondingMaterialInSitemanager, fetchUniqueMaterialInSiteManager, fetchUnitCorrespondingMaterialInsitemanager, fetchUnitRateInSitemanager, savePurchaseAPI } from "../../../api/Sitemanager/purchase";
 import { useEffect, useState } from "react";
@@ -76,7 +75,7 @@ function AddPurchase({ addEnable, setAddEnable, onAddSuccess }: setAdd) {
       }
       setErrors((prev) => ({ ...prev, [`material_${idx}`]: "" }));
       
-      const brandData = await fetchBrandCorrespondingMaterialInSitemanager(selectedMaterial);
+      const brandData = await fetchBrandCorrespondingMaterialInSitemanager(selectedMaterial as string);
       const unitData = await fetchUnitCorrespondingMaterialInsitemanager(selectedMaterial);
       const newRow = [...row];
       newRow[idx].material_name = selectedMaterial;

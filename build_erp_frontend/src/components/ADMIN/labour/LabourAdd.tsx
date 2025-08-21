@@ -38,7 +38,7 @@ function LabourAdd({ addEnable, setAddEnable, onsuccessAdd }: addLabourData) {
     }
       const labour_type = labour
       const daily_wage = wage
-      const data = await postLabour(labour_type, daily_wage)
+      const data = await postLabour({labour_type, daily_wage})
       if (data.success) {
         toast.success(data.message);
         setAddEnable(false);

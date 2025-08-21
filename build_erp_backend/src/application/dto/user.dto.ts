@@ -5,3 +5,12 @@ export interface userLoginDTO {
    phone?: number
    profile_image?: string
 }
+
+export interface chatListDTO {
+   _id: string;
+   project_name: string;
+   user_id: string;
+   username: string;
+   user_image?: string;
+
+}

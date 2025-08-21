@@ -3,4 +3,5 @@ import { IUserModelEntity } from "../Entities/modelEntities/user.entity";
 
 export interface IUserMapper {
    touserLoginDTO(user:IUserModelEntity):userLoginDTO
+   touserDisplayDTO(user:IUserModelEntity[]):userLoginDTO[]
 }

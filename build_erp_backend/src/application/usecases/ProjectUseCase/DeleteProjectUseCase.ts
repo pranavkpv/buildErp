@@ -1,30 +1,26 @@
-import { IprojectRepositoryEntity } from "../../../domain/interfaces/Project-management/IProjectRepository"
-import { commonOutput } from "../../dto/CommonEntities/common"
-import { IDeleteProjectUseCaseEntity } from "../../interfaces/AdminUseCaseEntities/ProjectUseCaseEntities/DeleteProjectEntity"
-import { ResponseHelper } from "../../../Shared/responseHelpers/response"
-import { IProjectStockRepositoryEntity } from "../../../domain/interfaces/Stock-management/IProjectStockRepository"
-import { IEstimationRepositoryEntity } from "../../../domain/interfaces/Estimation-management/IEstimationRepository"
+
+import { IEstimationRepository } from "../../../domain/interfaces/Estimation-management/IEstimationRepository"
+import { IprojectRepository } from "../../../domain/interfaces/Project-management/IProjectRepository"
+import { IProjectStockRepository } from "../../../domain/interfaces/Stock-management/IProjectStockRepository"
 import { ProjectFailedMessage, ProjectSuccessMessage } from "../../../Shared/Messages/Project.Message"
+import { ResponseHelper } from "../../../Shared/responseHelpers/response"
+import { commonOutput } from "../../dto/common"
+import { IDeleteProjectUseCase } from "../../interfaces/AdminUseCaseEntities/ProjectUseCaseEntities/DeleteProjectEntity"
 
 
-export class DeleteProjectUseCase implements IDeleteProjectUseCaseEntity {
-  private projectRepository: IprojectRepositoryEntity
-  private projectStockRepository: IProjectStockRepositoryEntity
-  private estimationRepository: IEstimationRepositoryEntity
-  constructor(projectRepository: IprojectRepositoryEntity, projectStockRepository: IProjectStockRepositoryEntity,
-    estimationRepository: IEstimationRepositoryEntity
-  ) {
-    this.projectRepository = projectRepository
-    this.projectStockRepository = projectStockRepository
-    this.estimationRepository = estimationRepository
-  }
+export class DeleteProjectUseCase implements IDeleteProjectUseCase {
+  constructor(
+    private _projectRepository: IprojectRepository,
+    private _projectStockRepository: IProjectStockRepository,
+    private _estimationRepository: IEstimationRepository
+  ) { }
   async execute(_id: string): Promise<commonOutput> {
-    const existProjectInMaterial = await this.projectStockRepository.findProjectStockById(_id)
-    const existProjectInEstimation = await this.estimationRepository.findEstimationByProjectId(_id)
+    const existProjectInMaterial = await this._projectStockRepository.findProjectStockById(_id)
+    const existProjectInEstimation = await this._estimationRepository.findEstimationByProjectId(_id)
     if (existProjectInMaterial || existProjectInEstimation) {
       return ResponseHelper.conflictData(ProjectFailedMessage.ALREADY_USED)
     }
-    await this.projectRepository.DeleteProjectById(_id)
+    await this._projectRepository.DeleteProjectById(_id)
     return ResponseHelper.success(ProjectSuccessMessage.DELETE)
   }
 }

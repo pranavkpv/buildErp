@@ -79,5 +79,8 @@ export class authRoute {
             withLogging(injectAuthController.fetchProjectStatusBaseProject)
         );
 
+        this.authRoute.post('/refreshToken', 
+            withLogging(injectAuthController.handleRefreshToken))
+
     }
 }

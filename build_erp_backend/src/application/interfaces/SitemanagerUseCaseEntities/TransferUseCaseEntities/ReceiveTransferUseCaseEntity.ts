@@ -1,6 +1,7 @@
-import { commonOutput } from "../../../dto/CommonEntities/common";
-import { TransferOutput } from "../../../dto/PurchaseEntity.ts/Transfer";
+import { commonOutput } from "../../../dto/common";
+import { TransferOutput } from "../../../dto/transfer.dto";
+
 
 export interface IReceiveTransferUseCaseEntity{
-   execute(_id:string,date:string):Promise<TransferOutput | commonOutput>
+   execute(_id:string,date:string):Promise<commonOutput<TransferOutput[]> | commonOutput>
 }

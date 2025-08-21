@@ -1,5 +1,6 @@
 import { receiveDB } from "../../api/models/ReceiveModel";
-import { RecieveInput, RecieveOutput } from "../../application/dto/PurchaseEntity.ts/Receive";
+import { RecieveOutput } from "../../application/dto/receive.dto";
+import { ReceiveInput } from "../../application/entities/receive.entity";
 import { IReceiveModelEntity } from "../../domain/Entities/modelEntities/recieve.entity";
 import { IReceiveRepository } from "../../domain/interfaces/Purchase-management/IReceiveRepository";
 
@@ -11,7 +12,7 @@ export class ReceiveRepository implements IReceiveRepository {
     /**
      * Save new receive entry.
      */
-    async saveReceive(input: RecieveInput): Promise<boolean> {
+    async saveReceive(input: ReceiveInput): Promise<boolean> {
         const { project_id, date, description, materialDetails, transferId } = input;
 
         const newRecieveData = new receiveDB({
@@ -30,7 +31,7 @@ export class ReceiveRepository implements IReceiveRepository {
     /**
      * Get receive data with search and pagination.
      */
-    async getReceive(search: string, page: number): Promise<RecieveOutput> {
+    async getReceive(search: string, page: number): Promise<{data:RecieveOutput[],totalPage:number}> {
         const receiveData = await receiveDB.aggregate([
             // Convert project_id to ObjectId for lookup
             { $addFields: { projectObjectId: { $toObjectId: "$project_id" } } },
@@ -193,7 +194,7 @@ export class ReceiveRepository implements IReceiveRepository {
     /**
      * Update a receive record.
      */
-    async updateReceive(input: RecieveInput): Promise<boolean> {
+    async updateReceive(input: ReceiveInput): Promise<boolean> {
         const { _id, project_id, date, description, materialDetails, transferId } = input;
 
         await receiveDB.findByIdAndUpdate(_id, {

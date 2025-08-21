@@ -1,13 +1,16 @@
 import mongoose from "mongoose";
 import { projectDB } from "../../api/models/ProjectModel";
 import { transferDB } from "../../api/models/TransferModel";
-import { ITransferModelEntity } from "../../domain/Entities/modelEntities/transfer.entity";
+import { ITransferModelEntity, materialData } from "../../domain/Entities/modelEntities/transfer.entity";
 import { ITransferRepository } from "../../domain/interfaces/Purchase-management/ITransferRepository";
+import { listTransferDTO, material, TransferOutput } from "../../application/dto/transfer.dto";
+import { fetchProjectIdnameDTO } from "../../application/dto/project.dto";
+import { transferInput } from "../../application/entities/transfer.entity";
 
 export class TransferRepository implements ITransferRepository {
 
    // Fetch paginated transfer list for a site manager with search and filters
-   async fetchTransferList(search: string, page: number, id: string): Promise<TransferOutput> {
+   async fetchTransferList(search: string, page: number, id: string): Promise<{data:listTransferDTO[],totalPage:number}> {
       const skip = page * 5;
       const allTransfer = await transferDB.aggregate([
          { $addFields: { fromprojectObjectId: { $toObjectId: "$from_project_id" } } },
@@ -63,7 +66,7 @@ export class TransferRepository implements ITransferRepository {
          { $limit: 5 }
       ]);
 
-      const data: fetchTransferInput[] = allTransfer.map((element: any) => ({
+      const data: listTransferDTO[] = allTransfer.map((element: any) => ({
          _id: element._id,
          from_project_id: element.from_project_id,
          fromproject_name: element.fromproject_name,
@@ -106,7 +109,7 @@ export class TransferRepository implements ITransferRepository {
    }
 
    // Fetch all projects except the given project ID
-   async fectToproject(projectId: string): Promise<projectData[]> {
+   async fectToproject(projectId: string): Promise<fetchProjectIdnameDTO[]> {
       const projectList = await projectDB.find({ _id: { $ne: projectId } }, { _id: 1, project_name: 1 });
       return projectList.map(project => ({
          _id: project._id.toString(),
@@ -158,7 +161,7 @@ export class TransferRepository implements ITransferRepository {
    }
 
    // Fetch approved transfers for a project up to a specific date that have not been received
-   async findTransferDataByToProjectAndDate(_id: string, date: string): Promise<TransferOutput> {
+   async findTransferDataByToProjectAndDate(_id: string, date: string): Promise<TransferOutput[]> {
       const dt = new Date(date);
       const projectId = new mongoose.Types.ObjectId(_id);
       const allTransfer = await transferDB.aggregate([
@@ -198,15 +201,15 @@ export class TransferRepository implements ITransferRepository {
       ]);
 
       const neededData = allTransfer.map(element => ({
-         _id: element._id,
-         date: element.date,
-         fromproject_name: element.project_name,
-         transfer_id: element.transfer_id,
-         materialDetails: element.materialDetails,
-         finalAmount: element.materialDetails.reduce((sum: number, num: materialData) => sum + (num.quantity * num.unit_rate), 0)
+         _id: element._id as string,
+         date: element.date as Date,
+         fromproject_name: element.project_name as string,
+         transfer_id: element.transfer_id as string,
+         materialDetails: element.materialDetails as material[],
+         finalAmount: element.materialDetails.reduce((sum: number, num: materialData) => sum + (num.quantity * num.unit_rate), 0) as number
       }));
 
-      return { data: neededData };
+      return neededData ;
    }
 
    // Mark transfers as received

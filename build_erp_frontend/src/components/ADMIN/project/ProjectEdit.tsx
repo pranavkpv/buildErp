@@ -76,7 +76,6 @@ function EditProject({
   useEffect(() => {
     const fetchUsers = async () => {
       const data = await fetchUser();
-      console.log(data)
       setUserList(data.data);
     };
     fetchUsers();
@@ -140,7 +139,7 @@ function EditProject({
     let longitude = selectedLocation?.lng
     if(!latitude || !longitude)return
     const data = await putProject(
-      editProjectId,
+      {_id:editProjectId,
       project_name,
       user_id,
       address,
@@ -149,7 +148,7 @@ function EditProject({
       area,
       description,
       latitude,
-      longitude
+      longitude}
     );
     if (data.success) {
       toast.success(data.message);

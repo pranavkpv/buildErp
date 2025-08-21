@@ -1,25 +1,18 @@
 import mongoose from "mongoose";
 import { IMaterialRepository } from "../../domain/interfaces/Material-management/IMaterialRepository";
-import {
-  addMaterialInput,
-  findMaterialBynameCatBrandInput,
-  getMaterialEditData,
-  materialOutput,
-  unitRateInput
-} from "../../application/dto/MaterialEntities/material";
 import { materialDB } from "../../api/models/MaterialModel";
 import { projectDB } from "../../api/models/ProjectModel";
 import { unitDB } from "../../api/models/UnitModel";
 import { brandDB } from "../../api/models/BrandModel";
 import { IProjectModelEntity } from "../../domain/Entities/modelEntities/project.entity";
 import { IMaterialModelEntity } from "../../domain/Entities/modelEntities/material.entity";
-import { listingInput } from "../../application/dto/CommonEntities/common";
-import { materialSumInput } from "../../application/entities/material.entity";
+import { addMaterialInput, editMaterialFullDatafetch, editMaterialInput, fetchUnitRateInput, findMaterialBynameCatBrandInput, findMaterialBynameCatBrandInputEdit, materialSumInput } from "../../application/entities/material.entity";
+import { listingInput } from "../../application/entities/common.entity";
 
 
 export class MaterialRepository implements IMaterialRepository {
 
-  async findSumOfMaterial(input:materialSumInput[]): Promise<number> {
+  async findSumOfMaterial(input: materialSumInput[]): Promise<number> {
     let sum = 0;
     for (const element of input) {
       const material = await materialDB.findById(element.material_id);
@@ -31,7 +24,7 @@ export class MaterialRepository implements IMaterialRepository {
   }
 
 
-  async findAllMaterial(input: listingInput): Promise<materialOutput> {
+  async findAllMaterial(input: listingInput): Promise<{data:editMaterialFullDatafetch[],totalPage:number}> {
     const { page, search } = input;
     const skip = page * 5;
     const searchRegex = new RegExp(search, "i");
@@ -86,9 +79,7 @@ export class MaterialRepository implements IMaterialRepository {
     return await projectDB.find();
   }
 
-  /**
-   * Finds a material by name, category, and brand (case-insensitive).
-   */
+
   async findMaterailWithNameCategoryBrand(
     input: findMaterialBynameCatBrandInput
   ): Promise<IMaterialModelEntity | null> {
@@ -100,10 +91,8 @@ export class MaterialRepository implements IMaterialRepository {
     });
   }
 
-  /**
-   * Saves a new material.
-   */
-  async saveMaterial(input: addMaterialInput): Promise<IMaterialModelEntity> {
+
+  async saveMaterial(input: Omit<addMaterialInput, "projectWiseStock">): Promise<IMaterialModelEntity> {
     const { material_name, category_id, brand_id, unit_id, unit_rate, stock } = input;
     const newMaterial = new materialDB({
       material_name,
@@ -119,7 +108,7 @@ export class MaterialRepository implements IMaterialRepository {
   /**
    * Retrieves a material with its category, brand, and unit details by ID.
    */
-  async findMaterialById(_id: string): Promise<getMaterialEditData | null> {
+  async findMaterialById(_id: string): Promise<editMaterialFullDatafetch | null> {
     const objectId = new mongoose.Types.ObjectId(_id);
     const materialData = await materialDB.aggregate([
       { $match: { _id: objectId } },
@@ -162,7 +151,7 @@ export class MaterialRepository implements IMaterialRepository {
    * Checks for duplicate material during edit.
    */
   async findMaterialInEdit(
-    input: findMaterialBynameCatBrandInput
+    input: findMaterialBynameCatBrandInputEdit
   ): Promise<IMaterialModelEntity | null> {
     const { _id, material_name, category_id, brand_id } = input;
     return await materialDB.findOne({
@@ -176,7 +165,7 @@ export class MaterialRepository implements IMaterialRepository {
   /**
    * Updates an existing material by ID.
    */
-  async updateMaterialById(input: addMaterialInput): Promise<void> {
+  async updateMaterialById(input: Omit<editMaterialInput, "projectWiseStock">): Promise<void> {
     const { _id, material_name, category_id, brand_id, unit_id, unit_rate, stock } = input;
     await materialDB.findByIdAndUpdate(_id, {
       material_name,
@@ -242,7 +231,7 @@ export class MaterialRepository implements IMaterialRepository {
   /**
    * Finds the unit rate of a material by its name, brand, and unit.
    */
-  async findUnitRate(input: unitRateInput): Promise<IMaterialModelEntity | null> {
+  async findUnitRate(input: fetchUnitRateInput): Promise<IMaterialModelEntity | null> {
     const { material_name, brand_name, unit_name } = input;
     const brandId = await brandDB.findOne({ brand_name });
     const unitId = await unitDB.findOne({ unit_name });

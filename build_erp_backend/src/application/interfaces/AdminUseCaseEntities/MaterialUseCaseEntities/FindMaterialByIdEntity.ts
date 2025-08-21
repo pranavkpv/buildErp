@@ -1,6 +1,7 @@
-import { commonOutput } from "../../../dto/CommonEntities/common";
-import { materialOutput } from "../../../dto/MaterialEntities/material";
+import { commonOutput } from "../../../dto/common";
+import { editMaterialFullDatafetch } from "../../../entities/material.entity";
 
-export interface IFindMaterialByIdUsecaseEntity {
-   execute(_id: string): Promise<materialOutput | commonOutput>
+
+export interface IFindMaterialByIdUsecase {
+   execute(_id: string): Promise<commonOutput<editMaterialFullDatafetch | null>>
 }

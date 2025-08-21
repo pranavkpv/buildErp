@@ -1,18 +1,13 @@
 import { Router } from "express";
-import { siteManagerMiddleware } from "../../../../middlewares/siteMiddleware";
-import { withLogging } from "../../../../middlewares/withLoggingMiddleware";
-import { injectedLabourController, injectedMaterialController, injectedSitemanagerController } from "../../../../DI/adminInject";
-import {
-   injectAttendanceController,
-   injectedChangepasswordcontroller,
-   injectedChatController,
-   injectedPurchaseController,
-   injectedReceiveController,
-   injectedStatusController,
-   injectedTransferController
-} from "../../../../DI/sitemanagerInject";
-import { JwtService } from "../../../../services/JwtService";
-import { injectAuthController } from "../../../../DI/userInject";
+import { JwtService } from "../../../application/services/JwtService";
+import { siteManagerMiddleware } from "../../../infrastructure/middlewares/siteMiddleware";
+import { withLogging } from "../../../infrastructure/middlewares/withLoggingMiddleware";
+import { injectAttendanceController, injectedChangepasswordcontroller, injectedChatController, injectedPurchaseController, injectedReceiveController, injectedStatusController, injectedTransferController } from "../../di/sitemanagerInject";
+import { validateStatusChange } from "../../../infrastructure/middlewares/validation/sitemanager.validation";
+import { injecteduserprofileController } from "../../di/userprofile.injection";
+import { injectedLabourController, injectedSitemanagerController } from "../../di/adminInject";
+import { injectedMaterialController } from "../../di/material.injection";
+
 
 /**
  * SitemanagerRoute
@@ -78,8 +73,10 @@ export class SitemanagerRoute {
    
       this.sitemanagerRoute.put(
          "/status/:id",
+         validateStatusChange,
          withLogging(injectedStatusController.changeStatus)
       );
+
       this.sitemanagerRoute.put(
          "/upload",
          withLogging(injectedStatusController.uploadImage)
@@ -223,7 +220,7 @@ export class SitemanagerRoute {
       );
       this.sitemanagerRoute.get(
          "/chats/:id",
-         withLogging(injectAuthController.fetchMessage)
+         withLogging(injecteduserprofileController.fetchMessages)
       );
 
 

@@ -19,18 +19,24 @@ function Material() {
   const [deleteEnable, setDeleteEnable] = useState(false);
 
   //editData
-  const [editEnable,setEditEnable] = useState(false)
-  const [editId,setEditId] = useState("")
+  const [editEnable, setEditEnable] = useState(false)
+  const [editId, setEditId] = useState("")
 
   const fetchMaterials = async () => {
-      const data = await materialList(page,search) 
-      setTotal(Math.ceil(data.totalPage))
-      setMaterialData(data.data);
+    const data = await materialList(page, search)
+    setTotal(Math.ceil(data.totalPage))
+    setMaterialData(data.data);
   };
 
   useEffect(() => {
-    fetchMaterials();
-  }, [page,search]);
+    const handler = setTimeout(() => {
+      fetchMaterials();
+    }, 500);
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [page, search]);
+
 
   return (
     <div className="p-6 sm:p-8 min-h-screen bg-gray-900">
@@ -50,20 +56,20 @@ function Material() {
           refreshData={fetchMaterials}
           setPage={setPage}
           setSearch={setSearch}
-          search = {search}
-          page = {page}
-          totalPage = {totalPage}
-          setEditEnable ={setEditEnable}
-          setEditId = {setEditId}
-          editEnable = {editEnable}
+          search={search}
+          page={page}
+          totalPage={totalPage}
+          setEditEnable={setEditEnable}
+          setEditId={setEditId}
+          editEnable={editEnable}
         />
         <EditMaterial
-        setEditEnable={setEditEnable}
-        editEnable = {editEnable}
-        setEditId = {setEditId}
-        editId = {editId}
-        refreshData = {fetchMaterials}
-         />
+          setEditEnable={setEditEnable}
+          editEnable={editEnable}
+          setEditId={setEditId}
+          editId={editId}
+          refreshData={fetchMaterials}
+        />
 
         <AddMaterial
           setEnable={setAddMaterialEnable}
@@ -77,7 +83,7 @@ function Material() {
           deleteId={deleteId}
           onDeleteSuccess={fetchMaterials}
         />
-        
+
       </div>
     </div>
   );

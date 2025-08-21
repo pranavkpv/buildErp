@@ -1,6 +1,6 @@
-import { inputUnit } from "../../dto/UnitEntities/Unit.Entity";
-import { commonOutput } from "../../dto/CommonEntities/common";
+import { commonOutput } from "../../dto/common";
+import { saveUnitInput } from "../../entities/unit.entity";
 
-export interface IupdateUnitUseCaseEntity {
-   execute(input: inputUnit): Promise<commonOutput>
+export interface IupdateUnitUseCase {
+   execute(input: saveUnitInput): Promise<commonOutput>
 }

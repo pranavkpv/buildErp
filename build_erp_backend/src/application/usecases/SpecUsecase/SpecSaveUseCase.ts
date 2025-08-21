@@ -1,21 +1,21 @@
-import { ISaveSpecUseCaseEntity } from "../../interfaces/AdminUseCaseEntities/SpecUseCaseEntities/SpecSaveEntity";
-import { ResponseHelper } from "../../../Shared/responseHelpers/response";
-import { ISpecRepositoryEntity } from "../../../domain/interfaces/Estimation-management/ISpecRepository";
-import { commonOutput } from "../../dto/CommonEntities/common";
-import { InputSpecification } from "../../dto/EstimationEntities/specification";
+import { ISpecRepository } from "../../../domain/interfaces/Estimation-management/ISpecRepository";
 import { SpecFailedMessage, SpecSuccessMessage } from "../../../Shared/Messages/Specification.Message";
+import { ResponseHelper } from "../../../Shared/responseHelpers/response";
+import { commonOutput } from "../../dto/common";
+import { InputSpecification } from "../../entities/spec.entity";
+import { ISaveSpecUseCase } from "../../interfaces/AdminUseCaseEntities/SpecUseCaseEntities/SpecSaveEntity";
 
 
-export class SaveSpecUseCase implements ISaveSpecUseCaseEntity {
-   private specRepository: ISpecRepositoryEntity
-   constructor(specRepository: ISpecRepositoryEntity) {
-      this.specRepository = specRepository
-   }
+export class SaveSpecUseCase implements ISaveSpecUseCase {
+
+   constructor(
+      private _specRepository: ISpecRepository
+   ) { }
    async execute(input: InputSpecification): Promise<commonOutput> {
       const { specId, specname, specUnit, specDescription,
-         materialDetails, labourDetails, additionalExpense_per, profit_per } = input
-      const existSpec = await this.specRepository.existSpecname(specname)
-      const existSpecId = await this.specRepository.existSpecId(specId)
+         materialDetails, labourDetails, additionalExpensePer, profitPer } = input
+      const existSpec = await this._specRepository.existSpecname(specname)
+      const existSpecId = await this._specRepository.existSpecId(specId)
       if (existSpec) {
          return ResponseHelper.conflictData(SpecFailedMessage.EXIST_NAME)
       }
@@ -23,9 +23,9 @@ export class SaveSpecUseCase implements ISaveSpecUseCaseEntity {
          return ResponseHelper.conflictData(SpecFailedMessage.EXIST_ID)
       }
 
-      await this.specRepository.saveSpecData({
+      await this._specRepository.saveSpecData({
          specId, specname, specUnit, specDescription,
-         materialDetails, labourDetails, additionalExpense_per, profit_per
+         materialDetails, labourDetails, additionalExpensePer, profitPer
       })
       return ResponseHelper.createdSuccess(SpecSuccessMessage.ADD)
    }

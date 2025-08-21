@@ -1,14 +1,14 @@
-import { commonOutput } from "../../dto/CommonEntities/common";
 import { IDeleteTransferUseCaseEntity } from "../../interfaces/SitemanagerUseCaseEntities/TransferUseCaseEntities/DeleteTransferUsecaseEntity";
 import { ResponseHelper } from "../../../Shared/responseHelpers/response";
-import { ITransferRepositoryEntity } from "../../../domain/interfaces/Purchase-management/ITransferRepository";
 import { TransferFailedMessage, TransferSuccessMessage } from "../../../Shared/Messages/Transfer.Message";
+import { ITransferRepository } from "../../../domain/interfaces/Purchase-management/ITransferRepository";
+import { commonOutput } from "../../dto/common";
 
 export class DeleteTransferUseCase implements IDeleteTransferUseCaseEntity {
-   private transferRepository: ITransferRepositoryEntity
-   constructor(transferRepository: ITransferRepositoryEntity) {
-      this.transferRepository = transferRepository
-   }
+   
+   constructor(
+      private transferRepository: ITransferRepository
+   ) { }
    async execute(_id: string): Promise<commonOutput> {
       const response = await this.transferRepository.deleteTransfer(_id)
       if (response) {

@@ -7,3 +7,11 @@ export interface publicstageDTO {
    progress: number;
    status_date: Date;
 }
+
+export interface stageListDTO {
+   _id: string
+   project_name: string;
+   start_date: Date;
+   end_date: Date;
+}
+

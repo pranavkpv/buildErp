@@ -1,9 +1,8 @@
 import { toast } from "react-toastify";
 import { useEffect, useRef, useState } from "react";
 import { PlusCircleIcon, MinusCircleIcon } from "@heroicons/react/24/outline";
-import { getStage } from "../../../api/Sitemanager/stageStatus";
-import { getProject } from "../../../api/project";
 import { editStageAPI, fetchBugetAPI, getStageInAdmin } from "../../../api/Admin/StageSetting";
+import { getProjectAll } from "api/project";
 
 
 type Project = {
@@ -47,7 +46,7 @@ function EditStage({ editEnable, setEditEnable, editId, onEditSuccess }: stagePr
 
 
    const fetchProject = async () => {
-         const response = await getProject();
+         const response = await getProjectAll();
          const filteredProject = response.data.find((element: any) => element._id == editId)
          setCost(filteredProject.budgeted_cost)
          setStartDate(filteredProject.start_date.split("T")[0])
@@ -123,7 +122,7 @@ function EditStage({ editEnable, setEditEnable, editId, onEditSuccess }: stagePr
             return
          }
 
-         const data = await editStageAPI(stages, projectId, startDate, endDate, cost)
+         const data = await editStageAPI({stages, projectId, startDate, endDate, cost})
          if (data.success) {
             toast.success(data.message)
             setEditEnable(false)

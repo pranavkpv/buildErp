@@ -1,17 +1,13 @@
-import { ISitemanagerRepositoryEntity } from "../../domain/interfaces/Site-management/ISitemanagerRepository";
 import { sitemanagerDB } from "../../api/models/SitemanagerModel";
+import { listingInput } from "../../application/entities/common.entity";
+import { addsitemanagerInput, editSitemanagerInput } from "../../application/entities/sitemanager.entity";
+import { updatePasswordInput } from "../../application/entities/user.entity";
 import { ISitemanagerModelEntity } from "../../domain/Entities/modelEntities/sitemanager.entity";
-import { listingInput } from "../../application/dto/CommonEntities/common";
-import {
-   editSitemanagerInput,
-   saveSitemanagerInput,
-   updatePasswordInput
-} from "../../application/dto/SitemanagerEntities/sitemanager";
+import { ISitemanagerRepository } from "../../domain/interfaces/Site-management/ISitemanagerRepository";
 
-export class SitemanagerRepository implements ISitemanagerRepositoryEntity {
+export class SitemanagerRepository implements ISitemanagerRepository {
 
-   /** 📄 Fetch paginated list of site managers with search */
-   async findAllSitemanager(input: listingInput): Promise<{ getSiteData: any[]; totalPage: number }> {
+   async findAllSitemanager(input: listingInput): Promise<{ getSiteData: ISitemanagerModelEntity[]; totalPage: number }> {
       const { page, search } = input;
       const skip = page * 5;
       const searchRegex = new RegExp(search, "i");
@@ -26,13 +22,10 @@ export class SitemanagerRepository implements ISitemanagerRepositoryEntity {
       };
    }
 
-   /** 📄 Find site manager by email (case-insensitive) */
    async findSitemanagerByEmail(email: string): Promise<ISitemanagerModelEntity | null> {
       return await sitemanagerDB.findOne({ email: { $regex: new RegExp(`^${ email }$`, "i") } });
    }
-
-   /** 📄 Save a new site manager to DB */
-   async saveSitemanager(input: saveSitemanagerInput): Promise<void> {
+   async saveSitemanager(input: addsitemanagerInput): Promise<void> {
       const { username, email, password } = input;
       const newSitemanager = new sitemanagerDB({
          username,

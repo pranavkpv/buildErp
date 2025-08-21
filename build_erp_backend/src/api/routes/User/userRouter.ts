@@ -20,7 +20,7 @@ export class userRoute {
       this.userRoute.patch(
          "/updateprofile",
          validateUpdateprofile,
-         withLogging(injecteduserprofileController.UpdateProfile)
+         withLogging(injecteduserprofileController.updateProfile)
       );
 
 
@@ -33,7 +33,7 @@ export class userRoute {
       this.userRoute.put(
          "/changepassword",
          validatechangePassword,
-         withLogging(injecteduserprofileController.ChangePassword)
+         withLogging(injecteduserprofileController.changePassword)
       );
 
       this.userRoute.get(
@@ -43,20 +43,18 @@ export class userRoute {
 
       this.userRoute.get(
          "/fetchatList",
-         withLogging(injecteduserprofileController.fetChatList)
+         withLogging(injecteduserprofileController.fetchChatList)
       );
 
       this.userRoute.get(
          "/chats/:id",
-         withLogging(injecteduserprofileController.fetchMessage)
+         withLogging(injecteduserprofileController.fetchMessages)
       );
 
       this.userRoute.post(
          "/logout",
          withLogging(injecteduserprofileController.logout)
-      );
-
-      this.authRoute.post('/refreshToken', withLogging(injectedRefreshTokenController.handleRefreshToken)) 
+      ); 
 
    }
 }

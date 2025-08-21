@@ -1,6 +1,6 @@
 import { IStageModelEntity } from "../../domain/Entities/modelEntities/stage.entity";
 import { IStagemapper } from "../../domain/mappers/IStage.mapper";
-import { publicstageDTO } from "../dto/stage.dto";
+import { publicstageDTO, stageListDTO } from "../dto/stage.dto";
 
 export class stagemapper implements IStagemapper {
    topublicStageDto(stage: IStageModelEntity[]): publicstageDTO[] {

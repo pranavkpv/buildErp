@@ -1,5 +1,6 @@
-import { commonOutput } from "../../../dto/CommonEntities/common";
+import { commonOutput } from "../../../dto/common";
 
-export interface IDeleteStageUseCaseEntity {
-   execute(input:{deleteId:string}):Promise<commonOutput>
+
+export interface IDeleteStageUseCase {
+   execute(_id:string):Promise<commonOutput>
 }

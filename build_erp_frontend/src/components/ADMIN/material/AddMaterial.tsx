@@ -137,7 +137,8 @@ function AddMaterial({ setEnable, enable, refreshData }: AddMaterialProps) {
 
 
     if (hasError) return;
-      const response = await SaveMaterialApi(materialName,selectCategoryId,selectBrandId,selectUnitId,unit_rate,totalOpeningStock,row)
+      const response = await SaveMaterialApi({material_name:materialName,category_id:selectCategoryId,brand_id:selectBrandId,
+        unit_id:selectUnitId,unit_rate,stock:totalOpeningStock,projectWiseStock:row})
       if (response.success) {
         toast.success(response.message);
         setEnable(false);

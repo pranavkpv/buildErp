@@ -9,14 +9,14 @@ import { connectMongo } from './src/infrastructure/database/ConnectDB';
 import onFinished from 'on-finished';
 import passport from 'passport';
 import http from 'http';
-import { userRoute } from './src/infrastructure/web/routes/User/userRouter';
-import { AdminRoute } from './src/infrastructure/web/routes/Admin/adminRouter';
-import { SitemanagerRoute } from './src/infrastructure/web/routes/Sitemanager/siteRouter';
 import { ChatRepository } from './src/infrastructure/repositories/ChatRepository';
 import { errorHandler } from './src/infrastructure/middlewares/errorHandler';
-import { authRoute } from './src/infrastructure/web/routes/Auth/authRouter';
 import { ChatSaveusecase } from './src/application/usecases/ChatUsecases/chatSaveUseCase';
 import { ChatSocket } from './src/application/usecases/ChatUsecases/chatSocket';
+import { SitemanagerRoute } from './src/api/routes/Sitemanager/siteRouter';
+import { AdminRoute } from './src/api/routes/Admin/adminRouter';
+import { userRoute } from './src/api/routes/User/userRouter';
+import { authRoute } from './src/api/routes/Auth/authRouter';
 
 
 require("dotenv").config();

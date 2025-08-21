@@ -35,7 +35,7 @@ function DisplaySitemanagerData() {
          const _id = sitemanagerId
          const password = orinalpass
          const changedpassword = changedpass
-         const data = await changePassword(_id, password, changedpassword)
+         const data = await changePassword({_id, password, changedpassword})
          if (data.success) {
             toast.success(data.message);
             setOriginalPass("");

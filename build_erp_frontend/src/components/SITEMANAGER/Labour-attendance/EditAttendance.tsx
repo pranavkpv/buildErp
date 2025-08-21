@@ -2,7 +2,6 @@ import { MinusCircleIcon, PlusCircleIcon } from "lucide-react"
 import { useEffect, useState } from "react"
 import { toast } from "react-toastify"
 import { jwtDecode } from "jwt-decode"
-import { labourDataFetch } from "../../../api/Admin/labour";
 import { editAttendanceAPI, getAttendanceBYIdAPI, labourDataFetchInsitemanager } from "../../../api/Sitemanager/attendance";
 import { getSitemanagersProject } from "../../../api/Sitemanager/profile";
 

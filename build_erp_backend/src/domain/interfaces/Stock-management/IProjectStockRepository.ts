@@ -1,13 +1,13 @@
-import { ProjectStock } from "../../../application/dto/MaterialEntities/material";
-import { addProjectStockInput, editprojectstockInput, incrementStockInput } from "../../../application/dto/StockEntities/projectstock";
+import { addProjectStockInput } from "../../../application/entities/material.entity";
+import { incrementStockInput, projectStockInput, ProjectStockOutput } from "../../../application/entities/project.entity";
 import { IProjectStockModelEntity } from "../../Entities/modelEntities/projectStock.entity";
 
 
-export interface IProjectStockRepositoryEntity{
+export interface IProjectStockRepository{
    saveProjectStock(input:addProjectStockInput):Promise<void>;
-   findProjectStockByMaterialId(material_id:string):Promise<ProjectStock[] | []>;
+   findProjectStockByMaterialId(material_id:string):Promise<ProjectStockOutput[]>;
    findProjectStockById(_id:string):Promise<IProjectStockModelEntity | null>;
-   updateProjectStockById(input:editprojectstockInput):Promise<void>;
+   updateProjectStockById(input:projectStockInput):Promise<void>;
    deleteProjectStockByMaterialId(material_id:string):Promise<void>;
    IncrementStockById(input:incrementStockInput):Promise<void>
    DecrementStockByID(input:incrementStockInput):Promise<void>

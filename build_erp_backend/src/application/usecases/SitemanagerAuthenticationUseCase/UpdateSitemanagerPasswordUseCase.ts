@@ -1,20 +1,19 @@
-import { commonOutput } from "../../dto/CommonEntities/common"
-import { changePasswordInput } from "../../dto/SitemanagerEntities/sitemanager"
-import { IHasherEntity } from "../../../domain/interfaces/Auth-management/IHasher"
-import { ISitemanagerRepositoryEntity } from "../../../domain/interfaces/Site-management/ISitemanagerRepository"
-import { IUpdateSitemanagerPasswordUseCaseEntity } from "../../interfaces/SitemanagerUseCaseEntities/AuthenticationUsecaseEntities/UpdateSitemanagerPasswordEntity"
+
+import { IHasher } from "../../../domain/interfaces/Auth-management/IHasher"
+import { ISitemanagerRepository } from "../../../domain/interfaces/Site-management/ISitemanagerRepository"
+import { IUpdateSitemanagerPasswordUseCase } from "../../interfaces/SitemanagerUseCaseEntities/AuthenticationUsecaseEntities/UpdateSitemanagerPasswordEntity"
 import { SitemanagerFailedMessage, SitemanagerSuccessMessage } from "../../../Shared/Messages/Sitemanager.Message"
 import { ResponseHelper } from "../../../Shared/responseHelpers/response"
+import { changePasswordInput } from "../../entities/sitemanager.entity"
+import { commonOutput } from "../../dto/common"
 
 
 
-export class UpdateSitemanagerPasswordUseCase implements IUpdateSitemanagerPasswordUseCaseEntity {
-   private sitemanagerRepository: ISitemanagerRepositoryEntity
-   private hasher: IHasherEntity
-   constructor(sitemanagerRepository: ISitemanagerRepositoryEntity, hasher: IHasherEntity) {
-      this.sitemanagerRepository = sitemanagerRepository
-      this.hasher = hasher
-   }
+export class UpdateSitemanagerPasswordUseCase implements IUpdateSitemanagerPasswordUseCase {
+   constructor(
+      private sitemanagerRepository: ISitemanagerRepository,
+      private hasher: IHasher
+   ) { }
    async execute(input: changePasswordInput): Promise<commonOutput> {
       const { _id, password, changedpassword } = input
       const loginData = await this.sitemanagerRepository.findSitemanagerById(_id)

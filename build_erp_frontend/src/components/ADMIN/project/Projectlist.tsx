@@ -60,8 +60,15 @@ function Project() {
   };
 
   useEffect(() => {
+  const handler = setTimeout(() => {
     fetchData();
-  }, [page,search]);
+  }, 500);
+
+  return () => {
+    clearTimeout(handler); 
+  };
+}, [page, search]);
+
 
   return (
     <div className="p-6 sm:p-8 min-h-screen bg-gray-900">

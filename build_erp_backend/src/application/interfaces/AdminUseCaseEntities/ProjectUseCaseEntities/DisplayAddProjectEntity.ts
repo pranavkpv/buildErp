@@ -1,6 +1,7 @@
-import { commonOutput } from "../../../dto/CommonEntities/common";
-import { userOutput } from "../../../dto/UserEntities/user";
+import { commonOutput } from "../../../dto/common";
+import { userLoginDTO } from "../../../dto/user.dto";
 
-export interface IDisplayAddProjectUseCaseEntity {
-   execute(): Promise<userOutput | commonOutput>
+
+export interface IDisplayAddProjectUseCase {
+   execute(): Promise<commonOutput<userLoginDTO[]> | commonOutput>
 }

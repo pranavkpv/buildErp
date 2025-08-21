@@ -1,18 +1,15 @@
-import { IprojectRepositoryEntity } from "../../../domain/interfaces/Project-management/IProjectRepository"
-import { commonOutput } from "../../dto/CommonEntities/common"
-import { statusChangeInput } from "../../dto/ProjectEntities/project"
-import { IChangeStatusUseCaseEntity } from "../../interfaces/AdminUseCaseEntities/ProjectUseCaseEntities/ChangeStatusEntity"
 import { ResponseHelper } from "../../../Shared/responseHelpers/response"
 import { ProjectSuccessMessage } from "../../../Shared/Messages/Project.Message"
+import { IChangeStatusUseCase } from "../../interfaces/AdminUseCaseEntities/ProjectUseCaseEntities/ChangeStatusEntity"
+import { IprojectRepository } from "../../../domain/interfaces/Project-management/IProjectRepository"
+import { commonOutput } from "../../dto/common"
 
 
-export class ChangeStatusUseCase implements IChangeStatusUseCaseEntity {
-   private projectRepository: IprojectRepositoryEntity
-   constructor(projectRepository: IprojectRepositoryEntity) {
-      this.projectRepository = projectRepository
-   }
-   async execute(input: statusChangeInput): Promise<commonOutput> {
-      const { _id, status } = input
+export class ChangeStatusUseCase implements IChangeStatusUseCase {
+   constructor(
+      private projectRepository: IprojectRepository
+   ) { }
+   async execute(_id: string, status: string): Promise<commonOutput> {
       await this.projectRepository.changeProjectStatus(_id, status)
       return ResponseHelper.success(ProjectSuccessMessage.STATUS_CHANGE + status)
    }

@@ -1,5 +1,8 @@
+import { chatListDTO } from "../../../application/dto/user.dto";
 import { AddsitetoprojectInput } from "../../../application/entities/addsitemanagertoproject.entity";
-import { fetchprojectInput, userBaseChatoutput } from "../../../application/entities/project.entity";
+import { listingInput } from "../../../application/entities/common.entity";
+import { addProjectInput, editProjectInput, fetchprojectInput, projectwithClient, userBaseChatoutput } from "../../../application/entities/project.entity";
+import { costInput } from "../../../application/entities/stage.entity";
 import { IProjectModelEntity } from "../../Entities/modelEntities/project.entity";
 
 export interface IprojectRepository {
@@ -14,16 +17,13 @@ export interface IprojectRepository {
    addSitemanagerToProject(input: AddsitetoprojectInput): Promise<void>
    removeSitemanagerInProject(input:AddsitetoprojectInput): Promise<void>
    UpdateEstimationImage(url: string, _id: string): Promise<void>
-   
-   findAllProjectWithUser(input: listingInput): Promise<{ getProjectListData: any[]; totalPage: number }>
+   findAllProjectWithUser(input: listingInput): Promise<{ getProjectListData: projectwithClient[]; totalPage: number }>
    saveProject(input: addProjectInput): Promise<void>;
    UpdateProjectById(input: editProjectInput): Promise<void>;
    changeProjectStatus(_id: string, status: string): Promise<void>
    SetCostInProject(input: costInput): Promise<void>
    findStageSetProject(input: listingInput): Promise<{ data: IProjectModelEntity[], totalPage: number }>
-
    findStatusBaseProject(input: fetchprojectInput): Promise<{ data: IProjectModelEntity[], totalPage: number, areas: number[] }>
    findProjectById(_id: string): Promise<IProjectModelEntity | null>
-
-   findProjectsBySitemanager(_id: string): Promise<chatListUserData[]>
+   findProjectsBySitemanager(_id: string): Promise<chatListDTO[]>
 }

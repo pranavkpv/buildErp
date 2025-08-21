@@ -1,6 +1,7 @@
-import { commonOutput } from "../../../dto/CommonEntities/common";
-import { RecieveInput } from "../../../dto/PurchaseEntity.ts/Receive";
+import { commonOutput } from "../../../dto/common";
+import { ReceiveInput } from "../../../entities/receive.entity";
+
 
 export interface ISaveReceiveUseCaseEntity {
-   execute(input:RecieveInput):Promise<commonOutput>
+   execute(input:ReceiveInput):Promise<commonOutput>
 }

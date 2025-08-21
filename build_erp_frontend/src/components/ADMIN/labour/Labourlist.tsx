@@ -33,14 +33,21 @@ function Labourlist() {
 
 
   const fetchData = async () => {
-      const data =await  getLabour(page,search)
+      const data =await  getLabour({page,search})
       setLabour(data.data);
       setTotal(Math.ceil(data.totalPage))
   };
 
-  useEffect(() => {
+useEffect(() => {
+  const handler = setTimeout(() => {
     fetchData();
-  }, [page, search]);
+  }, 500); 
+
+  return () => {
+    clearTimeout(handler); 
+  };
+}, [page, search]);
+
 
   // Filtered labour data based on search input
   const filteredLabour = labour.filter((item) =>

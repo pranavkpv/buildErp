@@ -1,18 +1,19 @@
-import { commonOutput } from "../../dto/CommonEntities/common"
-import { attendanceOutput } from "../../dto/LabourEntities/attendance"
-import { IAttendanceRepositoryEntity } from "../../../domain/interfaces/Labour-management/IAttendanceRepository"
 import { IfetchAttendanceUseCaseEntity } from "../../interfaces/SitemanagerUseCaseEntities/AttendanceUseCaseEntities/FetchAttendanceEntity"
 import { ResponseHelper } from "../../../Shared/responseHelpers/response"
 import { AttendanceSuccessMessage } from "../../../Shared/Messages/Attendance.Message"
+import { IAttendanceRepository } from "../../../domain/interfaces/Labour-management/IAttendanceRepository"
+import { listingInput } from "../../entities/common.entity"
+import { commonOutput } from "../../dto/common"
+import { pageWiseAttendance } from "../../entities/attendance.entity"
 
 
 export class fetchAttendanceUseCase implements IfetchAttendanceUseCaseEntity {
-   private attendanceRepository: IAttendanceRepositoryEntity
-   constructor(attendanceRepository: IAttendanceRepositoryEntity) {
-      this.attendanceRepository = attendanceRepository
-   }
-   async execute(search: string, page: number): Promise<attendanceOutput | commonOutput> {
-      const existAttendance = await this.attendanceRepository.fetchAttendance({ page, search })
+  
+   constructor( 
+      private attendanceRepository: IAttendanceRepository
+   ) { }
+   async execute(input:listingInput): Promise<commonOutput<{data:pageWiseAttendance[],totalPage:number}>> {
+      const existAttendance = await this.attendanceRepository.fetchAttendance(input)
       return ResponseHelper.success(AttendanceSuccessMessage.FETCH, existAttendance)
    }
 }

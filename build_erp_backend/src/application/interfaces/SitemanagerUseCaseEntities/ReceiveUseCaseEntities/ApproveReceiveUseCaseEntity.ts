@@ -1,5 +1,6 @@
-import { commonOutput } from "../../../dto/CommonEntities/common";
-import { materialData } from "../../../dto/PurchaseEntity.ts/Receive";
+import { materialData } from "../../../../domain/Entities/modelEntities/transfer.entity";
+import { commonOutput } from "../../../dto/common";
+
 
 
 export interface IApproveReceiveUseCaseEntity {

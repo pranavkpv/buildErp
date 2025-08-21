@@ -31,7 +31,7 @@ export const StageSchema= new mongoose.Schema<IStageModel>(
          enum:[0,25,50,75,100]
       },
       status_date:{
-         type:String
+         type:Date
       }
    },
    { timestamps: true }

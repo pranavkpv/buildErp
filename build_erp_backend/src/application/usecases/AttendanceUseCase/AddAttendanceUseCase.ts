@@ -1,16 +1,18 @@
-import { attendanceInput } from "../../dto/LabourEntities/attendance";
-import { commonOutput } from "../../dto/CommonEntities/common";
+
 import { IaddAttendanceUseCaseEntity } from "../../interfaces/SitemanagerUseCaseEntities/AttendanceUseCaseEntities/AddAttendanceEntity";
 import { ResponseHelper } from "../../../Shared/responseHelpers/response";
-import { IAttendanceRepositoryEntity } from "../../../domain/interfaces/Labour-management/IAttendanceRepository";
 import { AttendanceFailedMessage, AttendanceSuccessMessage } from "../../../Shared/Messages/Attendance.Message";
+import { IAttendanceRepository } from "../../../domain/interfaces/Labour-management/IAttendanceRepository";
+import { InputAttendance } from "../../entities/attendance.entity";
+import { commonOutput } from "../../dto/common";
 
 export class addAttendanceUseCase implements IaddAttendanceUseCaseEntity {
-   private attendanceRepository: IAttendanceRepositoryEntity
-   constructor(attendanceRepository: IAttendanceRepositoryEntity) {
-      this.attendanceRepository = attendanceRepository
+   
+   constructor(
+      private attendanceRepository: IAttendanceRepository
+   ) {
    }
-   async execute(input: attendanceInput): Promise<commonOutput> {
+   async execute(input: InputAttendance): Promise<commonOutput> {
       const { selectedProject, selectedDate, row } = input
       const project_id = selectedProject
       const date = selectedDate
@@ -22,7 +24,7 @@ export class addAttendanceUseCase implements IaddAttendanceUseCaseEntity {
       if (existAttendance) {
          return ResponseHelper.conflictData(AttendanceFailedMessage.EXIST)
       }
-      await this.attendanceRepository.SaveAttendance({project_id, date, labourDetails})
+      await this.attendanceRepository.SaveAttendance({ selectedProject, selectedDate, row})
       return ResponseHelper.createdSuccess(AttendanceSuccessMessage.ADD)
    }
 }

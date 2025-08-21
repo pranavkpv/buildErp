@@ -1,13 +1,15 @@
-import { IUnitRepositoryEntity } from "../../domain/interfaces/Material-management/IUnitRepository";
 import { unitDB } from "../../api/models/UnitModel";
+import { listingInput } from "../../application/entities/common.entity";
+import { saveUnitInput } from "../../application/entities/unit.entity";
 import { IUnitModelEntity } from "../../domain/Entities/modelEntities/unit.entity";
-import { inputUnit, listUnitOutput } from "../../application/dto/UnitEntities/Unit.Entity";
+import { IUnitRepository } from "../../domain/interfaces/Material-management/IUnitRepository";
+
 
 /**
  * UnitRepository handles database operations for Unit entities.
  * Implements the IUnitRepositoryEntity interface.
  */
-export class UnitRepository implements IUnitRepositoryEntity {
+export class UnitRepository implements IUnitRepository {
 
     /**
      * Find all units.
@@ -20,8 +22,7 @@ export class UnitRepository implements IUnitRepositoryEntity {
     /**
      * Find a unit by unit_name (case-insensitive).
      */
-    async findUnitByunit_name(input: inputUnit): Promise<IUnitModelEntity | null> {
-        const { unit_name } = input;
+    async findUnitByunit_name(unit_name:string): Promise<IUnitModelEntity | null> {
         return await unitDB.findOne({
             unit_name: { $regex: new RegExp(`${unit_name}$`, "i") }
         });
@@ -30,7 +31,7 @@ export class UnitRepository implements IUnitRepositoryEntity {
     /**
      * Save a new unit.
      */
-    async saveUnit(input: inputUnit): Promise<IUnitModelEntity | null> {
+    async saveUnit(input: saveUnitInput): Promise<IUnitModelEntity | null> {
         const { unit_name, short_name } = input;
         const newUnit = new unitDB({ unit_name, short_name });
         return await newUnit.save();
@@ -39,8 +40,7 @@ export class UnitRepository implements IUnitRepositoryEntity {
     /**
      * Check if a unit name exists while editing (excluding current _id).
      */
-    async findUnitInEdit(input: inputUnit): Promise<IUnitModelEntity | null> {
-        const { _id, unit_name } = input;
+    async findUnitInEdit(_id:string,unit_name:string): Promise<IUnitModelEntity | null> {
         return await unitDB.findOne({
             _id: { $ne: _id },
             unit_name: { $regex: new RegExp(`${unit_name}$`, "i") }
@@ -50,7 +50,7 @@ export class UnitRepository implements IUnitRepositoryEntity {
     /**
      * Update a unit by ID.
      */
-    async updateUnitById(input: inputUnit): Promise<IUnitModelEntity | null> {
+    async updateUnitById(input: saveUnitInput): Promise<IUnitModelEntity | null> {
         const { _id, unit_name, short_name } = input;
         return await unitDB.findByIdAndUpdate(_id, { unit_name, short_name });
     }
@@ -65,7 +65,8 @@ export class UnitRepository implements IUnitRepositoryEntity {
     /**
      * Find all units with pagination and search filter.
      */
-    async findAllListUnit(page: number, search: string): Promise<listUnitOutput> {
+    async findAllListUnit(input:listingInput): Promise<{data:IUnitModelEntity[],totalPage:number}> {
+        const {page,search} = input
         const skip = page * 5;
         const searchRegex = new RegExp(search, "i");
 
@@ -81,9 +82,7 @@ export class UnitRepository implements IUnitRepositoryEntity {
         return { data: unitList, totalPage };
     }
 
-    /**
-     * Find a unit by ID.
-     */
+   
     async findUnitById(_id: string): Promise<IUnitModelEntity | null> {
         return await unitDB.findById(_id);
     }

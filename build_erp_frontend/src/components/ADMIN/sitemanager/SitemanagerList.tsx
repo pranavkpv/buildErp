@@ -7,7 +7,7 @@ import { fetchSitemanager } from "../../../api/Admin/sitemanager";
 
 type SiteData = {
   _id: string;
-  siteId: string;
+  project_id: string;
   username: string;
   email: string;
   password: string;

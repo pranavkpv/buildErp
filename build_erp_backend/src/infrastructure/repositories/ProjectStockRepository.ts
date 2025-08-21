@@ -1,15 +1,11 @@
 import mongoose from "mongoose";
-import { IProjectStockRepositoryEntity } from "../../domain/interfaces/Stock-management/IProjectStockRepository";
-import { ProjectStock } from "../../application/dto/MaterialEntities/material";
+import { IProjectStockRepository } from "../../domain/interfaces/Stock-management/IProjectStockRepository";
 import { projectStockDB } from "../../api/models/ProjectStockModel";
 import { IProjectStockModelEntity } from "../../domain/Entities/modelEntities/projectStock.entity";
-import { 
-    addProjectStockInput, 
-    editprojectstockInput, 
-    incrementStockInput 
-} from "../../application/dto/StockEntities/projectstock";
+import { addProjectStockInput } from "../../application/entities/material.entity";
+import { incrementStockInput, projectStockInput, ProjectStockOutput } from "../../application/entities/project.entity";
 
-export class ProjectStockRepository implements IProjectStockRepositoryEntity {
+export class ProjectStockRepository implements IProjectStockRepository {
 
     /**
      * Save new project stock entry
@@ -29,7 +25,7 @@ export class ProjectStockRepository implements IProjectStockRepositoryEntity {
     /**
      * Get all project stock records by material ID
      */
-    async findProjectStockByMaterialId(material_id: string): Promise<ProjectStock[]> {
+    async findProjectStockByMaterialId(material_id: string): Promise<ProjectStockOutput[]> {
         const projectStockData = await projectStockDB.aggregate([
             {
                 $match: { material_id }
@@ -62,7 +58,7 @@ export class ProjectStockRepository implements IProjectStockRepositoryEntity {
     /**
      * Update project stock by document ID
      */
-    async updateProjectStockById(input: editprojectstockInput): Promise<void> {
+    async updateProjectStockById(input: projectStockInput): Promise<void> {
         const { _id, project_id, material_id, stock } = input;
         await projectStockDB.findByIdAndUpdate(_id, { project_id, material_id, stock });
     }

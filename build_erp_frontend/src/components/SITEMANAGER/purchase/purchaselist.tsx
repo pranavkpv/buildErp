@@ -56,7 +56,6 @@ function PurchaseList() {
 
 
    const fetchPurchaseData = async () => {
-      try {
          const response = await getPurchaseDataAPI(search, page);
          if (response.success) {
             setPurchaseData(response.data);
@@ -64,9 +63,6 @@ function PurchaseList() {
          } else {
             toast.error("Error occurred while fetching purchase data");
          }
-      } catch (error) {
-         toast.error("Failed to fetch purchase data");
-      }
    };
 
    useEffect(() => {

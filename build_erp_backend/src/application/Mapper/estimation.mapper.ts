@@ -1,5 +1,5 @@
 import { IEstimationmapper } from "../../domain/mappers/IEstimation.mapper";
-import { listEstimationDTO, publicEstimationDTO } from "../dto/estimation.dto";
+import { listEstimationDTO, publicEstimationDTO, specListInProjectDTO } from "../dto/estimation.dto";
 import { estiomationAggregatebyProject, estiomationAggregateByspec } from "../entities/estimation.entity";
 
 export class estimationMapper implements IEstimationmapper {
@@ -23,6 +23,15 @@ export class estimationMapper implements IEstimationmapper {
             expected_image: element.projectDetails.expected_image
          }
       }))
+   }
+   toSpecListDTO(estimation: estiomationAggregateByspec[]): specListInProjectDTO[] {
+       return estimation.map((element)=>({
+         spec_name:element.specDetails.spec_name,
+         spec_id:element.specDetails._id,
+         quantity:element.quantity,
+         unitrate:element.unit_rate,
+         total:element.unit_rate * element.quantity
+       }))
    }
 
 }

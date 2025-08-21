@@ -1,7 +1,10 @@
 import { projectDB } from "../../api/models/ProjectModel";
 import { userBasechatListDTO } from "../../application/dto/project.dto";
+import { chatListDTO } from "../../application/dto/user.dto";
 import { AddsitetoprojectInput } from "../../application/entities/addsitemanagertoproject.entity";
-import { userBaseChatoutput } from "../../application/entities/project.entity";
+import { listingInput } from "../../application/entities/common.entity";
+import { addProjectInput, editProjectInput, projectwithClient, statusBaseProjectInput, userBaseChatoutput } from "../../application/entities/project.entity";
+import { costInput } from "../../application/entities/stage.entity";
 import { IProjectModelEntity } from "../../domain/Entities/modelEntities/project.entity";
 import { IprojectRepository } from "../../domain/interfaces/Project-management/IProjectRepository";
 
@@ -11,7 +14,7 @@ export class ProjectRepository implements IprojectRepository {
   /** 
    * Fetch all projects with user details and pagination 
    */
-  async findAllProjectWithUser(input: listingInput): Promise<{ getProjectListData: any[]; totalPage: number }> {
+  async findAllProjectWithUser(input: listingInput): Promise<{ getProjectListData: projectwithClient[]; totalPage: number }> {
     const { page, search } = input;
     const skip = page * 5;
     const searchRegex = new RegExp(search, "i");
@@ -288,7 +291,7 @@ export class ProjectRepository implements IprojectRepository {
   }
 
   /** Get all projects handled by a given site manager, grouped by unique user */
-  async findProjectsBySitemanager(_id: string): Promise<chatListUserData[]> {
+  async findProjectsBySitemanager(_id: string): Promise<chatListDTO[]> {
     const data = await projectDB.aggregate([
       { $match: { sitemanager_id: _id } },
       { $addFields: { userObjectId: { $toObjectId: "$user_id" } } },
@@ -296,7 +299,7 @@ export class ProjectRepository implements IprojectRepository {
       { $unwind: "$userDetails" }
     ]);
 
-    const result: chatListUserData[] = [];
+    const result: chatListDTO[] = [];
 
     for (const element of data) {
       if (!result.some(r => r.user_id === element.userDetails._id)) {

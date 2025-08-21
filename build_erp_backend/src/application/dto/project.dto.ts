@@ -33,6 +33,23 @@ export interface userBasechatListDTO {
 }
 
 export interface fetchProjectIdnameDTO {
-   _id:string 
-   project_name:string
+   _id: string
+   project_name: string
+}
+
+export interface displayProjectDTO {
+   _id: string;
+   project_name: string;
+   address: string;
+   mobile_number: number;
+   email: string;
+   description: string;
+   area: number;
+   userDetails: {
+      _id: string;
+      username: string;
+      email?: string;
+      phone?: number;
+   };
+   status: string;
 }

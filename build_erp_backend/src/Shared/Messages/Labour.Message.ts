@@ -7,5 +7,6 @@ export enum LabourSuccessMessage {
 
 export enum LabourFailedMessage {
    EXIST_LABOUR = " Labour already exist",
-   EXIST_SPEC = "Labour Already Used In Spec"
+   EXIST_SPEC = "Labour Already Used In Spec",
+   FETCH = "Fetch labour data is failed"
 }

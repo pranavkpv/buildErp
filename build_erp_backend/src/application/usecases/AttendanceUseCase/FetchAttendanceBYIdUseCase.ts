@@ -1,17 +1,20 @@
 import { IFetchAttendanceByIdUseCaseEntity } from "../../interfaces/SitemanagerUseCaseEntities/AttendanceUseCaseEntities/FetchAttendanceBYIdEntity";
 import { ResponseHelper } from "../../../Shared/responseHelpers/response";
-import { commonOutput } from "../../dto/CommonEntities/common";
-import { attendanceOutput } from "../../dto/LabourEntities/attendance";
-import { IAttendanceRepositoryEntity } from "../../../domain/interfaces/Labour-management/IAttendanceRepository";
-import { AttendanceSuccessMessage } from "../../../Shared/Messages/Attendance.Message";
+import { AttendanceFailedMessage, AttendanceSuccessMessage } from "../../../Shared/Messages/Attendance.Message";
+import { IAttendanceRepository } from "../../../domain/interfaces/Labour-management/IAttendanceRepository";
+import { fetchEditAttendance } from "../../entities/attendance.entity";
+import { commonOutput } from "../../dto/common";
+import { IAttendanceMapper } from "../../../domain/mappers/IAttendance.mapper";
 
 export class FetchAttendanceByIdUseCase implements IFetchAttendanceByIdUseCaseEntity {
-   private attendanceRepository: IAttendanceRepositoryEntity
-   constructor(attendanceRepository: IAttendanceRepositoryEntity) {
-      this.attendanceRepository = attendanceRepository
-   }
-   async execute(_id: string): Promise<attendanceOutput | commonOutput> {
+   constructor(
+      private attendanceRepository: IAttendanceRepository,
+      private attendaneMapper: IAttendanceMapper
+   ) { }
+   async execute(_id: string): Promise<commonOutput<fetchEditAttendance> | commonOutput> {
       const data = await this.attendanceRepository.findAttendanceById(_id)
-      return ResponseHelper.success(AttendanceSuccessMessage.FETCH, data)
+      if (!data) return ResponseHelper.conflictData(AttendanceFailedMessage.FETCH)
+      const mappedData = this.attendaneMapper.tofetchEditAttendanceDTO(data)
+      return ResponseHelper.success(AttendanceSuccessMessage.FETCH, mappedData)
    }
 }

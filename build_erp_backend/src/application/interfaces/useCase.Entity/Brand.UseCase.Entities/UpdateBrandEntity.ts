@@ -1,6 +1,6 @@
-import { commonOutput } from "../../dto/CommonEntities/common";
-import { editBrandInput } from "../../../Input-OutputEntities/MaterialEntities/brand";
+import { commonOutput } from "../../../dto/common";
 
-export interface IUpdateBrandUseCaseEntity{
-   execute(input: editBrandInput): Promise<commonOutput> 
+
+export interface IUpdateBrandUseCase {
+   execute(_id:string,brand_name:string): Promise<commonOutput> 
 }

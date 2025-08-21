@@ -1,12 +1,12 @@
-import { ISpecRepositoryEntity } from "../../domain/interfaces/Estimation-management/ISpecRepository";
-import { aggregateSpec, InputSpecification } from "../../application/dto/EstimationEntities/specification";
 import { specDB } from "../../api/models/SpecModel";
+import { listingInput } from "../../application/entities/common.entity";
+import { InputSpecification } from "../../application/entities/spec.entity";
 import { ISpecModelEntity } from "../../domain/Entities/modelEntities/spec.entity";
-import { listingInput } from "../../application/dto/CommonEntities/common";
+import { ISpecRepository } from "../../domain/interfaces/Estimation-management/ISpecRepository";
 
-export class SpecRepository implements ISpecRepositoryEntity {
 
-    /** 📄 Fetch specifications list with pagination & search */
+export class SpecRepository implements ISpecRepository {
+
     async fetchSpecList(input: listingInput): Promise<{ result: any[]; totalPage: number }> {
         const { page, search } = input;
         const skip = page * 5;
@@ -123,10 +123,9 @@ export class SpecRepository implements ISpecRepositoryEntity {
 
         return { result: sample, totalPage };
     }
-
-    /** 📄 Save a new specification */
+    
     async saveSpecData(input: InputSpecification): Promise<void> {
-        const { specId, specname, specUnit, specDescription, materialDetails, labourDetails, additionalExpense_per, profit_per } = input;
+        const { specId, specname, specUnit, specDescription, materialDetails, labourDetails, additionalExpensePer, profitPer } = input;
         const newSpec = new specDB({
             spec_id: specId,
             spec_name: specname,
@@ -134,23 +133,23 @@ export class SpecRepository implements ISpecRepositoryEntity {
             description: specDescription,
             materialDetails,
             labourDetails,
-            additionalExpense_per,
-            profit_per
+            additionalExpense_per:additionalExpensePer,
+            profit_per:profitPer
         });
         await newSpec.save();
     }
 
-    /** 📄 Check if specification name exists */
+
     async existSpecname(specname: string): Promise<ISpecModelEntity | null> {
         return await specDB.findOne({ spec_name: { $regex: specname, $options: "i" } });
     }
 
-    /** 📄 Check if specification ID exists */
+
     async existSpecId(specId: string): Promise<ISpecModelEntity | null> {
         return await specDB.findOne({ spec_id: { $regex: specId, $options: "i" } });
     }
 
-    /** 📄 Fetch a specification for editing */
+
     async editSpecFetch(_id: string): Promise<aggregateSpec[] | null> {
         const specData = await specDB.aggregate([
             { $match: { _id: _id } },
@@ -167,29 +166,24 @@ export class SpecRepository implements ISpecRepositoryEntity {
         return specData || null;
     }
 
-    /** 📄 Delete specification by ID */
     async DeleteSpec(_id: string): Promise<void> {
         await specDB.findByIdAndDelete(_id);
     }
 
-    /** 📄 Fetch all specifications (no pagination) */
     async fetchSpec(): Promise<ISpecModelEntity[]> {
         return await specDB.find();
     }
 
-    /** 📄 Find specification by material ID */
     async findSpecByMaterialId(_id: string): Promise<ISpecModelEntity | null> {
         return await specDB.findOne({ materialDetails: { $elemMatch: { material_id: _id } } });
     }
 
-    /** 📄 Find specification by labour ID */
     async findSpecByLabourId(_id: string): Promise<ISpecModelEntity | null> {
         return await specDB.findOne({ labourDetails: { $elemMatch: { labour_id: _id } } });
     }
 
-    /** 📄 Update specification */
     async UpdateSpec(input: InputSpecification): Promise<void> {
-        const { _id, specId, specname, specUnit, specDescription, materialDetails, labourDetails, additionalExpense_per, profit_per } = input;
+        const { _id, specId, specname, specUnit, specDescription, materialDetails, labourDetails, additionalExpensePer, profitPer } = input;
         await specDB.findByIdAndUpdate(_id, {
             spec_id: specId,
             spec_name: specname,
@@ -197,8 +191,8 @@ export class SpecRepository implements ISpecRepositoryEntity {
             description: specDescription,
             materialDetails,
             labourDetails,
-            additionalExpense_per,
-            profit_per
+            additionalExpense_per:additionalExpensePer,
+            profit_per:profitPer
         });
     }
 

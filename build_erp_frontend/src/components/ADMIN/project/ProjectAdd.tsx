@@ -120,7 +120,7 @@ function ProjectAdd({ enableAdd, setEnableAdd, onAddSuccess }: EditType) {
       return
     }
     const data = await postProject(
-      project_name,
+     { project_name,
       user_id,
       address,
       mobile_number,
@@ -128,7 +128,7 @@ function ProjectAdd({ enableAdd, setEnableAdd, onAddSuccess }: EditType) {
       area,
       description,
       latitude,
-      longitude
+      longitude}
     );
     if (data.success) {
       toast.success(data.message);

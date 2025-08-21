@@ -1,51 +1,51 @@
-import { AttendanceRepository } from "../infrastructure/repositories/AttendanceRepository";
-import { MaterialRepository } from "../infrastructure/repositories/MaterialRepository";
-import { ProjectRepository } from "../infrastructure/repositories/ProjectRepository";
-import { ProjectStockRepository } from "../infrastructure/repositories/ProjectStockRepository";
-import { PurchaseRepository } from "../infrastructure/repositories/PurchaseRepository";
-import { ReceiveRepository } from "../infrastructure/repositories/ReceiveRepository";
-import { SitemanagerRepository } from "../infrastructure/repositories/SitemanagerRepository";
-import { StageRepository } from "../infrastructure/repositories/StageRepository";
-import { TransferRepository } from "../infrastructure/repositories/TransferRepository";
-import { BcryptHasher } from "../infrastructure/secuirity/BcryptHasher";
-import { AttendanceController } from "../api/controllers/sitemanager/AttendanceController";
-import { changePasswordController } from "../api/controllers/sitemanager/changePasswordController";
-import { ChatController } from "../api/controllers/sitemanager/ChatController";
-import { PurchaseController } from "../api/controllers/sitemanager/PurchaseController";
-import { RecieveController } from "../api/controllers/sitemanager/RecieveController";
-import { statusController } from "../api/controllers/sitemanager/statusController";
-import { TransferController } from "../api/controllers/sitemanager/TransferController";
-import { JwtService } from "../services/JwtService";
-import { addAttendanceUseCase } from "../application/usecases/AttendanceUseCase/AddAttendanceUseCase";
-import { ApproveAttendanceUseCase } from "../application/usecases/AttendanceUseCase/approveAttendanceuseCase";
-import { DeleteAttendanceUseCase } from "../application/usecases/AttendanceUseCase/DeleteAttandanceUseCase";
-import { EditAttendanceUseCase } from "../application/usecases/AttendanceUseCase/EditAttendanceUseCase";
-import { FetchAttendanceByIdUseCase } from "../application/usecases/AttendanceUseCase/FetchAttendanceBYIdUseCase";
-import { fetchAttendanceUseCase } from "../application/usecases/AttendanceUseCase/FetchAttendanceUseCase";
-import { ApprovePurchaseUseCase } from "../application/usecases/PurchaseUseCase/ApprovePurchaseUseCase";
-import { DeletePurchaseUseCase } from "../application/usecases/PurchaseUseCase/DeletePurchaseUseCase";
-import { GetPurchaseUseCase } from "../application/usecases/PurchaseUseCase/GetpurchaseUseCase";
-import { SavePurchaseUseCase } from "../application/usecases/PurchaseUseCase/SavePurchaseUseCase";
-import { UpdatePurchaseUseCase } from "../application/usecases/PurchaseUseCase/UpdatePurchaseUseCase";
-import { ApproveReceiveUseCase } from "../application/usecases/ReceiveUseCase/ApproveReceiveUseCase";
-import { DeleteReceiveUsecase } from "../application/usecases/ReceiveUseCase/DeleteReceiveUseCase";
-import { GetReceiveUseCase } from "../application/usecases/ReceiveUseCase/GetReceiveUseCase";
-import { SaveReceiveUseCase } from "../application/usecases/ReceiveUseCase/SaveReceiveUseCase";
-import { UpdateReceiveUsecase } from "../application/usecases/ReceiveUseCase/UpdateReceiveUseCase";
-import { UpdateSitemanagerPasswordUseCase } from "../application/usecases/SitemanagerAuthenticationUseCase/UpdateSitemanagerPasswordUseCase";
-import { FetchStatusUseCase } from "../application/usecases/StageStatusUpdationUseCase/FetchStatusUseCase";
-import { FetchUserUseCase } from "../application/usecases/StageStatusUpdationUseCase/FetchUserUseCase";
-import { StageStatusChangeUseCase } from "../application/usecases/StageStatusUpdationUseCase/StageSatusChangeUseCase";
-import { UploadStatusImageUseCase } from "../application/usecases/StageStatusUpdationUseCase/UploadStatusImageUseCase";
-import { ApproveTransferUseCase } from "../application/usecases/TransferUseCase/ApproveTransferUseCase";
-import { DeleteTransferUseCase } from "../application/usecases/TransferUseCase/DeleteTransferUseCase";
-import { GetToProjectUseCase } from "../application/usecases/TransferUseCase/GetToProjectUseCase";
-import { GetTransferUseCase } from "../application/usecases/TransferUseCase/GetTransferUseCase";
-import { ReceiveTransferUseCase } from "../application/usecases/TransferUseCase/ReceiveTransferUseCase";
-import { SaveTransferUsecase } from "../application/usecases/TransferUseCase/SaveTransferUsecase";
-import { UpdateTransferUseCase } from "../application/usecases/TransferUseCase/UpdateTransferUseCase";
-
-// ---------------------- Change Password Injection ---------------------- //
+import { AttendanceMapper } from "../../application/Mapper/attenadnce.mapper"
+import { stagemapper } from "../../application/Mapper/stage.mapper"
+import { JwtService } from "../../application/services/JwtService"
+import { addAttendanceUseCase } from "../../application/usecases/AttendanceUseCase/AddAttendanceUseCase"
+import { ApproveAttendanceUseCase } from "../../application/usecases/AttendanceUseCase/approveAttendanceuseCase"
+import { DeleteAttendanceUseCase } from "../../application/usecases/AttendanceUseCase/DeleteAttandanceUseCase"
+import { EditAttendanceUseCase } from "../../application/usecases/AttendanceUseCase/EditAttendanceUseCase"
+import { FetchAttendanceByIdUseCase } from "../../application/usecases/AttendanceUseCase/FetchAttendanceBYIdUseCase"
+import { fetchAttendanceUseCase } from "../../application/usecases/AttendanceUseCase/FetchAttendanceUseCase"
+import { ApprovePurchaseUseCase } from "../../application/usecases/PurchaseUseCase/ApprovePurchaseUseCase"
+import { DeletePurchaseUseCase } from "../../application/usecases/PurchaseUseCase/DeletePurchaseUseCase"
+import { GetPurchaseUseCase } from "../../application/usecases/PurchaseUseCase/GetpurchaseUseCase"
+import { SavePurchaseUseCase } from "../../application/usecases/PurchaseUseCase/SavePurchaseUseCase"
+import { UpdatePurchaseUseCase } from "../../application/usecases/PurchaseUseCase/UpdatePurchaseUseCase"
+import { ApproveReceiveUseCase } from "../../application/usecases/ReceiveUseCase/ApproveReceiveUseCase"
+import { DeleteReceiveUsecase } from "../../application/usecases/ReceiveUseCase/DeleteReceiveUseCase"
+import { GetReceiveUseCase } from "../../application/usecases/ReceiveUseCase/GetReceiveUseCase"
+import { SaveReceiveUseCase } from "../../application/usecases/ReceiveUseCase/SaveReceiveUseCase"
+import { UpdateReceiveUsecase } from "../../application/usecases/ReceiveUseCase/UpdateReceiveUseCase"
+import { UpdateSitemanagerPasswordUseCase } from "../../application/usecases/SitemanagerAuthenticationUseCase/UpdateSitemanagerPasswordUseCase"
+import { FetchStatusUseCase } from "../../application/usecases/StageStatusUpdationUseCase/fetchstatus.usecase"
+import { FetchUserUseCase } from "../../application/usecases/StageStatusUpdationUseCase/FetchUserUseCase"
+import { StageStatusChangeUseCase } from "../../application/usecases/StageStatusUpdationUseCase/StageSatusChangeUseCase"
+import { UploadStatusImageUseCase } from "../../application/usecases/StageStatusUpdationUseCase/UploadStatusImageUseCase"
+import { ApproveTransferUseCase } from "../../application/usecases/TransferUseCase/ApproveTransferUseCase"
+import { DeleteTransferUseCase } from "../../application/usecases/TransferUseCase/DeleteTransferUseCase"
+import { GetToProjectUseCase } from "../../application/usecases/TransferUseCase/GetToProjectUseCase"
+import { GetTransferUseCase } from "../../application/usecases/TransferUseCase/GetTransferUseCase"
+import { ReceiveTransferUseCase } from "../../application/usecases/TransferUseCase/ReceiveTransferUseCase"
+import { SaveTransferUsecase } from "../../application/usecases/TransferUseCase/SaveTransferUsecase"
+import { UpdateTransferUseCase } from "../../application/usecases/TransferUseCase/UpdateTransferUseCase"
+import { AttendanceRepository } from "../../infrastructure/repositories/AttendanceRepository"
+import { MaterialRepository } from "../../infrastructure/repositories/MaterialRepository"
+import { ProjectRepository } from "../../infrastructure/repositories/ProjectRepository"
+import { ProjectStockRepository } from "../../infrastructure/repositories/ProjectStockRepository"
+import { PurchaseRepository } from "../../infrastructure/repositories/PurchaseRepository"
+import { ReceiveRepository } from "../../infrastructure/repositories/ReceiveRepository"
+import { SitemanagerRepository } from "../../infrastructure/repositories/SitemanagerRepository"
+import { StageRepository } from "../../infrastructure/repositories/StageRepository"
+import { TransferRepository } from "../../infrastructure/repositories/TransferRepository"
+import { BcryptHasher } from "../../infrastructure/secuirity/BcryptHasher"
+import { AttendanceController } from "../controllers/sitemanager/AttendanceController"
+import { changePasswordController } from "../controllers/sitemanager/changePasswordController"
+import { ChatController } from "../controllers/sitemanager/ChatController"
+import { PurchaseController } from "../controllers/sitemanager/PurchaseController"
+import { RecieveController } from "../controllers/sitemanager/RecieveController"
+import { statusController } from "../controllers/sitemanager/statusController"
+import { TransferController } from "../controllers/sitemanager/TransferController"
 
 const sitemanagerRepository = new SitemanagerRepository()
 const hasher = new BcryptHasher()
@@ -55,21 +55,23 @@ export const injectedChangepasswordcontroller = new changePasswordController(upd
 // ---------------------- Status Updation Injection ---------------------- //
 
 const stageRepository = new StageRepository()
+const stageMapper = new stagemapper()
 const uploadstatusImageusecase = new UploadStatusImageUseCase(stageRepository)
-const fetchStatusUseCase = new FetchStatusUseCase(stageRepository)
+const fetchStatusUseCase = new FetchStatusUseCase(stageRepository,stageMapper)
 const stageStatusChangeUseCase = new StageStatusChangeUseCase(stageRepository)
-export const injectedStatusController = new statusController(fetchStatusUseCase, stageStatusChangeUseCase, uploadstatusImageusecase)
+export const injectedStatusController = new statusController( stageStatusChangeUseCase,uploadstatusImageusecase)
 
 // ---------------------- Labour Attendance  Injection ---------------------- //
-
 const attendanceRepository = new AttendanceRepository()
+const attendaneMapper = new AttendanceMapper()
 const addAttendaceUseCase = new addAttendanceUseCase(attendanceRepository)
 const fetchattendanceusecase = new fetchAttendanceUseCase(attendanceRepository)
 const deleteattendanceUsecase = new DeleteAttendanceUseCase(attendanceRepository)
 const approveattendanceuseCase = new ApproveAttendanceUseCase(attendanceRepository)
-const fetchattendancebyIdusecase = new FetchAttendanceByIdUseCase(attendanceRepository)
+const fetchattendancebyIdusecase = new FetchAttendanceByIdUseCase(attendanceRepository,attendaneMapper)
 const editAttendanceUseCase = new EditAttendanceUseCase(attendanceRepository)
-export const injectAttendanceController = new AttendanceController(addAttendaceUseCase, fetchattendanceusecase, deleteattendanceUsecase, approveattendanceuseCase, fetchattendancebyIdusecase, editAttendanceUseCase)
+export const injectAttendanceController = new AttendanceController(addAttendaceUseCase, fetchattendanceusecase, 
+   deleteattendanceUsecase, approveattendanceuseCase, fetchattendancebyIdusecase, editAttendanceUseCase)
 
 // ---------------------- Purchase  Injection ---------------------- //
 

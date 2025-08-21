@@ -1,11 +1,11 @@
-import { listingInput } from "../../../application/dto/CommonEntities/common";
-import { editSitemanagerInput, saveSitemanagerInput, updatePasswordInput } from "../../../application/dto/SitemanagerEntities/sitemanager";
+import { listingInput } from "../../../application/entities/common.entity";
+import { addsitemanagerInput, editSitemanagerInput } from "../../../application/entities/sitemanager.entity";
 import { ISitemanagerModelEntity } from "../../Entities/modelEntities/sitemanager.entity";
 
-export interface ISitemanagerRepositoryEntity {
-   findAllSitemanager(input:listingInput):Promise<{getSiteData:any[];totalPage:number }>;
+export interface ISitemanagerRepository {
+   findAllSitemanager(input:listingInput): Promise<{ getSiteData: ISitemanagerModelEntity[]; totalPage: number }>;
    findSitemanagerByEmail(email:string):Promise<ISitemanagerModelEntity | null >
-   saveSitemanager(input:saveSitemanagerInput):Promise<void>
+   saveSitemanager(input:addsitemanagerInput):Promise<void>
    findSitemanagerInEdit(_id:string,email:string):Promise<ISitemanagerModelEntity | null>
    updateSitemanager(input:editSitemanagerInput):Promise<void>
    deleteSitemanager(_id:string):Promise<void>

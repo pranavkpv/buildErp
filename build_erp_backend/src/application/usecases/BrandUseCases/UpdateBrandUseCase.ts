@@ -1,22 +1,20 @@
-import { inputBrand } from "../../dto/BrandEntities/Brand.Entity"
-import { commonOutput } from "../../dto/CommonEntities/common"
-import { IBrandRepositoryEntity } from "../../../domain/interfaces/Material-management/IBrandRepository"
-import { IUpdateBrandUseCaseEntity } from "../../interfaces/useCase.Entity/Brand.UseCase.Entities/UpdateBrandEntity"
+import { IBrandRepository } from "../../../domain/interfaces/Material-management/IBrandRepository"
+import { IUpdateBrandUseCase } from "../../interfaces/useCase.Entity/Brand.UseCase.Entities/UpdateBrandEntity"
 import { brandFailedMessage, brandSuccessMessage } from "../../../Shared/Messages/Brand.Message"
 import { ResponseHelper } from "../../../Shared/responseHelpers/response"
+import { commonOutput } from "../../dto/common"
 
 
-export class UpdateBrandUseCase implements IUpdateBrandUseCaseEntity {
-   private brandRepository: IBrandRepositoryEntity
-   constructor(brandRepository: IBrandRepositoryEntity) {
-      this.brandRepository = brandRepository
-   }
-   async execute(input: inputBrand): Promise<commonOutput> {
-      const existBrandData = await this.brandRepository.findBrandInEdit(input)
+export class UpdateBrandUseCase implements IUpdateBrandUseCase {
+   constructor(
+      private _brandRepository: IBrandRepository
+   ) { }
+   async execute(_id:string,brand_name:string): Promise<commonOutput> {
+      const existBrandData = await this._brandRepository.findBrandInEdit(_id,brand_name)
       if (existBrandData) {
          return ResponseHelper.conflictData(brandFailedMessage.ALREADY_EXIST)
       }
-      await this.brandRepository.updateBrandById(input)
+      await this._brandRepository.updateBrandById(_id,brand_name)
       return ResponseHelper.success(brandSuccessMessage.UPDATE)
    }
 }

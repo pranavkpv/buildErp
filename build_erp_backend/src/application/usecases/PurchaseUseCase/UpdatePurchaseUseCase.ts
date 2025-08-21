@@ -1,14 +1,15 @@
-import { commonOutput } from "../../dto/CommonEntities/common"
-import { purchaseInput } from "../../dto/PurchaseEntity.ts/Purchase"
-import { IPurchaseRepositoryEntity } from "../../../domain/interfaces/Purchase-management/IPurchaseRepository"
+
 import { IUpdatePurchaseUseCaseEntity } from "../../interfaces/SitemanagerUseCaseEntities/PurchaseUseCaseEntities/UpdatePurchaseUseCaseEntity"
 import { purchaseFailedMessage, purchaseSuccessMessage } from "../../../Shared/Messages/Purchase.Message"
 import { ResponseHelper } from "../../../Shared/responseHelpers/response"
+import { commonOutput } from "../../dto/common"
+import { purchaseInput } from "../../entities/purchase.entity"
+import { IPurchaseRepository } from "../../../domain/interfaces/Purchase-management/IPurchaseRepository"
 
 
 export class UpdatePurchaseUseCase implements IUpdatePurchaseUseCaseEntity {
-   private purchaseRepository: IPurchaseRepositoryEntity
-   constructor(purchaseRepository: IPurchaseRepositoryEntity) {
+   private purchaseRepository: IPurchaseRepository
+   constructor(purchaseRepository: IPurchaseRepository) {
       this.purchaseRepository = purchaseRepository
    }
    async execute(input: purchaseInput): Promise<commonOutput> {

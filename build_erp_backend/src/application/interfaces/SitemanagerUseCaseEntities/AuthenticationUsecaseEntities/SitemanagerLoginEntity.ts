@@ -1,5 +1,8 @@
-import { commonOutput } from "../../../dto/CommonEntities/common";
+import { ISitemanagerModelEntity } from "../../../../domain/Entities/modelEntities/sitemanager.entity";
+import { commonOutput } from "../../../dto/common";
+import { Tokens } from "../../../entities/token.entity";
+
 
 export interface ISitemanagerLoginUseCaseEntity{
-   execute(email:string,password:string):Promise<commonOutput>
+   execute(email:string,password:string):Promise<commonOutput<{data:ISitemanagerModelEntity,token:Tokens}> | commonOutput>
 }

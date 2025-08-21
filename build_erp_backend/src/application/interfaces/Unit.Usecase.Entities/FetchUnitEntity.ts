@@ -1,5 +1,6 @@
-import { commonOutput } from "../../dto/CommonEntities/common";
+import { commonOutput } from "../../dto/common";
+import { idUnitnameDTO } from "../../dto/unit.dto";
 
-export interface IFetchUnitUseCaseEntity {
-   execute():Promise<commonOutput>
+export interface IFetchUnitUseCase {
+   execute():Promise<commonOutput<idUnitnameDTO[]>>
 }

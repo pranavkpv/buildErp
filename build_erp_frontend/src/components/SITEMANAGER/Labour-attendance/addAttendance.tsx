@@ -3,7 +3,6 @@ import { toast } from "react-toastify";
 import { PlusCircleIcon, MinusCircleIcon } from "@heroicons/react/24/outline";
 import { jwtDecode } from "jwt-decode";
 import { getSitemanagersProject } from "../../../api/Sitemanager/profile";
-import { labourDataFetch } from "../../../api/Admin/labour";
 import { labourDataFetchInsitemanager, takeAttendanceAPI } from "../../../api/Sitemanager/attendance";
 
 

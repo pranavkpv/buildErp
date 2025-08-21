@@ -1,6 +1,7 @@
-import { commonOutput } from "../../../dto/CommonEntities/common";
-import { attendanceOutput } from "../../../dto/LabourEntities/attendance";
+import { commonOutput } from "../../../dto/common";
+import { pageWiseAttendance } from "../../../entities/attendance.entity";
+import { listingInput } from "../../../entities/common.entity";
 
 export interface IfetchAttendanceUseCaseEntity{
-   execute(search:string,page:number):Promise<attendanceOutput | commonOutput>
+   execute(input:listingInput): Promise<commonOutput<{data:pageWiseAttendance[],totalPage:number}>>
 }

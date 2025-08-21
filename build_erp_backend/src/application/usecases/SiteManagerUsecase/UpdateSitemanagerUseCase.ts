@@ -1,23 +1,22 @@
-import { ISitemanagerRepositoryEntity } from "../../../domain/interfaces/Site-management/ISitemanagerRepository"
-import { commonOutput } from "../../dto/CommonEntities/common"
-import { editSitemanagerInput } from "../../dto/SitemanagerEntities/sitemanager"
-import { IUpdateSitemanagerUseCaseEntity } from "../../interfaces/AdminUseCaseEntities/SiteUseCaseEntities/UpdateSitemanagerEntity"
 import { ResponseHelper } from "../../../Shared/responseHelpers/response"
 import { SitemanagerFailedMessage, SitemanagerSuccessMessage } from "../../../Shared/Messages/Sitemanager.Message"
+import { IUpdateSitemanagerUseCase } from "../../interfaces/AdminUseCaseEntities/SiteUseCaseEntities/UpdateSitemanagerEntity"
+import { editSitemanagerInput } from "../../entities/sitemanager.entity"
+import { commonOutput } from "../../dto/common"
+import { ISitemanagerRepository } from "../../../domain/interfaces/Site-management/ISitemanagerRepository"
 
 
-export class UpdateSitemanagerUseCase implements IUpdateSitemanagerUseCaseEntity {
-   private SitemanagerRepository: ISitemanagerRepositoryEntity
-   constructor(SitemanagerRepository: ISitemanagerRepositoryEntity) {
-      this.SitemanagerRepository = SitemanagerRepository
-   }
+export class UpdateSitemanagerUseCase implements IUpdateSitemanagerUseCase {
+   constructor(
+      private _sitemanagerRepository: ISitemanagerRepository
+   ) { }
    async execute(input: editSitemanagerInput): Promise<commonOutput> {
       const { _id, username, email } = input
-      const existData = await this.SitemanagerRepository.findSitemanagerInEdit(_id, email)
+      const existData = await this._sitemanagerRepository.findSitemanagerInEdit(_id, email)
       if (existData) {
          return ResponseHelper.conflictData(SitemanagerFailedMessage.EXIST)
       }
-      await this.SitemanagerRepository.updateSitemanager({ _id, username, email })
+      await this._sitemanagerRepository.updateSitemanager({ _id, username, email })
       return ResponseHelper.success(SitemanagerSuccessMessage.UPDATE)
    }
 }

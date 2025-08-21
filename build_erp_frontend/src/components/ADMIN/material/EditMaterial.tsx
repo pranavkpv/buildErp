@@ -72,30 +72,30 @@ function EditMaterial({ setEditEnable, editEnable, setEditId, editId, refreshDat
   };
 
   const fetchData = async () => {
-      const data = await getaddMaterial();
-      const editData = await editMaterialData(editId);
-      console.log(editData)
-      // Set dropdown data
-      selectCategoryList(data.data.categoryData);
-      setBrandlist(data.data.brandData);
-      setUnitList(data.data.unitData);
-      setProjectlist(data.data.projectData || []);
+    const data = await getaddMaterial();
+    const editData = await editMaterialData(editId);
 
-      // Set edit data
-      setMaterial(editData.data.materialData.material_name);
-      setSelectCategory(editData.data.materialData.category_id);
-      setSelectedBrand(editData.data.materialData.brand_id);
-      setSelectedUnit(editData.data.materialData.unit_id);
-      setUnitRate(editData.data.materialData.unit_rate);
-      setTotalStock(editData.data.materialData.stock);
+    // Set dropdown data
+    selectCategoryList(data.data.categoryData);
+    setBrandlist(data.data.brandData);
+    setUnitList(data.data.unitData);
+    setProjectlist(data.data.projectData || []);
 
-      // Transform project stock data to match addRowData format
-      const transformedProjectData = editData.data.projectStockData.map((item: any) => ({
-        project: item.project_id,
-        stock: Number(item.stock),
-        _id: item._id
-      }));
-      SetRow(transformedProjectData);
+    // Set edit data
+    setMaterial(editData.data.materialData.material_name);
+    setSelectCategory(editData.data.materialData.category_id);
+    setSelectedBrand(editData.data.materialData.brand_id);
+    setSelectedUnit(editData.data.materialData.unit_id);
+    setUnitRate(editData.data.materialData.unit_rate);
+    setTotalStock(editData.data.materialData.stock);
+
+    // Transform project stock data to match addRowData format
+    const transformedProjectData = editData.data.projectStockData.map((item: any) => ({
+      project: item.project_id,
+      stock: Number(item.stock),
+      _id: item._id
+    }));
+    SetRow(transformedProjectData);
   };
 
   useEffect(() => {
@@ -169,17 +169,19 @@ function EditMaterial({ setEditEnable, editEnable, setEditId, editId, refreshDat
     }
 
     if (hasError) return;
-      const response = await UpdateMaterialAPI(editId,materialName,selectCategoryId,selectBrandId,selectUnitId,
-        unit_rate,totalOpeningStock,row
-      )
-      if (response.success) {
-        toast.success(response.message);
-        setEditEnable(false);
-        setEditId("");
-        refreshData();
-      } else {
-        toast.error(response.data.message);
-      }
+    const response = await UpdateMaterialAPI({
+      _id: editId, material_name: materialName, category_id: selectCategoryId, brand_id: selectBrandId,
+      unit_id: selectUnitId, unit_rate, stock: totalOpeningStock, projectWiseStock: row
+    }
+    )
+    if (response.success) {
+      toast.success(response.message);
+      setEditEnable(false);
+      setEditId("");
+      refreshData();
+    } else {
+      toast.error(response.data.message);
+    }
   };
 
   return (
@@ -299,7 +301,7 @@ function EditMaterial({ setEditEnable, editEnable, setEditId, editId, refreshDat
               placeholder="Enter opening stock"
               className="w-full px-4 py-2.5 bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors duration-200 text-gray-100 placeholder-gray-400 text-sm"
               onChange={(e) => {
-                setTotalStock(Number(e.target.value)) 
+                setTotalStock(Number(e.target.value))
                 SetRow([])
               }}
               value={totalOpeningStock === 0 ? "" : totalOpeningStock}

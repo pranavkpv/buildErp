@@ -1,18 +1,18 @@
-import { ISitemanagerRepositoryEntity } from "../../../domain/interfaces/Site-management/ISitemanagerRepository"
-import { commonOutput } from "../../dto/CommonEntities/common"
-import { IDeleteSitemanagerUseCaseEntity } from "../../interfaces/AdminUseCaseEntities/SiteUseCaseEntities/DeleteSitemanagerEntity"
-import { ResponseHelper } from "../../../Shared/responseHelpers/response"
+import { ISitemanagerRepository } from "../../../domain/interfaces/Site-management/ISitemanagerRepository"
 import { SitemanagerSuccessMessage } from "../../../Shared/Messages/Sitemanager.Message"
+import { ResponseHelper } from "../../../Shared/responseHelpers/response"
+import { commonOutput } from "../../dto/common"
+import { IDeleteSitemanagerUseCase } from "../../interfaces/AdminUseCaseEntities/SiteUseCaseEntities/DeleteSitemanagerEntity"
 
 
 
-export class DeleteSitemanagerUseCase implements IDeleteSitemanagerUseCaseEntity {
-   private SitemanagerRepository: ISitemanagerRepositoryEntity
-   constructor(SitemanagerRepository: ISitemanagerRepositoryEntity) {
-      this.SitemanagerRepository = SitemanagerRepository
-   }
+
+export class DeleteSitemanagerUseCase implements IDeleteSitemanagerUseCase {
+   constructor(
+      private _sitemanagerRepository: ISitemanagerRepository
+   ) { }
    async execute(_id: string): Promise<commonOutput> {
-      await this.SitemanagerRepository.deleteSitemanager(_id)
+      await this._sitemanagerRepository.deleteSitemanager(_id)
       return ResponseHelper.success(SitemanagerSuccessMessage.DELETE)
    }
 

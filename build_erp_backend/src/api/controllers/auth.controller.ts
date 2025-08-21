@@ -18,6 +18,8 @@ import { publicEstimationDTO } from "../../application/dto/estimation.dto";
 import { IFetchStatusUseCase } from "../../application/interfaces/SitemanagerUseCaseEntities/StageStatusUpdationUseCaseEntities/IFetchstatus.usecase";
 import { publicstageDTO } from "../../application/dto/stage.dto";
 import { IFetchStatusBaseProjectUseCase } from "../../application/interfaces/UserUseCaseEntities/ProjectDisplayUseCaseEntities/FetchStatusBaseProjectUseCaseEntity";
+import { ResponseHelper } from "../../Shared/responseHelpers/response";
+import { IRefreshTokenUseCase } from "../../application/interfaces/useCase.Entity/Auth.UseCase/RefreshToken.UseCase.Entity";
 
 export class AuthController implements IAuthController {
 
@@ -33,7 +35,8 @@ export class AuthController implements IAuthController {
       private _getUserProjectsUseCase: IGetAllProjectListInUserusecase,
       private _fetchexistestimationusecase: IFetchExistEstimationUseCase,
       private _fetchStatusUseCase: IFetchStatusUseCase,
-      private _fetchStatusBaseProjectUseCase: IFetchStatusBaseProjectUseCase
+      private _fetchStatusBaseProjectUseCase: IFetchStatusBaseProjectUseCase,
+      private _refreshTokenUseCase: IRefreshTokenUseCase
    ) { }
 
    register = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
@@ -108,7 +111,8 @@ export class AuthController implements IAuthController {
       const result = await this._fetchStatusBaseProjectUseCase.execute({ status, search: String(searchItem), area: Number(selectedArea), page: Number(page) })
       return result
    }
-    refreshAccessToken = async (req: Request, res: Response, next: NextFunction): Promise<Tokens | commonOutput> => {
+
+   handleRefreshToken = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput<string> | commonOutput> => {
       const refreshToken = req.cookies.refreshToken;
       if (!refreshToken) return ResponseHelper.unAuthor();
       return await this._refreshTokenUseCase.execute(refreshToken);

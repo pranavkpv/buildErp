@@ -1,6 +1,7 @@
-import { commonOutput } from "../../../dto/CommonEntities/common";
-import { TransferOutput } from "../../../dto/PurchaseEntity.ts/Transfer";
+import { commonOutput } from "../../../dto/common";
+import { fetchProjectIdnameDTO } from "../../../dto/project.dto";
+
 
 export interface IGetToProjectUseCaseEntity {
-   execute(projectId:string): Promise<TransferOutput | commonOutput>
+   execute(projectId:string): Promise<commonOutput<fetchProjectIdnameDTO[]> | commonOutput>
 }

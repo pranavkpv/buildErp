@@ -17,3 +17,11 @@ export interface listEstimationDTO {
    budgeted_cost: number;
    projectDetails: project;
 }
+
+export interface specListInProjectDTO {
+   spec_id: string;
+   spec_name: string;
+   unitrate: number;
+   quantity: number;
+   total: number;
+}

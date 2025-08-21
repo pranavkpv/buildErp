@@ -1,5 +1,6 @@
-import { commonOutput } from "../../../dto/CommonEntities/common";
+import { commonOutput } from "../../../dto/common";
 
-export interface IDeleteSitemanagerUseCaseEntity {
+
+export interface IDeleteSitemanagerUseCase {
    execute(_id:string):Promise<commonOutput>
 }

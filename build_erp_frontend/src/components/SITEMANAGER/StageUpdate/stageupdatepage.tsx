@@ -4,7 +4,7 @@ import ConfirmStatus from "./ConfirmStatus";
 import ImageUpload from "./ImageUpload";
 import { jwtDecode } from "jwt-decode";
 import { getSitemanagersProject } from "../../../api/Sitemanager/profile";
-import { getStage } from "../../../api/Sitemanager/stageStatus";
+import { getStageInAdmin } from "../../../api/Admin/StageSetting";
 
 
 type Project = {
@@ -56,7 +56,7 @@ function StageUpdatePage() {
    };
 
    const fetchStage = async (projectId: string): Promise<void> => {
-         const response = await getStage(projectId);
+         const response = await getStageInAdmin(projectId);
          if (response.success) {
             setStage(response.data);
          } else {

@@ -1,6 +1,7 @@
-import { commonOutput } from "../../../dto/CommonEntities/common";
-import { editSitemanagerInput } from "../../../dto/SitemanagerEntities/sitemanager";
+import { commonOutput } from "../../../dto/common";
+import { editSitemanagerInput } from "../../../entities/sitemanager.entity";
 
-export interface IUpdateSitemanagerUseCaseEntity {
+
+export interface IUpdateSitemanagerUseCase {
    execute(input: editSitemanagerInput): Promise<commonOutput> 
 }

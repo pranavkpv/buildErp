@@ -5,17 +5,21 @@ import { IgetSpecUseCase } from "../../application/interfaces/AdminUseCaseEntiti
 import { IFindmaterialSumUseCase } from "../../application/interfaces/AdminUseCaseEntities/MaterialUseCaseEntities/FindMaterialSumEntity"
 import { ISpecController } from "../../domain/Entities/ControllerEntities/AdminControllerEntities/ISpecControllerEntity"
 import { IFindlabourSumUsecase } from "../../application/interfaces/AdminUseCaseEntities/MaterialUseCaseEntities/FindLabourSumEntity"
+import { ISaveSpecUseCase } from "../../application/interfaces/AdminUseCaseEntities/SpecUseCaseEntities/SpecSaveEntity"
+import { IDeleteSpecUseCase } from "../../application/interfaces/AdminUseCaseEntities/SpecUseCaseEntities/DeleteSpecEntity"
+import { IUpdateSpecUseCase } from "../../application/interfaces/AdminUseCaseEntities/SpecUseCaseEntities/UpdateSpecEntity"
+import { ISpeclistUseCaseEntity } from "../../application/interfaces/AdminUseCaseEntities/SpecUseCaseEntities/SpecListEntity"
 
 export class SpecController implements ISpecController {
    constructor(
       private _getspecUseCase: IgetSpecUseCase,
       private _findmaterialSumusecase: IFindmaterialSumUseCase,
       private _findlaboursumusecase: IFindlabourSumUsecase,
-      private speclistusecase: ISpeclistUseCaseEntity,
-      private specSaveuseCase: ISaveSpecUseCaseEntity,
+      private _speclistusecase: ISpeclistUseCaseEntity,
+      private _specSaveuseCase: ISaveSpecUseCase,
       private specsumusecase: ISpecSumUseCaseEntity,
-      private deleteSpecusecase: IDeleteSpecUseCaseEntity,
-      private updateSpecUseCase: IUpdateSpecUseCaseEntity
+      private _deleteSpecusecase: IDeleteSpecUseCase,
+      private _updateSpecUseCase: IUpdateSpecUseCase
    ) { }
 
    //------------------------------------ List all Specification  ------------------------------------//
@@ -43,16 +47,16 @@ export class SpecController implements ISpecController {
 
    //------------------------------------ List all specification with search and pagination ------------------------------------//
 
-   getSpeclist = async (req: Request, res: Response, next: NextFunction): Promise<specOutput | commonOutput> => {
+   getSpeclist = async (req: Request, res: Response, next: NextFunction):  Promise<commonOutput<{data:any[],totalPage:number}> | commonOutput> => {
       const { page, search } = req.query
-      const specData = await this.speclistusecase.execute(Number(page), String(search))
+      const specData = await this._speclistusecase.execute({page:Number(page), search:String(search)})
       return specData
    }
 
    //------------------------------------ Save Spec  ------------------------------------//
 
    saveSpec = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
-      const result = await this.specSaveuseCase.execute(req.body)
+      const result = await this._specSaveuseCase.execute(req.body)
       return result
    }
 
@@ -67,7 +71,7 @@ export class SpecController implements ISpecController {
 
    deleteSpec = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
       const { id } = req.params
-      const result = await this.deleteSpecusecase.execute(id)
+      const result = await this._deleteSpecusecase.execute(id)
       return result
    }
 
@@ -76,7 +80,7 @@ export class SpecController implements ISpecController {
 
    updateSpec = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
       const _id = req.params.id
-      const result = await this.updateSpecUseCase.execute({ _id, ...req.body })
+      const result = await this._updateSpecUseCase.execute({ _id, ...req.body })
       return result
    }
 

@@ -1,12 +1,14 @@
 import { categoryDB } from "../../api/models/CategoryModel";
-import { categoryInput, listCategoryOutput } from "../../application/dto/CategoryEntities/Category.Entity";
+import { saveCategoryInput } from "../../application/entities/category.entity";
+import { listingInput } from "../../application/entities/common.entity";
 import { ICategoryModelEntity } from "../../domain/Entities/modelEntities/category.entity";
-import { ICategoryRepositoryEntity } from "../../domain/interfaces/Material-management/ICategoryRepository";
+import { ICategoryRepository } from "../../domain/interfaces/Material-management/ICategoryRepository";
+
 
 /**
  * Repository implementation for Category operations
  */
-export class CategoryRepository implements ICategoryRepositoryEntity {
+export class CategoryRepository implements ICategoryRepository {
 
    /* --------------------------------------------------------
     * FIND METHODS
@@ -18,8 +20,7 @@ export class CategoryRepository implements ICategoryRepositoryEntity {
    }
 
    /** Find a category by its name (case-insensitive) */
-   async findByCategoryName(input: categoryInput): Promise<ICategoryModelEntity | null> {
-      const { category_name } = input;
+   async findByCategoryName(category_name:string): Promise<ICategoryModelEntity | null> {
       return await categoryDB.findOne({
          category_name: { $regex: new RegExp(`^${ category_name }$`, "i") }
       });
@@ -27,9 +28,8 @@ export class CategoryRepository implements ICategoryRepositoryEntity {
 
    /** Find category for edit check (exclude same _id) */
    async findCategoryInEdit(
-      input: categoryInput
+      _id:string,category_name:string
    ): Promise<ICategoryModelEntity | null> {
-      const { _id, category_name } = input
       return await categoryDB.findOne({
          _id: { $ne: _id },
          category_name: { $regex: new RegExp(`^${ category_name }$`, "i") }
@@ -37,7 +37,8 @@ export class CategoryRepository implements ICategoryRepositoryEntity {
    }
 
    /** Get paginated and searched category list */
-   async findAllListCategory(page: number, search: string): Promise<listCategoryOutput> {
+   async findAllListCategory(input:listingInput):Promise<{data:ICategoryModelEntity[],totalPage:number}> {
+      const {page,search} = input
       const limit = 5;
       const skip = page * limit;
       const searchRegex = new RegExp(search, "i");
@@ -59,7 +60,7 @@ export class CategoryRepository implements ICategoryRepositoryEntity {
     * -------------------------------------------------------- */
 
    /** Save a new category */
-   async saveCategory(input: categoryInput): Promise<ICategoryModelEntity> {
+   async saveCategory(input: saveCategoryInput): Promise<ICategoryModelEntity> {
       const { category_name, description } = input;
       const newCategory = new categoryDB({ category_name, description });
       return await newCategory.save();
@@ -67,7 +68,7 @@ export class CategoryRepository implements ICategoryRepositoryEntity {
 
    /** Update category by ID */
    async updateCategoryById(
-      input: categoryInput
+      input: saveCategoryInput
    ): Promise<ICategoryModelEntity | null> {
       const { _id, category_name, description } = input;
       return await categoryDB.findByIdAndUpdate(_id, { category_name, description });

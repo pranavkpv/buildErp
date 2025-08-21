@@ -9,15 +9,11 @@ export const changeStatusStage = async (
    newProgress: number,
    date: string
 ) => {
-   try {
       const response = await siteAxios.put(`/status/${stageId}`, {
          newProgress,
          date,
       });
       return response.data;
-   } catch (error: any) {
-      toast.error(error.response.data.message)
-   }
 };
 
 // ---------------- Upload Image for a Stage ---------------- //
@@ -27,7 +23,6 @@ export const uploadImageAPI = async (
    date: string,
    inputImage: File[]
 ) => {
-   try {
       if (!inputImage || inputImage.length === 0) return;
 
       const formData = new FormData();
@@ -45,7 +40,4 @@ export const uploadImageAPI = async (
       });
 
       return response.data;
-   } catch (error: any) {
-     toast.error(error.response.data.message)
-   }
 };

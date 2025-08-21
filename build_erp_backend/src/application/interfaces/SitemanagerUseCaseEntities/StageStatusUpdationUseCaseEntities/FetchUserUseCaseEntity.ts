@@ -1,6 +1,7 @@
-import { chatListOutput } from "../../../dto/Chat.Entities/Chatlist.Entity";
-import { commonOutput } from "../../../dto/CommonEntities/common";
+import { commonOutput } from "../../../dto/common";
+import { chatListDTO } from "../../../dto/user.dto";
+
 
 export interface IFetchUserUsecaseEntity {
-   execute(userId:string): Promise<chatListOutput | commonOutput>
+   execute(userId:string): Promise<commonOutput<chatListDTO[]> | commonOutput>
 }

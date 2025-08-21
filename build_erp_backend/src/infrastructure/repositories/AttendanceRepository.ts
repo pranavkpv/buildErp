@@ -1,6 +1,8 @@
 import { IAttendanceRepository } from "../../domain/interfaces/Labour-management/IAttendanceRepository";
 import { attendanceDB } from "../../api/models/AttendanceModel";
 import { IAttendanceModelEntity } from "../../domain/Entities/modelEntities/attendance.entity";
+import { listingInput } from "../../application/entities/common.entity";
+import { InputAttendance, pageWiseAttendance } from "../../application/entities/attendance.entity";
 
 
 /**
@@ -14,12 +16,12 @@ export class AttendanceRepository implements IAttendanceRepository {
    * @param input - Attendance details including project, date, and labour details.
    */
   async SaveAttendance(input: InputAttendance): Promise<void> {
-    const { project_id, date, labourDetails } = input;
+    const { selectedProject, selectedDate, row } = input;
 
     const newAttendance = new attendanceDB({
-      project_id,
-      date,
-      labourDetails,
+      project_id:selectedProject,
+      date:selectedDate,
+      labourDetails:row,
       approvalStatus: false
     });
 
@@ -39,17 +41,11 @@ export class AttendanceRepository implements IAttendanceRepository {
     return await attendanceDB.findOne({ project_id, date });
   }
 
-  /**
-   * Fetches paginated attendance records with project details and calculates net amounts.
-   * 
-   * @param input - Pagination and search parameters.
-   * @returns Paginated attendance data with total pages.
-   */
-  async fetchAttendance(input: listingInput): Promise<pageWiseAttendance | null> {
+
+  async fetchAttendance(input: listingInput): Promise<{data:pageWiseAttendance[],totalPage:number}> {
     const { page, search } = input;
     const skip = page * 5;
 
-    // Aggregation to get paginated attendance records
     const data = await attendanceDB.aggregate([
       {
         $addFields: {
@@ -116,7 +112,7 @@ export class AttendanceRepository implements IAttendanceRepository {
     ]);
 
     return {
-      result,
+      data:result,
       totalPage: Math.ceil(numberOfdoc.length / 5)
     };
   }
@@ -162,8 +158,8 @@ export class AttendanceRepository implements IAttendanceRepository {
    * Updates an existing attendance record.
    */
   async UpdateAttendance(input: InputAttendance): Promise<void> {
-    const { _id, project_id, date, labourDetails } = input;
-    await attendanceDB.findByIdAndUpdate(_id, { project_id, date, labourDetails });
+     const { _id,selectedProject, selectedDate, row } = input;
+    await attendanceDB.findByIdAndUpdate(_id, { project_id:selectedProject, date:selectedDate, labourDetails:row });
   }
 
   /**

@@ -1,6 +1,7 @@
-import { commonOutput } from "../../../dto/CommonEntities/common";
-import { specOutput } from "../../../dto/EstimationEntities/specification";
+import { commonOutput } from "../../../dto/common";
+import { listingInput } from "../../../entities/common.entity";
 
-export interface ISpeclistUseCaseEntity {
-   execute(page:number,search:string):Promise<specOutput | commonOutput>
+
+export interface ISpeclistUseCase {
+   execute(input:listingInput): Promise<commonOutput<{data:any[],totalPage:number}> | commonOutput>
 }

@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from "express";
-import { commonOutput } from "../../../../application/dto/CommonEntities/common";
-import { projectOutput } from "../../../../application/dto/ProjectEntities/project";
+import { commonOutput } from "../../../../application/dto/common";
 
-export interface IStageControllerEntity {
-   fetchCost(req: Request, res: Response, next: NextFunction): Promise<commonOutput>
+
+export interface IStageController {
+   fetchCost(req: Request, res: Response, next: NextFunction):Promise<commonOutput<number> | commonOutput> 
    stageSave(req: Request, res: Response, next: NextFunction):  Promise<commonOutput>
    fetchStage(req: Request, res: Response, next: NextFunction): Promise<projectOutput | commonOutput>
    deleteStage(req: Request, res: Response, next: NextFunction):Promise<commonOutput>

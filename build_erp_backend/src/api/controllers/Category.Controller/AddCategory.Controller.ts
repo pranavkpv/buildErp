@@ -1,45 +1,12 @@
 import { Request, Response, NextFunction } from "express";
-import { IAddCategoryControllerEntity } from "../../../domain/Entities/ControllerEntities/Category.Controller.Entities/AddCategory.Controller.Entity";
-import { commonOutput } from "../../../application/dto/CommonEntities/common";
+import { IAddCategoryController } from "../../../domain/Entities/ControllerEntities/Category.Controller.Entities/AddCategory.Controller.Entity";
 import { ISaveCategoryUseCaseEntity } from "../../../application/interfaces/Category.UseCase.Entities/SaveCategoryEntity";
-import { ResponseHelper } from "../../../Shared/responseHelpers/response";
-import { CategoryFailedMessage } from "../../../Shared/Messages/Category.Message";
-import { specialCharacter } from "../../../Shared/Constants/Special.constant";
-import { zeroToNine } from "../../../Shared/Constants/Number.constant";
+import { commonOutput } from "../../../application/dto/common";
 
-export class AddCategoryController implements IAddCategoryControllerEntity {
-   constructor(private addCategoryUseCase: ISaveCategoryUseCaseEntity) { }
+export class AddCategoryController implements IAddCategoryController {
+   constructor(private _addCategoryUseCase: ISaveCategoryUseCaseEntity) { }
    addCategoryHandler = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput | void> => {
-      try {
-         const { category_name, description } = req.body
-         //--------empty category--------//
-         if (category_name.trim() == "") {
-            return ResponseHelper.badRequest(CategoryFailedMessage.NEED_CATEGORY)
-         }
-         //--------atleast 3 character should exist--------//
-         if (category_name.trim().length < 3) {
-            return ResponseHelper.badRequest(CategoryFailedMessage.MIN_SIZE)
-         }
-         //--------atmost 50 characted exist--------//
-         if (category_name.trim().length > 50) {
-            return ResponseHelper.badRequest(CategoryFailedMessage.MAX_SIZE);
-         }
-         //--------Special character shouldn't exist category--------//
-         for (let element of specialCharacter) {
-            if (category_name.includes(element)) {
-               return ResponseHelper.badRequest(CategoryFailedMessage.EXIST_SPECIAL_CHAR)
-            }
-         }
-         //--------Number shouldn't exist category--------//
-         for (let number of zeroToNine) {
-            if (category_name.includes(String(number))) {
-               return ResponseHelper.badRequest(CategoryFailedMessage.EXIST_NUMBER)
-            }
-         }
-         const result = await this.addCategoryUseCase.execute(req.body)
-         return result
-      } catch (error) {
-         next(error)
-      }
+      const result = await this._addCategoryUseCase.execute(req.body)
+      return result
    }
 }

@@ -1,5 +1,8 @@
-import { commonOutput } from "../../dto/CommonEntities/common";
+import { categoryListDTO } from "../../dto/category.dto";
+import { commonOutput } from "../../dto/common";
+import { listingInput } from "../../entities/common.entity";
 
-export interface IDisplayAllCategoryUseCaseEntity{
-   execute(page:number,search:string): Promise<commonOutput>
+
+export interface IDisplayAllCategoryUseCase {
+   execute(input:listingInput): Promise<commonOutput<{data:categoryListDTO[],totalPage:number}> | void>
 }

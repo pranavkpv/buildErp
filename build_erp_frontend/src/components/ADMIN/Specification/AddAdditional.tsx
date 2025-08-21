@@ -62,7 +62,7 @@ function AddAdditionalSpec({ fetchSpecList }: prop) {
     if (!validateForm()) {
       return;
     }
-    const specSave = await SaveSpec(spec_id, spec_name, spec_unit, description, materialDetails, labourDetails, additionalExpense_per, profit_per);
+    const specSave = await SaveSpec({specId:spec_id, specname:spec_name, specUnit:spec_unit, specDescription:description, materialDetails, labourDetails, additionalExpensePer:additionalExpense_per, profitPer:profit_per});
     if (specSave.success) {
       toast.success(specSave.message);
       setAddAdditionalEnable(false);

@@ -1,5 +1,6 @@
-import { commonOutput } from "../../dto/CommonEntities/common";
+import { commonOutput } from "../../../dto/common";
 
-export interface ISaveBrandUseCaseEntity{
-   execute(input: addBrandInput): Promise<commonOutput>
+
+export interface ISaveBrandUseCase{
+   execute(brand_name:string): Promise<commonOutput>
 }

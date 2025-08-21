@@ -1,20 +1,23 @@
-import { commonOutput } from "../../dto/CommonEntities/common";
-import { sitemanagerOutput } from "../../dto/SitemanagerEntities/sitemanager";
-import { ISitemanagerRepositoryEntity } from "../../../domain/interfaces/Site-management/ISitemanagerRepository"
-import { IDisplayAllSitemanagerUseCaseEntity } from "../../interfaces/AdminUseCaseEntities/SiteUseCaseEntities/DisplayAllsitemanagerEntity";
+import { IDisplayAllSitemanagerUseCase } from "../../interfaces/AdminUseCaseEntities/SiteUseCaseEntities/DisplayAllsitemanagerEntity";
 import { SitemanagerSuccessMessage } from "../../../Shared/Messages/Sitemanager.Message";
 import { ResponseHelper } from "../../../Shared/responseHelpers/response";
+import { ISitemanagerRepository } from "../../../domain/interfaces/Site-management/ISitemanagerRepository";
+import { commonOutput } from "../../dto/common";
+import { listSitemanagerDTO } from "../../dto/sitemanager.dto";
+import { listingInput } from "../../entities/common.entity";
+import { ISitemanagerMapper } from "../../../domain/mappers/ISitemanager.mapper";
 
 
 
-export class DisplayAllSitemanagerUseCase implements IDisplayAllSitemanagerUseCaseEntity {
-   private SitemanagerRepository: ISitemanagerRepositoryEntity
-   constructor(SitemanagerRepository: ISitemanagerRepositoryEntity) {
-      this.SitemanagerRepository = SitemanagerRepository
-   }
-   async execute(page: number, search: string): Promise<sitemanagerOutput | commonOutput> {
-      const { getSiteData, totalPage } = await this.SitemanagerRepository.findAllSitemanager({ page, search })
-      return ResponseHelper.success(SitemanagerSuccessMessage.FETCH, getSiteData, totalPage)
+export class DisplayAllSitemanagerUseCase implements IDisplayAllSitemanagerUseCase {
+   constructor(
+      private SitemanagerRepository: ISitemanagerRepository,
+      private _sitemanagermapper: ISitemanagerMapper
+   ) { }
+   async execute(input: listingInput): Promise<commonOutput<{ data: listSitemanagerDTO[], totalPage: number }> | commonOutput> {
+      const { getSiteData, totalPage } = await this.SitemanagerRepository.findAllSitemanager(input)
+      const mappedData = this._sitemanagermapper.toListingSitemanagerDTO(getSiteData)
+      return ResponseHelper.success(SitemanagerSuccessMessage.FETCH, { data: mappedData, totalPage })
    }
 }
 
