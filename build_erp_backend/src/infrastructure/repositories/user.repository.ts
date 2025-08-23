@@ -3,6 +3,7 @@ import { tempUserDB } from "../../api/models/TempUsermodel";
 import { IUserModelEntity } from "../../domain/Entities/modelEntities/user.entity";
 import { ITempUserModelEntity } from "../../domain/Entities/modelEntities/tempUser.entity";
 import { IUserRepository } from "../../domain/interfaces/User-management/IUserRepository";
+import redis from "../database/Redis";
 import { googleLoginInput, updateprofileInput, userSignupinput, usertempSaveInput } from "../../application/entities/user.entity";
 
 export class UserRepository implements IUserRepository {
@@ -53,23 +54,53 @@ export class UserRepository implements IUserRepository {
 
    // Temp user (OTP flow)
    async saveTempUser(user: usertempSaveInput): Promise<void> {
-      const newTempUser = new tempUserDB(user)
-      await newTempUser.save()
+      const key = `tempUser:${ user.email }`;
+
+      await redis.hset(key, {
+         username: user.username,
+         email: user.email,
+         phone: user.phone.toString(),
+         password: user.password,
+         otp: user.otp,
+         otpCreatedAt: user.otpCreatedAt.toISOString(),
+      });
+      await redis.expire(key, 300);
    }
+
    async getTempUserByEmail(email: string): Promise<ITempUserModelEntity | null> {
-      const existEmail = await tempUserDB.findOne({ email })
-      return existEmail
+      const key = `tempUser:${ email }`;
+      const data = await redis.hgetall(key);
+      if (Object.keys(data).length === 0) {
+         return null;
+      }
+
+      const tempUser: ITempUserModelEntity = {
+         _id: data._id || '',
+         username: data.username,
+         email: data.email,
+         phone: Number(data.phone),
+         password: data.password,
+         otp: data.otp,
+         otpCreatedAt: data.otpCreatedAt,
+      };
+
+      return tempUser;
    }
    async getTempUserByEmailAndOTP(email: string, otp: string): Promise<ITempUserModelEntity | null> {
       const ExistUser = await tempUserDB.findOne({ email, otp })
       return ExistUser
    }
    async deleteTempUserByEmail(email: string): Promise<void> {
-      await tempUserDB.deleteMany({ email })
+      const key = `tempUser:${ email }`
+      await redis.del(key);
    }
    async updateTempUserOTP(input: Pick<usertempSaveInput, "email" | "otp" | "otpCreatedAt">): Promise<void> {
-      const { email, otp, otpCreatedAt } = input
-      await tempUserDB.findOneAndUpdate({ email: email }, { $set: { otp, otpCreatedAt } })
+      const key = `tempUser:${ input.email }`;
+      await redis.hset(key, {
+         otp: input.otp,
+         otpCreatedAt: input.otpCreatedAt,
+      });
+
    }
    async createGoogleUser(input: googleLoginInput): Promise<void> {
       const { email, username, profile_image } = input

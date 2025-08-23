@@ -80,7 +80,7 @@ export class App {
       this.app.use(passport.session());
    }
    private setAuthRoute() {
-      this.app.use('/', new authRoute().authRoute)
+      this.app.use('/api/v1/auth', new authRoute().authRoute)
    }
 
    private setUserRoute() {

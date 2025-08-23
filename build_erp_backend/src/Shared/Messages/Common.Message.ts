@@ -1,6 +1,5 @@
-export enum commonFailedMessage {
-    PAGE_NEGATIVE  = "Page must be a positive number",
-    SEARCH_LIMIT = "Search query too long",
-    FIELD_REQUIRED = "The all field in the form is required",
-    
-}
+export const commonFailedMessage = {
+  PAGE_NEGATIVE: "Page number must be a positive integer.",
+  SEARCH_LIMIT: "Search query is too long.",
+  FIELD_REQUIRED: "Required fields are missing.",
+};

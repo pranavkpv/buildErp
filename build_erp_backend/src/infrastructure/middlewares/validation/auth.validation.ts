@@ -6,74 +6,76 @@ import { phoneStart, zeroToNine } from "../../../Shared/Constants/Number.constan
 import { HTTP_STATUS } from "../../../Shared/statusCodes/statusCodes";
 
 
-//signup
-export const validateSignup = (req: Request, res: Response, next: NextFunction): void => {
-   const { username, email, phone, password } = req.body;
 
+type AsyncHandler = (req: Request, res: Response, next: NextFunction) => void;
+
+//signup
+export const validateSignup: AsyncHandler = async (req, res, next) => {
+   const { username, email, phone, password } = req.body;
    if (!username || !email || !phone || !password) {
-      res.status(HTTP_STATUS.BAD_REQUEST).json(commonFailedMessage.FIELD_REQUIRED);
+      res.status(HTTP_STATUS.BAD_REQUEST).json({ success: false, message: commonFailedMessage.FIELD_REQUIRED })
       return
    }
-
    const trimmedUsername = username.trim();
    const trimmedEmail = email.trim();
    const trimmedPhone = phone.trim();
    const trimmedPassword = password.trim();
 
    if (trimmedUsername.length < 3) {
-      res.status(HTTP_STATUS.BAD_REQUEST).json(userFailedMessage.MIN_LIMIT_USER_NAME);
+      res.status(HTTP_STATUS.BAD_REQUEST).json({ success: false, message: userFailedMessage.MIN_LIMIT_USER_NAME })
       return
    }
    if (trimmedUsername.length > 20) {
-      res.status(HTTP_STATUS.BAD_REQUEST).json(userFailedMessage.MAX_LIMIT_USER_NAME);
+      res.status(HTTP_STATUS.BAD_REQUEST).json({ success: false, message: userFailedMessage.MAX_LIMIT_USER_NAME })
       return
    }
 
    for (let char of trimmedUsername) {
       if (char !== " " && !(aToz.includes(char) || AToZ.includes(char))) {
-         res.status(HTTP_STATUS.BAD_REQUEST).json(userFailedMessage.EXIST_CHAR);
+         res.status(HTTP_STATUS.BAD_REQUEST).json({ success: false, message: userFailedMessage.EXIST_CHAR })
          return
       }
    }
 
    if (trimmedEmail.length < 10) {
-      res.status(HTTP_STATUS.BAD_REQUEST).json(userFailedMessage.MIN_LIMIT_EMAIL);
+      res.status(HTTP_STATUS.BAD_REQUEST).json({ success: false, message: userFailedMessage.MIN_LIMIT_EMAIL })
       return
    }
    if (trimmedEmail.length > 50) {
-      res.status(HTTP_STATUS.BAD_REQUEST).json(userFailedMessage.MAX_LIMIT_EMAIL);
+      res.status(HTTP_STATUS.BAD_REQUEST).json({ success: false, message: userFailedMessage.MAX_LIMIT_EMAIL })
       return
    }
    if (!trimmedEmail.includes("@") || !trimmedEmail.includes(".")) {
-      res.status(HTTP_STATUS.BAD_REQUEST).json(userFailedMessage.INVALID_EMAIL);
+      res.status(HTTP_STATUS.BAD_REQUEST).json({ success: false, message: userFailedMessage.INVALID_EMAIL })
       return
    }
    if (trimmedEmail.startsWith("@") || trimmedEmail.endsWith("@") || trimmedEmail.endsWith(".")) {
-      res.status(HTTP_STATUS.BAD_REQUEST).json(userFailedMessage.INVALID_EMAIL);
+      res.status(HTTP_STATUS.BAD_REQUEST).json({ success: false, message: userFailedMessage.INVALID_EMAIL })
       return
    }
 
    for (let char of trimmedPhone) {
-      if (!zeroToNine.map((n) => String(n)).includes(char)) {
-         res.status(HTTP_STATUS.BAD_REQUEST).json(userFailedMessage.INVALID_PHONE);
+      if (!zeroToNine.includes(Number(char))) {
+         res.status(HTTP_STATUS.BAD_REQUEST).json({ success: false, message: userFailedMessage.INVALID_PHONE })
          return
       }
    }
-   if (!phoneStart.includes(trimmedPhone[0])) {
-      res.status(HTTP_STATUS.BAD_REQUEST).json(userFailedMessage.INVALID_PHONE);
+
+   if (!phoneStart.includes(Number(trimmedPhone[0]))) {
+      res.status(HTTP_STATUS.BAD_REQUEST).json({ success: false, message: userFailedMessage.INVALID_PHONE })
       return
    }
    if (trimmedPhone.length !== 10) {
-      res.status(HTTP_STATUS.BAD_REQUEST).json(userFailedMessage.INVALID_PHONE_LENGTH);
+      res.status(HTTP_STATUS.BAD_REQUEST).json({ success: false, message: userFailedMessage.INVALID_PHONE_LENGTH })
       return
    }
 
    if (trimmedPassword.length < 8) {
-      res.status(HTTP_STATUS.BAD_REQUEST).json(userFailedMessage.MIN_LIMIT_PASSWORD);
+      res.status(HTTP_STATUS.BAD_REQUEST).json({ success: false, message: userFailedMessage.MIN_LIMIT_PASSWORD })
       return
    }
    if (trimmedPassword.length > 20) {
-      res.status(HTTP_STATUS.BAD_REQUEST).json(userFailedMessage.MAX_LIMIT_PASSWORD);
+      res.status(HTTP_STATUS.BAD_REQUEST).json({ success: false, message: userFailedMessage.MAX_LIMIT_PASSWORD })
       return
    }
 
@@ -83,17 +85,17 @@ export const validateSignup = (req: Request, res: Response, next: NextFunction):
    const hasSpecial = /[@$!%*?&]/.test(trimmedPassword);
 
    if (!hasUpper || !hasLower || !hasNumber || !hasSpecial) {
-      res.status(HTTP_STATUS.BAD_REQUEST).json(userFailedMessage.WEAK_PASSWORD);
+      res.status(HTTP_STATUS.BAD_REQUEST).json({ success: false, message: userFailedMessage.WEAK_PASSWORD })
       return
    }
-
    next();
 };
+
 
 //verifyOtp
 export const validateVerifyotp = (req: Request, res: Response, next: NextFunction): void => {
    const { otp, email } = req.body
-   if (!email || otp) {
+   if (!email || !otp) {
       res.status(HTTP_STATUS.BAD_REQUEST).json(commonFailedMessage.FIELD_REQUIRED);
       return
    }
@@ -117,6 +119,7 @@ export const validateResendotp = (req: Request, res: Response, next: NextFunctio
       res.status(HTTP_STATUS.BAD_REQUEST).json(userFailedMessage.INVALID_EMAIL)
       return
    }
+   next()
 }
 
 //user login

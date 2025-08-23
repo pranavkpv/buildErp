@@ -78,13 +78,14 @@ function Login() {
     if (credentialResponse.credential) {
       const user:GoogleUser = jwtDecode(credentialResponse.credential)
       const response = await SignInWithGoogle({email:user.email,username:user.given_name+user.family_name,profile_image:user.picture})
+      console.log(response)
       if(response.success){
         toast.success(response.message)
-         localStorage.setItem('accessToken', response.token.accessToken);
+         localStorage.setItem('accessToken', response.data.tokens.accessToken);
         dispatch(login({
-          _id: response.data._id, username: response.data.username,
-          email: response.data.email, phone: response.data.phone,
-          profile_image: response.data?.profile_image, token: response.token.accessToken
+          _id: response.data.userData._id, username: response.data.userData.username,
+          email: response.data.userData.email, phone: response.data.userData.phone,
+          profile_image: response.data?.userData.profile_image, token: response.data.tokens.accessToken
         }))
          setTimeout(() => {
           navigate('/');

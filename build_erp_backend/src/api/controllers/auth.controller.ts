@@ -48,7 +48,7 @@ export class AuthController implements IAuthController {
    }
 
    resendSignupOtp = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
-      return await this._resendOtpUseCase.execute(req.body);
+      return await this._resendOtpUseCase.execute(req.body.email);
    }
 
    login = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput<{ userData: userLoginDTO; tokens: Tokens }> | commonOutput> => {

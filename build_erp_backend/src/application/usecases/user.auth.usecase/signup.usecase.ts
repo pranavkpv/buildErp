@@ -15,10 +15,10 @@ export class SignupUserUseCase implements ISignupUserUseCase {
       const existUser = await this._userRepository.getUserByEmail(email)
       const existPhone = await this._userRepository.getUserByPhone(phone)
       if (existUser) {
-         return ResponseHelper.conflictData(userFailedMessage.EXIST_GOOGLE)
+         return ResponseHelper.conflictData(userFailedMessage.EMAIL_EXIST)
       }
       if (existPhone) {
-         return ResponseHelper.conflictData(userFailedMessage.EXIST_GOOGLE)
+         return ResponseHelper.conflictData(userFailedMessage.PHONE_EXIST)
       }
 
       const otp = (Math.floor(100000 + Math.random() * 900000)).toString()

@@ -6,6 +6,4 @@ export interface ITempUserModelEntity {
    password:string
    otp?:string
    otpCreatedAt?:string
-   createdAt: Date
-   updatedAt: Date
 }

@@ -4,8 +4,12 @@ import type { loginInterface, loginwithGoogleInterface, signupInterface, statusB
 // ---------------- User Signup ---------------- //
 
 export const userSignupApi = async (input: signupInterface) => {
-   const response = await authAxios.post('/signup', input)
-   return response.data
+   try {
+      const response = await authAxios.post('/signup', input)
+      return response.data
+   } catch (error: any) {
+      console.log(error)
+   }
 
 }
 

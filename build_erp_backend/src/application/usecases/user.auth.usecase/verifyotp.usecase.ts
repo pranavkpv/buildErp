@@ -12,7 +12,7 @@ export class VerifyOTPUseCases implements IVerifyOTPUseCase {
    constructor(private _userRepository: IUserRepository, private _hasher: IHasher) { }
    async execute(input: verifyOtpInput): Promise<commonOutput> {
       const { otp, email } = input
-      const ExistUser = await this._userRepository.getTempUserByEmailAndOTP(email, otp)
+      const ExistUser = await this._userRepository.getTempUserByEmail(email)
       if (!ExistUser) {
          return ResponseHelper.conflictData(userFailedMessage.OTP_WRONG)
       }
@@ -21,7 +21,6 @@ export class VerifyOTPUseCases implements IVerifyOTPUseCase {
       }
       const exitOtp = new Date(ExistUser.otpCreatedAt).getTime();
       const now = Date.now();
-      console.log(now - exitOtp)
       if ((now - exitOtp) > 45 * 1000) {
          return ResponseHelper.conflictData(userFailedMessage.EXPIRE_OTP)
       }
