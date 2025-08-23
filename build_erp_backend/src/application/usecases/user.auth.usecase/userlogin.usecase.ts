@@ -9,6 +9,7 @@ import { IUserRepository } from "../../../domain/interfaces/User-management/IUse
 import { commonOutput } from "../../dto/common"
 import { userLoginDTO } from "../../dto/user.dto"
 import { Tokens } from "../../entities/token.entity"
+import { Role } from "../../../Shared/Constants/Role.constant"
 
 
 export class UserLoginUseCase implements IUserLoginUseCase {
@@ -29,7 +30,7 @@ export class UserLoginUseCase implements IUserLoginUseCase {
          return ResponseHelper.conflictData(userFailedMessage.INVALID_PASSWORD)
       }
       const mappedUser = this._usermapper.touserLoginDTO(existUser)
-      const tokens = this._jwtService.generateTokens(existUser._id, existUser.email, "user")
+      const tokens = this._jwtService.generateTokens(existUser._id, existUser.email, Role.USER)
       return ResponseHelper.success(userSuccessMessage.LOGIN, { userData: mappedUser, tokens })
    }
 }

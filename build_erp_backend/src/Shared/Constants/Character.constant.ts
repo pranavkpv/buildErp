@@ -10,3 +10,5 @@ export const AToZ = [
   "U","V","W","X","Y","Z"
 ];
 
+export const googleAuthPassword = "googelAuthpassword"
+

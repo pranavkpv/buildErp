@@ -1,4 +1,4 @@
-import adminAxios from '../axios/AdminAxioInterceptors'
+import adminAxios from '../axios/adminAxios'
 
 export const getSitemanageridandname = async () => {
    const response = await adminAxios.get(`/addSiteToSiteData`);

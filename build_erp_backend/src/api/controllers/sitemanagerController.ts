@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express"
 import { ISitemanagerControllerEntity } from "../../domain/Entities/ControllerEntities/AdminControllerEntities/ISitemanagerControllerEntity"
-import {IDisplayAllSitemanagerUseCase } from "../../application/interfaces/AdminUseCaseEntities/SiteUseCaseEntities/DisplayAllsitemanagerEntity"
+import { IDisplayAllSitemanagerUseCase } from "../../application/interfaces/AdminUseCaseEntities/SiteUseCaseEntities/DisplayAllsitemanagerEntity"
 import { IUpdateSitemanagerUseCase } from "../../application/interfaces/AdminUseCaseEntities/SiteUseCaseEntities/UpdateSitemanagerEntity"
 import { ISaveSitemanagerUseCase } from "../../application/interfaces/AdminUseCaseEntities/SiteUseCaseEntities/SaveSitemanagerEntity"
 import { IDeleteSitemanagerUseCase } from "../../application/interfaces/AdminUseCaseEntities/SiteUseCaseEntities/DeleteSitemanagerEntity"
@@ -13,6 +13,8 @@ import { listSitemanagerDTO } from "../../application/dto/sitemanager.dto"
 import { ISitemanagerModelEntity } from "../../domain/Entities/modelEntities/sitemanager.entity"
 import { Tokens } from "../../application/entities/token.entity"
 import { IProjectModelEntity } from "../../domain/Entities/modelEntities/project.entity"
+import { IJwtService } from "../../domain/Entities/Service.Entities/IJwtservice"
+import { IBlackListUseCase } from "../../application/interfaces/UserUseCaseEntities/AuthenticationUseCaseEntities/IBlackListAccessToken.Usecase"
 
 
 
@@ -24,15 +26,17 @@ export class SitemanagerController implements ISitemanagerControllerEntity {
       private _editSitemanagerUsecase: IUpdateSitemanagerUseCase,
       private _deleteSitemanagerUseCase: IDeleteSitemanagerUseCase,
       private sitemanagerLoginUseCase: ISitemanagerLoginUseCaseEntity,
-      private listProjectUseCase: IListProjectUseCaseEntity
+      private listProjectUseCase: IListProjectUseCaseEntity,
+      private _jwtservice: IJwtService,
+      private _blacklistusecase:IBlackListUseCase
    ) { }
 
 
    //------------------------------------ List sitemanager with search and pagination ------------------------------------//
 
-   getSitemanager = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput<{data:listSitemanagerDTO[],totalPage:number}> | commonOutput> => {
+   getSitemanager = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput<{ data: listSitemanagerDTO[], totalPage: number }> | commonOutput> => {
       const { page, search } = req.query
-      const result = await this._displayAllSitemanagerUseCase.execute({page:Number(page), search:String(search)})
+      const result = await this._displayAllSitemanagerUseCase.execute({ page: Number(page), search: String(search) })
       return result
    }
 
@@ -59,10 +63,10 @@ export class SitemanagerController implements ISitemanagerControllerEntity {
 
    //------------------------------------ Login sitemanager  ------------------------------------//
 
-   loginSitemanager = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput<{data:ISitemanagerModelEntity,token:Tokens}> | commonOutput> => {
+   loginSitemanager = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput<{ data: ISitemanagerModelEntity, token: Tokens }> | commonOutput> => {
       const { email, password } = req.body
       const result = await this.sitemanagerLoginUseCase.execute(email, password)
-      if(!result.data){
+      if (!result.data) {
          return ResponseHelper.conflictData(userFailedMessage.ERROR)
       }
       if (result.success && result.data.token?.refreshToken) {
@@ -82,13 +86,26 @@ export class SitemanagerController implements ISitemanagerControllerEntity {
    //------------------------------------ Logout sitemanager ------------------------------------//
 
    logoutSitemanager = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
-      res.clearCookie('refreshToken', {
+      const userHeader = req.headers.authorization
+      const accessToken = userHeader?.split(" ")[1]
+      if (!accessToken) {
+         return ResponseHelper.unAuthor()
+      }
+      const payload = await this._jwtservice.verifyAccessToken(accessToken);
+      if (!payload) {
+         return ResponseHelper.unAuthor()
+      }
+      res.clearCookie("refreshToken", {
          httpOnly: true,
-         secure: process.env.NODE_ENV === "production",
          sameSite: "lax",
-         path: '/',
+         secure: process.env.NODE_ENV === "production"
       });
-      return ResponseHelper.success(userSuccessMessage.LOGOUT)
+      const blackList = await this._blacklistusecase.execute(accessToken)
+      if (!blackList) {
+         return ResponseHelper.conflictData(userFailedMessage.BLACK_LIST_FAIL)
+      }
+      return ResponseHelper.success(userSuccessMessage.LOGOUT);
+    
    }
 
 

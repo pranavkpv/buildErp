@@ -26,4 +26,7 @@ export interface IUserRepository {
    getTempUserByEmailAndOTP(email: string, otp: string): Promise<ITempUserModelEntity | null>;
    updateTempUserOTP(input: Pick<usertempSaveInput, "email" | "otp" | "otpCreatedAt">): Promise<void>;
    deleteTempUserByEmail(email: string): Promise<void>;
+
+   //store accessToken in blacklist
+   blackListToken(accessToken:string):Promise<boolean>
 }

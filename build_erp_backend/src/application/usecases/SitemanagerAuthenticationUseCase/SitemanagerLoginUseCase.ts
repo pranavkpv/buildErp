@@ -7,6 +7,7 @@ import { IHasher } from "../../../domain/interfaces/Auth-management/IHasher"
 import { commonOutput } from "../../dto/common"
 import { ISitemanagerModelEntity } from "../../../domain/Entities/modelEntities/sitemanager.entity"
 import { Tokens } from "../../entities/token.entity"
+import { Role } from "../../../Shared/Constants/Role.constant"
 
 export class SitemanagerLoginUseCase implements ISitemanagerLoginUseCaseEntity {
    constructor(
@@ -23,7 +24,7 @@ export class SitemanagerLoginUseCase implements ISitemanagerLoginUseCaseEntity {
       if (!passwordCheck) {
          return ResponseHelper.badRequest(SitemanagerFailedMessage.INVALID_PASSWORD)
       }
-      const token = this.jwtService.generateTokens(existSitemanager._id, existSitemanager.email, "sitemanager")
+      const token = this.jwtService.generateTokens(existSitemanager._id, existSitemanager.email, Role.SITEMANAGER)
       return ResponseHelper.success(SitemanagerSuccessMessage.LOGIN,{data:existSitemanager,token})
    }
 }

@@ -7,6 +7,7 @@ import { commonOutput } from "../../dto/common"
 import { inputAdmin } from "../../entities/admin.entity"
 import { IAdminModelEntity } from "../../../domain/Entities/modelEntities/admin.entity"
 import { Tokens } from "../../entities/token.entity"
+import { Role } from "../../../Shared/Constants/Role.constant"
 
 
 export class AdminLoginUseCase implements IAdminLoginUseCaseEntity {
@@ -21,7 +22,7 @@ export class AdminLoginUseCase implements IAdminLoginUseCaseEntity {
       if (!existAdmin) {
          return ResponseHelper.conflictData(userFailedMessage.INVALID_USER)
       }
-      const token = this.jwtservice.generateTokens(existAdmin._id, existAdmin.username, "admin")
+      const token = this.jwtservice.generateTokens(existAdmin._id, existAdmin.username, Role.ADMIN)
       return ResponseHelper.success(userSuccessMessage.LOGIN, {data:existAdmin,token})
    }
 }

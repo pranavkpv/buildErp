@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import adminAxios from "../../axios/AdminAxioInterceptors"
+import adminAxios from "../../axios/adminAxios"
 import type { brandInput } from "../../ApiInterface/BrandApiInterface";
 import type { listingInput } from "../../ApiInterface/CommonApiInterface";
 

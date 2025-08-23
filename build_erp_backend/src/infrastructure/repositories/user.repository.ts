@@ -5,6 +5,7 @@ import { ITempUserModelEntity } from "../../domain/Entities/modelEntities/tempUs
 import { IUserRepository } from "../../domain/interfaces/User-management/IUserRepository";
 import redis from "../database/Redis";
 import { googleLoginInput, updateprofileInput, userSignupinput, usertempSaveInput } from "../../application/entities/user.entity";
+import { googleAuthPassword } from "../../Shared/Constants/Character.constant";
 
 export class UserRepository implements IUserRepository {
    // User finders
@@ -27,11 +28,11 @@ export class UserRepository implements IUserRepository {
 
    // Auth-specific user finders
    async getAuthUserByEmail(email: string): Promise<IUserModelEntity | null> {
-      const existUser = await userDB.findOne({ email, password: { $ne: "googleAuth001" } })
+      const existUser = await userDB.findOne({ email, password: { $ne: googleAuthPassword } })
       return existUser
    }
    async checkUserExistsByEmail(email: string): Promise<IUserModelEntity | null> {
-      const existUser = await userDB.findOne({ email, password: "googleAuth001" })
+      const existUser = await userDB.findOne({ email, password: googleAuthPassword })
       return existUser
    }
 
@@ -111,5 +112,10 @@ export class UserRepository implements IUserRepository {
          password: "googelAuthpassword"
       })
       await newUser.save()
+   }
+   async blackListToken(accessToken: string): Promise<boolean> {
+      await redis.set(`blackList:${ accessToken }`, "success")
+      await redis.expire(`blackList:${ accessToken }`, 300);
+      return true
    }
 }

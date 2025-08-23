@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { withLogging } from "../../../infrastructure/middlewares/withLoggingMiddleware";
-import { validateforgotOtpSend, validateResendotp, validateSignup, validateuserLogin, validateVerifyotp } from "../../../infrastructure/middlewares/validation/auth.validation";
+import { validateForgotOtpSend, validateResendotp, validateSignup, validateUserLogin, validateVerifyotp } from "../../../infrastructure/middlewares/validation/auth.validation";
 import { injectAuthController } from "../../di/auth.injection";
 
 
@@ -32,7 +32,7 @@ export class authRoute {
         //login
         this.authRoute.post(
             "/login",
-            validateuserLogin,
+            validateUserLogin,
             withLogging(injectAuthController.login)
         );
         //google login
@@ -43,7 +43,7 @@ export class authRoute {
         //forgot otp send
         this.authRoute.post(
             "/forgotOTP",
-            validateforgotOtpSend,
+            validateForgotOtpSend,
             withLogging(injectAuthController.sendOtp)
         );
         //verify the forgot password otp
@@ -55,7 +55,6 @@ export class authRoute {
         //updatepassword
         this.authRoute.put(
             "/updatepassword",
-            validateuserLogin,
             withLogging(injectAuthController.updatePassword)
         );
         //all project fetch

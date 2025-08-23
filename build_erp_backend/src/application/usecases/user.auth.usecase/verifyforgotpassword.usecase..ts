@@ -6,7 +6,6 @@ import { commonOutput } from "../../dto/common";
 import { IUserRepository } from "../../../domain/interfaces/User-management/IUserRepository";
 
 export class VerifyForgotUseCase implements IVerifyForgotpasswordUseCase {
-
    constructor(private _userRepository: IUserRepository) { }
    async execute(input: verifyOtpInput): Promise<commonOutput> {
       const { otp, email } = input

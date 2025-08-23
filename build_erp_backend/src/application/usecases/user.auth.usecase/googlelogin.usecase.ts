@@ -8,6 +8,7 @@ import { Tokens } from "../../entities/token.entity";
 import { googleLoginInput } from "../../entities/user.entity";
 import { commonOutput } from "../../dto/common";
 import { IUserMapper } from "../../../domain/mappers/IUser.mapper";
+import { Role } from "../../../Shared/Constants/Role.constant";
 
 export class GoogleloginUseCase implements IGoogleloginUseCase {
    constructor(
@@ -24,7 +25,7 @@ export class GoogleloginUseCase implements IGoogleloginUseCase {
       const existAuthUser = await this._userRepository.checkUserExistsByEmail(email)
       if (existAuthUser) {
          const mappedUser = this._usermapper.touserLoginDTO(existAuthUser)
-         const tokens = this._jwtService.generateTokens(existAuthUser._id, existAuthUser.email, "user")
+         const tokens = this._jwtService.generateTokens(existAuthUser._id, existAuthUser.email, Role.USER)
          return ResponseHelper.success(userSuccessMessage.LOGIN, { userData: mappedUser, tokens })
       }
       await this._userRepository.createGoogleUser({ email, username, profile_image })
@@ -33,7 +34,7 @@ export class GoogleloginUseCase implements IGoogleloginUseCase {
          return ResponseHelper.badRequest(userFailedMessage.USER_NOT_FOUND)
       }
       const mappedUser = this._usermapper.touserLoginDTO(savedUser)
-      const tokens = this._jwtService.generateTokens(savedUser._id, savedUser.email, "user")
+      const tokens = this._jwtService.generateTokens(savedUser._id, savedUser.email, Role.USER)
       return ResponseHelper.success(userSuccessMessage.LOGIN, { userData: mappedUser, tokens })
    }
 }

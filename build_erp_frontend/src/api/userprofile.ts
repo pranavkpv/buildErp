@@ -1,5 +1,5 @@
 import type { updatePasswordInterface, updateProfileInterface } from "ApiInterface/userprofile.interface";
-import userAxios from "../axios/UserAxioInterceptors";
+import userAxios from "../axios/userAxios";
 
 // ---------------- Update profile ---------------- //
 

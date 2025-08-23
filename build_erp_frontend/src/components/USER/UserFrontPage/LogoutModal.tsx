@@ -12,18 +12,28 @@ type logoutProp = {
 function LogoutModal({ logoutEnable, setLogoutEnable }: logoutProp) {
   if (!logoutEnable) return null;
   const dispatch = useDispatch()
-  const navigate = useNavigate()
+
 
   const logoutFun = async () => {
+    try {
       const data = await userLogout();
+      console.log(data);
+
       if (data.success) {
         localStorage.removeItem("accessToken");
         toast.success(data.message);
-        dispatch(logout())
+        dispatch(logout());
         setLogoutEnable(false);
-        navigate("/")
+      } else {
+        toast.error(data.message || "Logout failed");
       }
+    } catch (error: any) {
+      console.error(error);
+      toast.error(error.message || "Something went wrong");
+    }
   };
+
+
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 transition-opacity duration-300">
@@ -47,6 +57,7 @@ function LogoutModal({ logoutEnable, setLogoutEnable }: logoutProp) {
             Cancel
           </button>
           <button
+            type="button"
             onClick={logoutFun}
             className="px-4 py-2 text-white bg-[#04a09c] hover:bg-[#04a09c] rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-900"
           >

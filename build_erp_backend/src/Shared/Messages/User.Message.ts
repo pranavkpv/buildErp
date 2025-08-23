@@ -25,7 +25,10 @@ export const userFailedMessage = {
   INVALID_OTP: "OTP is invalid.",
   PASSWORD_NOT_MATCH: "Passwords do not match.",
   EMAIL_EXIST:"User email already exist",
-  PHONE_EXIST:"User phone number already exist"
+  PHONE_EXIST:"User phone number already exist",
+  BLACK_LIST_FAIL:"Black list the token is faled",
+  TOKEN_BLACK_LIST:"This token expires so you can't accessible",
+  TOKEN_EXPIRE:"This token is expire tyr again"
 } 
 
 export const userSuccessMessage = {
@@ -38,5 +41,6 @@ export const userSuccessMessage = {
   CONFIRM_OTP: "OTP confirmed. You may now change your password.",
   REGISTER: "User registered successfully.",
   LOGOUT: "User logged out successfully.",
-  ACCESSTOKEN_CREATE: "New access token created successfully."
+  ACCESSTOKEN_CREATE: "New access token created successfully.",
+  BLACK_LIST_SUCCESS: "Token black listed successfully"
 } 

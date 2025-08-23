@@ -15,8 +15,8 @@ import { userBasechatListDTO, userBaseProjectDTO } from "../../application/dto/p
 import { IGetSitemanagerListDataUseCase } from "../../application/interfaces/UserUseCaseEntities/ProjectDisplayUseCaseEntities/GetSitemanagerListUseCase";
 import { chatDataDTO } from "../../application/dto/chat.dto";
 import { IGetMessageDataUseCase } from "../../application/interfaces/UserUseCaseEntities/ChatUseCaseEntities/GetmessageDatauseCase";
-import { userSuccessMessage } from "../../Shared/Messages/User.Message";
-import { IRefreshTokenUseCase } from "../../application/interfaces/useCase.Entity/Auth.UseCase/RefreshToken.UseCase.Entity";
+import { userFailedMessage, userSuccessMessage } from "../../Shared/Messages/User.Message";
+import { IBlackListUseCase } from "../../application/interfaces/UserUseCaseEntities/AuthenticationUseCaseEntities/IBlackListAccessToken.Usecase";
 
 export class userprofileController implements IUserprofileController {
    constructor(
@@ -26,7 +26,8 @@ export class userprofileController implements IUserprofileController {
       private _changePasswordUseCase: IChangePasswordUseCase,
       private _fetchUserprojectUseCase: IFetchUserProjectUseCase,
       private _getChatListUseCase: IGetSitemanagerListDataUseCase,
-      private _getMessagesUseCase: IGetMessageDataUseCase
+      private _getMessagesUseCase: IGetMessageDataUseCase,
+      private _blacklistUsecase: IBlackListUseCase
    ) { }
 
    updateProfile = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput<{ userData: userLoginDTO; tokens: Tokens }> | commonOutput> => {
@@ -113,17 +114,29 @@ export class userprofileController implements IUserprofileController {
       if (!payload) {
          return ResponseHelper.unAuthor()
       }
-      if (!payload) return ResponseHelper.unAuthor();
       const sitemanagerId = req.params.id
       return await this._getMessagesUseCase.execute(payload._id, sitemanagerId);
    }
 
    logout = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput> => {
+      const userHeader = req.headers.authorization
+      const accessToken = userHeader?.split(" ")[1]
+      if (!accessToken) {
+         return ResponseHelper.unAuthor()
+      }
+      const payload = await this._jwtservice.verifyAccessToken(accessToken);
+      if (!payload) {
+         return ResponseHelper.unAuthor()
+      }
       res.clearCookie("refreshToken", {
          httpOnly: true,
          sameSite: "lax",
          secure: process.env.NODE_ENV === "production"
       });
+      const blackList = await this._blacklistUsecase.execute(accessToken)
+      if(!blackList){
+         return ResponseHelper.conflictData(userFailedMessage.BLACK_LIST_FAIL)
+      }
       return ResponseHelper.success(userSuccessMessage.LOGOUT);
    }
 }

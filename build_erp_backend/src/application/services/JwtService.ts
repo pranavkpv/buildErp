@@ -1,6 +1,6 @@
 import { createTokenInput, JwtPayloadData, Tokens } from '../entities/token.entity';
 import { IJwtService } from '../../domain/Entities/Service.Entities/IJwtservice';
-import jwt from 'jsonwebtoken'
+import jwt, { TokenExpiredError } from 'jsonwebtoken'
 
 
 
@@ -39,8 +39,11 @@ export class JwtService implements IJwtService {
   verifyAccessToken(token: string): JwtPayloadData | null {
     try {
       return jwt.verify(token, this.accessSecret) as JwtPayloadData;
-    } catch {
-      return null;
+    } catch(error:any) {
+      if (error instanceof TokenExpiredError) {
+        return null; 
+      }
+      throw error; 
     }
   }
 

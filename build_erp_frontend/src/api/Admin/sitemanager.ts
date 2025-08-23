@@ -1,4 +1,4 @@
-import adminAxios from "../../axios/AdminAxioInterceptors"
+import adminAxios from "../../axios/adminAxios"
 
 // ---------------- Add Site Manager ---------------- //
 

@@ -8,11 +8,11 @@ import { jwtDecode } from 'jwt-decode';
 import { SignInWithGoogle, userLoginAPI } from '../../api/auth';
 
 
-type GoogleUser ={
-  email:string
-  given_name:string
-  family_name:string
-  picture:string
+type GoogleUser = {
+  email: string
+  given_name: string
+  family_name: string
+  picture: string
 }
 
 
@@ -54,46 +54,45 @@ function Login() {
     if (hasError) {
       return;
     }
-      const response = await userLoginAPI({email, password})
-      if (response.success) {
-        toast.success(response.message);
-        localStorage.setItem('accessToken', response.token.accessToken);
-        dispatch(login({
-          _id: response.data._id, 
-          username: response.data.username,
-          email: response.data.email, 
-          phone: response.data.phone,
-          profile_image: response.data?.profile_image, 
-          token: response.token.accessToken
-        }))
-        setTimeout(() => {
-          navigate('/');
-        }, 3000);
-      } else {
-        toast.error(response.message);
-      }
+    const response = await userLoginAPI({ email, password })
+    if (response.success) {
+      toast.success(response.message);
+      localStorage.setItem('accessToken', response.data.tokens.accessToken);
+      dispatch(login({
+        _id: response.data.userData._id,
+        username: response.data.userData.username,
+        email: response.data.userData.email,
+        phone: response.data.userData.phone,
+        profile_image: response.data?.userData.profile_image,
+        token: response.data.tokens.accessToken
+      }))
+      setTimeout(() => {
+        navigate('/');
+      }, 3000);
+    } else {
+      toast.error(response.message);
+    }
   };
 
   const loginWithGoogle = async (credentialResponse: CredentialResponse) => {
     if (credentialResponse.credential) {
-      const user:GoogleUser = jwtDecode(credentialResponse.credential)
-      const response = await SignInWithGoogle({email:user.email,username:user.given_name+user.family_name,profile_image:user.picture})
-      console.log(response)
-      if(response.success){
+      const user: GoogleUser = jwtDecode(credentialResponse.credential)
+      const response = await SignInWithGoogle({ email: user.email, username: user.given_name + user.family_name, profile_image: user.picture })
+      if (response.success) {
         toast.success(response.message)
-         localStorage.setItem('accessToken', response.data.tokens.accessToken);
+        localStorage.setItem('accessToken', response.data.tokens.accessToken);
         dispatch(login({
           _id: response.data.userData._id, username: response.data.userData.username,
           email: response.data.userData.email, phone: response.data.userData.phone,
           profile_image: response.data?.userData.profile_image, token: response.data.tokens.accessToken
         }))
-         setTimeout(() => {
+        setTimeout(() => {
           navigate('/');
         }, 3000)
       } else {
         toast.error(response.message);
       }
-     
+
     } else {
       console.error("No credential found");
     }

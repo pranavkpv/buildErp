@@ -1,4 +1,4 @@
-import authAxios from "../axios/authAxios"
+import authAxios from "../axios/commonAxios"
 import type { loginInterface, loginwithGoogleInterface, signupInterface, statusBaseProjectInterface, verifyOtpInterface } from "ApiInterface/authapi.interface";
 
 // ---------------- User Signup ---------------- //

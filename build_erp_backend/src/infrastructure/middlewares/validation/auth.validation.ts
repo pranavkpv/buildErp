@@ -96,16 +96,16 @@ export const validateSignup: AsyncHandler = async (req, res, next) => {
 export const validateVerifyotp = (req: Request, res: Response, next: NextFunction): void => {
    const { otp, email } = req.body
    if (!email || !otp) {
-      res.status(HTTP_STATUS.BAD_REQUEST).json(commonFailedMessage.FIELD_REQUIRED);
+      res.status(HTTP_STATUS.BAD_REQUEST).json({success:false,message:commonFailedMessage.FIELD_REQUIRED});
       return
    }
    if (otp.length != 6) {
-      res.status(HTTP_STATUS.BAD_REQUEST).json(userFailedMessage.MIS_MATCH_OTP_LENGTH)
+      res.status(HTTP_STATUS.BAD_REQUEST).json({success:false,message:userFailedMessage.MIS_MATCH_OTP_LENGTH})
       return
    }
    for (let item of otp) {
       if (!zeroToNine.includes(Number(item))) {
-         res.status(HTTP_STATUS.BAD_REQUEST).json(userFailedMessage.INVALID_OTP)
+         res.status(HTTP_STATUS.BAD_REQUEST).json({success:false,message:userFailedMessage.INVALID_OTP})
          return
       }
    }
@@ -116,80 +116,97 @@ export const validateVerifyotp = (req: Request, res: Response, next: NextFunctio
 export const validateResendotp = (req: Request, res: Response, next: NextFunction): void => {
    const { email } = req.body
    if (!email) {
-      res.status(HTTP_STATUS.BAD_REQUEST).json(userFailedMessage.INVALID_EMAIL)
+      res.status(HTTP_STATUS.BAD_REQUEST).json({success:false,message:userFailedMessage.INVALID_EMAIL})
       return
    }
    next()
 }
 
 //user login
-export const validateuserLogin = (req: Request, res: Response, next: NextFunction): void => {
-   const { email, password } = req.body
-   if (!email || !password) {
-      res.status(HTTP_STATUS.BAD_REQUEST).json(commonFailedMessage.FIELD_REQUIRED);
-      return
-   }
-   const trimmedEmail = email.trim();
-   const trimmedPassword = password.trim();
-   if (trimmedEmail.length < 10) {
-      res.status(HTTP_STATUS.BAD_REQUEST).json(userFailedMessage.MIN_LIMIT_EMAIL);
-      return
-   }
-   if (trimmedEmail.length > 50) {
-      res.status(HTTP_STATUS.BAD_REQUEST).json(userFailedMessage.MAX_LIMIT_EMAIL);
-      return
-   }
-   if (!trimmedEmail.includes("@") || !trimmedEmail.includes(".")) {
-      res.status(HTTP_STATUS.BAD_REQUEST).json(userFailedMessage.INVALID_EMAIL);
-      return
-   }
-   if (trimmedEmail.startsWith("@") || trimmedEmail.endsWith("@") || trimmedEmail.endsWith(".")) {
-      res.status(HTTP_STATUS.BAD_REQUEST).json(userFailedMessage.INVALID_EMAIL);
-      return
-   }
-   if (trimmedPassword.length < 8) {
-      res.status(HTTP_STATUS.BAD_REQUEST).json(userFailedMessage.MIN_LIMIT_PASSWORD);
-      return
-   }
-   if (trimmedPassword.length > 20) {
-      res.status(HTTP_STATUS.BAD_REQUEST).json(userFailedMessage.MAX_LIMIT_PASSWORD);
-      return
-   }
-   const hasUpper = /[A-Z]/.test(trimmedPassword);
-   const hasLower = /[a-z]/.test(trimmedPassword);
-   const hasNumber = /[0-9]/.test(trimmedPassword);
-   const hasSpecial = /[@$!%*?&]/.test(trimmedPassword);
+export const validateUserLogin = (req: Request, res: Response, next: NextFunction): void => {
+    const { email, password } = req.body;
 
-   if (!hasUpper || !hasLower || !hasNumber || !hasSpecial) {
-      res.status(HTTP_STATUS.BAD_REQUEST).json(userFailedMessage.WEAK_PASSWORD);
-      return
-   }
-   next()
-}
+    if (!email || !password) {
+        res.status(HTTP_STATUS.BAD_REQUEST).json({ success: false, message: commonFailedMessage.FIELD_REQUIRED });
+        return;
+    }
+
+    const trimmedEmail = email.trim();
+    const trimmedPassword = password.trim();
+
+    if (trimmedEmail.length < 10) {
+        res.status(HTTP_STATUS.BAD_REQUEST).json({ success: false, message: userFailedMessage.MIN_LIMIT_EMAIL });
+        return;
+    }
+
+    if (trimmedEmail.length > 50) {
+        res.status(HTTP_STATUS.BAD_REQUEST).json({ success: false, message: userFailedMessage.MAX_LIMIT_EMAIL });
+        return;
+    }
+
+    if (!trimmedEmail.includes("@") || !trimmedEmail.includes(".")) {
+        res.status(HTTP_STATUS.BAD_REQUEST).json({ success: false, message: userFailedMessage.INVALID_EMAIL });
+        return;
+    }
+
+    if (trimmedEmail.startsWith("@") || trimmedEmail.endsWith("@") || trimmedEmail.endsWith(".")) {
+        res.status(HTTP_STATUS.BAD_REQUEST).json({ success: false, message: userFailedMessage.INVALID_EMAIL });
+        return;
+    }
+
+    if (trimmedPassword.length < 8) {
+        res.status(HTTP_STATUS.BAD_REQUEST).json({ success: false, message: userFailedMessage.MIN_LIMIT_PASSWORD });
+        return;
+    }
+
+    if (trimmedPassword.length > 20) {
+        res.status(HTTP_STATUS.BAD_REQUEST).json({ success: false, message: userFailedMessage.MAX_LIMIT_PASSWORD });
+        return;
+    }
+
+    const hasUpper = /[A-Z]/.test(trimmedPassword);
+    const hasLower = /[a-z]/.test(trimmedPassword);
+    const hasNumber = /[0-9]/.test(trimmedPassword);
+    const hasSpecial = /[@$!%*?&]/.test(trimmedPassword);
+
+    if (!hasUpper || !hasLower || !hasNumber || !hasSpecial) {
+        res.status(HTTP_STATUS.BAD_REQUEST).json({ success: false, message: userFailedMessage.WEAK_PASSWORD });
+        return;
+    }
+
+    next();
+};
 
 //forgot otp send
-export const validateforgotOtpSend = (req: Request, res: Response, next: NextFunction): void => {
-   const { email } = req.body
-   if (!email) {
-      res.status(HTTP_STATUS.BAD_REQUEST).json(commonFailedMessage.FIELD_REQUIRED);
-      return
-   }
-   const trimmedEmail = email.trim();
-   if (trimmedEmail.length < 10) {
-      res.status(HTTP_STATUS.BAD_REQUEST).json(userFailedMessage.MIN_LIMIT_EMAIL);
-      return
-   }
-   if (trimmedEmail.length > 50) {
-      res.status(HTTP_STATUS.BAD_REQUEST).json(userFailedMessage.MAX_LIMIT_EMAIL);
-      return
-   }
-   if (!trimmedEmail.includes("@") || !trimmedEmail.includes(".")) {
-      res.status(HTTP_STATUS.BAD_REQUEST).json(userFailedMessage.INVALID_EMAIL);
-      return
-   }
-   if (trimmedEmail.startsWith("@") || trimmedEmail.endsWith("@") || trimmedEmail.endsWith(".")) {
-      res.status(HTTP_STATUS.BAD_REQUEST).json(userFailedMessage.INVALID_EMAIL);
-      return
-   }
-   next()
-}
+export const validateForgotOtpSend = (req: Request, res: Response, next: NextFunction): void => {
+    const { email } = req.body;
+
+    if (!email) {
+        res.status(HTTP_STATUS.BAD_REQUEST).json({ success: false, message: commonFailedMessage.FIELD_REQUIRED });
+        return;
+    }
+
+    const trimmedEmail = email.trim();
+
+    if (trimmedEmail.length < 10) {
+        res.status(HTTP_STATUS.BAD_REQUEST).json({ success: false, message: userFailedMessage.MIN_LIMIT_EMAIL });
+        return;
+    }
+
+    if (trimmedEmail.length > 50) {
+        res.status(HTTP_STATUS.BAD_REQUEST).json({ success: false, message: userFailedMessage.MAX_LIMIT_EMAIL });
+        return;
+    }
+
+    if (!trimmedEmail.includes("@") || !trimmedEmail.includes(".")) {
+        res.status(HTTP_STATUS.BAD_REQUEST).json({ success: false, message: userFailedMessage.INVALID_EMAIL });
+        return;
+    }
+
+    if (trimmedEmail.startsWith("@") || trimmedEmail.endsWith("@") || trimmedEmail.endsWith(".")) {
+        res.status(HTTP_STATUS.BAD_REQUEST).json({ success: false, message: userFailedMessage.INVALID_EMAIL });
+        return;
+    }
+
+    next();
+};

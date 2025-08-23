@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import adminAxios from "../axios/AdminAxioInterceptors"
+import adminAxios from "../axios/adminAxios"
 import type { sumOfMaterialInterface } from "ApiInterface/material.interface";
 import type { sumofLabourInterface } from "ApiInterface/labour.interface";
 import type { editSpecInterface, saveSpecInterface } from "ApiInterface/specApi.interface";
