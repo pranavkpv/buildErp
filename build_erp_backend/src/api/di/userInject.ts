@@ -21,7 +21,7 @@ import { FetchUserProjectUseCase } from "../application/usecases/ProjectDisplayU
 import { GetSitemanagerListDataUseCase } from "../application/usecases/ProjectDisplayUseCase/getSitemanagerListDataUsecase"
 import { GetMessageDataUseCase } from "../application/usecases/ChatUsecases/getMessageDataUsecase"
 import { GetAllProjectListInUserUseCase } from "../application/usecases/ProjectDisplayUseCase/GetAllProjectListInUserUseCase"
-import { AuthController } from "../controllers/auth.controller"
+import { AuthController } from "../controllers/Auth"
 
 
 

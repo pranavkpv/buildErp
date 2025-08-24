@@ -39,13 +39,12 @@ import { SitemanagerRepository } from "../../infrastructure/repositories/Siteman
 import { StageRepository } from "../../infrastructure/repositories/StageRepository"
 import { TransferRepository } from "../../infrastructure/repositories/TransferRepository"
 import { BcryptHasher } from "../../infrastructure/secuirity/BcryptHasher"
-import { AttendanceController } from "../controllers/sitemanager/AttendanceController"
-import { changePasswordController } from "../controllers/sitemanager/changePasswordController"
-import { ChatController } from "../controllers/sitemanager/ChatController"
-import { PurchaseController } from "../controllers/sitemanager/PurchaseController"
-import { RecieveController } from "../controllers/sitemanager/RecieveController"
-import { statusController } from "../controllers/sitemanager/statusController"
-import { TransferController } from "../controllers/sitemanager/TransferController"
+import { AttendanceController } from "../controllers/Attendance"
+import { ChatController } from "../controllers/ChatController"
+import { PurchaseController } from "../controllers/Purchase"
+import { ReceiveController } from "../controllers/Receive"
+import { StatusController } from "../controllers/StageStatus"
+import { TransferController } from "../controllers/Transfer"
 
 const sitemanagerRepository = new SitemanagerRepository()
 const hasher = new BcryptHasher()
@@ -55,11 +54,9 @@ export const injectedChangepasswordcontroller = new changePasswordController(upd
 // ---------------------- Status Updation Injection ---------------------- //
 
 const stageRepository = new StageRepository()
-const stageMapper = new stagemapper()
 const uploadstatusImageusecase = new UploadStatusImageUseCase(stageRepository)
-const fetchStatusUseCase = new FetchStatusUseCase(stageRepository,stageMapper)
 const stageStatusChangeUseCase = new StageStatusChangeUseCase(stageRepository)
-export const injectedStatusController = new statusController( stageStatusChangeUseCase,uploadstatusImageusecase)
+export const injectedStatusController = new StatusController( stageStatusChangeUseCase,uploadstatusImageusecase)
 
 // ---------------------- Labour Attendance  Injection ---------------------- //
 const attendanceRepository = new AttendanceRepository()
@@ -108,7 +105,7 @@ const getReceiveUseCase = new GetReceiveUseCase(receiveRepository)
 const updateReceiveUseCase = new UpdateReceiveUsecase(receiveRepository,transferRepository)
 const deleteReceiveUseCase = new DeleteReceiveUsecase(receiveRepository,transferRepository)
 const approveReceiveUseCase = new ApproveReceiveUseCase(receiveRepository,projectStockRepository)
-export const injectedReceiveController = new RecieveController(saveRecieveUseCase,getReceiveUseCase,updateReceiveUseCase,deleteReceiveUseCase,approveReceiveUseCase)
+export const injectedReceiveController = new ReceiveController(saveRecieveUseCase,getReceiveUseCase,updateReceiveUseCase,deleteReceiveUseCase,approveReceiveUseCase)
 
 
 const fetchUseruseCase = new FetchUserUseCase(projectRepository)

@@ -36,6 +36,7 @@ import { SaveSpecUseCase } from "../../application/usecases/SpecUsecase/SpecSave
 import { SpecSumUseCase } from "../../application/usecases/SpecUsecase/specSumUseCase"
 import { UpdateSpecUseCase } from "../../application/usecases/SpecUsecase/UpdateSpecUseCase"
 import { ListProjectUseCase } from "../../application/usecases/StageStatusUpdationUseCase/ListProjectUseCase"
+import { BlackListUsecase } from "../../application/usecases/user.auth.usecase/Blacklist.usecase"
 import { AdminRepository } from "../../infrastructure/repositories/AdminRepository"
 import { EstimationRepository } from "../../infrastructure/repositories/EstimationRepository"
 import { LabourRepository } from "../../infrastructure/repositories/LabourRepository"
@@ -44,17 +45,20 @@ import { ProjectRepository } from "../../infrastructure/repositories/ProjectRepo
 import { SitemanagerRepository } from "../../infrastructure/repositories/SitemanagerRepository"
 import { SpecRepository } from "../../infrastructure/repositories/SpecRepository"
 import { StageRepository } from "../../infrastructure/repositories/StageRepository"
+import { UserRepository } from "../../infrastructure/repositories/user.repository"
 import { BcryptHasher } from "../../infrastructure/secuirity/BcryptHasher"
-import { AdminController } from "../controllers/admin.controller/admin.controller"
-import { EstimationController } from "../controllers/estimationController"
-import { LabourController } from "../controllers/labourController"
-import { SitemanagerController } from "../controllers/sitemanagerController"
-import { SpecController } from "../controllers/spec.controller"
+import { AdminController } from "../controllers/Admin"
+import { EstimationController } from "../controllers/Estimation"
+import { LabourController } from "../controllers/Labour"
+import { SitemanagerController } from "../controllers/Sitemanager"
+import { SpecController } from "../controllers/Specification"
 
 const adminRepository = new AdminRepository()
 const jwtService = new JwtService()
+const userRepository = new UserRepository()
+const blacklistusecase = new BlackListUsecase(userRepository)
 const adminLoginUsecase = new AdminLoginUseCase(adminRepository, jwtService)
-export const injectedAdminController = new AdminController(adminLoginUsecase)
+export const injectedAdminController = new AdminController(adminLoginUsecase,blacklistusecase,jwtService)
 
 
 
@@ -83,7 +87,8 @@ const editSitemanagerUsecase = new UpdateSitemanagerUseCase(sitemanagerRepositor
 const deleteSitemanagerUseCase = new DeleteSitemanagerUseCase(sitemanagerRepository)
 const listProjectUseCase = new ListProjectUseCase(projectRepository)
 const sitemanagerLoginUseCase = new SitemanagerLoginUseCase(sitemanagerRepository,jwtService,Hasher)
-export const injectedSitemanagerController = new SitemanagerController(displayAllSitemanagerUseCase, addSitemanagerUseCase, editSitemanagerUsecase, deleteSitemanagerUseCase, sitemanagerLoginUseCase, listProjectUseCase)
+export const injectedSitemanagerController = new SitemanagerController(displayAllSitemanagerUseCase, addSitemanagerUseCase, editSitemanagerUsecase, deleteSitemanagerUseCase, 
+   sitemanagerLoginUseCase, listProjectUseCase,jwtService,blacklistusecase)
 
 
 const materialRepository = new MaterialRepository()

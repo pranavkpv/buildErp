@@ -6,7 +6,7 @@ import { DeleteSiteToProjectUseCase } from "../../application/usecases/SiteManag
 import { ListSiteToProjectUsecase } from "../../application/usecases/SiteManagerUsecase/ListSiteToProjectUseCase";
 import { AddSiteToProjectRepository } from "../../infrastructure/repositories/AddSiteToProjectRepository";
 import { ProjectRepository } from "../../infrastructure/repositories/ProjectRepository";
-import { AddSiteManagerToProjectController } from "../controllers/addSiteManagerToProject.controller";
+import { AddSiteManagerToProjectController } from "../controllers/AddSiteManagerToProject";
 
 const addSiteToProjectRepository = new AddSiteToProjectRepository()
 const sitemanagermapper = new sitemanagerMapper()

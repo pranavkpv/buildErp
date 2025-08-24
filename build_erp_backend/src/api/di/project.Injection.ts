@@ -13,7 +13,7 @@ import { EstimationRepository } from "../../infrastructure/repositories/Estimati
 import { ProjectRepository } from "../../infrastructure/repositories/ProjectRepository";
 import { ProjectStockRepository } from "../../infrastructure/repositories/ProjectStockRepository";
 import { UserRepository } from "../../infrastructure/repositories/user.repository";
-import { ProjectController } from "../controllers/project.controller";
+import { ProjectController } from "../controllers/Project";
 
 const projectRepository = new ProjectRepository()
 const projectmapper = new projectMapper()

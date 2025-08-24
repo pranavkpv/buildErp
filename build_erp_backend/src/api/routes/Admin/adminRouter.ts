@@ -16,12 +16,13 @@ import { validateBrandAction } from "../../../infrastructure/middlewares/validat
 import { injectStageController } from "../../di/stage.injection";
 import { injectedBrandController } from "../../di/Brand.Injection";
 import { validateCategoryAction } from "../../../infrastructure/middlewares/validation/category.validation";
-import { injectedAddCategoryController, injectedDeleteCategoryController, injectedEditCategoryController, injectedFetchCategoryListController } from "../../di/Categoryi.Injection";
 import { validateUnitAction } from "../../../infrastructure/middlewares/validation/unit.validation";
 import { JwtService } from "../../../application/services/JwtService";
 import { injectedUnitController } from "../../di/Unit.Injection";
 import { injectedAdminController, injectedLabourController, injectedSitemanagerController, injectEstimationController, injectSpecController } from "../../di/adminInject";
 import { validateAddSitemanager } from "../../../infrastructure/middlewares/validation/sitemanager.validation";
+import { CategoryController } from "../../controllers/Category";
+import { injectedCategoryController } from "../../di/Categoryi.Injection";
 
 
 export class AdminRoute {
@@ -38,7 +39,7 @@ export class AdminRoute {
     // =====================================================================
     // 🟢 AUTH ROUTES
     // =====================================================================
-    this.adminRoute.post("/login", withLogging(injectedAdminController.login));
+    this.adminRoute.post("/login", withLogging(injectedAdminController.adminLogin));
 
     // ✅ Protect all routes after this middleware
     this.adminRoute.use(adminMiddleWare(jwtService));
@@ -47,53 +48,53 @@ export class AdminRoute {
     // 🟢 SITE ASSIGNMENT ROUTES
     // =====================================================================
     this.adminRoute.get("/addSiteToSiteData",
-      withLogging(injectAddSitemanagerToprojectController.fetchSitemanager));
+      withLogging(injectAddSitemanagerToprojectController.fetchSiteManagers));
 
     this.adminRoute.post("/addToSite",
       validateAddSitemanagerToproject,
-      withLogging(injectAddSitemanagerToprojectController.saveData));
+      withLogging(injectAddSitemanagerToprojectController.addSiteManagerToProject));
 
     this.adminRoute.delete("/addToSite/:id/:sitemanagerId",
-      withLogging(injectAddSitemanagerToprojectController.deleteSite));
+      withLogging(injectAddSitemanagerToprojectController.removeSiteManagerFromProject));
 
     this.adminRoute.get("/addToSite",
-      withLogging(injectAddSitemanagerToprojectController.listSite));
+      withLogging(injectAddSitemanagerToprojectController.listProjectsWithSiteManagers));
 
 
-    this.adminRoute.post("/logout", withLogging(injectedAdminController.logout));
+    this.adminRoute.post("/logout", withLogging(injectedAdminController.adminLogout));
 
     // =====================================================================
     // 🟢 CATEGORY ROUTES
     // =====================================================================
     this.adminRoute.post("/category",
       validateCategoryAction,
-      withLogging(injectedAddCategoryController.addCategoryHandler));
+      withLogging(injectedCategoryController.createCategory));
 
     this.adminRoute.get("/category",
-      withLogging(injectedFetchCategoryListController.categoryListHandler));
+      withLogging(injectedCategoryController.getAllCategories));
 
     this.adminRoute.put("/category/:id",
       validateCategoryAction,
-      withLogging(injectedEditCategoryController.editCategoryHandler));
+      withLogging(injectedCategoryController.updateCategory));
 
     this.adminRoute.delete("/category/:id",
-      withLogging(injectedDeleteCategoryController.deleteCategoryHandler));
+      withLogging(injectedCategoryController.deleteCategory));
 
     // =====================================================================
     // 🟢 UNIT ROUTES
     // =====================================================================
-    this.adminRoute.get("/unit", 
+    this.adminRoute.get("/unit",
       withLogging(injectedUnitController.getUnitHandler));
 
-    this.adminRoute.post("/unit", 
+    this.adminRoute.post("/unit",
       validateUnitAction,
       withLogging(injectedUnitController.addUnitHandler));
 
-    this.adminRoute.put("/unit/:id", 
+    this.adminRoute.put("/unit/:id",
       validateUnitAction,
       withLogging(injectedUnitController.editUnitHandler));
 
-    this.adminRoute.delete("/unit/:id", 
+    this.adminRoute.delete("/unit/:id",
       withLogging(injectedUnitController.removeUnitHandler));
 
     this.adminRoute.get("/getUnit",
@@ -103,126 +104,126 @@ export class AdminRoute {
     // 🟢 BRAND ROUTES
     // =====================================================================
     this.adminRoute.get("/brand",
-      withLogging(injectedBrandController.brandListHandler));
+      withLogging(injectedBrandController.getAllBrands));
 
     this.adminRoute.post("/brand",
       validateBrandAction,
-      withLogging(injectedBrandController.addBrandHandler));
+      withLogging(injectedBrandController.addBrand));
 
     this.adminRoute.put("/brand/:id",
       validateBrandAction,
-      withLogging(injectedBrandController.editBrandHandler));
+      withLogging(injectedBrandController.updateBrand));
 
     this.adminRoute.delete("/brand/:id",
-      withLogging(injectedBrandController.removeBrandHandler));
+      withLogging(injectedBrandController.deleteBrand));
 
     // =====================================================================
     // 🟢 MATERIAL ROUTES
     // =====================================================================
     this.adminRoute.get("/material",
-      withLogging(injectedMaterialController.materialList));
+      withLogging(injectedMaterialController.getPaginatedMaterialList));
 
     this.adminRoute.get("/addmaterial",
-      withLogging(injectedMaterialController.addMaterialList));
+      withLogging(injectedMaterialController.getAddMaterialDependencies));
 
     this.adminRoute.post("/material",
       validateAddMaterial,
-      withLogging(injectedMaterialController.saveMaterial));
+      withLogging(injectedMaterialController.createMaterial));
 
     this.adminRoute.get("/editmaterial/:id",
-      withLogging(injectedMaterialController.editMaterialList));
+      withLogging(injectedMaterialController.getEditMaterialDependencies));
 
     this.adminRoute.put("/material/:id", adminMiddleWare(jwtService),
       validateAddMaterial,
       withLogging(injectedMaterialController.updateMaterial));
 
     this.adminRoute.delete("/material/:id",
-      withLogging(injectedMaterialController.removeMaterial));
+      withLogging(injectedMaterialController.deleteMaterial));
 
     this.adminRoute.get("/fetchMaterial",
-      withLogging(injectedMaterialController.fetchUniqueMaterial));
+      withLogging(injectedMaterialController.getUniqueMaterialNames));
 
     this.adminRoute.get("/fetMatbyUnit/:material",
-      withLogging(injectedMaterialController.fetchMaterialByUnit));
+      withLogging(injectedMaterialController.getUnitsByMaterialName));
 
     this.adminRoute.get("/fetchMatbyBrand/:material",
-      withLogging(injectedMaterialController.fetchBrandbyName));
+      withLogging(injectedMaterialController.getBrandsByMaterialName));
 
     this.adminRoute.get("/unitRate",
-      withLogging(injectedMaterialController.fetchUnitrate));
+      withLogging(injectedMaterialController.getUnitRate));
 
     this.adminRoute.get("/getmaterial/:id",
-      withLogging(injectedMaterialController.getMaterial));
+      withLogging(injectedMaterialController.getMaterialById));
 
     // =====================================================================
     // 🟢 PROJECT ROUTES
     // =====================================================================
     this.adminRoute.get("/getprojectAddSitemanagerProject",
-      withLogging(injectedProjectController.getprojectAddSitemanagerProject));
+      withLogging(injectedProjectController.getProjectsForSiteManager));
 
     this.adminRoute.get("/getAllproject",
-      withLogging(injectedProjectController.getAllProject))
+      withLogging(injectedProjectController.getAllProjects))
 
-    this.adminRoute.get("/getproject", 
-      withLogging(injectedProjectController.getAllProject));
+    this.adminRoute.get("/getproject",
+      withLogging(injectedProjectController.getAllProjects));
 
     this.adminRoute.get("/project",
-      withLogging(injectedProjectController.projectData));
+      withLogging(injectedProjectController.getPaginatedProjects));
 
     this.adminRoute.get("/addproject",
-      withLogging(injectedProjectController.addProjectdata));
+      withLogging(injectedProjectController.getAddProjectData));
 
     this.adminRoute.post("/project",
       validateProjectAdd,
-      withLogging(injectedProjectController.saveProject));
+      withLogging(injectedProjectController.createProject));
 
     this.adminRoute.put("/project/:id",
       validateProjectAdd,
       withLogging(injectedProjectController.updateProject));
 
     this.adminRoute.delete("/project/:id",
-      withLogging(injectedProjectController.removeProject));
+      withLogging(injectedProjectController.deleteProject));
 
     this.adminRoute.put("/status/:id",
-      withLogging(injectedProjectController.projectStatus));
+      withLogging(injectedProjectController.changeProjectStatus));
 
 
     // =====================================================================
     // 🟢 LABOUR ROUTES
     // =====================================================================
     this.adminRoute.get("/labour",
-      withLogging(injectedLabourController.getLabour));
+      withLogging(injectedLabourController.getPaginatedLabourList));
 
     this.adminRoute.post("/labour",
       validateAddLabour,
-      withLogging(injectedLabourController.saveLabour));
+      withLogging(injectedLabourController.createLabour));
 
     this.adminRoute.delete("/labour/:id",
-      withLogging(injectedLabourController.removeLabour));
+      withLogging(injectedLabourController.deleteLabour));
 
     this.adminRoute.put("/labour/:id",
       validateAddLabour,
       withLogging(injectedLabourController.updateLabour));
 
     this.adminRoute.get("/fetchlabour",
-      withLogging(injectedLabourController.fetchlabour));
+      withLogging(injectedLabourController.getAllLabourList));
 
-    this.adminRoute.get("/getLabour/:id", 
-      withLogging(injectedLabourController.getLabourBYId));
+    this.adminRoute.get("/getLabour/:id",
+      withLogging(injectedLabourController.getLabourById));
 
     // =====================================================================
     // 🟢 SITE MANAGER ROUTES
     // =====================================================================
     this.adminRoute.get("/sitemanager",
-      withLogging(injectedSitemanagerController.getSitemanager));
+      withLogging(injectedSitemanagerController.getSitemanagers));
 
     this.adminRoute.post("/sitemanager",
       validateAddSitemanager,
-      withLogging(injectedSitemanagerController.addSitemanager));
+      withLogging(injectedSitemanagerController.createSitemanager));
 
     this.adminRoute.put("/sitemanager/:id",
       validateAddSitemanager,
-      withLogging(injectedSitemanagerController.editSitemanager));
+      withLogging(injectedSitemanagerController.updateSitemanager));
 
     this.adminRoute.delete("/sitemanager/:id",
       withLogging(injectedSitemanagerController.deleteSitemanager));
@@ -232,30 +233,30 @@ export class AdminRoute {
     // =====================================================================
 
     this.adminRoute.get("/getSpec",
-      withLogging(injectSpecController.fetchSpec));
+      withLogging(injectSpecController.getSpecifications));
 
     this.adminRoute.get("/getMatsum",
-      withLogging(injectSpecController.findMaterialSum));
+      withLogging(injectSpecController.calculateMaterialSum));
 
     this.adminRoute.get("/getLabSum",
-      withLogging(injectSpecController.findLaboursum));
+      withLogging(injectSpecController.calculateLabourSum));
 
     this.adminRoute.get("/spec",
-      withLogging(injectSpecController.getSpeclist));
+      withLogging(injectSpecController.getSpecificationList));
 
     this.adminRoute.post("/spec",
       validateSpecification,
-      withLogging(injectSpecController.saveSpec));
+      withLogging(injectSpecController.createSpecification));
 
     this.adminRoute.put("/spec/:id",
       validateSpecification,
-      withLogging(injectSpecController.updateSpec));
+      withLogging(injectSpecController.updateSpecification));
 
-    this.adminRoute.get("/fetchSum", 
-      withLogging(injectSpecController.fetchlabourMaterial));
+    this.adminRoute.get("/fetchSum",
+      withLogging(injectSpecController.getLabourMaterialSum));
 
     this.adminRoute.delete("/deleteSpec/:id",
-      withLogging(injectSpecController.deleteSpec));
+      withLogging(injectSpecController.removeSpecification));
 
 
 
@@ -264,49 +265,49 @@ export class AdminRoute {
     // =====================================================================
     this.adminRoute.post("/saveEstimation",
       validateSaveEstimation,
-      withLogging(injectEstimationController.SaveEstimation));
+      withLogging(injectEstimationController.createEstimation));
 
     this.adminRoute.delete("/deleteEstimation/:id",
-      withLogging(injectEstimationController.deleteEstimation));
+      withLogging(injectEstimationController.removeEstimation));
 
     this.adminRoute.post("/updateEstimation",
       validateSaveEstimation,
-      withLogging(injectEstimationController.updateEstimation));
+      withLogging(injectEstimationController.modifyEstimation));
 
     this.adminRoute.get("/fetchEstimation",
-      withLogging(injectEstimationController.fetchEstimation));
+      withLogging(injectEstimationController.getAllEstimations));
 
     this.adminRoute.post("/uploadEstimated",
       validateUploadEstimationImage,
-      withLogging(injectEstimationController.uploadImage));
+      withLogging(injectEstimationController.modifyEstimation));
 
 
-    this.adminRoute.get("/fetchExistEstimation/:id", 
-      withLogging(injectEstimationController.fetchExistEstimation));
+    this.adminRoute.get("/fetchExistEstimation/:id",
+      withLogging(injectEstimationController.getSpecListByEstimation));
 
 
     // =====================================================================
     // 🟢 STAGE ROUTES
     // =====================================================================
     this.adminRoute.get("/fetchbudget/:id",
-      withLogging(injectStageController.fetchCost));
+      withLogging(injectStageController.fetchProjectCost));
 
     this.adminRoute.post("/saveStage",
       validateStageAction,
-      withLogging(injectStageController.stageSave));
+      withLogging(injectStageController.saveStage));
 
     this.adminRoute.get("/fetchstage",
-      withLogging(injectStageController.fetchStage));
+      withLogging(injectStageController.getAllStages));
 
     this.adminRoute.delete("/stageDelete/:id",
-      withLogging(injectStageController.deleteStage));
+      withLogging(injectStageController.removeStage));
 
     this.adminRoute.put("/editStage/:id",
       validateStageAction,
       withLogging(injectStageController.updateStage));
 
     this.adminRoute.get("/stageFetch/:id",
-      withLogging(injectStageController.fetchStageData));
+      withLogging(injectStageController.getStageData));
 
     // =====================================================================
     // 🟢 DASHBOARD ROUTES

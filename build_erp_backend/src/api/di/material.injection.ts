@@ -20,7 +20,7 @@ import { MaterialRepository } from "../../infrastructure/repositories/MaterialRe
 import { ProjectStockRepository } from "../../infrastructure/repositories/ProjectStockRepository";
 import { SpecRepository } from "../../infrastructure/repositories/SpecRepository";
 import { UnitRepository } from "../../infrastructure/repositories/UnitRepository";
-import { MaterialController } from "../controllers/material.controller";
+import { MaterialController } from "../controllers/Material";
 
 
 const materialRepository = new MaterialRepository()

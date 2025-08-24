@@ -12,7 +12,7 @@ import { ChatRepository } from "../../infrastructure/repositories/ChatRepository
 import { ProjectRepository } from "../../infrastructure/repositories/ProjectRepository";
 import { UserRepository } from "../../infrastructure/repositories/user.repository";
 import { BcryptHasher } from "../../infrastructure/secuirity/BcryptHasher";
-import { userprofileController } from "../controllers/userprofile.controller";
+import { userprofileController } from "../controllers/UserProfile";
 
 const jwtService = new JwtService()
 const userRepository = new UserRepository()

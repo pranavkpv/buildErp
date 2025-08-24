@@ -9,7 +9,7 @@ import { UpdateStageUseCase } from "../../application/usecases/StageUseCase/Upda
 import { EstimationRepository } from "../../infrastructure/repositories/EstimationRepository";
 import { ProjectRepository } from "../../infrastructure/repositories/ProjectRepository";
 import { StageRepository } from "../../infrastructure/repositories/StageRepository";
-import { StageController } from "../controllers/stage.controller";
+import { StageController } from "../controllers/Stage";
 
 const projectRepository = new ProjectRepository()
 const stageRepository = new StageRepository()

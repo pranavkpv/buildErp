@@ -8,14 +8,6 @@ import { injecteduserprofileController } from "../../di/userprofile.injection";
 import { injectedLabourController, injectedSitemanagerController } from "../../di/adminInject";
 import { injectedMaterialController } from "../../di/material.injection";
 
-
-/**
- * SitemanagerRoute
- * ----------------
- * Handles all API endpoints for Site Manager operations.
- * Includes authentication, attendance, purchase, transfer,
- * receive, status updates, and chat functionality.
- */
 export class SitemanagerRoute {
    public sitemanagerRoute: Router;
 
@@ -24,9 +16,6 @@ export class SitemanagerRoute {
       this.setRoute();
    }
 
-   /**
-    * Define all Site Manager API routes
-    */
    private setRoute() {
       const jwtService = new JwtService();
 
@@ -56,7 +45,7 @@ export class SitemanagerRoute {
       // ================================
       this.sitemanagerRoute.get(
          "/siteproject/:user",
-         withLogging(injectedSitemanagerController.getSitemanagerProject)
+         withLogging(injectedSitemanagerController.getSitemanagerProjects)
       );
 
       // ================================
@@ -70,16 +59,16 @@ export class SitemanagerRoute {
       // ================================
       // 🔹 Stage Status
       // ================================
-   
+
       this.sitemanagerRoute.put(
          "/status/:id",
          validateStatusChange,
-         withLogging(injectedStatusController.changeStatus)
+         withLogging(injectedStatusController.updateStageStatus)
       );
 
       this.sitemanagerRoute.put(
          "/upload",
-         withLogging(injectedStatusController.uploadImage)
+         withLogging(injectedStatusController.uploadStageImages)
       );
 
       // ================================
@@ -87,19 +76,19 @@ export class SitemanagerRoute {
       // ================================
       this.sitemanagerRoute.post(
          "/attendance",
-         withLogging(injectAttendanceController.addAttendance)
+         withLogging(injectAttendanceController.createAttendance)
       );
       this.sitemanagerRoute.put(
          "/editAttendance",
-         withLogging(injectAttendanceController.editAttendance)
+         withLogging(injectAttendanceController.updateAttendance)
       );
       this.sitemanagerRoute.get(
          "/attendance",
-         withLogging(injectAttendanceController.fetchAttendance)
+         withLogging(injectAttendanceController.getAttendanceList)
       );
       this.sitemanagerRoute.delete(
          "/attendance/:id",
-         withLogging(injectAttendanceController.deleteAttendance)
+         withLogging(injectAttendanceController.removeAttendance)
       );
       this.sitemanagerRoute.put(
          "/attendance/:id",
@@ -107,7 +96,7 @@ export class SitemanagerRoute {
       );
       this.sitemanagerRoute.get(
          "/editfetchattendance/:id",
-         withLogging(injectAttendanceController.fetchEditcontroller)
+         withLogging(injectAttendanceController.getAttendanceById)
       );
 
       // ================================
@@ -115,7 +104,7 @@ export class SitemanagerRoute {
       // ================================
       this.sitemanagerRoute.get(
          "/purchase",
-         withLogging(injectedPurchaseController.getpurchase)
+         withLogging(injectedPurchaseController.getPurchases)
       );
       this.sitemanagerRoute.post(
          "/purchase",
@@ -171,15 +160,15 @@ export class SitemanagerRoute {
       // ================================
       this.sitemanagerRoute.get(
          "/receive",
-         withLogging(injectedReceiveController.getRecieve)
+         withLogging(injectedReceiveController.getReceive)
       );
       this.sitemanagerRoute.post(
          "/receive",
-         withLogging(injectedReceiveController.saveRecieve)
+         withLogging(injectedReceiveController.saveReceive)
       );
       this.sitemanagerRoute.put(
          "/receive/:id",
-         withLogging(injectedReceiveController.updateRecieve)
+         withLogging(injectedReceiveController.updateReceive)
       );
       this.sitemanagerRoute.delete(
          "/receive/:id",
@@ -200,23 +189,23 @@ export class SitemanagerRoute {
 
       this.sitemanagerRoute.get(
          "/fetchMaterial",
-         withLogging(injectedMaterialController.fetchUniqueMaterial)
+         withLogging(injectedMaterialController.getUniqueMaterialNames)
       );
       this.sitemanagerRoute.get(
          "/fetchMatbyBrand/:material",
-         withLogging(injectedMaterialController.fetchBrandbyName)
+         withLogging(injectedMaterialController.getBrandsByMaterialName)
       );
       this.sitemanagerRoute.get(
          "/fetMatbyUnit/:material",
-         withLogging(injectedMaterialController.fetchMaterialByUnit)
+         withLogging(injectedMaterialController.getUnitsByMaterialName)
       );
       this.sitemanagerRoute.get(
          "/unitRate",
-         withLogging(injectedMaterialController.fetchUnitrate)
+         withLogging(injectedMaterialController.getUnitRate)
       );
       this.sitemanagerRoute.get(
          "/fetchlabour",
-         withLogging(injectedLabourController.fetchlabour)
+         withLogging(injectedLabourController.getAllLabourList)
       );
       this.sitemanagerRoute.get(
          "/chats/:id",

@@ -12,12 +12,12 @@ export const siteManagerMiddleware = (jwtService: JwtService) => {
     const accessToken = adminHeader?.split(" ")[1]
     const refreshToken = req.cookies?.refreshToken;
     if (!accessToken) {
-      res.status(HTTP_STATUS.UNAUTHORIZED).json({ message: AuthErrorMessage.NO_TOKEN });
+      res.status(HTTP_STATUS.UNAUTHORIZED).json({success:false, message: AuthErrorMessage.NO_TOKEN });
       return;
     }
     let blackList = await redis.get(`blackList:${ accessToken }`)
     if (blackList) {
-      res.status(HTTP_STATUS.UNAUTHORIZED).json({ message: userFailedMessage.TOKEN_BLACK_LIST })
+      res.status(HTTP_STATUS.UNAUTHORIZED).json({ success:false,message: userFailedMessage.TOKEN_BLACK_LIST })
       return
     }
     if (!refreshToken) {
@@ -26,11 +26,11 @@ export const siteManagerMiddleware = (jwtService: JwtService) => {
     }
     const payload = jwtService.verifyAccessToken(accessToken);
     if (!payload) {
-      res.status(HTTP_STATUS.UNAUTHORIZED).json({ message: AuthErrorMessage.INVALID_ACCESS_TOKEN });
+      res.status(HTTP_STATUS.UNAUTHORIZED).json({ success:false,message: AuthErrorMessage.INVALID_ACCESS_TOKEN });
       return;
     }
     if (payload.role != Role.SITEMANAGER) {
-      res.status(HTTP_STATUS.UNAUTHORIZED).json({ message: AuthErrorMessage.NOT_ACCESS });
+      res.status(HTTP_STATUS.UNAUTHORIZED).json({ success:false,message: AuthErrorMessage.NOT_ACCESS });
       return
     }
     next();

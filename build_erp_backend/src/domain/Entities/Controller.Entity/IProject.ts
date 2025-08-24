@@ -1,0 +1,33 @@
+import { NextFunction, Request, Response } from "express"
+import { commonOutput } from "../../../application/dto/common"
+import { displayProjectDTO, fetchProjectIdnameDTO } from "../../../application/dto/project.dto"
+import { userLoginDTO } from "../../../application/dto/user.dto"
+
+
+export interface IProjectController {
+   
+   getProjectsForSiteManager(req: Request, res: Response, next: NextFunction):
+      Promise<commonOutput<fetchProjectIdnameDTO[]> | commonOutput | void>
+
+   getAllProjects(req: Request, res: Response, next: NextFunction):
+      Promise<commonOutput<fetchProjectIdnameDTO[]> | commonOutput | void>
+
+   getPaginatedProjects(req: Request, res: Response, next: NextFunction):
+      Promise<commonOutput<{ data: displayProjectDTO[], totalPage: number }> | commonOutput | void>
+
+   getAddProjectData(req: Request, res: Response, next: NextFunction):
+      Promise<commonOutput<userLoginDTO[]> | commonOutput | void>
+
+   createProject(req: Request, res: Response, next: NextFunction):
+      Promise<commonOutput | void>
+
+   updateProject(req: Request, res: Response, next: NextFunction):
+      Promise<commonOutput | void>
+
+   deleteProject(req: Request, res: Response, next: NextFunction):
+      Promise<commonOutput | void>
+
+   changeProjectStatus(req: Request, res: Response, next: NextFunction):
+      Promise<commonOutput | void>
+
+}

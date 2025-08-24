@@ -15,7 +15,7 @@ export class authRoute {
         this.authRoute.post(
             "/signup",
             validateSignup,
-            withLogging(injectAuthController.register)
+            withLogging(injectAuthController.registerUser)
         );
         //verify otp
         this.authRoute.post(
@@ -33,7 +33,7 @@ export class authRoute {
         this.authRoute.post(
             "/login",
             validateUserLogin,
-            withLogging(injectAuthController.login)
+            withLogging(injectAuthController.loginUser)
         );
         //google login
         this.authRoute.post(
@@ -55,7 +55,7 @@ export class authRoute {
         //updatepassword
         this.authRoute.put(
             "/updatepassword",
-            withLogging(injectAuthController.updatePassword)
+            withLogging(injectAuthController.updateUserPassword)
         );
         //all project fetch
         this.authRoute.get(
@@ -75,9 +75,9 @@ export class authRoute {
         //fetch status base project data
         this.authRoute.get(
             "/fetchstatusbaseproject/:status",
-            withLogging(injectAuthController.fetchProjectStatusBaseProject)
+            withLogging(injectAuthController.fetchProjectStatusByFilters)
         );
-
+        //create accessToken using refresh token 
         this.authRoute.post('/refreshToken', 
             withLogging(injectAuthController.handleRefreshToken))
 
