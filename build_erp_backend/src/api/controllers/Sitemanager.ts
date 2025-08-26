@@ -1,21 +1,21 @@
 import { NextFunction, Request, Response } from "express"
-import { ISitemanagerController } from "../../domain/Entities/Controller.Entity/ISitemanager"
-import { IDisplayAllSitemanagerUseCase } from "../../application/interfaces/AdminUseCaseEntities/SiteUseCaseEntities/DisplayAllsitemanagerEntity"
-import { IUpdateSitemanagerUseCase } from "../../application/interfaces/AdminUseCaseEntities/SiteUseCaseEntities/UpdateSitemanagerEntity"
-import { ISaveSitemanagerUseCase } from "../../application/interfaces/AdminUseCaseEntities/SiteUseCaseEntities/SaveSitemanagerEntity"
-import { IDeleteSitemanagerUseCase } from "../../application/interfaces/AdminUseCaseEntities/SiteUseCaseEntities/DeleteSitemanagerEntity"
-import { ISitemanagerLoginUseCaseEntity } from "../../application/interfaces/SitemanagerUseCaseEntities/AuthenticationUsecaseEntities/SitemanagerLoginEntity"
-import { IListProjectUseCaseEntity } from "../../application/interfaces/SitemanagerUseCaseEntities/StageStatusUpdationUseCaseEntities/ListProjectUseCaseEntity"
+import { ISitemanagerController } from "../../domain/Entities/IController/ISitemanager"
+import { IDisplayAllSitemanagerUseCase } from "../../application/IUseCases/ISitemanager/IDisplayAllsitemanager"
+import { IUpdateSitemanagerUseCase } from "../../application/IUseCases/ISitemanager/IUpdateSitemanager"
+import { ISaveSitemanagerUseCase } from "../../application/IUseCases/ISitemanager/ISaveSitemanager"
+import { IDeleteSitemanagerUseCase } from "../../application/IUseCases/ISitemanager/IDeleteSitemanager"
+import { ISitemanagerLoginUseCase } from "../../application/IUseCases/ISitemanager/ISitemanagerLogin"
+import { IListProjectUseCase } from "../../application/IUseCases/IStageStatusUpdation/IListProject"
 import { ResponseHelper } from "../../Shared/responseHelpers/response"
 import { userFailedMessage, userSuccessMessage } from "../../Shared/Messages/User.Message"
 import { commonOutput } from "../../application/dto/common"
 import { listSitemanagerDTO } from "../../application/dto/sitemanager.dto"
 import { ISitemanagerModelEntity } from "../../domain/Entities/modelEntities/sitemanager.entity"
-import { Tokens } from "../../application/entities/token.entity"
+import { Tokens } from "../../application/Entities/token.entity"
 import { IProjectModelEntity } from "../../domain/Entities/modelEntities/project.entity"
 import { IJwtService } from "../../domain/Entities/Service.Entities/IJwtservice"
-import { IBlackListUseCase } from "../../application/interfaces/UserUseCaseEntities/AuthenticationUseCaseEntities/IBlackListAccessToken.Usecase"
-import { IUpdateSitemanagerPasswordUseCase } from "../../application/interfaces/SitemanagerUseCaseEntities/AuthenticationUsecaseEntities/UpdateSitemanagerPasswordEntity"
+import { IBlackListUseCase } from "../../application/IUseCases/IAuth/IBlackList"
+import { IUpdateSitemanagerPasswordUseCase } from "../../application/IUseCases/ISitemanager/IUpdateSitemanagerPassword"
 
 export class SitemanagerController implements ISitemanagerController {
 
@@ -24,8 +24,8 @@ export class SitemanagerController implements ISitemanagerController {
       private _addSitemanagerUseCase: ISaveSitemanagerUseCase,
       private _editSitemanagerUsecase: IUpdateSitemanagerUseCase,
       private _deleteSitemanagerUseCase: IDeleteSitemanagerUseCase,
-      private sitemanagerLoginUseCase: ISitemanagerLoginUseCaseEntity,
-      private listProjectUseCase: IListProjectUseCaseEntity,
+      private _sitemanagerLoginUseCase: ISitemanagerLoginUseCase,
+      private _listProjectUseCase: IListProjectUseCase,
       private _jwtservice: IJwtService,
       private _blacklistusecase: IBlackListUseCase,
       private _updateSitemanagerPassword: IUpdateSitemanagerPasswordUseCase
@@ -81,7 +81,7 @@ export class SitemanagerController implements ISitemanagerController {
       Promise<commonOutput<{ data: ISitemanagerModelEntity, token: Tokens }> | commonOutput | void> => {
       try {
          const { email, password } = req.body;
-         const result = await this.sitemanagerLoginUseCase.execute(email, password);
+         const result = await this._sitemanagerLoginUseCase.execute(email, password);
 
          if (!result.data) {
             return ResponseHelper.conflictData(userFailedMessage.ERROR);
@@ -141,7 +141,7 @@ export class SitemanagerController implements ISitemanagerController {
       Promise<commonOutput<IProjectModelEntity[]> | commonOutput | void> => {
       try {
          const { user } = req.params;
-         const result = await this.listProjectUseCase.execute(user);
+         const result = await this._listProjectUseCase.execute(user);
          return result;
       } catch (error) {
          return next(error);

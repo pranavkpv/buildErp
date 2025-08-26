@@ -1,0 +1,23 @@
+import { EstimationMapper } from "../../application/Mapper/estimation.mapper";
+import { DeleteEstimationUseCase } from "../../application/UseCase/Estimation/DeleteEstimation";
+import { DisplayEstimationUseCase } from "../../application/UseCase/Estimation/DisplayEstimation";
+import { FetchSpecListinEstimationUsecase } from "../../application/UseCase/Estimation/FetchSpecListUsingEstimation";
+import { SaveEstimationUseCase } from "../../application/UseCase/Estimation/SaveEstimation";
+import { UpdateEstimationUsecase } from "../../application/UseCase/Estimation/UpdateEstimation";
+import { UploadEstimateImageUseCase } from "../../application/UseCase/Estimation/UploadEstimateImage";
+import { EstimationRepository } from "../../infrastructure/Repositories/Estimation";
+import { ProjectRepository } from "../../infrastructure/Repositories/Project";
+import { StageRepository } from "../../infrastructure/Repositories/Stage";
+import { EstimationController } from "../controllers/Estimation";
+
+const estimationRepository = new EstimationRepository()
+const stageRepository = new StageRepository()
+const estimationMapper = new EstimationMapper()
+const projectRepository = new ProjectRepository()
+const saveEstimationUseCase = new SaveEstimationUseCase(estimationRepository)
+const deleteEstimationUseCase = new DeleteEstimationUseCase(estimationRepository,stageRepository)
+const updateEstimationUseCase = new UpdateEstimationUsecase(estimationRepository,stageRepository)
+const displayEstimationUseCase = new DisplayEstimationUseCase(estimationRepository,estimationMapper)
+const uploadEstimationUseCase = new UploadEstimateImageUseCase(projectRepository)
+const fetchSpecListUsingEstimationUseCase = new FetchSpecListinEstimationUsecase(estimationRepository,estimationMapper)
+export const injectEstimationController = new EstimationController(saveEstimationUseCase,deleteEstimationUseCase,updateEstimationUseCase,displayEstimationUseCase,uploadEstimationUseCase,fetchSpecListUsingEstimationUseCase)

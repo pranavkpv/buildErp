@@ -2,8 +2,8 @@ import { Router } from "express";
 import { JwtService } from "../../../application/services/JwtService";
 import { userMiddleware } from "../../../infrastructure/middlewares/userMiddleware";
 import { withLogging } from "../../../infrastructure/middlewares/withLoggingMiddleware";
-import { injecteduserprofileController } from "../../di/userprofile.injection";
 import { validatechangePassword, validateUpdateprofile, validateUpdateProfileImage } from "../../../infrastructure/middlewares/validation/userprofile.validation";
+import { injecteduserprofileController } from "../../DI/UserProfile";
 
 export class userRoute {
    public userRoute: Router;
@@ -38,7 +38,7 @@ export class userRoute {
 
       this.userRoute.get(
          "/fetchuserproject",
-         withLogging(injecteduserprofileController.fetchProject)
+         withLogging(injecteduserprofileController.fetchProjects)
       );
 
       this.userRoute.get(

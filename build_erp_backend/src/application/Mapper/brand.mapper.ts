@@ -2,7 +2,7 @@ import { IBrandModelEntity } from "../../domain/Entities/modelEntities/brand.ent
 import { IBrandmapper } from "../../domain/mappers/IBrand.mapper";
 import { idBrandnameDTO } from "../dto/brand.dto";
 
-export class brandmapper implements IBrandmapper {
+export class Brandmapper implements IBrandmapper {
    toidBrandnameDTO(brand: IBrandModelEntity[]): idBrandnameDTO[] {
        return brand.map((item)=>({
          _id:item._id,

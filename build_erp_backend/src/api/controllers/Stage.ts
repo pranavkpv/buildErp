@@ -1,13 +1,13 @@
 import { Request, Response, NextFunction } from "express";
-import { IStageController } from "../../domain/Entities/Controller.Entity/IStage";
-import { IStageSaveUseCase } from "../../application/interfaces/AdminUseCaseEntities/StageUseCaseEntities/StageSaveEntity";
-import { IFetchCostUseCase } from "../../application/interfaces/AdminUseCaseEntities/StageUseCaseEntities/FetchCostEntity";
-import { IFetchStageUsecase } from "../../application/interfaces/AdminUseCaseEntities/StageUseCaseEntities/FetchStageEntity";
-import { IDeleteStageUseCase } from "../../application/interfaces/AdminUseCaseEntities/StageUseCaseEntities/DeleteStageEntity";
-import { IUpdateStageUseCase } from "../../application/interfaces/AdminUseCaseEntities/StageUseCaseEntities/UpdateStageEntity";
+import { IStageController } from "../../domain/Entities/IController/IStage";
+import { IStageSaveUseCase } from "../../application/IUseCases/IStage/IStageSave";
+import { IFetchCostUseCase } from "../../application/IUseCases/IStage/IFetchCost";
+import { IFetchStageUsecase } from "../../application/IUseCases/IStage/IFetchStage";
+import { IDeleteStageUseCase } from "../../application/IUseCases/IStage/IDeleteStage";
+import { IUpdateStageUseCase } from "../../application/IUseCases/IStage/IUpdateStage";
 import { commonOutput } from "../../application/dto/common";
 import { publicstageDTO, stageListDTO } from "../../application/dto/stage.dto";
-import { IFetchStatusUseCase } from "../../application/interfaces/SitemanagerUseCaseEntities/StageStatusUpdationUseCaseEntities/IFetchstatus.usecase";
+import { IFetchStatusUseCase } from "../../application/IUseCases/IStageStatusUpdation/IFetchStageStatus";
 
 export class StageController implements IStageController {
    constructor(

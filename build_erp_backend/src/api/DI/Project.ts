@@ -1,0 +1,33 @@
+import { ProjectMapper } from "../../application/Mapper/project.mapper";
+import { UserMapper } from "../../application/Mapper/user.mapper";
+import { AddProjectUseCase } from "../../application/UseCase/Project/AddProject";
+import { ChangeStatusUseCase } from "../../application/UseCase/Project/ChangeStatus";
+import { DeleteProjectUseCase } from "../../application/UseCase/Project/DeleteProject";
+import { DisplayAddProjectUseCase } from "../../application/UseCase/Project/DisplayAddProject";
+import { DisplayAllProjectUseCase } from "../../application/UseCase/Project/DisplayAllProject";
+import { EditProjectUseCase } from "../../application/UseCase/Project/EditProject";
+import { FetchProjectUseCase } from "../../application/UseCase/Project/FetchProject";
+import { AddSiteToprojectFetchProjectUseCase } from "../../application/UseCase/SiteManager/AddSiteToprojectFetchProject";
+import { AddSiteToProjectRepository } from "../../infrastructure/Repositories/AddSiteToProject";
+import { EstimationRepository } from "../../infrastructure/Repositories/Estimation";
+import { ProjectRepository } from "../../infrastructure/Repositories/Project";
+import { ProjectStockRepository } from "../../infrastructure/Repositories/ProjectStock";
+import { UserRepository } from "../../infrastructure/Repositories/User";
+import { ProjectController } from "../controllers/Project";
+
+const projectRepository = new ProjectRepository()
+const projectmapper = new ProjectMapper()
+const userRepository = new UserRepository()
+const userMapper = new UserMapper()
+const projectStockRepository = new ProjectStockRepository()
+const addSiteToprojectRepository = new AddSiteToProjectRepository()
+const estimationRepository = new EstimationRepository()
+const fetchProjectUseCase = new FetchProjectUseCase(projectRepository,projectmapper)
+const addSiteToProjectFetchProjectUseCase = new AddSiteToprojectFetchProjectUseCase(addSiteToprojectRepository,projectmapper)
+const displayAddProjectUseCase = new DisplayAddProjectUseCase(userRepository,userMapper)
+const addProjectUseCase = new AddProjectUseCase(projectRepository)
+const deleteProjectUseCase = new DeleteProjectUseCase(projectRepository,projectStockRepository,estimationRepository)
+const editProjectUseCase = new EditProjectUseCase(projectRepository)
+const displayProjectUseCase = new DisplayAllProjectUseCase(projectRepository,projectmapper)
+const changeStatusUseCase = new ChangeStatusUseCase(projectRepository)
+export const injectedProjectController = new ProjectController(fetchProjectUseCase,addSiteToProjectFetchProjectUseCase,displayAddProjectUseCase,addProjectUseCase,deleteProjectUseCase,editProjectUseCase,displayProjectUseCase,changeStatusUseCase)

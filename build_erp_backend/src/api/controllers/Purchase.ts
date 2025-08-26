@@ -1,23 +1,23 @@
 import { NextFunction, Request, Response } from "express";
-import { IPurchaseController } from "../../domain/Entities/Controller.Entity/IPurchase";
-import { IGetPurchaseUseCaseEntity } from "../../application/interfaces/SitemanagerUseCaseEntities/PurchaseUseCaseEntities/GetPurchaseUseCaseEntity";
-import { ISavePurchaseUseCaseEntity } from "../../application/interfaces/SitemanagerUseCaseEntities/PurchaseUseCaseEntities/SavePurchaseUseCaseEntity";
-import { IUpdatePurchaseUseCaseEntity } from "../../application/interfaces/SitemanagerUseCaseEntities/PurchaseUseCaseEntities/UpdatePurchaseUseCaseEntity";
-import { IDeletePurchaseUseCaseEntity } from "../../application/interfaces/SitemanagerUseCaseEntities/PurchaseUseCaseEntities/DeletePurchaseUseCaseEntity";
-import { IApprovePurchaseUseCaseEntity } from "../../application/interfaces/SitemanagerUseCaseEntities/PurchaseUseCaseEntities/ApprovePurchaseUseCaseEntitty";
+import { IPurchaseController } from "../../domain/Entities/IController/IPurchase";
 import { ResponseHelper } from "../../Shared/responseHelpers/response";
 import { IJwtService } from "../../domain/Entities/Service.Entities/IJwtservice";
 import { commonOutput } from "../../application/dto/common";
 import { PurchaseDTO } from "../../application/dto/purchase.dto";
+import { IGetPurchaseUseCase } from "../../application/IUseCases/IPurchase/IGetPurchase";
+import { ISavePurchaseUseCase } from "../../application/IUseCases/IPurchase/ISavePurchase";
+import { IUpdatePurchaseUseCase } from "../../application/IUseCases/IPurchase/IUpdatePurchase";
+import { IDeletePurchaseUseCase } from "../../application/IUseCases/IPurchase/IDeletePurchase";
+import { IApprovePurchaseUseCase } from "../../application/IUseCases/IPurchase/IApprovePurchase";
 
 export class PurchaseController implements IPurchaseController {
    constructor(
-      private _getPurchaseUsecase: IGetPurchaseUseCaseEntity,
-      private _savePurchaseUseCase: ISavePurchaseUseCaseEntity,
+      private _getPurchaseUsecase: IGetPurchaseUseCase,
+      private _savePurchaseUseCase: ISavePurchaseUseCase,
       private _jwtService: IJwtService,
-      private _updatePurchaseUseCase: IUpdatePurchaseUseCaseEntity,
-      private _deletePurchaseUseCase: IDeletePurchaseUseCaseEntity,
-      private _approvePurchaseUseCase: IApprovePurchaseUseCaseEntity
+      private _updatePurchaseUseCase: IUpdatePurchaseUseCase,
+      private _deletePurchaseUseCase: IDeletePurchaseUseCase,
+      private _approvePurchaseUseCase: IApprovePurchaseUseCase
    ) { }
 
    // Fetch purchases with search and pagination

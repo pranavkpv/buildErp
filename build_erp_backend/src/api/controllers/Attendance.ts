@@ -1,22 +1,22 @@
 import { NextFunction, Request, Response } from "express-serve-static-core"
-import { IAttendanceController } from "../../domain/Entities/Controller.Entity/IAttendance"
-import { IaddAttendanceUseCaseEntity } from "../../application/interfaces/SitemanagerUseCaseEntities/AttendanceUseCaseEntities/AddAttendanceEntity"
-import { IfetchAttendanceUseCaseEntity } from "../../application/interfaces/SitemanagerUseCaseEntities/AttendanceUseCaseEntities/FetchAttendanceEntity"
-import { IDeleteAttendanceUseCaseEntity } from "../../application/interfaces/SitemanagerUseCaseEntities/AttendanceUseCaseEntities/DeleteAttendanceEntity"
-import { IApproveAttendanceUseCaseEntity } from "../../application/interfaces/SitemanagerUseCaseEntities/AttendanceUseCaseEntities/ApproveAttendanceEntities"
-import { IFetchAttendanceByIdUseCaseEntity } from "../../application/interfaces/SitemanagerUseCaseEntities/AttendanceUseCaseEntities/FetchAttendanceBYIdEntity"
-import { IEditAttendanceUseCaseEntity } from "../../application/interfaces/SitemanagerUseCaseEntities/AttendanceUseCaseEntities/EditAttendanceEntity"
+import { IAttendanceController } from "../../domain/Entities/IController/IAttendance"
 import { commonOutput } from "../../application/dto/common"
-import { fetchEditAttendance, pageWiseAttendance } from "../../application/entities/attendance.entity"
+import { fetchEditAttendance, pageWiseAttendance } from "../../application/Entities/attendance.entity"
+import { IaddAttendanceUseCase } from "../../application/IUseCases/IAttendance/IAddAttendance"
+import { IfetchAttendanceUseCase } from "../../application/IUseCases/IAttendance/IFetchAttendance"
+import { IDeleteAttendanceUseCase } from "../../application/IUseCases/IAttendance/IDeleteAttendance"
+import { IApproveAttendanceUseCase } from "../../application/IUseCases/IAttendance/IApproveAttendance"
+import { IFetchAttendanceByIdUseCase } from "../../application/IUseCases/IAttendance/IFetchAttendanceById"
+import { IEditAttendanceUseCase } from "../../application/IUseCases/IAttendance/IEditAttendance"
 
 export class AttendanceController implements IAttendanceController {
    constructor(
-      private _addAttendanceUseCase: IaddAttendanceUseCaseEntity,
-      private _fetchAttendanceUseCase: IfetchAttendanceUseCaseEntity,
-      private _deleteAttendanceUseCase: IDeleteAttendanceUseCaseEntity,
-      private _approveAttendanceUseCase: IApproveAttendanceUseCaseEntity,
-      private _fetchAttendanceByIdUseCase: IFetchAttendanceByIdUseCaseEntity,
-      private _editAttendanceUseCase: IEditAttendanceUseCaseEntity,
+      private _addAttendanceUseCase: IaddAttendanceUseCase,
+      private _fetchAttendanceUseCase: IfetchAttendanceUseCase,
+      private _deleteAttendanceUseCase: IDeleteAttendanceUseCase,
+      private _approveAttendanceUseCase: IApproveAttendanceUseCase,
+      private _fetchAttendanceByIdUseCase: IFetchAttendanceByIdUseCase,
+      private _editAttendanceUseCase: IEditAttendanceUseCase,
    ) { }
 
    //  Record new labour attendance for a project on a specific date

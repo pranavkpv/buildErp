@@ -3,10 +3,10 @@ import { IProjectmapper } from "../../domain/mappers/IProject.mapper";
 import { listAddsiteDTO } from "../dto/addsitemanagerToproject";
 import { displayProjectDTO, fetchProjectIdnameDTO, publicProjectDTO, userBasechatListDTO, userBaseProjectDTO } from "../dto/project.dto";
 import { stageListDTO } from "../dto/stage.dto";
-import { listAddSiteToproject } from "../entities/addsitemanagertoproject.entity";
-import { projectwithClient, userBaseChatoutput } from "../entities/project.entity";
+import { listAddSiteToproject } from "../Entities/addsitemanagertoproject.entity";
+import { projectwithClient, userBaseChatoutput } from "../Entities/project.entity";
 
-export class projectMapper implements IProjectmapper {
+export class ProjectMapper implements IProjectmapper {
    toPublicProjectDto(projects: IProjectModelEntity[]): publicProjectDTO[] {
       return projects.map((project) => ({
          _id: project._id,

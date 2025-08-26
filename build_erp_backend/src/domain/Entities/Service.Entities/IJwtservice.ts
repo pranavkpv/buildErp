@@ -1,4 +1,4 @@
-import { createTokenInput, JwtPayloadData, Tokens } from "../../../application/entities/token.entity";
+import { createTokenInput, JwtPayloadData, Tokens } from "../../../application/Entities/token.entity";
 
 export interface IJwtService {
   createAccessToken(input:createTokenInput):string

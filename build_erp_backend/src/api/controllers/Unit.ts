@@ -1,19 +1,19 @@
 import { Request, Response, NextFunction } from "express";
 import { commonOutput } from "../../application/dto/common";
-import { IUnitController } from "../../domain/Entities/Controller.Entity/IUnit";
-import { ISaveUnitUseCase } from "../../application/interfaces/Unit.Usecase.Entities/SaveUnitEntity";
-import { IdeleteUnitUseCase } from "../../application/interfaces/Unit.Usecase.Entities/DeleteUnitEntity";
-import { IFetchUnitUseCase } from "../../application/interfaces/Unit.Usecase.Entities/FetchUnitEntity";
-import { IupdateUnitUseCase } from "../../application/interfaces/Unit.Usecase.Entities/UpdateUnitEntity";
+import { IUnitController } from "../../domain/Entities/IController/IUnit";
+import { ISaveUnitUseCase } from "../../application/IUseCases/IUnit/ISaveUnit";
+import { IdeleteUnitUseCase } from "../../application/IUseCases/IUnit/IDeleteUnit";
+import { IFetchUnitUseCase } from "../../application/IUseCases/IUnit/IFetchUnit";
 import { idUnitnameDTO, listUnitDTO } from "../../application/dto/unit.dto";
-import { IDisplayAllUnitUseCase } from "../../application/interfaces/Unit.Usecase.Entities/DisplayAllUnitEntity";
+import { IDisplayAllUnitUseCase } from "../../application/IUseCases/IUnit/IDisplayAllUnit";
+import { IUpdateUnitUseCase } from "../../application/IUseCases/IUnit/IUpdateUnit";
 
 export class UnitController implements IUnitController {
    constructor(
       private _addUnitUseCase: ISaveUnitUseCase,
       private _deleteUnitUseCase: IdeleteUnitUseCase,
       private _fetchUnitUseCase: IFetchUnitUseCase,
-      private _updateUnitUseCase: IupdateUnitUseCase,
+      private _updateUnitUseCase: IUpdateUnitUseCase,
       private _displayUnitUseCase: IDisplayAllUnitUseCase
    ) { }
 

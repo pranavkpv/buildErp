@@ -1,24 +1,24 @@
 import { NextFunction, Request, Response } from "express"
 import { commonOutput } from "../../application/dto/common"
 import { specFullDTO } from "../../application/dto/specification.dto"
-import { IgetSpecUseCase } from "../../application/interfaces/AdminUseCaseEntities/SpecUseCaseEntities/GetSpecEntity"
-import { IFindmaterialSumUseCase } from "../../application/interfaces/AdminUseCaseEntities/MaterialUseCaseEntities/FindMaterialSumEntity"
-import { ISpecController } from "../../domain/Entities/Controller.Entity/ISpecification"
-import { IFindlabourSumUsecase } from "../../application/interfaces/AdminUseCaseEntities/MaterialUseCaseEntities/FindLabourSumEntity"
-import { ISaveSpecUseCase } from "../../application/interfaces/AdminUseCaseEntities/SpecUseCaseEntities/SpecSaveEntity"
-import { IDeleteSpecUseCase } from "../../application/interfaces/AdminUseCaseEntities/SpecUseCaseEntities/DeleteSpecEntity"
-import { IUpdateSpecUseCase } from "../../application/interfaces/AdminUseCaseEntities/SpecUseCaseEntities/UpdateSpecEntity"
-import { ISpeclistUseCase } from "../../application/interfaces/AdminUseCaseEntities/SpecUseCaseEntities/SpecListEntity"
-import { ISpecSumUseCaseEntity } from "../../application/interfaces/AdminUseCaseEntities/SpecUseCaseEntities/SpecSumEntity"
+import { IFindmaterialSumUseCase } from "../../application/IUseCases/IMaterial/IFindMaterialSum"
+import { ISpecController } from "../../domain/Entities/IController/ISpecification"
+import { IFindlabourSumUsecase } from "../../application/IUseCases/IMaterial/IFindLabourSum"
+import { ISaveSpecUseCase } from "../../application/IUseCases/ISpecification/ISpecificationSave"
+import { IDeleteSpecUseCase } from "../../application/IUseCases/ISpecification/IDeleteSpecification"
+import { IUpdateSpecUseCase } from "../../application/IUseCases/ISpecification/IUpdateSpecification"
+import { ISpeclistUseCase } from "../../application/IUseCases/ISpecification/ISpecificationList"
+import { IGetSpecUseCase } from "../../application/IUseCases/ISpecification/IGetSpecification"
+import { ISpecSumUseCase } from "../../application/IUseCases/ISpecification/ISpecificationSum"
 
 export class SpecController implements ISpecController {
    constructor(
-      private _getSpecUseCase: IgetSpecUseCase,
+      private _getSpecUseCase: IGetSpecUseCase,
       private _findMaterialSumUseCase: IFindmaterialSumUseCase,
       private _findLabourSumUseCase: IFindlabourSumUsecase,
       private _specListUseCase: ISpeclistUseCase,
       private _saveSpecUseCase: ISaveSpecUseCase,
-      private _specSumUseCase: ISpecSumUseCaseEntity,
+      private _specSumUseCase: ISpecSumUseCase,
       private _deleteSpecUseCase: IDeleteSpecUseCase,
       private _updateSpecUseCase: IUpdateSpecUseCase
    ) { }

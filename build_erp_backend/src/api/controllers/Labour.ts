@@ -1,13 +1,13 @@
 import { NextFunction, Request, Response } from "express";
-import { IAddLabourUseCase } from "../../application/interfaces/AdminUseCaseEntities/LabourUseCaseEntities/AddLabourEntity";
-import { IDisplayAllLabourUsecase } from "../../application/interfaces/AdminUseCaseEntities/LabourUseCaseEntities/DisplayAllLoabourEntity";
-import { IUpdateLabourUseCase } from "../../application/interfaces/AdminUseCaseEntities/LabourUseCaseEntities/UpdateLabourEntity";
-import { IDeleteLabourUseCase } from "../../application/interfaces/AdminUseCaseEntities/LabourUseCaseEntities/DeleteLabourEntity";
-import { IFetchAllLabourUseCase } from "../../application/interfaces/AdminUseCaseEntities/LabourUseCaseEntities/FetchAllLabourEntity";
-import { IFetchLabourByIdUsecaseEntity } from "../../application/interfaces/AdminUseCaseEntities/LabourUseCaseEntities/FetchLabourByIdEntity";
-import { ILabourController } from "../../domain/Entities/Controller.Entity/ILabour";
+import { IAddLabourUseCase } from "../../application/IUseCases/ILabour/IAddLabour";
+import { IDisplayAllLabourUsecase } from "../../application/IUseCases/ILabour/IDisplayAllLoabour";
+import { IUpdateLabourUseCase } from "../../application/IUseCases/ILabour/IUpdateLabour";
+import { IDeleteLabourUseCase } from "../../application/IUseCases/ILabour/IDeleteLabour";
+import { IFetchAllLabourUseCase } from "../../application/IUseCases/ILabour/IFetchAllLabour";
+import { ILabourController } from "../../domain/Entities/IController/ILabour";
 import { commonOutput } from "../../application/dto/common";
 import { labourDataDisplayDTO } from "../../application/dto/labour.dto";
+import { IFetchLabourByIdUsecase } from "../../application/IUseCases/ILabour/IFetchLabourById";
 
 export class LabourController implements ILabourController {
    constructor(
@@ -16,7 +16,7 @@ export class LabourController implements ILabourController {
       private _updateLabourUseCase: IUpdateLabourUseCase,
       private _deleteLabourUseCase: IDeleteLabourUseCase,
       private _fetchAllLabourUseCase: IFetchAllLabourUseCase,
-      private _fetchLabourByIdUseCase: IFetchLabourByIdUsecaseEntity
+      private _fetchLabourByIdUseCase: IFetchLabourByIdUsecase
    ) { }
 
    // Fetch paginated list of labour with search filter

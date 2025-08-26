@@ -1,0 +1,9 @@
+import { commonOutput } from "../../dto/common";
+import { userLoginDTO } from "../../dto/user.dto";
+import { Tokens } from "../../Entities/token.entity";
+
+
+export interface IUpdateProfileImageUseCase {
+   execute(url: string, _id: string):
+      Promise<commonOutput<{ userData: userLoginDTO; tokens: Tokens }> | commonOutput>
+}

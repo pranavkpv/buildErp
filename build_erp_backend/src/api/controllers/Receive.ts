@@ -1,21 +1,21 @@
 import { Request, Response, NextFunction } from "express";
-import { IReceiveController } from "../../domain/Entities/Controller.Entity/IReceive";
-import { ISaveReceiveUseCaseEntity } from "../../application/interfaces/SitemanagerUseCaseEntities/ReceiveUseCaseEntities/SaveReceiveUseCaseEntity";
-import { IGetReceiveUseCaseEntity } from "../../application/interfaces/SitemanagerUseCaseEntities/ReceiveUseCaseEntities/GetRecieveUseCaseEntity";
-import { IUpdateReceiveUseCaseEntity } from "../../application/interfaces/SitemanagerUseCaseEntities/ReceiveUseCaseEntities/UpdateRecieveUseCaseEntity";
-import { IDeleteReceiveUsecaseEntity } from "../../application/interfaces/SitemanagerUseCaseEntities/ReceiveUseCaseEntities/DeleteReceiveUseCaseEntity";
-import { IApproveReceiveUseCaseEntity } from "../../application/interfaces/SitemanagerUseCaseEntities/ReceiveUseCaseEntities/ApproveReceiveUseCaseEntity";
+import { IReceiveController } from "../../domain/Entities/IController/IReceive";
 import { commonOutput } from "../../application/dto/common";
 import { RecieveOutput } from "../../application/dto/receive.dto";
+import { ISaveReceiveUseCase } from "../../application/IUseCases/IReceive/ISaveReceive";
+import { IGetReceiveUseCase } from "../../application/IUseCases/IReceive/IGetReceive";
+import { IUpdateReceiveUseCase } from "../../application/IUseCases/IReceive/IUpdateRecieve";
+import { IDeleteReceiveUseCase } from "../../application/IUseCases/IReceive/IDeleteReceive";
+import { IApproveReceiveUseCase } from "../../application/IUseCases/IReceive/IApproveReceive";
 
 export class ReceiveController implements IReceiveController {
 
    constructor(
-      private _saveReceiveUseCase: ISaveReceiveUseCaseEntity,
-      private _getReceiveUseCase: IGetReceiveUseCaseEntity,
-      private _updateReceiveUseCase: IUpdateReceiveUseCaseEntity,
-      private _deleteReceiveUseCase: IDeleteReceiveUsecaseEntity,
-      private _approveReceiveUseCase: IApproveReceiveUseCaseEntity
+      private _saveReceiveUseCase: ISaveReceiveUseCase,
+      private _getReceiveUseCase: IGetReceiveUseCase,
+      private _updateReceiveUseCase: IUpdateReceiveUseCase,
+      private _deleteReceiveUseCase: IDeleteReceiveUseCase,
+      private _approveReceiveUseCase: IApproveReceiveUseCase
    ) { }
 
    // Save a new receive entry

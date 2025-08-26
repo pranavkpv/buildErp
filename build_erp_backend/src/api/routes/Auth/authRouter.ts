@@ -1,7 +1,8 @@
 import { Router } from "express";
 import { withLogging } from "../../../infrastructure/middlewares/withLoggingMiddleware";
 import { validateForgotOtpSend, validateResendotp, validateSignup, validateUserLogin, validateVerifyotp } from "../../../infrastructure/middlewares/validation/auth.validation";
-import { injectAuthController } from "../../di/auth.injection";
+import { injectAuthController } from "../../DI/Auth";
+
 
 
 export class authRoute {

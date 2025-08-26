@@ -1,0 +1,21 @@
+import { BudgetAndActualUseCase } from "../../application/UseCase/Admin/BudgetAndActual";
+import { BudgetAndActualLabourUseCase } from "../../application/UseCase/Admin/BudgetAndActualLabour";
+import { BudgetAndActualMaterialUseCase } from "../../application/UseCase/Admin/BudgetAndActualMaterial";
+import { AttendanceRepository } from "../../infrastructure/Repositories/Attendance";
+import { EstimationRepository } from "../../infrastructure/Repositories/Estimation";
+import { ProjectRepository } from "../../infrastructure/Repositories/Project";
+import { PurchaseRepository } from "../../infrastructure/Repositories/Purchase";
+import { ReceiveRepository } from "../../infrastructure/Repositories/Receive";
+import { TransferRepository } from "../../infrastructure/Repositories/Transfer";
+import { AdminDashboardController } from "../controllers/AdminDashboard";
+
+const projectRepository = new ProjectRepository()
+const purchaseRepository = new PurchaseRepository()
+const transferRepository = new TransferRepository()
+const receiveRepository = new ReceiveRepository()
+const attendanceRepository = new AttendanceRepository()
+const estimationRepository = new EstimationRepository()
+const budgetAndActualUseCase = new BudgetAndActualUseCase(projectRepository,purchaseRepository,transferRepository,receiveRepository,attendanceRepository)
+const budgetAndActualMaterialUseCase = new BudgetAndActualMaterialUseCase(estimationRepository,projectRepository,purchaseRepository,transferRepository,receiveRepository)
+const budgetAndActualLabourUseCase = new BudgetAndActualLabourUseCase(estimationRepository,projectRepository,attendanceRepository)
+export const injectAdminDashboardController = new AdminDashboardController(budgetAndActualUseCase,budgetAndActualMaterialUseCase,budgetAndActualLabourUseCase)

@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from "express";
-import { IAddSiteManagerToProjectController } from "../../domain/Entities/Controller.Entity/IAddSitemanagerToProject";
-import { IAddSiteToProjectUseCase } from "../../application/interfaces/AdminUseCaseEntities/SiteUseCaseEntities/AddSiteToProjectEntity";
-import { IListSiteToProjectUseCase } from "../../application/interfaces/AdminUseCaseEntities/SiteUseCaseEntities/ListSiteToProjectEntity";
-import { IDeleteSiteToProjectUseCase } from "../../application/interfaces/AdminUseCaseEntities/SiteUseCaseEntities/DeleteSitemanagerInProjectEntity";
-import { IAddSiteToprojectFetchSitemanagerUseCase } from "../../application/interfaces/AdminUseCaseEntities/SiteUseCaseEntities/IAddSiteToProjectFetchSitemanagerUsecase";
+import { IAddSiteManagerToProjectController } from "../../domain/Entities/IController/IAddSitemanagerToProject";
+import { IAddSiteToProjectUseCase } from "../../application/IUseCases/ISitemanager/IAddSiteToProject";
+import { IListSiteToProjectUseCase } from "../../application/IUseCases/ISitemanager/IListSiteToProject";
+import { IDeleteSiteToProjectUseCase } from "../../application/IUseCases/ISitemanager/IDeleteSitemanagerInProject";
+import { IAddSiteToprojectFetchSitemanagerUseCase } from "../../application/IUseCases/ISitemanager/IAddSiteToProjectFetchSitemanager";
 import { commonOutput } from "../../application/dto/common";
 import { FetchsitemanagerInListDTO, listAddsiteDTO } from "../../application/dto/addsitemanagerToproject";
 

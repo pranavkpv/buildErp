@@ -1,17 +1,17 @@
 import { NextFunction, Request, Response } from "express";
-import { IAdminController } from "../../domain/Entities/Controller.Entity/IAdmin";
-import { IAdminLoginUseCaseEntity } from "../../application/interfaces/AdminUseCaseEntities/DashboardUseCaseEntities/AdminLoginEntity";
+import { IAdminController } from "../../domain/Entities/IController/IAdmin";
+import { IAdminLoginUseCase } from "../../application/IUseCases/IAdmin/IAdminLogin";
 import { ResponseHelper } from "../../Shared/responseHelpers/response";
 import { userFailedMessage, userSuccessMessage } from "../../Shared/Messages/User.Message";
 import { commonOutput } from "../../application/dto/common";
 import { IAdminModelEntity } from "../../domain/Entities/modelEntities/admin.entity";
-import { Tokens } from "../../application/entities/token.entity";
-import { IBlackListUseCase } from "../../application/interfaces/UserUseCaseEntities/AuthenticationUseCaseEntities/IBlackListAccessToken.Usecase";
+import { Tokens } from "../../application/Entities/token.entity";
+import { IBlackListUseCase } from "../../application/IUseCases/IAuth/IBlackList";
 import { IJwtService } from "../../domain/Entities/Service.Entities/IJwtservice";
 
 export class AdminController implements IAdminController {
   constructor(
-    private _adminLoginUsecase: IAdminLoginUseCaseEntity,
+    private _adminLoginUsecase: IAdminLoginUseCase,
     private _blacklistusecase: IBlackListUseCase,
     private _jwtservice: IJwtService
   ) { }

@@ -1,14 +1,14 @@
 import { NextFunction, Request, Response } from "express"
 import cloudinary from "../../infrastructure/config/cloudinary"
-import { IEstimationController } from "../../domain/Entities/Controller.Entity/IEstimation"
-import { ISaveEstimationUseCase } from "../../application/interfaces/AdminUseCaseEntities/EstimationUseCaseEntities/SaveEstimationEntity"
-import { IDisplayEstimationUseCase } from "../../application/interfaces/AdminUseCaseEntities/EstimationUseCaseEntities/DisplayEstimationEntity"
-import { IDeleteEstimationUseCase } from "../../application/interfaces/AdminUseCaseEntities/EstimationUseCaseEntities/DeleteEstimationEntity"
-import { IUploadEstimateImageUseCase } from "../../application/interfaces/AdminUseCaseEntities/EstimationUseCaseEntities/UploadEstimateImageEntity"
-import { IUpdateEstimationUseCase } from "../../application/interfaces/AdminUseCaseEntities/EstimationUseCaseEntities/UpdateEstimationEntity"
+import { IEstimationController } from "../../domain/Entities/IController/IEstimation"
+import { ISaveEstimationUseCase } from "../../application/IUseCases/IEstimation/ISaveEstimation"
+import { IDisplayEstimationUseCase } from "../../application/IUseCases/IEstimation/IDisplayEstimation"
+import { IDeleteEstimationUseCase } from "../../application/IUseCases/IEstimation/IDeleteEstimation"
+import { IUploadEstimateImageUseCase } from "../../application/IUseCases/IEstimation/IUploadEstimateImage"
+import { IUpdateEstimationUseCase } from "../../application/IUseCases/IEstimation/IUpdateEstimation"
 import { commonOutput } from "../../application/dto/common"
 import { listEstimationDTO, specListInProjectDTO } from "../../application/dto/estimation.dto"
-import { IFetchSpecListUsingEstimationUsecase } from "../../application/interfaces/AdminUseCaseEntities/EstimationUseCaseEntities/IFetchSpecListUsingEstimationUsecase"
+import { IFetchSpecListUsingEstimationUsecase } from "../../application/IUseCases/IEstimation/IFetchSpecListUsingEstimation"
 
 
 

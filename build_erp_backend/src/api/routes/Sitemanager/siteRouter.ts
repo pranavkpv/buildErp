@@ -2,11 +2,18 @@ import { Router } from "express";
 import { JwtService } from "../../../application/services/JwtService";
 import { siteManagerMiddleware } from "../../../infrastructure/middlewares/siteMiddleware";
 import { withLogging } from "../../../infrastructure/middlewares/withLoggingMiddleware";
-import { injectAttendanceController, injectedChangepasswordcontroller, injectedChatController, injectedPurchaseController, injectedReceiveController, injectedStatusController, injectedTransferController } from "../../di/sitemanagerInject";
 import { validateStatusChange } from "../../../infrastructure/middlewares/validation/sitemanager.validation";
-import { injecteduserprofileController } from "../../di/userprofile.injection";
-import { injectedLabourController, injectedSitemanagerController } from "../../di/adminInject";
-import { injectedMaterialController } from "../../di/material.injection";
+import { injectedSitemanagerController } from "../../DI/Sitemanager";
+import { injectedMaterialController } from "../../DI/Material";
+import { injectedLabourController } from "../../DI/Labour";
+import { injecteduserprofileController } from "../../DI/UserProfile";
+import { injectedStageStatusController } from "../../DI/StageStatus";
+import { injectAttendanceController } from "../../DI/Attendance";
+import { injectedPurchaseController } from "../../DI/Purchase";
+import { injectedTransferController } from "../../DI/Transfer";
+import { injectedReceiveController } from "../../DI/Receive";
+import { injectedChatController } from "../../DI/Chat";
+
 
 export class SitemanagerRoute {
    public sitemanagerRoute: Router;
@@ -53,7 +60,7 @@ export class SitemanagerRoute {
       // ================================
       this.sitemanagerRoute.put(
          "/changepass/:id",
-         withLogging(injectedChangepasswordcontroller.changedPassword)
+         withLogging(injectedSitemanagerController.changePassword)
       );
 
       // ================================
@@ -63,12 +70,12 @@ export class SitemanagerRoute {
       this.sitemanagerRoute.put(
          "/status/:id",
          validateStatusChange,
-         withLogging(injectedStatusController.updateStageStatus)
+         withLogging(injectedStageStatusController.updateStageStatus)
       );
 
       this.sitemanagerRoute.put(
          "/upload",
-         withLogging(injectedStatusController.uploadStageImages)
+         withLogging(injectedStageStatusController.uploadStageImages)
       );
 
       // ================================
@@ -128,15 +135,15 @@ export class SitemanagerRoute {
       // ================================
       this.sitemanagerRoute.get(
          "/transfer",
-         withLogging(injectedTransferController.getTransfer)
+         withLogging(injectedTransferController.fetchTransfers)
       );
       this.sitemanagerRoute.get(
          "/toProject/:id",
-         withLogging(injectedTransferController.getToProject)
+         withLogging(injectedTransferController.fetchToProjects)
       );
       this.sitemanagerRoute.post(
          "/transfer",
-         withLogging(injectedTransferController.saveTransfer)
+         withLogging(injectedTransferController.createTransfer)
       );
       this.sitemanagerRoute.put(
          "/transfer/:id",
@@ -144,7 +151,7 @@ export class SitemanagerRoute {
       );
       this.sitemanagerRoute.delete(
          "/transfer/:id",
-         withLogging(injectedTransferController.deleteTransfer)
+         withLogging(injectedTransferController.removeTransfer)
       );
       this.sitemanagerRoute.patch(
          "/transfer/:id",

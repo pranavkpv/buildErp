@@ -1,8 +1,8 @@
 import { IEstimationmapper } from "../../domain/mappers/IEstimation.mapper";
 import { listEstimationDTO, publicEstimationDTO, specListInProjectDTO } from "../dto/estimation.dto";
-import { estiomationAggregatebyProject, estiomationAggregateByspec } from "../entities/estimation.entity";
+import { estiomationAggregatebyProject, estiomationAggregateByspec } from "../Entities/estimation.entity";
 
-export class estimationMapper implements IEstimationmapper {
+export class EstimationMapper implements IEstimationmapper {
    topublicEstimateData(estimation: estiomationAggregateByspec[]): publicEstimationDTO[] {
       return estimation.map((element) => ({
          project_id: element.project_id,

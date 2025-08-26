@@ -2,7 +2,7 @@ import { ILabourModelEntity } from "../../domain/Entities/modelEntities/labour.e
 import { ILabourMapper } from "../../domain/mappers/ILabour.mapper";
 import { labourDataDisplayDTO } from "../dto/labour.dto";
 
-export class labourMapper implements ILabourMapper {
+export class LabourMapper implements ILabourMapper {
   toDisplayLabourDTO(labour: ILabourModelEntity[]): labourDataDisplayDTO[] {
     return labour.map((item) => ({
       _id: item._id,

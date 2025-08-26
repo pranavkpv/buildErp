@@ -1,29 +1,29 @@
 import { Request, Response, NextFunction } from "express";
-import { ITransferController } from "../../domain/Entities/Controller.Entity/ITransfer";
-import { IGetTransferUseCaseEntity } from "../../application/interfaces/SitemanagerUseCaseEntities/TransferUseCaseEntities/GetTransferUseCaseEntity";
-import { IGetToProjectUseCaseEntity } from "../../application/interfaces/SitemanagerUseCaseEntities/TransferUseCaseEntities/GetToProjectUseCaseEntity";
-import { ISaveTransferUseCaseEntity } from "../../application/interfaces/SitemanagerUseCaseEntities/TransferUseCaseEntities/SaveTransferUseCaseEntity";
-import { IUpdateTransferUseCaseEntity } from "../../application/interfaces/SitemanagerUseCaseEntities/TransferUseCaseEntities/UpdateTransferUseCaseEntity";
-import { IDeleteTransferUseCaseEntity } from "../../application/interfaces/SitemanagerUseCaseEntities/TransferUseCaseEntities/DeleteTransferUsecaseEntity";
-import { IApproveTransferUseCaseEntity } from "../../application/interfaces/SitemanagerUseCaseEntities/TransferUseCaseEntities/ApproveTransferUseCaseEntity";
-import { IReceiveTransferUseCaseEntity } from "../../application/interfaces/SitemanagerUseCaseEntities/TransferUseCaseEntities/ReceiveTransferUseCaseEntity";
+import { ITransferController } from "../../domain/Entities/IController/ITransfer";
 import { ResponseHelper } from "../../Shared/responseHelpers/response";
 import { IJwtService } from "../../domain/Entities/Service.Entities/IJwtservice";
 import { commonOutput } from "../../application/dto/common";
 import { listTransferDTO, TransferOutput } from "../../application/dto/transfer.dto";
 import { fetchProjectIdnameDTO } from "../../application/dto/project.dto";
+import { IGetTransferUseCase } from "../../application/IUseCases/ITransfer/IGetTransfer";
+import { IGetToProjectUseCase } from "../../application/IUseCases/ITransfer/IGetToProject";
+import { ISaveTransferUseCase } from "../../application/IUseCases/ITransfer/ISaveTransfer";
+import { IUpdateTransferUseCase } from "../../application/IUseCases/ITransfer/IUpdateTransfer";
+import { IDeleteTransferUseCase } from "../../application/IUseCases/ITransfer/IDeleteTransfer";
+import { IApproveTransferUseCase } from "../../application/IUseCases/ITransfer/IApproveTransfer";
+import { IReceiveTransferUseCase } from "../../application/IUseCases/ITransfer/IReceiveTransfer";
 
 export class TransferController implements ITransferController {
 
    constructor(
       private _jwtService: IJwtService,
-      private _getTransferUseCase: IGetTransferUseCaseEntity,
-      private _getToProjectUseCase: IGetToProjectUseCaseEntity,
-      private _saveTransferUseCase: ISaveTransferUseCaseEntity,
-      private _updateTransferUseCase: IUpdateTransferUseCaseEntity,
-      private _deleteTransferUseCase: IDeleteTransferUseCaseEntity,
-      private _approveTransferUseCase: IApproveTransferUseCaseEntity,
-      private _receiveTransferUseCase: IReceiveTransferUseCaseEntity,
+      private _getTransferUseCase: IGetTransferUseCase,
+      private _getToProjectUseCase: IGetToProjectUseCase,
+      private _saveTransferUseCase: ISaveTransferUseCase,
+      private _updateTransferUseCase: IUpdateTransferUseCase,
+      private _deleteTransferUseCase: IDeleteTransferUseCase,
+      private _approveTransferUseCase: IApproveTransferUseCase,
+      private _receiveTransferUseCase: IReceiveTransferUseCase,
    ) { }
 
    //  Fetch transfer list with pagination & search 

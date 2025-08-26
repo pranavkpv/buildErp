@@ -1,9 +1,9 @@
 import { IMaterialMapper } from "../../domain/mappers/IMaterial.mapper";
 import { EditmaterialDetailsDTO, EditprojectDetailsDTO, listingMaterialDTO } from "../dto/material.dto";
-import { editMaterialFullDatafetch } from "../entities/material.entity";
-import { ProjectStockOutput } from "../entities/project.entity";
+import { editMaterialFullDatafetch } from "../Entities/material.entity";
+import { ProjectStockOutput } from "../Entities/project.entity";
 
-export class materialMapper implements IMaterialMapper {
+export class MaterialMapper implements IMaterialMapper {
    tolistingMaterialDTO(material: editMaterialFullDatafetch[]): listingMaterialDTO[] {
       return material.map((element) => ({
          _id: element._id,

@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from "express";
-import { IBrandController } from "../../domain/Entities/Controller.Entity/IBrand";
+import { IBrandController } from "../../domain/Entities/IController/IBrand";
 import { commonOutput } from "../../application/dto/common";
-import { ISaveBrandUseCase } from "../../application/interfaces/useCase.Entity/Brand.UseCase.Entities/SaveBrandEntity";
-import { IDeleteBrandUsecase } from "../../application/interfaces/useCase.Entity/Brand.UseCase.Entities/DeleteBrandEntity";
-import { IDisplayAllBrandUseCase } from "../../application/interfaces/useCase.Entity/Brand.UseCase.Entities/DisplayAllBrandEntity";
-import { IUpdateBrandUseCase } from "../../application/interfaces/useCase.Entity/Brand.UseCase.Entities/UpdateBrandEntity";
+import { ISaveBrandUseCase } from "../../application/IUseCases/IBrand/ISaveBrand";
+import { IDeleteBrandUsecase } from "../../application/IUseCases/IBrand/IDeleteBrand";
+import { IDisplayAllBrandUseCase } from "../../application/IUseCases/IBrand/IDisplayAllBrand";
+import { IUpdateBrandUseCase } from "../../application/IUseCases/IBrand/IUpdateBrand";
 import { idBrandnameDTO } from "../../application/dto/brand.dto";
 
 export class BrandController implements IBrandController {

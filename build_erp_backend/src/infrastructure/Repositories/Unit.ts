@@ -1,0 +1,69 @@
+import { unitDB } from "../../api/models/UnitModel";
+import { listingInput } from "../../application/Entities/common.entity";
+import { saveUnitInput } from "../../application/Entities/unit.entity";
+import { IUnitModelEntity } from "../../domain/Entities/modelEntities/unit.entity";
+import { IUnitRepository } from "../../domain/Entities/IRepository/IUnit";
+
+export class UnitRepository implements IUnitRepository {
+    
+    // Fetch all units
+    async getAllUnits(): Promise<IUnitModelEntity[]> {
+        return await unitDB.find();
+    }
+
+    // Find unit by name
+    async getUnitByName(unitName: string): Promise<IUnitModelEntity | null> {
+        return await unitDB.findOne({
+            unit_name: { $regex: new RegExp(`${unitName}$`, "i") }
+        });
+    }
+
+    // Create new unit
+    async createUnit(input: saveUnitInput): Promise<IUnitModelEntity | null> {
+        const { unit_name, short_name } = input;
+        const newUnit = new unitDB({ unit_name, short_name });
+        return await newUnit.save();
+    }
+
+    // Check if unit name already exists while editing
+    async checkUnitExistsOnEdit(_id: string, unitName: string): Promise<IUnitModelEntity | null> {
+        return await unitDB.findOne({
+            _id: { $ne: _id },
+            unit_name: { $regex: new RegExp(`${unitName}$`, "i") }
+        });
+    }
+
+    // Update unit by ID
+    async updateUnit(input: saveUnitInput): Promise<IUnitModelEntity | null> {
+        const { _id, unit_name, short_name } = input;
+        return await unitDB.findByIdAndUpdate(_id, { unit_name, short_name });
+    }
+
+    // Delete unit by ID
+    async deleteUnit(_id: string): Promise<IUnitModelEntity | null> {
+        return await unitDB.findByIdAndDelete(_id);
+    }
+
+    // Get paginated list of units
+    async getPaginatedUnits(input: listingInput): Promise<{ data: IUnitModelEntity[], totalPage: number }> {
+        const { page, search } = input;
+        const skip = page * 5;
+        const searchRegex = new RegExp(search, "i");
+
+        const unitList = await unitDB
+            .find({ unit_name: { $regex: searchRegex } })
+            .skip(skip)
+            .limit(5);
+
+        const totalPage = (await unitDB.countDocuments({
+            unit_name: { $regex: searchRegex }
+        })) / 5;
+
+        return { data: unitList, totalPage };
+    }
+
+    // Find unit by ID
+    async getUnitById(_id: string): Promise<IUnitModelEntity | null> {
+        return await unitDB.findById(_id);
+    }
+}

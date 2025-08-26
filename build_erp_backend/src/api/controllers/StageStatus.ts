@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 import cloudinary from "../../infrastructure/config/cloudinary";
-import { IstatusController } from "../../domain/Entities/Controller.Entity/IStageStatus";
-import { IStageStatusChangeUseCase } from "../../application/interfaces/SitemanagerUseCaseEntities/StageStatusUpdationUseCaseEntities/StageStatusChangeUseCaseEntuty";
-import { IUploadStatusImageUseCase } from "../../application/interfaces/SitemanagerUseCaseEntities/StageStatusUpdationUseCaseEntities/UploadStatusImageUseCaseEntity";
+import { IstatusController } from "../../domain/Entities/IController/IStageStatus";
+import { IStageStatusChangeUseCase } from "../../application/IUseCases/IStageStatusUpdation/IStageStatusChange";
+import { IUploadStatusImageUseCase } from "../../application/IUseCases/IStageStatusUpdation/IUploadStatusImage";
 import { StageFailedMessage } from "../../Shared/Messages/Stage.Message";
 import { HTTP_STATUS } from "../../Shared/statusCodes/statusCodes";
 import { commonOutput } from "../../application/dto/common";

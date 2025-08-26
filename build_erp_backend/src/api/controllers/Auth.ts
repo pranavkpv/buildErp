@@ -1,25 +1,25 @@
 import { NextFunction, Request, Response } from "express";
 import { commonOutput } from "../../application/dto/common";
-import { ISignupUserUseCase } from "../../application/interfaces/useCase.Entity/Auth.UseCase/ISignup.usecase";
-import { IResendOTPUseCase } from "../../application/interfaces/useCase.Entity/Auth.UseCase/IResendotp.usecase";
-import { IUserLoginUseCase } from "../../application/interfaces/useCase.Entity/Auth.UseCase/IUserlogin.usecase";
-import { IAuthController } from "../../domain/Entities/Controller.Entity/IAuth";
+import { ISignupUserUseCase } from "../../application/IUseCases/IAuth/ISignup";
+import { IResendOTPUseCase } from "../../application/IUseCases/IAuth/IResendOtp";
+import { IUserLoginUseCase } from "../../application/IUseCases/IAuth/IUserLogin";
+import { IAuthController } from "../../domain/Entities/IController/IAuth";
 import { userLoginDTO } from "../../application/dto/user.dto";
-import { Tokens } from "../../application/entities/token.entity";
-import { IGoogleloginUseCase } from "../../application/interfaces/useCase.Entity/Auth.UseCase/IGooglelogin.usecase";
-import { ISendOTPUseCase } from "../../application/interfaces/useCase.Entity/Auth.UseCase/ISendotp.usecase";
-import { IVerifyForgotpasswordUseCase } from "../../application/interfaces/useCase.Entity/Auth.UseCase/IVerifyforgotpassword.usecase";
-import { IUpdatePasswordUseCase } from "../../application/interfaces/useCase.Entity/Auth.UseCase/IUpdatepassword.usecase";
-import { IGetAllProjectListInUserusecase } from "../../application/interfaces/useCase.Entity/Auth.UseCase/IGetallproject.usecase";
+import { Tokens } from "../../application/Entities/token.entity";
+import { IGoogleloginUseCase } from "../../application/IUseCases/IAuth/IGoogleLogin";
+import { ISendOTPUseCase } from "../../application/IUseCases/IAuth/ISendOtp";
+import { IVerifyForgotpasswordUseCase } from "../../application/IUseCases/IAuth/IVerifyForgotPasswordOtp";
+import { IUpdatePasswordUseCase } from "../../application/IUseCases/IAuth/IUpdatepassword";
+import { IGetAllProjectListInUserusecase } from "../../application/IUseCases/IAuth/IGetallProjectInUser";
 import { publicProjectDTO } from "../../application/dto/project.dto";
-import { IFetchExistEstimationUseCase } from "../../application/interfaces/AdminUseCaseEntities/EstimationUseCaseEntities/Ifetchexistestimation.usecase";
+import { IFetchExistEstimationUseCase } from "../../application/IUseCases/IEstimation/IFetchExistEstimation";
 import { publicEstimationDTO } from "../../application/dto/estimation.dto";
-import { IFetchStatusUseCase } from "../../application/interfaces/SitemanagerUseCaseEntities/StageStatusUpdationUseCaseEntities/IFetchstatus.usecase";
+import { IFetchStatusUseCase } from "../../application/IUseCases/IStageStatusUpdation/IFetchStageStatus";
 import { publicstageDTO } from "../../application/dto/stage.dto";
-import { IFetchStatusBaseProjectUseCase } from "../../application/interfaces/UserUseCaseEntities/ProjectDisplayUseCaseEntities/FetchStatusBaseProjectUseCaseEntity";
+import { IFetchStatusBaseProjectUseCase } from "../../application/IUseCases/IProject/IFetchStatusBaseProject";
 import { ResponseHelper } from "../../Shared/responseHelpers/response";
-import { IRefreshTokenUseCase } from "../../application/interfaces/useCase.Entity/Auth.UseCase/RefreshToken.UseCase.Entity";
-import { IVerifyOTPUseCase } from "../../application/interfaces/useCase.Entity/Auth.UseCase/IVerifyotp.usecase.ts";
+import { IRefreshTokenUseCase } from "../../application/IUseCases/IAuth/IRefreshToken";
+import { IVerifyOTPUseCase } from "../../application/IUseCases/IAuth/IVerifyOtp";
 
 export class AuthController implements IAuthController {
    constructor(

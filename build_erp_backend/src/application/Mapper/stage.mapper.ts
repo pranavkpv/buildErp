@@ -2,7 +2,7 @@ import { IStageModelEntity } from "../../domain/Entities/modelEntities/stage.ent
 import { IStagemapper } from "../../domain/mappers/IStage.mapper";
 import { publicstageDTO, stageListDTO } from "../dto/stage.dto";
 
-export class stagemapper implements IStagemapper {
+export class Stagemapper implements IStagemapper {
    topublicStageDto(stage: IStageModelEntity[]): publicstageDTO[] {
        return stage.map((element)=>({
          _id:element._id,

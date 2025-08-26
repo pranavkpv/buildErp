@@ -2,27 +2,32 @@ import { Router } from "express";
 import { withLogging } from "../../../infrastructure/middlewares/withLoggingMiddleware";
 import { adminMiddleWare } from "../../../infrastructure/middlewares/adminMiddleware";
 import { validateAddSitemanagerToproject } from "../../../infrastructure/middlewares/validation/addsitemanagerToproject.validation";
-import { injectAddSitemanagerToprojectController } from "../../di/addSiteToproject,Injection";
-import { injectAdminDashboardController } from "../../di/admin.dashboard.injection";
 import { validateSaveEstimation, validateUploadEstimationImage } from "../../../infrastructure/middlewares/validation/estimation.validaion";
 import { validateAddLabour } from "../../../infrastructure/middlewares/validation/labour.validation";
 import { validateAddMaterial } from "../../../infrastructure/middlewares/validation/material.validation";
 import { validateProjectAdd } from "../../../infrastructure/middlewares/validation/project.validation";
-import { injectedProjectController } from "../../di/project.Injection";
 import { validateSpecification } from "../../../infrastructure/middlewares/validation/spec.validation";
-import { injectedMaterialController } from "../../di/material.injection";
-import { validateStageAction } from "../../../infrastructure/middlewares/validation/stage.validation";
 import { validateBrandAction } from "../../../infrastructure/middlewares/validation/brand.validation";
-import { injectStageController } from "../../di/stage.injection";
-import { injectedBrandController } from "../../di/Brand.Injection";
 import { validateCategoryAction } from "../../../infrastructure/middlewares/validation/category.validation";
 import { validateUnitAction } from "../../../infrastructure/middlewares/validation/unit.validation";
 import { JwtService } from "../../../application/services/JwtService";
-import { injectedUnitController } from "../../di/Unit.Injection";
-import { injectedAdminController, injectedLabourController, injectedSitemanagerController, injectEstimationController, injectSpecController } from "../../di/adminInject";
 import { validateAddSitemanager } from "../../../infrastructure/middlewares/validation/sitemanager.validation";
-import { CategoryController } from "../../controllers/Category";
-import { injectedCategoryController } from "../../di/Categoryi.Injection";
+import { injectedAdminController } from "../../DI/Admin";
+import { injectAddSitemanagerToprojectController } from "../../DI/AddSitemanagerToProject";
+import { injectedCategoryController } from "../../DI/Category";
+import { injectedUnitController } from "../../DI/Unit";
+import { injectedBrandController } from "../../DI/Brand";
+import { injectedMaterialController } from "../../DI/Material";
+import { injectedProjectController } from "../../DI/Project";
+import { injectedLabourController } from "../../DI/Labour";
+import { injectedSitemanagerController } from "../../DI/Sitemanager";
+import { validateStageAction } from "../../../infrastructure/middlewares/validation/stage.validation";
+import { injectSpecController } from "../../DI/Specification";
+import { injectEstimationController } from "../../DI/Estimation";
+import { injectStageController } from "../../DI/Stage";
+import { injectAdminDashboardController } from "../../DI/AdminDashboard";
+
+
 
 
 export class AdminRoute {
@@ -84,21 +89,21 @@ export class AdminRoute {
     // 🟢 UNIT ROUTES
     // =====================================================================
     this.adminRoute.get("/unit",
-      withLogging(injectedUnitController.getUnitHandler));
+      withLogging(injectedUnitController.getUnits));
 
     this.adminRoute.post("/unit",
       validateUnitAction,
-      withLogging(injectedUnitController.addUnitHandler));
+      withLogging(injectedUnitController.createUnit));
 
     this.adminRoute.put("/unit/:id",
       validateUnitAction,
-      withLogging(injectedUnitController.editUnitHandler));
+      withLogging(injectedUnitController.updateUnit));
 
     this.adminRoute.delete("/unit/:id",
-      withLogging(injectedUnitController.removeUnitHandler));
+      withLogging(injectedUnitController.deleteUnit));
 
     this.adminRoute.get("/getUnit",
-      withLogging(injectedUnitController.displayAllUnitHandler));
+      withLogging(injectedUnitController.fetchAllUnits));
 
     // =====================================================================
     // 🟢 BRAND ROUTES

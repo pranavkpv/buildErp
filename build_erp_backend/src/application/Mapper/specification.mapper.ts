@@ -2,7 +2,7 @@ import { ISpecModelEntity } from "../../domain/Entities/modelEntities/spec.entit
 import { ISpecificationMapper } from "../../domain/mappers/ISpecification.mapper";
 import { specFullDTO } from "../dto/specification.dto";
 
-export class specificationMapper implements ISpecificationMapper {
+export class SpecificationMapper implements ISpecificationMapper {
    toFetchSitemanagerNameandId(spec: ISpecModelEntity[]): specFullDTO[] {
        return spec.map((item)=>({
          _id:item._id,

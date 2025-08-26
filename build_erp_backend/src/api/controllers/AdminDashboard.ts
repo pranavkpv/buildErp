@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express"
-import { IBudgetAndActualUsecase } from "../../application/interfaces/AdminUseCaseEntities/DashboardUseCaseEntities/BudgetAndActualEntity"
-import { IAdminDashboardController } from "../../domain/Entities/Controller.Entity/IAdminDashboard"
-import { IBudgetAndActualMaterialUseCase } from "../../application/interfaces/AdminUseCaseEntities/DashboardUseCaseEntities/BudgetAndActualMaterialEntity"
-import { IBudgetAndActualLabourUseCase } from "../../application/interfaces/AdminUseCaseEntities/DashboardUseCaseEntities/BudgetedAndActualLabourEntity"
+import { IBudgetAndActualUsecase } from "../../application/IUseCases/IAdmin/IBudgetAndActual"
+import { IAdminDashboardController } from "../../domain/Entities/IController/IAdminDashboard"
+import { IBudgetAndActualMaterialUseCase } from "../../application/IUseCases/IAdmin/IBudgetAndActualMaterial"
+import { IBudgetAndActualLabourUseCase } from "../../application/IUseCases/IAdmin/IBudgetedAndActualLabour"
 import { budgetActualDTO } from "../../application/dto/admin.dashoard.dto"
 import { commonOutput } from "../../application/dto/common"
 

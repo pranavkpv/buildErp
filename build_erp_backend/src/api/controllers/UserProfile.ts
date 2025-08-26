@@ -1,22 +1,22 @@
 import { NextFunction, Request, Response } from "express";
-import { IUserprofileController } from "../../domain/Entities/Controller.Entity/IUserProfile";
+import { IUserprofileController } from "../../domain/Entities/IController/IUserProfile";
 import { commonOutput } from "../../application/dto/common";
 import { ResponseHelper } from "../../Shared/responseHelpers/response";
 import { IJwtService } from "../../domain/Entities/Service.Entities/IJwtservice";
-import { IUpdateProfileUseCase } from "../../application/interfaces/UserUseCaseEntities/AuthenticationUseCaseEntities/IUpdateProfile.usecase";
+import { IUpdateProfileUseCase } from "../../application/IUseCases/IUserProfile/IUpdateProfile";
 import { userLoginDTO } from "../../application/dto/user.dto";
-import { Tokens } from "../../application/entities/token.entity";
+import { Tokens } from "../../application/Entities/token.entity";
 import { FileArray, UploadedFile } from "express-fileupload";
 import cloudinary from "../../infrastructure/config/cloudinary";
-import { IUpdateProfileImageUseCase } from "../../application/interfaces/UserUseCaseEntities/AuthenticationUseCaseEntities/IUpdateProfileImage.usecase";
-import { IChangePasswordUseCase } from "../../application/interfaces/UserUseCaseEntities/AuthenticationUseCaseEntities/IChangePassword.usecase";
-import { IFetchUserProjectUseCase } from "../../application/interfaces/UserUseCaseEntities/ProjectDisplayUseCaseEntities/FetchUserProjectUsecaseEntity";
+import { IUpdateProfileImageUseCase } from "../../application/IUseCases/IUserProfile/IUpdateProfileImage";
+import { IChangePasswordUseCase } from "../../application/IUseCases/IUserProfile/IChangePassword";
+import { IFetchUserProjectUseCase } from "../../application/IUseCases/IProject/IFetchUserProject";
 import { userBasechatListDTO, userBaseProjectDTO } from "../../application/dto/project.dto";
-import { IGetSitemanagerListDataUseCase } from "../../application/interfaces/UserUseCaseEntities/ProjectDisplayUseCaseEntities/GetSitemanagerListUseCase";
+import { IGetSitemanagerListDataUseCase } from "../../application/IUseCases/IProject/IGetSitemanagerList";
 import { chatDataDTO } from "../../application/dto/chat.dto";
-import { IGetMessageDataUseCase } from "../../application/interfaces/UserUseCaseEntities/ChatUseCaseEntities/GetmessageDatauseCase";
+import { IGetMessageDataUseCase } from "../../application/IUseCases/IChat/IGetmessageData";
 import { userFailedMessage, userSuccessMessage } from "../../Shared/Messages/User.Message";
-import { IBlackListUseCase } from "../../application/interfaces/UserUseCaseEntities/AuthenticationUseCaseEntities/IBlackListAccessToken.Usecase";
+import { IBlackListUseCase } from "../../application/IUseCases/IAuth/IBlackList";
 
 export class UserProfileController implements IUserprofileController {
    constructor(

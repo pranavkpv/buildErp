@@ -1,17 +1,17 @@
 import { Request, Response, NextFunction } from "express";
 import { commonOutput } from "../../application/dto/common";
-import { ICategoryController } from "../../domain/Entities/Controller.Entity/ICategory";
-import { ISaveCategoryUseCaseEntity } from "../../application/interfaces/Category.UseCase.Entities/SaveCategoryEntity";
-import { IDisplayAllCategoryUseCase } from "../../application/interfaces/Category.UseCase.Entities/DisplayAllCategoryEntity";
+import { ICategoryController } from "../../domain/Entities/IController/ICategory";
+import { IDisplayAllCategoryUseCase } from "../../application/IUseCases/ICategory/IDisplayAllCategory";
 import { categoryListDTO } from "../../application/dto/category.dto";
-import { IUpdateCategoryUseCase } from "../../application/interfaces/Category.UseCase.Entities/UpdateCategoryEntity";
+import { IUpdateCategoryUseCase } from "../../application/IUseCases/ICategory/IUpdateCategory";
 import { ResponseHelper } from "../../Shared/responseHelpers/response";
-import { IDeleteCategoryUseCase } from "../../application/interfaces/Category.UseCase.Entities/DeleteCategoryEntity";
+import { IDeleteCategoryUseCase } from "../../application/IUseCases/ICategory/IDeleteCategory";
 import { CategoryFailedMessage } from "../../Shared/Messages/Category.Message";
+import { ISaveCategoryUseCase } from "../../application/IUseCases/ICategory/ISaveCategory";
 
 export class CategoryController implements ICategoryController {
    constructor(
-      private _addCategoryUseCase: ISaveCategoryUseCaseEntity,
+      private _addCategoryUseCase: ISaveCategoryUseCase,
       private _displayAllCategoryUseCase: IDisplayAllCategoryUseCase,
       private _updateCategoryUseCase: IUpdateCategoryUseCase,
       private _deleteCategoryUseCase: IDeleteCategoryUseCase
@@ -30,7 +30,7 @@ export class CategoryController implements ICategoryController {
 
    // Fetch all categories with pagination and search
    getAllCategories = async (req: Request, res: Response, next: NextFunction):
-      Promise<commonOutput<{ data: categoryListDTO[]; totalPage: number }> | void> => {
+      Promise<commonOutput<{ data: categoryListDTO[]; totalPages: number }> | void> => {
       try {
          const { page, search } = req.query;
          const pageNum = Number(page);

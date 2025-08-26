@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
-import { IChatControllerEntity } from "../../domain/Entities/Controller.Entity/IChatControllerEntity";
-import { IFetchUserUsecaseEntity } from "../../application/interfaces/SitemanagerUseCaseEntities/StageStatusUpdationUseCaseEntities/FetchUserUseCaseEntity";
+import { IChatControllerEntity } from "../../domain/Entities/IController/IChatControllerEntity";
+import { IFetchUserUseCase } from "../../application/IUseCases/IStageStatusUpdation/IFetchUser";
 import { ResponseHelper } from "../../Shared/responseHelpers/response";
 import { IJwtService } from "../../domain/Entities/Service.Entities/IJwtservice";
 import { commonOutput } from "../../application/dto/common";
@@ -8,20 +8,21 @@ import { chatListDTO } from "../../application/dto/user.dto";
 
 export class ChatController implements IChatControllerEntity {
    constructor(
-      private fetchUseruseCase: IFetchUserUsecaseEntity,
-      private jwtService: IJwtService
+      private _fetchUseruseCase: IFetchUserUseCase,
+      private _jwtService: IJwtService
    ) { }
-   fetchUserDetailsforChat = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput<chatListDTO[]> | commonOutput> => {
+   fetchUserDetailsforChat = async (req: Request, res: Response, next: NextFunction):
+      Promise<commonOutput<chatListDTO[]> | commonOutput> => {
       const userHeader = req.headers.authorization
       const accessToken = userHeader?.split(" ")[1]
       if (!accessToken) {
          return ResponseHelper.unAuthor()
       }
-      const payload = await this.jwtService.verifyAccessToken(accessToken);
+      const payload = await this._jwtService.verifyAccessToken(accessToken);
       if (!payload) {
          return ResponseHelper.unAuthor()
       }
-      const data = await this.fetchUseruseCase.execute(payload._id)
+      const data = await this._fetchUseruseCase.execute(payload._id)
       return data
 
    }
