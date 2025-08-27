@@ -71,6 +71,8 @@ export class ProjectMapper implements IProjectmapper {
          mobile_number:element.mobile_number,
          project_name:element.project_name,
          status:element.status,
+         lat:element.latitude,
+         long:element.longitude,
          userDetails:{
           _id:element.userDetails._id,
           username:element.userDetails.username,

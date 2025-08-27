@@ -61,7 +61,7 @@ export class ProjectRepository implements IprojectRepository {
 
     return {
       getProjectListData: projectData || [],
-      totalPage: totalDoc.length
+      totalPage: Math.ceil(totalDoc.length/5)
     };
   }
   // Get project by name
@@ -159,6 +159,7 @@ export class ProjectRepository implements IprojectRepository {
   // Get projects with stage info and pagination
   async getProjectsWithStage(input: listingInput):
     Promise<{ data: IProjectModelEntity[]; totalPage: number }> {
+      console.log(input)
     const skip = input.page * 5;
 
     const data = await projectDB.find({
@@ -168,6 +169,7 @@ export class ProjectRepository implements IprojectRepository {
 
     const totalPage = Math.ceil(
       await projectDB.countDocuments({
+        budgeted_cost: { $ne: null },
         project_name: { $regex: input.search, $options: "i" }
       }) / 5
     );

@@ -26,13 +26,17 @@ function Category() {
 
   const fetchData = async () => {
     const search = searchCategory
-    const data = await categoryList({page, search})
-    console.log(data)
-    setTotal(Math.ceil(data.totalPage))
-    setCategories(data.data);
+    const response = await categoryList({ page, search })
+    setTotal(Math.ceil(response.data.totalPage))
+    setCategories(response.data.data);
   };
   useEffect(() => {
-    fetchData();
+    const handler = setTimeout(() => {
+      fetchData();
+    },500)
+    return ()=>{
+      clearTimeout(handler)
+    }
   }, [page, searchCategory]);
 
   return (

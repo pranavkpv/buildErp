@@ -23,6 +23,7 @@ type EditProjectProp = {
   editProjectId: string;
   setEnableEdit: React.Dispatch<React.SetStateAction<boolean>>;
   onEditSuccess: () => void;
+  editLocation:Location | null;
 };
 
 interface Location {
@@ -43,7 +44,11 @@ function EditProject({
   editProjectId,
   setEnableEdit,
   onEditSuccess,
+  editLocation
 }: EditProjectProp) {
+  
+  if (!editEnable) return null;
+
   const [project_name, setProjectName] = useState(editProject);
   const [user_id, setUserId] = useState(editUserId);
   const [address, setAddress] = useState(editAddress);
@@ -53,7 +58,7 @@ function EditProject({
   const [area, setArea] = useState<number>(editArea);
   const [userList, setUserList] = useState<UserType[]>([]);
   const [onMap, setOnMap] = useState(false);
-  const [selectedLocation, setSelectedLocation] = useState<Location | null>(null);
+  const [selectedLocation, setSelectedLocation] = useState<Location | null>(editLocation);
 
   const projectRef = useRef<HTMLParagraphElement>(null);
   const userRef = useRef<HTMLParagraphElement>(null);
@@ -71,7 +76,8 @@ function EditProject({
     setMobile(editPhone);
     setDescription(editDescription);
     setArea(editArea);
-  }, [editProject, editUserId, editAddress, editEmail, editPhone, editDescription, editArea]);
+    setSelectedLocation(editLocation)
+  });
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -82,6 +88,7 @@ function EditProject({
   }, []);
 
   const editFormSubmit = async (e: React.FormEvent) => {
+    console.log(selectedLocation)
     e.preventDefault();
 
     let hasError = false;
@@ -167,7 +174,7 @@ function EditProject({
     }
   };
 
-  if (!editEnable) return null;
+  
 
   return (
     <div className="fixed inset-0 bg-gray-900/80 flex items-center justify-center z-50 p-4 sm:p-6">

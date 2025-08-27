@@ -1,9 +1,9 @@
 import { IPurchaseRepository } from "../../../domain/Entities/IRepository/IPurchase"
 import { ISavePurchaseUseCase } from "../../IUseCases/IPurchase/ISavePurchase"
-import { purchaseFailedMessage, purchaseSuccessMessage } from "../../../Shared/Messages/Purchase.Message"
 import { ResponseHelper } from "../../../Shared/responseHelpers/response"
 import { purchaseInput } from "../../Entities/purchase.entity"
 import { commonOutput } from "../../dto/common"
+import { PurchaseFailedMessage, PurchaseSuccessMessage } from "../../../Shared/Messages/Purchase.Message"
 
 
 export class SavePurchaseUseCase implements ISavePurchaseUseCase {
@@ -13,8 +13,8 @@ export class SavePurchaseUseCase implements ISavePurchaseUseCase {
    async execute(input: purchaseInput): Promise<commonOutput> {
       const response = await this._purchaseRepository.createPurchase(input)
       if (!response) {
-         return ResponseHelper.badRequest(purchaseFailedMessage.SAVE)
+         return ResponseHelper.badRequest(PurchaseFailedMessage.SAVE)
       }
-      return ResponseHelper.createdSuccess(purchaseSuccessMessage.SAVE)
+      return ResponseHelper.createdSuccess(PurchaseSuccessMessage.SAVE)
    }
 }

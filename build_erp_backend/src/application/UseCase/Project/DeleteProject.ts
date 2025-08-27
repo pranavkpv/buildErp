@@ -1,4 +1,5 @@
 
+import { estimationAdditionalDB } from "../../../api/models/EstimationAdditionalModel"
 import { IEstimationRepository } from "../../../domain/Entities/IRepository/IEstimation"
 import { IprojectRepository } from "../../../domain/Entities/IRepository/IProject"
 import { IProjectStockRepository } from "../../../domain/Entities/IRepository/IProjectStock"
@@ -17,7 +18,7 @@ export class DeleteProjectUseCase implements IDeleteProjectUseCase {
   async execute(_id: string): Promise<commonOutput> {
     const existProjectInMaterial = await this._projectStockRepository.getProjectStockById(_id)
     const existProjectInEstimation = await this._estimationRepository.getEstimationsByProjectId(_id)
-    if (existProjectInMaterial || existProjectInEstimation) {
+    if (existProjectInMaterial || existProjectInEstimation.length>0) {
       return ResponseHelper.conflictData(ProjectFailedMessage.ALREADY_USED)
     }
     await this._projectRepository.DeleteProjectById(_id)

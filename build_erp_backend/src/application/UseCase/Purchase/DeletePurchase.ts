@@ -1,8 +1,8 @@
 import { IDeletePurchaseUseCase } from "../../IUseCases/IPurchase/IDeletePurchase"
-import { purchaseSuccessMessage } from "../../../Shared/Messages/Purchase.Message"
 import { ResponseHelper } from "../../../Shared/responseHelpers/response"
 import { IPurchaseRepository } from "../../../domain/Entities/IRepository/IPurchase"
 import { commonOutput } from "../../dto/common"
+import { PurchaseSuccessMessage } from "../../../Shared/Messages/Purchase.Message"
 
 export class DeletePurchaseUseCase implements IDeletePurchaseUseCase {
    constructor(
@@ -10,6 +10,6 @@ export class DeletePurchaseUseCase implements IDeletePurchaseUseCase {
    ) { }
    async execute(_id: string): Promise<commonOutput> {
       await this._purchaseRepository.deletePurchaseById(_id)
-      return ResponseHelper.success(purchaseSuccessMessage.DELETE)
+      return ResponseHelper.success(PurchaseSuccessMessage.DELETE)
    }
 }

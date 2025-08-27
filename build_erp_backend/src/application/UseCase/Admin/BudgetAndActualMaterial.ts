@@ -3,7 +3,6 @@ import { IPurchaseRepository } from "../../../domain/Entities/IRepository/IPurch
 import { ITransferRepository } from "../../../domain/Entities/IRepository/ITransfer";
 import { IReceiveRepository } from "../../../domain/Entities/IRepository/IReceive";
 import { userFailedMessage } from "../../../Shared/Messages/User.Message";
-import { purchaseFailedMessage } from "../../../Shared/Messages/Purchase.Message";
 import { ReceiveFailedMessage } from "../../../Shared/Messages/Receive.Message";
 import { BudgetSuccessMessage } from "../../../Shared/Messages/BugetVsActual.Message";
 import { IEstimationRepository } from "../../../domain/Entities/IRepository/IEstimation";
@@ -11,6 +10,7 @@ import { IprojectRepository } from "../../../domain/Entities/IRepository/IProjec
 import { IBudgetAndActualMaterialUseCase } from "../../IUseCases/IAdmin/IBudgetAndActualMaterial";
 import { commonOutput } from "../../dto/common";
 import { budgetActualDTO } from "../../dto/admin.dashoard.dto";
+import { PurchaseFailedMessage } from "../../../Shared/Messages/Purchase.Message";
 
 export class BudgetAndActualMaterialUseCase implements IBudgetAndActualMaterialUseCase {
    constructor(
@@ -40,7 +40,7 @@ export class BudgetAndActualMaterialUseCase implements IBudgetAndActualMaterialU
          }
       }
       const purchaseData = await this._purchaseRepository.getAllApprovedPurchases()
-      if (!purchaseData) return ResponseHelper.badRequest(purchaseFailedMessage.ERROR)
+      if (!purchaseData) return ResponseHelper.badRequest(PurchaseFailedMessage.ERROR)
       if (Array.isArray(purchaseData)) {
          for (let element of purchaseData) {
             for (let item of result) {
@@ -55,7 +55,7 @@ export class BudgetAndActualMaterialUseCase implements IBudgetAndActualMaterialU
       }
 
       const transferData = await this._transferRepository.findAllTransfer()
-      if (!transferData) return ResponseHelper.badRequest(purchaseFailedMessage.ERROR)
+      if (!transferData) return ResponseHelper.badRequest(PurchaseFailedMessage.ERROR)
       if (Array.isArray(transferData)) {
          for (let element of transferData) {
             for (let item of result) {

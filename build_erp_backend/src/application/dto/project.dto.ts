@@ -45,6 +45,8 @@ export interface displayProjectDTO {
    email: string;
    description: string;
    area: number;
+   lat:number;
+   long:number;
    userDetails: {
       _id: string;
       username: string;

@@ -46,7 +46,6 @@ function Adminlogin() {
       return;
     }
       const response = await adminLoginAPI(username,password)
-      console.log(response)
       if (response.success) {
         toast.success(response.data.data.message);
         navigate("/admin/dashboard");

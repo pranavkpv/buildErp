@@ -29,10 +29,10 @@ function ListStage() {
   const [editId,setEditId] = useState("")
 
   const fetchStage = async () => {
-      const data = await fetchStageDataAPI(search,page);
-      setDatas(data.data);
+      const response = await fetchStageDataAPI(search,page);
+      setDatas(response.data.data);
       let x = []
-      for(let i=0;i<data.totalPage;i++){
+      for(let i=0;i<response.data.totalPage;i++){
          x.push(i)
       }
       setTotalPage(x)

@@ -23,6 +23,9 @@ interface Location {
 }
 
 function ProjectAdd({ enableAdd, setEnableAdd, onAddSuccess }: EditType) {
+
+  if (!enableAdd) return null;
+
   const [userList, setUserList] = useState<UserType[]>([]);
   const [user_id, setSelectedUserId] = useState("");
   const [project_name, setProjectName] = useState("");
@@ -146,8 +149,6 @@ function ProjectAdd({ enableAdd, setEnableAdd, onAddSuccess }: EditType) {
       toast.error(data.message);
     }
   };
-
-  if (!enableAdd) return null;
 
   return (
     <div className=" absolute  inset-0 bg-gray-900/80 flex items-center justify-center z-50 p-4 sm:p-6">

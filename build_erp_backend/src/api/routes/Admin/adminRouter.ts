@@ -26,6 +26,7 @@ import { injectSpecController } from "../../DI/Specification";
 import { injectEstimationController } from "../../DI/Estimation";
 import { injectStageController } from "../../DI/Stage";
 import { injectAdminDashboardController } from "../../DI/AdminDashboard";
+import { validateAdminLogin } from "../../../infrastructure/middlewares/validation/admin.validation";
 
 
 
@@ -44,7 +45,9 @@ export class AdminRoute {
     // =====================================================================
     // 🟢 AUTH ROUTES
     // =====================================================================
-    this.adminRoute.post("/login", withLogging(injectedAdminController.adminLogin));
+    this.adminRoute.post("/login", 
+      validateAdminLogin,
+      withLogging(injectedAdminController.adminLogin));
 
     // ✅ Protect all routes after this middleware
     this.adminRoute.use(adminMiddleWare(jwtService));

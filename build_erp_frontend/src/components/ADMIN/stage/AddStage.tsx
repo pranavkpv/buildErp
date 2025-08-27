@@ -36,6 +36,7 @@ function AddStage({ addEnable, setAddEnable ,onAddSuccess}: stageProp) {
 
    const fetchBudgetedCost = async (projectId: string) => {
          const data = await fetchBugetAPI(projectId);
+         
          if (data.success) {
             setCost(data.data);
          } else {

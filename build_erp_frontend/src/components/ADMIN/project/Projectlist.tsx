@@ -14,6 +14,8 @@ type ProjectType = {
   email: string;
   description: string;
   area: number;
+  lat:number;
+  long:number;
   userDetails: {
     _id: string;
     username: string;
@@ -22,6 +24,12 @@ type ProjectType = {
   };
   status: string;
 };
+
+interface Location {
+  lat: number;
+  lng: number;
+  name: string;
+}
 
 function Project() {
   const [projectList, setProjectList] = useState<ProjectType[]>([]);
@@ -46,6 +54,7 @@ function Project() {
   const [editArea, setEditArea] = useState<number>(0);
   const [editEnable, setEditEnable] = useState(false);
   const [editProjectId, setEditProjectId] = useState("");
+  const [editLocation,setEditLocation] = useState<Location | null>(null)
 
 
   // change
@@ -56,7 +65,7 @@ function Project() {
   const fetchData = async () => {
       const response = await projectListData(page,search)
       setProjectList(response.data.data);
-      setTotal(Math.ceil(response.data.totalPage)/5 )
+      setTotal(Math.ceil(response.data.totalPage) )
   };
 
   useEffect(() => {
@@ -165,6 +174,7 @@ function Project() {
                             setEditArea(element.area);
                             setEditEnable(true);
                             setEditProjectId(element._id);
+                            setEditLocation({lat:element.lat,lng:element.long,name:element.address})
                           }}
                           className="text-yellow-400 hover:text-yellow-300 p-2 rounded-md hover:bg-gray-600/50 transition-all duration-200"
                           aria-label={`Edit project ${ element.project_name }`}
@@ -228,6 +238,7 @@ function Project() {
           setEnableEdit={setEditEnable}
           onEditSuccess={fetchData}
           editProjectId={editProjectId}
+          editLocation ={editLocation}
         />
 
         <DeleteProject

@@ -1,8 +1,8 @@
 import { IBrandRepository } from "../../../domain/Entities/IRepository/IBrand"
 import { IUpdateBrandUseCase } from "../../IUseCases/IBrand/IUpdateBrand"
-import { brandFailedMessage, brandSuccessMessage } from "../../../Shared/Messages/Brand.Message"
 import { ResponseHelper } from "../../../Shared/responseHelpers/response"
 import { commonOutput } from "../../dto/common"
+import { BrandFailedMessage, BrandSuccessMessage } from "../../../Shared/Messages/Brand.Message"
 
 
 export class UpdateBrandUseCase implements IUpdateBrandUseCase {
@@ -13,9 +13,9 @@ export class UpdateBrandUseCase implements IUpdateBrandUseCase {
       Promise<commonOutput> {
       const existBrandData = await this._brandRepository.getBrandForEdit(_id, brand_name)
       if (existBrandData) {
-         return ResponseHelper.conflictData(brandFailedMessage.ALREADY_EXIST)
+         return ResponseHelper.conflictData(BrandFailedMessage.ALREADY_EXIST)
       }
       await this._brandRepository.updateBrand(_id, brand_name)
-      return ResponseHelper.success(brandSuccessMessage.UPDATE)
+      return ResponseHelper.success(BrandSuccessMessage.UPDATE)
    }
 }

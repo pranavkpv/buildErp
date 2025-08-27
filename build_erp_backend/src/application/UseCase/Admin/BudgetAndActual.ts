@@ -4,7 +4,6 @@ import { IPurchaseRepository } from "../../../domain/Entities/IRepository/IPurch
 import { ITransferRepository } from "../../../domain/Entities/IRepository/ITransfer";
 import { IReceiveRepository } from "../../../domain/Entities/IRepository/IReceive";
 import { IAttendanceRepository } from "../../../domain/Entities/IRepository/IAttendance";
-import { purchaseFailedMessage } from "../../../Shared/Messages/Purchase.Message";
 import { TransferFailedMessage } from "../../../Shared/Messages/Transfer.Message";
 import { ReceiveFailedMessage } from "../../../Shared/Messages/Receive.Message";
 import { AttendanceFailedMessage } from "../../../Shared/Messages/Attendance.Message";
@@ -12,6 +11,7 @@ import { BudgetSuccessMessage } from "../../../Shared/Messages/BugetVsActual.Mes
 import { IprojectRepository } from "../../../domain/Entities/IRepository/IProject";
 import { commonOutput } from "../../dto/common";
 import { budgetActualDTO } from "../../dto/admin.dashoard.dto";
+import { PurchaseFailedMessage } from "../../../Shared/Messages/Purchase.Message";
 
 export class BudgetAndActualUseCase implements IBudgetAndActualUsecase {
    constructor(
@@ -29,7 +29,7 @@ export class BudgetAndActualUseCase implements IBudgetAndActualUsecase {
          result.push({ project_id: element._id, project_name: element.project_name, budgeted_cost: element.budgeted_cost || 0, actual_expense: 0 })
       }
       const purchaseData = await this._purchaseRepository.getAllApprovedPurchases()
-      if (!purchaseData) return ResponseHelper.badRequest(purchaseFailedMessage.ERROR)
+      if (!purchaseData) return ResponseHelper.badRequest(PurchaseFailedMessage.ERROR)
       if (Array.isArray(purchaseData)) {
          for (let element of purchaseData) {
             for (let item of result) {

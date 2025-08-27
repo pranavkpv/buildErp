@@ -1,9 +1,9 @@
 import { IUpdatePurchaseUseCase } from "../../IUseCases/IPurchase/IUpdatePurchase"
-import { purchaseFailedMessage, purchaseSuccessMessage } from "../../../Shared/Messages/Purchase.Message"
 import { ResponseHelper } from "../../../Shared/responseHelpers/response"
 import { commonOutput } from "../../dto/common"
 import { purchaseInput } from "../../Entities/purchase.entity"
 import { IPurchaseRepository } from "../../../domain/Entities/IRepository/IPurchase"
+import { PurchaseFailedMessage, PurchaseSuccessMessage } from "../../../Shared/Messages/Purchase.Message"
 
 
 export class UpdatePurchaseUseCase implements IUpdatePurchaseUseCase {
@@ -13,8 +13,8 @@ export class UpdatePurchaseUseCase implements IUpdatePurchaseUseCase {
    async execute(input: purchaseInput): Promise<commonOutput> {
       const response = await this._purchaseRepository.updatePurchase(input)
       if (!response) {
-         return ResponseHelper.badRequest(purchaseFailedMessage.UPDATE)
+         return ResponseHelper.badRequest(PurchaseFailedMessage.UPDATE)
       }
-      return ResponseHelper.success(purchaseSuccessMessage.UPDATE)
+      return ResponseHelper.success(PurchaseSuccessMessage.UPDATE)
    }
 }

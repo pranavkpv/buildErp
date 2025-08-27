@@ -21,9 +21,8 @@ export class AdminController implements IAdminController {
     Promise<commonOutput<{ data: IAdminModelEntity; token: Tokens }> | commonOutput | void> => {
     try {
       const result = await this._adminLoginUsecase.execute(req.body);
-
       if (!result.data) {
-        return ResponseHelper.conflictData(userFailedMessage.ERROR);
+        return result
       }
 
       if (result.success && result.data.token?.refreshToken) {
