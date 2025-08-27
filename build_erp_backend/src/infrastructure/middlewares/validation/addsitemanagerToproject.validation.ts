@@ -6,11 +6,13 @@ import { AddSitemanagerToProjectFailedMessage } from "../../../Shared/Messages/A
 export const validateAddSitemanagerToproject = (req: Request, res: Response, next: NextFunction): void => {
    const { siteManager_id, selectedproject } = req.body
    if (!siteManager_id) {
-      res.status(HTTP_STATUS.BAD_REQUEST).json(commonFailedMessage.FIELD_REQUIRED);
+      res.status(HTTP_STATUS.BAD_REQUEST).
+      json({ success: false, message: commonFailedMessage.FIELD_REQUIRED });
       return
    }
    if (selectedproject.length == 0) {
-      res.status(HTTP_STATUS.BAD_REQUEST).json(AddSitemanagerToProjectFailedMessage.ATLEAST_ONE_PROJECT)
+      res.status(HTTP_STATUS.BAD_REQUEST).
+      json({ success: false, message: AddSitemanagerToProjectFailedMessage.ATLEAST_ONE_PROJECT })
       return
    }
    next()

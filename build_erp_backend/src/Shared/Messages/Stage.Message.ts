@@ -13,5 +13,18 @@ export enum StageFailedMessage {
    ALREADY_USED = "Stage is already used",
    NOT_ESTIMATE = "This Project has not Estimate",
    ALREADY_SET = "Stage Of this Project is already set",
-   NO_IMAGE = "Image Upload Not Work"
+   NO_IMAGE = "Image Upload Not Work",
+   PROJECT_ID_REQUIRED = "projectId is required and must be a string",
+   VALID_START_DATE = "Valid startDate is required",
+   VALID_END_DATE = "Valid endDate is required",
+   START_DATE_LESS_THAN_END = "startDate cannot be later than endDate",
+   COST_POSITIVE = "cost must be a positive number" ,
+   STAGE_CHAR = "stages object is required",
+   STAGE_NAME_REQUIRED = "stage_name is required and must be a non-empty string",
+   STAGE_START_DATE_VALID = "Valid stage start_date is required",
+   STAGE_END_DATE_VALID = "Valid stage end_date is required",
+   STAGE_START_GREATER_END_DATE = "stage start_date cannot be later than stage end_date",
+   STAGE_PER_BETWEEN = "stage_percentage must be a number between 1 and 100" ,
+   STAGE_AMOUNT_POSITIVE = "stage_amount must be a positive number",
+   STAGE_AMOUNT_VALUE = "stage_amount does not match stage_percentage of total cost"
 }

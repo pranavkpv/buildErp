@@ -11,6 +11,10 @@ export class SendOTPUseCase implements ISendOTPUseCase {
    ) { }
    async execute(input: { email: string }): Promise<commonOutput> {
       const { email } = input
+      const existAuth = await this._userRepository.getAuthUserByEmail(email)
+      if(existAuth){
+         return ResponseHelper.conflictData(userFailedMessage.NOT_NEED)
+      }
       const existUser = await this._userRepository.getUserByEmail(email)
       if (!existUser) {
          return ResponseHelper.badRequest(userFailedMessage.USER_NOT_FOUND)

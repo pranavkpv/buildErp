@@ -7,9 +7,9 @@ export enum CategorySuccessMessage {
 
 
 export enum CategoryFailedMessage {
-   NEED_CATEGORY = "Category Should Mandatory",
+   NEED_CATEGORY = "Category name is required and must be a non-empty string.",
    EXIST_CATEGORY = "Category Already Exists",
-   EXIST_SPECIAL_CHAR = "Category Name Should Not Exist Special Character",
+   EXIST_SPECIAL_CHAR = "Category name contains invalid characters. Allowed: letters, numbers, spaces, -, _, &.",
    EXIST_NUMBER = "Category Name Should Not Exist Number",
    MIN_SIZE = "Category Name Should Atleast 3 Character",
    MAX_SIZE = "Category Name Shoulnot be Longer",
@@ -18,5 +18,8 @@ export enum CategoryFailedMessage {
    MISS_CATEGORY_ID = "Category ID is required",
    CATEGORY_NOT_EXIST = "Category Not Exist",
    ALREADY_USED = "Category has already been used",
-   FAILED_DELETE = "Failed To Delete The Category"
+   FAILED_DELETE = "Failed To Delete The Category",
+   CATEGORY_LENGTH = "Category name must be between 2 and 50 characters.",
+   DESCRIPTION_CHAR =  "Description must be a string if provided.",
+   DESCRIPTION_LENGTH = "Description must not exceed 200 characters."
 }

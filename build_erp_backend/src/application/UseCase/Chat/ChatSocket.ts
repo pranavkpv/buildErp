@@ -12,7 +12,7 @@ export class ChatSocket implements IChatSocket {
 
   public init(): void {
     this._io.on("connection", (socket: Socket) => {
-      console.log("🟢 User connected:", socket.id);
+      console.log("User connected:", socket.id);
 
       socket.on("joinRoom", ({ senderId, receiverId }) => {
         const room = [senderId, receiverId].sort().join("_");

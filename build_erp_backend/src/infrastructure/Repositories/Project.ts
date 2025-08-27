@@ -34,7 +34,7 @@ export class ProjectRepository implements IprojectRepository {
             { "userDetails.username": { $regex: searchRegex } }
           ]
         }
-      },
+      }, { $unwind: "$userDetails" },
       { $skip: skip },
       { $limit: 5 }
     ]);

@@ -28,9 +28,9 @@ function Dashboard() {
   const fetchBugetAndActualData = async () => {
     const response = await fetchBudgetAndActual(search);
     if (response.success) {
-      setData(response.data);
+      setData(response.data.data);
       let list = []
-      for (let i = 0; i < response.totalPage; i++) {
+      for (let i = 0; i < response.data.totalPage; i++) {
         list.push(0)
       }
       setTotal(list)
@@ -42,7 +42,7 @@ function Dashboard() {
   const fetchMaterialAnalysisData = async () => {
     const response = await fetMaterialAnalysis(search)
     if (response.success) {
-      setMaterialData(response.data)
+      setMaterialData(response.data.data)
     } else {
       toast.error(response.message);
     }
@@ -50,9 +50,8 @@ function Dashboard() {
 
   const fetchLabourAnalysisData = async () => {
     const response = await fetLabourAnalysis(search)
-    console.log(response)
     if (response.success) {
-      setLabourData(response.data)
+      setLabourData(response.data.data)
     } else {
       toast.error(response.message);
     }

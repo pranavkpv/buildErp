@@ -1,51 +1,52 @@
 import { NextFunction, Request, Response } from "express";
+import { HTTP_STATUS } from "../../../Shared/statusCodes/statusCodes";
+import { CategoryFailedMessage } from "../../../Shared/Messages/Category.Message";
 
 export const validateCategoryAction = (
   req: Request,
   res: Response,
   next: NextFunction
 ): void => {
-  const { brand_name, description } = req.body;
+  const { category_name, description } = req.body;
 
-  if (!brand_name || typeof brand_name !== "string" || brand_name.trim().length === 0) {
-    res.status(400).json({
+  if (!category_name || typeof category_name !== "string" || category_name.trim().length === 0) {
+    res.status(HTTP_STATUS.BAD_REQUEST).json({
       success: false,
-      message: "Category name (brand_name) is required and must be a non-empty string.",
+      message: CategoryFailedMessage.NEED_CATEGORY,
     });
     return;
   }
 
-  if (brand_name.trim().length < 2 || brand_name.trim().length > 50) {
-    res.status(400).json({
+  if (category_name.trim().length < 2 || category_name.trim().length > 50) {
+    res.status(HTTP_STATUS.BAD_REQUEST).json({
       success: false,
-      message: "Category name must be between 2 and 50 characters.",
+      message: CategoryFailedMessage.CATEGORY_LENGTH,
     });
     return;
   }
 
   const validNameRegex = /^[a-zA-Z0-9\s\-_&]+$/;
-  if (!validNameRegex.test(brand_name)) {
-    res.status(400).json({
+  if (!validNameRegex.test(category_name)) {
+    res.status(HTTP_STATUS.BAD_REQUEST).json({
       success: false,
-      message:
-        "Category name contains invalid characters. Allowed: letters, numbers, spaces, -, _, &.",
+      message:CategoryFailedMessage.EXIST_SPECIAL_CHAR,
     });
     return;
   }
 
   if (description !== undefined) {
     if (typeof description !== "string") {
-      res.status(400).json({
+      res.status(HTTP_STATUS.BAD_REQUEST).json({
         success: false,
-        message: "Description must be a string if provided.",
+        message:CategoryFailedMessage.DESCRIPTION_CHAR,
       });
       return;
     }
 
     if (description.trim().length > 200) {
-      res.status(400).json({
+      res.status(HTTP_STATUS.BAD_REQUEST).json({
         success: false,
-        message: "Description must not exceed 200 characters.",
+        message: CategoryFailedMessage.DESCRIPTION_LENGTH,
       });
       return;
     }

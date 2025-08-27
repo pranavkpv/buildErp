@@ -7,5 +7,8 @@ export enum brandSuccessMessage {
 
 export enum brandFailedMessage {
    ALREADY_USED = "This brand is already used",
-   ALREADY_EXIST = "This brand already exist"
+   ALREADY_EXIST = "This brand already exist",
+   REQUIRED_FIELD = "Brand name is required and must be a non-empty string.",
+   BRAND_LENGTH = "Brand name must be between 2 and 50 characters long.",
+   EXIST_CHAR = "Brand name contains invalid characters. Allowed: letters, numbers, spaces, -, _, &."
 }

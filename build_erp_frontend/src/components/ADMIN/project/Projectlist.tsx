@@ -19,7 +19,7 @@ type ProjectType = {
     username: string;
     email?: string;
     phone?: number;
-  }[];
+  };
   status: string;
 };
 
@@ -54,9 +54,9 @@ function Project() {
   const [changeEnable, setChangeEnable] = useState(false);
 
   const fetchData = async () => {
-      const data = await projectListData(page,search)
-      setProjectList(data.data);
-      setTotal(Math.ceil(data.totalPage)/5 )
+      const response = await projectListData(page,search)
+      setProjectList(response.data.data);
+      setTotal(Math.ceil(response.data.totalPage)/5 )
   };
 
   useEffect(() => {
@@ -118,7 +118,7 @@ function Project() {
                     <tr key={element._id} className="hover:bg-gray-700/50 transition-colors duration-150">
                       <td className="px-6 py-4 font-medium text-gray-200">{(index + 1)+(page*5)}</td>
                       <td className="px-6 py-4 text-gray-200">{element.project_name}</td>
-                      <td className="px-6 py-4 text-gray-200">{element.userDetails[0]?.username}</td>
+                      <td className="px-6 py-4 text-gray-200">{element.userDetails.username}</td>
                       <td className="px-6 py-4">
                         {element.status === "completed" ? (
                           <p className="text-gray-200 capitalize">{element.status}</p>
@@ -156,8 +156,8 @@ function Project() {
                         <button
                           onClick={() => {
                             setEditProject(element.project_name);
-                            setEditUserId(element.userDetails[0]?._id || "");
-                            setEditUserName(element.userDetails[0]?.username || "");
+                            setEditUserId(element.userDetails._id || "");
+                            setEditUserName(element.userDetails.username || "");
                             setEditAddress(element.address);
                             setEditEmail(element.email);
                             setEditPhone(element.mobile_number);

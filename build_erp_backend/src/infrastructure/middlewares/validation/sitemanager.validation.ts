@@ -1,4 +1,7 @@
 import { NextFunction, Request, Response } from "express";
+import { HTTP_STATUS } from "../../../Shared/statusCodes/statusCodes";
+import { SitemanagerFailedMessage } from "../../../Shared/Messages/Sitemanager.Message";
+import { ProjectFailedMessage } from "../../../Shared/Messages/Project.Message";
 
 export const validateStatusChange = (
   req: Request,
@@ -7,21 +10,20 @@ export const validateStatusChange = (
 ): void => {
   const { stageId, newProgress, date } = req.body;
 
-  // ===== Validate stageId =====
+  
   if (!stageId || typeof stageId !== "string" || stageId.trim().length === 0) {
-    res.status(400).json({
+    res.status(HTTP_STATUS.BAD_REQUEST).json({
       success: false,
-      message: "stageId is required and must be a valid non-empty string.",
+      message: SitemanagerFailedMessage.STAGE_ID_REQUIRED,
     });
     return;
   }
 
-  // Example: if stageId is expected to be MongoDB ObjectId
   const objectIdRegex = /^[0-9a-fA-F]{24}$/;
   if (!objectIdRegex.test(stageId)) {
-    res.status(400).json({
+    res.status(HTTP_STATUS.BAD_REQUEST).json({
       success: false,
-      message: "Invalid stageId format. Must be a 24-character MongoDB ObjectId.",
+      message: SitemanagerFailedMessage.STAGE_ID_FORMAT,
     });
     return;
   }
@@ -32,53 +34,52 @@ export const validateStatusChange = (
     newProgress === null ||
     isNaN(newProgress)
   ) {
-    res.status(400).json({
+    res.status(HTTP_STATUS.BAD_REQUEST).json({
       success: false,
-      message: "newProgress is required and must be a number.",
+      message: SitemanagerFailedMessage.PROGRESS_REQUIRED,
     });
     return;
   }
 
   if (typeof newProgress !== "number") {
-    res.status(400).json({
+    res.status(HTTP_STATUS.BAD_REQUEST).json({
       success: false,
-      message: "newProgress must be a number.",
+      message: SitemanagerFailedMessage.PROGRESS_NUMBER,
     });
     return;
   }
 
   if (newProgress < 0 || newProgress > 100) {
-    res.status(400).json({
+    res.status(HTTP_STATUS.BAD_REQUEST).json({
       success: false,
-      message: "newProgress must be between 0 and 100.",
+      message: SitemanagerFailedMessage.PROGRESS_BETWEEN,
     });
     return;
   }
 
   // ===== Validate date =====
   if (!date || typeof date !== "string" || date.trim().length === 0) {
-    res.status(400).json({
+    res.status(HTTP_STATUS.BAD_REQUEST).json({
       success: false,
-      message: "date is required and must be a valid ISO date string.",
+      message: SitemanagerFailedMessage.DATE_REQUIRE,
     });
     return;
   }
 
   const parsedDate = new Date(date);
   if (isNaN(parsedDate.getTime())) {
-    res.status(400).json({
+    res.status(HTTP_STATUS.BAD_REQUEST).json({
       success: false,
-      message: "Invalid date format. Must be a valid date (ISO 8601 preferred).",
+      message: SitemanagerFailedMessage.DATE_FORMAT,
     });
     return;
   }
 
-  // Optional: Prevent future dates
   const today = new Date();
   if (parsedDate > today) {
-    res.status(400).json({
+    res.status(HTTP_STATUS.BAD_REQUEST).json({
       success: false,
-      message: "Date cannot be in the future.",
+      message: SitemanagerFailedMessage.DATE_CANNOT_FUTURE,
     });
     return;
   }
@@ -95,36 +96,33 @@ export const validateAddSitemanager = (
 ): void => {
   const { username, email } = req.body;
 
-  // username validation
   if (!username || typeof username !== "string" || username.trim().length === 0) {
-    res.status(400).json({ error: "Username is required and must be a non-empty string" });
+    res.status(HTTP_STATUS.BAD_REQUEST).json({ success:false,message: SitemanagerFailedMessage.USER_NAME_REQUIRED });
     return;
   }
   if (username.length < 3) {
-    res.status(400).json({ error: "Username must be at least 3 characters long" });
+    res.status(HTTP_STATUS.BAD_REQUEST).json({ success:false,message:SitemanagerFailedMessage.USERNAME_MIN });
     return;
   }
   if (username.length > 30) {
-    res.status(400).json({ error: "Username cannot exceed 30 characters" });
+    res.status(HTTP_STATUS.BAD_REQUEST).json({ success:false,message: SitemanagerFailedMessage.USER_NAME_MAX });
     return;
   }
   if (!/^[a-zA-Z0-9_]+$/.test(username)) {
-    res.status(400).json({ error: "Username can only contain letters, numbers, and underscores" });
+    res.status(HTTP_STATUS.BAD_REQUEST).json({ success:false,message: SitemanagerFailedMessage.USERNAME_EXIST });
     return;
   }
-
-  // email validation
   if (!email || typeof email !== "string" || email.trim().length === 0) {
-    res.status(400).json({ error: "Email is required and must be a non-empty string" });
+    res.status(HTTP_STATUS.BAD_REQUEST).json({ success:false,message: SitemanagerFailedMessage.EMAIL_REQUIRED });
     return;
   }
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
-    res.status(400).json({ error: "Invalid email format" });
+    res.status(HTTP_STATUS.BAD_REQUEST).json({ success:false,message: SitemanagerFailedMessage.INVALID_EMAIL });
     return;
   }
   if (email.length > 50) {
-    res.status(400).json({ error: "Email cannot exceed 50 characters" });
+    res.status(HTTP_STATUS.BAD_REQUEST).json({ success:false,message: SitemanagerFailedMessage.EMAIL_MAX });
     return;
   }
 

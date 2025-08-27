@@ -31,7 +31,7 @@ export class UserRepository implements IUserRepository {
 
    // Get a non-Google-authenticated user by email 
    async getAuthUserByEmail(email: string): Promise<IUserModelEntity | null> {
-      const existUser = await userDB.findOne({ email, password: { $ne: googleAuthPassword } })
+      const existUser = await userDB.findOne({ email, password: googleAuthPassword  })
       return existUser
    }
    //   Get a Google-authenticated user by email 
@@ -95,11 +95,7 @@ export class UserRepository implements IUserRepository {
 
       return tempUser;
    }
-   // Get a temporary user by email and OTP from MongoDB 
-   async getTempUserByEmailAndOTP(email: string, otp: string): Promise<ITempUserModelEntity | null> {
-      const ExistUser = await tempUserDB.findOne({ email, otp })
-      return ExistUser
-   }
+ 
    // Delete a temporary user by email from Redis 
    async deleteTempUserByEmail(email: string): Promise<void> {
       const key = `tempUser:${ email }`

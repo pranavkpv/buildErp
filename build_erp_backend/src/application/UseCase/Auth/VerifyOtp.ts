@@ -17,6 +17,10 @@ export class VerifyOTPUseCases implements IVerifyOTPUseCase {
       if (!ExistUser) {
          return ResponseHelper.conflictData(userFailedMessage.OTP_WRONG)
       }
+      if(ExistUser.otp != otp){
+         return ResponseHelper.badRequest(userFailedMessage.INVALID_OTP)
+      }
+
       if (ExistUser.otpCreatedAt == undefined || ExistUser.otpCreatedAt == null) {
          return ResponseHelper.conflictData(userFailedMessage.TIMESTAMP_MISS)
       }

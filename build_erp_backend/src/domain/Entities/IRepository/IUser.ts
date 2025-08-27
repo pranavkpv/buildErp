@@ -23,7 +23,6 @@ export interface IUserRepository {
    // Temp user (OTP flow)
    saveTempUser(input: usertempSaveInput): Promise<void>;
    getTempUserByEmail(email: string): Promise<ITempUserModelEntity | null>;
-   getTempUserByEmailAndOTP(email: string, otp: string): Promise<ITempUserModelEntity | null>;
    updateTempUserOTP(input: Pick<usertempSaveInput, "email" | "otp" | "otpCreatedAt">): Promise<void>;
    deleteTempUserByEmail(email: string): Promise<void>;
 

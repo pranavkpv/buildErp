@@ -11,9 +11,12 @@ export class VerifyForgotUseCase implements IVerifyForgotpasswordUseCase {
    ) { }
    async execute(input: verifyOtpInput): Promise<commonOutput> {
       const { otp, email } = input
-      const ExistUser = await this._userRepository.getTempUserByEmailAndOTP(email, otp)
+      const ExistUser = await this._userRepository.getTempUserByEmail(email)
       if (!ExistUser) {
          return ResponseHelper.badRequest(userFailedMessage.OTP_WRONG)
+      }
+      if (ExistUser.otp != otp) {
+         return ResponseHelper.badRequest(userFailedMessage.INVALID_OTP)
       }
       if (ExistUser.otpCreatedAt == undefined || ExistUser.otpCreatedAt == null) {
          return ResponseHelper.conflictData(userFailedMessage.TIMESTAMP_MISS)

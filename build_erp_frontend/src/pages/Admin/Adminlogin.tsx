@@ -48,9 +48,9 @@ function Adminlogin() {
       const response = await adminLoginAPI(username,password)
       console.log(response)
       if (response.success) {
-        toast.success(response.message);
+        toast.success(response.data.data.message);
         navigate("/admin/dashboard");
-        localStorage.setItem('accessToken', response.token.accessToken);
+        localStorage.setItem('accessToken', response.data.token.accessToken);
       } else {
         toast.error(response.message);
       }

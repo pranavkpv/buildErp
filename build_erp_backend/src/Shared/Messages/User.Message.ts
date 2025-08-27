@@ -15,8 +15,8 @@ export const userFailedMessage = {
   EXIST_CHAR: "Username must contain characters.",
   MAX_LIMIT_EMAIL: "Email must not exceed 50 characters.",
   MIN_LIMIT_EMAIL: "Please enter a valid email address.",
-  INVALID_PHONE: "Phone number is invalid.",
-  INVALID_EMAIL: "Email address is invalid.",
+  INVALID_PHONE: "Phone number is not invalid.",
+  INVALID_EMAIL: "Email address is not invalid.",
   INVALID_PHONE_LENGTH: "Phone number must be exactly 10 digits.",
   MIN_LIMIT_PASSWORD: "Password must be at least 8 characters long.",
   MAX_LIMIT_PASSWORD: "Password must not exceed 20 characters.",
@@ -28,7 +28,8 @@ export const userFailedMessage = {
   PHONE_EXIST:"User phone number already exist",
   BLACK_LIST_FAIL:"Black list the token is faled",
   TOKEN_BLACK_LIST:"This token expires so you can't accessible",
-  TOKEN_EXPIRE:"This token is expire tyr again"
+  TOKEN_EXPIRE:"This token is expire tyr again",
+  NOT_NEED:"This user is logged in with Google authentication, so changing the password is not required"
 } 
 
 export const userSuccessMessage = {

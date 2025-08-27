@@ -1,4 +1,6 @@
 import { NextFunction, Request, Response } from "express";
+import { HTTP_STATUS } from "../../../Shared/statusCodes/statusCodes";
+import { brandFailedMessage } from "../../../Shared/Messages/Brand.Message";
 
 export const validateBrandAction = (
   req: Request,
@@ -8,25 +10,24 @@ export const validateBrandAction = (
   const { brand_name } = req.body;
 
   if (!brand_name || typeof brand_name !== "string" || brand_name.trim().length === 0) {
-    res.status(400).json({
+    res.status(HTTP_STATUS.BAD_REQUEST).json({
       success: false,
-      message: "Brand name is required and must be a non-empty string.",
+      message: brandFailedMessage.REQUIRED_FIELD,
     });
     return;
   }
   if (brand_name.trim().length < 2 || brand_name.trim().length > 50) {
-    res.status(400).json({
+    res.status(HTTP_STATUS.BAD_REQUEST).json({
       success: false,
-      message: "Brand name must be between 2 and 50 characters long.",
+      message: brandFailedMessage.BRAND_LENGTH,
     });
     return;
   }
   const validBrandRegex = /^[a-zA-Z0-9\s\-_&]+$/;
   if (!validBrandRegex.test(brand_name)) {
-    res.status(400).json({
+    res.status(HTTP_STATUS.BAD_REQUEST).json({
       success: false,
-      message:
-        "Brand name contains invalid characters. Allowed: letters, numbers, spaces, -, _, &.",
+      message:brandFailedMessage.EXIST_CHAR,
     });
     return;
   }
