@@ -24,12 +24,12 @@ export class JwtService implements IJwtService {
 
   generateTokens(_id: string, email: string, role: string): Tokens {
     const accessToken = jwt.sign(
-      { userId: _id, email: email, role: role },
+      { _id: _id, username: email, role: role },
       this.accessSecret,
       { expiresIn: '15m' }
     );
     const refreshToken = jwt.sign(
-      { userId: _id, email: email, role: role },
+      { _id: _id, username: email, role: role },
       this.refreshSecret,
       { expiresIn: '7d' }
     );

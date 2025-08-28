@@ -23,9 +23,9 @@ function Material() {
   const [editId, setEditId] = useState("")
 
   const fetchMaterials = async () => {
-    const data = await materialList(page, search)
-    setTotal(Math.ceil(data.totalPage))
-    setMaterialData(data.data);
+    const response = await materialList(page, search)
+    setTotal(Math.ceil(response.data.totalPage))
+    setMaterialData(response.data.data);
   };
 
   useEffect(() => {

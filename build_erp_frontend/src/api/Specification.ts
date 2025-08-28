@@ -3,6 +3,7 @@ import adminAxios from "../axios/adminAxios"
 import type { sumOfMaterialInterface } from "ApiInterface/material.interface";
 import type { sumofLabourInterface } from "ApiInterface/labour.interface";
 import type { editSpecInterface, saveSpecInterface } from "ApiInterface/specApi.interface";
+import type { labourData, materialData } from "../components/ADMIN/Specification/SpecList";
 
 
 
@@ -21,7 +22,7 @@ export const sumOfMaterialFun = async (
    input: sumOfMaterialInterface[]
 ) => {
    const response = await adminAxios.get("/getMatsum", {
-      params: input,
+      params: { materials:  JSON.stringify(input) }
    });
    return response.data;
 };

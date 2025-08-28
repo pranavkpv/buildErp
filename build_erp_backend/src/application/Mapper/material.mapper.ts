@@ -1,5 +1,6 @@
+import { IMaterialModelEntity } from "../../domain/Entities/modelEntities/material.entity";
 import { IMaterialMapper } from "../../domain/mappers/IMaterial.mapper";
-import { EditmaterialDetailsDTO, EditprojectDetailsDTO, listingMaterialDTO } from "../dto/material.dto";
+import { EditmaterialDetailsDTO, EditprojectDetailsDTO, listingMaterialDTO, unitRateDTO } from "../dto/material.dto";
 import { editMaterialFullDatafetch } from "../Entities/material.entity";
 import { ProjectStockOutput } from "../Entities/project.entity";
 
@@ -40,5 +41,10 @@ export class MaterialMapper implements IMaterialMapper {
          stock:item.stock
       }))
    }
-
+   toUniRateDTO(material: IMaterialModelEntity): unitRateDTO {
+       return {
+         material_id:material._id,
+         unit_rate:material.unit_rate
+       }
+   }
 }

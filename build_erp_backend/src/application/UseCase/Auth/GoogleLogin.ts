@@ -19,20 +19,17 @@ export class GoogleloginUseCase implements IGoogleloginUseCase {
    async execute(input: googleLoginInput):
       Promise<commonOutput<{ userData: userLoginDTO; tokens: Tokens }> | commonOutput> {
       const { email, username, profile_image } = input
-      const existUser = await this._userRepository.getAuthUserByEmail(email)
-      if (existUser) {
+      const savedUser = await this._userRepository.getUserByEmail(email)
+      if (!savedUser) {
          return ResponseHelper.conflictData(userFailedMessage.EXIST_GOOGLE)
       }
-      const existAuthUser = await this._userRepository.checkUserExistsByEmail(email)
+      const existAuthUser = await this._userRepository.getAuthUserByEmail(email)
       if (existAuthUser) {
          const mappedUser = this._usermapper.touserLoginDTO(existAuthUser)
          const tokens = this._jwtService.generateTokens(existAuthUser._id, existAuthUser.email, Role.USER)
          return ResponseHelper.success(userSuccessMessage.LOGIN, { userData: mappedUser, tokens })
-      }
-      await this._userRepository.createGoogleUser({ email, username, profile_image })
-      const savedUser = await this._userRepository.getUserByEmail(email)
-      if (!savedUser) {
-         return ResponseHelper.badRequest(userFailedMessage.USER_NOT_FOUND)
+      } else {
+         await this._userRepository.createGoogleUser({ email, username, profile_image })
       }
       const mappedUser = this._usermapper.touserLoginDTO(savedUser)
       const tokens = this._jwtService.generateTokens(savedUser._id, savedUser.email, Role.USER)

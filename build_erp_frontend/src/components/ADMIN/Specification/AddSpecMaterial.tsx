@@ -110,7 +110,7 @@ function AddSpecMaterial() {
       const response = await fetchUnitRate(material_name, unit_name, brand_name);
       const newRow = [...row];
       newRow[index].unit_rate = response.data.unit_rate || 0;
-      newRow[index].material_id = response.data._id || "";
+      newRow[index].material_id = response.data.material_id || "";
       setRow(newRow);
     } catch (error) {
       console.error("Error fetching unit rate:", error);

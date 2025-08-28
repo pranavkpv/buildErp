@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express"
 import { commonOutput } from "../../../application/dto/common";
-import { EditmaterialDetailsDTO, EditprojectDetailsDTO, listingMaterialDTO } from "../../../application/dto/material.dto";
+import { EditmaterialDetailsDTO, EditprojectDetailsDTO, listingMaterialDTO, unitRateDTO } from "../../../application/dto/material.dto";
 import { addMaterialFetch, editMaterialFullDatafetch } from "../../../application/Entities/material.entity";
 
 
@@ -35,7 +35,7 @@ export interface IMaterialController {
       Promise<commonOutput<string[]> | void>
 
    getUnitRate(req: Request, res: Response, next: NextFunction):
-      Promise<commonOutput<number> | void>
+      Promise<commonOutput<unitRateDTO> | void>
 
    getMaterialById(req: Request, res: Response, next: NextFunction):
       Promise<commonOutput<editMaterialFullDatafetch | null> | void>

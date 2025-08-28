@@ -42,6 +42,6 @@ const deleteMaterialUseCase = new DeleteMaterialUseCase(materialRepository,proje
 const fetchMaterialUseCase = new FetchMaterialUseCase(materialRepository)
 const fetchMaterialByMaterialName = new FetchMaterialByMaterialNameUseCasse(materialRepository)
 const fetchbrandBynameusecase = new FetchBrandByMaterialNameUsecase(materialRepository)
-const fetUnitRateUseCase = new FetchUnitRateUseCase(materialRepository)
+const fetUnitRateUseCase = new FetchUnitRateUseCase(materialRepository,materialMapper)
 const findMaterialByIdUsecase = new FindMaterialByIdUseCase(materialRepository)
 export const injectedMaterialController = new MaterialController(displayAllMaterialUseCase,getAddMaterialUseCase,saveMaterialUseCase,getEditMaterialUseCase,updateMaterialUseCase,deleteMaterialUseCase,fetchMaterialUseCase,fetchMaterialByMaterialName,fetchbrandBynameusecase,fetUnitRateUseCase,findMaterialByIdUsecase)

@@ -34,9 +34,9 @@ function SitemanagerList() {
 
   const fetchData = async () => {
       const search = searchSite
-      const data = await fetchSitemanager(page,search)
-      setTotal(Math.ceil(data.totalPage))
-      setSiteData(data.data);
+      const response = await fetchSitemanager(page,search)
+      setTotal(Math.ceil(response.data.totalPage))
+      setSiteData(response.data.data);
   };
 
   useEffect(() => {

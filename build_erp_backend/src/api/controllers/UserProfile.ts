@@ -111,10 +111,9 @@ export class UserProfileController implements IUserprofileController {
          const userHeader = req.headers.authorization;
          const accessToken = userHeader?.split(" ")[1];
          if (!accessToken) return ResponseHelper.unAuthor();
-
          const payload = await this._jwtservice.verifyAccessToken(accessToken);
+         console.log(payload)
          if (!payload) return ResponseHelper.unAuthor();
-
          return await this._getChatListUseCase.execute(payload._id);
       } catch (error) {
          next(error);

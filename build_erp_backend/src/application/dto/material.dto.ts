@@ -32,3 +32,8 @@ export interface EditprojectDetailsDTO {
    _id: string
 }
 
+export interface unitRateDTO {
+   material_id:string 
+   unit_rate:number
+}
+

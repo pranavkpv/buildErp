@@ -13,7 +13,7 @@ import { IFetchUnitRateUseCase } from "../../application/IUseCases/IMaterial/IFe
 import { IFindMaterialByIdUsecase } from "../../application/IUseCases/IMaterial/IFindMaterialById";
 import { addMaterialFetch, editMaterialFullDatafetch } from "../../application/Entities/material.entity";
 import { commonOutput } from "../../application/dto/common";
-import { EditmaterialDetailsDTO, EditprojectDetailsDTO, listingMaterialDTO } from "../../application/dto/material.dto";
+import { EditmaterialDetailsDTO, EditprojectDetailsDTO, listingMaterialDTO, unitRateDTO } from "../../application/dto/material.dto";
 
 export class MaterialController implements IMaterialController {
    constructor(
@@ -136,7 +136,7 @@ export class MaterialController implements IMaterialController {
 
    // Fetch unit rate of a material by material, brand, and unit name
    getUnitRate = async (req: Request, res: Response, next: NextFunction):
-      Promise<commonOutput<number> | void> => {
+      Promise<commonOutput<unitRateDTO> | void> => {
       try {
          const { material_name, brand_name, unit_name } = req.query;
          const result = await this._fetUnitRateUseCase.execute({

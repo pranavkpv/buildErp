@@ -77,7 +77,7 @@ export class AddSiteToProjectRepository implements IAddSiteToProjectRepository {
 
     return {
       getAddSiteData: data,
-      totalPage: totalDoc.length
+      totalPage: Math.ceil(totalDoc.length /5)
     };
   }
 

@@ -40,10 +40,10 @@ function ListEstimation() {
 
    const fetchData = async () => {
       const response = await fetChEstimation(search, page);
-      setData(response.data);
-      const projects = response.data.map((element: specdata) => element.projectObjectId);
+      setData(response.data.data);
+      const projects = response.data.data.map((element: specdata) => element.projectObjectId);
       let x = []
-      for (let i = 0; i < response.totalPage; i++) {
+      for (let i = 0; i < response.data.totalPage; i++) {
          x.push(i)
       }
       setTotal(x)

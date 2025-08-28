@@ -87,7 +87,7 @@ function EditSpecMaterial({ editrow }: Props) {
     try {
       const response = await fetchUnitRate(row[index].material_name, row[index].unit_name, row[index].brand_name);
       const newRow = [...row];
-      newRow[index].unit_rate = response.data.unit_rate || 0;
+      newRow[index].unit_rate = response.data || 0;
       newRow[index].material_id = response.data._id || "";
       setRow(newRow);
     } catch (error) {

@@ -16,6 +16,7 @@ export const postSitemanagerToProject = async (siteManager_id: string, selectedp
 //--------------- Delete sitemanager in particular project --------------- //
 
 export const deleteSitemanagerToProject = async (_id: string, sitemanager_id: string) => {
+   console.log(_id)
    const response = await adminAxios.delete(`/addToSite/${ _id }/${ sitemanager_id }`);
    return response.data
 }

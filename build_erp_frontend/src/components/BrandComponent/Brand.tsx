@@ -27,14 +27,18 @@ function Brand() {
 
   const fetchData = async () => {
       const search = searchBrand
-      const data = await getbrandList({page,search})
-      setBrandList(data.data);
-      setTotal(Math.ceil(data.totalPage))
+      const response = await getbrandList({page,search})
+      setBrandList(response.data.data);
+      setTotal(Math.ceil(response.data.totalPage))
   };
 
-  // Fetch data on component mount
   useEffect(() => {
-    fetchData();
+    let debounce = setTimeout(()=>{
+      fetchData();
+    },500)
+    return ()=>{
+      clearInterval(debounce)
+    }
   }, [searchBrand, page]);
 
 

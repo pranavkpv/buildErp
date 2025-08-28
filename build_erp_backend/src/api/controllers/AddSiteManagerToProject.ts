@@ -42,10 +42,7 @@ export class AddSiteManagerToProjectController implements IAddSiteManagerToProje
       removeSiteManagerFromProject = async (req: Request, res: Response, next: NextFunction):
             Promise<commonOutput | void> => {
             try {
-                  const result = await this._deleteSiteManagerUseCase.execute(
-                        req.params.id,
-                        req.params.sitemanagerId
-                  );
+                  const result = await this._deleteSiteManagerUseCase.execute(req.params.id,req.params.sitemanagerId);
                   return result;
             } catch (error) {
                   next(error);

@@ -134,6 +134,7 @@ export class ProjectRepository implements IprojectRepository {
 
   // Remove sitemanager from project
   async removeSitemanagerFromProject(input: AddsitetoprojectInput): Promise<void> {
+    console.log(input)
     await projectDB.findByIdAndUpdate(input.selectedproject, { sitemanager_id: null });
   }
 

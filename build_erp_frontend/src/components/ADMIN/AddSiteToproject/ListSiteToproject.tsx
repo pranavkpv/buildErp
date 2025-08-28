@@ -29,9 +29,9 @@ function ListSiteToProject() {
   const [addEnable, setAddEnable] = useState(false);
 
   const fetchData = async () => {
-    const data = await listOfsitemanager(page, search)
-    setTotalPage(Math.ceil(data.totalPage))
-    setData(data.data);
+    const response = await listOfsitemanager(page, search)
+    setTotalPage(Math.ceil(response.data.totalPage))
+    setData(response.data.data);
   };
 
   useEffect(() => {

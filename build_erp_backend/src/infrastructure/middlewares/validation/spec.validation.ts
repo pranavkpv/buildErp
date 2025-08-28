@@ -20,7 +20,6 @@ export const validateSpecification = (
     additionalExpensePer,
     profitPer,
   } = req.body;
-
   // ===== Validate specId =====
   if (!specId || typeof specId !== "string" || specId.trim().length === 0) {
     res.status(HTTP_STATUS.BAD_REQUEST).json({
@@ -30,14 +29,6 @@ export const validateSpecification = (
     return;
   }
 
-  const objectIdRegex = /^[0-9a-fA-F]{24}$/;
-  if (!objectIdRegex.test(specId)) {
-    res.status(HTTP_STATUS.BAD_REQUEST).json({
-      success: false,
-      message: SpecFailedMessage.SPEC_ID_FORMAT,
-    });
-    return;
-  }
 
   // ===== Validate specname =====
   if (!specname || typeof specname !== "string" || specname.trim().length < 3) {
@@ -76,21 +67,14 @@ export const validateSpecification = (
   }
   for (let i = 0; i < materialDetails.length; i++) {
     const item = materialDetails[i];
-    if (!item.materialId || typeof item.materialId !== "string") {
-      res.status(HTTP_STATUS.BAD_REQUEST).json({
-        success: false,
-        message: SpecFailedMessage.MATERIAL_ID_FORMAT,
-      });
-      return;
-    }
-    if (typeof item.qty !== "number" || item.qty <= 0) {
+    if (typeof item.quantity !== "number" || item.quantity <= 0) {
       res.status(HTTP_STATUS.BAD_REQUEST).json({
         success: false,
         message: SpecFailedMessage.MATERIAL_QTY_POSITIVE,
       });
       return;
     }
-    if (typeof item.rate !== "number" || item.rate < 0) {
+    if (typeof item.unit_rate !== "number" || item.unit_rate < 0) {
       res.status(HTTP_STATUS.BAD_REQUEST).json({
         success: false,
         message: SpecFailedMessage.MATERIAL_RATE_POSITIVE,
@@ -109,21 +93,14 @@ export const validateSpecification = (
   }
   for (let i = 0; i < labourDetails.length; i++) {
     const item = labourDetails[i];
-    if (!item.labourId || typeof item.labourId !== "string") {
-      res.status(HTTP_STATUS.BAD_REQUEST).json({
-        success: false,
-        message: SpecFailedMessage.LABOUR_ID_FORMAT,
-      });
-      return;
-    }
-    if (typeof item.hours !== "number" || item.hours <= 0) {
+    if (typeof item.numberoflabour !== "number" || item.numberoflabour <= 0) {
       res.status(HTTP_STATUS.BAD_REQUEST).json({
         success: false,
         message: SpecFailedMessage.LABOUR_HOURS_POSITIVE,
       });
       return;
     }
-    if (typeof item.rate !== "number" || item.rate < 0) {
+    if (typeof item.daily_wage !== "number" || item.daily_wage < 0) {
       res.status(HTTP_STATUS.BAD_REQUEST).json({
         success: false,
         message: SpecFailedMessage.LABOUR_RATE_POSITIVE,

@@ -12,6 +12,7 @@ export class GetSitemanagerListDataUseCase implements IGetSitemanagerListDataUse
       private _projectmapper: IProjectmapper
    ) { }
    async execute(_id: string): Promise<commonOutput<userBasechatListDTO[]> | commonOutput> {
+      console.log(_id)
       const projectData = await this._projectRepository.getUserChatProjects(_id)
       if (projectData.length == 0 || !projectData) {
          return ResponseHelper.conflictData(ProjectFailedMessage.NOT_ADD_SITEMANAGER)

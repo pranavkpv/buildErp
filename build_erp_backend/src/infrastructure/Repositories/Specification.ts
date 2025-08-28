@@ -120,6 +120,7 @@ export class SpecRepository implements ISpecRepository {
             { $skip: skip },
             { $limit: 5 }
         ]);
+        console.log(sample)
 
         return { result: sample, totalPage };
     }

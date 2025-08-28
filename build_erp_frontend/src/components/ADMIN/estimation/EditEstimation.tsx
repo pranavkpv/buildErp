@@ -157,9 +157,14 @@ function EditEstimation({ editEnable, setEditEnable, anEditSuccess, projectIds, 
 
    const fetchUsedSpec = async () => {
          const response = await fetchExistEstimation(editProjectId)
+         console.log("spec Responseeeee",response)
          let x = []
          for (let element of response.data) {
-            x.push({ spec_id: element.specDetails.spec_id, spec_name: element.specDetails.spec_name, unitrate: element.unit_rate, quantity: element.quantity, total: element.unit_rate * element.quantity })
+            x.push({ spec_id: element.spec_id, 
+               spec_name: element.spec_name, 
+               unitrate: element.unitrate, 
+               quantity: element.quantity, 
+               total: element.unitrate * element.quantity })
          }
          setRow(x)
    }

@@ -12,10 +12,10 @@ export class DeleteUnitUseCase implements IdeleteUnitUseCase {
    ) { }
    async execute(_id: string): Promise<commonOutput> {
       const findUnit = await this._unitRepository.getUnitById(_id)
-      if (findUnit) return ResponseHelper.badRequest(unitFailedMessage.NOT_EXIST)
+      if (!findUnit) return ResponseHelper.badRequest(unitFailedMessage.NOT_EXIST)
       const existUnit = await this._materialRepository.getMaterialByUnitId(_id)
       if (existUnit) return ResponseHelper.conflictData(unitFailedMessage.USED)
-      const response = await this._unitRepository.getUnitById(_id)
+      const response = await this._unitRepository.deleteUnit(_id)
       if (!response) throw new Error(unitFailedMessage.FAILED_DELETE)
       return ResponseHelper.success(unitSuccessMessage.DELETE)
    }

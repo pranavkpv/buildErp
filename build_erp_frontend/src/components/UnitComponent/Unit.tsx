@@ -27,13 +27,18 @@ function Unit() {
 
   const fetchData = async () => {
       const search = searchUnit
-      const data = await getUnit({page,search})
-      setTotal(Math.ceil(data.totalPage))
-      setUnitList(data.data);
+      const response = await getUnit({page,search})
+      setTotal(Math.ceil(response.data.totalPage))
+      setUnitList(response.data.data);
   };
 
   useEffect(() => {
-    fetchData();
+    let debounce = setTimeout(()=>{
+      fetchData();
+    },500)
+    return ()=>{
+      clearTimeout(debounce)
+    }
   }, [page,searchUnit]);
 
   return (

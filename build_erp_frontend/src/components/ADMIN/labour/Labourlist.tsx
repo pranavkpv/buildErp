@@ -33,9 +33,9 @@ function Labourlist() {
 
 
   const fetchData = async () => {
-      const data =await  getLabour({page,search})
-      setLabour(data.data);
-      setTotal(Math.ceil(data.totalPage))
+      const response =await  getLabour({page,search})
+      setLabour(response.data.data);
+      setTotal(Math.ceil(response.data.totalPage))
   };
 
 useEffect(() => {

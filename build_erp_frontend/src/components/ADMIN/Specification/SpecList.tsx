@@ -81,8 +81,8 @@ function SpecList() {
 
   const fetchSpecList = async () => {
     const response = await fetchSpec(page, search);
-    setTotal(response.totalPage)
-    for (let element of response.data) {
+    setTotal(response.data.totalPage)
+    for (let element of response.data.data) {
       for (let item of element.materialDetails) {
         const Materialdata = await findMaterialById(item.material_id);
         item.unitRate = Materialdata.data.unit_rate;
@@ -93,7 +93,7 @@ function SpecList() {
       }
     }
     let x = [];
-    for (let element of response.data) {
+    for (let element of response.data.data) {
       let materialSum = element.materialDetails.reduce(
         (sum: number, item: materialData) => sum + item.unitRate * item.quantity,
         0
@@ -124,7 +124,12 @@ function SpecList() {
   };
 
   useEffect(() => {
-    fetchSpecList();
+    let debounce = setTimeout(()=>{
+      fetchSpecList();
+    },500)
+    return ()=>{
+      clearTimeout(debounce)
+    }
   }, [page, search]);
 
   return (

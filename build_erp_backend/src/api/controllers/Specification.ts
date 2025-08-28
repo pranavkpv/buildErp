@@ -10,6 +10,7 @@ import { IUpdateSpecUseCase } from "../../application/IUseCases/ISpecification/I
 import { ISpeclistUseCase } from "../../application/IUseCases/ISpecification/ISpecificationList"
 import { IGetSpecUseCase } from "../../application/IUseCases/ISpecification/IGetSpecification"
 import { ISpecSumUseCase } from "../../application/IUseCases/ISpecification/ISpecificationSum"
+import { materialSumInput } from "../../application/Entities/material.entity"
 
 export class SpecController implements ISpecController {
    constructor(
@@ -38,7 +39,7 @@ export class SpecController implements ISpecController {
    calculateMaterialSum = async (req: Request, res: Response, next: NextFunction):
       Promise<commonOutput<number> | commonOutput | void> => {
       try {
-         const materials = JSON.parse(req.query.materials as string)
+         const materials = JSON.parse(req.query.materials as string) as materialSumInput[]
          const result = await this._findMaterialSumUseCase.execute(materials)
          return result
       } catch (error) {
