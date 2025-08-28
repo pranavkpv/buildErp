@@ -7,8 +7,8 @@ import type { changePasswordInterface } from "ApiInterface/sitemanager.interface
 export const changePassword = async (
    input: changePasswordInterface
 ) => {
-   const { _id, password, changedpassword } = input
-   const response = await siteAxios.put(`/changepass/${ _id }`, {
+   const {  password, changedpassword } = input
+   const response = await siteAxios.put(`/changepass`, {
       password,
       changedpassword,
    });
@@ -24,8 +24,8 @@ export const logoutSitemanager = async () => {
 
 // ---------------- Get Site Manager's Projects ---------------- //
 
-export const getSitemanagersProject = async (user: string) => {
-      const response = await siteAxios.get(`/siteproject/${ user }`);
+export const getSitemanagersProject = async () => {
+      const response = await siteAxios.get(`/siteproject`);
       return response.data;
 };
 

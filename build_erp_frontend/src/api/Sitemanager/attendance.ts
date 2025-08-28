@@ -62,8 +62,7 @@ export const editAttendanceAPI = async (
       selectedDate: string,
       row: rowData[]
 ) => {
-      const response = await siteAxios.put("/editAttendance", {
-            editId,
+      const response = await siteAxios.put(`/editAttendance/${editId}`, {
             selectedProject,
             selectedDate,
             row,

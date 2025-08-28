@@ -41,3 +41,8 @@ export const uploadImageAPI = async (
 
       return response.data;
 };
+
+export const getStageInSitemanager = async(_id:string) =>{
+    const response = await siteAxios.get(`/siteStage/${_id}`)
+    return response.data
+}

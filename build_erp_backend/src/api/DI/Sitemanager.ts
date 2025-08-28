@@ -1,3 +1,4 @@
+import { ProjectMapper } from "../../application/Mapper/project.mapper";
 import { sitemanagerMapper } from "../../application/Mapper/sitemanager.mapper.ts";
 import { JwtService } from "../../application/services/JwtService";
 import { BlackListUsecase } from "../../application/UseCase/Auth/Blacklist";
@@ -20,12 +21,13 @@ const jwtService = new JwtService()
 const Hasher = new BcryptHasher()
 const projectRepository = new ProjectRepository()
 const userRepository = new UserRepository()
+const projectMapper = new ProjectMapper()
 const displayAllSitemanagerUseCase = new DisplayAllSitemanagerUseCase(sitemanagerRepository,sitemanagermapper)
 const addSitemanagerUseCase = new SaveSitemanagerUseCase(sitemanagerRepository)
 const editSitemanagerUsecase = new UpdateSitemanagerUseCase(sitemanagerRepository)
 const deleteSitemanagerUseCase = new DeleteSitemanagerUseCase(sitemanagerRepository)
 const sitemanagerLoginUseCase = new SitemanagerLoginUseCase(sitemanagerRepository,jwtService,Hasher)
-const listProjectUseCase = new ListProjectUseCase(projectRepository)
+const listProjectUseCase = new ListProjectUseCase(projectRepository,projectMapper)
 const blacklistusecase = new BlackListUsecase(userRepository)
 const updateSitemanagerPassword = new UpdateSitemanagerPasswordUseCase(sitemanagerRepository,Hasher)
 export const injectedSitemanagerController = new SitemanagerController(displayAllSitemanagerUseCase,addSitemanagerUseCase,editSitemanagerUsecase,deleteSitemanagerUseCase,sitemanagerLoginUseCase,listProjectUseCase,jwtService,blacklistusecase,updateSitemanagerPassword)

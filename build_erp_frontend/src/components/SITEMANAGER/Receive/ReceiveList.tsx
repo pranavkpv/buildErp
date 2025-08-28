@@ -67,15 +67,20 @@ function ReceiveList() {
    const fetchRecieveData = async () => {
       const response = await getReceiveDataAPI(search, page);
       if (response.success) {
-         setReceiveData(response.data);
-         setTotalpage(response.totalPage);
+         setReceiveData(response.data.data);
+         setTotalpage(response.data.totalPage);
       } else {
          toast.error("Error occurred while fetching receive data");
       }
    };
 
    useEffect(() => {
-      fetchRecieveData();
+     const debounce = setTimeout(()=>{
+       fetchRecieveData();
+     },500)
+     return ()=>{
+      clearTimeout(debounce)
+     }
    }, [search, page]);
 
    const formatDate = (dateString: string) => {

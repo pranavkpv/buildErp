@@ -2,6 +2,8 @@ import React, { useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { SiteManagerLoginAPI } from '../../api/Sitemanager/dashboard';
+import { useDispatch } from 'react-redux';
+import { login } from '../../redux/slice/authslice';
 
 function SiteLogin() {
   const [email, setEmail] = useState('');
@@ -9,7 +11,8 @@ function SiteLogin() {
   const [password, setPassword] = useState('');
   const passwordRef = useRef<HTMLParagraphElement>(null);
   const navigate = useNavigate();
-   const [hide, setHide] = useState(false)
+  const [hide, setHide] = useState(false)
+  const dispatch = useDispatch()
 
   const handleLoginSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -40,17 +43,25 @@ function SiteLogin() {
     if (hasError) {
       return;
     }
-      const response = await SiteManagerLoginAPI(email,password)
-      console.log(response)
-      if (response.success) {
-        toast.success(response.message);
-        setTimeout(() => {
-          navigate('/site/dashboard');
-        }, 3000);
-        localStorage.setItem('accessToken', response.token.accessToken);
-      } else {
-        toast.error(response.message);
-      }
+    const response = await SiteManagerLoginAPI(email, password)
+    console.log(response)
+    if (response.success) {
+      toast.success(response.message);
+      localStorage.setItem('accessToken', response.data.token.accessToken);
+      dispatch(login({
+        _id: response.data.data._id,
+        username: response.data.data.username,
+        email: response.data.data.email,
+        phone: response.data.data.phone,
+        profile_image: response.data?.data.profile_image,
+        token: response.data.token.accessToken
+      }))
+      setTimeout(() => {
+        navigate('/site/dashboard');
+      }, 3000);
+    } else {
+      toast.error(response.message);
+    }
   };
 
   return (
@@ -60,7 +71,7 @@ function SiteLogin() {
         className="bg-gray-800/90 backdrop-blur-sm p-8 rounded-xl shadow-2xl w-full max-w-sm border border-gray-700/50 space-y-6"
       >
         <h1 className="text-3xl font-extrabold text-center text-teal-400 mb-6 border-b border-gray-700 pb-4">
-         Sitemanager Login
+          Sitemanager Login
         </h1>
 
         <div>

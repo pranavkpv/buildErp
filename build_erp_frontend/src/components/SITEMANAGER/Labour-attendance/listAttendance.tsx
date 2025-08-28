@@ -36,12 +36,18 @@ function ListAttendance() {
 
   const fetchAttendance = async () => {
     const response = await fetchAttendanceAPI(search, page);
-    setAttendance(response.data.result);
+    console.log(response)
+    setAttendance(response.data.data);
     setTotalpage(response.data.totalPage);
   };
 
   useEffect(() => {
-    fetchAttendance();
+   const debounce = setTimeout(()=>{
+     fetchAttendance();
+   },500)
+   return ()=>{
+    clearTimeout(debounce)
+   }
   }, [search, page]);
 
   const formatDate = (dateString: string) => {
@@ -106,7 +112,7 @@ function ListAttendance() {
                     <td className="px-6 py-4 font-medium text-gray-200 text-center">{index + 1 + page * itemsPerPage}</td>
                     <td className="px-6 py-4 text-gray-100">{formatDate(element.date)}</td>
                     <td className="px-6 py-4 text-gray-100">{element.project_name}</td>
-                    <td className="px-6 py-4 text-gray-100">₹{element.netAmount.toLocaleString()}</td>
+                    <td className="px-6 py-4 text-gray-100">₹{element.netAmount}</td>
                     <td className="px-6 py-4 text-center flex justify-center gap-2">
                       <button
                         type="button"

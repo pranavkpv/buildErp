@@ -16,10 +16,6 @@ export class AddAttendanceUseCase implements IaddAttendanceUseCase {
       const { selectedProject, selectedDate, row } = input
       const project_id = selectedProject
       const date = selectedDate
-      const labourDetails = []
-      for (let element of row) {
-         labourDetails.push({ labour_id: element.labour_type, daily_wage: element.wage, numberOflabour: element.number })
-      }
       const existAttendance = await this._attendanceRepository.getAttendanceByProjectAndDate(project_id, date)
       if (existAttendance) {
          return ResponseHelper.conflictData(AttendanceFailedMessage.EXIST)

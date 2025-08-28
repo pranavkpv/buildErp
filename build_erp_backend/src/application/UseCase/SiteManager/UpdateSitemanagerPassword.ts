@@ -15,11 +15,13 @@ export class UpdateSitemanagerPasswordUseCase implements IUpdateSitemanagerPassw
       private _hasher: IHasher
    ) { }
    async execute(input: changePasswordInput): Promise<commonOutput> {
+      console.log(input)
       const { _id, password, changedpassword } = input
       const loginData = await this._sitemanagerRepository.getSitemanagerById(_id)
       if (!loginData) {
          return ResponseHelper.badRequest(SitemanagerFailedMessage.NOT_EXIST)
       }
+      console.log(loginData)
       const passwordCheck = await this._hasher.compare(password, loginData?.password)
       if (!passwordCheck) {
          return ResponseHelper.badRequest(SitemanagerFailedMessage.PASSWORD_WRONG)

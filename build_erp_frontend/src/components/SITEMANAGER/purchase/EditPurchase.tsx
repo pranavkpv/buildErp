@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import type { Purchase } from "./purchaselist";
-import { fetchBrandCorrespondingMaterial, fetchUniqueMaterial, fetchUnitCorrespondingMaterial, fetchUnitRate } from "../../../api/Admin/material";
 import { toast } from "react-toastify";
 import { jwtDecode } from "jwt-decode";
 import { getSitemanagersProject } from "../../../api/Sitemanager/profile";
@@ -75,7 +74,7 @@ function EditPurchase({ editId, editEnable, setEditEnable, onEditSuccess, editDa
          return;
       }
       const decode: JwtPayload = jwtDecode(token);
-      const response = await getSitemanagersProject(decode.userId);
+      const response = await getSitemanagersProject();
       setProject(response.data);
    };
 
@@ -112,7 +111,7 @@ function EditPurchase({ editId, editEnable, setEditEnable, onEditSuccess, editDa
       newRow[index] = {
          ...newRow[index],
          unit_rate: response.data.unit_rate || 0,
-         material_id: response.data._id || "",
+         material_id: response.data.material_id || "",
       };
       setRow(newRow);
    };

@@ -62,15 +62,20 @@ function TransferList() {
    const fetchTransferData = async () => {
       const response = await getTransferDataAPI(search, page);
       if (response.success) {
-         setTransferData(response.data);
-         setTotalpage(response.totalPage);
+         setTransferData(response.data.data);
+         setTotalpage(response.data.totalPage);
       } else {
          toast.error("Error occurred while fetching purchase data");
       }
    };
 
    useEffect(() => {
-      fetchTransferData();
+      const debounce = setTimeout(()=>{
+         fetchTransferData();
+      },500)
+      return ()=>{
+         clearTimeout(debounce)
+      }
    }, [search, page]);
 
    const formatDate = (dateString: string) => {

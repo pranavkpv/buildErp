@@ -30,7 +30,7 @@ export class TransferController implements ITransferController {
    fetchTransfers = async (req: Request, res: Response, next: NextFunction):
       Promise<commonOutput<{ data: listTransferDTO[], totalPage: number }> | commonOutput | void> => {
       try {
-         const { search, page } = req.body;
+         const { search, page } = req.query;
          const userHeader = req.headers.authorization;
          const accessToken = userHeader?.split(" ")[1];
 

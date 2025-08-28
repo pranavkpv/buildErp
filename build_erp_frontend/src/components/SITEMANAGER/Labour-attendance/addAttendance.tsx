@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { PlusCircleIcon, MinusCircleIcon } from "@heroicons/react/24/outline";
-import { jwtDecode } from "jwt-decode";
 import { getSitemanagersProject } from "../../../api/Sitemanager/profile";
 import { labourDataFetchInsitemanager, takeAttendanceAPI } from "../../../api/Sitemanager/attendance";
 
@@ -30,11 +29,6 @@ type setAdd = {
   onAddSuccess: () => void
 };
 
-type JwtPayload = {
-   userId: string;
-   iat: number;
-   exp: number;
-};
 
 function AddAttendance({ addEnable, setAddEnable, onAddSuccess }: setAdd) {
   if (!addEnable) return null;
@@ -50,8 +44,7 @@ function AddAttendance({ addEnable, setAddEnable, onAddSuccess }: setAdd) {
   const fetchProject = async () => {
       const token = localStorage.getItem("accessToken")
       if (!token) return
-      const decode: JwtPayload = jwtDecode(token)
-      const response = await getSitemanagersProject(decode.userId);
+      const response = await getSitemanagersProject();
       setProject(response.data);
   };
 

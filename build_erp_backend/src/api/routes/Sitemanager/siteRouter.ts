@@ -13,6 +13,7 @@ import { injectedPurchaseController } from "../../DI/Purchase";
 import { injectedTransferController } from "../../DI/Transfer";
 import { injectedReceiveController } from "../../DI/Receive";
 import { injectedChatController } from "../../DI/Chat";
+import { injectedProjectController } from "../../DI/Project";
 
 
 export class SitemanagerRoute {
@@ -51,7 +52,7 @@ export class SitemanagerRoute {
       // 🔹 Project Routes
       // ================================
       this.sitemanagerRoute.get(
-         "/siteproject/:user",
+         "/siteproject",
          withLogging(injectedSitemanagerController.getSitemanagerProjects)
       );
 
@@ -59,7 +60,7 @@ export class SitemanagerRoute {
       // 🔹 Change Password
       // ================================
       this.sitemanagerRoute.put(
-         "/changepass/:id",
+         "/changepass",
          withLogging(injectedSitemanagerController.changePassword)
       );
 
@@ -78,6 +79,11 @@ export class SitemanagerRoute {
          withLogging(injectedStageStatusController.uploadStageImages)
       );
 
+      this.sitemanagerRoute.get(
+         "/siteStage/:id",
+         withLogging(injectedStageStatusController.getStageByProjectId)
+      )
+
       // ================================
       // 🔹 Attendance
       // ================================
@@ -86,7 +92,7 @@ export class SitemanagerRoute {
          withLogging(injectAttendanceController.createAttendance)
       );
       this.sitemanagerRoute.put(
-         "/editAttendance",
+         "/editAttendance/:id",
          withLogging(injectAttendanceController.updateAttendance)
       );
       this.sitemanagerRoute.get(

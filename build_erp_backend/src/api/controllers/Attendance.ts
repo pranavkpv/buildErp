@@ -34,7 +34,9 @@ export class AttendanceController implements IAttendanceController {
    updateAttendance = async (req: Request, res: Response, next: NextFunction):
       Promise<commonOutput | void> => {
       try {
-         const result = await this._editAttendanceUseCase.execute(req.body)
+         console.log(req.params.id)
+         console.log(req.body)
+         const result = await this._editAttendanceUseCase.execute({_id:req.params.id,...req.body})
          return result
       } catch (error) {
          next(error)

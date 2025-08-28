@@ -1,7 +1,6 @@
 import { MinusCircleIcon, PlusCircleIcon } from "lucide-react"
 import { useEffect, useState } from "react"
 import { toast } from "react-toastify"
-import { jwtDecode } from "jwt-decode"
 import { editAttendanceAPI, getAttendanceBYIdAPI, labourDataFetchInsitemanager } from "../../../api/Sitemanager/attendance";
 import { getSitemanagersProject } from "../../../api/Sitemanager/profile";
 
@@ -80,8 +79,7 @@ function EditAttendance({ editId, editEnable, setEditEnable, onEditSuccess }: ed
   const fetchProject = async () => {
         const token = localStorage.getItem("accessToken")
         if (!token) return
-        const decode: JwtPayload = jwtDecode(token)
-        const response = await getSitemanagersProject(decode.userId);
+        const response = await getSitemanagersProject();
         setProject(response.data);
     };
   
@@ -94,7 +92,7 @@ function EditAttendance({ editId, editEnable, setEditEnable, onEditSuccess }: ed
 
    useEffect(() => {
       if (data?.date) {
-         setSelectedDate(data.date);
+         setSelectedDate(data.date.toString().split("T")[0]);
       }
       if (data?.project_id) {
          setSelectedProject(data.project_id)

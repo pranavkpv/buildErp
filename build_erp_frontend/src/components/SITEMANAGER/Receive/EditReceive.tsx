@@ -1,4 +1,3 @@
-import { jwtDecode } from "jwt-decode";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { getSitemanagersProject } from "../../../api/Sitemanager/profile";
@@ -63,8 +62,7 @@ function EditReceive({ editId, editEnable, setEditEnable, onEditSuccess, editDat
       toast.error("No access token found");
       return;
     }
-    const decode: JwtPayload = jwtDecode(token);
-    const response = await getSitemanagersProject(decode.userId);
+    const response = await getSitemanagersProject();
     if (response.success) {
       setProject(response.data);
     } else {

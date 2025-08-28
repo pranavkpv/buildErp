@@ -1,4 +1,3 @@
-import { jwtDecode } from "jwt-decode";
 import { getSitemanagersProject } from "../../../api/Sitemanager/profile";
 import { fetchBrandCorrespondingMaterialInSitemanager, fetchUniqueMaterialInSiteManager, fetchUnitCorrespondingMaterialInsitemanager, fetchUnitRateInSitemanager, savePurchaseAPI } from "../../../api/Sitemanager/purchase";
 import { useEffect, useState } from "react";
@@ -57,8 +56,7 @@ function AddPurchase({ addEnable, setAddEnable, onAddSuccess }: setAdd) {
          toast.error("No access token found");
          return;
       }
-      const decode: JwtPayload = jwtDecode(token);
-      const response = await getSitemanagersProject(decode.userId);
+      const response = await getSitemanagersProject();
       setProject(response.data);
    };
 
@@ -93,7 +91,7 @@ function AddPurchase({ addEnable, setAddEnable, onAddSuccess }: setAdd) {
       const response = await fetchUnitRateInSitemanager(material_name, unit_name, brand_name);
       const newRow = [...row];
       newRow[index].unit_rate = response.data.unit_rate;
-      newRow[index].material_id = response.data._id;
+      newRow[index].material_id = response.data.material_id;
       setRow(newRow);
    };
 

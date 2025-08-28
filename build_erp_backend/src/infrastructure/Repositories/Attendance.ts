@@ -9,10 +9,14 @@ export class AttendanceRepository implements IAttendanceRepository {
   // Create a new attendance record
   async createAttendance(input: InputAttendance): Promise<void> {
     const { selectedProject, selectedDate, row } = input;
+    const labourDetails = []
+      for (let element of row) {
+         labourDetails.push({ labour_id: element.labour_type, daily_wage: element.wage, numberOflabour: element.number })
+      }
     const newAttendance = new attendanceDB({
       project_id: selectedProject,
       date: selectedDate,
-      labourDetails: row,
+      labourDetails: labourDetails,
       approvalStatus: false
     });
 
@@ -127,11 +131,16 @@ export class AttendanceRepository implements IAttendanceRepository {
 
   // Update existing attendance
   async updateAttendance(input: InputAttendance): Promise<void> {
+    console.log(input)
     const { _id, selectedProject, selectedDate, row } = input;
+     const labourDetails = []
+      for (let element of row) {
+         labourDetails.push({ labour_id: element.labour_type, daily_wage: element.wage, numberOflabour: element.number })
+      }
     await attendanceDB.findByIdAndUpdate(_id, {
       project_id: selectedProject,
       date: selectedDate,
-      labourDetails: row
+      labourDetails: labourDetails
     });
   }
 

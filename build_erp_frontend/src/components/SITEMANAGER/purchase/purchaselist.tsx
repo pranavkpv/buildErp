@@ -57,16 +57,22 @@ function PurchaseList() {
 
    const fetchPurchaseData = async () => {
          const response = await getPurchaseDataAPI(search, page);
+         console.log(response)
          if (response.success) {
-            setPurchaseData(response.data);
-            setTotalpage(response.totalPage);
+            setPurchaseData(response.data.data);
+            setTotalpage(response.data.totalPage);
          } else {
             toast.error("Error occurred while fetching purchase data");
          }
    };
 
    useEffect(() => {
-      fetchPurchaseData();
+      const debounce = setTimeout(()=>{
+         fetchPurchaseData();
+      },500)
+      return ()=>{
+         clearTimeout(debounce)
+      }
    }, [search, page]);
 
    const formatDate = (dateString: string) => {

@@ -6,12 +6,15 @@ import { IUploadStatusImageUseCase } from "../../application/IUseCases/IStageSta
 import { StageFailedMessage } from "../../Shared/Messages/Stage.Message";
 import { HTTP_STATUS } from "../../Shared/statusCodes/statusCodes";
 import { commonOutput } from "../../application/dto/common";
+import { publicstageDTO } from "../../application/dto/stage.dto";
+import { IFetchStageByprojectUsecase } from "../../application/IUseCases/IStage/IFetchStageByProject";
 
 export class StatusController implements IstatusController {
 
    constructor(
       private _stageStatusChangeUseCase: IStageStatusChangeUseCase,
-      private _uploadStatusImageUseCase: IUploadStatusImageUseCase
+      private _uploadStatusImageUseCase: IUploadStatusImageUseCase,
+      private _fetchStageByprojectUsecase: IFetchStageByprojectUsecase
    ) { }
 
    //  Update stage status 
@@ -62,5 +65,16 @@ export class StatusController implements IstatusController {
       } catch (error) {
          next(error);
       }
+   }
+   getStageByProjectId = async(req: Request, res: Response, next: NextFunction):
+      Promise<commonOutput<publicstageDTO[]> | void> => {
+         try {
+            const _id = req.params.id
+            const stageData = await this._fetchStageByprojectUsecase.execute(_id)
+            return stageData
+         } catch (error) {
+            next(error)
+         }
+
    }
 }

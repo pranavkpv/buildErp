@@ -14,10 +14,6 @@ export class EditAttendanceUseCase implements IEditAttendanceUseCase {
       if (!_id) return ResponseHelper.conflictData("Error")
       const project_id = selectedProject
       const date = selectedDate
-      const labourDetails = []
-      for (let element of row) {
-         labourDetails.push({ labour_id: element.labour_type, daily_wage: element.wage, numberOflabour: element.number })
-      }
       const existAttendance = await this._attendanceRepository.getAttendanceForEdit(_id, project_id, date)
       if (existAttendance) {
          return ResponseHelper.conflictData(AttendanceFailedMessage.EXIST)

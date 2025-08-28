@@ -9,7 +9,6 @@ export class PurchaseRepository implements IPurchaseRepository {
     // Fetch all purchases with search and pagination (pending approval)
     async getPurchasesBySearchAndPage(search: string, page: number, siteManagerId: string):
         Promise<{ data: PurchaseDTO[], totalPage: number }> {
-
         const skip = page * 5;
         const allPurchase = await purchaseDB.aggregate([
             { $addFields: { projectObjectId: { $toObjectId: "$project_id" } } },
@@ -139,6 +138,7 @@ export class PurchaseRepository implements IPurchaseRepository {
 
         const total = totalDocuments[0]?.total || 0;
 
+
         return {
             data,
             totalPage: Math.ceil(total / 5)
@@ -148,6 +148,8 @@ export class PurchaseRepository implements IPurchaseRepository {
     // Create a new purchase
     async createPurchase(input: purchaseInput): Promise<boolean> {
         const { project_id, invoice_number, date, description, materialDetails } = input;
+        console.log(input)
+        console.log(input.materialDetails)
 
         const newPurchase = new purchaseDB({
             project_id,

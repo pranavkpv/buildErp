@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import ConfirmStatus from "./ConfirmStatus";
 import ImageUpload from "./ImageUpload";
-import { jwtDecode } from "jwt-decode";
 import { getSitemanagersProject } from "../../../api/Sitemanager/profile";
-import { getStageInAdmin } from "../../../api/Admin/StageSetting";
+import { getStageInSitemanager } from "../../../api/Sitemanager/stageStatus";
 
 
 type Project = {
@@ -48,20 +47,17 @@ function StageUpdatePage() {
 
 
    const fetchProject = async () => {
-         const token = localStorage.getItem("accessToken")
-         if (!token) return
-         const decode: JwtPayload = jwtDecode(token)
-         const response = await getSitemanagersProject(decode.userId);
-         setProject(response.data);
+      const response = await getSitemanagersProject();
+      setProject(response.data);
    };
 
    const fetchStage = async (projectId: string): Promise<void> => {
-         const response = await getStageInAdmin(projectId);
-         if (response.success) {
-            setStage(response.data);
-         } else {
-            toast.error(response.message);
-         }
+      const response = await getStageInSitemanager(projectId);
+      if (response.success) {
+         setStage(response.data);
+      } else {
+         toast.error(response.message);
+      }
    };
 
    useEffect(() => {
@@ -152,7 +148,7 @@ function StageUpdatePage() {
                                     <option value={element.progress} className="bg-gray-800 text-gray-100">
                                        {element.progress}
                                     </option>
-                                    {progress.filter((x)=>x>element.progress).map((item, index) => (
+                                    {progress.filter((x) => x > element.progress).map((item, index) => (
                                        <option key={index} value={item} className="bg-gray-800 text-gray-100">
                                           {item}
                                        </option>

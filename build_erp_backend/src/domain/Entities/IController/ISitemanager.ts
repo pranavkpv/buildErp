@@ -3,7 +3,7 @@ import { commonOutput } from "../../../application/dto/common"
 import { listSitemanagerDTO } from "../../../application/dto/sitemanager.dto"
 import { ISitemanagerModelEntity } from "../modelEntities/sitemanager.entity"
 import { Tokens } from "../../../application/Entities/token.entity"
-import { IProjectModelEntity } from "../modelEntities/project.entity"
+import { fetchProjectIdnameDTO } from "../../../application/dto/project.dto"
 
 
 export interface ISitemanagerController {
@@ -27,7 +27,7 @@ export interface ISitemanagerController {
       Promise<commonOutput | void>
 
    getSitemanagerProjects(req: Request, res: Response, next: NextFunction):
-      Promise<commonOutput<IProjectModelEntity[]> | commonOutput | void>
+      Promise<commonOutput<fetchProjectIdnameDTO[]> | commonOutput | void>
 
    changePassword(req: Request, res: Response, next: NextFunction):
       Promise<commonOutput | void>

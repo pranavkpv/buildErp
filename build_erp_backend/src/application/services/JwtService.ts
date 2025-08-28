@@ -15,7 +15,7 @@ export class JwtService implements IJwtService {
   createAccessToken(input: createTokenInput): string {
     const { _id, username, role } = input
     const accessToken = jwt.sign(
-      { userId: _id, email: username, role: role },
+      { _id: _id, username: username, role: role },
       this.accessSecret,
       { expiresIn: '15m' }
     )

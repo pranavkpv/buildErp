@@ -12,16 +12,9 @@ function DisplaySitemanagerData() {
 
 
    const passRef = useRef<HTMLParagraphElement>(null);
-   const token = localStorage.getItem("accessToken");
-   const [sitemanagerId, setSitemanagerId] = useState("");
 
-   useEffect(() => {
-      if (token) {
-         const payload = token.split('.')[1];
-         const decodedPayload = JSON.parse(atob(payload));
-         setSitemanagerId(decodedPayload.userId);
-      }
-   }, [token]);
+
+
 
    const changePasswordFun = async (e: React.FormEvent) => {
       e.preventDefault();
@@ -32,10 +25,9 @@ function DisplaySitemanagerData() {
       if (!passCheck.test(changedpass)) {
          return passRef.current ? (passRef.current.innerText = `Password must include uppercase, lowercase, number, special character, and be 8+ characters long.`) : "";
       }
-         const _id = sitemanagerId
          const password = orinalpass
          const changedpassword = changedpass
-         const data = await changePassword({_id, password, changedpassword})
+         const data = await changePassword({password, changedpassword})
          if (data.success) {
             toast.success(data.message);
             setOriginalPass("");

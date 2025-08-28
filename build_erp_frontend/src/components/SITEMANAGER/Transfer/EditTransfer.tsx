@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { jwtDecode } from "jwt-decode";
 import { getSitemanagersProject } from "../../../api/Sitemanager/profile";
 import type { Transfer } from "./TransferList";
 import { ToProjectFetchAPI, updateTransferAPI } from "../../../api/Sitemanager/transfer";
@@ -79,8 +78,7 @@ function EditTransfer({ editId, editEnable, setEditEnable, onEditSuccess, editDa
       toast.error("No access token found");
       return;
     }
-    const decode: JwtPayload = jwtDecode(token);
-    const response = await getSitemanagersProject(decode.userId);
+    const response = await getSitemanagersProject();
     setFromProject(response.data || []);
   };
 

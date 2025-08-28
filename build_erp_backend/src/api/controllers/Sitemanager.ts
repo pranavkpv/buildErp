@@ -16,6 +16,7 @@ import { IProjectModelEntity } from "../../domain/Entities/modelEntities/project
 import { IJwtService } from "../../domain/Entities/Service.Entities/IJwtservice"
 import { IBlackListUseCase } from "../../application/IUseCases/IAuth/IBlackList"
 import { IUpdateSitemanagerPasswordUseCase } from "../../application/IUseCases/ISitemanager/IUpdateSitemanagerPassword"
+import { fetchProjectIdnameDTO } from "../../application/dto/project.dto"
 
 export class SitemanagerController implements ISitemanagerController {
 
@@ -138,10 +139,13 @@ export class SitemanagerController implements ISitemanagerController {
 
    // Get projects assigned to a sitemanager
    getSitemanagerProjects = async (req: Request, res: Response, next: NextFunction):
-      Promise<commonOutput<IProjectModelEntity[]> | commonOutput | void> => {
+      Promise<commonOutput<fetchProjectIdnameDTO[]> | commonOutput | void> => {
       try {
-         const { user } = req.params;
-         const result = await this._listProjectUseCase.execute(user);
+         const header = req.headers.authorization?.split(" ")[1]
+         if(!header) return
+         const payload = await this._jwtservice.verifyAccessToken(header)
+         if(!payload) return
+         const result = await this._listProjectUseCase.execute(payload?._id);
          return result;
       } catch (error) {
          return next(error);
@@ -152,7 +156,15 @@ export class SitemanagerController implements ISitemanagerController {
    changePassword = async (req: Request, res: Response, next: NextFunction):
       Promise<commonOutput | void> => {
       try {
-         const result = await this._updateSitemanagerPassword.execute({ _id: req.params.id, ...req.body });
+         const header = req.headers.authorization?.split(" ")[1]
+         if(!header){
+            return
+         }
+         const payload = await this._jwtservice.verifyAccessToken(header)
+         if(!payload){
+            return
+         }
+         const result = await this._updateSitemanagerPassword.execute({_id:payload._id,...req.body });
          return result;
       } catch (error) {
          return next(error);

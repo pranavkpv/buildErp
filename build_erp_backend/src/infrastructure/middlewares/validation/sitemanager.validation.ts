@@ -8,7 +8,8 @@ export const validateStatusChange = (
   res: Response,
   next: NextFunction
 ): void => {
-  const { stageId, newProgress, date } = req.body;
+  const stageId = req.params.id
+  const {  newProgress, date } = req.body;
 
   
   if (!stageId || typeof stageId !== "string" || stageId.trim().length === 0) {
