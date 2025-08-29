@@ -1,6 +1,6 @@
-import { commonOutput } from "../../dto/common";
+import { commonOutput } from '../../dto/common';
 
 
 export interface IDeletePurchaseUseCase {
-   execute(_id: string): Promise<commonOutput>
+   execute(id: string): Promise<commonOutput>
 }

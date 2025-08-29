@@ -1,15 +1,15 @@
-import mongoose from "mongoose";
-import { IProjectStockModel } from "../../../../api/models/ProjectStockModel";
+import mongoose from 'mongoose';
+import { IProjectStockModelEntity } from '../../../../domain/Entities/modelEntities/projectStock.entity';
 
-export const StockSchema = new mongoose.Schema<IProjectStockModel>({
-   project_id: {
-      type: String
-   },
-   material_id: {
-      type: String
-   },
+export const StockSchema = new mongoose.Schema<IProjectStockModelEntity>({
+    project_id: {
+        type: String,
+    },
+    material_id: {
+        type: String,
+    },
     stock: {
-      type: Number
-   }
-},{timestamps:true})
+        type: Number,
+    },
+},{ timestamps:true });
 

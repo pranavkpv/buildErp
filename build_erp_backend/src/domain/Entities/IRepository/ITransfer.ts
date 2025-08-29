@@ -1,7 +1,7 @@
-import { fetchProjectIdnameDTO } from "../../../application/dto/project.dto";
-import { listTransferDTO, TransferOutput } from "../../../application/dto/transfer.dto";
-import { transferInput } from "../../../application/Entities/transfer.entity";
-import { ITransferModelEntity } from "../modelEntities/transfer.entity";
+import { fetchProjectIdnameDTO } from '../../../application/dto/project.dto';
+import { listTransferDTO, TransferOutput } from '../../../application/dto/transfer.dto';
+import { transferInput } from '../../../application/Entities/transfer.entity';
+import { ITransferModelEntity } from '../modelEntities/transfer.entity';
 
 export interface ITransferRepository {
 
@@ -17,22 +17,22 @@ export interface ITransferRepository {
    updateTransfer(input: transferInput):
       Promise<boolean>
 
-   deleteTransfer(_id: string):
+   deleteTransfer(id: string):
       Promise<boolean>
 
-   approveTransfer(_id: string):
+   approveTransfer(id: string):
       Promise<void>
 
-   findTransferBytransferId(transfer_id: string):
+   findTransferBytransferId(transferId: string):
       Promise<ITransferModelEntity | null>
 
-   findTransferDataByToProjectAndDate(_id: string, date: string):
+   findTransferDataByToProjectAndDate(id: string, date: string):
       Promise<TransferOutput[]>
 
    UpdateReceiveStatus(transferId: string[]):
       Promise<void>
 
-   updateReceiveStatusToFalse(transfer_id: string[]):
+   updateReceiveStatusToFalse(transferId: string[]):
       Promise<void>
 
    findAllTransfer():

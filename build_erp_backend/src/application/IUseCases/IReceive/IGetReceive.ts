@@ -1,5 +1,5 @@
-import { commonOutput } from "../../dto/common";
-import { RecieveOutput } from "../../dto/receive.dto";
+import { commonOutput } from '../../dto/common';
+import { RecieveOutput } from '../../dto/receive.dto';
 
 
 export interface IGetReceiveUseCase {

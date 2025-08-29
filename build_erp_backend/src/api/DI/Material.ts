@@ -1,47 +1,47 @@
-import { Brandmapper } from "../../application/Mapper/brand.mapper";
-import { categoryMapper } from "../../application/Mapper/category.mapper";
-import { MaterialMapper } from "../../application/Mapper/material.mapper";
-import { ProjectMapper } from "../../application/Mapper/project.mapper";
-import { UnitMapper } from "../../application/Mapper/unit.mapper";
-import { AddMaterialUseCase } from "../../application/UseCase/Material/AddMaterial";
-import { DeleteMaterialUseCase } from "../../application/UseCase/Material/DeleteMaterial";
-import { DisplayAddMaterialDataUseCase } from "../../application/UseCase/Material/DisplayAddMaterial";
-import { DisplayAllMaterialUseCase } from "../../application/UseCase/Material/DisplayAllMaterial";
-import { FetchBrandByMaterialNameUsecase } from "../../application/UseCase/Material/FetchBrandByMaterialname";
-import { FetchMaterialUseCase } from "../../application/UseCase/Material/FetchMaterialUseCase";
-import { FetchMaterialByMaterialNameUseCasse } from "../../application/UseCase/Material/FetchUnitByMaterialname";
-import { FetchUnitRateUseCase } from "../../application/UseCase/Material/FetchUnitRate";
-import { FindMaterialByIdUseCase } from "../../application/UseCase/Material/FindMaterialById";
-import { GetEditMaterialUseCase } from "../../application/UseCase/Material/GetEditMaterial";
-import { UpdateMaterialUseCase } from "../../application/UseCase/Material/UpdateMaterial";
-import { BrandRepository } from "../../infrastructure/Repositories/Brand";
-import { CategoryRepository } from "../../infrastructure/Repositories/Category";
-import { MaterialRepository } from "../../infrastructure/Repositories/Material";
-import { ProjectStockRepository } from "../../infrastructure/Repositories/ProjectStock";
-import { SpecRepository } from "../../infrastructure/Repositories/Specification";
-import { UnitRepository } from "../../infrastructure/Repositories/Unit";
-import { MaterialController } from "../controllers/Material";
+import { Brandmapper } from '../../application/Mapper/brand.mapper';
+import { categoryMapper } from '../../application/Mapper/category.mapper';
+import { MaterialMapper } from '../../application/Mapper/material.mapper';
+import { ProjectMapper } from '../../application/Mapper/project.mapper';
+import { UnitMapper } from '../../application/Mapper/unit.mapper';
+import { AddMaterialUseCase } from '../../application/UseCase/Material/AddMaterial';
+import { DeleteMaterialUseCase } from '../../application/UseCase/Material/DeleteMaterial';
+import { DisplayAddMaterialDataUseCase } from '../../application/UseCase/Material/DisplayAddMaterial';
+import { DisplayAllMaterialUseCase } from '../../application/UseCase/Material/DisplayAllMaterial';
+import { FetchBrandByMaterialNameUsecase } from '../../application/UseCase/Material/FetchBrandByMaterialname';
+import { FetchMaterialUseCase } from '../../application/UseCase/Material/FetchMaterialUseCase';
+import { FetchMaterialByMaterialNameUseCasse } from '../../application/UseCase/Material/FetchUnitByMaterialname';
+import { FetchUnitRateUseCase } from '../../application/UseCase/Material/FetchUnitRate';
+import { FindMaterialByIdUseCase } from '../../application/UseCase/Material/FindMaterialById';
+import { GetEditMaterialUseCase } from '../../application/UseCase/Material/GetEditMaterial';
+import { UpdateMaterialUseCase } from '../../application/UseCase/Material/UpdateMaterial';
+import { BrandRepository } from '../../infrastructure/Repositories/Brand';
+import { CategoryRepository } from '../../infrastructure/Repositories/Category';
+import { MaterialRepository } from '../../infrastructure/Repositories/Material';
+import { ProjectStockRepository } from '../../infrastructure/Repositories/ProjectStock';
+import { SpecRepository } from '../../infrastructure/Repositories/Specification';
+import { UnitRepository } from '../../infrastructure/Repositories/Unit';
+import { MaterialController } from '../controllers/Material';
 
-const materialRepository = new MaterialRepository()
-const materialMapper = new MaterialMapper()
-const categoryRepository = new CategoryRepository()
-const brandRepository = new BrandRepository()
-const unitRepository = new UnitRepository()
-const unitmapper = new UnitMapper()
-const brandmapper = new Brandmapper()
-const categorymapper = new categoryMapper()
-const projectmapper = new ProjectMapper()
-const projectStockRepository = new ProjectStockRepository()
-const specRepository = new SpecRepository()
-const displayAllMaterialUseCase = new DisplayAllMaterialUseCase(materialRepository,materialMapper)
-const getAddMaterialUseCase = new DisplayAddMaterialDataUseCase(materialRepository,categoryRepository,brandRepository,unitRepository,unitmapper,brandmapper,categorymapper,projectmapper)
-const saveMaterialUseCase = new AddMaterialUseCase(materialRepository,projectStockRepository)
-const getEditMaterialUseCase = new GetEditMaterialUseCase(materialRepository,projectStockRepository,materialMapper)
-const updateMaterialUseCase = new UpdateMaterialUseCase(materialRepository,projectStockRepository)
-const deleteMaterialUseCase = new DeleteMaterialUseCase(materialRepository,projectStockRepository,specRepository)
-const fetchMaterialUseCase = new FetchMaterialUseCase(materialRepository)
-const fetchMaterialByMaterialName = new FetchMaterialByMaterialNameUseCasse(materialRepository)
-const fetchbrandBynameusecase = new FetchBrandByMaterialNameUsecase(materialRepository)
-const fetUnitRateUseCase = new FetchUnitRateUseCase(materialRepository,materialMapper)
-const findMaterialByIdUsecase = new FindMaterialByIdUseCase(materialRepository)
-export const injectedMaterialController = new MaterialController(displayAllMaterialUseCase,getAddMaterialUseCase,saveMaterialUseCase,getEditMaterialUseCase,updateMaterialUseCase,deleteMaterialUseCase,fetchMaterialUseCase,fetchMaterialByMaterialName,fetchbrandBynameusecase,fetUnitRateUseCase,findMaterialByIdUsecase)
+const materialRepository = new MaterialRepository();
+const materialMapper = new MaterialMapper();
+const categoryRepository = new CategoryRepository();
+const brandRepository = new BrandRepository();
+const unitRepository = new UnitRepository();
+const unitmapper = new UnitMapper();
+const brandmapper = new Brandmapper();
+const categorymapper = new categoryMapper();
+const projectmapper = new ProjectMapper();
+const projectStockRepository = new ProjectStockRepository();
+const specRepository = new SpecRepository();
+const displayAllMaterialUseCase = new DisplayAllMaterialUseCase(materialRepository,materialMapper);
+const getAddMaterialUseCase = new DisplayAddMaterialDataUseCase(materialRepository,categoryRepository,brandRepository,unitRepository,unitmapper,brandmapper,categorymapper,projectmapper);
+const saveMaterialUseCase = new AddMaterialUseCase(materialRepository,projectStockRepository);
+const getEditMaterialUseCase = new GetEditMaterialUseCase(materialRepository,projectStockRepository,materialMapper);
+const updateMaterialUseCase = new UpdateMaterialUseCase(materialRepository,projectStockRepository);
+const deleteMaterialUseCase = new DeleteMaterialUseCase(materialRepository,projectStockRepository,specRepository);
+const fetchMaterialUseCase = new FetchMaterialUseCase(materialRepository);
+const fetchMaterialByMaterialName = new FetchMaterialByMaterialNameUseCasse(materialRepository);
+const fetchbrandBynameusecase = new FetchBrandByMaterialNameUsecase(materialRepository);
+const fetUnitRateUseCase = new FetchUnitRateUseCase(materialRepository,materialMapper);
+const findMaterialByIdUsecase = new FindMaterialByIdUseCase(materialRepository);
+export const injectedMaterialController = new MaterialController(displayAllMaterialUseCase,getAddMaterialUseCase,saveMaterialUseCase,getEditMaterialUseCase,updateMaterialUseCase,deleteMaterialUseCase,fetchMaterialUseCase,fetchMaterialByMaterialName,fetchbrandBynameusecase,fetUnitRateUseCase,findMaterialByIdUsecase);

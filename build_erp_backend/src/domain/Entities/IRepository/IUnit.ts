@@ -1,6 +1,6 @@
-import { listingInput } from "../../../application/Entities/common.entity"
-import { saveUnitInput } from "../../../application/Entities/unit.entity"
-import { IUnitModelEntity } from "../modelEntities/unit.entity"
+import { listingInput } from '../../../application/Entities/common.entity';
+import { saveUnitInput } from '../../../application/Entities/unit.entity';
+import { IUnitModelEntity } from '../modelEntities/unit.entity';
 
 export interface IUnitRepository {
 
@@ -13,18 +13,18 @@ export interface IUnitRepository {
    createUnit(input: saveUnitInput):
       Promise<IUnitModelEntity | null>
 
-   checkUnitExistsOnEdit(_id: string, unit_name: string):
+   checkUnitExistsOnEdit(id: string, unit_name: string):
       Promise<IUnitModelEntity | null>
 
    updateUnit(input: saveUnitInput):
       Promise<IUnitModelEntity | null>
 
-   deleteUnit(_id: string):
+   deleteUnit(id: string):
       Promise<IUnitModelEntity | null>
 
    getPaginatedUnits(input: listingInput):
       Promise<{ data: IUnitModelEntity[], totalPage: number }>
 
-   getUnitById(_id: string):
+   getUnitById(id: string):
       Promise<IUnitModelEntity | null>
 }

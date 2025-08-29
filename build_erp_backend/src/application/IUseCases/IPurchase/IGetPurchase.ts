@@ -1,5 +1,5 @@
-import { commonOutput } from "../../dto/common";
-import { PurchaseDTO } from "../../dto/purchase.dto";
+import { commonOutput } from '../../dto/common';
+import { PurchaseDTO } from '../../dto/purchase.dto';
 
 
 export interface IGetPurchaseUseCase {

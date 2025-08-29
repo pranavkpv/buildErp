@@ -1,6 +1,6 @@
-import { IEstimationModelEntity } from "../../domain/Entities/modelEntities/estimation.entity";
-import { IProjectModelEntity } from "../../domain/Entities/modelEntities/project.entity";
-import { ISpecModelEntity } from "../../domain/Entities/modelEntities/spec.entity";
+import { IEstimationModelEntity } from '../../domain/Entities/modelEntities/estimation.entity';
+import { IProjectModelEntity } from '../../domain/Entities/modelEntities/project.entity';
+import { ISpecModelEntity } from '../../domain/Entities/modelEntities/spec.entity';
 
 export interface estiomationAggregateByspec extends IEstimationModelEntity {
    specDetails: ISpecModelEntity

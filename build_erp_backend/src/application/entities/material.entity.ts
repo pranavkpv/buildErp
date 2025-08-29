@@ -1,11 +1,11 @@
-import { IBrandModelEntity } from "../../domain/Entities/modelEntities/brand.entity";
-import { ICategoryModelEntity } from "../../domain/Entities/modelEntities/category.entity";
-import { IMaterialModelEntity } from "../../domain/Entities/modelEntities/material.entity";
-import { IUnitModelEntity } from "../../domain/Entities/modelEntities/unit.entity";
-import { idBrandnameDTO } from "../dto/brand.dto";
-import { idCategorynameDTO } from "../dto/category.dto";
-import { fetchProjectIdnameDTO } from "../dto/project.dto";
-import { idUnitnameDTO } from "../dto/unit.dto";
+import { IBrandModelEntity } from '../../domain/Entities/modelEntities/brand.entity';
+import { ICategoryModelEntity } from '../../domain/Entities/modelEntities/category.entity';
+import { IMaterialModelEntity } from '../../domain/Entities/modelEntities/material.entity';
+import { IUnitModelEntity } from '../../domain/Entities/modelEntities/unit.entity';
+import { idBrandnameDTO } from '../dto/brand.dto';
+import { idCategorynameDTO } from '../dto/category.dto';
+import { fetchProjectIdnameDTO } from '../dto/project.dto';
+import { idUnitnameDTO } from '../dto/unit.dto';
 
 export interface materialSumInput {
    material_id: string,

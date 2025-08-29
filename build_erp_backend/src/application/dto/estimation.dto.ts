@@ -1,4 +1,4 @@
-import { publicspecDTO } from "./specification.dto"
+import { publicspecDTO } from './specification.dto';
 
 export interface publicEstimationDTO {
    project_id: string

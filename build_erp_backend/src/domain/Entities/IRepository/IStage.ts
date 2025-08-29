@@ -1,6 +1,6 @@
-import { changeStatusInput } from "../../../application/Entities/sitemanager.entity";
-import { stage, uploadImageInput } from "../../../application/Entities/stage.entity";
-import { IStageModelEntity } from "../modelEntities/stage.entity";
+import { changeStatusInput } from '../../../application/Entities/sitemanager.entity';
+import { stage, uploadImageInput } from '../../../application/Entities/stage.entity';
+import { IStageModelEntity } from '../modelEntities/stage.entity';
 
 export interface IStageRepository {
    stageDataSave(projectId: string, element: stage):
@@ -12,10 +12,10 @@ export interface IStageRepository {
    changeStageStatus(input: changeStatusInput):
       Promise<void>
 
-   RemoveDateinProject(_id: string):
+   RemoveDateinProject(id: string):
       Promise<void>
 
-   DeleteStageByproject(_id: string):
+   DeleteStageByproject(id: string):
       Promise<void>
 
    uploadImageByStageId(input: uploadImageInput):

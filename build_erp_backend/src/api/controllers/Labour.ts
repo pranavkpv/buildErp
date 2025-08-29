@@ -1,89 +1,89 @@
-import { NextFunction, Request, Response } from "express";
-import { IAddLabourUseCase } from "../../application/IUseCases/ILabour/IAddLabour";
-import { IDisplayAllLabourUsecase } from "../../application/IUseCases/ILabour/IDisplayAllLoabour";
-import { IUpdateLabourUseCase } from "../../application/IUseCases/ILabour/IUpdateLabour";
-import { IDeleteLabourUseCase } from "../../application/IUseCases/ILabour/IDeleteLabour";
-import { IFetchAllLabourUseCase } from "../../application/IUseCases/ILabour/IFetchAllLabour";
-import { ILabourController } from "../../domain/Entities/IController/ILabour";
-import { commonOutput } from "../../application/dto/common";
-import { labourDataDisplayDTO } from "../../application/dto/labour.dto";
-import { IFetchLabourByIdUsecase } from "../../application/IUseCases/ILabour/IFetchLabourById";
+import { NextFunction, Request, Response } from 'express';
+import { IAddLabourUseCase } from '../../application/IUseCases/ILabour/IAddLabour';
+import { IDisplayAllLabourUsecase } from '../../application/IUseCases/ILabour/IDisplayAllLoabour';
+import { IUpdateLabourUseCase } from '../../application/IUseCases/ILabour/IUpdateLabour';
+import { IDeleteLabourUseCase } from '../../application/IUseCases/ILabour/IDeleteLabour';
+import { IFetchAllLabourUseCase } from '../../application/IUseCases/ILabour/IFetchAllLabour';
+import { ILabourController } from '../../domain/Entities/IController/ILabour';
+import { commonOutput } from '../../application/dto/common';
+import { labourDataDisplayDTO } from '../../application/dto/labour.dto';
+import { IFetchLabourByIdUsecase } from '../../application/IUseCases/ILabour/IFetchLabourById';
 
 export class LabourController implements ILabourController {
-   constructor(
+    constructor(
       private _displayAllLabourUseCase: IDisplayAllLabourUsecase,
       private _addLabourUseCase: IAddLabourUseCase,
       private _updateLabourUseCase: IUpdateLabourUseCase,
       private _deleteLabourUseCase: IDeleteLabourUseCase,
       private _fetchAllLabourUseCase: IFetchAllLabourUseCase,
-      private _fetchLabourByIdUseCase: IFetchLabourByIdUsecase
-   ) { }
+      private _fetchLabourByIdUseCase: IFetchLabourByIdUsecase,
+    ) { }
 
-   // Fetch paginated list of labour with search filter
-   getPaginatedLabourList = async (req: Request, res: Response, next: NextFunction):
+    // Fetch paginated list of labour with search filter
+    getPaginatedLabourList = async(req: Request, res: Response, next: NextFunction):
       Promise<commonOutput<{ data: labourDataDisplayDTO[]; totalPage: number }> | commonOutput | void> => {
-      try {
-         const { page, search } = req.query;
-         const result = await this._displayAllLabourUseCase.execute(Number(page), String(search));
-         return result;
-      } catch (error) {
-         next(error);
-      }
-   };
+        try {
+            const { page, search } = req.query;
+            const result = await this._displayAllLabourUseCase.execute(Number(page), String(search));
+            return result;
+        } catch (error) {
+            next(error);
+        }
+    };
 
-   // Create a new labour record
-   createLabour = async (req: Request, res: Response, next: NextFunction):
+    // Create a new labour record
+    createLabour = async(req: Request, res: Response, next: NextFunction):
       Promise<commonOutput | void> => {
-      try {
-         const result = await this._addLabourUseCase.execute(req.body);
-         return result;
-      } catch (error) {
-         next(error);
-      }
-   };
+        try {
+            const result = await this._addLabourUseCase.execute(req.body);
+            return result;
+        } catch (error) {
+            next(error);
+        }
+    };
 
-   // Delete a labour record by ID
-   deleteLabour = async (req: Request, res: Response, next: NextFunction):
+    // Delete a labour record by ID
+    deleteLabour = async(req: Request, res: Response, next: NextFunction):
       Promise<commonOutput | void> => {
-      try {
-         const result = await this._deleteLabourUseCase.execute(req.params.id);
-         return result;
-      } catch (error) {
-         next(error);
-      }
-   };
+        try {
+            const result = await this._deleteLabourUseCase.execute(req.params.id);
+            return result;
+        } catch (error) {
+            next(error);
+        }
+    };
 
-   // Update an existing labour record
-   updateLabour = async (req: Request, res: Response, next: NextFunction):
+    // Update an existing labour record
+    updateLabour = async(req: Request, res: Response, next: NextFunction):
       Promise<commonOutput | void> => {
-      try {
-         const result = await this._updateLabourUseCase.execute({ _id: req.params.id, ...req.body });
-         return result;
-      } catch (error) {
-         next(error);
-      }
-   };
+        try {
+            const result = await this._updateLabourUseCase.execute({ _id: req.params.id, ...req.body });
+            return result;
+        } catch (error) {
+            next(error);
+        }
+    };
 
-   // Fetch all labour records without pagination
-   getAllLabourList = async (req: Request, res: Response, next: NextFunction):
+    // Fetch all labour records without pagination
+    getAllLabourList = async(req: Request, res: Response, next: NextFunction):
       Promise<commonOutput<labourDataDisplayDTO[]> | commonOutput | void> => {
-      try {
-         const result = await this._fetchAllLabourUseCase.execute();
-         return result;
-      } catch (error) {
-         next(error);
-      }
-   };
+        try {
+            const result = await this._fetchAllLabourUseCase.execute();
+            return result;
+        } catch (error) {
+            next(error);
+        }
+    };
 
-   // Fetch a single labour record by ID
-   getLabourById = async (req: Request, res: Response, next: NextFunction):
+    // Fetch a single labour record by ID
+    getLabourById = async(req: Request, res: Response, next: NextFunction):
       Promise<commonOutput<labourDataDisplayDTO> | commonOutput | void> => {
-      try {
-         const { id } = req.params;
-         const result = await this._fetchLabourByIdUseCase.execute(id);
-         return result;
-      } catch (error) {
-         next(error);
-      }
-   };
+        try {
+            const { id } = req.params;
+            const result = await this._fetchLabourByIdUseCase.execute(id);
+            return result;
+        } catch (error) {
+            next(error);
+        }
+    };
 }

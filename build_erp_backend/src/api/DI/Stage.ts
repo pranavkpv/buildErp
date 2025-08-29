@@ -1,25 +1,25 @@
-import { ProjectMapper } from "../../application/Mapper/project.mapper";
-import { Stagemapper } from "../../application/Mapper/stage.mapper";
-import { DeleteStageUseCase } from "../../application/UseCase/Stage/DeleteStage";
-import { FetchCostUseCase } from "../../application/UseCase/Stage/FetchCost";
-import { FetchStageUsecase } from "../../application/UseCase/Stage/FetchStage";
-import { StageSaveUseCase } from "../../application/UseCase/Stage/StageSave";
-import { UpdateStageUseCase } from "../../application/UseCase/Stage/UpdateStage";
-import { FetchStatusUseCase } from "../../application/UseCase/StageStatusUpdation/FetchStageStatus";
-import { EstimationRepository } from "../../infrastructure/Repositories/Estimation";
-import { ProjectRepository } from "../../infrastructure/Repositories/Project";
-import { StageRepository } from "../../infrastructure/Repositories/Stage";
-import { StageController } from "../controllers/Stage";
+import { ProjectMapper } from '../../application/Mapper/project.mapper';
+import { Stagemapper } from '../../application/Mapper/stage.mapper';
+import { DeleteStageUseCase } from '../../application/UseCase/Stage/DeleteStage';
+import { FetchCostUseCase } from '../../application/UseCase/Stage/FetchCost';
+import { FetchStageUsecase } from '../../application/UseCase/Stage/FetchStage';
+import { StageSaveUseCase } from '../../application/UseCase/Stage/StageSave';
+import { UpdateStageUseCase } from '../../application/UseCase/Stage/UpdateStage';
+import { FetchStatusUseCase } from '../../application/UseCase/StageStatusUpdation/FetchStageStatus';
+import { EstimationRepository } from '../../infrastructure/Repositories/Estimation';
+import { ProjectRepository } from '../../infrastructure/Repositories/Project';
+import { StageRepository } from '../../infrastructure/Repositories/Stage';
+import { StageController } from '../controllers/Stage';
 
-const projectRepository = new ProjectRepository()
-const stageRepository = new StageRepository()
-const estimationReposiitory = new EstimationRepository()
-const projectmapper = new ProjectMapper()
-const stagemapper = new Stagemapper()
-const stageSaveUseCase = new StageSaveUseCase(projectRepository,stageRepository)
-const fetchCostUseCase = new FetchCostUseCase(estimationReposiitory)
-const fetchStageUseCase = new FetchStageUsecase(projectRepository,projectmapper)
-const deleteStageUseCase = new DeleteStageUseCase(stageRepository)
-const updateStageUseCase = new UpdateStageUseCase(stageRepository,projectRepository)
-const fetchStatusUseCase = new FetchStatusUseCase(stageRepository,stagemapper)
-export const injectStageController = new StageController(stageSaveUseCase,fetchCostUseCase,fetchStageUseCase,deleteStageUseCase,updateStageUseCase,fetchStatusUseCase)
+const projectRepository = new ProjectRepository();
+const stageRepository = new StageRepository();
+const estimationReposiitory = new EstimationRepository();
+const projectmapper = new ProjectMapper();
+const stagemapper = new Stagemapper();
+const stageSaveUseCase = new StageSaveUseCase(projectRepository,stageRepository);
+const fetchCostUseCase = new FetchCostUseCase(estimationReposiitory);
+const fetchStageUseCase = new FetchStageUsecase(projectRepository,projectmapper);
+const deleteStageUseCase = new DeleteStageUseCase(stageRepository);
+const updateStageUseCase = new UpdateStageUseCase(stageRepository,projectRepository);
+const fetchStatusUseCase = new FetchStatusUseCase(stageRepository,stagemapper);
+export const injectStageController = new StageController(stageSaveUseCase,fetchCostUseCase,fetchStageUseCase,deleteStageUseCase,updateStageUseCase,fetchStatusUseCase);

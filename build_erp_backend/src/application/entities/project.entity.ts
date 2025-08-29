@@ -1,6 +1,6 @@
-import { IProjectModelEntity } from "../../domain/Entities/modelEntities/project.entity";
-import { IProjectStockModelEntity } from "../../domain/Entities/modelEntities/projectStock.entity";
-import { IUserModelEntity } from "../../domain/Entities/modelEntities/user.entity";
+import { IProjectModelEntity } from '../../domain/Entities/modelEntities/project.entity';
+import { IProjectStockModelEntity } from '../../domain/Entities/modelEntities/projectStock.entity';
+import { IUserModelEntity } from '../../domain/Entities/modelEntities/user.entity';
 
 export interface userBaseChatoutput {
    _id: string;

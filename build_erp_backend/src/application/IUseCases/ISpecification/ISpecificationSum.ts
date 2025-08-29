@@ -1,5 +1,5 @@
-import { commonOutput } from "../../dto/common";
-import { mixMatAndLabour } from "../../Entities/spec.entity";
+import { commonOutput } from '../../dto/common';
+import { mixMatAndLabour } from '../../Entities/spec.entity';
 
 
 export interface ISpecSumUseCase {

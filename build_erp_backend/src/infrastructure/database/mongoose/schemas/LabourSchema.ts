@@ -1,13 +1,14 @@
-import mongoose from "mongoose";
-import { ILabourModel } from "../../../../api/models/LabourModel";
+import mongoose from 'mongoose';
+import { ILabourModelEntity } from '../../../../domain/Entities/modelEntities/labour.entity';
 
-export const LabourSchema = new mongoose.Schema<ILabourModel>({
-   labour_type:{
-      type:String,
-      required:true
-   },
-   daily_wage:{
-      type:Number,
-      required:true
-   }
-},{timestamps:true})
+
+export const LabourSchema = new mongoose.Schema<ILabourModelEntity>({
+    labour_type:{
+        type:String,
+        required:true,
+    },
+    daily_wage:{
+        type:Number,
+        required:true,
+    },
+},{ timestamps:true });

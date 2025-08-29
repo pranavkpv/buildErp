@@ -1,6 +1,6 @@
-import { NextFunction, Request, Response } from "express";
-import { commonOutput } from "../../../application/dto/common";
-import { idUnitnameDTO, listUnitDTO } from "../../../application/dto/unit.dto";
+import { NextFunction, Request, Response } from 'express';
+import { commonOutput } from '../../../application/dto/common';
+import { idUnitnameDTO, listUnitDTO } from '../../../application/dto/unit.dto';
 
 export interface IUnitController {
    createUnit(req: Request, res: Response, next: NextFunction):

@@ -1,5 +1,5 @@
-import { commonOutput } from "../../dto/common";
-import { addMaterialFetch } from "../../Entities/material.entity";
+import { commonOutput } from '../../dto/common';
+import { addMaterialFetch } from '../../Entities/material.entity';
 
 
 export interface IDisplayAddMaterialUseCase {

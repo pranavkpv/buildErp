@@ -1,12 +1,12 @@
-import mongoose from "mongoose";
-import { ICategoryModel } from "../../../../api/models/CategoryModel";
+import mongoose from 'mongoose';
+import { ICategoryModelEntity } from '../../../../domain/Entities/modelEntities/category.entity';
 
-export const CategorySchema = new mongoose.Schema<ICategoryModel>({
-   category_name: {
-      type: String,
-      required: true
-   },
-   description: {
-      type: String
-   }
-},{timestamps:true})
+export const CategorySchema = new mongoose.Schema<ICategoryModelEntity>({
+    category_name: {
+        type: String,
+        required: true,
+    },
+    description: {
+        type: String,
+    },
+},{ timestamps:true });

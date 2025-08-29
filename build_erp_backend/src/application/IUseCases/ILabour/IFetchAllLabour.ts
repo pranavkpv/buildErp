@@ -1,5 +1,5 @@
-import { commonOutput } from "../../dto/common";
-import { labourDataDisplayDTO } from "../../dto/labour.dto";
+import { commonOutput } from '../../dto/common';
+import { labourDataDisplayDTO } from '../../dto/labour.dto';
 
 
 export interface IFetchAllLabourUseCase{

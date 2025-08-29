@@ -1,6 +1,6 @@
-import { NextFunction, Request, Response } from "express";
-import { commonOutput } from "../../../application/dto/common";
-import { idBrandnameDTO } from "../../../application/dto/brand.dto";
+import { NextFunction, Request, Response } from 'express';
+import { commonOutput } from '../../../application/dto/common';
+import { idBrandnameDTO } from '../../../application/dto/brand.dto';
 
 export interface IBrandController {
 

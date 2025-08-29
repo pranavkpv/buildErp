@@ -1,6 +1,6 @@
-import { NextFunction, Request, Response } from "express";
-import { commonOutput } from "../../../application/dto/common";
-import { FetchsitemanagerInListDTO, listAddsiteDTO } from "../../../application/dto/addsitemanagerToproject";
+import { NextFunction, Request, Response } from 'express';
+import { commonOutput } from '../../../application/dto/common';
+import { FetchsitemanagerInListDTO, listAddsiteDTO } from '../../../application/dto/addsitemanagerToproject';
 
 
 export interface IAddSiteManagerToProjectController {

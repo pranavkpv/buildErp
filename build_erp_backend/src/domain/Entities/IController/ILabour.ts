@@ -1,6 +1,6 @@
-import { NextFunction, Request, Response } from "express"
-import { commonOutput } from "../../../application/dto/common";
-import { labourDataDisplayDTO } from "../../../application/dto/labour.dto";
+import { NextFunction, Request, Response } from 'express';
+import { commonOutput } from '../../../application/dto/common';
+import { labourDataDisplayDTO } from '../../../application/dto/labour.dto';
 
 export interface ILabourController {
    getPaginatedLabourList(req: Request, res: Response, next: NextFunction):

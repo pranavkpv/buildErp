@@ -1,5 +1,5 @@
-import { listingInput } from "../../../application/Entities/common.entity"
-import { IBrandModelEntity } from "../modelEntities/brand.entity"
+import { listingInput } from '../../../application/Entities/common.entity';
+import { IBrandModelEntity } from '../modelEntities/brand.entity';
 
 
 export interface IBrandRepository {
@@ -7,19 +7,19 @@ export interface IBrandRepository {
    getAllBrands():
       Promise<IBrandModelEntity[] | []>
 
-   getBrandByName(brand_name: string):
+   getBrandByName(brandName: string):
       Promise<IBrandModelEntity | null>
 
    createBrand(brand_name: string):
       Promise<void>
 
-   getBrandForEdit(_id: string, brand_name: string):
+   getBrandForEdit(id: string, brandName: string):
       Promise<IBrandModelEntity | null>
 
-   updateBrand(_id: string, brand_name: string):
+   updateBrand(id: string, brandName: string):
       Promise<void>
 
-   deleteBrand(_id: string):
+   deleteBrand(id: string):
       Promise<void>
 
    getBrandsWithPagination(input: listingInput):

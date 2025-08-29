@@ -1,6 +1,6 @@
-import { Request, Response, NextFunction } from "express";
-import { commonOutput } from "../../../application/dto/common";
-import { stageListDTO } from "../../../application/dto/stage.dto";
+import { Request, Response, NextFunction } from 'express';
+import { commonOutput } from '../../../application/dto/common';
+import { stageListDTO } from '../../../application/dto/stage.dto';
 
 
 export interface IStageController {

@@ -1,5 +1,5 @@
-import { commonOutput } from "../../dto/common";
-import { editSitemanagerInput } from "../../Entities/sitemanager.entity";
+import { commonOutput } from '../../dto/common';
+import { editSitemanagerInput } from '../../Entities/sitemanager.entity';
 
 
 export interface IUpdateSitemanagerUseCase {

@@ -1,6 +1,6 @@
-import { RecieveOutput } from "../../../application/dto/receive.dto";
-import { ReceiveInput } from "../../../application/Entities/receive.entity";
-import { IReceiveModelEntity } from "../modelEntities/recieve.entity";
+import { RecieveOutput } from '../../../application/dto/receive.dto';
+import { ReceiveInput } from '../../../application/Entities/receive.entity';
+import { IReceiveModelEntity } from '../modelEntities/recieve.entity';
 
 export interface IReceiveRepository {
 
@@ -13,13 +13,13 @@ export interface IReceiveRepository {
    updateReceive(input: ReceiveInput):
       Promise<boolean>
 
-   deleteReceiveById(_id: string):
+   deleteReceiveById(id: string):
       Promise<boolean>
 
-   getReceiveById(_id: string):
+   getReceiveById(id: string):
       Promise<IReceiveModelEntity | null>
 
-   approveReceiveById(_id: string):
+   approveReceiveById(id: string):
       Promise<void>
 
    getAllApprovedReceives():

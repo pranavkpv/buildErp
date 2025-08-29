@@ -1,6 +1,6 @@
-import { NextFunction, Request, Response } from "express";
-import { commonOutput } from "../../../application/dto/common";
-import { RecieveOutput } from "../../../application/dto/receive.dto";
+import { NextFunction, Request, Response } from 'express';
+import { commonOutput } from '../../../application/dto/common';
+import { RecieveOutput } from '../../../application/dto/receive.dto';
 
 
 export interface IReceiveController {

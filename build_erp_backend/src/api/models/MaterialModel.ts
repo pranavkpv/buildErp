@@ -1,6 +1,4 @@
-import mongoose from "mongoose";
-import { IMaterialModelEntity } from "../../domain/Entities/modelEntities/material.entity";
-import { MaterialSchema } from "../../infrastructure/database/mongoose/schemas/MaterialSchema";
+import mongoose from 'mongoose';
+import { MaterialSchema } from '../../infrastructure/database/mongoose/schemas/MaterialSchema';
 
-export interface IMaterialModel extends IMaterialModelEntity { }
-export const materialDB = mongoose.model('Material', MaterialSchema)
+export const materialDB = mongoose.model('Material', MaterialSchema);

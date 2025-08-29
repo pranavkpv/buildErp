@@ -1,7 +1,7 @@
-import { estiomationAggregatebyProject, estiomationAggregateByspec, saveEstimationInput } from "../../../application/Entities/estimation.entity";
-import { IEstimationModelEntity } from "../modelEntities/estimation.entity";
-import { IEstimationLabourModelEntity } from "../modelEntities/estimationLabour.entity";
-import { IEstimationMaterialModelEntity } from "../modelEntities/estimationMaterial.entity";
+import { estiomationAggregatebyProject, estiomationAggregateByspec, saveEstimationInput } from '../../../application/Entities/estimation.entity';
+import { IEstimationModelEntity } from '../modelEntities/estimation.entity';
+import { IEstimationLabourModelEntity } from '../modelEntities/estimationLabour.entity';
+import { IEstimationMaterialModelEntity } from '../modelEntities/estimationMaterial.entity';
 
 export interface IEstimationRepository {
 

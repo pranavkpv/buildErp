@@ -1,9 +1,9 @@
-import { listAddsiteDTO } from "../../application/dto/addsitemanagerToproject";
-import { displayProjectDTO, fetchProjectIdnameDTO, publicProjectDTO, userBasechatListDTO, userBaseProjectDTO } from "../../application/dto/project.dto";
-import { stageListDTO } from "../../application/dto/stage.dto";
-import { listAddSiteToproject } from "../../application/Entities/addsitemanagertoproject.entity";
-import { projectwithClient, userBaseChatoutput } from "../../application/Entities/project.entity";
-import { IProjectModelEntity } from "../Entities/modelEntities/project.entity";
+import { listAddsiteDTO } from '../../application/dto/addsitemanagerToproject';
+import { displayProjectDTO, fetchProjectIdnameDTO, publicProjectDTO, userBasechatListDTO, userBaseProjectDTO } from '../../application/dto/project.dto';
+import { stageListDTO } from '../../application/dto/stage.dto';
+import { listAddSiteToproject } from '../../application/Entities/addsitemanagertoproject.entity';
+import { projectwithClient, userBaseChatoutput } from '../../application/Entities/project.entity';
+import { IProjectModelEntity } from '../Entities/modelEntities/project.entity';
 
 export interface IProjectmapper {
    toPublicProjectDto(projects: IProjectModelEntity[]): publicProjectDTO[]

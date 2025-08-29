@@ -1,75 +1,75 @@
-import { NextFunction, Request, Response } from "express";
-import { IAdminController } from "../../domain/Entities/IController/IAdmin";
-import { IAdminLoginUseCase } from "../../application/IUseCases/IAdmin/IAdminLogin";
-import { ResponseHelper } from "../../Shared/responseHelpers/response";
-import { userFailedMessage, userSuccessMessage } from "../../Shared/Messages/User.Message";
-import { commonOutput } from "../../application/dto/common";
-import { IAdminModelEntity } from "../../domain/Entities/modelEntities/admin.entity";
-import { Tokens } from "../../application/Entities/token.entity";
-import { IBlackListUseCase } from "../../application/IUseCases/IAuth/IBlackList";
-import { IJwtService } from "../../domain/Entities/Service.Entities/IJwtservice";
+import { NextFunction, Request, Response } from 'express';
+import { IAdminController } from '../../domain/Entities/IController/IAdmin';
+import { IAdminLoginUseCase } from '../../application/IUseCases/IAdmin/IAdminLogin';
+import { ResponseHelper } from '../../Shared/responseHelpers/response';
+import { userFailedMessage, userSuccessMessage } from '../../Shared/Messages/User.Message';
+import { commonOutput } from '../../application/dto/common';
+import { IAdminModelEntity } from '../../domain/Entities/modelEntities/admin.entity';
+import { Tokens } from '../../application/Entities/token.entity';
+import { IBlackListUseCase } from '../../application/IUseCases/IAuth/IBlackList';
+import { IJwtService } from '../../domain/Entities/Service.Entities/IJwtservice';
 
 export class AdminController implements IAdminController {
-  constructor(
+    constructor(
     private _adminLoginUsecase: IAdminLoginUseCase,
     private _blacklistusecase: IBlackListUseCase,
-    private _jwtservice: IJwtService
-  ) { }
+    private _jwtservice: IJwtService,
+    ) { }
 
-  // Handles admin login request
-  adminLogin = async (req: Request, res: Response, next: NextFunction):
+    // Handles admin login request
+    adminLogin = async(req: Request, res: Response, next: NextFunction):
     Promise<commonOutput<{ data: IAdminModelEntity; token: Tokens }> | commonOutput | void> => {
-    try {
-      const result = await this._adminLoginUsecase.execute(req.body);
-      if (!result.data) {
-        return result
-      }
+        try {
+            const result = await this._adminLoginUsecase.execute(req.body);
+            if (!result.data) {
+                return result;
+            }
 
-      if (result.success && result.data.token?.refreshToken) {
-        res.cookie("refreshToken", result.data.token.refreshToken, {
-          httpOnly: true,
-          secure: process.env.NODE_ENV === "production",
-          sameSite: "lax",
-          maxAge: 24 * 60 * 60 * 1000,
-        });
-      }
+            if (result.success && result.data.token?.refreshToken) {
+                res.cookie('refreshToken', result.data.token.refreshToken, {
+                    httpOnly: true,
+                    secure: process.env.NODE_ENV === 'production',
+                    sameSite: 'lax',
+                    maxAge: 24 * 60 * 60 * 1000,
+                });
+            }
 
-      return result;
-    } catch (error) {
-      next(error);
-    }
-  };
+            return result;
+        } catch (error) {
+            next(error);
+        }
+    };
 
-  //  Handles admin logout request
-  adminLogout = async (req: Request, res: Response, next: NextFunction):
+    //  Handles admin logout request
+    adminLogout = async(req: Request, res: Response, next: NextFunction):
     Promise<commonOutput | void> => {
-    try {
-      const userHeader = req.headers.authorization;
-      const accessToken = userHeader?.split(" ")[1];
+        try {
+            const userHeader = req.headers.authorization;
+            const accessToken = userHeader?.split(' ')[1];
 
-      if (!accessToken) {
-        return ResponseHelper.unAuthor();
-      }
+            if (!accessToken) {
+                return ResponseHelper.unAuthor();
+            }
 
-      const payload = await this._jwtservice.verifyAccessToken(accessToken);
-      if (!payload) {
-        return ResponseHelper.unAuthor();
-      }
+            const payload = await this._jwtservice.verifyAccessToken(accessToken);
+            if (!payload) {
+                return ResponseHelper.unAuthor();
+            }
 
-      res.clearCookie("refreshToken", {
-        httpOnly: true,
-        sameSite: "lax",
-        secure: process.env.NODE_ENV === "production",
-      });
+            res.clearCookie('refreshToken', {
+                httpOnly: true,
+                sameSite: 'lax',
+                secure: process.env.NODE_ENV === 'production',
+            });
 
-      const blackList = await this._blacklistusecase.execute(accessToken);
-      if (!blackList) {
-        return ResponseHelper.conflictData(userFailedMessage.BLACK_LIST_FAIL);
-      }
+            const blackList = await this._blacklistusecase.execute(accessToken);
+            if (!blackList) {
+                return ResponseHelper.conflictData(userFailedMessage.BLACK_LIST_FAIL);
+            }
 
-      return ResponseHelper.success(userSuccessMessage.LOGOUT);
-    } catch (error) {
-      next(error);
-    }
-  };
+            return ResponseHelper.success(userSuccessMessage.LOGOUT);
+        } catch (error) {
+            next(error);
+        }
+    };
 }

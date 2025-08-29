@@ -1,9 +1,9 @@
-import { NextFunction, Request, Response } from "express"
-import { commonOutput } from "../../../application/dto/common"
-import { listSitemanagerDTO } from "../../../application/dto/sitemanager.dto"
-import { ISitemanagerModelEntity } from "../modelEntities/sitemanager.entity"
-import { Tokens } from "../../../application/Entities/token.entity"
-import { fetchProjectIdnameDTO } from "../../../application/dto/project.dto"
+import { NextFunction, Request, Response } from 'express';
+import { commonOutput } from '../../../application/dto/common';
+import { listSitemanagerDTO } from '../../../application/dto/sitemanager.dto';
+import { ISitemanagerModelEntity } from '../modelEntities/sitemanager.entity';
+import { Tokens } from '../../../application/Entities/token.entity';
+import { fetchProjectIdnameDTO } from '../../../application/dto/project.dto';
 
 
 export interface ISitemanagerController {

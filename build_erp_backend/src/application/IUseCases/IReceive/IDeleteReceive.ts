@@ -1,5 +1,5 @@
-import { commonOutput } from "../../dto/common";
+import { commonOutput } from '../../dto/common';
 
 export interface IDeleteReceiveUseCase {
-   execute(_id: string): Promise<commonOutput>
+   execute(id: string): Promise<commonOutput>
 }

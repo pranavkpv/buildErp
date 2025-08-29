@@ -1,31 +1,31 @@
-import { chatListDTO } from "../../../application/dto/user.dto";
-import { AddsitetoprojectInput } from "../../../application/Entities/addsitemanagertoproject.entity";
-import { listingInput } from "../../../application/Entities/common.entity";
-import { addProjectInput, editProjectInput, fetchprojectInput, projectwithClient, userBaseChatoutput } from "../../../application/Entities/project.entity";
-import { costInput } from "../../../application/Entities/stage.entity";
-import { IProjectModelEntity } from "../modelEntities/project.entity";
+import { chatListDTO } from '../../../application/dto/user.dto';
+import { AddsitetoprojectInput } from '../../../application/Entities/addsitemanagertoproject.entity';
+import { listingInput } from '../../../application/Entities/common.entity';
+import { addProjectInput, editProjectInput, fetchprojectInput, projectwithClient, userBaseChatoutput } from '../../../application/Entities/project.entity';
+import { costInput } from '../../../application/Entities/stage.entity';
+import { IProjectModelEntity } from '../modelEntities/project.entity';
 
 export interface IprojectRepository {
 
    getAllProjectsWithUser(input: listingInput):
       Promise<{ getProjectListData: projectwithClient[]; totalPage: number }>
 
-   getProjectByName(project_name: string):
+   getProjectByName(projectname: string):
       Promise<IProjectModelEntity | null>
 
    createProject(input: addProjectInput):
       Promise<void>;
 
-   checkDuplicateProjectInEdit(_id: string, project_name: string):
+   checkDuplicateProjectInEdit(id: string, projectname: string):
       Promise<IProjectModelEntity | null>
 
    UpdateProjectById(input: editProjectInput):
       Promise<void>;
 
-   DeleteProjectById(_id: string):
+   DeleteProjectById(id: string):
       Promise<void>
 
-   updateProjectStatus(_id: string, status: string):
+   updateProjectStatus(id: string, status: string):
       Promise<void>
 
    assignSitemanagerToProject(input: AddsitetoprojectInput):
@@ -46,10 +46,10 @@ export interface IprojectRepository {
    getProjectsWithStage(input: listingInput):
       Promise<{ data: IProjectModelEntity[], totalPage: number }>
 
-   updateEstimationImageById(url: string, _id: string):
+   updateEstimationImageById(url: string, id: string):
       Promise<void>
 
-   getProjectsByUserId(user_id: string):
+   getProjectsByUserId(userId: string):
       Promise<IProjectModelEntity[]>
 
    getProjectsBySitemanagerId(user: string):
@@ -58,13 +58,13 @@ export interface IprojectRepository {
    getProjectsByStatus(input: fetchprojectInput):
       Promise<{ data: IProjectModelEntity[], totalPage: number, areas: number[] }>
 
-   getProjectById(_id: string):
+   getProjectById(id: string):
       Promise<IProjectModelEntity | null>
 
-   getUserChatProjects(_id: string):
+   getUserChatProjects(id: string):
       Promise<userBaseChatoutput[]>
 
-   getSitemanagerChatProjects(_id: string):
+   getSitemanagerChatProjects(id: string):
       Promise<chatListDTO[]>
 
 }

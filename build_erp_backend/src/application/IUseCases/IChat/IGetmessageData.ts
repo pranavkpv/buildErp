@@ -1,5 +1,5 @@
-import { chatDataDTO } from "../../dto/chat.dto";
-import { commonOutput } from "../../dto/common";
+import { chatDataDTO } from '../../dto/chat.dto';
+import { commonOutput } from '../../dto/common';
 
 export interface IGetMessageDataUseCase {
 

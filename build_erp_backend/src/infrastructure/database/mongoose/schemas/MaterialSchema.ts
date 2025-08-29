@@ -1,30 +1,30 @@
-import mongoose from "mongoose";
-import { IMaterialModel } from "../../../../api/models/MaterialModel";
+import mongoose from 'mongoose';
+import { IMaterialModelEntity } from '../../../../domain/Entities/modelEntities/material.entity';
 
-export const MaterialSchema = new mongoose.Schema<IMaterialModel>({
-   material_name: {
-      type: String,
-      required: true
-   },
-   category_id: {
-      type: String,
-      required:true
-   },
+export const MaterialSchema = new mongoose.Schema<IMaterialModelEntity>({
+    material_name: {
+        type: String,
+        required: true,
+    },
+    category_id: {
+        type: String,
+        required:true,
+    },
     brand_id: {
-      type: String,
-      required:true
-   },
-   unit_id:{
-      type:String,
-      required:true
-   },
+        type: String,
+        required:true,
+    },
+    unit_id:{
+        type:String,
+        required:true,
+    },
     unit_rate: {
-      type: Number,
-      required:true
-   },
-   stock: {
-      type: Number,
-      required:true
-   }
-},{timestamps:true})
+        type: Number,
+        required:true,
+    },
+    stock: {
+        type: Number,
+        required:true,
+    },
+},{ timestamps:true });
 

@@ -1,5 +1,5 @@
-import { chatDataDTO } from "../../application/dto/chat.dto";
-import { IChatModelEntity } from "../Entities/modelEntities/chat.entity";
+import { chatDataDTO } from '../../application/dto/chat.dto';
+import { IChatModelEntity } from '../Entities/modelEntities/chat.entity';
 
 
 export interface IChatMapper {

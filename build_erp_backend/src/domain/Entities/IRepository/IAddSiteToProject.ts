@@ -1,6 +1,6 @@
-import { listAddSiteToproject } from "../../../application/Entities/addsitemanagertoproject.entity";
-import { IProjectModelEntity } from "../modelEntities/project.entity";
-import { ISitemanagerModelEntity } from "../modelEntities/sitemanager.entity";
+import { listAddSiteToproject } from '../../../application/Entities/addsitemanagertoproject.entity';
+import { IProjectModelEntity } from '../modelEntities/project.entity';
+import { ISitemanagerModelEntity } from '../modelEntities/sitemanager.entity';
 
 
 export interface IAddSiteToProjectRepository {

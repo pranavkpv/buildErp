@@ -1,332 +1,332 @@
-import { Router } from "express";
-import { withLogging } from "../../../infrastructure/middlewares/withLoggingMiddleware";
-import { adminMiddleWare } from "../../../infrastructure/middlewares/adminMiddleware";
-import { validateAddSitemanagerToproject } from "../../../infrastructure/middlewares/validation/addsitemanagerToproject.validation";
-import { validateSaveEstimation, validateUploadEstimationImage } from "../../../infrastructure/middlewares/validation/estimation.validaion";
-import { validateAddLabour } from "../../../infrastructure/middlewares/validation/labour.validation";
-import { validateAddMaterial } from "../../../infrastructure/middlewares/validation/material.validation";
-import { validateProjectAdd } from "../../../infrastructure/middlewares/validation/project.validation";
-import { validateSpecification } from "../../../infrastructure/middlewares/validation/spec.validation";
-import { validateBrandAction } from "../../../infrastructure/middlewares/validation/brand.validation";
-import { validateCategoryAction } from "../../../infrastructure/middlewares/validation/category.validation";
-import { validateUnitAction } from "../../../infrastructure/middlewares/validation/unit.validation";
-import { JwtService } from "../../../application/services/JwtService";
-import { validateAddSitemanager } from "../../../infrastructure/middlewares/validation/sitemanager.validation";
-import { injectedAdminController } from "../../DI/Admin";
-import { injectAddSitemanagerToprojectController } from "../../DI/AddSitemanagerToProject";
-import { injectedCategoryController } from "../../DI/Category";
-import { injectedUnitController } from "../../DI/Unit";
-import { injectedBrandController } from "../../DI/Brand";
-import { injectedMaterialController } from "../../DI/Material";
-import { injectedProjectController } from "../../DI/Project";
-import { injectedLabourController } from "../../DI/Labour";
-import { injectedSitemanagerController } from "../../DI/Sitemanager";
-import { validateStageAction } from "../../../infrastructure/middlewares/validation/stage.validation";
-import { injectSpecController } from "../../DI/Specification";
-import { injectEstimationController } from "../../DI/Estimation";
-import { injectStageController } from "../../DI/Stage";
-import { injectAdminDashboardController } from "../../DI/AdminDashboard";
-import { validateAdminLogin } from "../../../infrastructure/middlewares/validation/admin.validation";
+import { Router } from 'express';
+import { withLogging } from '../../../infrastructure/middlewares/withLoggingMiddleware';
+import { adminMiddleWare } from '../../../infrastructure/middlewares/adminMiddleware';
+import { validateAddSitemanagerToproject } from '../../../infrastructure/middlewares/validation/addsitemanagerToproject.validation';
+import { validateSaveEstimation, validateUploadEstimationImage } from '../../../infrastructure/middlewares/validation/estimation.validaion';
+import { validateAddLabour } from '../../../infrastructure/middlewares/validation/labour.validation';
+import { validateAddMaterial } from '../../../infrastructure/middlewares/validation/material.validation';
+import { validateProjectAdd } from '../../../infrastructure/middlewares/validation/project.validation';
+import { validateSpecification } from '../../../infrastructure/middlewares/validation/spec.validation';
+import { validateBrandAction } from '../../../infrastructure/middlewares/validation/brand.validation';
+import { validateCategoryAction } from '../../../infrastructure/middlewares/validation/category.validation';
+import { validateUnitAction } from '../../../infrastructure/middlewares/validation/unit.validation';
+import { JwtService } from '../../../application/services/JwtService';
+import { validateAddSitemanager } from '../../../infrastructure/middlewares/validation/sitemanager.validation';
+import { injectedAdminController } from '../../DI/Admin';
+import { injectAddSitemanagerToprojectController } from '../../DI/AddSitemanagerToProject';
+import { injectedCategoryController } from '../../DI/Category';
+import { injectedUnitController } from '../../DI/Unit';
+import { injectedBrandController } from '../../DI/Brand';
+import { injectedMaterialController } from '../../DI/Material';
+import { injectedProjectController } from '../../DI/Project';
+import { injectedLabourController } from '../../DI/Labour';
+import { injectedSitemanagerController } from '../../DI/Sitemanager';
+import { validateStageAction } from '../../../infrastructure/middlewares/validation/stage.validation';
+import { injectSpecController } from '../../DI/Specification';
+import { injectEstimationController } from '../../DI/Estimation';
+import { injectStageController } from '../../DI/Stage';
+import { injectAdminDashboardController } from '../../DI/AdminDashboard';
+import { validateAdminLogin } from '../../../infrastructure/middlewares/validation/admin.validation';
 
 
 
 
 export class AdminRoute {
-  public adminRoute: Router;
-
-  constructor() {
-    this.adminRoute = Router();
-    this.setRoute();
-  }
+    public adminRoute: Router;
+
+    constructor() {
+        this.adminRoute = Router();
+        this.setRoute();
+    }
 
-  private setRoute() {
-    const jwtService = new JwtService();
+    private setRoute() {
+        const jwtService = new JwtService();
 
-    // =====================================================================
-    // 🟢 AUTH ROUTES
-    // =====================================================================
-    this.adminRoute.post("/login", 
-      validateAdminLogin,
-      withLogging(injectedAdminController.adminLogin));
+        // =====================================================================
+        // 🟢 AUTH ROUTES
+        // =====================================================================
+        this.adminRoute.post('/login', 
+            validateAdminLogin,
+            withLogging(injectedAdminController.adminLogin));
 
-    // ✅ Protect all routes after this middleware
-    this.adminRoute.use(adminMiddleWare(jwtService));
+        // ✅ Protect all routes after this middleware
+        this.adminRoute.use(adminMiddleWare(jwtService));
 
-    // =====================================================================
-    // 🟢 SITE ASSIGNMENT ROUTES
-    // =====================================================================
-    this.adminRoute.get("/addSiteToSiteData",
-      withLogging(injectAddSitemanagerToprojectController.fetchSiteManagers));
+        // =====================================================================
+        // 🟢 SITE ASSIGNMENT ROUTES
+        // =====================================================================
+        this.adminRoute.get('/addSiteToSiteData',
+            withLogging(injectAddSitemanagerToprojectController.fetchSiteManagers));
 
-    this.adminRoute.post("/addToSite",
-      validateAddSitemanagerToproject,
-      withLogging(injectAddSitemanagerToprojectController.addSiteManagerToProject));
+        this.adminRoute.post('/addToSite',
+            validateAddSitemanagerToproject,
+            withLogging(injectAddSitemanagerToprojectController.addSiteManagerToProject));
 
-    this.adminRoute.delete("/addToSite/:id/:sitemanagerId",
-      withLogging(injectAddSitemanagerToprojectController.removeSiteManagerFromProject));
+        this.adminRoute.delete('/addToSite/:id/:sitemanagerId',
+            withLogging(injectAddSitemanagerToprojectController.removeSiteManagerFromProject));
 
-    this.adminRoute.get("/addToSite",
-      withLogging(injectAddSitemanagerToprojectController.listProjectsWithSiteManagers));
+        this.adminRoute.get('/addToSite',
+            withLogging(injectAddSitemanagerToprojectController.listProjectsWithSiteManagers));
 
 
-    this.adminRoute.post("/logout", withLogging(injectedAdminController.adminLogout));
+        this.adminRoute.post('/logout', withLogging(injectedAdminController.adminLogout));
 
-    // =====================================================================
-    // 🟢 CATEGORY ROUTES
-    // =====================================================================
-    this.adminRoute.post("/category",
-      validateCategoryAction,
-      withLogging(injectedCategoryController.createCategory));
+        // =====================================================================
+        // 🟢 CATEGORY ROUTES
+        // =====================================================================
+        this.adminRoute.post('/category',
+            validateCategoryAction,
+            withLogging(injectedCategoryController.createCategory));
 
-    this.adminRoute.get("/category",
-      withLogging(injectedCategoryController.getAllCategories));
+        this.adminRoute.get('/category',
+            withLogging(injectedCategoryController.getAllCategories));
 
-    this.adminRoute.put("/category/:id",
-      validateCategoryAction,
-      withLogging(injectedCategoryController.updateCategory));
+        this.adminRoute.put('/category/:id',
+            validateCategoryAction,
+            withLogging(injectedCategoryController.updateCategory));
 
-    this.adminRoute.delete("/category/:id",
-      withLogging(injectedCategoryController.deleteCategory));
+        this.adminRoute.delete('/category/:id',
+            withLogging(injectedCategoryController.deleteCategory));
 
-    // =====================================================================
-    // 🟢 UNIT ROUTES
-    // =====================================================================
-    this.adminRoute.get("/unit",
-      withLogging(injectedUnitController.getUnits));
+        // =====================================================================
+        // 🟢 UNIT ROUTES
+        // =====================================================================
+        this.adminRoute.get('/unit',
+            withLogging(injectedUnitController.getUnits));
 
-    this.adminRoute.post("/unit",
-      validateUnitAction,
-      withLogging(injectedUnitController.createUnit));
+        this.adminRoute.post('/unit',
+            validateUnitAction,
+            withLogging(injectedUnitController.createUnit));
 
-    this.adminRoute.put("/unit/:id",
-      validateUnitAction,
-      withLogging(injectedUnitController.updateUnit));
+        this.adminRoute.put('/unit/:id',
+            validateUnitAction,
+            withLogging(injectedUnitController.updateUnit));
 
-    this.adminRoute.delete("/unit/:id",
-      withLogging(injectedUnitController.deleteUnit));
+        this.adminRoute.delete('/unit/:id',
+            withLogging(injectedUnitController.deleteUnit));
 
-    this.adminRoute.get("/getUnit",
-      withLogging(injectedUnitController.fetchAllUnits));
+        this.adminRoute.get('/getUnit',
+            withLogging(injectedUnitController.fetchAllUnits));
 
-    // =====================================================================
-    // 🟢 BRAND ROUTES
-    // =====================================================================
-    this.adminRoute.get("/brand",
-      withLogging(injectedBrandController.getAllBrands));
+        // =====================================================================
+        // 🟢 BRAND ROUTES
+        // =====================================================================
+        this.adminRoute.get('/brand',
+            withLogging(injectedBrandController.getAllBrands));
 
-    this.adminRoute.post("/brand",
-      validateBrandAction,
-      withLogging(injectedBrandController.addBrand));
+        this.adminRoute.post('/brand',
+            validateBrandAction,
+            withLogging(injectedBrandController.addBrand));
 
-    this.adminRoute.put("/brand/:id",
-      validateBrandAction,
-      withLogging(injectedBrandController.updateBrand));
+        this.adminRoute.put('/brand/:id',
+            validateBrandAction,
+            withLogging(injectedBrandController.updateBrand));
 
-    this.adminRoute.delete("/brand/:id",
-      withLogging(injectedBrandController.deleteBrand));
+        this.adminRoute.delete('/brand/:id',
+            withLogging(injectedBrandController.deleteBrand));
 
-    // =====================================================================
-    // 🟢 MATERIAL ROUTES
-    // =====================================================================
-    this.adminRoute.get("/material",
-      withLogging(injectedMaterialController.getPaginatedMaterialList));
+        // =====================================================================
+        // 🟢 MATERIAL ROUTES
+        // =====================================================================
+        this.adminRoute.get('/material',
+            withLogging(injectedMaterialController.getPaginatedMaterialList));
 
-    this.adminRoute.get("/addmaterial",
-      withLogging(injectedMaterialController.getAddMaterialDependencies));
+        this.adminRoute.get('/addmaterial',
+            withLogging(injectedMaterialController.getAddMaterialDependencies));
 
-    this.adminRoute.post("/material",
-      validateAddMaterial,
-      withLogging(injectedMaterialController.createMaterial));
+        this.adminRoute.post('/material',
+            validateAddMaterial,
+            withLogging(injectedMaterialController.createMaterial));
 
-    this.adminRoute.get("/editmaterial/:id",
-      withLogging(injectedMaterialController.getEditMaterialDependencies));
+        this.adminRoute.get('/editmaterial/:id',
+            withLogging(injectedMaterialController.getEditMaterialDependencies));
 
-    this.adminRoute.put("/material/:id", adminMiddleWare(jwtService),
-      validateAddMaterial,
-      withLogging(injectedMaterialController.updateMaterial));
+        this.adminRoute.put('/material/:id', adminMiddleWare(jwtService),
+            validateAddMaterial,
+            withLogging(injectedMaterialController.updateMaterial));
 
-    this.adminRoute.delete("/material/:id",
-      withLogging(injectedMaterialController.deleteMaterial));
+        this.adminRoute.delete('/material/:id',
+            withLogging(injectedMaterialController.deleteMaterial));
 
-    this.adminRoute.get("/fetchMaterial",
-      withLogging(injectedMaterialController.getUniqueMaterialNames));
+        this.adminRoute.get('/fetchMaterial',
+            withLogging(injectedMaterialController.getUniqueMaterialNames));
 
-    this.adminRoute.get("/fetMatbyUnit/:material",
-      withLogging(injectedMaterialController.getUnitsByMaterialName));
+        this.adminRoute.get('/fetMatbyUnit/:material',
+            withLogging(injectedMaterialController.getUnitsByMaterialName));
 
-    this.adminRoute.get("/fetchMatbyBrand/:material",
-      withLogging(injectedMaterialController.getBrandsByMaterialName));
+        this.adminRoute.get('/fetchMatbyBrand/:material',
+            withLogging(injectedMaterialController.getBrandsByMaterialName));
 
-    this.adminRoute.get("/unitRate",
-      withLogging(injectedMaterialController.getUnitRate));
+        this.adminRoute.get('/unitRate',
+            withLogging(injectedMaterialController.getUnitRate));
 
-    this.adminRoute.get("/getmaterial/:id",
-      withLogging(injectedMaterialController.getMaterialById));
+        this.adminRoute.get('/getmaterial/:id',
+            withLogging(injectedMaterialController.getMaterialById));
 
-    // =====================================================================
-    // 🟢 PROJECT ROUTES
-    // =====================================================================
-    this.adminRoute.get("/getprojectAddSitemanagerProject",
-      withLogging(injectedProjectController.getProjectsForSiteManager));
+        // =====================================================================
+        // 🟢 PROJECT ROUTES
+        // =====================================================================
+        this.adminRoute.get('/getprojectAddSitemanagerProject',
+            withLogging(injectedProjectController.getProjectsForSiteManager));
 
-    this.adminRoute.get("/getAllproject",
-      withLogging(injectedProjectController.getAllProjects))
+        this.adminRoute.get('/getAllproject',
+            withLogging(injectedProjectController.getAllProjects));
 
-    this.adminRoute.get("/getproject",
-      withLogging(injectedProjectController.getAllProjects));
+        this.adminRoute.get('/getproject',
+            withLogging(injectedProjectController.getAllProjects));
 
-    this.adminRoute.get("/project",
-      withLogging(injectedProjectController.getPaginatedProjects));
+        this.adminRoute.get('/project',
+            withLogging(injectedProjectController.getPaginatedProjects));
 
-    this.adminRoute.get("/addproject",
-      withLogging(injectedProjectController.getAddProjectData));
+        this.adminRoute.get('/addproject',
+            withLogging(injectedProjectController.getAddProjectData));
 
-    this.adminRoute.post("/project",
-      validateProjectAdd,
-      withLogging(injectedProjectController.createProject));
+        this.adminRoute.post('/project',
+            validateProjectAdd,
+            withLogging(injectedProjectController.createProject));
 
-    this.adminRoute.put("/project/:id",
-      validateProjectAdd,
-      withLogging(injectedProjectController.updateProject));
+        this.adminRoute.put('/project/:id',
+            validateProjectAdd,
+            withLogging(injectedProjectController.updateProject));
 
-    this.adminRoute.delete("/project/:id",
-      withLogging(injectedProjectController.deleteProject));
+        this.adminRoute.delete('/project/:id',
+            withLogging(injectedProjectController.deleteProject));
 
-    this.adminRoute.put("/status/:id",
-      withLogging(injectedProjectController.changeProjectStatus));
+        this.adminRoute.put('/status/:id',
+            withLogging(injectedProjectController.changeProjectStatus));
 
 
-    // =====================================================================
-    // 🟢 LABOUR ROUTES
-    // =====================================================================
-    this.adminRoute.get("/labour",
-      withLogging(injectedLabourController.getPaginatedLabourList));
+        // =====================================================================
+        // 🟢 LABOUR ROUTES
+        // =====================================================================
+        this.adminRoute.get('/labour',
+            withLogging(injectedLabourController.getPaginatedLabourList));
 
-    this.adminRoute.post("/labour",
-      validateAddLabour,
-      withLogging(injectedLabourController.createLabour));
+        this.adminRoute.post('/labour',
+            validateAddLabour,
+            withLogging(injectedLabourController.createLabour));
 
-    this.adminRoute.delete("/labour/:id",
-      withLogging(injectedLabourController.deleteLabour));
+        this.adminRoute.delete('/labour/:id',
+            withLogging(injectedLabourController.deleteLabour));
 
-    this.adminRoute.put("/labour/:id",
-      validateAddLabour,
-      withLogging(injectedLabourController.updateLabour));
+        this.adminRoute.put('/labour/:id',
+            validateAddLabour,
+            withLogging(injectedLabourController.updateLabour));
 
-    this.adminRoute.get("/fetchlabour",
-      withLogging(injectedLabourController.getAllLabourList));
+        this.adminRoute.get('/fetchlabour',
+            withLogging(injectedLabourController.getAllLabourList));
 
-    this.adminRoute.get("/getLabour/:id",
-      withLogging(injectedLabourController.getLabourById));
+        this.adminRoute.get('/getLabour/:id',
+            withLogging(injectedLabourController.getLabourById));
 
-    // =====================================================================
-    // 🟢 SITE MANAGER ROUTES
-    // =====================================================================
-    this.adminRoute.get("/sitemanager",
-      withLogging(injectedSitemanagerController.getSitemanagers));
+        // =====================================================================
+        // 🟢 SITE MANAGER ROUTES
+        // =====================================================================
+        this.adminRoute.get('/sitemanager',
+            withLogging(injectedSitemanagerController.getSitemanagers));
 
-    this.adminRoute.post("/sitemanager",
-      validateAddSitemanager,
-      withLogging(injectedSitemanagerController.createSitemanager));
+        this.adminRoute.post('/sitemanager',
+            validateAddSitemanager,
+            withLogging(injectedSitemanagerController.createSitemanager));
 
-    this.adminRoute.put("/sitemanager/:id",
-      validateAddSitemanager,
-      withLogging(injectedSitemanagerController.updateSitemanager));
+        this.adminRoute.put('/sitemanager/:id',
+            validateAddSitemanager,
+            withLogging(injectedSitemanagerController.updateSitemanager));
 
-    this.adminRoute.delete("/sitemanager/:id",
-      withLogging(injectedSitemanagerController.deleteSitemanager));
+        this.adminRoute.delete('/sitemanager/:id',
+            withLogging(injectedSitemanagerController.deleteSitemanager));
 
-    // =====================================================================
-    // 🟢 SPECIFICATION ROUTES
-    // =====================================================================
+        // =====================================================================
+        // 🟢 SPECIFICATION ROUTES
+        // =====================================================================
 
-    this.adminRoute.get("/getSpec",
-      withLogging(injectSpecController.getSpecifications));
+        this.adminRoute.get('/getSpec',
+            withLogging(injectSpecController.getSpecifications));
 
-    this.adminRoute.get("/getMatsum",
-      withLogging(injectSpecController.calculateMaterialSum));
+        this.adminRoute.get('/getMatsum',
+            withLogging(injectSpecController.calculateMaterialSum));
 
-    this.adminRoute.get("/getLabSum",
-      withLogging(injectSpecController.calculateLabourSum));
+        this.adminRoute.get('/getLabSum',
+            withLogging(injectSpecController.calculateLabourSum));
 
-    this.adminRoute.get("/spec",
-      withLogging(injectSpecController.getSpecificationList));
+        this.adminRoute.get('/spec',
+            withLogging(injectSpecController.getSpecificationList));
 
-    this.adminRoute.post("/spec",
-      validateSpecification,
-      withLogging(injectSpecController.createSpecification));
+        this.adminRoute.post('/spec',
+            validateSpecification,
+            withLogging(injectSpecController.createSpecification));
 
-    this.adminRoute.put("/spec/:id",
-      validateSpecification,
-      withLogging(injectSpecController.updateSpecification));
+        this.adminRoute.put('/spec/:id',
+            validateSpecification,
+            withLogging(injectSpecController.updateSpecification));
 
-    this.adminRoute.get("/fetchSum",
-      withLogging(injectSpecController.getLabourMaterialSum));
+        this.adminRoute.get('/fetchSum',
+            withLogging(injectSpecController.getLabourMaterialSum));
 
-    this.adminRoute.delete("/deleteSpec/:id",
-      withLogging(injectSpecController.removeSpecification));
+        this.adminRoute.delete('/deleteSpec/:id',
+            withLogging(injectSpecController.removeSpecification));
 
 
 
-    // =====================================================================
-    // 🟢 ESTIMATION ROUTES
-    // =====================================================================
-    this.adminRoute.post("/saveEstimation",
-      validateSaveEstimation,
-      withLogging(injectEstimationController.createEstimation));
+        // =====================================================================
+        // 🟢 ESTIMATION ROUTES
+        // =====================================================================
+        this.adminRoute.post('/saveEstimation',
+            validateSaveEstimation,
+            withLogging(injectEstimationController.createEstimation));
 
-    this.adminRoute.delete("/deleteEstimation/:id",
-      withLogging(injectEstimationController.removeEstimation));
+        this.adminRoute.delete('/deleteEstimation/:id',
+            withLogging(injectEstimationController.removeEstimation));
 
-    this.adminRoute.post("/updateEstimation",
-      validateSaveEstimation,
-      withLogging(injectEstimationController.modifyEstimation));
+        this.adminRoute.post('/updateEstimation',
+            validateSaveEstimation,
+            withLogging(injectEstimationController.modifyEstimation));
 
-    this.adminRoute.get("/fetchEstimation",
-      withLogging(injectEstimationController.getAllEstimations));
+        this.adminRoute.get('/fetchEstimation',
+            withLogging(injectEstimationController.getAllEstimations));
 
-    this.adminRoute.post("/uploadEstimated",
-      validateUploadEstimationImage,
-      withLogging(injectEstimationController.modifyEstimation));
+        this.adminRoute.post('/uploadEstimated',
+            validateUploadEstimationImage,
+            withLogging(injectEstimationController.modifyEstimation));
 
 
-    this.adminRoute.get("/fetchExistEstimation/:id",
-      withLogging(injectEstimationController.getSpecListByEstimation));
+        this.adminRoute.get('/fetchExistEstimation/:id',
+            withLogging(injectEstimationController.getSpecListByEstimation));
 
 
-    // =====================================================================
-    // 🟢 STAGE ROUTES
-    // =====================================================================
-    this.adminRoute.get("/fetchbudget/:id",
-      withLogging(injectStageController.fetchProjectCost));
+        // =====================================================================
+        // 🟢 STAGE ROUTES
+        // =====================================================================
+        this.adminRoute.get('/fetchbudget/:id',
+            withLogging(injectStageController.fetchProjectCost));
 
-    this.adminRoute.post("/saveStage",
-      validateStageAction,
-      withLogging(injectStageController.saveStage));
+        this.adminRoute.post('/saveStage',
+            validateStageAction,
+            withLogging(injectStageController.saveStage));
 
-    this.adminRoute.get("/fetchstage",
-      withLogging(injectStageController.getAllStages));
+        this.adminRoute.get('/fetchstage',
+            withLogging(injectStageController.getAllStages));
 
-    this.adminRoute.delete("/stageDelete/:id",
-      withLogging(injectStageController.removeStage));
+        this.adminRoute.delete('/stageDelete/:id',
+            withLogging(injectStageController.removeStage));
 
-    this.adminRoute.put("/editStage/:id",
-      validateStageAction,
-      withLogging(injectStageController.updateStage));
+        this.adminRoute.put('/editStage/:id',
+            validateStageAction,
+            withLogging(injectStageController.updateStage));
 
-    this.adminRoute.get("/stageFetch/:id",
-      withLogging(injectStageController.getStageData));
+        this.adminRoute.get('/stageFetch/:id',
+            withLogging(injectStageController.getStageData));
 
-    // =====================================================================
-    // 🟢 DASHBOARD ROUTES
-    // =====================================================================
-    this.adminRoute.get("/budgetActual",
-      withLogging(injectAdminDashboardController.fetchBudgetVsActual));
+        // =====================================================================
+        // 🟢 DASHBOARD ROUTES
+        // =====================================================================
+        this.adminRoute.get('/budgetActual',
+            withLogging(injectAdminDashboardController.fetchBudgetVsActual));
 
-    this.adminRoute.get("/budgetActualMaterial",
-      withLogging(injectAdminDashboardController.fetchBudgetVsActualMaterial));
+        this.adminRoute.get('/budgetActualMaterial',
+            withLogging(injectAdminDashboardController.fetchBudgetVsActualMaterial));
 
-    this.adminRoute.get("/budgetActualLabour",
-      withLogging(injectAdminDashboardController.fetchBudgetVsActualLabour));
-  }
+        this.adminRoute.get('/budgetActualLabour',
+            withLogging(injectAdminDashboardController.fetchBudgetVsActualLabour));
+    }
 }

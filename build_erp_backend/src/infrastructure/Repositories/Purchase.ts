@@ -1,8 +1,8 @@
-import { purchaseDB } from "../../api/models/PurchaseModel";
-import { PurchaseDTO } from "../../application/dto/purchase.dto";
-import { purchaseInput } from "../../application/Entities/purchase.entity";
-import { IPurchaseModelEntity } from "../../domain/Entities/modelEntities/purchase.entity";
-import { IPurchaseRepository } from "../../domain/Entities/IRepository/IPurchase";
+import { purchaseDB } from '../../api/models/PurchaseModel';
+import { PurchaseDTO } from '../../application/dto/purchase.dto';
+import { purchaseInput } from '../../application/Entities/purchase.entity';
+import { IPurchaseModelEntity } from '../../domain/Entities/modelEntities/purchase.entity';
+import { IPurchaseRepository } from '../../domain/Entities/IRepository/IPurchase';
 
 export class PurchaseRepository implements IPurchaseRepository {
 
@@ -11,91 +11,91 @@ export class PurchaseRepository implements IPurchaseRepository {
         Promise<{ data: PurchaseDTO[], totalPage: number }> {
         const skip = page * 5;
         const allPurchase = await purchaseDB.aggregate([
-            { $addFields: { projectObjectId: { $toObjectId: "$project_id" } } },
+            { $addFields: { projectObjectId: { $toObjectId: '$project_id' } } },
             {
                 $lookup: {
-                    from: "projects",
-                    localField: "projectObjectId",
-                    foreignField: "_id",
-                    as: "projectDetails"
-                }
+                    from: 'projects',
+                    localField: 'projectObjectId',
+                    foreignField: '_id',
+                    as: 'projectDetails',
+                },
             },
-            { $unwind: "$projectDetails" },
+            { $unwind: '$projectDetails' },
             {
                 $match: {
                     $or: [
-                        { "projectDetails.project_name": { $regex: search, $options: "i" } },
-                        { "invoice_number": { $regex: search, $options: "i" } }
+                        { 'projectDetails.project_name': { $regex: search, $options: 'i' } },
+                        { 'invoice_number': { $regex: search, $options: 'i' } },
                     ],
-                    "projectDetails.sitemanager_id": siteManagerId,
-                    "approval_status": false
-                }
+                    'projectDetails.sitemanager_id': siteManagerId,
+                    'approval_status': false,
+                },
             },
-            { $unwind: "$materialDetails" },
+            { $unwind: '$materialDetails' },
             {
                 $addFields: {
-                    "materialDetails.materialObjectId": { $toObjectId: "$materialDetails.material_id" }
-                }
+                    'materialDetails.materialObjectId': { $toObjectId: '$materialDetails.material_id' },
+                },
             },
             {
                 $lookup: {
-                    from: "materials",
-                    localField: "materialDetails.materialObjectId",
-                    foreignField: "_id",
-                    as: "materialDetails.materialInfo"
-                }
+                    from: 'materials',
+                    localField: 'materialDetails.materialObjectId',
+                    foreignField: '_id',
+                    as: 'materialDetails.materialInfo',
+                },
             },
-            { $unwind: "$materialDetails.materialInfo" },
+            { $unwind: '$materialDetails.materialInfo' },
             {
                 $addFields: {
-                    "materialDetails.brandObjectId": { $toObjectId: "$materialDetails.materialInfo.brand_id" }
-                }
+                    'materialDetails.brandObjectId': { $toObjectId: '$materialDetails.materialInfo.brand_id' },
+                },
             },
             {
                 $lookup: {
-                    from: "brands",
-                    localField: "materialDetails.brandObjectId",
-                    foreignField: "_id",
-                    as: "materialDetails.brandInfo"
-                }
+                    from: 'brands',
+                    localField: 'materialDetails.brandObjectId',
+                    foreignField: '_id',
+                    as: 'materialDetails.brandInfo',
+                },
             },
-            { $unwind: "$materialDetails.brandInfo" },
+            { $unwind: '$materialDetails.brandInfo' },
             {
                 $addFields: {
-                    "materialDetails.unitObjectId": { $toObjectId: "$materialDetails.materialInfo.unit_id" }
-                }
+                    'materialDetails.unitObjectId': { $toObjectId: '$materialDetails.materialInfo.unit_id' },
+                },
             },
             {
                 $lookup: {
-                    from: "units",
-                    localField: "materialDetails.unitObjectId",
-                    foreignField: "_id",
-                    as: "materialDetails.unitInfo"
-                }
+                    from: 'units',
+                    localField: 'materialDetails.unitObjectId',
+                    foreignField: '_id',
+                    as: 'materialDetails.unitInfo',
+                },
             },
-            { $unwind: "$materialDetails.unitInfo" },
+            { $unwind: '$materialDetails.unitInfo' },
             {
                 $group: {
-                    _id: "$_id",
-                    project_id: { $first: "$project_id" },
-                    project_name: { $first: "$projectDetails.project_name" },
-                    invoice_number: { $first: "$invoice_number" },
-                    date: { $first: "$date" },
-                    description: { $first: "$description" },
+                    _id: '$_id',
+                    project_id: { $first: '$project_id' },
+                    project_name: { $first: '$projectDetails.project_name' },
+                    invoice_number: { $first: '$invoice_number' },
+                    date: { $first: '$date' },
+                    description: { $first: '$description' },
                     materialDetails: {
                         $push: {
-                            material_id: "$materialDetails.material_id",
-                            material_name: "$materialDetails.materialInfo.material_name",
-                            brand_name: "$materialDetails.brandInfo.brand_name",
-                            unit_name: "$materialDetails.unitInfo.unit_name",
-                            quantity: "$materialDetails.quantity",
-                            unit_rate: "$materialDetails.unit_rate"
-                        }
-                    }
-                }
+                            material_id: '$materialDetails.material_id',
+                            material_name: '$materialDetails.materialInfo.material_name',
+                            brand_name: '$materialDetails.brandInfo.brand_name',
+                            unit_name: '$materialDetails.unitInfo.unit_name',
+                            quantity: '$materialDetails.quantity',
+                            unit_rate: '$materialDetails.unit_rate',
+                        },
+                    },
+                },
             },
             { $skip: skip },
-            { $limit: 5 }
+            { $limit: 5 },
         ]);
 
         const data: PurchaseDTO[] = allPurchase.map((element: any) => ({
@@ -108,32 +108,32 @@ export class PurchaseRepository implements IPurchaseRepository {
             materialDetails: element.materialDetails,
             finalAmount: element.materialDetails.reduce(
                 (sum: number, mat: any) => sum + (mat.quantity * mat.unit_rate),
-                0
-            )
+                0,
+            ),
         }));
 
         const totalDocuments = await purchaseDB.aggregate([
-            { $addFields: { projectObjectId: { $toObjectId: "$project_id" } } },
+            { $addFields: { projectObjectId: { $toObjectId: '$project_id' } } },
             {
                 $lookup: {
-                    from: "projects",
-                    localField: "projectObjectId",
-                    foreignField: "_id",
-                    as: "projectDetails"
-                }
+                    from: 'projects',
+                    localField: 'projectObjectId',
+                    foreignField: '_id',
+                    as: 'projectDetails',
+                },
             },
-            { $unwind: "$projectDetails" },
+            { $unwind: '$projectDetails' },
             {
                 $match: {
                     $or: [
-                        { "projectDetails.project_name": { $regex: search, $options: "i" } },
-                        { "invoice_number": { $regex: search, $options: "i" } }
+                        { 'projectDetails.project_name': { $regex: search, $options: 'i' } },
+                        { 'invoice_number': { $regex: search, $options: 'i' } },
                     ],
-                    "projectDetails.sitemanager_id": siteManagerId,
-                    "approval_status": false
-                }
+                    'projectDetails.sitemanager_id': siteManagerId,
+                    'approval_status': false,
+                },
             },
-            { $count: "total" }
+            { $count: 'total' },
         ]);
 
         const total = totalDocuments[0]?.total || 0;
@@ -141,15 +141,15 @@ export class PurchaseRepository implements IPurchaseRepository {
 
         return {
             data,
-            totalPage: Math.ceil(total / 5)
+            totalPage: Math.ceil(total / 5),
         };
     }
 
     // Create a new purchase
     async createPurchase(input: purchaseInput): Promise<boolean> {
         const { project_id, invoice_number, date, description, materialDetails } = input;
-        console.log(input)
-        console.log(input.materialDetails)
+        console.log(input);
+        console.log(input.materialDetails);
 
         const newPurchase = new purchaseDB({
             project_id,
@@ -157,7 +157,7 @@ export class PurchaseRepository implements IPurchaseRepository {
             date: new Date(date),
             approval_status: false,
             description,
-            materialDetails
+            materialDetails,
         });
 
         await newPurchase.save();
@@ -173,20 +173,20 @@ export class PurchaseRepository implements IPurchaseRepository {
             invoice_number,
             date,
             description,
-            materialDetails
+            materialDetails,
         });
 
         return true;
     }
 
     // Delete purchase by ID
-    async deletePurchaseById(_id: string): Promise<void> {
-        await purchaseDB.findByIdAndDelete(_id);
+    async deletePurchaseById(id: string): Promise<void> {
+        await purchaseDB.findByIdAndDelete(id);
     }
 
     // Approve purchase by ID
-    async approvePurchaseById(_id: string): Promise<void> {
-        await purchaseDB.findByIdAndUpdate(_id, { approval_status: true });
+    async approvePurchaseById(id: string): Promise<void> {
+        await purchaseDB.findByIdAndUpdate(id, { approval_status: true });
     }
 
     // Get all approved purchases

@@ -1,14 +1,14 @@
-import mongoose from "mongoose";
-import { IUnitModel } from "../../../../api/models/UnitModel";
+import mongoose from 'mongoose';
+import { IUnitModelEntity } from '../../../../domain/Entities/modelEntities/unit.entity';
 
 
-export const UnitSchema = new mongoose.Schema<IUnitModel>({
-   unit_name: {
-      type: String,
-      required: true
-   },
-   short_name: {
-      type: String
-   }
-},{timestamps:true})
+export const UnitSchema = new mongoose.Schema<IUnitModelEntity>({
+    unit_name: {
+        type: String,
+        required: true,
+    },
+    short_name: {
+        type: String,
+    },
+},{ timestamps:true });
 

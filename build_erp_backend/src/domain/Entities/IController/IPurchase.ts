@@ -1,6 +1,6 @@
-import { NextFunction, Request, Response } from "express";
-import { commonOutput } from "../../../application/dto/common";
-import { PurchaseDTO } from "../../../application/dto/purchase.dto";
+import { NextFunction, Request, Response } from 'express';
+import { commonOutput } from '../../../application/dto/common';
+import { PurchaseDTO } from '../../../application/dto/purchase.dto';
 
 
 export interface IPurchaseController {

@@ -1,5 +1,5 @@
-import { ISpecModelEntity } from "../../domain/Entities/modelEntities/spec.entity";
-import { IUnitModelEntity } from "../../domain/Entities/modelEntities/unit.entity";
+import { ISpecModelEntity } from '../../domain/Entities/modelEntities/spec.entity';
+import { IUnitModelEntity } from '../../domain/Entities/modelEntities/unit.entity';
 
 export interface publicspecDTO {
    spec_name: string

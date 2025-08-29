@@ -1,6 +1,6 @@
-import { commonOutput } from "../../dto/common";
+import { commonOutput } from '../../dto/common';
 
 
 export interface IFetchBrandByMaterialNameUsecase {
-   execute(material_name: string): Promise<commonOutput<string[]>>
+   execute(materialName: string): Promise<commonOutput<string[]>>
 }

@@ -1,7 +1,7 @@
-import { NextFunction, Request, Response } from "express"
-import { commonOutput } from "../../../application/dto/common"
-import { displayProjectDTO, fetchProjectIdnameDTO } from "../../../application/dto/project.dto"
-import { userLoginDTO } from "../../../application/dto/user.dto"
+import { NextFunction, Request, Response } from 'express';
+import { commonOutput } from '../../../application/dto/common';
+import { displayProjectDTO, fetchProjectIdnameDTO } from '../../../application/dto/project.dto';
+import { userLoginDTO } from '../../../application/dto/user.dto';
 
 
 export interface IProjectController {

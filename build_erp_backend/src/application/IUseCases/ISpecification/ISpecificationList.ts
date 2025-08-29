@@ -1,5 +1,5 @@
-import { commonOutput } from "../../dto/common";
-import { listingInput } from "../../Entities/common.entity";
+import { commonOutput } from '../../dto/common';
+import { listingInput } from '../../Entities/common.entity';
 
 
 export interface ISpeclistUseCase {

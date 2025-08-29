@@ -1,6 +1,6 @@
-import { NextFunction, Request, Response } from "express"
-import { commonOutput } from "../../../application/dto/common"
-import { specFullDTO } from "../../../application/dto/specification.dto"
+import { NextFunction, Request, Response } from 'express';
+import { commonOutput } from '../../../application/dto/common';
+import { specFullDTO } from '../../../application/dto/specification.dto';
 
 
 export interface ISpecController {

@@ -1,5 +1,5 @@
-import { commonOutput } from "../../dto/common";
-import { addsitemanagerInput } from "../../Entities/sitemanager.entity";
+import { commonOutput } from '../../dto/common';
+import { addsitemanagerInput } from '../../Entities/sitemanager.entity';
 
 
 

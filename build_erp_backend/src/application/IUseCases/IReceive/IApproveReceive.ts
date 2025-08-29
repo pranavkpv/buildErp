@@ -1,6 +1,6 @@
-import { materialData } from "../../../domain/Entities/modelEntities/transfer.entity";
-import { commonOutput } from "../../dto/common";
+import { materialData } from '../../../domain/Entities/modelEntities/transfer.entity';
+import { commonOutput } from '../../dto/common';
 
 export interface IApproveReceiveUseCase {
-   execute(_id:string,project_id:string,materialDetails:materialData[]):Promise<commonOutput>
+   execute(id:string,projectId:string,materialDetails:materialData[]):Promise<commonOutput>
 }

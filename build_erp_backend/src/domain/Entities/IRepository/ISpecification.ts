@@ -1,7 +1,7 @@
-import { aggregateUnitSpecDTO } from "../../../application/dto/specification.dto";
-import { listingInput } from "../../../application/Entities/common.entity";
-import { InputSpecification } from "../../../application/Entities/spec.entity";
-import { ISpecModelEntity } from "../modelEntities/spec.entity"
+import { aggregateUnitSpecDTO } from '../../../application/dto/specification.dto';
+import { listingInput } from '../../../application/Entities/common.entity';
+import { InputSpecification } from '../../../application/Entities/spec.entity';
+import { ISpecModelEntity } from '../modelEntities/spec.entity';
 
 
 export interface ISpecRepository {

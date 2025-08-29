@@ -1,6 +1,6 @@
-import { NextFunction, Request, Response } from "express-serve-static-core"
-import { commonOutput } from "../../../application/dto/common"
-import { fetchEditAttendance, pageWiseAttendance } from "../../../application/Entities/attendance.entity"
+import { NextFunction, Request, Response } from 'express-serve-static-core';
+import { commonOutput } from '../../../application/dto/common';
+import { fetchEditAttendance, pageWiseAttendance } from '../../../application/Entities/attendance.entity';
 
 
 export interface IAttendanceController {

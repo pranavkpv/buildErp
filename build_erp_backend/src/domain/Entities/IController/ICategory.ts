@@ -1,6 +1,6 @@
-import { NextFunction, Request, Response } from "express";
-import { commonOutput } from "../../../application/dto/common";
-import { categoryListDTO } from "../../../application/dto/category.dto";
+import { NextFunction, Request, Response } from 'express';
+import { commonOutput } from '../../../application/dto/common';
+import { categoryListDTO } from '../../../application/dto/category.dto';
 
 
 export interface ICategoryController {

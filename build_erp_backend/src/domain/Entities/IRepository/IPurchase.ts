@@ -1,6 +1,6 @@
-import { PurchaseDTO } from "../../../application/dto/purchase.dto"
-import { purchaseInput } from "../../../application/Entities/purchase.entity"
-import { IPurchaseModelEntity } from "../modelEntities/purchase.entity"
+import { PurchaseDTO } from '../../../application/dto/purchase.dto';
+import { purchaseInput } from '../../../application/Entities/purchase.entity';
+import { IPurchaseModelEntity } from '../modelEntities/purchase.entity';
 
 export interface IPurchaseRepository {
    getPurchasesBySearchAndPage(search: string, page: number, id: string):
@@ -12,10 +12,10 @@ export interface IPurchaseRepository {
    updatePurchase(input: purchaseInput):
       Promise<boolean>
 
-   deletePurchaseById(_id: string):
+   deletePurchaseById(id: string):
       Promise<void>
 
-   approvePurchaseById(_id: string):
+   approvePurchaseById(id: string):
       Promise<void>
 
    getAllApprovedPurchases():

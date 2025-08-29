@@ -1,24 +1,24 @@
-import mongoose from "mongoose";
-import { IEstimationAdditionalModel } from "../../../../api/models/EstimationAdditionalModel";
+import mongoose from 'mongoose';
+import { IEstimationAdditionalModalEntity } from '../../../../domain/Entities/modelEntities/estimationAdditional.entity';
 
-export const EstimationAdditionalSchema = new mongoose.Schema<IEstimationAdditionalModel>({
-   additionalExpense_per:{
-      type:Number,
+export const EstimationAdditionalSchema = new mongoose.Schema<IEstimationAdditionalModalEntity>({
+    additionalExpense_per:{
+        type:Number,
 
-   },
-   additionalExpense_amount:{
-      type:Number,
+    },
+    additionalExpense_amount:{
+        type:Number,
 
-   },
-   profit_per:{
-      type:Number,
+    },
+    profit_per:{
+        type:Number,
 
-   },
-   profit_amount:{
-      type:Number,
+    },
+    profit_amount:{
+        type:Number,
 
-   },
-   project_id:{
-      type:String
-   }
-},{timestamps:true})
+    },
+    project_id:{
+        type:String,
+    },
+},{ timestamps:true });

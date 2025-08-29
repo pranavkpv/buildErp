@@ -1,7 +1,7 @@
-import { listingInput } from "../../../application/Entities/common.entity";
-import { addMaterialInput, editMaterialFullDatafetch, editMaterialInput, fetchUnitRateInput, findMaterialBynameCatBrandInput, findMaterialBynameCatBrandInputEdit, materialSumInput } from "../../../application/Entities/material.entity";
-import { IMaterialModelEntity } from "../modelEntities/material.entity";
-import { IProjectModelEntity } from "../modelEntities/project.entity";
+import { listingInput } from '../../../application/Entities/common.entity';
+import { addMaterialInput, editMaterialFullDatafetch, editMaterialInput, fetchUnitRateInput, findMaterialBynameCatBrandInput, findMaterialBynameCatBrandInputEdit, materialSumInput } from '../../../application/Entities/material.entity';
+import { IMaterialModelEntity } from '../modelEntities/material.entity';
+import { IProjectModelEntity } from '../modelEntities/project.entity';
 
 
 
@@ -16,40 +16,40 @@ export interface IMaterialRepository {
    getAllProjects():
       Promise<IProjectModelEntity[] | []>;
 
-   getMaterialById(_id: string):
+   getMaterialById(id: string):
       Promise<editMaterialFullDatafetch | null>
 
    getMaterialByNameCategoryBrand(input: findMaterialBynameCatBrandInput):
       Promise<IMaterialModelEntity | null>;
 
-   createMaterial(input: Omit<addMaterialInput, "projectWiseStock">):
+   createMaterial(input: Omit<addMaterialInput, 'projectWiseStock'>):
       Promise<IMaterialModelEntity>;
 
    checkDuplicateMaterialOnEdit(input: findMaterialBynameCatBrandInputEdit):
       Promise<IMaterialModelEntity | null>;
 
-   updateMaterial(input: Omit<editMaterialInput, "projectWiseStock">):
+   updateMaterial(input: Omit<editMaterialInput, 'projectWiseStock'>):
       Promise<void>;
 
-   deleteMaterial(_id: string):
+   deleteMaterial(id: string):
       Promise<void>;
 
-   getMaterialByBrandId(brand_id: string):
+   getMaterialByBrandId(brandId: string):
       Promise<IMaterialModelEntity | null>;
 
-   getMaterialByCategoryId(category_id: string):
+   getMaterialByCategoryId(categoryId: string):
       Promise<IMaterialModelEntity | null>;
 
-   getMaterialByUnitId(unit_id: string):
+   getMaterialByUnitId(unitId: string):
       Promise<IMaterialModelEntity | null>;
 
    getAllUniqueMaterialNames():
       Promise<string[]>;
 
-   getUnitsByMaterialName(material_name: string):
+   getUnitsByMaterialName(materialName: string):
       Promise<string[]>;
 
-   getBrandsByMaterialName(material_name: string):
+   getBrandsByMaterialName(materialName: string):
       Promise<string[]>;
 
    getUnitRate(input: fetchUnitRateInput):

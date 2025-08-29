@@ -1,7 +1,7 @@
-import { commonOutput } from "../../dto/common";
+import { commonOutput } from '../../dto/common';
 
 
 export interface IUploadEstimateImageUseCase {
-   execute(url: string, _id: string):
+   execute(url: string, id: string):
       Promise<commonOutput>
 }

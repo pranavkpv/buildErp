@@ -1,6 +1,6 @@
-import { listingInput } from "../../../application/Entities/common.entity";
-import { labourAddInput, labourEditInput, labourSumInput } from "../../../application/Entities/labour.entity";
-import { ILabourModelEntity } from "../modelEntities/labour.entity";
+import { listingInput } from '../../../application/Entities/common.entity';
+import { labourAddInput, labourEditInput, labourSumInput } from '../../../application/Entities/labour.entity';
+import { ILabourModelEntity } from '../modelEntities/labour.entity';
 
 export interface ILabourRepository {
 
@@ -10,16 +10,16 @@ export interface ILabourRepository {
    getPaginatedLabourList(input: listingInput):
       Promise<{ data: ILabourModelEntity[], totalPage: number }>;
 
-   getLabourByType(labour_type: string):
+   getLabourByType(labourType: string):
       Promise<ILabourModelEntity | null>
 
    createLabour(input: labourAddInput):
       Promise<void>
 
-   deleteLabourById(_id: string):
+   deleteLabourById(id: string):
       Promise<void>
 
-   checkDuplicateLabourOnEdit(_id: string, labour_type: string):
+   checkDuplicateLabourOnEdit(id: string, labourType: string):
       Promise<ILabourModelEntity | null>
 
    updateLabour(input: labourEditInput):
@@ -28,7 +28,7 @@ export interface ILabourRepository {
    getAllLabours():
       Promise<ILabourModelEntity[] | []>
 
-   getLabourById(_id: string):
+   getLabourById(id: string):
       Promise<ILabourModelEntity | null>
 
 }

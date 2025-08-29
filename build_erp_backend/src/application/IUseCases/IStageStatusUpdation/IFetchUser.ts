@@ -1,5 +1,5 @@
-import { commonOutput } from "../../dto/common";
-import { chatListDTO } from "../../dto/user.dto";
+import { commonOutput } from '../../dto/common';
+import { chatListDTO } from '../../dto/user.dto';
 
 
 export interface IFetchUserUseCase {

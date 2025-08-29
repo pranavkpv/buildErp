@@ -1,5 +1,5 @@
-import { commonOutput } from "../../dto/common";
-import { saveEstimationInput } from "../../Entities/estimation.entity";
+import { commonOutput } from '../../dto/common';
+import { saveEstimationInput } from '../../Entities/estimation.entity';
 
 
 export interface ISaveEstimationUseCase {

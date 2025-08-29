@@ -1,5 +1,5 @@
-import { commonOutput } from "../../dto/common";
-import { specFullDTO } from "../../dto/specification.dto";
+import { commonOutput } from '../../dto/common';
+import { specFullDTO } from '../../dto/specification.dto';
 
 
 

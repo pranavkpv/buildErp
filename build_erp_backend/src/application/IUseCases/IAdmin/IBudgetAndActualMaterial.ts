@@ -1,5 +1,5 @@
-import { budgetActualDTO } from "../../dto/admin.dashoard.dto";
-import { commonOutput } from "../../dto/common";
+import { budgetActualDTO } from '../../dto/admin.dashoard.dto';
+import { commonOutput } from '../../dto/common';
 
 export interface IBudgetAndActualMaterialUseCase {
     execute(search: string):

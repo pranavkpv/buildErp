@@ -1,5 +1,5 @@
-import { commonOutput } from "../../dto/common";
-import { updatePasswordInput } from "../../Entities/user.entity";
+import { commonOutput } from '../../dto/common';
+import { updatePasswordInput } from '../../Entities/user.entity';
 
 
 export interface IChangePasswordUseCase {

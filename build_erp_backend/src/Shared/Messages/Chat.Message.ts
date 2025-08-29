@@ -1,6 +1,6 @@
 export const ChatSuccessMessage = {
-   FETCH : "Chat message fetched successfully"
-}
+    FETCH : 'Chat message fetched successfully',
+};
 
 export enum ChatFailedMessage {
    

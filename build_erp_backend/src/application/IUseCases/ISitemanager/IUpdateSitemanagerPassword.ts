@@ -1,5 +1,5 @@
-import { commonOutput } from "../../dto/common";
-import { changePasswordInput } from "../../Entities/sitemanager.entity";
+import { commonOutput } from '../../dto/common';
+import { changePasswordInput } from '../../Entities/sitemanager.entity';
 
 
 export interface IUpdateSitemanagerPasswordUseCase {

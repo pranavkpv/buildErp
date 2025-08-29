@@ -1,6 +1,6 @@
-import { commonOutput } from "../../dto/common";
+import { commonOutput } from '../../dto/common';
 
 export interface IUpdateBrandUseCase {
-   execute(_id: string, brand_name: string):
+   execute(id: string, brandName: string):
       Promise<commonOutput>
 }

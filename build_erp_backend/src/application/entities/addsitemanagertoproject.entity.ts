@@ -1,5 +1,5 @@
-import { IProjectModelEntity } from "../../domain/Entities/modelEntities/project.entity"
-import { ISitemanagerModelEntity } from "../../domain/Entities/modelEntities/sitemanager.entity"
+import { IProjectModelEntity } from '../../domain/Entities/modelEntities/project.entity';
+import { ISitemanagerModelEntity } from '../../domain/Entities/modelEntities/sitemanager.entity';
 
 export interface AddsitetoprojectInput {
    siteManager_id:string

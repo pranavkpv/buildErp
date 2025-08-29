@@ -1,6 +1,6 @@
-import { NextFunction, Request, Response } from "express"
-import { commonOutput } from "../../../application/dto/common"
-import { publicstageDTO } from "../../../application/dto/stage.dto"
+import { NextFunction, Request, Response } from 'express';
+import { commonOutput } from '../../../application/dto/common';
+import { publicstageDTO } from '../../../application/dto/stage.dto';
 
 
 export interface IstatusController {

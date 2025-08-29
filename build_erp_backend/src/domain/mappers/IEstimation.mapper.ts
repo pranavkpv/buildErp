@@ -1,5 +1,5 @@
-import { listEstimationDTO, publicEstimationDTO, specListInProjectDTO } from "../../application/dto/estimation.dto";
-import { estiomationAggregatebyProject, estiomationAggregateByspec } from "../../application/Entities/estimation.entity";
+import { listEstimationDTO, publicEstimationDTO, specListInProjectDTO } from '../../application/dto/estimation.dto';
+import { estiomationAggregatebyProject, estiomationAggregateByspec } from '../../application/Entities/estimation.entity';
 
 export interface IEstimationmapper {
    topublicEstimateData(estimation:estiomationAggregateByspec[]):publicEstimationDTO[]

@@ -1,6 +1,6 @@
-import { categoryListDTO } from "../../dto/category.dto";
-import { commonOutput } from "../../dto/common";
-import { listingInput } from "../../Entities/common.entity";
+import { categoryListDTO } from '../../dto/category.dto';
+import { commonOutput } from '../../dto/common';
+import { listingInput } from '../../Entities/common.entity';
 
 
 export interface IDisplayAllCategoryUseCase {

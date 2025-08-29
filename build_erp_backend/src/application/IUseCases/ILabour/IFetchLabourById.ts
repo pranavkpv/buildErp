@@ -1,9 +1,9 @@
-import { commonOutput } from "../../dto/common";
-import { labourDataDisplayDTO } from "../../dto/labour.dto";
+import { commonOutput } from '../../dto/common';
+import { labourDataDisplayDTO } from '../../dto/labour.dto';
 
 
 
 export interface IFetchLabourByIdUsecase {
-   execute(_id: string):
+   execute(id: string):
       Promise<commonOutput<labourDataDisplayDTO> | commonOutput>
 }

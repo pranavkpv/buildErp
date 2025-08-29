@@ -1,1 +1,1 @@
-export const specialCharacter = "~!#$%^&*()_+{}:|<>?>"
+export const specialCharacter = '~!#$%^&*()_+{}:|<>?>';

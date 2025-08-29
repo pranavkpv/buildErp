@@ -1,6 +1,6 @@
-import { commonOutput } from "../../dto/common";
+import { commonOutput } from '../../dto/common';
 
 
 export interface IDeleteSiteToProjectUseCase {
-   execute(_id:string,sitemanager_id:string): Promise<commonOutput>
+   execute(id:string,sitemanagerId:string): Promise<commonOutput>
 }

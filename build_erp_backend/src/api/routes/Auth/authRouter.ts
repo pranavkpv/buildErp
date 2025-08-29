@@ -1,86 +1,86 @@
-import { Router } from "express";
-import { withLogging } from "../../../infrastructure/middlewares/withLoggingMiddleware";
-import { validateForgotOtpSend, validateResendotp, validateSignup, validateUserLogin, validateVerifyotp } from "../../../infrastructure/middlewares/validation/auth.validation";
-import { injectAuthController } from "../../DI/Auth";
+import { Router } from 'express';
+import { withLogging } from '../../../infrastructure/middlewares/withLoggingMiddleware';
+import { validateForgotOtpSend, validateResendotp, validateSignup, validateUserLogin, validateVerifyotp } from '../../../infrastructure/middlewares/validation/auth.validation';
+import { injectAuthController } from '../../DI/Auth';
 
 
 
 export class authRoute {
-    public authRoute: Router
+    public authRoute: Router;
     constructor() {
-        this.authRoute = Router()
-        this.setRoute()
+        this.authRoute = Router();
+        this.setRoute();
     }
     private setRoute() {
         //signup
         this.authRoute.post(
-            "/signup",
+            '/signup',
             validateSignup,
-            withLogging(injectAuthController.registerUser)
+            withLogging(injectAuthController.registerUser),
         );
         //verify otp
         this.authRoute.post(
-            "/verifyOtp",
+            '/verifyOtp',
             validateVerifyotp,
-            withLogging(injectAuthController.verifySignupOtp)
+            withLogging(injectAuthController.verifySignupOtp),
         );
         //resendOtp
         this.authRoute.post(
-            "/resendOtp",
+            '/resendOtp',
             validateResendotp,
-            withLogging(injectAuthController.resendSignupOtp)
+            withLogging(injectAuthController.resendSignupOtp),
         );
         //login
         this.authRoute.post(
-            "/login",
+            '/login',
             validateUserLogin,
-            withLogging(injectAuthController.loginUser)
+            withLogging(injectAuthController.loginUser),
         );
         //google login
         this.authRoute.post(
-            "/googleLogin",
-            withLogging(injectAuthController.loginWithGoogle)
+            '/googleLogin',
+            withLogging(injectAuthController.loginWithGoogle),
         );
         //forgot otp send
         this.authRoute.post(
-            "/forgotOTP",
+            '/forgotOTP',
             validateForgotOtpSend,
-            withLogging(injectAuthController.sendOtp)
+            withLogging(injectAuthController.sendOtp),
         );
         //verify the forgot password otp
         this.authRoute.post(
-            "/verifyForgotOtp",
+            '/verifyForgotOtp',
             validateVerifyotp,
-            withLogging(injectAuthController.verifyForgotPasswordOtp)
+            withLogging(injectAuthController.verifyForgotPasswordOtp),
         );
         //updatepassword
         this.authRoute.put(
-            "/updatepassword",
-            withLogging(injectAuthController.updateUserPassword)
+            '/updatepassword',
+            withLogging(injectAuthController.updateUserPassword),
         );
         //all project fetch
         this.authRoute.get(
-            "/projectListUser",
-            withLogging(injectAuthController.fetchUserProjects)
+            '/projectListUser',
+            withLogging(injectAuthController.fetchUserProjects),
         );
         //fetch specification of corresponding project
         this.authRoute.get(
-            "/fetchExistEstimation/:id",
-            withLogging(injectAuthController.fetchExistEstimation)
+            '/fetchExistEstimation/:id',
+            withLogging(injectAuthController.fetchExistEstimation),
         );
         //fetch stage data of corresponding project
         this.authRoute.get(
-            "/stageFetch/:id",
-            withLogging(injectAuthController.fetchStageData)
+            '/stageFetch/:id',
+            withLogging(injectAuthController.fetchStageData),
         );
         //fetch status base project data
         this.authRoute.get(
-            "/fetchstatusbaseproject/:status",
-            withLogging(injectAuthController.fetchProjectStatusByFilters)
+            '/fetchstatusbaseproject/:status',
+            withLogging(injectAuthController.fetchProjectStatusByFilters),
         );
         //create accessToken using refresh token 
         this.authRoute.post('/refreshToken', 
-            withLogging(injectAuthController.handleRefreshToken))
+            withLogging(injectAuthController.handleRefreshToken));
 
     }
 }
