@@ -14,7 +14,7 @@ export const StageFailedMessage = {
     NOT_ESTIMATE: 'This Project has not Estimate',
     ALREADY_SET: 'Stage Of this Project is already set',
     NO_IMAGE: 'Image Upload Not Work',
-    PROJECT_ID_REQUIRED: 'projectId is required and must be a string',
+    PROJECT_ID_REQUIRED: 'projectId is required',
     VALID_START_DATE: 'Valid startDate is required',
     VALID_END_DATE: 'Valid endDate is required',
     START_DATE_LESS_THAN_END: 'startDate cannot be later than endDate',
@@ -27,4 +27,6 @@ export const StageFailedMessage = {
     STAGE_PER_BETWEEN: 'stage_percentage must be a number between 1 and 100',
     STAGE_AMOUNT_POSITIVE: 'stage_amount must be a positive number',
     STAGE_AMOUNT_VALUE: 'stage_amount does not match stage_percentage of total cost',
+    STAGE_LENGTH : "Stage name length should be less than 20",
+    STAGE_AMOUNT_MATCH  : "Sum of stage amount should match total budget cost"
 };

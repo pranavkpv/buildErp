@@ -18,7 +18,7 @@ export const MaterialFailedMessage = {
     USED_SPEC: 'Material is already used Specification',
     REQUIRED_FIELD: 'material_name, category_id, unit_id, unit_rate and stock are required',
     MATERIAL_CHAR: 'material_name must be a non-empty string',
-    MAX_MATERIAL_NAME: 'material_name should not exceed 100 characters',
+    MAX_MATERIAL_NAME: 'material_name should not exceed 20 characters',
     UNIT_RATE_VALID: 'unit_rate must be a valid number',
     UNIT_RATE_GREATER: 'unit_rate must be greater than 0',
     UNIT_RATE_HIGH: 'unit_rate too high, must be less than 1,000,000',
@@ -26,4 +26,8 @@ export const MaterialFailedMessage = {
     STOCK_NEGATIVE: 'stock cannot be negative',
     PROJECT_WISE_STOCK_MUST: 'projectWiseStock must be an array',
     PROJECT_CHAR: 'project must be a valid string or number',
+    PROJECT_REQUIRED: "Project name is required",
+    PROJECT_WISE_STOCK_REQUIRED: "Project wise stock is required",
+    PROJECT_WISE_STOCK_POSITIVE: "Project wise stock is must be positive",
+    STOCK_NOT_MATCH:"Project wise stock and total stock of that material should match"
 };

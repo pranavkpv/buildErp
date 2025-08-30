@@ -67,4 +67,5 @@ export interface IprojectRepository {
    getSitemanagerChatProjects(id: string):
       Promise<chatListDTO[]>
 
+
 }

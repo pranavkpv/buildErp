@@ -10,14 +10,14 @@ export const validateBrandAction = (
 ): void => {
     const { brand_name } = req.body;
 
-    if (!brand_name || typeof brand_name !== 'string' || brand_name.trim().length === 0) {
+    if (!brand_name || brand_name.trim().length === 0) {
         res.status(HTTP_STATUS.BAD_REQUEST).json({
             success: false,
             message: BrandFailedMessage.REQUIRED_FIELD,
         });
         return;
     }
-    if (brand_name.trim().length < 2 || brand_name.trim().length > 50) {
+    if (brand_name.trim().length < 2 || brand_name.length > 50) {
         res.status(HTTP_STATUS.BAD_REQUEST).json({
             success: false,
             message: BrandFailedMessage.BRAND_LENGTH,

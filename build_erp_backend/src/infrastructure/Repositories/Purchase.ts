@@ -193,4 +193,9 @@ export class PurchaseRepository implements IPurchaseRepository {
     async getAllApprovedPurchases(): Promise<IPurchaseModelEntity[]> {
         return await purchaseDB.find({ approval_status: true });
     }
+    //get one purchase by project id
+    async getPurchaseByProjectId(id: string): Promise<IPurchaseModelEntity | null> {
+        const result = await purchaseDB.findOne({ project_id: id })
+        return result
+    }
 }

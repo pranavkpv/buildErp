@@ -36,4 +36,10 @@ export const SpecFailedMessage = {
     LABOUR_RATE_POSITIVE: 'must be a non-negative number',
     ADDITIONAL_EXPENSE_RANGE: 'Additional expense percentage must be a number between 0 and 100',
     PROFIT_RANGE: 'Profit percentage must be a number between 0 and 100',
+    PROJECT_NAME_REQUIRED : "Must select project name",
+    MAX_SPEC_NAME : "Maximum spec name character length is 20",
+    MATERIAL_UNIQUE:" Material name should be unique",
+    MATERIAL_NAME_REQUIRED : "Material name is required please check",
+    LABOUR_NAME_REQUIRED : "Labour name is required please check",
+    LABOUR_UNIQUE : "Labour name should be unique"
 };

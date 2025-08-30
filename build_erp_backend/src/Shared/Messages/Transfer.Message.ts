@@ -7,6 +7,11 @@ export const TransferFailedMessage = {
     EXIST_TRANSFER: 'Transfer is Already Exist',
     SAVE: 'Failed to save The Transfer',
     UPDATE: 'Failed to Update the Transfer',
+    FROM_PROJECT_REQUIRED : 'from project is required',
+    TO_PROJECT_REQUIRED : 'To project is required',
+    SAME_PROJECT_TRANSFER :"Should not possible from project and to project are same",
+    TRANSFER_ID_REQUIRED : "Transfer Id is required",
+    TRANSFER_ID_MAX : "Transfer Id should exist maximum 20 character"
 };
 
 export const TransferSuccessMessage = {

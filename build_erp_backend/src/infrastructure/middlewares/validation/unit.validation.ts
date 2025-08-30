@@ -17,7 +17,7 @@ export const validateUnitAction = (
         return;
     }
 
-    if (unit_name.trim().length < 2 || unit_name.trim().length > 50) {
+    if (unit_name.trim().length < 2 || unit_name.length > 20) {
         res.status(HTTP_STATUS.BAD_REQUEST).json({
             success: false,
             message: unitFailedMessage.UNIT_BETWEEN,
@@ -43,7 +43,7 @@ export const validateUnitAction = (
         return;
     }
 
-    if (short_name.trim().length < 1 || short_name.trim().length > 10) {
+    if (short_name.trim().length < 1 || short_name.length > 10) {
         res.status(HTTP_STATUS.BAD_REQUEST).json({
             success: false,
             message: unitFailedMessage.SHORT_NAME_BETWEEN,

@@ -10,10 +10,10 @@ import { commonOutput } from '../../dto/common';
 
 export class SaveTransferUsecase implements ISaveTransferUseCase {
     constructor(
-      private _transferRepository: ITransferRepository,
-      private _projectStockRepository: IProjectStockRepository,
-      private _materialRepository: IMaterialRepository,
-      private _projectRepository: IprojectRepository,
+        private _transferRepository: ITransferRepository,
+        private _projectStockRepository: IProjectStockRepository,
+        private _materialRepository: IMaterialRepository,
+        private _projectRepository: IprojectRepository,
     ) { }
     async execute(input: transferInput): Promise<commonOutput> {
         const duplicateTransfer = await this._transferRepository.findTransferBytransferId(input.transfer_id);
@@ -21,7 +21,7 @@ export class SaveTransferUsecase implements ISaveTransferUseCase {
             return ResponseHelper.conflictData(TransferFailedMessage.EXIST_TRANSFER);
         }
         for (const element of input.materialDetails) {
-            const ToProjectStock = await this._projectStockRepository.getStockQuantityByProjectAndMaterial({ material_id: element.material_id, project_id: input.from_project_id,quantity:0 }) || 0;
+            const ToProjectStock = await this._projectStockRepository.getStockQuantityByProjectAndMaterial({ material_id: element.material_id, project_id: input.from_project_id, quantity: 0 }) || 0;
             const materialData = await this._materialRepository.getMaterialById(element.material_id);
             const projectData = await this._projectRepository.getProjectById(input.from_project_id);
             if (ToProjectStock < element.quantity) {

@@ -56,6 +56,7 @@ export class authRoute {
         //updatepassword
         this.authRoute.put(
             '/updatepassword',
+            validateUserLogin,
             withLogging(injectAuthController.updateUserPassword),
         );
         //all project fetch

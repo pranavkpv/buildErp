@@ -2,13 +2,9 @@ import { NextFunction, Request, Response } from 'express';
 import { HTTP_STATUS } from '../../../Shared/statusCodes/statusCodes';
 import { StageFailedMessage } from '../../../Shared/Messages/Stage.Message';
 
-export const validateStageAction = (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-): void => {
+export const validateStageAction = (req: Request,res: Response,next: NextFunction): void => {
     const { stages, projectId, startDate, endDate, cost } = req.body.data;
-    if (!projectId || typeof projectId !== 'string') {
+    if (!projectId) {
         res.status(HTTP_STATUS.BAD_REQUEST).
             json({ success: false, message: StageFailedMessage.PROJECT_ID_REQUIRED });
         return;
@@ -32,33 +28,40 @@ export const validateStageAction = (
         return;
     }
 
-    if (typeof cost !== 'number' || cost <= 0) {
+    if (cost <= 0) {
         res.status(HTTP_STATUS.BAD_REQUEST).
             json({ success: false, message: StageFailedMessage.COST_POSITIVE });
         return;
     }
 
     // Validate stages
-    if (!stages || typeof stages !== 'object') {
+    if (!stages) {
         res.status(HTTP_STATUS.BAD_REQUEST).
             json({ success: false, message: StageFailedMessage.STAGE_CHAR });
         return;
     }
 
+    let sumofStage = 0
+
     for (const element of stages) {
-        if (!element.stage_name || typeof element.stage_name !== 'string' || element.stage_name.trim() === '') {
+        if (!element.stage_name || element.stage_name.trim() === '') {
             res.status(HTTP_STATUS.BAD_REQUEST).
                 json({ success: false, message: StageFailedMessage.STAGE_NAME_REQUIRED });
             return;
         }
+        if (element.stage_name.length > 20) {
+            res.status(HTTP_STATUS.BAD_REQUEST)
+                .json({ success: false, message: StageFailedMessage.STAGE_LENGTH })
+            return
+        }
 
-        if (!element.start_date || isNaN(Date.parse(element.start_date))) {
+        if (!element.start_date) {
             res.status(HTTP_STATUS.BAD_REQUEST).
                 json({ success: false, message: StageFailedMessage.STAGE_START_DATE_VALID });
             return;
         }
 
-        if (!element.end_date || isNaN(Date.parse(element.end_date))) {
+        if (!element.end_date) {
             res.status(HTTP_STATUS.BAD_REQUEST).
                 json({ success: false, message: StageFailedMessage.STAGE_END_DATE_VALID });
             return;
@@ -90,9 +93,12 @@ export const validateStageAction = (
             });
             return;
         }
+        sumofStage += element.stage_percentage
     }
-
-
-
+    if (sumofStage !== 100) {
+        res.status(HTTP_STATUS.BAD_REQUEST)
+            .json({ success: false, message: StageFailedMessage.STAGE_AMOUNT_MATCH })
+        return
+    }
     next();
 };

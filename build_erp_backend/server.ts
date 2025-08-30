@@ -2,7 +2,6 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import session from "express-session";
 import fileUpload from 'express-fileupload';
-import logger from "./src/Shared/utils/logger";
 import express, { Request, Response, NextFunction, Express } from "express";
 import { Server as SocketIOServer } from 'socket.io';
 import { connectMongo } from './src/infrastructure/database/ConnectDB';
@@ -17,6 +16,7 @@ import { SitemanagerRoute } from './src/api/routes/Sitemanager/siteRouter';
 import { AdminRoute } from './src/api/routes/Admin/adminRouter';
 import { userRoute } from './src/api/routes/User/userRouter';
 import { authRoute } from './src/api/routes/Auth/authRouter';
+import logger from './src/infrastructure/logger/logger';
 
 
 require("dotenv").config();

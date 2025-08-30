@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { JwtService } from '../../../application/services/JwtService';
 import { siteManagerMiddleware } from '../../../infrastructure/middlewares/siteMiddleware';
 import { withLogging } from '../../../infrastructure/middlewares/withLoggingMiddleware';
-import { validateStatusChange } from '../../../infrastructure/middlewares/validation/sitemanager.validation';
+import { validateSitemanagerChangePassword, validateSitemanagerLogin, validateStatusChange } from '../../../infrastructure/middlewares/validation/sitemanager.validation';
 import { injectedSitemanagerController } from '../../DI/Sitemanager';
 import { injectedMaterialController } from '../../DI/Material';
 import { injectedLabourController } from '../../DI/Labour';
@@ -13,6 +13,10 @@ import { injectedPurchaseController } from '../../DI/Purchase';
 import { injectedTransferController } from '../../DI/Transfer';
 import { injectedReceiveController } from '../../DI/Receive';
 import { injectedChatController } from '../../DI/Chat';
+import { validateAttendance } from '../../../infrastructure/middlewares/validation/attendance.validation';
+import { validatePurchase } from '../../../infrastructure/middlewares/validation/purchase.validation';
+import { validateTransfer } from '../../../infrastructure/middlewares/validation/transfer.validation';
+import { receiveValidation } from '../../../infrastructure/middlewares/validation/receive.validation';
 
 
 export class SitemanagerRoute {
@@ -31,6 +35,7 @@ export class SitemanagerRoute {
         // ================================
         this.sitemanagerRoute.post(
             '/login',
+            validateSitemanagerLogin,
             withLogging(injectedSitemanagerController.loginSitemanager),
         );
 
@@ -60,6 +65,7 @@ export class SitemanagerRoute {
         // ================================
         this.sitemanagerRoute.put(
             '/changepass',
+            validateSitemanagerChangePassword,
             withLogging(injectedSitemanagerController.changePassword),
         );
 
@@ -88,10 +94,12 @@ export class SitemanagerRoute {
         // ================================
         this.sitemanagerRoute.post(
             '/attendance',
+            validateAttendance,
             withLogging(injectAttendanceController.createAttendance),
         );
         this.sitemanagerRoute.put(
             '/editAttendance/:id',
+            validateAttendance,
             withLogging(injectAttendanceController.updateAttendance),
         );
         this.sitemanagerRoute.get(
@@ -120,10 +128,12 @@ export class SitemanagerRoute {
         );
         this.sitemanagerRoute.post(
             '/purchase',
+            validatePurchase,
             withLogging(injectedPurchaseController.savePurchase),
         );
         this.sitemanagerRoute.put(
             '/purchase/:id',
+            validatePurchase,
             withLogging(injectedPurchaseController.updatePurchase),
         );
         this.sitemanagerRoute.delete(
@@ -139,7 +149,7 @@ export class SitemanagerRoute {
         // 🔹 Transfer
         // ================================
         this.sitemanagerRoute.get(
-            '/transfer',
+            '/transfer',     
             withLogging(injectedTransferController.fetchTransfers),
         );
         this.sitemanagerRoute.get(
@@ -148,10 +158,12 @@ export class SitemanagerRoute {
         );
         this.sitemanagerRoute.post(
             '/transfer',
+            validateTransfer,
             withLogging(injectedTransferController.createTransfer),
         );
         this.sitemanagerRoute.put(
             '/transfer/:id',
+            validateTransfer,
             withLogging(injectedTransferController.updateTransfer),
         );
         this.sitemanagerRoute.delete(
@@ -176,10 +188,12 @@ export class SitemanagerRoute {
         );
         this.sitemanagerRoute.post(
             '/receive',
+            receiveValidation,
             withLogging(injectedReceiveController.saveReceive),
         );
         this.sitemanagerRoute.put(
             '/receive/:id',
+            receiveValidation,
             withLogging(injectedReceiveController.updateReceive),
         );
         this.sitemanagerRoute.delete(

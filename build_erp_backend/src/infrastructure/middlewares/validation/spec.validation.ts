@@ -5,11 +5,7 @@ import { SpecFailedMessage } from '../../../Shared/Messages/Specification.Messag
 /**
  * Middleware to validate specification creation/updation request body
  */
-export const validateSpecification = (
-    req: Request,
-    res: Response,
-    next: NextFunction,
-): void => {
+export const validateSpecification = (req: Request, res: Response, next: NextFunction,): void => {
     const {
         specId,
         specname,
@@ -39,6 +35,12 @@ export const validateSpecification = (
         return;
     }
 
+    if (specname.length > 20) {
+        res.status(HTTP_STATUS.BAD_REQUEST).
+            json({ success: false, message: SpecFailedMessage.MAX_SPEC_NAME })
+        return
+    }
+
     // ===== Validate specUnit =====
     if (!specUnit || typeof specUnit !== 'string') {
         res.status(HTTP_STATUS.BAD_REQUEST).json({
@@ -65,6 +67,7 @@ export const validateSpecification = (
         });
         return;
     }
+    let existMaterial: string[] = []
     for (let i = 0; i < materialDetails.length; i++) {
         const item = materialDetails[i];
         if (typeof item.quantity !== 'number' || item.quantity <= 0) {
@@ -74,13 +77,19 @@ export const validateSpecification = (
             });
             return;
         }
-        if (typeof item.unit_rate !== 'number' || item.unit_rate < 0) {
-            res.status(HTTP_STATUS.BAD_REQUEST).json({
-                success: false,
-                message: SpecFailedMessage.MATERIAL_RATE_POSITIVE,
-            });
-            return;
+        if (!item.material_id) {
+            res.status(HTTP_STATUS.BAD_REQUEST)
+                .json({ success: false, message: SpecFailedMessage.MATERIAL_NAME_REQUIRED })
+            return
         }
+        if (!existMaterial.includes(item.material_id)) {
+            existMaterial.push(item.material_id)
+        }
+    }
+    if (existMaterial.length !== materialDetails.length) {
+        res.status(HTTP_STATUS.BAD_REQUEST).
+            json({ success: false, message: SpecFailedMessage.MATERIAL_UNIQUE })
+        return
     }
 
     // ===== Validate labourDetails =====
@@ -91,6 +100,7 @@ export const validateSpecification = (
         });
         return;
     }
+    let existLabour: string[] = []
     for (let i = 0; i < labourDetails.length; i++) {
         const item = labourDetails[i];
         if (typeof item.numberoflabour !== 'number' || item.numberoflabour <= 0) {
@@ -100,20 +110,27 @@ export const validateSpecification = (
             });
             return;
         }
-        if (typeof item.daily_wage !== 'number' || item.daily_wage < 0) {
-            res.status(HTTP_STATUS.BAD_REQUEST).json({
-                success: false,
-                message: SpecFailedMessage.LABOUR_RATE_POSITIVE,
-            });
-            return;
+        if (!item.labour_id) {
+            res.status(HTTP_STATUS.BAD_REQUEST)
+                .json({ success: false, message: SpecFailedMessage.LABOUR_NAME_REQUIRED })
+            return
         }
+        if (!existLabour.includes(item.labour_id)) {
+            existLabour.push(item.labour_id)
+        }
+    }
+
+    if (existLabour.length !== labourDetails.length) {
+        res.status(HTTP_STATUS.BAD_REQUEST).
+            json({ success: false, message: SpecFailedMessage.LABOUR_UNIQUE })
+        return
     }
 
     // ===== Validate additionalExpensePer =====
     if (
         typeof additionalExpensePer !== 'number' ||
-    additionalExpensePer < 0 ||
-    additionalExpensePer > 100
+        additionalExpensePer < 0 ||
+        additionalExpensePer > 100
     ) {
         res.status(HTTP_STATUS.BAD_REQUEST).json({
             success: false,
@@ -133,3 +150,5 @@ export const validateSpecification = (
 
     next();
 };
+
+

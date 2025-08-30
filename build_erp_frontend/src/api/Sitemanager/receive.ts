@@ -1,11 +1,10 @@
 import type { ReceiveData } from "../../components/SITEMANAGER/Receive/ApproveReceive";
 import siteAxios from "../../axios/SitemanagerAxioInterceptor"
-import { toast } from "react-toastify"
 
 type materialData = {
-   material_id: string;
-   quantity: number;
-   unit_rate: number;
+      material_id: string;
+      quantity: number;
+      unit_rate: number;
 };
 
 export const getReceiveDataAPI = async (search: string, page: number) => {
@@ -28,8 +27,8 @@ export const deleteReceiveAPI = async (deleteId: string) => {
       return response.data
 }
 
-export const ApproveReceiveAPI = async(_id:string,approveData:ReceiveData) => {
-      const response = await siteAxios.patch(`/receive/${_id}`,{data:{approveData}})
+export const ApproveReceiveAPI = async (_id: string, approveData: ReceiveData) => {
+      const response = await siteAxios.patch(`/receive/${ _id }`, { data: { approveData } })
       return response.data
 
 }
