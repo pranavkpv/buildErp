@@ -26,7 +26,7 @@ export class MaterialRepository implements IMaterialRepository {
 
     // Get paginated material list with category, brand, unit
     async getPaginatedMaterials(input: listingInput):
-    Promise<{ data: editMaterialFullDatafetch[], totalPage: number }> {
+        Promise<{ data: editMaterialFullDatafetch[], totalPage: number }> {
         const { page, search } = input;
         const skip = page * 5;
         const searchRegex = new RegExp(search, 'i');
@@ -42,12 +42,12 @@ export class MaterialRepository implements IMaterialRepository {
             { $lookup: { from: 'categories', localField: 'categoryObjectId', foreignField: '_id', as: 'categoryDetails' } },
             { $lookup: { from: 'units', localField: 'unitObjectId', foreignField: '_id', as: 'unitDetails' } },
             { $lookup: { from: 'brands', localField: 'brandObjectId', foreignField: '_id', as: 'brandDetails' } },
-            { $match: { material_name: { $regex: searchRegex } } },
+            { $match: { material_name: { $regex: searchRegex }, blockStatus: false } },
             { $skip: skip },
             { $limit: 5 },
         ]);
 
-        const totalPage = await materialDB.countDocuments({ material_name: { $regex: searchRegex } }) / 5;
+        const totalPage = Math.ceil(MaterialData.length / 5)
         return { data: MaterialData, totalPage };
     }
 
@@ -58,7 +58,7 @@ export class MaterialRepository implements IMaterialRepository {
 
     // Find material by name + category + brand
     async getMaterialByNameCategoryBrand(input: findMaterialBynameCatBrandInput):
-    Promise<IMaterialModelEntity | null> {
+        Promise<IMaterialModelEntity | null> {
         const { material_name, category_id, brand_id } = input;
         return await materialDB.findOne({
             material_name: { $regex: new RegExp(`^${ material_name }$`, 'i') },
@@ -95,7 +95,7 @@ export class MaterialRepository implements IMaterialRepository {
 
     // Check duplicate material on edit
     async checkDuplicateMaterialOnEdit(input: findMaterialBynameCatBrandInputEdit):
-    Promise<IMaterialModelEntity | null> {
+        Promise<IMaterialModelEntity | null> {
         const { _id, material_name, category_id, brand_id } = input;
         return await materialDB.findOne({
             _id: { $ne: _id },
@@ -113,7 +113,7 @@ export class MaterialRepository implements IMaterialRepository {
 
     //  Delete material
     async deleteMaterial(id: string): Promise<void> {
-        await materialDB.findByIdAndDelete(id);
+        await materialDB.findByIdAndUpdate(id, { blockStatus: true });
     }
 
     // Get material by brand

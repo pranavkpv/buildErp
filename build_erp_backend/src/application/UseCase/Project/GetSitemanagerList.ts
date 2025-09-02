@@ -4,7 +4,7 @@ import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { ProjectFailedMessage, ProjectSuccessMessage } from '../../../Shared/Messages/Project.Message';
 import { commonOutput } from '../../dto/common';
 import { userBasechatListDTO } from '../../dto/project.dto';
-import { IProjectmapper } from '../../../domain/mappers/IProject.mapper';
+import { IProjectmapper } from '../../../domain/IMappers/IProject.mapper';
 
 export class GetSitemanagerListDataUseCase implements IGetSitemanagerListDataUseCase {
     constructor(

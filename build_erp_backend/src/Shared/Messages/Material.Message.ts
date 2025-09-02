@@ -29,5 +29,6 @@ export const MaterialFailedMessage = {
     PROJECT_REQUIRED: "Project name is required",
     PROJECT_WISE_STOCK_REQUIRED: "Project wise stock is required",
     PROJECT_WISE_STOCK_POSITIVE: "Project wise stock is must be positive",
-    STOCK_NOT_MATCH:"Project wise stock and total stock of that material should match"
+    STOCK_NOT_MATCH:"Project wise stock and total stock of that material should match",
+    USED_PURCHASE : "Material is already used the purchase"
 };

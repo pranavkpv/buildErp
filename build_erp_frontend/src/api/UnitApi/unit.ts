@@ -13,7 +13,7 @@ export const postUnit = async (input: unitInput) => {
 // ---------------- Delete Unit ---------------- //
 
 export const deleteUnitData = async (_id: string) => {
-      const response = await adminAxios.delete(`/unit/${ _id }`);
+      const response = await adminAxios.patch(`/unit/${ _id }`);
       return response.data;
 };
 

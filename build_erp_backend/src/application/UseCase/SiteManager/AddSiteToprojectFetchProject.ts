@@ -4,7 +4,7 @@ import { commonOutput } from '../../dto/common';
 import { fetchProjectIdnameDTO } from '../../dto/project.dto';
 import { IAddSiteToProjectRepository } from '../../../domain/Entities/IRepository/IAddSiteToProject';
 import { IAddSiteToprojectFetchProjectUseCase } from '../../IUseCases/ISitemanager/IAddSiteToProjectFetchProject';
-import { IProjectmapper } from '../../../domain/mappers/IProject.mapper';
+import { IProjectmapper } from '../../../domain/IMappers/IProject.mapper';
 
 
 export class AddSiteToprojectFetchProjectUseCase implements IAddSiteToprojectFetchProjectUseCase {

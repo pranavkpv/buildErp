@@ -4,7 +4,7 @@ import { IprojectRepository } from '../../../domain/Entities/IRepository/IProjec
 import { IFetchProjectUseCase } from '../../IUseCases/IProject/IFetchProject';
 import { commonOutput } from '../../dto/common';
 import { fetchProjectIdnameDTO } from '../../dto/project.dto';
-import { IProjectmapper } from '../../../domain/mappers/IProject.mapper';
+import { IProjectmapper } from '../../../domain/IMappers/IProject.mapper';
 
 export class FetchProjectUseCase implements IFetchProjectUseCase {
     constructor(

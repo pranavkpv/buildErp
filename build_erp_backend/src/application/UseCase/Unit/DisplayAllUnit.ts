@@ -5,7 +5,7 @@ import { listingInput } from '../../Entities/common.entity';
 import { IUnitRepository } from '../../../domain/Entities/IRepository/IUnit';
 import { commonOutput } from '../../dto/common';
 import { listUnitDTO } from '../../dto/unit.dto';
-import { IUnitMapper } from '../../../domain/mappers/IUnit.mapper';
+import { IUnitMapper } from '../../../domain/IMappers/IUnit.mapper';
 
 export class DisplayAllUnitUseCase implements IDisplayAllUnitUseCase {
     constructor(

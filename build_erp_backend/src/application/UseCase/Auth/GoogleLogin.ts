@@ -7,7 +7,7 @@ import { userLoginDTO } from '../../dto/user.dto';
 import { Tokens } from '../../Entities/token.entity';
 import { googleLoginInput } from '../../Entities/user.entity';
 import { commonOutput } from '../../dto/common';
-import { IUserMapper } from '../../../domain/mappers/IUser.mapper';
+import { IUserMapper } from '../../../domain/IMappers/IUser.mapper';
 import { Role } from '../../../Shared/Constants/Role.constant';
 
 export class GoogleloginUseCase implements IGoogleloginUseCase {

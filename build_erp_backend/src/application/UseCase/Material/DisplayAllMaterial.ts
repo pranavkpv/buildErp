@@ -1,5 +1,5 @@
 import { IMaterialRepository } from '../../../domain/Entities/IRepository/IMaterial';
-import { IMaterialMapper } from '../../../domain/mappers/IMaterial.mapper';
+import { IMaterialMapper } from '../../../domain/IMappers/IMaterial.mapper';
 import { MaterialSuccessMessage } from '../../../Shared/Messages/Material.Message';
 import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { commonOutput } from '../../dto/common';

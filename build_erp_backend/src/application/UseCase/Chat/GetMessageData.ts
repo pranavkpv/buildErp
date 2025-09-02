@@ -4,7 +4,7 @@ import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { commonOutput } from '../../dto/common';
 import { chatDataDTO } from '../../dto/chat.dto';
 import { IChatRepository } from '../../../domain/Entities/IRepository/IChat';
-import { IChatMapper } from '../../../domain/mappers/IChat.mapper';
+import { IChatMapper } from '../../../domain/IMappers/IChat.mapper';
 
 
 export class GetMessageDataUseCase implements IGetMessageDataUseCase {

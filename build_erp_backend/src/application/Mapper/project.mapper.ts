@@ -1,5 +1,5 @@
 import { IProjectModelEntity } from '../../domain/Entities/modelEntities/project.entity';
-import { IProjectmapper } from '../../domain/mappers/IProject.mapper';
+import { IProjectmapper } from '../../domain/IMappers/IProject.mapper';
 import { listAddsiteDTO } from '../dto/addsitemanagerToproject';
 import { displayProjectDTO, fetchProjectIdnameDTO, publicProjectDTO, userBasechatListDTO, userBaseProjectDTO } from '../dto/project.dto';
 import { stageListDTO } from '../dto/stage.dto';

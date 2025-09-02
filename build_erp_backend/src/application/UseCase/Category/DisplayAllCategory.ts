@@ -5,7 +5,7 @@ import { ICategoryRepository } from '../../../domain/Entities/IRepository/ICateg
 import { listingInput } from '../../Entities/common.entity';
 import { commonOutput } from '../../dto/common';
 import { categoryListDTO } from '../../dto/category.dto';
-import { ICategorymapper } from '../../../domain/mappers/ICategory.mapper';
+import { ICategorymapper } from '../../../domain/IMappers/ICategory.mapper';
 
 
 export class DisplayAllCategoryUseCase implements IDisplayAllCategoryUseCase {

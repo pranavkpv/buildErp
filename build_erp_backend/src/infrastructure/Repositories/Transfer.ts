@@ -10,8 +10,8 @@ import { ITransferRepository } from '../../domain/Entities/IRepository/ITransfer
 export class TransferRepository implements ITransferRepository {
 
     // Fetch paginated transfer list for a site manager with search and filters
-    async fetchTransferList(search: string, page: number, id: string): 
-   Promise<{data:listTransferDTO[],totalPage:number}> {
+    async fetchTransferList(search: string, page: number, id: string):
+        Promise<{ data: listTransferDTO[], totalPage: number }> {
         const skip = page * 5;
         const allTransfer = await transferDB.aggregate([
             { $addFields: { fromprojectObjectId: { $toObjectId: '$from_project_id' } } },
@@ -156,8 +156,8 @@ export class TransferRepository implements ITransferRepository {
     }
 
     // Find a transfer by its transfer ID
-    async findTransferBytransferId(transferId: string): 
-   Promise<ITransferModelEntity | null> {
+    async findTransferBytransferId(transferId: string):
+        Promise<ITransferModelEntity | null> {
         const data = await transferDB.findOne({ transferId });
         return data ? data : null;
     }
@@ -211,7 +211,7 @@ export class TransferRepository implements ITransferRepository {
             finalAmount: element.materialDetails.reduce((sum: number, num: materialData) => sum + (num.quantity * num.unit_rate), 0) as number,
         }));
 
-        return neededData ;
+        return neededData;
     }
 
     // Mark transfers as received
@@ -228,5 +228,17 @@ export class TransferRepository implements ITransferRepository {
     async findAllTransfer(): Promise<ITransferModelEntity[]> {
         const data = await transferDB.find({ approval_status: true });
         return data;
+    }
+    //get transfer data by material
+    async getTransferByMaterialId(id: string): Promise<ITransferModelEntity | null> {
+        return await transferDB.findOne({ materialDetails: { $elemMatch: { material_id: id } } })
+    }
+    //get transfer data by project id the project id as from or to project
+    async getTransferByProjectId(id: string): Promise<ITransferModelEntity | null> {
+        return await transferDB.findOne({ $or: [{ from_project_id: id }, { to_project_id: id }] })
+    }
+    //get un approved Transfer details by this project
+    async getUnApprovedTransferByProjectId(id: string): Promise<ITransferModelEntity[]> {
+        return await transferDB.find({from_project_id:id,approval_status:false})
     }
 }

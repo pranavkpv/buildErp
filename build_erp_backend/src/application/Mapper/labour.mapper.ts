@@ -1,5 +1,5 @@
 import { ILabourModelEntity } from '../../domain/Entities/modelEntities/labour.entity';
-import { ILabourMapper } from '../../domain/mappers/ILabour.mapper';
+import { ILabourMapper } from '../../domain/IMappers/ILabour.mapper';
 import { labourDataDisplayDTO } from '../dto/labour.dto';
 
 export class LabourMapper implements ILabourMapper {

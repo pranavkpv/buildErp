@@ -5,7 +5,7 @@ import { IUnitModelEntity } from '../../domain/Entities/modelEntities/unit.entit
 import { IUnitRepository } from '../../domain/Entities/IRepository/IUnit';
 
 export class UnitRepository implements IUnitRepository {
-    
+
     // Fetch all units
     async getAllUnits(): Promise<IUnitModelEntity[]> {
         return await unitDB.find();
@@ -14,7 +14,7 @@ export class UnitRepository implements IUnitRepository {
     // Find unit by name
     async getUnitByName(unitName: string): Promise<IUnitModelEntity | null> {
         return await unitDB.findOne({
-            unit_name: { $regex: new RegExp(`${unitName}$`, 'i') },
+            unit_name: { $regex: new RegExp(`${ unitName }$`, 'i') },
         });
     }
 
@@ -29,7 +29,7 @@ export class UnitRepository implements IUnitRepository {
     async checkUnitExistsOnEdit(id: string, unitName: string): Promise<IUnitModelEntity | null> {
         return await unitDB.findOne({
             _id: { $ne: id },
-            unit_name: { $regex: new RegExp(`${unitName}$`, 'i') },
+            unit_name: { $regex: new RegExp(`${ unitName }$`, 'i') },
         });
     }
 
@@ -41,7 +41,7 @@ export class UnitRepository implements IUnitRepository {
 
     // Delete unit by ID
     async deleteUnit(id: string): Promise<IUnitModelEntity | null> {
-        return await unitDB.findByIdAndDelete(id);
+        return await unitDB.findByIdAndUpdate(id, { blockStatus: true });
     }
 
     // Get paginated list of units
@@ -51,13 +51,11 @@ export class UnitRepository implements IUnitRepository {
         const searchRegex = new RegExp(search, 'i');
 
         const unitList = await unitDB
-            .find({ unit_name: { $regex: searchRegex } })
+            .find({ unit_name: { $regex: searchRegex }, blockStatus: false })
             .skip(skip)
             .limit(5);
 
-        const totalPage = (await unitDB.countDocuments({
-            unit_name: { $regex: searchRegex },
-        })) / 5;
+        const totalPage = Math.ceil(unitList.length / 5)
 
         return { data: unitList, totalPage };
     }

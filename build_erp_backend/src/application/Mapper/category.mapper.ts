@@ -1,5 +1,5 @@
 import { ICategoryModelEntity } from '../../domain/Entities/modelEntities/category.entity';
-import { ICategorymapper } from '../../domain/mappers/ICategory.mapper';
+import { ICategorymapper } from '../../domain/IMappers/ICategory.mapper';
 import { categoryListDTO, idCategorynameDTO } from '../dto/category.dto';
 
 export class categoryMapper implements ICategorymapper {

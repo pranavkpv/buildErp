@@ -39,7 +39,7 @@ export class BrandRepository implements IBrandRepository {
 
     // Delete brand by ID
     async deleteBrand(id: string): Promise<void> {
-        await brandDB.findByIdAndDelete(id);
+        await brandDB.findByIdAndUpdate(id,{blockStatus:true});
     }
 
     // Get brands with pagination and search
@@ -50,17 +50,15 @@ export class BrandRepository implements IBrandRepository {
         const searchRegex = new RegExp(search, 'i');
 
         const brandList = await brandDB
-            .find({ brand_name: { $regex: searchRegex } })
+            .find({ brand_name: { $regex: searchRegex },blockStatus:false })
             .skip(skip)
             .limit(5);
 
-        const totalDocs = await brandDB.countDocuments({
-            brand_name: { $regex: searchRegex },
-        });
+        const totalPage = Math.ceil(brandList.length /5)
 
         return {
             data: brandList,
-            totalPage: Math.ceil(totalDocs / 5),
+            totalPage ,
         };
     }
 }

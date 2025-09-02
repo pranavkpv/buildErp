@@ -1,5 +1,5 @@
 import { ISpecModelEntity } from '../../domain/Entities/modelEntities/spec.entity';
-import { ISpecificationMapper } from '../../domain/mappers/ISpecification.mapper';
+import { ISpecificationMapper } from '../../domain/IMappers/ISpecification.mapper';
 import { specFullDTO } from '../dto/specification.dto';
 
 export class SpecificationMapper implements ISpecificationMapper {

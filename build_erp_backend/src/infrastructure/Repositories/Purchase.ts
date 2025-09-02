@@ -198,4 +198,16 @@ export class PurchaseRepository implements IPurchaseRepository {
         const result = await purchaseDB.findOne({ project_id: id })
         return result
     }
+    //get purchase data exist of material id
+    async getPurchaseByMaterialId(id: string): Promise<IPurchaseModelEntity | null> {
+        return await purchaseDB.findOne({ materialDetails: { $elemMatch: { material_id: id } } })
+    }
+    //get purchase by invoice
+    async getPurchaseByInvoice(invoice: string): Promise<IPurchaseModelEntity | null> {
+        return await purchaseDB.findOne({ invoice_number: invoice })
+    }
+    //get all purchase without aprove by projectId
+    async getUnApprovedPurchaseByProjectId(id: string): Promise<IPurchaseModelEntity[]> {
+        return await purchaseDB.find({project_id:id,approval_status:false})
+    }
 }

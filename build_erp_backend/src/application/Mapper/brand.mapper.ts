@@ -1,5 +1,5 @@
 import { IBrandModelEntity } from '../../domain/Entities/modelEntities/brand.entity';
-import { IBrandmapper } from '../../domain/mappers/IBrand.mapper';
+import { IBrandmapper } from '../../domain/IMappers/IBrand.mapper';
 import { idBrandnameDTO } from '../dto/brand.dto';
 
 export class Brandmapper implements IBrandmapper {

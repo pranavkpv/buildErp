@@ -8,7 +8,7 @@ import { ISaveSpecUseCase } from '../../IUseCases/ISpecification/ISpecificationS
 
 export class SaveSpecUseCase implements ISaveSpecUseCase {
     constructor(
-      private _specRepository: ISpecRepository,
+        private _specRepository: ISpecRepository,
     ) { }
     async execute(input: InputSpecification): Promise<commonOutput> {
         const { specId, specname, specUnit, specDescription,

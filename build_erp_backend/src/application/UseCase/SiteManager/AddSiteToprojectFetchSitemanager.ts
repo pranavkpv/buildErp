@@ -4,7 +4,7 @@ import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { SitemanagerSuccessMessage } from '../../../Shared/Messages/Sitemanager.Message';
 import { FetchsitemanagerInListDTO } from '../../dto/addsitemanagerToproject';
 import { commonOutput } from '../../dto/common';
-import { ISitemanagerMapper } from '../../../domain/mappers/ISitemanager.mapper';
+import { ISitemanagerMapper } from '../../../domain/IMappers/ISitemanager.mapper';
 
 
 export class AddSiteToprojectFetchSitemanagerUseCase implements IAddSiteToprojectFetchSitemanagerUseCase {

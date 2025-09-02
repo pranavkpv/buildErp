@@ -5,7 +5,7 @@ import { IprojectRepository } from '../../../domain/Entities/IRepository/IProjec
 import { listingInput } from '../../Entities/common.entity';
 import { commonOutput } from '../../dto/common';
 import { stageListDTO } from '../../dto/stage.dto';
-import { IProjectmapper } from '../../../domain/mappers/IProject.mapper';
+import { IProjectmapper } from '../../../domain/IMappers/IProject.mapper';
 
 export class FetchStageUsecase implements IFetchStageUsecase {
     constructor(

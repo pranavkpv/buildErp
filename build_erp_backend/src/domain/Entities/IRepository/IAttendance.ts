@@ -31,4 +31,13 @@ export interface IAttendanceRepository {
 
    getApprovedAttendance():
       Promise<IAttendanceModelEntity[]>
+
+   getAttendanceBylabourId(id: string):
+      Promise<IAttendanceModelEntity | null>
+
+   getAttendanceByProjectId(id: string):
+      Promise<IAttendanceModelEntity | null>
+
+   getUnApprovedAttendanceByProjectId(id: string):
+      Promise<IAttendanceModelEntity[]>
 }

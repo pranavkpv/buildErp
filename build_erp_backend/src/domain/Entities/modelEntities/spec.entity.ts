@@ -18,6 +18,7 @@ export interface ISpecModelEntity{
    labourDetails:LabourData[]
    additionalExpense_per:number
    profit_per:number
+   blockStatus: boolean
    createdAt: Date
    updatedAt: Date
 }

@@ -148,4 +148,16 @@ export class AttendanceRepository implements IAttendanceRepository {
     async getApprovedAttendance(): Promise<IAttendanceModelEntity[]> {
         return await attendanceDB.find({ approvalStatus: true });
     }
+    //get attendance detail by project Id
+    async getAttendanceBylabourId(id: string): Promise<IAttendanceModelEntity | null> {
+        return await attendanceDB.findOne({labourDetails:{$elemMatch:{labour_id:id}}})
+    }
+    //get attendance by project id
+    async getAttendanceByProjectId(id: string): Promise<IAttendanceModelEntity | null> {
+        return await attendanceDB.findOne({project_id:id})
+    }
+    // get all un approved attendance
+    async getUnApprovedAttendanceByProjectId(id: string): Promise<IAttendanceModelEntity[]> {
+        return await attendanceDB.find({project_id:id,approvalStatus:false})
+    }
 }

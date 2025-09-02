@@ -4,7 +4,7 @@ import { ILabourRepository } from '../../../domain/Entities/IRepository/ILabour'
 import { IFetchAllLabourUseCase } from '../../IUseCases/ILabour/IFetchAllLabour';
 import { commonOutput } from '../../dto/common';
 import { labourDataDisplayDTO } from '../../dto/labour.dto';
-import { ILabourMapper } from '../../../domain/mappers/ILabour.mapper';
+import { ILabourMapper } from '../../../domain/IMappers/ILabour.mapper';
 
 export class FetchAllLabourUseCase implements IFetchAllLabourUseCase {
     constructor(

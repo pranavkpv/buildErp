@@ -1,5 +1,5 @@
 import { IUnitModelEntity } from '../../domain/Entities/modelEntities/unit.entity';
-import { IUnitMapper } from '../../domain/mappers/IUnit.mapper';
+import { IUnitMapper } from '../../domain/IMappers/IUnit.mapper';
 import { idUnitnameDTO, listUnitDTO } from '../dto/unit.dto';
 
 export class UnitMapper implements IUnitMapper {

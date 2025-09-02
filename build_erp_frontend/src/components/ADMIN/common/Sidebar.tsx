@@ -22,6 +22,12 @@ const sidebarItems = [
     subs: [],
   },
   {
+    title: "Banner",
+    icon: BarChart3,
+    to: "/admin/banner",
+    subs: [],
+  },
+  {
     title: "Estimation",
     icon: Calculator,
     subs: [

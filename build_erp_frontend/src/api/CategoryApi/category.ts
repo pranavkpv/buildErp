@@ -26,7 +26,7 @@ export const categoryList = async (input: listingInput) => {
  * @param _id - category ID
  */
 export const deleteCategoryData = async (_id: string) => {
-  const response = await adminAxios.delete(`/category/${ _id }`);
+  const response = await adminAxios.patch(`/category/${ _id }`);
   return response.data;
 };
 

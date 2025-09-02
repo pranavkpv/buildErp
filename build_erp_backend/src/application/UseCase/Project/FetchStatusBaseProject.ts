@@ -5,7 +5,7 @@ import { fetchprojectInput } from '../../Entities/project.entity';
 import { commonOutput } from '../../dto/common';
 import { publicProjectDTO } from '../../dto/project.dto';
 import { ResponseHelper } from '../../../Shared/responseHelpers/response';
-import { IProjectmapper } from '../../../domain/mappers/IProject.mapper';
+import { IProjectmapper } from '../../../domain/IMappers/IProject.mapper';
 import { ProjectSuccessMessage } from '../../../Shared/Messages/Project.Message';
 
 export class FetchStatusBaseProjectUseCase implements IFetchStatusBaseProjectUseCase {

@@ -27,6 +27,7 @@ import { injectEstimationController } from '../../DI/Estimation';
 import { injectStageController } from '../../DI/Stage';
 import { injectAdminDashboardController } from '../../DI/AdminDashboard';
 import { validateAdminLogin } from '../../../infrastructure/middlewares/validation/admin.validation';
+import { injectedBannerController } from '../../DI/Banner';
 
 
 
@@ -45,7 +46,7 @@ export class AdminRoute {
         // =====================================================================
         // 🟢 AUTH ROUTES
         // =====================================================================
-        this.adminRoute.post('/login', 
+        this.adminRoute.post('/login',
             validateAdminLogin,
             withLogging(injectedAdminController.adminLogin));
 
@@ -85,7 +86,7 @@ export class AdminRoute {
             validateCategoryAction,
             withLogging(injectedCategoryController.updateCategory));
 
-        this.adminRoute.delete('/category/:id',
+        this.adminRoute.patch('/category/:id',
             withLogging(injectedCategoryController.deleteCategory));
 
         // =====================================================================
@@ -102,7 +103,7 @@ export class AdminRoute {
             validateUnitAction,
             withLogging(injectedUnitController.updateUnit));
 
-        this.adminRoute.delete('/unit/:id',
+        this.adminRoute.patch('/unit/:id',
             withLogging(injectedUnitController.deleteUnit));
 
         this.adminRoute.get('/getUnit',
@@ -122,7 +123,7 @@ export class AdminRoute {
             validateBrandAction,
             withLogging(injectedBrandController.updateBrand));
 
-        this.adminRoute.delete('/brand/:id',
+        this.adminRoute.patch('/brand/:id',
             withLogging(injectedBrandController.deleteBrand));
 
         // =====================================================================
@@ -145,7 +146,7 @@ export class AdminRoute {
             validateAddMaterial,
             withLogging(injectedMaterialController.updateMaterial));
 
-        this.adminRoute.delete('/material/:id',
+        this.adminRoute.patch('/material/:id',
             withLogging(injectedMaterialController.deleteMaterial));
 
         this.adminRoute.get('/fetchMaterial',
@@ -206,7 +207,7 @@ export class AdminRoute {
             validateAddLabour,
             withLogging(injectedLabourController.createLabour));
 
-        this.adminRoute.delete('/labour/:id',
+        this.adminRoute.patch('/labour/:id',
             withLogging(injectedLabourController.deleteLabour));
 
         this.adminRoute.put('/labour/:id',
@@ -263,7 +264,7 @@ export class AdminRoute {
         this.adminRoute.get('/fetchSum',
             withLogging(injectSpecController.getLabourMaterialSum));
 
-        this.adminRoute.delete('/deleteSpec/:id',
+        this.adminRoute.patch('/deleteSpec/:id',
             withLogging(injectSpecController.removeSpecification));
 
 
@@ -328,5 +329,23 @@ export class AdminRoute {
 
         this.adminRoute.get('/budgetActualLabour',
             withLogging(injectAdminDashboardController.fetchBudgetVsActualLabour));
+
+
+        // =====================================================================
+        // 🟢 ADD BANNER
+        // =====================================================================
+
+        this.adminRoute.post('/addBanner',
+            withLogging(injectedBannerController.addBanner)
+        )
+        this.adminRoute.get('/banner',
+            withLogging(injectedBannerController.getBanner)
+        )
+        this.adminRoute.put('/banner/:id',
+            withLogging(injectedBannerController.editBanner)
+        )
+        this.adminRoute.delete('/banner/:id',
+            withLogging(injectedBannerController.deleteBanner)
+        )
     }
 }

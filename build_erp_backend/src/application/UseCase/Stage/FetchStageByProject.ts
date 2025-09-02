@@ -1,5 +1,5 @@
 import { IStageRepository } from '../../../domain/Entities/IRepository/IStage';
-import { IStagemapper } from '../../../domain/mappers/IStage.mapper';
+import { IStagemapper } from '../../../domain/IMappers/IStage.mapper';
 import { StageSuccessMessage } from '../../../Shared/Messages/Stage.Message';
 import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { commonOutput } from '../../dto/common';

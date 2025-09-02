@@ -5,7 +5,7 @@ import { IprojectRepository } from '../../../domain/Entities/IRepository/IProjec
 import { listingInput } from '../../Entities/common.entity';
 import { displayProjectDTO } from '../../dto/project.dto';
 import { commonOutput } from '../../dto/common';
-import { IProjectmapper } from '../../../domain/mappers/IProject.mapper';
+import { IProjectmapper } from '../../../domain/IMappers/IProject.mapper';
 
 
 

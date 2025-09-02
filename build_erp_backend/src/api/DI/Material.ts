@@ -18,7 +18,9 @@ import { BrandRepository } from '../../infrastructure/Repositories/Brand';
 import { CategoryRepository } from '../../infrastructure/Repositories/Category';
 import { MaterialRepository } from '../../infrastructure/Repositories/Material';
 import { ProjectStockRepository } from '../../infrastructure/Repositories/ProjectStock';
+import { PurchaseRepository } from '../../infrastructure/Repositories/Purchase';
 import { SpecRepository } from '../../infrastructure/Repositories/Specification';
+import { TransferRepository } from '../../infrastructure/Repositories/Transfer';
 import { UnitRepository } from '../../infrastructure/Repositories/Unit';
 import { MaterialController } from '../controllers/Material';
 
@@ -33,12 +35,14 @@ const categorymapper = new categoryMapper();
 const projectmapper = new ProjectMapper();
 const projectStockRepository = new ProjectStockRepository();
 const specRepository = new SpecRepository();
+const purchaseRepository = new PurchaseRepository()
+const transferRepository = new TransferRepository()
 const displayAllMaterialUseCase = new DisplayAllMaterialUseCase(materialRepository,materialMapper);
 const getAddMaterialUseCase = new DisplayAddMaterialDataUseCase(materialRepository,categoryRepository,brandRepository,unitRepository,unitmapper,brandmapper,categorymapper,projectmapper);
 const saveMaterialUseCase = new AddMaterialUseCase(materialRepository,projectStockRepository);
 const getEditMaterialUseCase = new GetEditMaterialUseCase(materialRepository,projectStockRepository,materialMapper);
 const updateMaterialUseCase = new UpdateMaterialUseCase(materialRepository,projectStockRepository);
-const deleteMaterialUseCase = new DeleteMaterialUseCase(materialRepository,projectStockRepository,specRepository);
+const deleteMaterialUseCase = new DeleteMaterialUseCase(materialRepository,projectStockRepository,specRepository,purchaseRepository,transferRepository);
 const fetchMaterialUseCase = new FetchMaterialUseCase(materialRepository);
 const fetchMaterialByMaterialName = new FetchMaterialByMaterialNameUseCasse(materialRepository);
 const fetchbrandBynameusecase = new FetchBrandByMaterialNameUsecase(materialRepository);

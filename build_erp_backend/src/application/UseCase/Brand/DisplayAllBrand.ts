@@ -1,5 +1,5 @@
 import { IBrandRepository } from '../../../domain/Entities/IRepository/IBrand';
-import { IBrandmapper } from '../../../domain/mappers/IBrand.mapper';
+import { IBrandmapper } from '../../../domain/IMappers/IBrand.mapper';
 import { BrandSuccessMessage } from '../../../Shared/Messages/Brand.Message';
 import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { idBrandnameDTO } from '../../dto/brand.dto';

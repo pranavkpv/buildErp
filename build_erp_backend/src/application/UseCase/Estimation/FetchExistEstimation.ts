@@ -4,7 +4,7 @@ import { IEstimationRepository } from '../../../domain/Entities/IRepository/IEst
 import { EstimationSuccessMessage } from '../../../Shared/Messages/Estimation.Message';
 import { commonOutput } from '../../dto/common';
 import { publicEstimationDTO } from '../../dto/estimation.dto';
-import { IEstimationmapper } from '../../../domain/mappers/IEstimation.mapper';
+import { IEstimationmapper } from '../../../domain/IMappers/IEstimation.mapper';
 
 export class FetchExistEstimationUseCase implements IFetchExistEstimationUseCase {
     constructor(

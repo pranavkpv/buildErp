@@ -1,4 +1,4 @@
-import { IEstimationmapper } from '../../domain/mappers/IEstimation.mapper';
+import { IEstimationmapper } from '../../domain/IMappers/IEstimation.mapper';
 import { listEstimationDTO, publicEstimationDTO, specListInProjectDTO } from '../dto/estimation.dto';
 import { estiomationAggregatebyProject, estiomationAggregateByspec } from '../Entities/estimation.entity';
 

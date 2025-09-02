@@ -38,4 +38,13 @@ export interface ITransferRepository {
    findAllTransfer():
       Promise<ITransferModelEntity[]>
 
+   getTransferByMaterialId(id: string):
+      Promise<ITransferModelEntity | null>
+
+   getTransferByProjectId(id: string):
+      Promise<ITransferModelEntity | null>
+
+   getUnApprovedTransferByProjectId(id: string):
+      Promise<ITransferModelEntity[]>
+
 }

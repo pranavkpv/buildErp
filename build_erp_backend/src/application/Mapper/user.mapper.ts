@@ -1,4 +1,4 @@
-import { IUserMapper } from '../../domain/mappers/IUser.mapper';
+import { IUserMapper } from '../../domain/IMappers/IUser.mapper';
 import { IUserModelEntity } from '../../domain/Entities/modelEntities/user.entity';
 import { userLoginDTO } from '../dto/user.dto';
 

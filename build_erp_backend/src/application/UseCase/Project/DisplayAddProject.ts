@@ -3,7 +3,7 @@ import { userSuccessMessage } from '../../../Shared/Messages/User.Message';
 import { IUserRepository } from '../../../domain/Entities/IRepository/IUser';
 import { commonOutput } from '../../dto/common';
 import { userLoginDTO } from '../../dto/user.dto';
-import { IUserMapper } from '../../../domain/mappers/IUser.mapper';
+import { IUserMapper } from '../../../domain/IMappers/IUser.mapper';
 import { IDisplayAddProjectUseCase } from '../../IUseCases/IProject/IDisplayAddProject';
 
 

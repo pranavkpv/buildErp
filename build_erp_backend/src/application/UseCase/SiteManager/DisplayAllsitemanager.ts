@@ -5,7 +5,7 @@ import { ISitemanagerRepository } from '../../../domain/Entities/IRepository/ISi
 import { commonOutput } from '../../dto/common';
 import { listSitemanagerDTO } from '../../dto/sitemanager.dto';
 import { listingInput } from '../../Entities/common.entity';
-import { ISitemanagerMapper } from '../../../domain/mappers/ISitemanager.mapper';
+import { ISitemanagerMapper } from '../../../domain/IMappers/ISitemanager.mapper';
 
 
 export class DisplayAllSitemanagerUseCase implements IDisplayAllSitemanagerUseCase {

@@ -12,11 +12,9 @@ export class SpecRepository implements ISpecRepository {
         const { page, search } = input;
         const skip = page * 5;
 
-        const totalDocuments = await specDB.countDocuments();
-        const totalPage = Math.ceil(totalDocuments / 5);
 
         const sample = await specDB.aggregate([
-            { $match: { spec_name: { $regex: search, $options: 'i' } } },
+            { $match: { spec_name: { $regex: search, $options: 'i' }, blockStatus: false } },
             { $unwind: '$materialDetails' },
             { $addFields: { 'materialDetails.materialObjectId': { $toObjectId: '$materialDetails.material_id' } } },
             {
@@ -121,6 +119,7 @@ export class SpecRepository implements ISpecRepository {
             { $limit: 5 },
         ]);
 
+        const totalPage = Math.ceil(sample.length / 5);
         return { result: sample, totalPage };
     }
 
@@ -169,7 +168,7 @@ export class SpecRepository implements ISpecRepository {
 
     // Delete spec
     async deleteSpecById(id: string): Promise<void> {
-        await specDB.findByIdAndDelete(id);
+        await specDB.findByIdAndUpdate(id, { blockStatus: true });
     }
 
     // Fetch all specs (no pagination)

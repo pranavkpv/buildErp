@@ -9,9 +9,12 @@ import { EditProjectUseCase } from '../../application/UseCase/Project/EditProjec
 import { FetchProjectUseCase } from '../../application/UseCase/Project/FetchProject';
 import { AddSiteToprojectFetchProjectUseCase } from '../../application/UseCase/SiteManager/AddSiteToprojectFetchProject';
 import { AddSiteToProjectRepository } from '../../infrastructure/Repositories/AddSiteToProject';
+import { AttendanceRepository } from '../../infrastructure/Repositories/Attendance';
 import { EstimationRepository } from '../../infrastructure/Repositories/Estimation';
 import { ProjectRepository } from '../../infrastructure/Repositories/Project';
 import { ProjectStockRepository } from '../../infrastructure/Repositories/ProjectStock';
+import { PurchaseRepository } from '../../infrastructure/Repositories/Purchase';
+import { TransferRepository } from '../../infrastructure/Repositories/Transfer';
 import { UserRepository } from '../../infrastructure/Repositories/User';
 import { ProjectController } from '../controllers/Project';
 
@@ -22,11 +25,14 @@ const userMapper = new UserMapper();
 const projectStockRepository = new ProjectStockRepository();
 const addSiteToprojectRepository = new AddSiteToProjectRepository();
 const estimationRepository = new EstimationRepository();
+const purchaseRepository = new PurchaseRepository()
+const transferRepository = new TransferRepository()
+const attendanceRepository = new AttendanceRepository()
 const fetchProjectUseCase = new FetchProjectUseCase(projectRepository,projectmapper);
 const addSiteToProjectFetchProjectUseCase = new AddSiteToprojectFetchProjectUseCase(addSiteToprojectRepository,projectmapper);
 const displayAddProjectUseCase = new DisplayAddProjectUseCase(userRepository,userMapper);
 const addProjectUseCase = new AddProjectUseCase(projectRepository);
-const deleteProjectUseCase = new DeleteProjectUseCase(projectRepository,projectStockRepository,estimationRepository);
+const deleteProjectUseCase = new DeleteProjectUseCase(projectRepository,projectStockRepository,estimationRepository,purchaseRepository,transferRepository,attendanceRepository);
 const editProjectUseCase = new EditProjectUseCase(projectRepository);
 const displayProjectUseCase = new DisplayAllProjectUseCase(projectRepository,projectmapper);
 const changeStatusUseCase = new ChangeStatusUseCase(projectRepository);

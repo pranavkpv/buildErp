@@ -1,5 +1,5 @@
 import { IMaterialModelEntity } from '../../domain/Entities/modelEntities/material.entity';
-import { IMaterialMapper } from '../../domain/mappers/IMaterial.mapper';
+import { IMaterialMapper } from '../../domain/IMappers/IMaterial.mapper';
 import { EditmaterialDetailsDTO, EditprojectDetailsDTO, listingMaterialDTO, unitRateDTO } from '../dto/material.dto';
 import { editMaterialFullDatafetch } from '../Entities/material.entity';
 import { ProjectStockOutput } from '../Entities/project.entity';

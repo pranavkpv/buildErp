@@ -5,10 +5,10 @@ import { IUnitRepository } from '../../../domain/Entities/IRepository/IUnit';
 import { IDisplayAddMaterialUseCase } from '../../IUseCases/IMaterial/IDisplayAddMaterial';
 import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { MaterialSuccessMessage } from '../../../Shared/Messages/Material.Message';
-import { IUnitMapper } from '../../../domain/mappers/IUnit.mapper';
-import { IBrandmapper } from '../../../domain/mappers/IBrand.mapper';
-import { ICategorymapper } from '../../../domain/mappers/ICategory.mapper';
-import { IProjectmapper } from '../../../domain/mappers/IProject.mapper';
+import { IUnitMapper } from '../../../domain/IMappers/IUnit.mapper';
+import { IBrandmapper } from '../../../domain/IMappers/IBrand.mapper';
+import { ICategorymapper } from '../../../domain/IMappers/ICategory.mapper';
+import { IProjectmapper } from '../../../domain/IMappers/IProject.mapper';
 import { commonOutput } from '../../dto/common';
 import { addMaterialFetch } from '../../Entities/material.entity';
 

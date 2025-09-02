@@ -4,7 +4,7 @@ import { IDisplayAllLabourUsecase } from '../../IUseCases/ILabour/IDisplayAllLoa
 import { ILabourRepository } from '../../../domain/Entities/IRepository/ILabour';
 import { commonOutput } from '../../dto/common';
 import { labourDataDisplayDTO } from '../../dto/labour.dto';
-import { ILabourMapper } from '../../../domain/mappers/ILabour.mapper';
+import { ILabourMapper } from '../../../domain/IMappers/ILabour.mapper';
 
 
 

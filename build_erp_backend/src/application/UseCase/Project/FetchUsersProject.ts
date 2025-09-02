@@ -4,7 +4,7 @@ import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { ProjectSuccessMessage } from '../../../Shared/Messages/Project.Message';
 import { commonOutput } from '../../dto/common';
 import { userBaseProjectDTO } from '../../dto/project.dto';
-import { IProjectmapper } from '../../../domain/mappers/IProject.mapper';
+import { IProjectmapper } from '../../../domain/IMappers/IProject.mapper';
 
 export class FetchUserProjectUseCase implements IFetchUserProjectUseCase {
     constructor(

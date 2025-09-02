@@ -40,5 +40,7 @@ export const SitemanagerFailedMessage = {
 
     PASSWORD_REQUIRED : "Password is required",
     PASSWORD_MIN : "Password length should be greater than 6",
-    PASSWORD_MAX : "Password length should be less than 20"
+    PASSWORD_MAX : "Password length should be less than 20",
+    ADD_PROJECT : "Sitemanager already add to project",
+    DATA_EXIST : "This sitemanagers entry is  pending to approve after approve this deletion is work ..."
 };

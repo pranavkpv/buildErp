@@ -17,5 +17,6 @@ export const PurchaseFailedMessage = {
     DESCRIPTION_LENGTH : "Description length should be less than 100",
     MATERIAL_REQUIRED : "Material is required",
     INVOICE_SIZE :"Invoice number length should be less than 20",
-    DATE_FUTURE : "Future date of purchae is not possible"
+    DATE_FUTURE : "Future date of purchae is not possible",
+    EXIST: "This purchase is already exist"
 };

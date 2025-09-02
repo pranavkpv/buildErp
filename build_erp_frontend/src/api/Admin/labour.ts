@@ -13,7 +13,7 @@ export const postLabour = async (input: addLabourInterface) => {
 // ---------------- Delete Labour ---------------- //
 
 export const deleteLabourData = async (labourId: string) => {
-   const response = await adminAxios.delete(`/labour/${ labourId }`);
+   const response = await adminAxios.patch(`/labour/${ labourId }`);
    return response.data;
 };
 

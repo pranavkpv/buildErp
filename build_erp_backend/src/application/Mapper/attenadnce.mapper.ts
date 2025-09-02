@@ -1,5 +1,5 @@
 import { IAttendanceModelEntity } from '../../domain/Entities/modelEntities/attendance.entity';
-import { IAttendanceMapper } from '../../domain/mappers/IAttendance.mapper';
+import { IAttendanceMapper } from '../../domain/IMappers/IAttendance.mapper';
 import { fetchEditAttendance } from '../Entities/attendance.entity';
 
 export class AttendanceMapper implements IAttendanceMapper {

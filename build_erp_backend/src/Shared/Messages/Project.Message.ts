@@ -9,7 +9,7 @@ export const ProjectSuccessMessage = {
 export const ProjectFailedMessage = {
     NOT_ADD_SITEMANAGER: 'Sitemanager is not addedd this project',
     EXIST_PROJECT: 'Project Already exist',
-    ALREADY_USED: 'This project is already used',
+    ALREADY_USED: 'This project is already material registration or estimation',
     REQUIRED_FIELD: 'project_name, user_id, address, mobile_number, and email are required',
     PROJECT_NAME_CHAR: 'project_name must be a non-empty string',
     PROJECT_NAME_MAX: 'project_name should not exceed 100 characters',
@@ -24,4 +24,7 @@ export const ProjectFailedMessage = {
     DESCRIPTION_MAX: 'description should not exceed 500 characters',
     LATITUDE_CHAR: 'latitude must be a number between -90 and 90',
     LONGITUDE_CHAR: 'longitude must be a number between -180 and 180',
+    USED_purchase : 'Project is already used in purchase',
+    USED_TRANSFER : "Project already used in transfer",
+    USED_ATTENDANCE:"Project is already used in attendance"
 };

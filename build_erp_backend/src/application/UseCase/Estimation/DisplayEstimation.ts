@@ -4,7 +4,7 @@ import { EstimationSuccessMessage } from '../../../Shared/Messages/Estimation.Me
 import { IEstimationRepository } from '../../../domain/Entities/IRepository/IEstimation';
 import { listEstimationDTO } from '../../dto/estimation.dto';
 import { commonOutput } from '../../dto/common';
-import { IEstimationmapper } from '../../../domain/mappers/IEstimation.mapper';
+import { IEstimationmapper } from '../../../domain/IMappers/IEstimation.mapper';
 
 
 export class DisplayEstimationUseCase implements IDisplayEstimationUseCase {

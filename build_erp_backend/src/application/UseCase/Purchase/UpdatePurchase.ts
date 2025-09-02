@@ -8,9 +8,13 @@ import { PurchaseFailedMessage, PurchaseSuccessMessage } from '../../../Shared/M
 
 export class UpdatePurchaseUseCase implements IUpdatePurchaseUseCase {
     constructor(
-      private _purchaseRepository: IPurchaseRepository,
+        private _purchaseRepository: IPurchaseRepository,
     ) { }
     async execute(input: purchaseInput): Promise<commonOutput> {
+        const existInv = await this._purchaseRepository.getPurchaseByInvoice(input.invoice_number)
+        if (existInv) {
+            return ResponseHelper.conflictData(PurchaseFailedMessage.EXIST)
+        }
         const response = await this._purchaseRepository.updatePurchase(input);
         if (!response) {
             return ResponseHelper.badRequest(PurchaseFailedMessage.UPDATE);

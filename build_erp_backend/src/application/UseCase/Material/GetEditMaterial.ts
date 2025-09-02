@@ -4,7 +4,7 @@ import { MaterialFailedMessage, MaterialSuccessMessage } from '../../../Shared/M
 import { IMaterialRepository } from '../../../domain/Entities/IRepository/IMaterial';
 import { IProjectStockRepository } from '../../../domain/Entities/IRepository/IProjectStock';
 import { commonOutput } from '../../dto/common';
-import { IMaterialMapper } from '../../../domain/mappers/IMaterial.mapper';
+import { IMaterialMapper } from '../../../domain/IMappers/IMaterial.mapper';
 import { EditmaterialDetailsDTO, EditprojectDetailsDTO } from '../../dto/material.dto';
 
 

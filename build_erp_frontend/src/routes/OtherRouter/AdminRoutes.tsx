@@ -15,6 +15,7 @@ import Material from "../../components/ADMIN/material/Material";
 import Labourlist from "../../components/ADMIN/labour/Labourlist";
 import SpecList from "../../components/ADMIN/Specification/SpecList";
 import Unit from "../../components/UnitComponent/Unit";
+import ListBanner from "../../components/ADMIN/Banner/ListBanner";
 
 export const AdminRoutes = () => {
   return (
@@ -28,21 +29,22 @@ export const AdminRoutes = () => {
         }
       />
 
-        <Route path="/admin" element={<Adminlayout />}>
-          <Route path="dashboard" element={<AdminbackDashprotected><Dashboard /></AdminbackDashprotected>} />
-          <Route path="project" element={<AdminbackDashprotected><Project /></AdminbackDashprotected>} />
-          <Route path="category" element={<AdminbackDashprotected><Category /></AdminbackDashprotected>} />
-          <Route path="unit" element={<AdminbackDashprotected><Unit /></AdminbackDashprotected>} />
-          <Route path="brand" element={<AdminbackDashprotected><Brand /></AdminbackDashprotected>} />
-          <Route path="material" element={<AdminbackDashprotected><Material /></AdminbackDashprotected>} />
-          <Route path="Labour" element={<AdminbackDashprotected><Labourlist /></AdminbackDashprotected>} />
-          <Route path="Sitemanager" element={<AdminbackDashprotected><SitemanagerList /></AdminbackDashprotected>} />
-          <Route path="addToSite" element={<AdminbackDashprotected><ListSiteToProject /></AdminbackDashprotected>} />
-          <Route path="spec" element={<AdminbackDashprotected><SpecList /></AdminbackDashprotected>} />
-          <Route path="estimation" element={<AdminbackDashprotected><ListEstimation /></AdminbackDashprotected>} />
-          <Route path="stage" element={<AdminbackDashprotected><ListStage /></AdminbackDashprotected>} />
+      <Route path="/admin" element={<Adminlayout />}>
+        <Route path="dashboard" element={<AdminbackDashprotected><Dashboard /></AdminbackDashprotected>} />
+        <Route path="banner" element={<AdminbackDashprotected><ListBanner /></AdminbackDashprotected>} />
+        <Route path="project" element={<AdminbackDashprotected><Project /></AdminbackDashprotected>} />
+        <Route path="category" element={<AdminbackDashprotected><Category /></AdminbackDashprotected>} />
+        <Route path="unit" element={<AdminbackDashprotected><Unit /></AdminbackDashprotected>} />
+        <Route path="brand" element={<AdminbackDashprotected><Brand /></AdminbackDashprotected>} />
+        <Route path="material" element={<AdminbackDashprotected><Material /></AdminbackDashprotected>} />
+        <Route path="Labour" element={<AdminbackDashprotected><Labourlist /></AdminbackDashprotected>} />
+        <Route path="Sitemanager" element={<AdminbackDashprotected><SitemanagerList /></AdminbackDashprotected>} />
+        <Route path="addToSite" element={<AdminbackDashprotected><ListSiteToProject /></AdminbackDashprotected>} />
+        <Route path="spec" element={<AdminbackDashprotected><SpecList /></AdminbackDashprotected>} />
+        <Route path="estimation" element={<AdminbackDashprotected><ListEstimation /></AdminbackDashprotected>} />
+        <Route path="stage" element={<AdminbackDashprotected><ListStage /></AdminbackDashprotected>} />
 
-        </Route>
+      </Route>
 
 
     </Routes>

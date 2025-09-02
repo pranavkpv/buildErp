@@ -4,7 +4,7 @@ import { AttendanceFailedMessage, AttendanceSuccessMessage } from '../../../Shar
 import { IAttendanceRepository } from '../../../domain/Entities/IRepository/IAttendance';
 import { fetchEditAttendance } from '../../Entities/attendance.entity';
 import { commonOutput } from '../../dto/common';
-import { IAttendanceMapper } from '../../../domain/mappers/IAttendance.mapper';
+import { IAttendanceMapper } from '../../../domain/IMappers/IAttendance.mapper';
 
 export class FetchAttendanceByIdUseCase implements IFetchAttendanceByIdUseCase {
     constructor(

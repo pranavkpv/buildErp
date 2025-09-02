@@ -1,5 +1,5 @@
 import { IStageModelEntity } from '../../domain/Entities/modelEntities/stage.entity';
-import { IStagemapper } from '../../domain/mappers/IStage.mapper';
+import { IStagemapper } from '../../domain/IMappers/IStage.mapper';
 import { publicstageDTO } from '../dto/stage.dto';
 
 export class Stagemapper implements IStagemapper {

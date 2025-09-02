@@ -20,8 +20,17 @@ export interface IPurchaseRepository {
 
    getAllApprovedPurchases():
       Promise<IPurchaseModelEntity[]>
-   
-   getPurchaseByProjectId(id:string):
+
+   getPurchaseByProjectId(id: string):
       Promise<IPurchaseModelEntity | null>
+
+   getPurchaseByMaterialId(id: string):
+      Promise<IPurchaseModelEntity | null>
+
+   getPurchaseByInvoice(invoice: string):
+      Promise<IPurchaseModelEntity | null>
+
+   getUnApprovedPurchaseByProjectId(id:string):
+      Promise<IPurchaseModelEntity[]>
 
 }

@@ -20,7 +20,7 @@ export const getbrandList = async (input: listingInput) => {
 // --------------- Delete barnd --------------- //
 
 export const deleteBrandData = async (_id: string) => {
-   const response = await adminAxios.delete(`/brand/${ _id }`);
+   const response = await adminAxios.patch(`/brand/${ _id }`);
    return response.data
 }
 

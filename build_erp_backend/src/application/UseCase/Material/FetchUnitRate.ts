@@ -4,7 +4,7 @@ import { IFetchUnitRateUseCase } from '../../IUseCases/IMaterial/IFetchUnitRate'
 import { IMaterialRepository } from '../../../domain/Entities/IRepository/IMaterial';
 import { commonOutput } from '../../dto/common';
 import { fetchUnitRateInput } from '../../Entities/material.entity';
-import { IMaterialMapper } from '../../../domain/mappers/IMaterial.mapper';
+import { IMaterialMapper } from '../../../domain/IMappers/IMaterial.mapper';
 import { unitRateDTO } from '../../dto/material.dto';
 
 

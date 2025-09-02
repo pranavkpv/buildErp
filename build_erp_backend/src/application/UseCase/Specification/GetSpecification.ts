@@ -4,7 +4,7 @@ import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { SpecSuccessMessage } from '../../../Shared/Messages/Specification.Message';
 import { specFullDTO } from '../../dto/specification.dto';
 import { commonOutput } from '../../dto/common';
-import { ISpecificationMapper } from '../../../domain/mappers/ISpecification.mapper';
+import { ISpecificationMapper } from '../../../domain/IMappers/ISpecification.mapper';
 
 
 export class GetSpecUseCase implements IGetSpecUseCase {

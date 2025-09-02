@@ -4,7 +4,7 @@ import { IListSiteToProjectUseCase } from '../../IUseCases/ISitemanager/IListSit
 import { IAddSiteToProjectRepository } from '../../../domain/Entities/IRepository/IAddSiteToProject';
 import { commonOutput } from '../../dto/common';
 import { listAddsiteDTO } from '../../dto/addsitemanagerToproject';
-import { IProjectmapper } from '../../../domain/mappers/IProject.mapper';
+import { IProjectmapper } from '../../../domain/IMappers/IProject.mapper';
 
 
 

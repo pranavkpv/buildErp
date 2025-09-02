@@ -3,7 +3,7 @@ import { IUserLoginUseCase } from '../../IUseCases/IAuth/IUserLogin';
 import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { IJwtService } from '../../../domain/Entities/Service.Entities/IJwtservice';
 import { userFailedMessage, userSuccessMessage } from '../../../Shared/Messages/User.Message';
-import { IUserMapper } from '../../../domain/mappers/IUser.mapper';
+import { IUserMapper } from '../../../domain/IMappers/IUser.mapper';
 import { loginInput } from '../../Entities/user.entity';
 import { IUserRepository } from '../../../domain/Entities/IRepository/IUser';
 import { commonOutput } from '../../dto/common';

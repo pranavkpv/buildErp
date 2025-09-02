@@ -1,5 +1,5 @@
 import { IEstimationRepository } from '../../../domain/Entities/IRepository/IEstimation';
-import { IEstimationmapper } from '../../../domain/mappers/IEstimation.mapper';
+import { IEstimationmapper } from '../../../domain/IMappers/IEstimation.mapper';
 import { EstimationSuccessMessage } from '../../../Shared/Messages/Estimation.Message';
 import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { commonOutput } from '../../dto/common';

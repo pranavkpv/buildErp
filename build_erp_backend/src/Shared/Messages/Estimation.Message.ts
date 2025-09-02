@@ -10,4 +10,5 @@ export const EstimationFailedMessage = {
     USED_STAGE: 'Stage setup is already completed',
     IMAGE_ADD: 'Must Add Image',
     NO_IMAGE: 'Failed to Image Upload',
+    ALREADY_DONE : "Already estimate the project"
 };

@@ -24,5 +24,8 @@ export interface IReceiveRepository {
 
    getAllApprovedReceives():
       Promise<IReceiveModelEntity[]>
-      
+
+   getUnApprovedReceiveByProjectid(id: string):
+      Promise<IReceiveModelEntity[]>
+
 }

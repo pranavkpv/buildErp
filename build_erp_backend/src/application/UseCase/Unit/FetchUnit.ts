@@ -4,7 +4,7 @@ import { IFetchUnitUseCase } from '../../IUseCases/IUnit/IFetchUnit';
 import { IUnitRepository } from '../../../domain/Entities/IRepository/IUnit';
 import { commonOutput } from '../../dto/common';
 import { idUnitnameDTO } from '../../dto/unit.dto';
-import { IUnitMapper } from '../../../domain/mappers/IUnit.mapper';
+import { IUnitMapper } from '../../../domain/IMappers/IUnit.mapper';
 
 export class FetchUnitUseCase implements IFetchUnitUseCase {
     constructor(

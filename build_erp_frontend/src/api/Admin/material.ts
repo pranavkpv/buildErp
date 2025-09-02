@@ -25,7 +25,7 @@ export const SaveMaterialApi = async (
 // ---------------- Delete Material ---------------- //
 
 export const deleteMaterial = async (_id: string) => {
-  const response = await adminAxios.delete(`/material/${ _id }`);
+  const response = await adminAxios.patch(`/material/${ _id }`);
   return response.data;
 };
 

@@ -97,7 +97,7 @@ export const fetchSum = async (
 // ---------------- Delete Spec ---------------- //
 
 export const DeleteSpecFunction = async (id: string) => {
-      const response = await adminAxios.delete(`/deleteSpec/${ id }`);
+      const response = await adminAxios.patch(`/deleteSpec/${ id }`);
       return response.data;
 };
 

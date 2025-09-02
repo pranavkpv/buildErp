@@ -4,7 +4,7 @@ import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { StageSuccessMessage } from '../../../Shared/Messages/Stage.Message';
 import { commonOutput } from '../../dto/common';
 import { publicstageDTO } from '../../dto/stage.dto';
-import { IStagemapper } from '../../../domain/mappers/IStage.mapper';
+import { IStagemapper } from '../../../domain/IMappers/IStage.mapper';
 
 export class FetchStatusUseCase implements IFetchStatusUseCase {
     constructor(

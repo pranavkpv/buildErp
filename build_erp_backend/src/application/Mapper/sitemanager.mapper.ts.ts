@@ -1,5 +1,5 @@
 import { ISitemanagerModelEntity } from '../../domain/Entities/modelEntities/sitemanager.entity';
-import { ISitemanagerMapper } from '../../domain/mappers/ISitemanager.mapper';
+import { ISitemanagerMapper } from '../../domain/IMappers/ISitemanager.mapper';
 import { FetchsitemanagerInListDTO } from '../dto/addsitemanagerToproject';
 import { listSitemanagerDTO } from '../dto/sitemanager.dto';
 

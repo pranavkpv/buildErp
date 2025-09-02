@@ -28,20 +28,20 @@ export class CategoryRepository implements ICategoryRepository {
 
     // Get paginated list of categories with search
     async getCategoriesWithPagination(input: listingInput):
-      Promise<{ data: ICategoryModelEntity[]; totalPages: number }> {
+        Promise<{ data: ICategoryModelEntity[]; totalPages: number }> {
         const { page, search } = input;
         const limit = 5;
         const skip = page * limit;
         const searchRegex = new RegExp(search, 'i');
 
         const categoryList = await categoryDB
-            .find({ category_name: { $regex: searchRegex } })
+            .find({ category_name: { $regex: searchRegex }, blockStatus: false })
             .skip(skip)
             .limit(limit);
 
-        const totalDocs = await categoryDB.countDocuments({ category_name: { $regex: searchRegex } });
+        const totalPages = Math.ceil(categoryList.length / 5)
 
-        return { data: categoryList, totalPages: Math.ceil(totalDocs / limit) };
+        return { data: categoryList, totalPages };
     }
 
     // Create a new category
@@ -59,7 +59,7 @@ export class CategoryRepository implements ICategoryRepository {
 
     // Delete category by ID
     async deleteCategory(id: string): Promise<ICategoryModelEntity | null> {
-        return await categoryDB.findByIdAndDelete(id);
+        return await categoryDB.findByIdAndUpdate(id, { blockStatus: true });
     }
 
     // Get category by ID

@@ -20,17 +20,17 @@ export class LabourRepository implements ILabourRepository {
 
     //  Fetch paginated labour list with search filter
     async getPaginatedLabourList(input: listingInput):
-      Promise<{ data: ILabourModelEntity[], totalPage: number }> {
+        Promise<{ data: ILabourModelEntity[], totalPage: number }> {
         const { page, search } = input;
         const skip = page * 5;
         const searchRegex = new RegExp(search, 'i');
 
         const labourList = await labourDB
-            .find({ labour_type: { $regex: searchRegex } })
+            .find({ labour_type: { $regex: searchRegex }, blockStatus: false })
             .skip(skip)
             .limit(5);
 
-        const totalPage = await labourDB.countDocuments({ labour_type: { $regex: searchRegex } }) / 5;
+        const totalPage = Math.ceil(labourList.length / 5)
 
         return {
             data: labourList,
@@ -52,7 +52,7 @@ export class LabourRepository implements ILabourRepository {
 
     //  Delete labour by ID
     async deleteLabourById(id: string): Promise<void> {
-        await labourDB.findByIdAndDelete(id);
+        await labourDB.findByIdAndUpdate(id, { blockStatus: true });
     }
 
     //  Check duplicate labour during edit

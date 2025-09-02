@@ -3,7 +3,7 @@ import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { userFailedMessage, userSuccessMessage } from '../../../Shared/Messages/User.Message';
 import { IUserRepository } from '../../../domain/Entities/IRepository/IUser';
 import { commonOutput } from '../../dto/common';
-import { IUserMapper } from '../../../domain/mappers/IUser.mapper';
+import { IUserMapper } from '../../../domain/IMappers/IUser.mapper';
 import { IJwtService } from '../../../domain/Entities/Service.Entities/IJwtservice';
 import { userLoginDTO } from '../../dto/user.dto';
 import { Tokens } from '../../Entities/token.entity';
