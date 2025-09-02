@@ -4,8 +4,8 @@ import fs from 'fs';
 
 const { combine, timestamp, printf, errors, colorize } = format;
 
-const RETENTION_DAYS = 7;
-const LOGS_DIR = path.join(__dirname, '../../logs');
+const RETENTION_DAYS = 5;
+const LOGS_DIR = path.join(__dirname, '../logs');
 
 if (!fs.existsSync(LOGS_DIR)) {
     fs.mkdirSync(LOGS_DIR, { recursive: true });
@@ -14,13 +14,11 @@ if (!fs.existsSync(LOGS_DIR)) {
 const cleanupOldLogs = () => {
     fs.readdir(LOGS_DIR, (err, files) => {
         if (err) return console.error("Error reading log directory:", err);
-
         const now = Date.now();
         files.forEach(file => {
             const filePath = path.join(LOGS_DIR, file);
             fs.stat(filePath, (err, stats) => {
                 if (err) return console.error("Error getting file stats:", err);
-
                 const ageInDays = (now - stats.mtime.getTime()) / (1000 * 60 * 60 * 24);
                 if (ageInDays > RETENTION_DAYS) {
                     fs.unlink(filePath, err => {

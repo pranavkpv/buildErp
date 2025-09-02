@@ -4,6 +4,8 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { login } from "../../redux/slice/authslice";
 import { UpdateProfileAPI } from "../../api/userprofile";
+import EditEmailModal from "./SubprofileCompponent/EditEmailModal";
+import EditVarifyOTPModal from "./SubprofileCompponent/EditVerifyOTPModal";
 
 
 function ProfileEdit() {
@@ -15,26 +17,29 @@ function ProfileEdit() {
   const [email, setEmail] = useState(user?.email || "");
   const [phone, setPhone] = useState(user?.phone || 0);
 
+  const [emailEnable, setEmailEnable] = useState<boolean>(false)
+  const [OtpEnable, setOtpEnable] = useState<boolean>(false)
+
   const updateProfile = async () => {
     if (!user?._id || !username || !email || !phone) {
       toast.error("The Required Field is Missing");
       return;
     }
-      const response = await UpdateProfileAPI({username, email, phone});
-      if (response.success) {
-        toast.success(response.message);
-        dispatch(login({
-          _id: response.data._id,
-          username: response.data.username,
-          email: response.data.email,
-          phone: response.data.phone,
-          profile_image: response.data?.profile_image,
-          token: localStorage.getItem("accessToken") || "",
-        }));
-        setEditAccess(false);
-      } else {
-        toast.error(response.message);
-      }
+    const response = await UpdateProfileAPI({ username, email, phone });
+    if (response.success) {
+      toast.success(response.message);
+      dispatch(login({
+        _id: response.data._id,
+        username: response.data.username,
+        email: response.data.email,
+        phone: response.data.phone,
+        profile_image: response.data?.profile_image,
+        token: localStorage.getItem("accessToken") || "",
+      }));
+      setEditAccess(false);
+    } else {
+      toast.error(response.message);
+    }
   };
 
   const handleCancel = () => {
@@ -52,7 +57,7 @@ function ProfileEdit() {
         <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
           {/* Cover/Header Area */}
           <div className="h-32 bg-gradient-to-r from-teal-500 to-teal-600"></div>
-          
+
           {/* Profile Content */}
           <div className="relative px-6 pb-6">
             {/* Profile Image */}
@@ -70,14 +75,14 @@ function ProfileEdit() {
                   </div>
                 )}
               </div>
-              
+
               {/* Name and Edit Button */}
               <div className="sm:ml-6 text-center sm:text-left flex-1">
                 <h1 className="text-3xl font-bold text-gray-800 mb-2">
                   {user?.username || "User"}
                 </h1>
                 <p className="text-gray-600 mb-4">Member Profile</p>
-                
+
                 {!editAccess && (
                   <button
                     onClick={() => setEditAccess(true)}
@@ -98,7 +103,7 @@ function ProfileEdit() {
                   <h2 className="text-xl font-semibold text-gray-800 mb-6">
                     {editAccess ? "Edit Profile Information" : "Profile Information"}
                   </h2>
-                  
+
                   <div className="space-y-6">
                     <div>
                       <label
@@ -124,30 +129,47 @@ function ProfileEdit() {
                       )}
                     </div>
 
-                    <div>
+                    <div className="space-y-2">
                       <label
                         htmlFor="email"
-                        className="block text-sm font-medium text-gray-700 mb-2"
+                        className="block text-sm font-medium text-gray-700"
                       >
                         Email Address
                       </label>
+
                       {editAccess ? (
                         <input
+                          readOnly
                           type="email"
                           id="email"
                           value={email}
                           onChange={(e) => setEmail(e.target.value)}
                           placeholder="Enter email"
-                          className="w-full px-4 py-3 rounded-lg border border-gray-200 text-gray-800
-                            focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all duration-200 bg-white"
+                          className="w-full px-4 py-3 rounded-lg border border-gray-300 text-gray-800 
+        focus:ring-2 focus:ring-teal-500 focus:border-teal-500 
+        transition-all duration-200 bg-white shadow-sm"
                         />
                       ) : (
-                        <div className="w-full px-4 py-3 rounded-lg bg-white border border-gray-200 text-gray-800">
+                        <div
+                          className="w-full px-4 py-3 rounded-lg bg-gray-50 border border-gray-300 
+        text-gray-800 shadow-sm"
+                        >
                           {user?.email || "Not provided"}
                         </div>
                       )}
-                    </div>
 
+                      <button
+                        type="button"
+                        onClick={() => setEmailEnable(true)}
+                        className="inline-flex items-center px-3 py-2 text-sm font-medium 
+      text-teal-600 hover:text-teal-800 
+      bg-teal-50 hover:bg-teal-100 
+      border border-teal-200 rounded-md 
+      transition-colors duration-200"
+                      >
+                        ✏️ Edit
+                      </button>
+                    </div>
                     <div>
                       <label
                         htmlFor="phone"
@@ -194,9 +216,18 @@ function ProfileEdit() {
                     )}
                   </div>
                 </div>
-              </div>     
+              </div>
             </div>
           </div>
+          <EditEmailModal
+            emailEnable={emailEnable}
+            setEmailEnable={setEmailEnable}
+            setOtpEnable={setOtpEnable}
+          />
+          <EditVarifyOTPModal
+            setOtpEnable={setOtpEnable}
+            OtpEnable={OtpEnable}
+          />
         </div>
       </div>
     </div>

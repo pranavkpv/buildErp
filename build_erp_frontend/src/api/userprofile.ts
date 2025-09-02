@@ -54,6 +54,23 @@ export const userLogout = async () => {
 
 
 
+export const editEmailApi = async (email: string) => {
+   const response = await userAxios.post('/editEmail', { email })
+   return response.data
+}
+
+export const resendForUpadteEmailApi = async () => {
+   const response = await userAxios.post('/editEmailresend')
+   return response.data
+}
+
+export const verifyEditEmailOTP = async(otp:string)=>{
+   const response = await userAxios.post('/editEmailVerify',{otp})
+   return response.data
+}
+
+
+
 
 
 

@@ -11,6 +11,7 @@ export const adminMiddleWare = (jwtService: JwtService) => {
         const adminHeader = req.headers.authorization;
         const accessToken = adminHeader?.split(' ')[1];
         const refreshToken = req.cookies?.refreshToken;
+        console.log(accessToken)
         if (!accessToken) {
             res.status(HTTP_STATUS.UNAUTHORIZED).json({ success:false,message: AuthErrorMessage.NO_TOKEN });
             return;

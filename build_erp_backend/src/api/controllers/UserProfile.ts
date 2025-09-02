@@ -17,22 +17,28 @@ import { chatDataDTO } from '../../application/dto/chat.dto';
 import { IGetMessageDataUseCase } from '../../application/IUseCases/IChat/IGetmessageData';
 import { userFailedMessage, userSuccessMessage } from '../../Shared/Messages/User.Message';
 import { IBlackListUseCase } from '../../application/IUseCases/IAuth/IBlackList';
+import { IEditEmailUseCase } from '../../application/IUseCases/IUserProfile/IEditEmail';
+import { IEditEmailResendOTPUseCase } from '../../application/IUseCases/IUserProfile/IEditEmailResendOTP';
+import { IEditEmailVerifyOtpUseCase } from '../../application/IUseCases/IUserProfile/IEditEmailVerifyOtp';
 
 export class UserProfileController implements IUserprofileController {
     constructor(
-      private _jwtservice: IJwtService,
-      private _updateProfileUseCase: IUpdateProfileUseCase,
-      private _updateProfileImageUseCase: IUpdateProfileImageUseCase,
-      private _changePasswordUseCase: IChangePasswordUseCase,
-      private _fetchUserprojectUseCase: IFetchUserProjectUseCase,
-      private _getChatListUseCase: IGetSitemanagerListDataUseCase,
-      private _getMessagesUseCase: IGetMessageDataUseCase,
-      private _blacklistUsecase: IBlackListUseCase,
+        private _jwtservice: IJwtService,
+        private _updateProfileUseCase: IUpdateProfileUseCase,
+        private _updateProfileImageUseCase: IUpdateProfileImageUseCase,
+        private _changePasswordUseCase: IChangePasswordUseCase,
+        private _fetchUserprojectUseCase: IFetchUserProjectUseCase,
+        private _getChatListUseCase: IGetSitemanagerListDataUseCase,
+        private _getMessagesUseCase: IGetMessageDataUseCase,
+        private _blacklistUsecase: IBlackListUseCase,
+        private _editEmailUseCase: IEditEmailUseCase,
+        private _editEmailResendOTPUseCase: IEditEmailResendOTPUseCase,
+        private _editEmailVerifyOTPUseCase: IEditEmailVerifyOtpUseCase
     ) { }
 
     // Update user profile details
-    updateProfile = async(req: Request, res: Response, next: NextFunction):
-      Promise<commonOutput<{ userData: userLoginDTO; tokens: Tokens }> | commonOutput | void> => {
+    updateProfile = async (req: Request, res: Response, next: NextFunction):
+        Promise<commonOutput<{ userData: userLoginDTO; tokens: Tokens }> | commonOutput | void> => {
         try {
             const userHeader = req.headers.authorization;
             const accessToken = userHeader?.split(' ')[1];
@@ -48,8 +54,8 @@ export class UserProfileController implements IUserprofileController {
     };
 
     // Update user profile image
-    updateProfileImage = async(req: Request, res: Response, next: NextFunction):
-      Promise<commonOutput<{ userData: userLoginDTO; tokens: Tokens }> | commonOutput | void> => {
+    updateProfileImage = async (req: Request, res: Response, next: NextFunction):
+        Promise<commonOutput<{ userData: userLoginDTO; tokens: Tokens }> | commonOutput | void> => {
         try {
             const files = req.files as FileArray;
             const file = files?.file as UploadedFile | undefined;
@@ -71,8 +77,8 @@ export class UserProfileController implements IUserprofileController {
     };
 
     // Change user password
-    changePassword = async(req: Request, res: Response, next: NextFunction):
-      Promise<commonOutput | void> => {
+    changePassword = async (req: Request, res: Response, next: NextFunction):
+        Promise<commonOutput | void> => {
         try {
             const userHeader = req.headers.authorization;
             const accessToken = userHeader?.split(' ')[1];
@@ -88,8 +94,8 @@ export class UserProfileController implements IUserprofileController {
     };
 
     // Fetch user assigned projects
-    fetchProjects = async(req: Request, res: Response, next: NextFunction):
-      Promise<commonOutput<userBaseProjectDTO[]> | commonOutput | void> => {
+    fetchProjects = async (req: Request, res: Response, next: NextFunction):
+        Promise<commonOutput<userBaseProjectDTO[]> | commonOutput | void> => {
         try {
             const userHeader = req.headers.authorization;
             const accessToken = userHeader?.split(' ')[1];
@@ -105,8 +111,8 @@ export class UserProfileController implements IUserprofileController {
     };
 
     // Fetch chat list for the user
-    fetchChatList = async(req: Request, res: Response, next: NextFunction):
-      Promise<commonOutput<userBasechatListDTO[]> | commonOutput | void> => {
+    fetchChatList = async (req: Request, res: Response, next: NextFunction):
+        Promise<commonOutput<userBasechatListDTO[]> | commonOutput | void> => {
         try {
             const userHeader = req.headers.authorization;
             const accessToken = userHeader?.split(' ')[1];
@@ -121,8 +127,8 @@ export class UserProfileController implements IUserprofileController {
     };
 
     // Fetch messages with a site manager
-    fetchMessages = async(req: Request, res: Response, next: NextFunction):
-      Promise<commonOutput<chatDataDTO[]> | commonOutput | void> => {
+    fetchMessages = async (req: Request, res: Response, next: NextFunction):
+        Promise<commonOutput<chatDataDTO[]> | commonOutput | void> => {
         try {
             const userHeader = req.headers.authorization;
             const accessToken = userHeader?.split(' ')[1];
@@ -139,8 +145,8 @@ export class UserProfileController implements IUserprofileController {
     };
 
     // Logout user and blacklist access token
-    logout = async(req: Request, res: Response, next: NextFunction):
-      Promise<commonOutput | void> => {
+    logout = async (req: Request, res: Response, next: NextFunction):
+        Promise<commonOutput | void> => {
         try {
             const userHeader = req.headers.authorization;
             const accessToken = userHeader?.split(' ')[1];
@@ -165,4 +171,37 @@ export class UserProfileController implements IUserprofileController {
             next(error);
         }
     };
+    editEmail = async (req: Request, res: Response, next: NextFunction):
+        Promise<commonOutput | void> => {
+        try {
+            const userHeader = req.headers.authorization;
+            const accessToken = userHeader?.split(' ')[1];
+            if (!accessToken) return ResponseHelper.unAuthor();
+
+            const payload = await this._jwtservice.verifyAccessToken(accessToken);
+            if (!payload) return ResponseHelper.unAuthor()
+            const result = await this._editEmailUseCase.execute(req.body.email,payload._id)
+            return result
+        } catch (error) {
+            next(error)
+        }
+    };
+    editEmailResendOtp = async (req: Request, res: Response, next: NextFunction):
+        Promise<commonOutput | void> => {
+        try {
+            const result = await this._editEmailResendOTPUseCase.execute()
+            return result
+        } catch (error) {
+            next(error)
+        }
+    }
+    editEmailVerifyOTP = async (req: Request, res: Response, next: NextFunction):
+        Promise<commonOutput<userLoginDTO> | commonOutput | void> => {
+        try {
+            const result = await this._editEmailVerifyOTPUseCase.execute(req.body.otp)
+            return result
+        } catch (error) {
+            next(error)
+        }
+    }
 }

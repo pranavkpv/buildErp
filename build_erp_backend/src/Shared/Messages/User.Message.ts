@@ -30,7 +30,8 @@ export const userFailedMessage = {
     TOKEN_BLACK_LIST:"This token expires so you can't accessible",
     TOKEN_EXPIRE:'This token is expire tyr again',
     NOT_NEED:'This user is logged in with Google authentication, so changing the password is not required',
-    PASSWORD_REQUIRED :"Password is required"
+    PASSWORD_REQUIRED :"Password is required",
+    FAILED_UPDATE_EMAIL:"Failed to update user email"
 }; 
 
 export const userSuccessMessage = {

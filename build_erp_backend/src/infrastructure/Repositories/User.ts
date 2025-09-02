@@ -3,7 +3,7 @@ import { IUserModelEntity } from '../../domain/Entities/modelEntities/user.entit
 import { ITempUserModelEntity } from '../../domain/Entities/modelEntities/tempUser.entity';
 import { IUserRepository } from '../../domain/Entities/IRepository/IUser';
 import redis from '../database/Redis';
-import { googleLoginInput, updateprofileInput, userSignupinput, usertempSaveInput } from '../../application/Entities/user.entity';
+import { googleLoginInput, UpdateEmailRedisData, updateprofileInput, userSignupinput, usertempSaveInput } from '../../application/Entities/user.entity';
 import { googleAuthPassword } from '../../Shared/Constants/Character.constant';
 
 export class UserRepository implements IUserRepository {
@@ -30,7 +30,7 @@ export class UserRepository implements IUserRepository {
 
     // Get a non-Google-authenticated user by email 
     async getAuthUserByEmail(email: string): Promise<IUserModelEntity | null> {
-        const existUser = await userDB.findOne({ email, password: googleAuthPassword  });
+        const existUser = await userDB.findOne({ email, password: googleAuthPassword });
         return existUser;
     }
     //   Get a Google-authenticated user by email 
@@ -94,7 +94,7 @@ export class UserRepository implements IUserRepository {
 
         return tempUser;
     }
- 
+
     // Delete a temporary user by email from Redis 
     async deleteTempUserByEmail(email: string): Promise<void> {
         const key = `tempUser:${ email }`;
@@ -125,5 +125,21 @@ export class UserRepository implements IUserRepository {
         await redis.set(`blackList:${ accessToken }`, 'success');
         await redis.expire(`blackList:${ accessToken }`, 300);
         return true;
+    }
+    async saveOTpAndTime(otp: string, otpCreatedAt: Date, email: string, id: string): Promise<void> {
+        const data = JSON.stringify({ otp, otpCreatedAt, email, id });
+        await redis.set("userUpdateData", data);
+    }
+    async getredisDataInUpdateEmail(): Promise<UpdateEmailRedisData> {
+        const data = await redis.get("userUpdateData")
+        if (!data) {
+            throw new Error("No data found to update");
+        }
+        const parsed = JSON.parse(data);
+        return parsed
+    }
+    async updateUserEmail(email: string, id: string): Promise<IUserModelEntity | null> {
+        const data = await userDB.findByIdAndUpdate(id, { email })
+        return data
     }
 }

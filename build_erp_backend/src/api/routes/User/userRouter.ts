@@ -54,7 +54,23 @@ export class userRoute {
         this.userRoute.post(
             '/logout',
             withLogging(injecteduserprofileController.logout),
-        ); 
+        );
+
+        this.userRoute.post(
+            '/editEmail',
+            withLogging(injecteduserprofileController.editEmail),
+        );
+
+        this.userRoute.post(
+            '/editEmailresend',
+            withLogging(injecteduserprofileController.editEmailResendOtp),
+        );
+
+        this.userRoute.post(
+            '/editEmailVerify',
+            withLogging(injecteduserprofileController.editEmailVerifyOTP),
+        );
+
 
     }
 }

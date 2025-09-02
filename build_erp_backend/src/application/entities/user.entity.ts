@@ -32,10 +32,18 @@ export interface updateprofileInput extends userSignupinput {
 }
 
 export interface updatePasswordInput {
-   _id:string
+   _id: string
    email: string
    currentpassword: string
    password: string
+}
+
+
+export interface UpdateEmailRedisData {
+   email: string
+   otp: string
+   otpCreatedAt: Date
+   id:string
 }
 
 

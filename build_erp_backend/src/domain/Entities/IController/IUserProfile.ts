@@ -28,4 +28,13 @@ export interface IUserprofileController {
     fetchMessages(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<chatDataDTO[]> | commonOutput | void>;
 
+    editEmail(req: Request, res: Response, next: NextFunction):
+        Promise<commonOutput | void>;
+
+    editEmailResendOtp(req: Request, res: Response, next: NextFunction):
+        Promise<commonOutput | void>
+
+    editEmailVerifyOTP(req: Request, res: Response, next: NextFunction):
+        Promise<commonOutput<userLoginDTO> | commonOutput | void> 
+
 }

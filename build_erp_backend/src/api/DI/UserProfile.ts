@@ -7,6 +7,9 @@ import { GetMessageDataUseCase } from '../../application/UseCase/Chat/GetMessage
 import { FetchUserProjectUseCase } from '../../application/UseCase/Project/FetchUsersProject';
 import { GetSitemanagerListDataUseCase } from '../../application/UseCase/Project/GetSitemanagerList';
 import { ChangePasswordUsecase } from '../../application/UseCase/UserProfile/ChangePassword';
+import { EditEmailUseCase } from '../../application/UseCase/UserProfile/EditEmail';
+import { EditEmailResendOTPUseCase } from '../../application/UseCase/UserProfile/EditEmailResendOTP';
+import { EditEmailVerifyOtpUseCase } from '../../application/UseCase/UserProfile/EditEmailVerifyOtp';
 import { UpdateProfileUsecase } from '../../application/UseCase/UserProfile/UpdateProfile';
 import { UpdateProfileImageUseCase } from '../../application/UseCase/UserProfile/UpdateProfileImage';
 import { BcryptHasher } from '../../infrastructure/Repositories/BcryptHasher';
@@ -30,4 +33,8 @@ const fetchUserprojectUseCase = new FetchUserProjectUseCase(projectRepository,pr
 const getChatListUseCase = new GetSitemanagerListDataUseCase(projectRepository,projectmapper);
 const getMessagesUseCase = new GetMessageDataUseCase(chatRepository,chatmapper);
 const blacklistUsecase = new BlackListUsecase(userRepository);
-export const injecteduserprofileController = new UserProfileController(jwtservice,updateProfileUseCase,updateProfileImageUseCase,changePasswordUseCase,fetchUserprojectUseCase,getChatListUseCase,getMessagesUseCase,blacklistUsecase);
+const editEmailUseCase = new EditEmailUseCase(userRepository);
+const editEmailResendOTPUseCase = new EditEmailResendOTPUseCase(userRepository)
+const editEmailVerifyOTPUseCase = new EditEmailVerifyOtpUseCase(userRepository,userMapper)
+export const injecteduserprofileController = new UserProfileController(jwtservice,updateProfileUseCase,updateProfileImageUseCase,changePasswordUseCase,
+   fetchUserprojectUseCase,getChatListUseCase,getMessagesUseCase,blacklistUsecase,editEmailUseCase,editEmailResendOTPUseCase,editEmailVerifyOTPUseCase);
