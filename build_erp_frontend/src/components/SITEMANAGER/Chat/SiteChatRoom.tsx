@@ -1,102 +1,187 @@
 import { jwtDecode } from "jwt-decode";
 import { socket } from "../../../api/socket";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { fetchMessagesApiInSitemanager } from "../../../api/Sitemanager/profile";
-
-
 
 interface Message {
    id: string;
    message: string;
    senderId: string;
-   receiverId: string
+   receiverId: string;
    createdAt: Date;
 }
 
 interface ChatRoomProps {
    username: string;
-   userId: string | null
+   userId: string | null;
+}
+
+interface DecodedToken {
+   _id: string
+   username: string
+   role: string
+   iat: number
+   exp: number
 }
 
 function SiteChatRoom({ username, userId }: ChatRoomProps) {
    const [messages, setMessages] = useState<Message[]>([]);
    const [newMessage, setNewMessage] = useState<string>("");
+   const [decoded, setDecoded] = useState<DecodedToken | null>(null);
 
-   const accessToken = localStorage.getItem("accessToken")
-   if(accessToken){
-        var decoded:{userId:string} = jwtDecode(accessToken);
-   }else{
-      return
-   }
-
-
-   const messageFetch = async () => {
-      const response = await fetchMessagesApiInSitemanager(userId)
-      if (response.success) {
-         setMessages(response.data)
-      }
-   }
-
+   // Handle token decoding
    useEffect(() => {
-      messageFetch();
-      socket.emit("joinRoom", { senderId: decoded?.userId, receiverId: userId });
-      socket.on("receiveMessage", (message) => {
-         setMessages(prev => [...prev, message]);
-      });
-      return () => {
-         socket.off("receiveMessage");
-      };
+      const accessToken = localStorage.getItem("accessToken");
+      if (accessToken) {
+         try {
+            const decodedToken: DecodedToken = jwtDecode(accessToken);
+            setDecoded(decodedToken)
+         } catch (error) {
+            toast.error("Invalid access token");
+            console.error("Error decoding token:", error);
+         }
+      } else {
+         toast.error("No access token found");
+      }
+   }, []);
 
-   }, [userId]);
-   const handleSendMessage = () => {
-      console.log(decoded?.userId)
-      console.log(userId)
-      if (newMessage.trim()) {
-         socket.emit("sendMessage", { senderId: decoded?.userId, receiverId: userId, message: newMessage });
-         setNewMessage("");
+   // Fetch messages
+   const messageFetch = async () => {
+      if (!userId) {
+         toast.error("No user selected for chat");
+         return;
+      }
+      try {
+         const response = await fetchMessagesApiInSitemanager(userId);
+         console.log(response)
+         if (response.success) {
+            setMessages(response.data ?? []);
+         } else {
+            toast.error(response.message);
+         }
+      } catch (error) {
+         toast.error("Failed to fetch messages");
+         console.error("Error fetching messages:", error);
       }
    };
 
+   // Join chat room and handle real-time messages
+   useEffect(() => {
+      if (!decoded?._id || !userId) {
+         return
+      };
+
+      messageFetch();
+      socket.emit("joinRoom", { senderId: decoded._id, receiverId: userId });
+      socket.on("receiveMessage", (message: Message) => {
+         setMessages((prev) => [...prev, { ...message, createdAt: new Date(message.createdAt) }]);
+      });
+
+      return () => {
+         socket.off("receiveMessage");
+      };
+   }, [decoded?._id, userId]);
+
+   // Send message
+   const handleSendMessage = (e: React.FormEvent) => {
+      e.preventDefault();
+      if (!newMessage.trim()) {
+         toast.error("Message cannot be empty");
+         return;
+      }
+      if (!decoded?._id || !userId) {
+         toast.error("Cannot send message: Invalid user");
+         return;
+      }
+      socket.emit("sendMessage", {
+         senderId: decoded._id,
+         receiverId: userId,
+         message: newMessage,
+      });
+      setNewMessage("");
+   };
+
+
+
+   if (!decoded || !userId) {
+      return (
+         <div className="flex items-center justify-center h-full bg-gray-800/90 rounded-xl">
+            <p className="text-base text-gray-400">Unable to load chat. Please try again.</p>
+         </div>
+      );
+   }
+
+   const convertTime = (date: Date) => {
+      const TimeInString = String(date).split("T")[1].split(".")[0].split(":").slice(0, 2)
+      if (Number(TimeInString[0]) < 12) {
+         return TimeInString.join(":") + "AM"
+      } else if (Number(TimeInString[0]) % 12 != 0){
+          TimeInString[0]=0+String(Number(TimeInString[0]) % 12)
+          return TimeInString.join(":") + "PM"
+      }else if(Number(TimeInString[0])==12){
+         return TimeInString.join(":") + "PM"
+      }else{
+         TimeInString[0]="12"
+          return TimeInString.join(":") + "AM"
+      }
+   }
+
    return (
-      <div className="h-full flex flex-col">
-         <h2 className="text-2xl font-bold text-teal-600 mb-6">
+      <div className="h-full flex flex-col bg-gray-800/90 backdrop-blur-sm rounded-xl border border-gray-700/50 p-6">
+         <h2 className="text-xl font-semibold text-gray-100 mb-6">
             Chat with {username}
          </h2>
-         <div className="flex-1 overflow-y-auto bg-slate-100 rounded-lg p-4 space-y-4 mb-4">
-            {messages.map((msg) => (
-               <div
-                  key={msg.id}
-                  className={`flex ${ msg.senderId === decoded?.userId ? "justify-end" : "justify-start" }`}
-               >
+         <div
+            className="flex-1 overflow-y-auto bg-gray-800/50 rounded-lg p-4 space-y-4 mb-4"
+            role="log"
+            aria-live="polite"
+         >
+            {messages.length === 0 ? (
+               <div className="text-center text-gray-400 text-sm">
+                  No messages yet. Start the conversation!
+               </div>
+            ) : (
+               messages.map((msg) => (
                   <div
-                     className={`max-w-xs p-3 rounded-lg ${ msg.senderId === decoded?.userId
-                        ? "bg-teal-500 text-white"
-                        : "bg-white text-slate-800"
+                     key={msg.id}
+                     className={`flex ${ msg.senderId === decoded._id ? "justify-end" : "justify-start"
                         }`}
                   >
-                     <p>{msg.message}</p>
-                     <p className="text-xs text-slate-900 mt-1">
-                        {msg.createdAt.toString()}
-                     </p>
+                     <div
+                        className={`max-w-xs p-3 rounded-lg shadow-md ${ msg.senderId === decoded._id
+                           ? "bg-teal-600/90 text-gray-100"
+                           : "bg-gray-700/50 text-gray-100"
+                           }`}
+                     >
+                        <p>{msg.message}</p>
+                        <p className="text-xs text-gray-400 mt-1">
+                           {convertTime(msg.createdAt)}
+                        </p>
+                     </div>
                   </div>
-               </div>
-            ))}
+               ))
+            )}
          </div>
-         <div className="flex">
+         <form onSubmit={handleSendMessage} className="flex items-center gap-2">
+            <label htmlFor="messageInput" className="sr-only">
+               Type your message
+            </label>
             <input
+               id="messageInput"
                type="text"
                value={newMessage}
                onChange={(e) => setNewMessage(e.target.value)}
                placeholder="Type your message..."
-               className="flex-1 p-3 border border-slate-300 rounded-l-lg focus:outline-none focus:border-teal-500"
+               className="flex-1 px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent transition-all duration-200 placeholder:text-gray-400 text-gray-100 text-sm"
             />
             <button
-               onClick={handleSendMessage}
-               className="px-6 py-3 bg-teal-500 text-white rounded-r-lg hover:bg-teal-600 transition-colors duration-300"
+               type="submit"
+               className="px-6 py-3 bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white rounded-lg shadow-md hover:shadow-xl transition-all duration-200 text-sm font-semibold"
             >
                Send
             </button>
-         </div>
+         </form>
       </div>
    );
 }

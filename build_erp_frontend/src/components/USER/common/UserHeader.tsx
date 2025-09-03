@@ -26,7 +26,7 @@ function UserHeader() {
         setUser(false)
       }
     }
-  },[])
+  }, [])
   const navigate = useNavigate();
   const toggleMenu = (): void => {
     setIsMenuOpen(!isMenuOpen);
@@ -66,12 +66,12 @@ function UserHeader() {
             >
               Services
             </a>
-            <a
-              href="#contact"
+            <Link
+              to="/contact"
               className="text-white hover:text-[#22d6d1] transition-colors duration-200 text-lg font-medium nav-link"
             >
               Contact
-            </a>
+            </Link>
             {user ? (
               <>
                 <Link

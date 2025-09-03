@@ -4,6 +4,7 @@ import { userMiddleware } from '../../../infrastructure/middlewares/userMiddlewa
 import { withLogging } from '../../../infrastructure/middlewares/withLoggingMiddleware';
 import { validatechangePassword, validateUpdateprofile, validateUpdateProfileImage } from '../../../infrastructure/middlewares/validation/userprofile.validation';
 import { injecteduserprofileController } from '../../DI/UserProfile';
+import { injectedBannerController } from '../../DI/Banner';
 
 export class userRoute {
     public userRoute: Router;
@@ -70,7 +71,5 @@ export class userRoute {
             '/editEmailVerify',
             withLogging(injecteduserprofileController.editEmailVerifyOTP),
         );
-
-
     }
 }

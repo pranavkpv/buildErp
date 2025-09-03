@@ -7,6 +7,7 @@ import { DisplayAddProjectUseCase } from '../../application/UseCase/Project/Disp
 import { DisplayAllProjectUseCase } from '../../application/UseCase/Project/DisplayAllProject';
 import { EditProjectUseCase } from '../../application/UseCase/Project/EditProject';
 import { FetchProjectUseCase } from '../../application/UseCase/Project/FetchProject';
+import { FetchProjectCountandStatusUseCase } from '../../application/UseCase/Project/FetchProjectcountAndStatus';
 import { AddSiteToprojectFetchProjectUseCase } from '../../application/UseCase/SiteManager/AddSiteToprojectFetchProject';
 import { AddSiteToProjectRepository } from '../../infrastructure/Repositories/AddSiteToProject';
 import { AttendanceRepository } from '../../infrastructure/Repositories/Attendance';
@@ -36,4 +37,5 @@ const deleteProjectUseCase = new DeleteProjectUseCase(projectRepository,projectS
 const editProjectUseCase = new EditProjectUseCase(projectRepository);
 const displayProjectUseCase = new DisplayAllProjectUseCase(projectRepository,projectmapper);
 const changeStatusUseCase = new ChangeStatusUseCase(projectRepository);
-export const injectedProjectController = new ProjectController(fetchProjectUseCase,addSiteToProjectFetchProjectUseCase,displayAddProjectUseCase,addProjectUseCase,deleteProjectUseCase,editProjectUseCase,displayProjectUseCase,changeStatusUseCase);
+const fetchProjectCountandStatus = new FetchProjectCountandStatusUseCase(projectRepository,projectmapper)
+export const injectedProjectController = new ProjectController(fetchProjectUseCase,addSiteToProjectFetchProjectUseCase,displayAddProjectUseCase,addProjectUseCase,deleteProjectUseCase,editProjectUseCase,displayProjectUseCase,changeStatusUseCase,fetchProjectCountandStatus);

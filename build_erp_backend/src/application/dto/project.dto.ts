@@ -55,3 +55,8 @@ export interface displayProjectDTO {
    };
    status: string;
 }
+
+export interface displayStatusCountDTO {
+   number:number 
+   label:string
+}

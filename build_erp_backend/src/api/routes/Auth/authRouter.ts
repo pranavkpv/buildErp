@@ -2,6 +2,8 @@ import { Router } from 'express';
 import { withLogging } from '../../../infrastructure/middlewares/withLoggingMiddleware';
 import { validateForgotOtpSend, validateResendotp, validateSignup, validateUserLogin, validateVerifyotp } from '../../../infrastructure/middlewares/validation/auth.validation';
 import { injectAuthController } from '../../DI/Auth';
+import { injectedBannerController } from '../../DI/Banner';
+import { injectedProjectController } from '../../DI/Project';
 
 
 
@@ -80,8 +82,17 @@ export class authRoute {
             withLogging(injectAuthController.fetchProjectStatusByFilters),
         );
         //create accessToken using refresh token 
-        this.authRoute.post('/refreshToken', 
+        this.authRoute.post('/refreshToken',
             withLogging(injectAuthController.handleRefreshToken));
 
+        this.authRoute.get(
+            '/banner',
+            withLogging(injectedBannerController.fetchAllBanner),
+        );
+
+        this.authRoute.get(
+            '/projectstatuscount',
+            withLogging(injectedProjectController.fetchAllProjectwithStatusAndcount),
+        );
     }
 }

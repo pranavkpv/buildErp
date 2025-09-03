@@ -1,4 +1,6 @@
+import { fetchAllBannerApi } from "../../../api/banner";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 interface HeroSlide {
   image: string;
@@ -9,24 +11,8 @@ interface HeroSlide {
 
 function Banner() {
   const [activeSlide, setActiveSlide] = useState<number>(0);
+  const [heroSlides, setHeroSlides] = useState<HeroSlide[]>([]);
 
-  const heroSlides: HeroSlide[] = [
-    {
-      image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=1200&h=800&fit=crop',
-      title: 'Premium Luxury Homes',
-      subtitle: 'Experience the finest in modern living'
-    },
-    {
-      image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&h=800&fit=crop',
-      title: 'Smart Urban Living',
-      subtitle: 'Designed for the modern lifestyle'
-    },
-    {
-      image: 'https://thumbs.dreamstime.com/b/beautiful-new-home-exterior-clear-evening-provides-setting-luxurious-34711767.jpg',
-      title: 'Affordable Excellence',
-      subtitle: 'Quality homes within your reach'
-    }
-  ];
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveSlide((prev) => (prev + 1) % heroSlides.length);
@@ -37,6 +23,18 @@ function Banner() {
   const handleSlideChange = (index: number): void => {
     setActiveSlide(index);
   };
+
+  const fetchBanner = async () => {
+    const response = await fetchAllBannerApi()
+    if (response.success) {
+      setHeroSlides(response.data)
+    } else {
+      toast.error(response.message)
+    }
+  }
+  useEffect(() => {
+    fetchBanner()
+  }, [])
 
 
 

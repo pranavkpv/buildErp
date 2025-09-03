@@ -33,7 +33,8 @@ export class UserProfileController implements IUserprofileController {
         private _blacklistUsecase: IBlackListUseCase,
         private _editEmailUseCase: IEditEmailUseCase,
         private _editEmailResendOTPUseCase: IEditEmailResendOTPUseCase,
-        private _editEmailVerifyOTPUseCase: IEditEmailVerifyOtpUseCase
+        private _editEmailVerifyOTPUseCase: IEditEmailVerifyOtpUseCase,
+       
     ) { }
 
     // Update user profile details
@@ -180,7 +181,7 @@ export class UserProfileController implements IUserprofileController {
 
             const payload = await this._jwtservice.verifyAccessToken(accessToken);
             if (!payload) return ResponseHelper.unAuthor()
-            const result = await this._editEmailUseCase.execute(req.body.email,payload._id)
+            const result = await this._editEmailUseCase.execute(req.body.email, payload._id)
             return result
         } catch (error) {
             next(error)

@@ -2,7 +2,7 @@ import { projectDB } from '../../api/models/ProjectModel';
 import { chatListDTO } from '../../application/dto/user.dto';
 import { AddsitetoprojectInput } from '../../application/Entities/addsitemanagertoproject.entity';
 import { listingInput } from '../../application/Entities/common.entity';
-import { addProjectInput, editProjectInput, projectwithClient, statusBaseProjectInput, userBaseChatoutput } from '../../application/Entities/project.entity';
+import { addProjectInput, editProjectInput, groupedProjectwithStatus, projectwithClient, statusBaseProjectInput, userBaseChatoutput } from '../../application/Entities/project.entity';
 import { costInput } from '../../application/Entities/stage.entity';
 import { IProjectModelEntity } from '../../domain/Entities/modelEntities/project.entity';
 import { IprojectRepository } from '../../domain/Entities/IRepository/IProject';
@@ -293,6 +293,15 @@ export class ProjectRepository implements IprojectRepository {
         }
 
         return result;
+    }
+    async getGroupProjectByStatus(): Promise<groupedProjectwithStatus[]> {
+        const data = await projectDB.aggregate([{
+            $group:{
+                _id:"$status",
+                count:{$sum:1}
+            }
+        }])
+        return data
     }
     
 }

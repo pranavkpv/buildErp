@@ -35,7 +35,9 @@ export class BannerRepository implements IBannerRepository {
       return await bannerDB.findByIdAndUpdate(_id, { image, title, subtitle })
    }
    async deleteBanner(_id: string): Promise<void> {
-      console.log(_id)
       await bannerDB.findByIdAndDelete(_id)
+   }
+   async getAllBanner(): Promise<IBannerModelEntity[]> {
+      return await bannerDB.find()
    }
 }

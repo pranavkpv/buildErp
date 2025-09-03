@@ -7,13 +7,15 @@ import { listBannerDTO } from "../../application/dto/banner.dto";
 import { IListBannerUseCase } from "../../application/IUseCases/IBanner/IListBanner";
 import { IEditBannerUseCase } from "../../application/IUseCases/IBanner/IEditBanner";
 import { IDeleteBannerUsecase } from "../../application/IUseCases/IBanner/IDeleteBanner";
+import { IFetchAllBannerUseCase } from "../../application/IUseCases/IBanner/IFetchAllBanner";
 
 export class BannerController implements IBannerController {
    constructor(
       private _addBannerUseCase: IAddBannerUsecase,
       private _listBannerUseCase: IListBannerUseCase,
       private _editBannerUseCase: IEditBannerUseCase,
-      private _deleteBannerUsecase: IDeleteBannerUsecase
+      private _deleteBannerUsecase: IDeleteBannerUsecase,
+       private _fetchAllBannerUseCase : IFetchAllBannerUseCase
    ) { }
    addBanner = async (req: Request, res: Response, next: NextFunction):
       Promise<commonOutput | void> => {
@@ -67,12 +69,21 @@ export class BannerController implements IBannerController {
          next(error)
       }
    }
-   deleteBanner = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput | void>=> {
-       try {
+   deleteBanner = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput | void> => {
+      try {
          const result = await this._deleteBannerUsecase.execute(req.params.id)
          return result
-       } catch (error) {
+      } catch (error) {
          next(error)
-       }
+      }
+   }
+   fetchAllBanner = async (req: Request, res: Response, next: NextFunction):
+      Promise<commonOutput<listBannerDTO[]> | commonOutput | void> => {
+      try {
+         const result = await this._fetchAllBannerUseCase.execute()
+         return result
+      } catch (error) {
+         next(error)
+      }
    }
 }

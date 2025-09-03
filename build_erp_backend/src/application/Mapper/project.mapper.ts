@@ -1,10 +1,10 @@
 import { IProjectModelEntity } from '../../domain/Entities/modelEntities/project.entity';
 import { IProjectmapper } from '../../domain/IMappers/IProject.mapper';
 import { listAddsiteDTO } from '../dto/addsitemanagerToproject';
-import { displayProjectDTO, fetchProjectIdnameDTO, publicProjectDTO, userBasechatListDTO, userBaseProjectDTO } from '../dto/project.dto';
+import { displayProjectDTO, displayStatusCountDTO, fetchProjectIdnameDTO, publicProjectDTO, userBasechatListDTO, userBaseProjectDTO } from '../dto/project.dto';
 import { stageListDTO } from '../dto/stage.dto';
 import { listAddSiteToproject } from '../Entities/addsitemanagertoproject.entity';
-import { projectwithClient, userBaseChatoutput } from '../Entities/project.entity';
+import { groupedProjectwithStatus, projectwithClient, userBaseChatoutput } from '../Entities/project.entity';
 
 export class ProjectMapper implements IProjectmapper {
     toPublicProjectDto(projects: IProjectModelEntity[]): publicProjectDTO[] {
@@ -87,6 +87,12 @@ export class ProjectMapper implements IProjectmapper {
             end_date:element.end_date,
             project_name:element.project_name,
             start_date:element.start_date,
+        }));
+    }
+    toStatusCountDto(project: groupedProjectwithStatus[]): displayStatusCountDTO[] {
+        return project.map((element)=>({
+            label:element._id,
+            number:element.count
         }));
     }
 }

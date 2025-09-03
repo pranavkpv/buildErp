@@ -1,6 +1,6 @@
-import { toast } from "react-toastify";
 import adminAxios from '../axios/adminAxios'
 import type { addProjectInterface, editProjectInterface } from "ApiInterface/project.interface";
+import authAxios from '../axios/commonAxios'
 
 
 export const getProjectidandname = async () => {
@@ -73,5 +73,10 @@ export const pustStatusChange = async (_id: string, status: string) => {
    const response = await adminAxios.put(`/status/${ _id }`, { status });
    return response.data;
 };
+
+export const fetchStatusandCountApi = async()=>{
+   const response = await authAxios.get('/projectstatuscount')
+   return response.data
+}
 
 

@@ -1,7 +1,7 @@
 import { chatListDTO } from '../../../application/dto/user.dto';
 import { AddsitetoprojectInput } from '../../../application/Entities/addsitemanagertoproject.entity';
 import { listingInput } from '../../../application/Entities/common.entity';
-import { addProjectInput, editProjectInput, fetchprojectInput, projectwithClient, userBaseChatoutput } from '../../../application/Entities/project.entity';
+import { addProjectInput, editProjectInput, fetchprojectInput, groupedProjectwithStatus, projectwithClient, userBaseChatoutput } from '../../../application/Entities/project.entity';
 import { costInput } from '../../../application/Entities/stage.entity';
 import { IProjectModelEntity } from '../modelEntities/project.entity';
 
@@ -67,5 +67,6 @@ export interface IprojectRepository {
    getSitemanagerChatProjects(id: string):
       Promise<chatListDTO[]>
 
-
+   getGroupProjectByStatus():
+      Promise<groupedProjectwithStatus[]>
 }

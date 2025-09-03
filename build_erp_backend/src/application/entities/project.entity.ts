@@ -20,45 +20,52 @@ export interface fetchprojectInput {
 }
 
 export interface addProjectInput {
-   project_name:string, 
-   user_id:string, 
-   address:string, 
-   mobile_number:number, 
-   email:string, 
-   area:number, 
-   description:string, 
-   latitude:number, 
-   longitude:number
+   project_name: string,
+   user_id: string,
+   address: string,
+   mobile_number: number,
+   email: string,
+   area: number,
+   description: string,
+   latitude: number,
+   longitude: number
 }
 
 export interface editProjectInput extends addProjectInput {
-   _id:string
+   _id: string
 }
 export interface projectwithClient extends IProjectModelEntity {
-   userDetails:IUserModelEntity
+   userDetails: IUserModelEntity
 }
 
 export interface statusBaseProjectInput {
-   page:number,
-   area:number,
-   search:string
-   status:string
+   page: number,
+   area: number,
+   search: string
+   status: string
 }
 
 
 export interface ProjectStockOutput extends IProjectStockModelEntity {
-    projectDetails:IProjectModelEntity
+   projectDetails: IProjectModelEntity
 }
 
 export interface projectStockInput {
-    _id:string, 
-    project_id:string, 
-    material_id:string, 
-    stock :number
+   _id: string,
+   project_id: string,
+   material_id: string,
+   stock: number
 }
 
 export interface incrementStockInput {
-   material_id:string, 
-   project_id:string, 
-   quantity:number
+   material_id: string,
+   project_id: string,
+   quantity: number
+}
+
+export interface groupedProjectwithStatus {
+   _id: string
+   count: number
+   createdAt: Date
+   updatedAt: Date
 }

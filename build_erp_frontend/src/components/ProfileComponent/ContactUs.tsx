@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Mail, Phone, MapPin, Clock, Send, CheckCircle } from 'lucide-react';
+import { Mail, Phone, Clock, Send, CheckCircle } from 'lucide-react';
 import ContactInformation from './SubprofileCompponent/ContactInformation';
+import UserHeader from '../../components/USER/common/UserHeader';
 
 export default function ContactUs() {
   const [formData, setFormData] = useState({
@@ -12,7 +13,7 @@ export default function ContactUs() {
     message: '',
     inquiryType: 'general'
   });
-  
+
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -26,7 +27,7 @@ export default function ContactUs() {
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
-    
+
     // Simulate form submission
     setTimeout(() => {
       setIsSubmitted(true);
@@ -67,6 +68,8 @@ export default function ContactUs() {
   }
 
   return (
+    <>
+    <UserHeader />
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Hero Section */}
@@ -78,11 +81,11 @@ export default function ContactUs() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <ContactInformation />
+          <ContactInformation />
           <div className="lg:col-span-2">
             <div className="bg-white rounded-2xl shadow-xl p-8">
               <h3 className="text-2xl font-bold text-gray-900 mb-6">Send us a Message</h3>
-              
+
               <div className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
@@ -255,5 +258,6 @@ export default function ContactUs() {
         </div>
       </div>
     </div>
+    </>
   );
 }

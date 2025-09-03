@@ -15,4 +15,7 @@ export interface IBannerController {
 
    deleteBanner(req: Request, res: Response, next: NextFunction):
       Promise<commonOutput | void>
+
+     fetchAllBanner(req: Request, res: Response, next: NextFunction):
+        Promise<commonOutput<listBannerDTO[]> | commonOutput | void>
 }

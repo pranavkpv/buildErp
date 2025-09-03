@@ -31,8 +31,8 @@ function ListProject() {
 
   const fetchProject = async () => {
     const response = await fetchStatusBaseProject({state, searchItem, selectedArea, page});
-    setProject(response.data);
-    setArea(response.areas);
+    setProject(response.data.projectData);
+    setArea(response.data.areas);
     let y = [];
     for (let i = 0; i < response.totalPage; i++) {
       y.push(0);

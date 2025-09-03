@@ -15,4 +15,7 @@ export interface IBannerRepository {
 
    deleteBanner(_id: string):
       Promise<void>
+
+   getAllBanner():
+      Promise<IBannerModelEntity[]>
 }

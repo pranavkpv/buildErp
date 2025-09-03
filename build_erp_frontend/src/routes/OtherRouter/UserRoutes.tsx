@@ -39,7 +39,7 @@ export const UserRoutes = () => {
       <Route path="/project" element={<Projects />} />
       <Route path="/projectDetail" element={<DetailProject />} />
       <Route path="/projectlist" element={<ListProject />} />
-      <Route path="/contactus" element={<ContactUs />} />
+      <Route path="/contact" element={<ContactUs />} />
       <Route path="/profile" element={<Profile />} >
         <Route path="" element={<ProfileEdit />} />
         <Route path="project" element={<ProjectDetails />} />

@@ -1,11 +1,11 @@
 import { NextFunction, Request, Response } from 'express';
 import { commonOutput } from '../../../application/dto/common';
-import { displayProjectDTO, fetchProjectIdnameDTO } from '../../../application/dto/project.dto';
+import { displayProjectDTO, displayStatusCountDTO, fetchProjectIdnameDTO } from '../../../application/dto/project.dto';
 import { userLoginDTO } from '../../../application/dto/user.dto';
 
 
 export interface IProjectController {
-   
+
    getProjectsForSiteManager(req: Request, res: Response, next: NextFunction):
       Promise<commonOutput<fetchProjectIdnameDTO[]> | commonOutput | void>
 
@@ -29,5 +29,8 @@ export interface IProjectController {
 
    changeProjectStatus(req: Request, res: Response, next: NextFunction):
       Promise<commonOutput | void>
+
+   fetchAllProjectwithStatusAndcount(req: Request, res: Response, next: NextFunction):
+      Promise<commonOutput<displayStatusCountDTO[]> | commonOutput | void>
 
 }

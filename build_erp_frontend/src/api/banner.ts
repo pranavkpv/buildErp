@@ -1,6 +1,8 @@
 import type { AddBannerInterface, editBannerInterface } from "ApiInterface/banner.interface";
 import adminAxios from "../axios/adminAxios"
 import type { listingInput } from "../ApiInterface/CommonApiInterface";
+import userAxios from "../axios/userAxios";
+import authAxios from "../axios/commonAxios"
 
 export const addBannerApi = async (input: AddBannerInterface) => {
    const { title, subtitle, file } = input
@@ -38,6 +40,11 @@ export const editBannerApi = async (input: editBannerInterface) => {
 }
 
 export const deleteBannerDataApi = async(id:string) => {
-   const response = await adminAxios .delete(`/banner/${id}`)
+   const response = await adminAxios.delete(`/banner/${id}`)
+   return response.data
+}
+
+export const fetchAllBannerApi = async() => {
+   const response = await authAxios.get(`/banner`)
    return response.data
 }
