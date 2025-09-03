@@ -9,7 +9,15 @@ interface Message {
    message: string;
    senderId: string;
    receiverId: string;
-   createdAt: Date;
+   createdAt: string;
+}
+
+interface receiveMessage {
+   id: string;
+   message: string;
+   senderId: string;
+   receiverId: string;
+   createdAt: Date
 }
 
 interface ChatRoomProps {
@@ -54,9 +62,15 @@ function SiteChatRoom({ username, userId }: ChatRoomProps) {
       }
       try {
          const response = await fetchMessagesApiInSitemanager(userId);
-         console.log(response)
          if (response.success) {
-            setMessages(response.data ?? []);
+            let x = response.data.map((element: any) => ({
+               id: element.id,
+               message: element.message,
+               senderId: element.senderId,
+               receiverId: element.receiverId,
+               createdAt: convertTime(element.createdAt)
+            }));
+            setMessages(x);
          } else {
             toast.error(response.message);
          }
@@ -74,8 +88,8 @@ function SiteChatRoom({ username, userId }: ChatRoomProps) {
 
       messageFetch();
       socket.emit("joinRoom", { senderId: decoded._id, receiverId: userId });
-      socket.on("receiveMessage", (message: Message) => {
-         setMessages((prev) => [...prev, { ...message, createdAt: new Date(message.createdAt) }]);
+      socket.on("receiveMessage", (message: receiveMessage) => {
+         setMessages((prev) => [...prev, { ...message, createdAt: convertTime(message.createdAt) }]);
       });
 
       return () => {
@@ -112,20 +126,18 @@ function SiteChatRoom({ username, userId }: ChatRoomProps) {
       );
    }
 
-   const convertTime = (date: Date) => {
-      const TimeInString = String(date).split("T")[1].split(".")[0].split(":").slice(0, 2)
-      if (Number(TimeInString[0]) < 12) {
-         return TimeInString.join(":") + "AM"
-      } else if (Number(TimeInString[0]) % 12 != 0){
-          TimeInString[0]=0+String(Number(TimeInString[0]) % 12)
-          return TimeInString.join(":") + "PM"
-      }else if(Number(TimeInString[0])==12){
-         return TimeInString.join(":") + "PM"
-      }else{
-         TimeInString[0]="12"
-          return TimeInString.join(":") + "AM"
-      }
-   }
+   const convertTime = (dateInput: string | Date) => {
+      const date = typeof dateInput === "string" ? new Date(dateInput) : new Date(dateInput.getTime());
+      let hours = date.getHours();
+      const minutes = date.getMinutes().toString().padStart(2, "0");
+      const ampm = hours >= 12 ? "PM" : "AM";
+
+      hours = hours % 12 || 12; 
+
+      return `${ hours }:${ minutes }${ ampm }`;
+   };
+
+
 
    return (
       <div className="h-full flex flex-col bg-gray-800/90 backdrop-blur-sm rounded-xl border border-gray-700/50 p-6">
@@ -156,7 +168,7 @@ function SiteChatRoom({ username, userId }: ChatRoomProps) {
                      >
                         <p>{msg.message}</p>
                         <p className="text-xs text-gray-400 mt-1">
-                           {convertTime(msg.createdAt)}
+                           {msg.createdAt}
                         </p>
                      </div>
                   </div>

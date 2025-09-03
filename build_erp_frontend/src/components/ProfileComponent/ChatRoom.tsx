@@ -9,7 +9,15 @@ interface Message {
    message: string;
    senderId: string;
    receiverId: string
-   createdAt: Date;
+   createdAt: string;
+}
+
+interface receiveMessage {
+   id: string;
+   message: string;
+   senderId: string;
+   receiverId: string;
+   createdAt: Date
 }
 
 interface ChatRoomProps {
@@ -26,15 +34,23 @@ function ChatRoom({ sitemanagerName, sitemanagerId }: ChatRoomProps) {
    const messageFetch = async () => {
       const response = await fetchMessagesApi(sitemanagerId)
       if (response.success) {
-         setMessages(response.data)
+         let x = response.data.map((element: any) => ({
+            id: element.id,
+            message: element.message,
+            senderId: element.senderId,
+            receiverId: element.receiverId,
+            createdAt: convertTime(element.createdAt)
+         }));
+         console.log(x)
+         setMessages(x);
       }
    }
 
    useEffect(() => {
       messageFetch();
       socket.emit("joinRoom", { senderId: user?._id, receiverId: sitemanagerId });
-      socket.on("receiveMessage", (message) => {
-         setMessages(prev => [...prev, message]);
+      socket.on("receiveMessage", (message: receiveMessage) => {
+         setMessages((prev) => [...prev, { ...message, createdAt: convertTime(message.createdAt) }]);
       });
       return () => {
          socket.off("receiveMessage");
@@ -47,6 +63,19 @@ function ChatRoom({ sitemanagerName, sitemanagerId }: ChatRoomProps) {
          setNewMessage("");
       }
    };
+
+  
+   const convertTime = (dateInput: Date ) => {
+      const date =  new Date(dateInput);
+      let hours = date.getHours();
+      const minutes = date.getMinutes().toString().padStart(2, "0");
+      const ampm = hours >= 12 ? "PM" : "AM";
+
+      hours = hours % 12 || 12; 
+
+      return `${ hours }:${ minutes }${ ampm }`;
+   };
+
 
    return (
       <div className="h-full flex flex-col">
