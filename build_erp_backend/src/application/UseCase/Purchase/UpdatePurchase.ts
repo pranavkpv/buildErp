@@ -11,9 +11,12 @@ export class UpdatePurchaseUseCase implements IUpdatePurchaseUseCase {
         private _purchaseRepository: IPurchaseRepository,
     ) { }
     async execute(input: purchaseInput): Promise<commonOutput> {
-        const existInv = await this._purchaseRepository.getPurchaseByInvoice(input.invoice_number)
+        if (!input._id){
+            return ResponseHelper.badRequest(PurchaseFailedMessage.ERROR);
+        }
+        const existInv = await this._purchaseRepository.getPurchaseByInvoiceInEdit(input.invoice_number,input._id);
         if (existInv) {
-            return ResponseHelper.conflictData(PurchaseFailedMessage.EXIST)
+            return ResponseHelper.conflictData(PurchaseFailedMessage.EXIST);
         }
         const response = await this._purchaseRepository.updatePurchase(input);
         if (!response) {

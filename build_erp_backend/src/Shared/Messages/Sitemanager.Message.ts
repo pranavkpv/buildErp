@@ -35,12 +35,12 @@ export const SitemanagerFailedMessage = {
     EMAIL_REQUIRED: 'Email is required and must be a non-empty string',
     EMAIL_MAX: 'Email cannot exceed 50 characters',
 
-    SITEMANAGER_EXIST_PROJECT : "Already this project has exist sitemanager",
-    USED_PURCHASE : "Should not remove sitemanager in this project because the purchase exist in the project",
+    SITEMANAGER_EXIST_PROJECT : 'Already this project has exist sitemanager',
+    USED_PURCHASE : 'Should not remove sitemanager in this project because the purchase exist in the project',
 
-    PASSWORD_REQUIRED : "Password is required",
-    PASSWORD_MIN : "Password length should be greater than 6",
-    PASSWORD_MAX : "Password length should be less than 20",
-    ADD_PROJECT : "Sitemanager already add to project",
-    DATA_EXIST : "This sitemanagers entry is  pending to approve after approve this deletion is work ..."
+    PASSWORD_REQUIRED : 'Password is required',
+    PASSWORD_MIN : 'Password length should be greater than 6',
+    PASSWORD_MAX : 'Password length should be less than 20',
+    ADD_PROJECT : 'Sitemanager already add to project',
+    DATA_EXIST : 'This sitemanagers entry is  pending to approve after approve this deletion is work ...',
 };

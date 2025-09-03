@@ -25,6 +25,6 @@ export const ProjectFailedMessage = {
     LATITUDE_CHAR: 'latitude must be a number between -90 and 90',
     LONGITUDE_CHAR: 'longitude must be a number between -180 and 180',
     USED_purchase : 'Project is already used in purchase',
-    USED_TRANSFER : "Project already used in transfer",
-    USED_ATTENDANCE:"Project is already used in attendance"
+    USED_TRANSFER : 'Project already used in transfer',
+    USED_ATTENDANCE:'Project is already used in attendance',
 };

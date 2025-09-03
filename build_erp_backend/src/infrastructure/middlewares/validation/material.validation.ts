@@ -17,7 +17,7 @@ export const validateAddMaterial = (req: Request, res: Response, next: NextFunct
     }
     if (material_name.length > 20) {
         res.status(HTTP_STATUS.BAD_REQUEST).
-        json({ success: false, message: MaterialFailedMessage.MAX_MATERIAL_NAME });
+            json({ success: false, message: MaterialFailedMessage.MAX_MATERIAL_NAME });
         return;
     }
     const validateId = (id: any, field: string) => {
@@ -60,29 +60,29 @@ export const validateAddMaterial = (req: Request, res: Response, next: NextFunct
                 json({ success: false, message: MaterialFailedMessage.PROJECT_WISE_STOCK_MUST });
             return;
         }
-        let totalStock = 0
-        for (let element of projectWiseStock) {
+        let totalStock = 0;
+        for (const element of projectWiseStock) {
             if (!element.project) {
                 res.status(HTTP_STATUS.BAD_REQUEST)
-                    .json({ success: false, message: MaterialFailedMessage.PROJECT_REQUIRED })
-                return
+                    .json({ success: false, message: MaterialFailedMessage.PROJECT_REQUIRED });
+                return;
             }
-            if (element.stock == undefined) {
+            if (element.stock === undefined) {
                 res.status(HTTP_STATUS.BAD_REQUEST)
-                    .json({ success: false, message: MaterialFailedMessage.PROJECT_WISE_STOCK_REQUIRED })
-                return
+                    .json({ success: false, message: MaterialFailedMessage.PROJECT_WISE_STOCK_REQUIRED });
+                return;
             }
             if (element.stock <= 0) {
                 res.status(HTTP_STATUS.BAD_REQUEST)
-                    .json({ success: false, message: MaterialFailedMessage.PROJECT_WISE_STOCK_POSITIVE })
-                return
+                    .json({ success: false, message: MaterialFailedMessage.PROJECT_WISE_STOCK_POSITIVE });
+                return;
             }
-            totalStock += element.stock
+            totalStock += element.stock;
         }
         if (totalStock !== stock) {
             res.status(HTTP_STATUS.BAD_REQUEST)
-            .json({success:false,message:MaterialFailedMessage.STOCK_NOT_MATCH})
-            return
+                .json({ success:false,message:MaterialFailedMessage.STOCK_NOT_MATCH });
+            return;
         }
     }
 

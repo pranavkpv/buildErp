@@ -16,12 +16,13 @@ import Labourlist from "../../components/ADMIN/labour/Labourlist";
 import SpecList from "../../components/ADMIN/Specification/SpecList";
 import Unit from "../../components/UnitComponent/Unit";
 import ListBanner from "../../components/ADMIN/Banner/ListBanner";
+import NotFound from "../../components/NotFound";
 
 export const AdminRoutes = () => {
   return (
     <Routes>
       <Route
-        path="/admin/login"
+        path="/login"
         element={
           <AdminBackloginprotected>
             <Adminlogin />
@@ -29,7 +30,7 @@ export const AdminRoutes = () => {
         }
       />
 
-      <Route path="/admin" element={<Adminlayout />}>
+      <Route path="/" element={<Adminlayout />}>
         <Route path="dashboard" element={<AdminbackDashprotected><Dashboard /></AdminbackDashprotected>} />
         <Route path="banner" element={<AdminbackDashprotected><ListBanner /></AdminbackDashprotected>} />
         <Route path="project" element={<AdminbackDashprotected><Project /></AdminbackDashprotected>} />
@@ -43,10 +44,8 @@ export const AdminRoutes = () => {
         <Route path="spec" element={<AdminbackDashprotected><SpecList /></AdminbackDashprotected>} />
         <Route path="estimation" element={<AdminbackDashprotected><ListEstimation /></AdminbackDashprotected>} />
         <Route path="stage" element={<AdminbackDashprotected><ListStage /></AdminbackDashprotected>} />
-
       </Route>
-
-
+         <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };

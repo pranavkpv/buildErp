@@ -12,6 +12,6 @@ export const CategorySchema = new mongoose.Schema<ICategoryModelEntity>({
     blockStatus: {
         type: Boolean,
         default: false,
-        required: true
-    }
+        required: true,
+    },
 }, { timestamps: true });

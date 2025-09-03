@@ -30,7 +30,10 @@ export interface IPurchaseRepository {
    getPurchaseByInvoice(invoice: string):
       Promise<IPurchaseModelEntity | null>
 
-   getUnApprovedPurchaseByProjectId(id:string):
+   getUnApprovedPurchaseByProjectId(id: string):
       Promise<IPurchaseModelEntity[]>
+
+   getPurchaseByInvoiceInEdit(invoice: string, id: string):
+      Promise<IPurchaseModelEntity | null>
 
 }

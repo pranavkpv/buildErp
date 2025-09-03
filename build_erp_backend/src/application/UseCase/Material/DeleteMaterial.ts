@@ -15,15 +15,15 @@ export class DeleteMaterialUseCase implements IDeleteMaterialUseCase {
       private _projectStockRepository: IProjectStockRepository,
       private _specRepository: ISpecRepository,
       private _purchaseRepository: IPurchaseRepository,
-      private _transferRepository: ITransferRepository
+      private _transferRepository: ITransferRepository,
 
     ) { }
     async execute(id: string): Promise<commonOutput> {
         const material_id = id;
         const existEstimation = await this._specRepository.getSpecByMaterialId(id);
-        const existPurchase = await this._purchaseRepository.getPurchaseByMaterialId(id)
-        const existTransfer = await this._transferRepository.getTransferByMaterialId(id)
-        if(existPurchase || existTransfer) {
+        const existPurchase = await this._purchaseRepository.getPurchaseByMaterialId(id);
+        const existTransfer = await this._transferRepository.getTransferByMaterialId(id);
+        if (existPurchase || existTransfer) {
             return ResponseHelper.conflictData(MaterialFailedMessage.USED_PURCHASE);
         }
 

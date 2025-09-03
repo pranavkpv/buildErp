@@ -205,6 +205,6 @@ export class ReceiveRepository implements IReceiveRepository {
 
     //get all un approved receive
     async getUnApprovedReceiveByProjectid(id: string): Promise<IReceiveModelEntity[]> {
-        return await receiveDB.find({project_id:id,approval_status:false})
+        return await receiveDB.find({ project_id:id,approval_status:false });
     }
 }

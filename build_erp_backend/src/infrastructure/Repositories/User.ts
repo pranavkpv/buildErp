@@ -128,18 +128,18 @@ export class UserRepository implements IUserRepository {
     }
     async saveOTpAndTime(otp: string, otpCreatedAt: Date, email: string, id: string): Promise<void> {
         const data = JSON.stringify({ otp, otpCreatedAt, email, id });
-        await redis.set("userUpdateData", data);
+        await redis.set('userUpdateData', data);
     }
     async getredisDataInUpdateEmail(): Promise<UpdateEmailRedisData> {
-        const data = await redis.get("userUpdateData")
+        const data = await redis.get('userUpdateData');
         if (!data) {
-            throw new Error("No data found to update");
+            throw new Error('No data found to update');
         }
         const parsed = JSON.parse(data);
-        return parsed
+        return parsed;
     }
     async updateUserEmail(email: string, id: string): Promise<IUserModelEntity | null> {
-        const data = await userDB.findByIdAndUpdate(id, { email })
-        return data
+        const data = await userDB.findByIdAndUpdate(id, { email });
+        return data;
     }
 }

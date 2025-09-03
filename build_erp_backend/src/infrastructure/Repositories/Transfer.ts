@@ -231,14 +231,14 @@ export class TransferRepository implements ITransferRepository {
     }
     //get transfer data by material
     async getTransferByMaterialId(id: string): Promise<ITransferModelEntity | null> {
-        return await transferDB.findOne({ materialDetails: { $elemMatch: { material_id: id } } })
+        return await transferDB.findOne({ materialDetails: { $elemMatch: { material_id: id } } });
     }
     //get transfer data by project id the project id as from or to project
     async getTransferByProjectId(id: string): Promise<ITransferModelEntity | null> {
-        return await transferDB.findOne({ $or: [{ from_project_id: id }, { to_project_id: id }] })
+        return await transferDB.findOne({ $or: [{ from_project_id: id }, { to_project_id: id }] });
     }
     //get un approved Transfer details by this project
     async getUnApprovedTransferByProjectId(id: string): Promise<ITransferModelEntity[]> {
-        return await transferDB.find({from_project_id:id,approval_status:false})
+        return await transferDB.find({ from_project_id:id,approval_status:false });
     }
 }

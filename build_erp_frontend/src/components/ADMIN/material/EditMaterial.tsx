@@ -82,6 +82,7 @@ function EditMaterial({ setEditEnable, editEnable, setEditId, editId, refreshDat
     setProjectlist(data.data.projectData || []);
 
     // Set edit data
+    console.log(editData.data.materialData.category_id)
     setMaterial(editData.data.materialData.material_name);
     setSelectCategory(editData.data.materialData.category_id);
     setSelectedBrand(editData.data.materialData.brand_id);

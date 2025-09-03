@@ -2,13 +2,13 @@ import { Request, Response, NextFunction } from 'express';
 import { HTTP_STATUS } from '../../../Shared/statusCodes/statusCodes';
 import { LabourFailedMessage } from '../../../Shared/Messages/Labour.Message';
 import { AToZ, aToz } from '../../../Shared/Constants/Character.constant';
-import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 
 export const validateAddLabour = (req: Request, res: Response, next: NextFunction): void => {
     const { labour_type, daily_wage } = req.body;
+
     if (!labour_type || !daily_wage) {
         res.status(HTTP_STATUS.BAD_REQUEST).
-        json({ success: false, message: LabourFailedMessage.REQUIRED_FIELD });
+            json({ success: false, message: LabourFailedMessage.REQUIRED_FIELD });
         return;
     }
     if (labour_type.trim().length === 0) {
@@ -17,14 +17,17 @@ export const validateAddLabour = (req: Request, res: Response, next: NextFunctio
     }
     if (labour_type.length > 20) {
         res.status(HTTP_STATUS.BAD_REQUEST).
-        json({ success: false, message: LabourFailedMessage.LABOUR_TYPE_SIZE });
+            json({ success: false, message: LabourFailedMessage.LABOUR_TYPE_SIZE });
         return;
     }
-    for (let char of labour_type.trim()) {
-        if (!(aToz.includes(char)) || !(AToZ.includes(char))) {
+    for (const char of labour_type.trim()) {
+        if (char ===' '){
+            continue;
+        }
+        if (!(aToz.includes(char)) && !(AToZ.includes(char))) {
             res.status(HTTP_STATUS.BAD_REQUEST)
-                .json({ success: false, message: LabourFailedMessage.INVALID_LABOUR })
-            return
+                .json({ success: false, message: LabourFailedMessage.INVALID_LABOUR });
+            return;
         }
     }
     if (isNaN(daily_wage)) {

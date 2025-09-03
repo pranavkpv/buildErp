@@ -29,7 +29,7 @@ export const MaterialSchema = new mongoose.Schema<IMaterialModelEntity>({
     blockStatus: {
         type: Boolean,
         default: false,
-        required: true
-    }
+        required: true,
+    },
 }, { timestamps: true });
 

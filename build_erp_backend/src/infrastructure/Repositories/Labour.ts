@@ -28,9 +28,12 @@ export class LabourRepository implements ILabourRepository {
         const labourList = await labourDB
             .find({ labour_type: { $regex: searchRegex }, blockStatus: false })
             .skip(skip)
-            .limit(5);
+            .limit(5).sort({ createdAt:-1 });
 
-        const totalPage = Math.ceil(labourList.length / 5)
+        const totalDoc = await labourDB
+            .find({ labour_type: { $regex: searchRegex }, blockStatus: false });
+
+        const totalPage = Math.ceil(totalDoc.length / 5);
 
         return {
             data: labourList,

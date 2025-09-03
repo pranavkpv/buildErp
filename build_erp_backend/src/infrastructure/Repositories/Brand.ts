@@ -25,7 +25,7 @@ export class BrandRepository implements IBrandRepository {
 
     // Check if a brand exists by name, excluding a specific ID (used for edit validation)
     async getBrandForEdit(id: string, brandName: string):
-    Promise<IBrandModelEntity | null> {
+        Promise<IBrandModelEntity | null> {
         return await brandDB.findOne({
             _id: { $ne: id },
             brand_name: { $regex: new RegExp(`^${ brandName }$`, 'i') },
@@ -39,26 +39,27 @@ export class BrandRepository implements IBrandRepository {
 
     // Delete brand by ID
     async deleteBrand(id: string): Promise<void> {
-        await brandDB.findByIdAndUpdate(id,{blockStatus:true});
+        await brandDB.findByIdAndUpdate(id, { blockStatus: true });
     }
 
     // Get brands with pagination and search
     async getBrandsWithPagination(input: listingInput):
-    Promise<{ data: IBrandModelEntity[]; totalPage: number }> {
+        Promise<{ data: IBrandModelEntity[]; totalPage: number }> {
         const { search, page } = input;
         const skip = page * 5;
         const searchRegex = new RegExp(search, 'i');
 
         const brandList = await brandDB
-            .find({ brand_name: { $regex: searchRegex },blockStatus:false })
+            .find({ brand_name: { $regex: searchRegex }, blockStatus: false })
             .skip(skip)
-            .limit(5);
+            .limit(5).sort({ createdAt:-1 });
 
-        const totalPage = Math.ceil(brandList.length /5)
+        const totalDoc = await brandDB.find({ brand_name: { $regex: searchRegex }, blockStatus: false });
+        const totalPage = Math.ceil(totalDoc.length / 5);
 
         return {
             data: brandList,
-            totalPage ,
+            totalPage,
         };
     }
 }

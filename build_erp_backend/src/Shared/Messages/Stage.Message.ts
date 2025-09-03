@@ -27,6 +27,6 @@ export const StageFailedMessage = {
     STAGE_PER_BETWEEN: 'stage_percentage must be a number between 1 and 100',
     STAGE_AMOUNT_POSITIVE: 'stage_amount must be a positive number',
     STAGE_AMOUNT_VALUE: 'stage_amount does not match stage_percentage of total cost',
-    STAGE_LENGTH : "Stage name length should be less than 20",
-    STAGE_AMOUNT_MATCH  : "Sum of stage amount should match total budget cost"
+    STAGE_LENGTH : 'Stage name length should be less than 20',
+    STAGE_AMOUNT_MATCH  : 'Sum of stage amount should match total budget cost',
 };

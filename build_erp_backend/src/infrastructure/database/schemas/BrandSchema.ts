@@ -10,6 +10,6 @@ export const BrandSchema = new mongoose.Schema<IBrandModelEntity>({
     blockStatus: {
         type: Boolean,
         default: false,
-        required: true
-    }
+        required: true,
+    },
 }, { timestamps: true });

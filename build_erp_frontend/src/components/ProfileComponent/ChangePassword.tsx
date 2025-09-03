@@ -41,23 +41,21 @@ function ChangePassword() {
     } else if (cpassRef.current) cpassRef.current.innerText = "";
 
     if (error) return;
-      if (!user) {
-        toast.error("User Not Exist");
-        return;
-      }
-      const response = await UpdatePasswordInCheckCurrentPassword(
-        user.email,
-        currentPassword,
-        password
-      );
-      if (response.success) {
-        toast.success(response.message);
-        setCurrentPassword("");
-        setPassword("");
-        setCpassword("");
-      } else {
-        toast.error(response.message);
-      }
+    if (!user) {
+      toast.error("User Not Exist");
+      return;
+    }
+    const response = await UpdatePasswordInCheckCurrentPassword(
+      { email: user.email, currentpassword: currentPassword, password }
+    );
+    if (response.success) {
+      toast.success(response.message);
+      setCurrentPassword("");
+      setPassword("");
+      setCpassword("");
+    } else {
+      toast.error(response.message);
+    }
   };
 
   return (

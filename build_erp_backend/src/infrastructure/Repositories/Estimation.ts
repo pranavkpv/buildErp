@@ -172,7 +172,8 @@ export class EstimationRepository implements IEstimationRepository {
 
     //  Find all estimations for a project
     async getEstimationsByProjectId(projectId: string): Promise<IEstimationModelEntity[]> {
-        return await estimationDB.find({ project_id: projectId });
+        const data = await estimationDB.find({ project_id: projectId });
+        return data;
     }
 
     //  Find estimation by SpecId

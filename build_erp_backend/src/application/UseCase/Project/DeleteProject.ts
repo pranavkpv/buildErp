@@ -17,23 +17,23 @@ export class DeleteProjectUseCase implements IDeleteProjectUseCase {
         private _estimationRepository: IEstimationRepository,
         private _purchaseRepository: IPurchaseRepository,
         private _transferRepository: ITransferRepository,
-        private _attendanceRepository: IAttendanceRepository
+        private _attendanceRepository: IAttendanceRepository,
 
     ) { }
     async execute(id: string): Promise<commonOutput> {
         const existProjectInMaterial = await this._projectStockRepository.getProjectStockById(id);
         const existProjectInEstimation = await this._estimationRepository.getEstimationsByProjectId(id);
-        const existInPurchase = await this._purchaseRepository.getPurchaseByProjectId(id)
-        const existInTransfer = await this._transferRepository.getTransferByProjectId(id)
-        const existInAttendance = await this._attendanceRepository.getAttendanceByProjectId(id)
+        const existInPurchase = await this._purchaseRepository.getPurchaseByProjectId(id);
+        const existInTransfer = await this._transferRepository.getTransferByProjectId(id);
+        const existInAttendance = await this._attendanceRepository.getAttendanceByProjectId(id);
         if (existInPurchase) {
-            return ResponseHelper.conflictData(ProjectFailedMessage.USED_purchase)
+            return ResponseHelper.conflictData(ProjectFailedMessage.USED_purchase);
         }
         if (existInTransfer) {
-            return ResponseHelper.conflictData(ProjectFailedMessage.USED_TRANSFER)
+            return ResponseHelper.conflictData(ProjectFailedMessage.USED_TRANSFER);
         }
         if (existInAttendance) {
-            return ResponseHelper.conflictData(ProjectFailedMessage.USED_ATTENDANCE)
+            return ResponseHelper.conflictData(ProjectFailedMessage.USED_ATTENDANCE);
         }
         if (existProjectInMaterial || existProjectInEstimation.length > 0) {
             return ResponseHelper.conflictData(ProjectFailedMessage.ALREADY_USED);

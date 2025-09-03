@@ -1,6 +1,5 @@
 import { Calendar, MapPin, Square, DollarSign, ChevronDown, ChevronUp, Image } from "lucide-react";
 import { useEffect, useState } from "react";
-import { jwtDecode } from "jwt-decode";
 import ProjectImage from "./SubprofileCompponent/ProjectImage";
 import ProgressBar from "./SubprofileCompponent/ProgressBar";
 import { fetchUserProjectAPI } from "../../api/userprofile";
@@ -28,12 +27,9 @@ function ProjectDetails() {
 
   useEffect(() => {
     const fetchUserProject = async () => {
-        const token = localStorage.getItem("accessToken");
-        if (token) {
-          const decoded = jwtDecode<{ userId: string }>(token);
-          const response = await fetchUserProjectAPI();
-          setProject(response.data);
-        }
+      const response = await fetchUserProjectAPI();
+      console.log(response)
+      setProject(response.data);
     };
 
     fetchUserProject();
@@ -95,7 +91,7 @@ function ProjectDetails() {
                     {currentProject.project_name}
                   </h3>
                   <span
-                    className={`px-4 py-1.5 rounded-full text-sm font-semibold ${getStatusStyles(currentProject.status)}`}
+                    className={`px-4 py-1.5 rounded-full text-sm font-semibold ${ getStatusStyles(currentProject.status) }`}
                   >
                     {currentProject.status.charAt(0).toUpperCase() + currentProject.status.slice(1)}
                   </span>

@@ -13,7 +13,7 @@ export const UnitSchema = new mongoose.Schema<IUnitModelEntity>({
     blockStatus: {
         type: Boolean,
         default: false,
-        required: true
-    }
+        required: true,
+    },
 },{ timestamps:true });
 

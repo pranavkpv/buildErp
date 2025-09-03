@@ -1,6 +1,6 @@
-import { addBannerInput, editBannerInput } from "../../../application/Entities/banner.entity";
-import { listingInput } from "../../../application/Entities/common.entity";
-import { IBannerModelEntity } from "../modelEntities/banner.entity";
+import { addBannerInput, editBannerInput } from '../../../application/Entities/banner.entity';
+import { listingInput } from '../../../application/Entities/common.entity';
+import { IBannerModelEntity } from '../modelEntities/banner.entity';
 
 export interface IBannerRepository {
 
@@ -13,7 +13,7 @@ export interface IBannerRepository {
    updateBanner(input: editBannerInput):
       Promise<IBannerModelEntity | null>
 
-   deleteBanner(_id: string):
+   deleteBanner(id: string):
       Promise<void>
 
    getAllBanner():

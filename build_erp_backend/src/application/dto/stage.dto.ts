@@ -1,3 +1,5 @@
+import { IStageImageEntry } from '../../domain/Entities/modelEntities/stage.entity';
+
 export interface publicstageDTO {
    _id: string;
    stage_name: string;
@@ -6,6 +8,7 @@ export interface publicstageDTO {
    stage_amount: number;
    progress: number;
    status_date: Date;
+   stage_image:IStageImageEntry[]
 }
 
 export interface stageListDTO {

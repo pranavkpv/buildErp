@@ -41,7 +41,7 @@ export const validateStageAction = (req: Request,res: Response,next: NextFunctio
         return;
     }
 
-    let sumofStage = 0
+    let sumofStage = 0;
 
     for (const element of stages) {
         if (!element.stage_name || element.stage_name.trim() === '') {
@@ -51,8 +51,8 @@ export const validateStageAction = (req: Request,res: Response,next: NextFunctio
         }
         if (element.stage_name.length > 20) {
             res.status(HTTP_STATUS.BAD_REQUEST)
-                .json({ success: false, message: StageFailedMessage.STAGE_LENGTH })
-            return
+                .json({ success: false, message: StageFailedMessage.STAGE_LENGTH });
+            return;
         }
 
         if (!element.start_date) {
@@ -93,12 +93,12 @@ export const validateStageAction = (req: Request,res: Response,next: NextFunctio
             });
             return;
         }
-        sumofStage += element.stage_percentage
+        sumofStage += element.stage_percentage;
     }
     if (sumofStage !== 100) {
         res.status(HTTP_STATUS.BAD_REQUEST)
-            .json({ success: false, message: StageFailedMessage.STAGE_AMOUNT_MATCH })
-        return
+            .json({ success: false, message: StageFailedMessage.STAGE_AMOUNT_MATCH });
+        return;
     }
     next();
 };

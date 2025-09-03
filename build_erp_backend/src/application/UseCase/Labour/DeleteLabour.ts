@@ -12,7 +12,7 @@ export class DeleteLabourUseCase implements IDeleteLabourUseCase {
     constructor(
         private _labourRepository: ILabourRepository,
         private _specRepository: ISpecRepository,
-        private _attendanceRepository: IAttendanceRepository
+        private _attendanceRepository: IAttendanceRepository,
     ) { }
 
     async execute(id: string): Promise<commonOutput> {
@@ -20,9 +20,9 @@ export class DeleteLabourUseCase implements IDeleteLabourUseCase {
         if (existSpec) {
             return ResponseHelper.conflictData(LabourFailedMessage.EXIST_SPEC);
         }
-        const existAttendance = await this._attendanceRepository.getAttendanceBylabourId(id)
+        const existAttendance = await this._attendanceRepository.getAttendanceBylabourId(id);
         if (existAttendance) {
-            return ResponseHelper.conflictData(LabourFailedMessage.ATTENDANCE_TAKEN)
+            return ResponseHelper.conflictData(LabourFailedMessage.ATTENDANCE_TAKEN);
         }
         await this._labourRepository.deleteLabourById(id);
         return ResponseHelper.success(LabourSuccessMessage.DELETE);

@@ -7,8 +7,8 @@ export const validateSaveEstimation = (req: Request, res: Response, next: NextFu
     const { projectId, row } = req.body;
     if (!projectId) {
         res.status(HTTP_STATUS.BAD_REQUEST)
-            .json({ success: false, message: SpecFailedMessage.PROJECT_NAME_REQUIRED })
-        return
+            .json({ success: false, message: SpecFailedMessage.PROJECT_NAME_REQUIRED });
+        return;
     }
     if (!Array.isArray(row) || row.length === 0) {
         res.status(HTTP_STATUS.BAD_REQUEST)
@@ -19,13 +19,13 @@ export const validateSaveEstimation = (req: Request, res: Response, next: NextFu
     for (let i = 0; i < row.length; i++) {
         const item = row[i];
 
-        if (!item.spec_id || item.spec_id.trim() == "") {
+        if (!item.spec_id || item.spec_id.trim() === '') {
             res.status(HTTP_STATUS.BAD_REQUEST)
                 .json({ success: false, message: SpecFailedMessage.SPEC_ID_CHAR });
             return;
         }
 
-        if (!item.spec_name || item.spec_name.trim() == "") {
+        if (!item.spec_name || item.spec_name.trim() === '') {
             res.status(HTTP_STATUS.BAD_REQUEST)
                 .json({ success: false, message: SpecFailedMessage.SPEC_NAME_CHAR });
             return;

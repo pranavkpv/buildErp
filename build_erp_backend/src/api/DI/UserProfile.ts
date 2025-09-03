@@ -34,7 +34,7 @@ const getChatListUseCase = new GetSitemanagerListDataUseCase(projectRepository,p
 const getMessagesUseCase = new GetMessageDataUseCase(chatRepository,chatmapper);
 const blacklistUsecase = new BlackListUsecase(userRepository);
 const editEmailUseCase = new EditEmailUseCase(userRepository);
-const editEmailResendOTPUseCase = new EditEmailResendOTPUseCase(userRepository)
-const editEmailVerifyOTPUseCase = new EditEmailVerifyOtpUseCase(userRepository,userMapper)
+const editEmailResendOTPUseCase = new EditEmailResendOTPUseCase(userRepository);
+const editEmailVerifyOTPUseCase = new EditEmailVerifyOtpUseCase(userRepository,userMapper);
 export const injecteduserprofileController = new UserProfileController(jwtservice,updateProfileUseCase,updateProfileImageUseCase,changePasswordUseCase,
-   fetchUserprojectUseCase,getChatListUseCase,getMessagesUseCase,blacklistUsecase,editEmailUseCase,editEmailResendOTPUseCase,editEmailVerifyOTPUseCase);
+    fetchUserprojectUseCase,getChatListUseCase,getMessagesUseCase,blacklistUsecase,editEmailUseCase,editEmailResendOTPUseCase,editEmailVerifyOTPUseCase);

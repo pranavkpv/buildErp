@@ -23,11 +23,11 @@ export class ProjectController implements IProjectController {
         private _editProjectUseCase: IEditProjectUseCase,
         private _displayProjectUseCase: IDisplayAllProjectUseCase,
         private _changeStatusUseCase: IChangeStatusUseCase,
-        private _fetchProjectCountandStatus: IFetchProjectCountandStatusUseCase
+        private _fetchProjectCountandStatus: IFetchProjectCountandStatusUseCase,
     ) { }
 
     //  Fetch projects available for assigning site managers
-    getProjectsForSiteManager = async (req: Request, res: Response, next: NextFunction):
+    getProjectsForSiteManager = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<fetchProjectIdnameDTO[]> | commonOutput | void> => {
         try {
             const result = await this._addSiteToProjectFetchProjectUseCase.execute();
@@ -38,7 +38,7 @@ export class ProjectController implements IProjectController {
     };
 
     //  Fetch all projects
-    getAllProjects = async (req: Request, res: Response, next: NextFunction):
+    getAllProjects = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<fetchProjectIdnameDTO[]> | commonOutput | void> => {
         try {
             const result = await this._fetchProjectUseCase.execute();
@@ -49,7 +49,7 @@ export class ProjectController implements IProjectController {
     };
 
     // Fetch paginated & searchable project list
-    getPaginatedProjects = async (req: Request, res: Response, next: NextFunction):
+    getPaginatedProjects = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<{ data: displayProjectDTO[], totalPage: number }> | commonOutput | void> => {
         try {
             const { page, search } = req.query;
@@ -61,7 +61,7 @@ export class ProjectController implements IProjectController {
     };
 
     //  Fetch data needed before adding a project (e.g., user list)
-    getAddProjectData = async (req: Request, res: Response, next: NextFunction):
+    getAddProjectData = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<userLoginDTO[]> | commonOutput | void> => {
         try {
             const result = await this._displayAddProjectUseCase.execute();
@@ -72,7 +72,7 @@ export class ProjectController implements IProjectController {
     };
 
     // Save new project
-    createProject = async (req: Request, res: Response, next: NextFunction):
+    createProject = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput | void> => {
         try {
             const result = await this._addProjectUseCase.execute(req.body);
@@ -83,7 +83,7 @@ export class ProjectController implements IProjectController {
     };
 
     // Update existing project
-    updateProject = async (req: Request, res: Response, next: NextFunction):
+    updateProject = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput | void> => {
         try {
             const result = await this._editProjectUseCase.execute({ _id: req.params.id, ...req.body });
@@ -94,7 +94,7 @@ export class ProjectController implements IProjectController {
     };
 
     // Delete a project
-    deleteProject = async (req: Request, res: Response, next: NextFunction):
+    deleteProject = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput | void> => {
         try {
             const result = await this._deleteProjectUseCase.execute(req.params.id);
@@ -105,7 +105,7 @@ export class ProjectController implements IProjectController {
     };
 
     // Change project status (active/inactive)
-    changeProjectStatus = async (req: Request, res: Response, next: NextFunction):
+    changeProjectStatus = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput | void> => {
         try {
             const result = await this._changeStatusUseCase.execute(req.params.id, req.body.status);
@@ -115,13 +115,13 @@ export class ProjectController implements IProjectController {
         }
     };
 
-    fetchAllProjectwithStatusAndcount = async (req: Request, res: Response, next: NextFunction):
+    fetchAllProjectwithStatusAndcount = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<displayStatusCountDTO[]> | commonOutput | void> => {
         try {
-            const result = await this._fetchProjectCountandStatus.execute()
-            return result
+            const result = await this._fetchProjectCountandStatus.execute();
+            return result;
         } catch (error) {
-            next(error)
+            next(error);
         }
-    }
+    };
 }

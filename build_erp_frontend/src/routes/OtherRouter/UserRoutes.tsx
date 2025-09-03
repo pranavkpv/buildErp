@@ -18,6 +18,7 @@ import ListProject from "../../components/USER/UserFrontPage/ListProjects";
 import ProfileEdit from "../../components/ProfileComponent/ProfileEdit";
 import ChangePassword from "../../components/ProfileComponent/ChangePassword";
 import Chat from "../../components/ProfileComponent/Chat";
+import NotFound from "../../components/NotFound";
 
 export const UserRoutes = () => {
   return (
@@ -46,6 +47,7 @@ export const UserRoutes = () => {
         <Route path="change-password" element ={<ChangePassword />} />
         <Route path="chat" element ={<Chat />} />
       </Route>
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };

@@ -44,10 +44,22 @@ export class MaterialRepository implements IMaterialRepository {
             { $lookup: { from: 'brands', localField: 'brandObjectId', foreignField: '_id', as: 'brandDetails' } },
             { $match: { material_name: { $regex: searchRegex }, blockStatus: false } },
             { $skip: skip },
-            { $limit: 5 },
+            { $limit: 5 },{ $sort:{ createdAt:-1 } },
         ]);
-
-        const totalPage = Math.ceil(MaterialData.length / 5)
+        const totalDoc = await materialDB.aggregate([
+            {
+                $addFields: {
+                    categoryObjectId: { $toObjectId: '$category_id' },
+                    unitObjectId: { $toObjectId: '$unit_id' },
+                    brandObjectId: { $toObjectId: '$brand_id' },
+                },
+            },
+            { $lookup: { from: 'categories', localField: 'categoryObjectId', foreignField: '_id', as: 'categoryDetails' } },
+            { $lookup: { from: 'units', localField: 'unitObjectId', foreignField: '_id', as: 'unitDetails' } },
+            { $lookup: { from: 'brands', localField: 'brandObjectId', foreignField: '_id', as: 'brandDetails' } },
+            { $match: { material_name: { $regex: searchRegex }, blockStatus: false } },
+        ]);
+        const totalPage = Math.ceil(totalDoc.length / 5);
         return { data: MaterialData, totalPage };
     }
 
@@ -138,13 +150,13 @@ export class MaterialRepository implements IMaterialRepository {
 
     // Get unit names for a material
     async getUnitsByMaterialName(materialName: string): Promise<string[]> {
-        const result = await materialDB.find({ materialName }).distinct('unit_id');
+        const result = await materialDB.find({ material_name:materialName }).distinct('unit_id');
         return await unitDB.find({ _id: { $in: result } }).distinct('unit_name');
     }
 
     //  Get brand names for a material
     async getBrandsByMaterialName(materialName: string): Promise<string[]> {
-        const result = await materialDB.find({ materialName }).distinct('brand_id');
+        const result = await materialDB.find({ material_name:materialName }).distinct('brand_id');
         return await brandDB.find({ _id: { $in: result } }).distinct('brand_name');
     }
 

@@ -25,6 +25,7 @@ export class ChangePasswordUsecase implements IChangePasswordUseCase {
         if (!hashedCurrentPassword) {
             return ResponseHelper.conflictData(userFailedMessage.CURRENTPASSWORD_WRONG);
         }
+        
         const hashedPassword = await this._hasher.hash(password);
         await this._userRepository.updateUserPassword(_id, hashedPassword);
         return ResponseHelper.success(userSuccessMessage.PASSWORD_UPDATE);

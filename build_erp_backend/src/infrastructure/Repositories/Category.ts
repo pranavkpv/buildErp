@@ -37,9 +37,10 @@ export class CategoryRepository implements ICategoryRepository {
         const categoryList = await categoryDB
             .find({ category_name: { $regex: searchRegex }, blockStatus: false })
             .skip(skip)
-            .limit(limit);
+            .limit(limit).sort({ createdAt:-1 });
 
-        const totalPages = Math.ceil(categoryList.length / 5)
+        const totalDoc = await categoryDB.find({ category_name: { $regex: searchRegex }, blockStatus: false });
+        const totalPages = Math.ceil(totalDoc.length / 5);
 
         return { data: categoryList, totalPages };
     }

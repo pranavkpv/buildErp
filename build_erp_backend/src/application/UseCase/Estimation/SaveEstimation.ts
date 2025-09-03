@@ -7,18 +7,18 @@ import { commonOutput } from '../../dto/common';
 
 
 export class SaveEstimationUseCase implements ISaveEstimationUseCase {
-  constructor(
+    constructor(
     private _estimationRepository: IEstimationRepository,
-  ) { }
-  async execute(input: { projectId: string, row: saveEstimationInput[] }):
+    ) { }
+    async execute(input: { projectId: string, row: saveEstimationInput[] }):
     Promise<commonOutput> {
-    const projectId = input.projectId;
-    const specDetails = input.row;
-    const existEstimation = await this._estimationRepository.getEstimationsByProjectId(projectId)
-    if(existEstimation){
-      return ResponseHelper.conflictData(EstimationFailedMessage.ALREADY_DONE)
+        const projectId = input.projectId;
+        const specDetails = input.row;
+        const existEstimation = await this._estimationRepository.getEstimationsByProjectId(projectId);
+        if (existEstimation.length>0) {
+            return ResponseHelper.conflictData(EstimationFailedMessage.ALREADY_DONE);
+        }
+        await this._estimationRepository.createEstimation(specDetails, projectId);
+        return ResponseHelper.createdSuccess(EstimationSuccessMessage.ADD);
     }
-    await this._estimationRepository.createEstimation(specDetails, projectId);
-    return ResponseHelper.createdSuccess(EstimationSuccessMessage.ADD);
-  }
 }

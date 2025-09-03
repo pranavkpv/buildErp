@@ -19,6 +19,7 @@ export interface listEstimationDTO {
 }
 
 export interface specListInProjectDTO {
+   _id:string
    spec_id: string;
    spec_name: string;
    unitrate: number;

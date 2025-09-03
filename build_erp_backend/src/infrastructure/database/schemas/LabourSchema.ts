@@ -14,6 +14,6 @@ export const LabourSchema = new mongoose.Schema<ILabourModelEntity>({
     blockStatus: {
         type: Boolean,
         default: false,
-        required: true
-    }
+        required: true,
+    },
 },{ timestamps:true });

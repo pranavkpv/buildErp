@@ -40,14 +40,7 @@ function Material() {
 
   return (
     <div className="p-6 sm:p-8 min-h-screen bg-gray-900">
-      <div className="bg-gray-800/90 backdrop-blur-sm shadow-2xl rounded-2xl p-6 sm:p-8 max-w-7xl mx-auto border border-gray-700/50">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 mb-8">
-
-          <h1 className="text-2xl font-bold text-gray-100">Material Management</h1>
-        </div>
-
-
-        <MaterialList
+      <MaterialList
           setEnable={setAddMaterialEnable}
           enable={addMaterialEnable}
           materialData={materialData}
@@ -83,8 +76,6 @@ function Material() {
           deleteId={deleteId}
           onDeleteSuccess={fetchMaterials}
         />
-
-      </div>
     </div>
   );
 }

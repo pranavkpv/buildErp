@@ -5,7 +5,7 @@ import { SpecFailedMessage } from '../../../Shared/Messages/Specification.Messag
 /**
  * Middleware to validate specification creation/updation request body
  */
-export const validateSpecification = (req: Request, res: Response, next: NextFunction,): void => {
+export const validateSpecification = (req: Request, res: Response, next: NextFunction): void => {
     const {
         specId,
         specname,
@@ -37,8 +37,8 @@ export const validateSpecification = (req: Request, res: Response, next: NextFun
 
     if (specname.length > 20) {
         res.status(HTTP_STATUS.BAD_REQUEST).
-            json({ success: false, message: SpecFailedMessage.MAX_SPEC_NAME })
-        return
+            json({ success: false, message: SpecFailedMessage.MAX_SPEC_NAME });
+        return;
     }
 
     // ===== Validate specUnit =====
@@ -67,7 +67,7 @@ export const validateSpecification = (req: Request, res: Response, next: NextFun
         });
         return;
     }
-    let existMaterial: string[] = []
+    const existMaterial: string[] = [];
     for (let i = 0; i < materialDetails.length; i++) {
         const item = materialDetails[i];
         if (typeof item.quantity !== 'number' || item.quantity <= 0) {
@@ -79,17 +79,17 @@ export const validateSpecification = (req: Request, res: Response, next: NextFun
         }
         if (!item.material_id) {
             res.status(HTTP_STATUS.BAD_REQUEST)
-                .json({ success: false, message: SpecFailedMessage.MATERIAL_NAME_REQUIRED })
-            return
+                .json({ success: false, message: SpecFailedMessage.MATERIAL_NAME_REQUIRED });
+            return;
         }
         if (!existMaterial.includes(item.material_id)) {
-            existMaterial.push(item.material_id)
+            existMaterial.push(item.material_id);
         }
     }
     if (existMaterial.length !== materialDetails.length) {
         res.status(HTTP_STATUS.BAD_REQUEST).
-            json({ success: false, message: SpecFailedMessage.MATERIAL_UNIQUE })
-        return
+            json({ success: false, message: SpecFailedMessage.MATERIAL_UNIQUE });
+        return;
     }
 
     // ===== Validate labourDetails =====
@@ -100,7 +100,7 @@ export const validateSpecification = (req: Request, res: Response, next: NextFun
         });
         return;
     }
-    let existLabour: string[] = []
+    const existLabour: string[] = [];
     for (let i = 0; i < labourDetails.length; i++) {
         const item = labourDetails[i];
         if (typeof item.numberoflabour !== 'number' || item.numberoflabour <= 0) {
@@ -112,18 +112,18 @@ export const validateSpecification = (req: Request, res: Response, next: NextFun
         }
         if (!item.labour_id) {
             res.status(HTTP_STATUS.BAD_REQUEST)
-                .json({ success: false, message: SpecFailedMessage.LABOUR_NAME_REQUIRED })
-            return
+                .json({ success: false, message: SpecFailedMessage.LABOUR_NAME_REQUIRED });
+            return;
         }
         if (!existLabour.includes(item.labour_id)) {
-            existLabour.push(item.labour_id)
+            existLabour.push(item.labour_id);
         }
     }
 
     if (existLabour.length !== labourDetails.length) {
         res.status(HTTP_STATUS.BAD_REQUEST).
-            json({ success: false, message: SpecFailedMessage.LABOUR_UNIQUE })
-        return
+            json({ success: false, message: SpecFailedMessage.LABOUR_UNIQUE });
+        return;
     }
 
     // ===== Validate additionalExpensePer =====

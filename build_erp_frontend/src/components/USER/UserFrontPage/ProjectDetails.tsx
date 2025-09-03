@@ -33,10 +33,10 @@ interface Location {
   name: string;
 }
 
- type prop ={
-    latitude:number 
-    longitude:number
-  }
+type prop = {
+  latitude: number
+  longitude: number
+}
 
 
 function DetailProject() {
@@ -57,7 +57,7 @@ function DetailProject() {
 
   const fetchSpec = async () => {
     const response = await fetchExistEstimationInUser(projectId);
-    setSpec(response);
+    setSpec(response.data);
   };
 
   const fetchStage = async () => {
@@ -65,7 +65,7 @@ function DetailProject() {
     if (response.success) {
       setStage(response.data);
       let x = [];
-      for (let element of response.message) {
+      for (let element of response.data) {
         for (let item of element.stage_image) {
           for (let char of item.image) {
             x.push({ date: item.date, url: char });
@@ -91,8 +91,8 @@ function DetailProject() {
     return 0;
   };
 
- 
-  const MapViewUpdater = ({ latitude,longitude }:prop) => {
+
+  const MapViewUpdater = ({ latitude, longitude }: prop) => {
     const map = useMap();
     useEffect(() => {
       if (location) {
@@ -283,7 +283,8 @@ function DetailProject() {
                   </div>
                   <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2.5 mt-4">
                     <div
-                      className={`progress-bar progress-${ Math.floor(element.progress) }`}
+                      className="bg-gradient-to-r from-[#04a09c] to-[#22d6d1] h-2.5 rounded-full transition-all duration-500"
+                      style={{ width: `${ element.progress }%` }}
                     />
                   </div>
                   <p className="text-sm text-slate-600 dark:text-slate-300 mt-2">
@@ -344,12 +345,12 @@ function DetailProject() {
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
               />
               <MapViewUpdater latitude={latitude} longitude={longitude} />
-                <Marker key={`search-${ latitude }-${ longitude }`} position={[latitude,longitude]}>
-                  <Popup>{address}</Popup>
-                </Marker>
-    
-                <Marker position={[latitude,longitude]}>
-                </Marker>
+              <Marker key={`search-${ latitude }-${ longitude }`} position={[latitude, longitude]}>
+                <Popup>{address}</Popup>
+              </Marker>
+
+              <Marker position={[latitude, longitude]}>
+              </Marker>
             </MapContainer>
 
 

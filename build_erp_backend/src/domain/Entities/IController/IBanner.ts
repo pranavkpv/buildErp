@@ -1,6 +1,6 @@
-import { NextFunction, Request, Response } from "express";
-import { commonOutput } from "../../../application/dto/common";
-import { listBannerDTO } from "../../../application/dto/banner.dto";
+import { NextFunction, Request, Response } from 'express';
+import { commonOutput } from '../../../application/dto/common';
+import { listBannerDTO } from '../../../application/dto/banner.dto';
 
 export interface IBannerController {
 

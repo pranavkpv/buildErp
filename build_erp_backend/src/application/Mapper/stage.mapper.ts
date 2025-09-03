@@ -12,6 +12,7 @@ export class Stagemapper implements IStagemapper {
             stage_amount:element.stage_amount,
             progress:element.progress,
             status_date:element.status_date,
+            stage_image:element.stage_image,
         }));
     }
 }

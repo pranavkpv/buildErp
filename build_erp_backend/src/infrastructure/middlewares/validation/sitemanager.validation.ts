@@ -4,7 +4,7 @@ import { SitemanagerFailedMessage } from '../../../Shared/Messages/Sitemanager.M
 import { userFailedMessage } from '../../../Shared/Messages/User.Message';
 
 //stage staus change validation
-export const validateStatusChange = (req: Request, res: Response, next: NextFunction,): void => {
+export const validateStatusChange = (req: Request, res: Response, next: NextFunction): void => {
     const stageId = req.params.id;
     const { newProgress, date } = req.body;
 
@@ -124,8 +124,8 @@ export const validateAddSitemanager = (req: Request, res: Response, next: NextFu
 };
 
 // sitemanager login validation
-export const validateSitemanagerLogin = (req: Request, res: Response, next: NextFunction,): void => {
-    const { email, password } = req.body
+export const validateSitemanagerLogin = (req: Request, res: Response, next: NextFunction): void => {
+    const { email, password } = req.body;
     if (!email || typeof email !== 'string' || email.trim().length === 0) {
         res.status(HTTP_STATUS.BAD_REQUEST)
             .json({ success: false, message: SitemanagerFailedMessage.EMAIL_REQUIRED });
@@ -142,34 +142,34 @@ export const validateSitemanagerLogin = (req: Request, res: Response, next: Next
             .json({ success: false, message: SitemanagerFailedMessage.EMAIL_MAX });
         return;
     }
-    if (password.trim().length == 0) {
+    if (password.trim().length === 0) {
         res.status(HTTP_STATUS.BAD_REQUEST)
-            .json({ success: false, message: SitemanagerFailedMessage.PASSWORD_REQUIRED })
-        return
+            .json({ success: false, message: SitemanagerFailedMessage.PASSWORD_REQUIRED });
+        return;
     }
     if (password.trim().length < 6) {
         res.status(HTTP_STATUS.BAD_REQUEST)
-            .json({ success: false, message: SitemanagerFailedMessage.PASSWORD_MIN })
-        return
+            .json({ success: false, message: SitemanagerFailedMessage.PASSWORD_MIN });
+        return;
     }
     if (password.length > 20) {
         res.status(HTTP_STATUS.BAD_REQUEST)
-            .json({ success: false, message: SitemanagerFailedMessage.PASSWORD_MAX })
-        return
+            .json({ success: false, message: SitemanagerFailedMessage.PASSWORD_MAX });
+        return;
     }
     next();
-}
+};
 
 //validation of change password of sitemanager 
 
-export const validateSitemanagerChangePassword = (req: Request, res: Response, next: NextFunction,): void => {
-    const { password, changedpassword } = req.body
-    if (!password || password.trim().length == 0) {
+export const validateSitemanagerChangePassword = (req: Request, res: Response, next: NextFunction): void => {
+    const { password, changedpassword } = req.body;
+    if (!password || password.trim().length === 0) {
         res.status(HTTP_STATUS.BAD_REQUEST).
             json({ success: false, message: userFailedMessage.PASSWORD_REQUIRED });
         return;
     }
-    const trimmedPassword = changedpassword.trim()
+    const trimmedPassword = changedpassword.trim();
     if (trimmedPassword.length < 8) {
         res.status(HTTP_STATUS.BAD_REQUEST).
             json({ success: false, message: userFailedMessage.MIN_LIMIT_PASSWORD });
@@ -192,6 +192,6 @@ export const validateSitemanagerChangePassword = (req: Request, res: Response, n
             json({ success: false, message: userFailedMessage.WEAK_PASSWORD });
         return;
     }
-    next()
-}
+    next();
+};
 

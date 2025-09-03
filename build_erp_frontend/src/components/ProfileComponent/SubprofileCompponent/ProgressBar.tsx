@@ -27,7 +27,7 @@ function ProgressBar({ progressEnable, projectId }: progressProp) {
   const fetchStage = async (): Promise<void> => {
     const response = await getStageInUser(projectId);
     if (response.success) {
-      setStage(response.message);
+      setStage(response.data);
     }
   };
 

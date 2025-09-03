@@ -27,7 +27,7 @@ export class MaterialMapper implements IMaterialMapper {
     toEditMaterialDTO(material: editMaterialFullDatafetch): EditmaterialDetailsDTO {
         return {
             brand_id: material.brand_id,
-            category_id: material.brand_id,
+            category_id: material.category_id,
             material_name: material.material_name,
             stock: material.stock,
             unit_id: material.unit_id,

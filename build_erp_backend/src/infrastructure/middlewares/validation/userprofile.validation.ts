@@ -122,9 +122,6 @@ export const validatechangePassword = (req: Request, res: Response, next: NextFu
         res.status(HTTP_STATUS.BAD_REQUEST).json(userFailedMessage.WEAK_PASSWORD);
         return;
     }
-    if (currentpassword !== password) {
-        res.status(HTTP_STATUS.BAD_REQUEST).json(userFailedMessage.PASSWORD_NOT_MATCH);
-    }
     if (trimmedcurrentpassword.length < 8) {
         res.status(HTTP_STATUS.BAD_REQUEST).json(userFailedMessage.MIN_LIMIT_PASSWORD);
         return;

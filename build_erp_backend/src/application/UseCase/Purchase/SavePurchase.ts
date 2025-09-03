@@ -11,9 +11,9 @@ export class SavePurchaseUseCase implements ISavePurchaseUseCase {
         private _purchaseRepository: IPurchaseRepository,
     ) { }
     async execute(input: purchaseInput): Promise<commonOutput> {
-        const existInv = await this._purchaseRepository.getPurchaseByInvoice(input.invoice_number)
+        const existInv = await this._purchaseRepository.getPurchaseByInvoice(input.invoice_number);
         if (existInv) {
-            return ResponseHelper.conflictData(PurchaseFailedMessage.EXIST)
+            return ResponseHelper.conflictData(PurchaseFailedMessage.EXIST);
         }
         const response = await this._purchaseRepository.createPurchase(input);
         if (!response) {

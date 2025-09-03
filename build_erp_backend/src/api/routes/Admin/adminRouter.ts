@@ -288,7 +288,7 @@ export class AdminRoute {
 
         this.adminRoute.post('/uploadEstimated',
             validateUploadEstimationImage,
-            withLogging(injectEstimationController.modifyEstimation));
+            withLogging(injectEstimationController.uploadEstimationImage));
 
 
         this.adminRoute.get('/fetchExistEstimation/:id',
@@ -336,16 +336,16 @@ export class AdminRoute {
         // =====================================================================
 
         this.adminRoute.post('/addBanner',
-            withLogging(injectedBannerController.addBanner)
-        )
+            withLogging(injectedBannerController.addBanner),
+        );
         this.adminRoute.get('/banner',
-            withLogging(injectedBannerController.getBanner)
-        )
+            withLogging(injectedBannerController.getBanner),
+        );
         this.adminRoute.put('/banner/:id',
-            withLogging(injectedBannerController.editBanner)
-        )
+            withLogging(injectedBannerController.editBanner),
+        );
         this.adminRoute.delete('/banner/:id',
-            withLogging(injectedBannerController.deleteBanner)
-        )
+            withLogging(injectedBannerController.deleteBanner),
+        );
     }
 }

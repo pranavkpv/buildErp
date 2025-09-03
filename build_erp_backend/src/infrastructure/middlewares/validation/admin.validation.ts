@@ -3,7 +3,7 @@ import { HTTP_STATUS } from '../../../Shared/statusCodes/statusCodes';
 import { adminFailedMessage } from '../../../Shared/Messages/Admin.message';
 
 
-export const validateAdminLogin = (req: Request,res: Response,next: NextFunction,): void => {
+export const validateAdminLogin = (req: Request,res: Response,next: NextFunction): void => {
     try {
         const { username, password } = req.body;
 

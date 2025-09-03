@@ -42,8 +42,8 @@ export interface specTable {
   unitRate: number;
   materialDetails: materialData[];
   labourDetails: labourData[];
-  additionalExpense_per:number;
-  profit_per:number
+  additionalExpense_per: number;
+  profit_per: number
 }
 
 type listMaterail = {
@@ -115,8 +115,8 @@ function SpecList() {
         _id: element._id,
         materialDetails: element.materialDetails,
         labourDetails: element.labourDetails,
-        additionalExpense_per:element.additionalExpense_per,
-        profit_per:element.profit_per
+        additionalExpense_per: element.additionalExpense_per,
+        profit_per: element.profit_per
       });
     }
     setData(x);
@@ -124,10 +124,10 @@ function SpecList() {
   };
 
   useEffect(() => {
-    let debounce = setTimeout(()=>{
+    let debounce = setTimeout(() => {
       fetchSpecList();
-    },500)
-    return ()=>{
+    }, 500)
+    return () => {
       clearTimeout(debounce)
     }
   }, [page, search]);
@@ -235,7 +235,7 @@ function SpecList() {
                           setEditLabourRow(editLabRow);
                           seteditadditionalExpense_per(element.additionalExpense_per)
                           seteditprofit_per(element.profit_per)
-                          
+
                         }}
                       >
                         <PencilIcon className="h-5 w-5" />
@@ -266,8 +266,8 @@ function SpecList() {
                 key={i + 1}
                 onClick={() => setPage(i)}
                 className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 ${ page === i
-                    ? "bg-teal-600 text-white shadow-md"
-                    : "bg-gray-700 text-gray-300 hover:bg-teal-500 hover:text-white"
+                  ? "bg-teal-600 text-white shadow-md"
+                  : "bg-gray-700 text-gray-300 hover:bg-teal-500 hover:text-white"
                   }`}
               >
                 {i + 1}
@@ -275,17 +275,16 @@ function SpecList() {
             ))}
           </div>
         )}
-
-        <AddSpec />
-        <AddSpecMaterial  />
-        <AddLabourSpec />
-        <AddAdditionalSpec fetchSpecList={fetchSpecList} />
-        <EditSpec />
-        <EditSpecMaterial editrow={editMaterialRow} />
-        <EditLabourSpec editrow={editLabourRow} />
-        <EditAdditionalSpec fetchSpecList={fetchSpecList} />
-        <DeleteSpec fetchSpecList={fetchSpecList} />
       </div>
+      <AddSpec />
+      <AddSpecMaterial />
+      <AddLabourSpec />
+      <AddAdditionalSpec fetchSpecList={fetchSpecList} />
+      <EditSpec />
+      <EditSpecMaterial editrow={editMaterialRow} />
+      <EditLabourSpec editrow={editLabourRow} />
+      <EditAdditionalSpec fetchSpecList={fetchSpecList} />
+      <DeleteSpec fetchSpecList={fetchSpecList} />
     </div>
   );
 }

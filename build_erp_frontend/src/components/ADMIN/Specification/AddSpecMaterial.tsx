@@ -69,6 +69,7 @@ function AddSpecMaterial() {
     }
 
     const brandData = await fetchBrandCorrespondingMaterial(materialValue);
+    console.log(brandData)
     const unitData = await fetchUnitCorrespondingMaterial(materialValue);
     const newRow = [...row];
     newRow[idx] = {

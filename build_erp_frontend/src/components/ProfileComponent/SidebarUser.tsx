@@ -25,14 +25,15 @@ function SidebarUser() {
           return 
         }
         const response = await UpdateProfileImageAPI(file)
+        console.log(response)
         if (response.success) {
           toast.success(response.message)
           dispatch(login({
-            _id: response.data._id,
-            username: response.data.username,
-            email: response.data.email,
-            phone: response.data.phone,
-            profile_image: response.data?.profile_image,
+            _id: response.data.userData._id,
+            username: response.data.userData.username,
+            email: response.data.userData.email,
+            phone: response.data.userData.phone,
+            profile_image: response.data.userData.profile_image,
             token: localStorage.getItem("accessToken") || "",
           }));
         }else{

@@ -11,25 +11,25 @@ import { IAttendanceRepository } from '../../../domain/Entities/IRepository/IAtt
 
 
 export class DeleteSiteToProjectUseCase implements IDeleteSiteToProjectUseCase {
-  constructor(
+    constructor(
     private _projectRepository: IprojectRepository,
     private _purchaseRepository: IPurchaseRepository,
     private _transferRepository: ITransferRepository,
     private _receiveRepository: IReceiveRepository,
-    private _attendanceRepository: IAttendanceRepository
-  ) { }
-  async execute(id: string, sitemanagerId: string): Promise<commonOutput> {
-    const projectCorrespondingSitemanager = await this._projectRepository.getProjectsBySitemanagerId(sitemanagerId)
-    for (let element of projectCorrespondingSitemanager) {
-      const existUnApprovedPurchase = await this._purchaseRepository.getUnApprovedPurchaseByProjectId(element._id)
-      const existUnApprovedTransfer = await this._transferRepository.getUnApprovedTransferByProjectId(element._id)
-      const existUnApprovedReceive = await this._receiveRepository.getUnApprovedReceiveByProjectid(element._id)
-      const existUnApprovedAttendance = await this._attendanceRepository.getUnApprovedAttendanceByProjectId(element._id)
-      if (existUnApprovedPurchase.length > 0 || existUnApprovedTransfer.length > 0 || existUnApprovedReceive.length > 0 || existUnApprovedAttendance.length>0) {
-        return ResponseHelper.conflictData(SitemanagerFailedMessage.DATA_EXIST)
-      }
+    private _attendanceRepository: IAttendanceRepository,
+    ) { }
+    async execute(id: string, sitemanagerId: string): Promise<commonOutput> {
+        const projectCorrespondingSitemanager = await this._projectRepository.getProjectsBySitemanagerId(sitemanagerId);
+        for (const element of projectCorrespondingSitemanager) {
+            const existUnApprovedPurchase = await this._purchaseRepository.getUnApprovedPurchaseByProjectId(element._id);
+            const existUnApprovedTransfer = await this._transferRepository.getUnApprovedTransferByProjectId(element._id);
+            const existUnApprovedReceive = await this._receiveRepository.getUnApprovedReceiveByProjectid(element._id);
+            const existUnApprovedAttendance = await this._attendanceRepository.getUnApprovedAttendanceByProjectId(element._id);
+            if (existUnApprovedPurchase.length > 0 || existUnApprovedTransfer.length > 0 || existUnApprovedReceive.length > 0 || existUnApprovedAttendance.length>0) {
+                return ResponseHelper.conflictData(SitemanagerFailedMessage.DATA_EXIST);
+            }
+        }
+        await this._projectRepository.removeSitemanagerFromProject({ siteManager_id: sitemanagerId, selectedproject: id });
+        return ResponseHelper.success(SitemanagerSuccessMessage.DELETE);
     }
-    await this._projectRepository.removeSitemanagerFromProject({ siteManager_id: sitemanagerId, selectedproject: id });
-    return ResponseHelper.success(SitemanagerSuccessMessage.DELETE);
-  }
 }

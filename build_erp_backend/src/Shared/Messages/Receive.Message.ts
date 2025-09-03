@@ -12,5 +12,5 @@ export const ReceiveFailedMessage = {
     GREATER_DATE: 'Receive Date must be greater than Transfer Date',
     SAVE: 'Failed to Save Receive Data',
     UPDATE: 'Failed to Update Receive Data',
-    SELECT_ATLEAST_ONE : 'Select atleast one transfer have to receive in this entry'
+    SELECT_ATLEAST_ONE : 'Select atleast one transfer have to receive in this entry',
 };

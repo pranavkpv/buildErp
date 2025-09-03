@@ -9,17 +9,17 @@ import { IDeleteSitemanagerUseCase } from '../../IUseCases/ISitemanager/IDeleteS
 
 
 export class DeleteSitemanagerUseCase implements IDeleteSitemanagerUseCase {
-  constructor(
+    constructor(
     private _sitemanagerRepository: ISitemanagerRepository,
-    private _projectRepository: IprojectRepository
-  ) { }
-  async execute(id: string): Promise<commonOutput> {
-    const existSitemanagerInProject =  await this._projectRepository.getProjectsBySitemanagerId(id)
-    if(existSitemanagerInProject){
-      return ResponseHelper.conflictData(SitemanagerFailedMessage.ADD_PROJECT)
+    private _projectRepository: IprojectRepository,
+    ) { }
+    async execute(id: string): Promise<commonOutput> {
+        const existSitemanagerInProject =  await this._projectRepository.getProjectsBySitemanagerId(id);
+        if (existSitemanagerInProject){
+            return ResponseHelper.conflictData(SitemanagerFailedMessage.ADD_PROJECT);
+        }
+        await this._sitemanagerRepository.removeSitemanagerById(id);
+        return ResponseHelper.success(SitemanagerSuccessMessage.DELETE);
     }
-    await this._sitemanagerRepository.removeSitemanagerById(id);
-    return ResponseHelper.success(SitemanagerSuccessMessage.DELETE);
-  }
 
 }

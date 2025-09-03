@@ -13,7 +13,7 @@ import { LabourController } from '../controllers/Labour';
 const labourRepository = new LabourRepository();
 const labourmapper = new LabourMapper();
 const specRepository = new SpecRepository();
-const attendanceRepository = new AttendanceRepository()
+const attendanceRepository = new AttendanceRepository();
 const displayAllLabourUseCase = new DisplayAllLabourUseCase(labourRepository,labourmapper);
 const addLabourUseCase = new AddLabourUseCase(labourRepository);
 const updateLabourUseCase = new UpdateLabourUseCase(labourRepository);

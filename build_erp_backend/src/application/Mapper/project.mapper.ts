@@ -92,7 +92,7 @@ export class ProjectMapper implements IProjectmapper {
     toStatusCountDto(project: groupedProjectwithStatus[]): displayStatusCountDTO[] {
         return project.map((element)=>({
             label:element._id,
-            number:element.count
+            number:element.count,
         }));
     }
 }

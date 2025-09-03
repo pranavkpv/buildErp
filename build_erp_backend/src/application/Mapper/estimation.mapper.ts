@@ -26,8 +26,9 @@ export class EstimationMapper implements IEstimationmapper {
     }
     toSpecListDTO(estimation: estiomationAggregateByspec[]): specListInProjectDTO[] {
         return estimation.map((element)=>({
+            _id:element._id,
             spec_name:element.specDetails.spec_name,
-            spec_id:element.specDetails._id,
+            spec_id:element.specDetails.spec_id,
             quantity:element.quantity,
             unitrate:element.unit_rate,
             total:element.unit_rate * element.quantity,

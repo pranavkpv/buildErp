@@ -139,8 +139,8 @@ function Unit() {
               ))}
             </div>
         </div>
-
-        <EditUnit
+      </div>
+         <EditUnit
           enable={enableEdit}
           setEnable={setEnableEdit}
           editId={editId}
@@ -155,7 +155,6 @@ function Unit() {
           setEnable={setEnableDelete}
           onDeleteSuccess={fetchData}
         />
-      </div>
     </div>
   );
 }

@@ -19,7 +19,7 @@ export class StatusController implements IstatusController {
     ) { }
 
     //  Update stage status 
-    updateStageStatus = async (req: Request, res: Response, next: NextFunction):
+    updateStageStatus = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput | void> => {
         try {
             const result = await this._stageStatusChangeUseCase.execute({
@@ -33,7 +33,7 @@ export class StatusController implements IstatusController {
     };
 
     //  Upload stage-related images 
-    uploadStageImages = async (req: Request, res: Response, next: NextFunction):
+    uploadStageImages = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput | void> => {
         try {
             const file = req.files?.image;
@@ -75,7 +75,7 @@ export class StatusController implements IstatusController {
         }
     };
     //fetch stages by projects
-    getStageByProjectId = async (req: Request, res: Response, next: NextFunction):
+    getStageByProjectId = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<publicstageDTO[]> | void> => {
         try {
             const _id = req.params.id;

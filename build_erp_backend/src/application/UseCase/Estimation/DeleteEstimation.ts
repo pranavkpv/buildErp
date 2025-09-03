@@ -14,7 +14,7 @@ export class DeleteEstimationUseCase implements IDeleteEstimationUseCase {
     ) { }
     async execute(id: string): Promise<commonOutput> {
         const existStage = await this._stageRepository.findStageByprojectId(id);
-        if (existStage) {
+        if (existStage.length>0) {
             return ResponseHelper.conflictData(EstimationFailedMessage.USED_STAGE);
         }
         await this._estimationRepository.deleteEstimationsByProjectId(id);

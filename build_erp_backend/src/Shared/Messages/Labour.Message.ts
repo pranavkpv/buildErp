@@ -15,6 +15,6 @@ export const LabourFailedMessage = {
     DAILYWAGE_CHAR: 'daily_wage must be a valid number',
     DAILYWAGE_GREATER_ZERO: 'daily_wage must be greater than 0',
     DAILY_WAGE_MAX: 'daily_wage is too high, must be less than 100000',
-    INVALID_LABOUR : "Labour type is invalid",
-    ATTENDANCE_TAKEN : "Failed to delete attandance because the labour attendance is already taken"
+    INVALID_LABOUR : 'Labour type is invalid',
+    ATTENDANCE_TAKEN : 'Failed to delete attandance because the labour attendance is already taken',
 };

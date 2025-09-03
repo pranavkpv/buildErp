@@ -13,16 +13,16 @@ if (!fs.existsSync(LOGS_DIR)) {
 
 const cleanupOldLogs = () => {
     fs.readdir(LOGS_DIR, (err, files) => {
-        if (err) return console.error("Error reading log directory:", err);
+        if (err) return console.error('Error reading log directory:', err);
         const now = Date.now();
         files.forEach(file => {
             const filePath = path.join(LOGS_DIR, file);
             fs.stat(filePath, (err, stats) => {
-                if (err) return console.error("Error getting file stats:", err);
+                if (err) return console.error('Error getting file stats:', err);
                 const ageInDays = (now - stats.mtime.getTime()) / (1000 * 60 * 60 * 24);
                 if (ageInDays > RETENTION_DAYS) {
                     fs.unlink(filePath, err => {
-                        if (err) console.error("Error deleting old log file:", err);
+                        if (err) console.error('Error deleting old log file:', err);
                         else console.log(`Deleted old log file: ${file}`);
                     });
                 }
@@ -44,7 +44,7 @@ const logger = createLogger({
         colorize(),
         timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
         errors({ stack: true }),
-        customFormat
+        customFormat,
     ),
     transports: [
         new transports.File({
