@@ -8,11 +8,11 @@ import { IEstimationmapper } from '../../../domain/IMappers/IEstimation.mapper';
 
 export class FetchExistEstimationUseCase implements IFetchExistEstimationUseCase {
     constructor(
-    private _estimationRepository: IEstimationRepository,
-    private _estimationMapper: IEstimationmapper,
+        private _estimationRepository: IEstimationRepository,
+        private _estimationMapper: IEstimationmapper,
     ) { }
     async execute(id: string):
-    Promise<commonOutput<publicEstimationDTO[]>> {
+        Promise<commonOutput<publicEstimationDTO[]>> {
         const data = await this._estimationRepository.getEstimationsGroupedBySpec(id);
         const mappedData = this._estimationMapper.topublicEstimateData(data);
         return ResponseHelper.success(EstimationSuccessMessage.FETCH, mappedData);

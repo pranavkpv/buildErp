@@ -1,6 +1,7 @@
 import { Server, Socket } from 'socket.io';
 import { IChatSocket } from '../../IUseCases/IChat/IChatSocket';
 import { IChatSaveUseCase } from '../../IUseCases/IChat/IChatSave';
+import { messageStatus } from '../../../Shared/Constants/MessasageStatus.constant';
 
 
 
@@ -20,13 +21,13 @@ export class ChatSocket implements IChatSocket {
             });
 
             socket.on('sendMessage', async({ senderId, receiverId, message }) => {
-                const savedMessage = await this._chatSaveUseCase.execute({ senderId, receiverId, message });
+                const savedMessage = await this._chatSaveUseCase.execute({ senderId, receiverId, message,messageStatus:messageStatus.SEND });
                 const room = [senderId, receiverId].sort().join('_');
                 this._io.to(room).emit('receiveMessage', savedMessage);
             });
 
             socket.on('disconnect', () => {
-                console.log('🔴 User disconnected:', socket.id);
+                console.log(' User disconnected:', socket.id);
             });
         });
     }

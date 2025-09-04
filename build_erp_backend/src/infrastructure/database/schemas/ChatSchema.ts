@@ -13,5 +13,8 @@ export const ChatSchema = new mongoose.Schema<IChatModelEntity> ({
     message:{
         type:String,
     },
+    messageStatus:{
+        type:String
+    }
 },{ timestamps:true });
 

@@ -28,7 +28,6 @@ function ProjectDetails() {
   useEffect(() => {
     const fetchUserProject = async () => {
       const response = await fetchUserProjectAPI();
-      console.log(response)
       setProject(response.data);
     };
 

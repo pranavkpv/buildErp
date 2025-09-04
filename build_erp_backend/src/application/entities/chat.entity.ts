@@ -5,4 +5,5 @@ export interface fetchingChatInput {
 
 export interface savingChatInput extends fetchingChatInput {
    message:string
+   messageStatus:string
 }

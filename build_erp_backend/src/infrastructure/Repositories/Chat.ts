@@ -18,11 +18,12 @@ export class ChatRepository implements IChatRepository {
 
     // Create a new chat message
     async createChat(input: savingChatInput): Promise<IChatModelEntity> {
-        const { senderId, receiverId, message } = input;
+        const { senderId, receiverId, message,messageStatus } = input;
         const newChat = new chatDB({
             senderId,
             receiverId,
             message,
+            messageStatus
         });
 
         return await newChat.save();
