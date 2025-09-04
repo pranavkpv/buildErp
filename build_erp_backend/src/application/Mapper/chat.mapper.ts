@@ -8,6 +8,7 @@ export class ChatMapper implements IChatMapper {
             _id: item._id,
             senderId: item.senderId,
             receiverId: item.receiverId,
+            messageStatus:item.messageStatus,
             message: item.message,
             createdAt: item.createdAt,
         }));

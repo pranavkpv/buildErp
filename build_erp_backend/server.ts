@@ -17,6 +17,7 @@ import { AdminRoute } from './src/api/routes/Admin/adminRouter';
 import { userRoute } from './src/api/routes/User/userRouter';
 import { authRoute } from './src/api/routes/Auth/authRouter';
 import logger from './src/infrastructure/logger/logger';
+import { ChatMessageStatusUpdateUseCase } from './src/application/UseCase/Chat/ChatMessageStatusUpadte';
 
 
 require("dotenv").config();
@@ -39,7 +40,8 @@ export class App {
       this.io = new SocketIOServer(this.server, { cors: { origin: "*" } });
       const chatRepository = new ChatRepository()
       const chatSaveUseCase = new ChatSaveusecase(chatRepository);
-      const chatSocket = new ChatSocket(this.io, chatSaveUseCase);
+      const chatMessageStatusUpdate = new ChatMessageStatusUpdateUseCase(chatRepository)
+      const chatSocket = new ChatSocket(this.io, chatSaveUseCase,chatMessageStatusUpdate);
       chatSocket.init();
    }
 

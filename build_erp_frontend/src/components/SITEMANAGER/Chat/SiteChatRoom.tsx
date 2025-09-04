@@ -1,23 +1,26 @@
 import { jwtDecode } from "jwt-decode";
 import { socket } from "../../../api/socket";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { fetchMessagesApiInSitemanager } from "../../../api/Sitemanager/profile";
 
 interface Message {
-  id: string;
+  _id: string;
   message: string;
   senderId: string;
   receiverId: string;
+  messageStatus: string;
   time: string;
   date: string;
+  temp?: boolean;
 }
 
 interface ReceiveMessage {
-  id: string;
+  _id: string;
   message: string;
   senderId: string;
   receiverId: string;
+  messageStatus: string;
   createdAt: Date;
 }
 
@@ -42,15 +45,16 @@ interface DisplayMessage {
 function SiteChatRoom({ username, userId }: ChatRoomProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState<string>("");
-  const [decoded, setDecoded] = useState<DecodedToken | null>(null);
-  const [showMessage, setShowMessage] = useState<DisplayMessage[]>([]);
+  const accessToken = localStorage.getItem("accessToken");
+  const user:DecodedToken | null = accessToken ?  jwtDecode(accessToken):null;
+  console.log(user)
 
-  // ✅ group messages by date
+
   const groupMessages = (msgs: Message[]): DisplayMessage[] => {
     return msgs.reduce((acc: DisplayMessage[], msg) => {
-      const existingGroup = acc.find((g) => g.date === msg.date);
-      if (existingGroup) {
-        existingGroup.messages.push(msg);
+      const group = acc.find((g) => g.date === msg.date);
+      if (group) {
+        group.messages.push(msg);
       } else {
         acc.push({ date: msg.date, messages: [msg] });
       }
@@ -58,127 +62,148 @@ function SiteChatRoom({ username, userId }: ChatRoomProps) {
     }, []);
   };
 
-  // Decode token
-  useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken");
-    if (accessToken) {
-      try {
-        const decodedToken: DecodedToken = jwtDecode(accessToken);
-        setDecoded(decodedToken);
-      } catch (error) {
-        toast.error("Invalid access token");
-        console.error("Error decoding token:", error);
-      }
-    } else {
-      toast.error("No access token found");
-    }
-  }, []);
-
-  // Fetch messages
   const messageFetch = async () => {
-    if (!userId) {
-      toast.error("No user selected for chat");
-      return;
-    }
+    if (!userId) return;
     try {
       const response = await fetchMessagesApiInSitemanager(userId);
       if (response.success) {
-        let x: Message[] = response.data.map((element: any) => ({
-          id: element.id,
+        const x: Message[] = response.data.map((element: any) => ({
+          id: element._id,
           message: element.message,
           senderId: element.senderId,
           receiverId: element.receiverId,
+          messageStatus: element.messageStatus,
           time: convertTime(element.createdAt),
           date: convertDate(element.createdAt),
         }));
         setMessages(x);
-        setShowMessage(groupMessages(x));
       } else {
         toast.error(response.message);
       }
-    } catch (error) {
+    } catch {
       toast.error("Failed to fetch messages");
-      console.error("Error fetching messages:", error);
     }
   };
 
-  // Join chat room and listen for messages
-  useEffect(() => {
-    if (!decoded?._id || !userId) return;
-
-    messageFetch();
-
-    socket.emit("joinRoom", { senderId: decoded._id, receiverId: userId });
-    socket.on("receiveMessage", (message: ReceiveMessage) => {
+  const handleReceiveMessage = useCallback(
+    (message: ReceiveMessage) => {
       const formatted: Message = {
-        ...message,
+        _id: message._id,
+        message: message.message,
+        senderId: message.senderId,
+        receiverId: message.receiverId,
+        messageStatus: message.messageStatus,
         time: convertTime(message.createdAt),
         date: convertDate(message.createdAt),
       };
+
       setMessages((prev) => {
-        const updated = [...prev, formatted];
-        setShowMessage(groupMessages(updated)); // ✅ keep grouped
-        return updated;
+        const exists = prev.find((m) => m._id === formatted._id);
+        if (exists) {
+          return prev.map((m) =>
+            m._id === formatted._id ? { ...m, messageStatus: formatted.messageStatus } : m
+          );
+        }
+        const tempExists = prev.find(
+          (m) =>
+            m.temp &&
+            m.message === formatted.message &&
+            m.senderId === formatted.senderId &&
+            m.receiverId === formatted.receiverId
+        );
+        if (tempExists) {
+          return prev.map((m) =>
+            m.temp && m.message === formatted.message
+              ? { ...formatted, temp: false }
+              : m
+          );
+        }
+        return [...prev, formatted];
       });
-    });
+      if(!user) return
+
+      if (
+        formatted.receiverId === user._id &&
+        formatted.messageStatus === "send"
+      ) {
+        socket.emit("messageDelivered", {
+          messageId: formatted._id,
+          senderId: formatted.senderId,
+          receiverId: formatted.receiverId,
+        });
+      }
+    },
+    [user?._id]
+  );
+
+  useEffect(() => {
+    if (!user?._id || !userId) return;
+
+    messageFetch();
+    socket.emit("joinRoom", { senderId: user._id, receiverId: userId });
+    socket.on("receiveMessage", handleReceiveMessage);
 
     return () => {
-      socket.off("receiveMessage");
+      socket.off("receiveMessage", handleReceiveMessage);
     };
-  }, [decoded?._id, userId]);
+  }, [user?._id, userId, handleReceiveMessage]);
 
-  // Send message
   const handleSendMessage = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newMessage.trim()) {
-      toast.error("Message cannot be empty");
-      return;
-    }
-    if (!decoded?._id || !userId) {
-      toast.error("Cannot send message: Invalid user");
-      return;
-    }
+    if (!newMessage.trim()) return toast.error("Message cannot be empty");
+    if (!user?._id || !userId)
+      return toast.error("Cannot send message: Invalid user");
+
+    const tempId = Date.now().toString();
+
+    const tempMsg: Message = {
+      _id: tempId,
+      message: newMessage,
+      senderId: user._id,
+      receiverId: userId,
+      messageStatus: "sending",
+      time: convertTime(new Date()),
+      date: convertDate(new Date()),
+      temp: true,
+    };
+
+    setMessages((prev) => [...prev, tempMsg]);
+
     socket.emit("sendMessage", {
-      senderId: decoded._id,
+      senderId: user._id,
       receiverId: userId,
       message: newMessage,
     });
+
     setNewMessage("");
   };
 
-  if (!decoded || !userId) {
-    return (
-      <div className="flex items-center justify-center h-full bg-gray-800/90 rounded-xl">
-        <p className="text-base text-gray-400">
-          Unable to load chat. Please try again.
-        </p>
-      </div>
-    );
-  }
-
-  // Helpers
   const convertTime = (dateInput: string | Date) => {
-    const date =
-      typeof dateInput === "string"
-        ? new Date(dateInput)
-        : new Date(dateInput.getTime());
+    const date = new Date(dateInput);
     let hours = date.getHours();
     const minutes = date.getMinutes().toString().padStart(2, "0");
     const ampm = hours >= 12 ? "PM" : "AM";
     hours = hours % 12 || 12;
-    return `${hours}:${minutes}${ampm}`;
+    return `${ hours }:${ minutes }${ ampm }`;
   };
 
   const convertDate = (dateInput: string | Date) => {
-    const date =
-      typeof dateInput === "string"
-        ? new Date(dateInput)
-        : new Date(dateInput.getTime());
-    let day = date.getDate().toString().padStart(2, "0");
-    let month = (date.getMonth() + 1).toString().padStart(2, "0");
-    let year = date.getFullYear().toString();
-    return `${day}-${month}-${year}`;
+    const date = new Date(dateInput);
+    return `${ date.getDate().toString().padStart(2, "0") }-${ (
+      date.getMonth() + 1
+    )
+      .toString()
+      .padStart(2, "0") }-${ date.getFullYear() }`;
   };
+
+  const renderStatus = (status: string) => {
+    if (status === "send") return "✓";
+    if (status === "delivered") return "✓✓";
+    if (status === "seen") return "✓✓ (blue)";
+    return "";
+  };
+
+  const grouped = groupMessages(messages);
 
   return (
     <div className="h-full flex flex-col bg-gray-800/90 backdrop-blur-sm rounded-xl border border-gray-700/50 p-6">
@@ -186,47 +211,50 @@ function SiteChatRoom({ username, userId }: ChatRoomProps) {
         Chat with {username}
       </h2>
 
+      {/* Chat Messages */}
       <div className="flex-1 overflow-y-auto bg-gray-800/50 rounded-lg p-4 space-y-6 mb-4">
-        {showMessage.length === 0 ? (
+        {grouped.length === 0 ? (
           <div className="text-center text-gray-400 text-sm">
             No messages yet. Start the conversation!
           </div>
         ) : (
-          showMessage.map((group) => (
+          grouped.map((group) => (
             <div key={group.date}>
               <div className="text-center mb-2">
                 <span className="px-3 py-1 text-xs bg-gray-600 rounded-full text-gray-200">
-                  {group.date==convertDate(String(new Date())) ? "Today" : group.date}
+                  {group.date === convertDate(new Date()) ? "Today" : group.date}
                 </span>
               </div>
               {group.messages.map((msg) => (
+              <div
+                key={msg._id}
+                className={`flex mb-2 ${
+                  msg.senderId === user?._id ? "justify-end" : "justify-start"
+                }`}
+              >
                 <div
-                  key={msg.id}
-                  className={`flex mb-2 ${
-                    msg.senderId === decoded._id
-                      ? "justify-end"
-                      : "justify-start"
+                  className={`max-w-xs p-3 rounded-2xl shadow ${
+                      msg.senderId === user?._id
+                      ? "bg-teal-500 text-white rounded-br-none"
+                      : "bg-white text-slate-800 border border-slate-200 rounded-bl-none"
                   }`}
                 >
-                  <div
-                    className={`max-w-xs p-3 rounded-2xl shadow-md ${
-                      msg.senderId === decoded._id
-                        ? "bg-teal-600 text-gray-100 rounded-br-none"
-                        : "bg-gray-700 text-gray-100 rounded-bl-none"
-                    }`}
-                  >
-                    <p>{msg.message}</p>
-                    <p className="text-[10px] text-gray-300 mt-1 text-right">
-                      {msg.time}
+                  <p className="break-words">{msg.message}</p>
+                  <p className="text-[10px] text-slate-700 mt-1 text-right">
+                    {msg.time}
+                  </p>
+                    {msg.senderId === user?._id && (
+                    <p className="text-[10px] text-right mt-0.5">
+                      {renderStatus(msg.messageStatus)}
                     </p>
-                  </div>
+                  )}
                 </div>
-              ))}
+              </div>
+            ))}
             </div>
           ))
         )}
       </div>
-
       <form onSubmit={handleSendMessage} className="flex items-center gap-2">
         <label htmlFor="messageInput" className="sr-only">
           Type your message

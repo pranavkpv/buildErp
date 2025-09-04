@@ -8,4 +8,10 @@ export interface IChatRepository {
 
    createChat(input: savingChatInput):
       Promise<IChatModelEntity>
+
+   updateMessageStatus(id: string):
+      Promise<void>
+
+   getChatById(id: string):
+      Promise<IChatModelEntity | null>
 }
