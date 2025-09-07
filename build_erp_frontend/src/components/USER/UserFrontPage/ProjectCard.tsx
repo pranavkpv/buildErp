@@ -9,8 +9,8 @@ type projectProp = {
   address: string;
   status: string;
   description: string;
-  latitude:number,
-  longitude:number,
+  latitude: number;
+  longitude: number;
   index: number;
 };
 
@@ -18,7 +18,6 @@ function ProjectCard({
   _id,
   project_name,
   expected_image,
-  finalImage,
   area,
   address,
   status,
@@ -31,21 +30,21 @@ function ProjectCard({
     switch (status) {
       case "pending":
         return {
-          bg: "bg-gradient-to-r from-amber-400 to-orange-500",
-          glow: "shadow-amber-400/25",
-          pulse: "animate-pulse",
+          bg: "bg-gradient-to-r from-amber-500 to-orange-500",
+          badge: "bg-amber-100 text-amber-700",
+          glow: "shadow-amber-400/20",
         };
       case "processing":
         return {
-          bg: "bg-gradient-to-r from-[#04a09c] to-[#22d6d1]",
-          glow: "shadow-teal-400/25",
-          pulse: "",
+          bg: "bg-gradient-to-r from-blue-600 to-emerald-600",
+          badge: "bg-blue-100 text-blue-700",
+          glow: "shadow-blue-400/20",
         };
       default:
         return {
-          bg: "bg-gradient-to-r from-emerald-500 to-[#04a09c]",
-          glow: "shadow-emerald-400/25",
-          pulse: "",
+          bg: "bg-gradient-to-r from-emerald-500 to-blue-500",
+          badge: "bg-emerald-100 text-emerald-700",
+          glow: "shadow-emerald-400/20",
         };
     }
   };
@@ -54,56 +53,56 @@ function ProjectCard({
 
   return (
     <div className="group relative w-full max-w-sm mx-auto">
-      {/* Animated Background Glow */}
-      <div className={`absolute -inset-0.5 ${statusConfig.bg} rounded-2xl blur opacity-0 group-hover:opacity-20 transition-all duration-700 animate-tilt`}></div>
-      
-      <div className="relative backdrop-blur-sm bg-white/90 dark:bg-slate-900/90 rounded-2xl shadow-xl hover:shadow-2xl border border-white/20 dark:border-slate-700/50 overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:rotate-1 h-[28rem] flex flex-col">
-        
-        {/* Image Container with Fixed Height */}
-        <div className="relative overflow-hidden h-56">
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-          
+      {/* Background Glow */}
+      <div className={`absolute -inset-1 ${statusConfig.bg} rounded-xl blur-md opacity-0 group-hover:opacity-20 transition-opacity duration-500`}></div>
+
+      <div className="relative bg-white rounded-xl shadow-md hover:shadow-xl border border-gray-200 overflow-hidden transition-all duration-500 hover:-translate-y-1 flex flex-col h-[28rem]">
+        {/* Image Container */}
+        <div className="relative overflow-hidden h-48">
           <img
-            src={ expected_image }
+            src={expected_image}
             alt={project_name}
-            className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110 group-hover:brightness-110"
+            className="w-full h-full object-cover transition-all duration-500 group-hover:scale-105"
+            loading={index === 0 ? "eager" : "lazy"}
           />
-          {/* Animated Corner Accent */}
-          <div className="absolute bottom-0 right-0 w-0 h-0 border-l-[60px] border-l-transparent border-b-[60px] border-b-gradient-to-br from-purple-500 to-pink-500 opacity-0 group-hover:opacity-80 transition-all duration-500"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          {/* Status Badge */}
+          <div className={`absolute top-3 right-3 px-2 py-1 rounded-full text-xs font-medium ${statusConfig.badge}`}>
+            {status.charAt(0).toUpperCase() + status.slice(1)}
+          </div>
         </div>
 
-        {/* Content Section with Fixed Height */}
-        <div className="p-6 space-y-4 bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800 flex-1 flex flex-col justify-between">
-          
-          {/* Project Name with Animated Underline */}
-          <div className="relative">
-            <h3 className="text-xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 dark:from-white dark:to-slate-200 bg-clip-text text-transparent leading-tight line-clamp-2">
+        {/* Content Section */}
+        <div className="p-5 flex-1 flex flex-col justify-between">
+          {/* Project Name */}
+          <div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
               {project_name}
             </h3>
-            <div className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#04a09c] to-[#22d6d1] group-hover:w-full transition-all duration-500"></div>
+            <div className="w-12 h-0.5 bg-gradient-to-r from-blue-600 to-emerald-600 mb-3 group-hover:w-16 transition-all duration-300"></div>
           </div>
 
-          {/* Location with Icon */}
-          <div className="flex items-start gap-2 text-slate-600 dark:text-slate-300">
-            <svg className="w-4 h-4 mt-0.5 text-slate-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          {/* Address */}
+          <div className="flex items-start gap-2 text-gray-600 mb-3">
+            <svg className="w-4 h-4 mt-0.5 text-blue-600 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
             </svg>
-            <p className="text-sm line-clamp-2 leading-relaxed">{address}</p>
+            <p className="text-sm line-clamp-2">{address}</p>
           </div>
 
-          {/* Area Badge */}
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-dark border border-teal-200 dark:border-teal-700 rounded-lg">
-            <svg className="w-4 h-4 text-[#04a09c]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          {/* Area */}
+          <div className="flex items-center gap-2 mb-3">
+            <svg className="w-4 h-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
             </svg>
-            <span className="text-sm font-semibold text-[#04a09c] dark:text-teal-300">
+            <span className="text-sm font-medium text-gray-600">
               {area.toLocaleString()} sqft
             </span>
           </div>
 
-          {/* Description with Fixed Height */}
-          <p className="text-sm text-slate-500 dark:text-slate-400 line-clamp-3 leading-relaxed flex-grow">
+          {/* Description */}
+          <p className="text-sm text-gray-500 line-clamp-3 flex-grow mb-3">
             {description}
           </p>
 
@@ -118,24 +117,23 @@ function ProjectCard({
               address,
               description,
               latitude,
-              longitude
+              longitude,
             }}
-            className="group/link inline-flex items-center gap-2 text-sm font-semibold text-transparent bg-gradient-to-r from-[#04a09c] to-[#22d6d1] bg-clip-text hover:from-[#03b7b1] hover:to-[#04a09c] transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-teal-400 focus:ring-offset-2 rounded-md p-1"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-emerald-600 text-white font-medium rounded-lg hover:from-blue-700 hover:to-emerald-700 transition-all duration-300 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500"
             aria-label={`View details for ${project_name}`}
           >
             View Details
             <svg
-              className="w-4 h-4 text-[#04a09c] transition-transform duration-300 group-hover/link:translate-x-1"
+              className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
+              strokeWidth={2}
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
             </svg>
           </Link>
         </div>
-        {/* Subtle Bottom Gradient Border */}
-        <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-[#04a09c] via-[#22d6d1] to-[#04a09c] opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
       </div>
     </div>
   );

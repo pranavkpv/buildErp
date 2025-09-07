@@ -145,6 +145,7 @@ function ProjectDetails() {
                     <Image className="w-5 h-5 mr-2" />
                     {imageEnable ? "Hide Images" : "View Images"}
                   </button>
+                  <button>Add Project Requirments</button>
                   <button onClick={handlePrev} disabled={count === 0} className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">
                     Prev
                   </button>

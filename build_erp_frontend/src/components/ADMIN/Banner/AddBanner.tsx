@@ -21,6 +21,7 @@ function AddBanner({ enableAdd, setEnableAdd, onAddSuccess }: BannerAddProps) {
          return;
       }
          const response = await addBannerApi({ title, subtitle, file });
+         console.log(response)
          if (response.success) {
             toast.success(response.message);
             setTitle("");

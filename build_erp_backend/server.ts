@@ -47,7 +47,7 @@ export class App {
 
    private setMiddlewares() {
       this.app.use(cors({
-         origin: 'http://localhost:5173',
+         origin: ['http://localhost:5173' , 'https://93f4stm6-5173.inc1.devtunnels.ms'],
          credentials: true
       }));
       this.app.use(cookieParser());

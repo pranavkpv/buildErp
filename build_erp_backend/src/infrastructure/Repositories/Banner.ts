@@ -16,7 +16,7 @@ export class BannerRepository implements IBannerRepository {
         return await newBanner.save();
     }
     async listBannerBysearchandPage(input: listingInput):
-      Promise<{ data: IBannerModelEntity[]; totalPage: number; }> {
+        Promise<{ data: IBannerModelEntity[]; totalPage: number; }> {
         const { page, search } = input;
         const skip = page * 5;
         const listBanner = await bannerDB.find({ title: { $regex: search, $options: 'i' } }).skip(skip).limit(5);
@@ -39,5 +39,11 @@ export class BannerRepository implements IBannerRepository {
     }
     async getAllBanner(): Promise<IBannerModelEntity[]> {
         return await bannerDB.find();
+    }
+    async getBannerByTitle(title: string): Promise<IBannerModelEntity | null> {
+        return await bannerDB.findOne({ title: { $regex: title, $options: "i" } })
+    }
+    async getBannerIneditByname(id: string, title: string): Promise<IBannerModelEntity | null> {
+        return await bannerDB.findOne({ _id: { $ne: id }, title: { $regex: title, $options: "i" } })
     }
 }

@@ -22,7 +22,8 @@ export const setupInterceptors = (instance: AxiosInstance, loginRedirect?: strin
       if (!originalRequest) return Promise.reject(error);
 
       if (error.response?.data?.message) {
-        console.log(error.response.data.message);
+       toast.error(error.response.data.message);
+    
       }
 
       if (error.response?.status === 401 && !originalRequest._retry) {

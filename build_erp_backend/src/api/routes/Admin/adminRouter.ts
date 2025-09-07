@@ -28,6 +28,7 @@ import { injectStageController } from '../../DI/Stage';
 import { injectAdminDashboardController } from '../../DI/AdminDashboard';
 import { validateAdminLogin } from '../../../infrastructure/middlewares/validation/admin.validation';
 import { injectedBannerController } from '../../DI/Banner';
+import { validateBannerInput } from '../../../infrastructure/middlewares/validation/banner.validation';
 
 
 
@@ -336,12 +337,14 @@ export class AdminRoute {
         // =====================================================================
 
         this.adminRoute.post('/addBanner',
+            validateBannerInput,
             withLogging(injectedBannerController.addBanner),
         );
         this.adminRoute.get('/banner',
             withLogging(injectedBannerController.getBanner),
         );
         this.adminRoute.put('/banner/:id',
+            validateBannerInput,
             withLogging(injectedBannerController.editBanner),
         );
         this.adminRoute.delete('/banner/:id',

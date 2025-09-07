@@ -1,7 +1,6 @@
 import type { AddBannerInterface, editBannerInterface } from "ApiInterface/banner.interface";
 import adminAxios from "../axios/adminAxios"
 import type { listingInput } from "../ApiInterface/CommonApiInterface";
-import userAxios from "../axios/userAxios";
 import authAxios from "../axios/commonAxios"
 
 export const addBannerApi = async (input: AddBannerInterface) => {

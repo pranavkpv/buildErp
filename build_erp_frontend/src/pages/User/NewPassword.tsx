@@ -7,9 +7,8 @@ function NewPassword() {
   const otpEmail = localStorage.getItem('otpEmail');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [hide,setHide] = useState(false)
-  const [chide,setChide] = useState(false)
-
+  const [hide, setHide] = useState(false);
+  const [chide, setChide] = useState(false);
 
   const passRef = useRef<HTMLParagraphElement>(null);
   const cpassRef = useRef<HTMLParagraphElement>(null);
@@ -48,44 +47,50 @@ function NewPassword() {
     if (hasError) {
       return;
     }
-      const response = await updatePasswordAPI({email:otpEmail, password});
-      if (response.success) {
-        toast.success(response.message);
-        localStorage.removeItem("otpEmail");
-        setTimeout(() => {
-          navigate('/login');
-        }, 1500);
-      } else {
-        toast.error(response.message);
-      }
+
+    const response = await updatePasswordAPI({ email: otpEmail, password });
+    if (response.success) {
+      toast.success(response.message);
+      localStorage.removeItem("otpEmail");
+      setTimeout(() => {
+        navigate('/login');
+      }, 1500);
+    } else {
+      toast.error(response.message);
+    }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-900 text-gray-100 p-4">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 p-4 sm:p-6">
       <form
         onSubmit={changePassword}
-        className="bg-gray-800/90 backdrop-blur-sm p-8 rounded-xl shadow-2xl w-full max-w-sm border border-gray-700/50 space-y-6"
+        className="relative bg-white/80 backdrop-blur-md p-6 rounded-lg shadow-lg w-full max-w-sm border border-gray-200 space-y-4"
       >
-        <h1 className="text-3xl font-extrabold text-center text-teal-400 mb-6 border-b border-gray-700 pb-4">
+        {/* Decorative Gradient Border */}
+        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-blue-600 to-emerald-600 opacity-10 rounded-lg blur-md"></div>
+
+        <h1 className="text-2xl font-extrabold text-center bg-gradient-to-r from-blue-600 to-emerald-600 bg-clip-text text-transparent mb-4">
           Reset Password
         </h1>
 
-        <div>
-          <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-1">
-            Password
+        <div className="space-y-1">
+          <label htmlFor="password" className="block text-sm font-semibold text-gray-700">
+            New Password
           </label>
-          <div className="relative w-full max-w-md">
+          <div className="relative">
             <input
               type={hide ? "text" : "password"}
               id="password"
-              placeholder="Enter your password"
+              placeholder="Enter your new password"
               onChange={(e) => setPassword(e.target.value)}
               value={password}
-              className="w-full px-4 py-2.5 bg-gray-800/30 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all duration-200 text-gray-100 placeholder-gray-400 text-sm pr-12"
+              className="w-full pl-4 pr-12 py-2 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 text-gray-900 placeholder-gray-400 text-sm"
+              aria-label="New password"
             />
-            <button type="button"
+            <button
+              type="button"
               onClick={() => setHide(!hide)}
-              className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full hover:bg-gray-700/50 transition-colors duration-200 text-gray-400 hover:text-gray-200 focus:outline-none focus:ring-2 focus:ring-teal-500"
+              className="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-full hover:bg-gray-100 transition-colors duration-200 text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
               aria-label={hide ? "Hide password" : "Show password"}
             >
               <svg
@@ -94,7 +99,7 @@ function NewPassword() {
                 viewBox="0 0 24 24"
                 strokeWidth={1.5}
                 stroke="currentColor"
-                className="w-5 h-5"
+                className="w-4 h-4"
               >
                 {hide ? (
                   <>
@@ -119,26 +124,28 @@ function NewPassword() {
               </svg>
             </button>
           </div>
-          <p ref={passRef} className="text-red-400 text-sm mt-1"></p>
+          <p ref={passRef} className="text-red-500 text-xs min-h-[1rem]"></p>
         </div>
 
-        <div>
-          <label htmlFor="confirmpassword" className="block text-sm font-medium text-gray-300 mb-1">
+        <div className="space-y-1">
+          <label htmlFor="confirmpassword" className="block text-sm font-semibold text-gray-700">
             Confirm Password
           </label>
-          <div className="relative w-full max-w-md">
+          <div className="relative">
             <input
               type={chide ? "text" : "password"}
               id="confirmpassword"
-              placeholder="Enter confirm password"
+              placeholder="Confirm your new password"
               onChange={(e) => setConfirmPassword(e.target.value)}
               value={confirmPassword}
-              className="w-full px-4 py-2.5 bg-gray-800/30 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all duration-200 text-gray-100 placeholder-gray-400 text-sm pr-12"
+              className="w-full pl-4 pr-12 py-2 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 text-gray-900 placeholder-gray-400 text-sm"
+              aria-label="Confirm new password"
             />
-            <button type="button"
+            <button
+              type="button"
               onClick={() => setChide(!chide)}
-              className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full hover:bg-gray-700/50 transition-colors duration-200 text-gray-400 hover:text-gray-200 focus:outline-none focus:ring-2 focus:ring-teal-500"
-              aria-label={chide ? "Hide password" : "Show password"}
+              className="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-full hover:bg-gray-100 transition-colors duration-200 text-gray-400 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              aria-label={chide ? "Hide confirm password" : "Show confirm password"}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -146,7 +153,7 @@ function NewPassword() {
                 viewBox="0 0 24 24"
                 strokeWidth={1.5}
                 stroke="currentColor"
-                className="w-5 h-5"
+                className="w-4 h-4"
               >
                 {chide ? (
                   <>
@@ -171,12 +178,13 @@ function NewPassword() {
               </svg>
             </button>
           </div>
-          <p ref={cpassRef} className="text-red-400 text-sm mt-1"></p>
+          <p ref={cpassRef} className="text-red-500 text-xs min-h-[1rem]"></p>
         </div>
 
         <button
           type="submit"
-          className="w-full bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white font-semibold py-2.5 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:ring-offset-gray-800"
+          className="w-full bg-gradient-to-r from-blue-600 to-emerald-600 text-white font-semibold py-2 rounded-lg shadow-md hover:shadow-lg hover:from-blue-700 hover:to-emerald-700 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          aria-label="Submit new password"
         >
           Submit
         </button>

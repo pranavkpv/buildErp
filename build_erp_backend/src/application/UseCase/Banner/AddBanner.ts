@@ -7,11 +7,15 @@ import { IAddBannerUsecase } from '../../IUseCases/IBanner/IAddBanner';
 
 export class AddBannerUseCase implements IAddBannerUsecase {
     constructor(
-      private _bannerRepository: IBannerRepository,
+        private _bannerRepository: IBannerRepository,
     ) {
 
     }
     async execute(input: addBannerInput): Promise<commonOutput> {
+        const existData = await this._bannerRepository.getBannerByTitle(input.title)
+        if (existData) {
+            return ResponseHelper.conflictData(bannerFailedMessage.ALREADY_EXIST)
+        }
         const response = await this._bannerRepository.saveBanner(input);
         if (response) {
             return ResponseHelper.success(bannerSuccessMessage.SAVE);

@@ -10,6 +10,10 @@ export class EditBannerUseCase implements IEditBannerUseCase {
       private _bannerRepository: IBannerRepository,
     ) { }
     async execute(input: editBannerInput): Promise<commonOutput | void> {
+        const existData = await this._bannerRepository.getBannerIneditByname(input._id,input.title)
+        if(existData){
+            return ResponseHelper.conflictData(bannerFailedMessage.ALREADY_EXIST)
+        }
         const response = await this._bannerRepository.updateBanner(input);
         if (!response){
             return ResponseHelper.conflictData(bannerFailedMessage.UPDATE);

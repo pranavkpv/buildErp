@@ -18,4 +18,10 @@ export interface IBannerRepository {
 
    getAllBanner():
       Promise<IBannerModelEntity[]>
+
+   getBannerByTitle(title: string):
+      Promise<IBannerModelEntity | null>
+
+   getBannerIneditByname(id: string, title: string):
+      Promise<IBannerModelEntity | null>
 }

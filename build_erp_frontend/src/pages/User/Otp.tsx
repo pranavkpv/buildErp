@@ -63,7 +63,7 @@ function Otp() {
     if (response.success) {
       toast.success(response.message);
       localStorage.removeItem('otpEmail');
-      localStorage.removeItem('timer'); 
+      localStorage.removeItem('timer');
       setTimeout(() => navigate('/login'), 1500);
     } else {
       toast.error(response.message);
@@ -77,7 +77,6 @@ function Otp() {
     }
 
     const response = await resendOTPApi(otpEmail);
-    console.log(response)
     if (response.success) {
       toast.success(response.message);
       setTimer(0);
@@ -91,41 +90,54 @@ function Otp() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-900 text-gray-100 p-4">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 p-4 sm:p-6">
       <form
         onSubmit={verifyOTP}
-        className="bg-gray-800/90 backdrop-blur-sm p-8 rounded-xl shadow-2xl w-full max-w-sm border border-gray-700/50 space-y-6"
+        className="relative bg-white/80 backdrop-blur-md p-6 rounded-lg shadow-lg w-full max-w-sm border border-gray-200 space-y-4"
       >
-        <h1 className="text-3xl font-extrabold text-center text-teal-400 mb-6 border-b border-gray-700 pb-4">
-          OTP Verification
+        {/* Decorative Gradient Border */}
+        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-blue-600 to-emerald-600 opacity-10 rounded-lg blur-md"></div>
+
+        <h1 className="text-2xl font-extrabold text-center bg-gradient-to-r from-blue-600 to-emerald-600 bg-clip-text text-transparent mb-4">
+          Verify OTP
         </h1>
 
-        <div>
-          <label htmlFor="otp" className="block text-sm font-medium text-gray-300 mb-1">
+        <div className="space-y-1">
+          <label htmlFor="otp" className="block text-sm font-semibold text-gray-700">
             OTP
           </label>
-          <input
-            type="text"
-            id="otp"
-            placeholder="Enter your 6-digit OTP"
-            value={otp}
-            onChange={(e) => setOtp(e.target.value)}
-            pattern="[0-9]*"
-            className="w-full px-4 py-2.5 bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors duration-200 text-gray-100 placeholder-gray-400 text-sm"
-          />
-          <p ref={otpRef} className="text-red-400 text-sm mt-1"></p>
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <svg className="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <input
+              type="text"
+              id="otp"
+              placeholder="Enter your 6-digit OTP"
+              value={otp}
+              onChange={(e) => setOtp(e.target.value)}
+              pattern="[0-9]*"
+              maxLength={6}
+              className="w-full pl-10 pr-4 py-2 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 text-gray-900 placeholder-gray-400 text-sm"
+              aria-label="6-digit OTP"
+            />
+          </div>
+          <p ref={otpRef} className="text-red-500 text-xs min-h-[1rem]"></p>
         </div>
 
-        <div className="text-center text-gray-300 text-sm">
+        <div className="text-center text-sm text-gray-600">
           {timer < 30 ? `Time remaining: ${30 - timer} seconds` : ''}
-          <p ref={timerRef} className="text-red-400 text-sm mt-1"></p>
+          <p ref={timerRef} className="text-red-500 text-xs min-h-[1rem]"></p>
         </div>
 
-        <div className="flex flex-col space-y-4">
+        <div className="flex flex-col space-y-3">
           <button
             disabled={timer >= 30}
             type="submit"
-            className="w-full bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white font-semibold py-2.5 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:ring-offset-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-gradient-to-r from-blue-600 to-emerald-600 text-white font-semibold py-2 rounded-lg shadow-md hover:shadow-lg hover:from-blue-700 hover:to-emerald-700 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            aria-label="Verify OTP"
           >
             Verify OTP
           </button>
@@ -133,7 +145,8 @@ function Otp() {
             type="button"
             disabled={!resend}
             onClick={resendOTP}
-            className="w-full bg-gradient-to-r from-gray-600 to-gray-700 hover:from-gray-700 hover:to-gray-800 text-white font-semibold py-2.5 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:ring-offset-gray-800 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-gradient-to-r from-gray-600 to-gray-700 text-white font-semibold py-2 rounded-lg shadow-md hover:shadow-lg hover:from-gray-700 hover:to-gray-800 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+            aria-label="Resend OTP"
           >
             Resend OTP
           </button>
