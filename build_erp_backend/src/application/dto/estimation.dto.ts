@@ -15,6 +15,7 @@ export interface listEstimationDTO {
    project_id: string;
    projectObjectId: string;
    budgeted_cost: number;
+   reason:string
    projectDetails: project;
 }
 

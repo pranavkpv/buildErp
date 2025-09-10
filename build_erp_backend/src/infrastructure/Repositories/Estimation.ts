@@ -113,6 +113,7 @@ export class EstimationRepository implements IEstimationRepository {
                 $group: {
                     _id: '$project_id',
                     budgeted_cost: { $sum: { $multiply: ['$quantity', '$unit_rate'] } },
+                    reason:{$first:"$reason"}
                 },
             },
             {

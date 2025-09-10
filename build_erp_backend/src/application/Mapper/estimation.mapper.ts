@@ -19,6 +19,7 @@ export class EstimationMapper implements IEstimationmapper {
             budgeted_cost: element.budgeted_cost,
             project_id: element._id,
             projectObjectId: element.projectObjectId,
+            reason:element.reason,
             projectDetails: {
                 project_name: element.projectDetails.project_name,
                 expected_image: element.projectDetails.expected_image,

@@ -4,8 +4,9 @@ import { PencilSquareIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
 import UploadConfirm from "./Uploadconfirm";
 import EditEstimation from "./EditEstimation";
 import { fetChEstimation } from "../../../api/Estimation";
-import { SendIcon } from "lucide-react";
+import { EyeIcon, SendIcon } from "lucide-react";
 import SendEstimation from "./SendEstimation";
+import RejectView from "./RejectView";
 
 type project = {
    project_name: string;
@@ -16,6 +17,7 @@ type specdata = {
    project_id: string;
    projectObjectId: string;
    budgeted_cost: number;
+   reason: string
    projectDetails: project;
 };
 
@@ -38,6 +40,9 @@ function ListEstimation() {
    //edit estimation
    const [editEnable, setEditEnable] = useState(false)
    const [editProjectId, setEditProjectId] = useState("")
+
+   const [viewRejectOn, setViewRejectOn] = useState(false)
+   const [reason, setReason] = useState('')
 
    const fetchData = async () => {
       const response = await fetChEstimation(search, page);
@@ -122,11 +127,11 @@ function ListEstimation() {
                               <td className="px-6 py-4 text-gray-100">₹{element.budgeted_cost.toLocaleString()}</td>
                               <td className="px-6 py-4 flex flex-col items-start gap-3">
                                  <div className="w-full">
-                                    <label htmlFor={`file-upload-${ element.projectObjectId }`} className="sr-only">
+                                    <label htmlFor={`file-upload-${element.projectObjectId}`} className="sr-only">
                                        Upload estimated image for {element.projectDetails.project_name}
                                     </label>
                                     <input
-                                       id={`file-upload-${ element.projectObjectId }`}
+                                       id={`file-upload-${element.projectObjectId}`}
                                        type="file"
                                        accept="image/*"
                                        className="w-30 px-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-gray-100 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-teal-400 transition-all duration-200 cursor-pointer file:mr-4 file:py-1 file:px-3 file:rounded-md file:border-0 file:bg-teal-500 file:text-white file:hover:bg-teal-600"
@@ -142,36 +147,45 @@ function ListEstimation() {
                                  {element.projectDetails.expected_image && (
                                     <img
                                        src={element.projectDetails.expected_image}
-                                       alt={`Estimated for ${ element.projectDetails.project_name }`}
+                                       alt={`Estimated for ${element.projectDetails.project_name}`}
                                        className="h-16 w-16 object-cover rounded-md border border-gray-600 shadow-sm"
                                     />
                                  )}
                               </td>
-                              <td>
-                                 <td className="px-6 py-4 text-center flex justify-center gap-3">
-                                    <button
-                                       type="button"
-                                       className="text-teal-400 hover:text-teal-300 p-2 rounded-md hover:bg-gray-600/50 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-teal-400"
-                                       aria-label={`Edit estimation for ${ element.projectDetails.project_name }`}
-                                       onClick={() => {
-                                          setEditEnable(true)
-                                          setEditProjectId(element.projectObjectId)
-                                       }}
-                                    >
-                                       <PencilSquareIcon className="h-5 w-5" />
-                                    </button>
-                                    <button
-                                       type="button"
-                                       className="text-red-400 hover:text-red-300 p-2 rounded-md hover:bg-gray-600/50 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-red-400"
-                                       aria-label={`Delete estimation for ${ element.projectDetails.project_name }`}
-                                       onClick={() => {
-                                          setSendEnable(true);
-                                          setSendProjectId(element.projectObjectId);
-                                       }}
-                                    >
-                                       <SendIcon className="h-5 w-5" />
-                                    </button>
-                                 </td>
+                              <td className="px-6 py-4 ">
+                                 <button
+                                    type="button"
+                                    className="text-teal-400 hover:text-teal-300 p-2 rounded-md hover:bg-gray-600/50 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-teal-400"
+                                    aria-label={`Edit estimation for ${element.projectDetails.project_name}`}
+                                    onClick={() => {
+                                       setEditEnable(true)
+                                       setEditProjectId(element.projectObjectId)
+                                    }}
+                                 >
+                                    <PencilSquareIcon className="h-5 w-5" />
+                                 </button>
+                                 <button
+                                    type="button"
+                                    className="text-red-400 hover:text-red-300 p-2 rounded-md hover:bg-gray-600/50 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-red-400"
+                                    aria-label={`Send estimation for ${element.projectDetails.project_name}`}
+                                    onClick={() => {
+                                       setSendEnable(true);
+                                       setSendProjectId(element.projectObjectId);
+                                    }}
+                                 >
+                                    <SendIcon className="h-5 w-5" />
+                                 </button>
+                                 <button
+                                    type="button"
+                                    className="text-blue-400 hover:text-blue-300 p-2 rounded-md hover:bg-gray-600/50 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                                    aria-label={`View rejection reason for ${element.projectDetails.project_name}`}
+                                    onClick={() => {
+                                       setViewRejectOn(true)
+                                       setReason(element.reason)
+                                    }}
+                                 >
+                                    <EyeIcon className="h-5 w-5" />
+                                 </button>
                               </td>
                            </tr>
                         ))
@@ -184,7 +198,7 @@ function ListEstimation() {
                         key={element}
                         onClick={() => setPage(element)}
                         className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 
-          ${ page === element
+          ${page === element
                               ? 'bg-teal-500 text-white'
                               : 'bg-gray-700/50 text-gray-200 hover:bg-gray-600/50 hover:text-teal-300'
                            } focus:outline-none focus:ring-2 focus:ring-teal-400`}
@@ -216,6 +230,11 @@ function ListEstimation() {
                anEditSuccess={fetchData}
                projectIds={projectIds}
                editProjectId={editProjectId}
+            />
+            <RejectView
+               viewRejectOn={viewRejectOn}
+               setViewRejectOn={setViewRejectOn}
+               reason={reason}
             />
          </div>
       </div>

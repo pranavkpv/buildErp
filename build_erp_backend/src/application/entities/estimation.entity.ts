@@ -24,6 +24,7 @@ interface budgetCost {
    _id: string
    projectObjectId: string
    budgeted_cost: number
+   reason:string
 }
 
 export interface estiomationAggregatebyProject extends budgetCost {
