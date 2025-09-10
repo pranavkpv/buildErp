@@ -1,6 +1,6 @@
 import { commonOutput } from '../../dto/common';
 
 
-export interface IDeleteEstimationUseCase {
+export interface ISendEstimationUseCase {
    execute(id:string):Promise<commonOutput>
 }

@@ -42,4 +42,5 @@ export const SpecFailedMessage = {
     MATERIAL_NAME_REQUIRED : 'Material name is required please check',
     LABOUR_NAME_REQUIRED : 'Labour name is required please check',
     LABOUR_UNIQUE : 'Labour name should be unique',
+    MATERIAL_DETAILS:"Material Details length always greater than or equal to 0"
 };

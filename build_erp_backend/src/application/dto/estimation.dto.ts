@@ -19,10 +19,41 @@ export interface listEstimationDTO {
 }
 
 export interface specListInProjectDTO {
-   _id:string
+   _id: string
    spec_id: string;
    spec_name: string;
    unitrate: number;
    quantity: number;
    total: number;
+}
+
+export interface estimateByProjectDTO {
+   _id: string
+   spec_name: string
+   quantity: number
+   unit_rate: number
+   approvalStatus:boolean
+}
+
+export interface materialEstimateDTO {
+   _id: string
+   material_name: string,
+   brand_name: string,
+   unit_name: string,
+   quantity: number,
+   unit_rate: number,
+}
+
+export interface labourEstimateDTO {
+   _id: string
+   labour_name: string
+   numberoflabour: number
+   daily_wage: number
+}
+
+export interface additionEstimateDTO {
+   additionalExpense_per: number
+   additionalExpense_amount: number
+   profit_per: number
+   profit_amount: number
 }

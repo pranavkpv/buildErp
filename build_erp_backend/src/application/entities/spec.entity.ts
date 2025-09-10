@@ -25,5 +25,10 @@ export interface mixMatAndLabour {
    labourDetails:labourData[]
 }
 
+export interface userSpecMaterial {
+   material_name:string 
+   brand_name:string[]
+}
+
 
 

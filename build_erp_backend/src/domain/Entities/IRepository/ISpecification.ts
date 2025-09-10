@@ -41,4 +41,10 @@ export interface ISpecRepository {
 
    getSpecDuplicateByName(_id: string, specname: string):
       Promise<ISpecModelEntity | null>
+
+   getAllSpecByIds(specIds: string[]):
+      Promise<ISpecModelEntity[]>
+
+   getSpecById(id: string):
+      Promise<ISpecModelEntity | null>
 }

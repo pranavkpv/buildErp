@@ -1,5 +1,5 @@
 import { listingInput } from '../../../application/Entities/common.entity';
-import { addMaterialInput, editMaterialFullDatafetch, editMaterialInput, fetchUnitRateInput, findMaterialBynameCatBrandInput, findMaterialBynameCatBrandInputEdit, materialSumInput } from '../../../application/Entities/material.entity';
+import { addMaterialInput, editMaterialFullDatafetch, editMaterialInput, fetchUnitRateInput, findMaterialBynameCatBrandInput, findMaterialBynameCatBrandInputEdit, materialSumInput, materialswithAggregateBrand } from '../../../application/Entities/material.entity';
 import { IMaterialModelEntity } from '../modelEntities/material.entity';
 import { IProjectModelEntity } from '../modelEntities/project.entity';
 
@@ -54,5 +54,14 @@ export interface IMaterialRepository {
 
    getUnitRate(input: fetchUnitRateInput):
       Promise<IMaterialModelEntity | null>;
+
+   getAllMaterialByIdswithAggregateBrand(materialnames: string[]):
+      Promise<materialswithAggregateBrand[]>
+
+   getMaterialByIds(materialIds: string[]):
+      Promise<IMaterialModelEntity[]>
+
+   getMaterialBynameAndBrand(material_name: string, brand_id: string):
+      Promise<IMaterialModelEntity | null>
 
 }

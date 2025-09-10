@@ -4,6 +4,9 @@ export interface IEstimationModelEntity {
    quantity: number
    unit_rate: number
    project_id: string
+   approvalStatus:boolean
+   rejectStatus:boolean
+   reason:string
    createdAt: Date
    updatedAt: Date
 }

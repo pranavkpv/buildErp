@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import AddEstimation from "./AddEstimation";
-import { PencilSquareIcon, TrashIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
-import DeleteEstimation from "./DeleteEstimation";
+import { PencilSquareIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
 import UploadConfirm from "./Uploadconfirm";
 import EditEstimation from "./EditEstimation";
 import { fetChEstimation } from "../../../api/Estimation";
+import { SendIcon } from "lucide-react";
+import SendEstimation from "./SendEstimation";
 
 type project = {
    project_name: string;
@@ -26,8 +27,8 @@ function ListEstimation() {
    const [page, setPage] = useState(0)
    const [total, setTotal] = useState<number[]>([])
 
-   const [deleteEnable, setdeleteEnable] = useState(false);
-   const [deleteProjectId, setDeleteProjectId] = useState("");
+   const [sendEnable, setSendEnable] = useState(false);
+   const [sendProjectId, setSendProjectId] = useState("");
 
    // Upload image
    const [file, setFile] = useState<File | null>(null);
@@ -164,11 +165,11 @@ function ListEstimation() {
                                        className="text-red-400 hover:text-red-300 p-2 rounded-md hover:bg-gray-600/50 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-red-400"
                                        aria-label={`Delete estimation for ${ element.projectDetails.project_name }`}
                                        onClick={() => {
-                                          setdeleteEnable(true);
-                                          setDeleteProjectId(element.projectObjectId);
+                                          setSendEnable(true);
+                                          setSendProjectId(element.projectObjectId);
                                        }}
                                     >
-                                       <TrashIcon className="h-5 w-5" />
+                                       <SendIcon className="h-5 w-5" />
                                     </button>
                                  </td>
                               </td>
@@ -194,11 +195,11 @@ function ListEstimation() {
                </div>
             </div>
 
-            <DeleteEstimation
-               deleteEnable={deleteEnable}
-               setdeleteEnable={setdeleteEnable}
-               projectId={deleteProjectId}
-               onDeleteSuccess={fetchData}
+            <SendEstimation
+               sendEnable={sendEnable}
+               setSendEnable={setSendEnable}
+               projectId={sendProjectId}
+               onSendSuccess={fetchData}
             />
 
             <UploadConfirm

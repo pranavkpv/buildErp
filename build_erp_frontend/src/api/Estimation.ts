@@ -1,5 +1,6 @@
+import userAxios from "../axios/userAxios";
 import adminAxios from "../axios/adminAxios"
-import type { estimationSaveInterface } from "ApiInterface/estimation.interface";
+import type { estimationSaveInterface, reasonInterface } from "ApiInterface/estimation.interface";
 
 
 // ---------------- Save Estimation ---------------- //
@@ -12,10 +13,10 @@ export const EstimationSave = async (projectId: string, row: estimationSaveInter
    return response.data;
 };
 
-// --------------- Remove Estimation data  --------------- //
+// --------------- send Estimation data  --------------- //
 
-export const RemoveEstimation = async (_id: string) => {
-   const response = await adminAxios.delete(`/deleteEstimation/${ _id }`)
+export const SendEstimationApi = async (_id: string) => {
+   const response = await adminAxios.patch(`/sendEstimation/${ _id }`)
    return response.data
 }
 
@@ -38,22 +39,53 @@ export const fetChEstimation = async (search: string, page: number) => {
 // --------------- Upload Estimated Image --------------- //
 
 export const uploadEstimatImageAPI = async (uploadProjectId: string, file: File | null) => {
-      if (!file) return
-      const formData = new FormData()
-      formData.append("image", file)
-      formData.append("_id", uploadProjectId)
-      const response = await adminAxios.post("/uploadEstimated", formData, {
-         headers: {
-            "Content-Type": "multipart/form-data"
-         }
-      })
-      return response.data
+   if (!file) return
+   const formData = new FormData()
+   formData.append("image", file)
+   formData.append("_id", uploadProjectId)
+   const response = await adminAxios.post("/uploadEstimated", formData, {
+      headers: {
+         "Content-Type": "multipart/form-data"
+      }
+   })
+   return response.data
 }
 
 // --------------- Fetch existing estimation data in edit --------------- //
 
 export const fetchExistEstimation = async (projectId: string) => {
-      const response = await adminAxios.get(`/fetchExistEstimation/${ projectId }`)
-      return response.data
+   const response = await adminAxios.get(`/fetchExistEstimation/${ projectId }`)
+   return response.data
+}
+
+export const getEstimationApi = async (projectId: string) => {
+   const response = await userAxios.get(`/getEstimation/${ projectId }`);
+   return response.data
+}
+
+export const getmaterialEstimationApi = async (projectId: string) => {
+   const response = await userAxios.get(`/getMaterialEstimation/${ projectId }`)
+   return response.data
+}
+
+export const getLabourEstimationApi = async (projectId: string) => {
+   const response = await userAxios.get(`/getLabourEstimation/${ projectId }`)
+   return response.data
+}
+
+export const getAdditionEstimationApi = async (projectId: string) => {
+   const response = await userAxios.get(`/getAdditionEstimation/${ projectId }`)
+   return response.data
+}
+
+export const RejectEstimationApi = async (input: reasonInterface) => {
+   const { reason, projectId } = input
+   const response = await userAxios.patch(`/rejectEstimation/${ projectId }`, { reason })
+   return response.data
+}
+
+export const ApproveEstimationApi = async (projectId: string) => {
+   const response = await userAxios.patch(`/approveEstimation/${ projectId }`)
+   return response.data
 }
 

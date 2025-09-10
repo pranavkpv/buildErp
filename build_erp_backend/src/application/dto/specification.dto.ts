@@ -29,5 +29,10 @@ export interface specFullDTO {
 }
 
 export interface aggregateUnitSpecDTO extends ISpecModelEntity {
-    unitDetails :IUnitModelEntity
+   unitDetails: IUnitModelEntity
+}
+
+export interface userSpecDTO {
+   _id:string 
+   spec_name:string
 }

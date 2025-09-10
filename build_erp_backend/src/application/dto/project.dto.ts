@@ -22,6 +22,8 @@ export interface userBaseProjectDTO {
    status: string;
    start_date: Date;
    end_date: Date;
+   estimateBy:string;
+   estimateStatus:boolean
 }
 
 export interface userBasechatListDTO {

@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { commonOutput } from '../../../application/dto/common';
-import { specFullDTO } from '../../../application/dto/specification.dto';
+import { specFullDTO, userSpecDTO } from '../../../application/dto/specification.dto';
+import { userSpecMaterial } from '../../../application/Entities/spec.entity';
 
 
 export interface ISpecController {
@@ -28,5 +29,11 @@ export interface ISpecController {
 
    updateSpecification(req: Request, res: Response, next: NextFunction):
       Promise<commonOutput | void>
+
+   getSpecnameandId(req: Request, res: Response, next: NextFunction):
+      Promise<commonOutput<userSpecDTO[]> | void>
+
+   getMaterialandBrandById(req: Request, res: Response, next: NextFunction):
+      Promise<commonOutput<userSpecMaterial[]> | void>
 
 }

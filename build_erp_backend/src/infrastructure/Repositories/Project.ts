@@ -184,7 +184,7 @@ export class ProjectRepository implements IprojectRepository {
 
     // Get projects by user ID
     async getProjectsByUserId(userId: string): Promise<IProjectModelEntity[]> {
-        return await projectDB.find({ user_id:userId });
+        return await projectDB.find({ user_id: userId });
     }
 
     // Get projects by sitemanager ID
@@ -296,12 +296,20 @@ export class ProjectRepository implements IprojectRepository {
     }
     async getGroupProjectByStatus(): Promise<groupedProjectwithStatus[]> {
         const data = await projectDB.aggregate([{
-            $group:{
-                _id:'$status',
-                count:{ $sum:1 },
+            $group: {
+                _id: '$status',
+                count: { $sum: 1 },
             },
         }]);
         return data;
     }
-    
+    async updateEstimatedUser(user: string, project_id: string):
+        Promise<void> {
+        await projectDB.findByIdAndUpdate(project_id, { estimateBy: user })
+    }
+    async updateEstimationStatus(status: boolean, id: string):
+        Promise<void> {
+        await projectDB.findByIdAndUpdate(id, { estimateStatus: status })
+    }
+
 }

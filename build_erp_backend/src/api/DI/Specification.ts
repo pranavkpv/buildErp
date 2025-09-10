@@ -2,6 +2,8 @@ import { SpecificationMapper } from '../../application/Mapper/specification.mapp
 import { FindlabourSumUsecase } from '../../application/UseCase/Material/FindLabourSum';
 import { FindmaterialSumUseCase } from '../../application/UseCase/Material/FindMaterialSum';
 import { DeleteSpecUseCase } from '../../application/UseCase/Specification/DeleteSpecification';
+import { GetMaterialAndBrandInSpecsUseCase } from '../../application/UseCase/Specification/GetMaterialAndBrandInSpecs';
+import { GetSpecIdnameUseCase } from '../../application/UseCase/Specification/GetSpecIdname';
 import { GetSpecUseCase } from '../../application/UseCase/Specification/GetSpecification';
 import { SpeclistUseCase } from '../../application/UseCase/Specification/SpecificationList';
 import { SaveSpecUseCase } from '../../application/UseCase/Specification/SpecificationSave';
@@ -26,4 +28,7 @@ const saveSpecUseCase = new SaveSpecUseCase(specRepository);
 const specSumUseCase = new SpecSumUseCase(materialRepository,labourRepository);
 const deleteSpecUseCase = new DeleteSpecUseCase(specRepository,estimationRepostory);
 const updateSpecUseCase = new UpdateSpecUseCase(specRepository);
-export const injectSpecController = new SpecController(getSpecUseCase,findMaterialSumUseCase,findLabourSumUseCase,specListUseCase,saveSpecUseCase,specSumUseCase,deleteSpecUseCase,updateSpecUseCase);
+const getMaterialAndBrandInSpecsUseCase = new GetMaterialAndBrandInSpecsUseCase(specRepository,materialRepository)
+const getSpecIdnameuseCase = new GetSpecIdnameUseCase(specRepository,specificationMapper)
+export const injectSpecController = new SpecController(getSpecUseCase,findMaterialSumUseCase,findLabourSumUseCase,specListUseCase,saveSpecUseCase,specSumUseCase,
+   deleteSpecUseCase,updateSpecUseCase,getSpecIdnameuseCase,getMaterialAndBrandInSpecsUseCase);

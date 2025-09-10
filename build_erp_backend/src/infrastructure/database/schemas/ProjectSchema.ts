@@ -13,32 +13,32 @@ export const ProjectSchema = new mongoose.Schema<IProjectModelEntity>(
             type: String,
             required: true,
         },
-        address:{
-            type:String,
+        address: {
+            type: String,
         },
-        latitude:{
-            type:Number,
+        latitude: {
+            type: Number,
         },
-        longitude:{
-            type:Number,
+        longitude: {
+            type: Number,
         },
-        mobile_number:{
-            type:Number,
+        mobile_number: {
+            type: Number,
         },
-        email:{
-            type:String,
-            required:true,
+        email: {
+            type: String,
+            required: true,
         },
         description: {
             type: String,
         },
-        area:{
-            type:Number,
+        area: {
+            type: Number,
         },
         status: {
             type: String,
             enum: ['pending', 'processing', 'completed'],
-            required:true,
+            required: true,
         },
         sitemanager_id: {
             type: String,
@@ -55,9 +55,15 @@ export const ProjectSchema = new mongoose.Schema<IProjectModelEntity>(
         finalImage: {
             type: String,
         },
-        budgeted_cost:{
-            type:Number,
+        budgeted_cost: {
+            type: Number,
         },
+        estimateBy: {
+            type: String
+        },
+        estimateStatus:{
+            type:Boolean
+        }
     },
     { timestamps: true },
 );

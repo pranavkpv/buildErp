@@ -1,6 +1,6 @@
 import { ISpecModelEntity } from '../../domain/Entities/modelEntities/spec.entity';
 import { ISpecificationMapper } from '../../domain/IMappers/ISpecification.mapper';
-import { specFullDTO } from '../dto/specification.dto';
+import { specFullDTO, userSpecDTO } from '../dto/specification.dto';
 
 export class SpecificationMapper implements ISpecificationMapper {
     toFetchSitemanagerNameandId(spec: ISpecModelEntity[]): specFullDTO[] {
@@ -21,5 +21,11 @@ export class SpecificationMapper implements ISpecificationMapper {
                 quantity:material.quantity,
             })),
         }));
+    }
+    toUserSpecDto(spec: ISpecModelEntity[]): userSpecDTO[] {
+        return spec.map((item)=>({
+            _id:item._id,
+            spec_name:item.spec_name
+        }))
     }
 }

@@ -6,7 +6,7 @@ import { unitDB } from '../../api/models/UnitModel';
 import { brandDB } from '../../api/models/BrandModel';
 import { IProjectModelEntity } from '../../domain/Entities/modelEntities/project.entity';
 import { IMaterialModelEntity } from '../../domain/Entities/modelEntities/material.entity';
-import { addMaterialInput, editMaterialFullDatafetch, editMaterialInput, fetchUnitRateInput, findMaterialBynameCatBrandInput, findMaterialBynameCatBrandInputEdit, materialSumInput } from '../../application/Entities/material.entity';
+import { addMaterialInput, editMaterialFullDatafetch, editMaterialInput, fetchUnitRateInput, findMaterialBynameCatBrandInput, findMaterialBynameCatBrandInputEdit, materialSumInput, materialswithAggregateBrand } from '../../application/Entities/material.entity';
 import { listingInput } from '../../application/Entities/common.entity';
 
 
@@ -44,7 +44,7 @@ export class MaterialRepository implements IMaterialRepository {
             { $lookup: { from: 'brands', localField: 'brandObjectId', foreignField: '_id', as: 'brandDetails' } },
             { $match: { material_name: { $regex: searchRegex }, blockStatus: false } },
             { $skip: skip },
-            { $limit: 5 },{ $sort:{ createdAt:-1 } },
+            { $limit: 5 }, { $sort: { createdAt: -1 } },
         ]);
         const totalDoc = await materialDB.aggregate([
             {
@@ -150,13 +150,13 @@ export class MaterialRepository implements IMaterialRepository {
 
     // Get unit names for a material
     async getUnitsByMaterialName(materialName: string): Promise<string[]> {
-        const result = await materialDB.find({ material_name:materialName }).distinct('unit_id');
+        const result = await materialDB.find({ material_name: materialName }).distinct('unit_id');
         return await unitDB.find({ _id: { $in: result } }).distinct('unit_name');
     }
 
     //  Get brand names for a material
     async getBrandsByMaterialName(materialName: string): Promise<string[]> {
-        const result = await materialDB.find({ material_name:materialName }).distinct('brand_id');
+        const result = await materialDB.find({ material_name: materialName }).distinct('brand_id');
         return await brandDB.find({ _id: { $in: result } }).distinct('brand_name');
     }
 
@@ -170,6 +170,42 @@ export class MaterialRepository implements IMaterialRepository {
             brand_id: brandId?._id,
             unit_id: unitId?._id,
         });
+    }
+    async getAllMaterialByIdswithAggregateBrand(materialnames: string[]):
+        Promise<materialswithAggregateBrand[]> {
+        const materialData = await materialDB.aggregate([
+            {
+                $match: {
+                    material_name: { $in: materialnames }
+                }
+            },
+            {
+                $addFields: {
+                    brandObjectId: { $toObjectId: "$brand_id" }
+                }
+            },
+            {
+                $lookup: {
+                    from: "brands",
+                    localField: "brandObjectId",
+                    foreignField: "_id",
+                    as: "brandDetails"
+                }
+            },
+            {
+                $unwind: "$brandDetails"
+            }
+        ])
+
+        return materialData
+    }
+    async getMaterialByIds(materialIds: string[]):
+        Promise<IMaterialModelEntity[]> {
+        return await materialDB.find({ _id: { $in: materialIds } })
+    }
+    async getMaterialBynameAndBrand(material_name: string, brand_id: string):
+        Promise<IMaterialModelEntity | null> {
+        return await materialDB.findOne({ material_name, brand_id })
     }
 }
 

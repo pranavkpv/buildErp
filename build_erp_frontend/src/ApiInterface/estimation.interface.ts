@@ -5,3 +5,8 @@ export interface estimationSaveInterface  {
    quantity: number,
    total: number
 }
+
+export interface reasonInterface {
+   reason:string 
+   projectId:string
+}

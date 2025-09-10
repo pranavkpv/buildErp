@@ -27,4 +27,5 @@ export const ProjectFailedMessage = {
     USED_purchase : 'Project is already used in purchase',
     USED_TRANSFER : 'Project already used in transfer',
     USED_ATTENDANCE:'Project is already used in attendance',
+    FETCH:'Failed to fetch project'
 };

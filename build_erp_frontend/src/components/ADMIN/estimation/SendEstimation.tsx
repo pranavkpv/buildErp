@@ -1,32 +1,32 @@
 import { toast } from "react-toastify";
-import { ExclamationTriangleIcon } from "@heroicons/react/24/outline"; 
-import { RemoveEstimation } from "../../../api/Estimation";
+import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
+import { SendEstimationApi } from "../../../api/Estimation";
 
-type deleteDataprop = {
+type prop = {
   projectId: string;
-  setdeleteEnable: React.Dispatch<React.SetStateAction<boolean>>;
-  deleteEnable: boolean;
-  onDeleteSuccess: () => void;
+  setSendEnable: React.Dispatch<React.SetStateAction<boolean>>;
+  sendEnable: boolean;
+  onSendSuccess: () => void;
 };
 
-function DeleteEstimation({
-  deleteEnable,
-  setdeleteEnable,
+function SendEstimation({
+  sendEnable,
+  setSendEnable,
   projectId,
-  onDeleteSuccess,
-}: deleteDataprop) {
-  const deleteEstimation = async () => {
-      const resultData = await RemoveEstimation(projectId)
-      if (resultData.success) {
-        toast.success(resultData.message);
-        setdeleteEnable(false);
-        onDeleteSuccess();
-      } else {
-        toast.error(resultData.message);
-      }
+  onSendSuccess,
+}: prop) {
+  const sendEstimation = async () => {
+    const resultData = await SendEstimationApi(projectId)
+    if (resultData.success) {
+      toast.success(resultData.message);
+      setSendEnable(false);
+      onSendSuccess();
+    } else {
+      toast.error(resultData.message);
+    }
   };
 
-  if (!deleteEnable) return null;
+  if (!sendEnable) return null;
 
   return (
     <div className="fixed inset-0 bg-gray-900/80 flex items-center justify-center z-50 p-4">
@@ -34,22 +34,22 @@ function DeleteEstimation({
         <div className="flex justify-center mb-4">
           <ExclamationTriangleIcon className="h-16 w-16 text-red-500" />
         </div>
-        <h2 className="text-2xl font-bold text-red-500 mb-3">Confirm Deletion</h2>
+        <h2 className="text-2xl font-bold text-red-500 mb-3">Confirm Send</h2>
         <p className="text-gray-300 mb-6">
-          Are you sure you want to delete this estimation data? This action cannot be undone.
+          Are you sure you want to send this estimation data? 
         </p>
         <div className="flex justify-center gap-4 mt-6">
           <button
-            onClick={() => setdeleteEnable(false)}
+            onClick={() => setSendEnable(false)}
             className="bg-gray-600 hover:bg-gray-700 text-white px-5 py-2.5 rounded-lg shadow-md transition-all duration-200 font-semibold"
           >
             Cancel
           </button>
           <button
-            onClick={deleteEstimation}
+            onClick={sendEstimation}
             className="bg-red-600 hover:bg-red-700 text-white px-5 py-2.5 rounded-lg shadow-md hover:shadow-xl transition-all duration-200 font-semibold"
           >
-            Delete
+            Send
           </button>
         </div>
       </div>
@@ -57,4 +57,4 @@ function DeleteEstimation({
   );
 }
 
-export default DeleteEstimation;
+export default SendEstimation;

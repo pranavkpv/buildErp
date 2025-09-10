@@ -40,8 +40,8 @@ export interface findMaterialBynameCatBrandInput {
    brand_id: string
 }
 
-export interface findMaterialBynameCatBrandInputEdit extends findMaterialBynameCatBrandInput{
-   _id:string
+export interface findMaterialBynameCatBrandInputEdit extends findMaterialBynameCatBrandInput {
+   _id: string
 }
 
 export interface addProjectStockInput {
@@ -57,23 +57,27 @@ type projectStockIneditMat = {
 }
 
 export interface editMaterialFetch extends addMaterialFetch {
-   materialData:editMaterialFullDatafetch | null
+   materialData: editMaterialFullDatafetch | null
    projectStockData: projectStockIneditMat[]
 }
 
 
 export interface editMaterialFullDatafetch extends IMaterialModelEntity {
-   categoryDetails:ICategoryModelEntity[],
-   brandDetails:IBrandModelEntity[],
-   unitDetails:IUnitModelEntity[]
+   categoryDetails: ICategoryModelEntity[],
+   brandDetails: IBrandModelEntity[],
+   unitDetails: IUnitModelEntity[]
 }
 
 export interface editMaterialInput extends addMaterialInput {
-   _id:string
+   _id: string
 }
 
 export interface fetchUnitRateInput {
-   material_name:string 
-   brand_name:string 
-   unit_name:string
+   material_name: string
+   brand_name: string
+   unit_name: string
+}
+
+export interface materialswithAggregateBrand extends IMaterialModelEntity {
+   brandDetails: IBrandModelEntity
 }

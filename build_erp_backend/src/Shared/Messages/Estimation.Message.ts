@@ -4,11 +4,17 @@ export const EstimationSuccessMessage = {
     ADD: 'Estimation added successfully',
     UPDATE: 'Estimation updated successfully',
     UPLOAD: 'Image uploaded successfully',
+    REQUIREMENT_ADD: 'Requirement addedd successfully',
+    TAKE_DEFAULT: 'Set Default Requirements',
+    REJECT_SUCCESS:'Estimation data reject successfully',
+    APPROVE_SUCCESS:'Estimation data approved successfully'
 };
 
 export const EstimationFailedMessage = {
     USED_STAGE: 'Stage setup is already completed',
     IMAGE_ADD: 'Must Add Image',
     NO_IMAGE: 'Failed to Image Upload',
-    ALREADY_DONE : 'Already estimate the project',
+    ALREADY_DONE: 'Already estimate the project',
+    REQUIREMENT_FAIL: 'Failed to requirement save',
+    NOT_ACCESS: 'Failed to save estimation because the corresponding user is not authorized to decide the estimation.'
 };

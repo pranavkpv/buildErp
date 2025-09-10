@@ -277,8 +277,8 @@ export class AdminRoute {
             validateSaveEstimation,
             withLogging(injectEstimationController.createEstimation));
 
-        this.adminRoute.delete('/deleteEstimation/:id',
-            withLogging(injectEstimationController.removeEstimation));
+        this.adminRoute.patch('/sendEstimation/:id',
+            withLogging(injectEstimationController.sendEstimation));
 
         this.adminRoute.post('/updateEstimation',
             validateSaveEstimation,

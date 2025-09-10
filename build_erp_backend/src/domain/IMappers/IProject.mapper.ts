@@ -14,4 +14,5 @@ export interface IProjectmapper {
    todisplayProjectDTO(projects: projectwithClient[]): displayProjectDTO[]
    toStageListDto(stage: IProjectModelEntity[]): stageListDTO[]
    toStatusCountDto(project:groupedProjectwithStatus[]):displayStatusCountDTO[]
+   toUserBaseOneProjectDto(project:IProjectModelEntity):userBaseProjectDTO
 }

@@ -16,6 +16,8 @@ export interface IProjectModelEntity{
    budgeted_cost : number
    latitude:number
    longitude:number
+   estimateBy:string
+   estimateStatus:boolean
    createdAt: Date
    updatedAt: Date
 }

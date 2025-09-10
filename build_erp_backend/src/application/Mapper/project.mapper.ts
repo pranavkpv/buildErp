@@ -33,6 +33,8 @@ export class ProjectMapper implements IProjectmapper {
             project_name: project.project_name,
             start_date: project.start_date,
             status: project.status,
+            estimateBy: project.estimateBy,
+            estimateStatus:project.estimateStatus
         }));
     }
     toUserBaseChatDto(projects: userBaseChatoutput[]): userBasechatListDTO[] {
@@ -62,37 +64,53 @@ export class ProjectMapper implements IProjectmapper {
         }));
     }
     todisplayProjectDTO(projects: projectwithClient[]): displayProjectDTO[] {
-        return projects.map((element)=>({
-            _id:element._id,
-            address:element.address,
-            area:element.area,
-            description:element.description,
-            email:element.email,
-            mobile_number:element.mobile_number,
-            project_name:element.project_name,
-            status:element.status,
-            lat:element.latitude,
-            long:element.longitude,
-            userDetails:{
-                _id:element.userDetails._id,
-                username:element.userDetails.username,
-                email:element.userDetails.email,
-                phone:element.userDetails.phone,
+        return projects.map((element) => ({
+            _id: element._id,
+            address: element.address,
+            area: element.area,
+            description: element.description,
+            email: element.email,
+            mobile_number: element.mobile_number,
+            project_name: element.project_name,
+            status: element.status,
+            lat: element.latitude,
+            long: element.longitude,
+            userDetails: {
+                _id: element.userDetails._id,
+                username: element.userDetails.username,
+                email: element.userDetails.email,
+                phone: element.userDetails.phone,
             },
         }));
     }
     toStageListDto(stage: IProjectModelEntity[]): stageListDTO[] {
-        return stage.map((element)=>({
-            _id:element._id,
-            end_date:element.end_date,
-            project_name:element.project_name,
-            start_date:element.start_date,
+        return stage.map((element) => ({
+            _id: element._id,
+            end_date: element.end_date,
+            project_name: element.project_name,
+            start_date: element.start_date,
         }));
     }
     toStatusCountDto(project: groupedProjectwithStatus[]): displayStatusCountDTO[] {
-        return project.map((element)=>({
-            label:element._id,
-            number:element.count,
+        return project.map((element) => ({
+            label: element._id,
+            number: element.count,
         }));
+    }
+    toUserBaseOneProjectDto(project: IProjectModelEntity): userBaseProjectDTO {
+        return ({
+            _id: project._id,
+            address: project.address,
+            area: project.area,
+            budgeted_cost: project.budgeted_cost,
+            description: project.description,
+            end_date: project.end_date,
+            estimateBy: project.estimateBy,
+            expected_image: project.expected_image,
+            project_name: project.project_name,
+            start_date: project.start_date,
+            status: project.status,
+            estimateStatus:project.estimateStatus
+        })
     }
 }

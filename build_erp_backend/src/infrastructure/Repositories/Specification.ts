@@ -173,7 +173,7 @@ export class SpecRepository implements ISpecRepository {
 
     // Fetch all specs (no pagination)
     async getAllSpecsList(): Promise<ISpecModelEntity[]> {
-        return await specDB.find();
+        return await specDB.find({blockStatus:false});
     }
 
     // Find spec by material ID
@@ -209,5 +209,11 @@ export class SpecRepository implements ISpecRepository {
     // Check duplicate spec name on edit
     async getSpecDuplicateByName(id: string, specname: string): Promise<ISpecModelEntity | null> {
         return await specDB.findOne({ _id: { $ne: id }, spec_id: { $regex: specname, $options: 'i' } });
+    }
+    async getAllSpecByIds(specIds: string[]): Promise<ISpecModelEntity[]> {
+        return await specDB.find({_id:{$in:specIds}})
+    }
+    async getSpecById(id: string): Promise<ISpecModelEntity | null> {
+        return await specDB.findById(id)
     }
 }
