@@ -22,8 +22,8 @@ export interface userBaseProjectDTO {
    status: string;
    start_date: Date;
    end_date: Date;
-   estimateBy:string;
-   estimateStatus:boolean
+   estimateBy: string;
+   estimateStatus: boolean
 }
 
 export interface userBasechatListDTO {
@@ -47,8 +47,8 @@ export interface displayProjectDTO {
    email: string;
    description: string;
    area: number;
-   lat:number;
-   long:number;
+   lat: number;
+   long: number;
    userDetails: {
       _id: string;
       username: string;
@@ -59,6 +59,18 @@ export interface displayProjectDTO {
 }
 
 export interface displayStatusCountDTO {
-   number:number 
-   label:string
+   number: number
+   label: string
+}
+
+export interface displayProjectWithCompletionDTO {
+   _id:string
+   project_name: string
+   start_date: Date
+   end_date: Date
+   completion_per: number
+}
+
+export interface OnlyIdDTO {
+   _id:string
 }

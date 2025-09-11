@@ -147,7 +147,7 @@ function Project() {
                               {element.status}
                             </option>
                             {element.status === "pending" &&
-                              ["processing", "completed"].map((value) => (
+                              ["completed"].map((value) => (
                                 <option key={value} value={value} className="capitalize">
                                   {value}
                                 </option>

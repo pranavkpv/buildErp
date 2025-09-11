@@ -43,3 +43,4 @@ export const fetLabourAnalysis = async (search: string) => {
     const response = await adminAxios.get(`/budgetActualLabour`, { params: { search } })
     return response.data
 }
+

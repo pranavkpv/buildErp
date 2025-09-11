@@ -2,7 +2,7 @@
 import { Route, Routes } from "react-router-dom";
 import SiteLogin from "../../pages/Sitemanager/SiteLogin";
 import SiteLayout from "../../pages/Sitemanager/SiteLayout";
-import SiteDashboard from "../../pages/Sitemanager/SiteDashboard";
+import SiteDashboard from "../../components/SITEMANAGER/Dashboard/SiteDashboard";
 import DisplaySitemanagerData from "../../components/SITEMANAGER/ChangepassSitemanager/DisplayData";
 import BackLoginSitemanagerProtected from "../protectedRoute/sitemanager/blockLoginSitemanagerProtected";
 import SiteBackDashProtected from "../../routes/protectedRoute/sitemanager/siteBackDashprotected";

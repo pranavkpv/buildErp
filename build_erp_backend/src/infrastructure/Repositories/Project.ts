@@ -139,7 +139,7 @@ export class ProjectRepository implements IprojectRepository {
 
     // Get all projects (without pagination)
     async getAllProjects(): Promise<IProjectModelEntity[]> {
-        return await projectDB.find();
+        return await projectDB.find({status:"processing"});
     }
 
     // Get project with cost
@@ -159,7 +159,6 @@ export class ProjectRepository implements IprojectRepository {
     // Get projects with stage info and pagination
     async getProjectsWithStage(input: listingInput):
         Promise<{ data: IProjectModelEntity[]; totalPage: number }> {
-        console.log(input);
         const skip = input.page * 5;
 
         const data = await projectDB.find({
@@ -189,7 +188,7 @@ export class ProjectRepository implements IprojectRepository {
 
     // Get projects by sitemanager ID
     async getProjectsBySitemanagerId(user: string): Promise<IProjectModelEntity[]> {
-        return await projectDB.find({ sitemanager_id: user });
+        return await projectDB.find({ sitemanager_id: user,status:"processing" });
     }
 
     // Get projects by status with pagination

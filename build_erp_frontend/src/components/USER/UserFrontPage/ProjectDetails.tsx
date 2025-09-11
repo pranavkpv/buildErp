@@ -37,6 +37,11 @@ type prop = {
   longitude: number;
 };
 
+type imageType = {
+  date:Date
+  url:string
+}
+
 function DetailProject() {
   const location = useLocation();
   const projectId = location.state?.projectId;
@@ -49,7 +54,7 @@ function DetailProject() {
   const longitude = location.state?.longitude;
 
   const [spec, setSpec] = useState<estimationData[]>([]);
-  const [image, setImage] = useState<any[]>([]);
+  const [image, setImage] = useState<imageType[]>([]);
   const [stage, setStage] = useState<StageData[]>([]);
 
   const fetchSpec = async () => {

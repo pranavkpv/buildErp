@@ -1,5 +1,7 @@
 import { ProjectMapper } from '../../application/Mapper/project.mapper';
+import { Stagemapper } from '../../application/Mapper/stage.mapper';
 import { UserMapper } from '../../application/Mapper/user.mapper';
+import { JwtService } from '../../application/services/JwtService';
 import { AddProjectUseCase } from '../../application/UseCase/Project/AddProject';
 import { ChangeStatusUseCase } from '../../application/UseCase/Project/ChangeStatus';
 import { DeleteProjectUseCase } from '../../application/UseCase/Project/DeleteProject';
@@ -8,6 +10,7 @@ import { DisplayAllProjectUseCase } from '../../application/UseCase/Project/Disp
 import { EditProjectUseCase } from '../../application/UseCase/Project/EditProject';
 import { FetchProjectUseCase } from '../../application/UseCase/Project/FetchProject';
 import { FetchProjectCountandStatusUseCase } from '../../application/UseCase/Project/FetchProjectcountAndStatus';
+import { FetchProjectWithCompletionUseCase } from '../../application/UseCase/Project/FetchProjectWithCompletion';
 import { AddSiteToprojectFetchProjectUseCase } from '../../application/UseCase/SiteManager/AddSiteToprojectFetchProject';
 import { AddSiteToProjectRepository } from '../../infrastructure/Repositories/AddSiteToProject';
 import { AttendanceRepository } from '../../infrastructure/Repositories/Attendance';
@@ -15,6 +18,7 @@ import { EstimationRepository } from '../../infrastructure/Repositories/Estimati
 import { ProjectRepository } from '../../infrastructure/Repositories/Project';
 import { ProjectStockRepository } from '../../infrastructure/Repositories/ProjectStock';
 import { PurchaseRepository } from '../../infrastructure/Repositories/Purchase';
+import { StageRepository } from '../../infrastructure/Repositories/Stage';
 import { TransferRepository } from '../../infrastructure/Repositories/Transfer';
 import { UserRepository } from '../../infrastructure/Repositories/User';
 import { ProjectController } from '../controllers/Project';
@@ -23,12 +27,15 @@ const projectRepository = new ProjectRepository();
 const projectmapper = new ProjectMapper();
 const userRepository = new UserRepository();
 const userMapper = new UserMapper();
+const jwtservice = new JwtService()
 const projectStockRepository = new ProjectStockRepository();
 const addSiteToprojectRepository = new AddSiteToProjectRepository();
 const estimationRepository = new EstimationRepository();
 const purchaseRepository = new PurchaseRepository();
 const transferRepository = new TransferRepository();
 const attendanceRepository = new AttendanceRepository();
+const stageRepository = new StageRepository()
+const stagemapper = new Stagemapper()
 const fetchProjectUseCase = new FetchProjectUseCase(projectRepository,projectmapper);
 const addSiteToProjectFetchProjectUseCase = new AddSiteToprojectFetchProjectUseCase(addSiteToprojectRepository,projectmapper);
 const displayAddProjectUseCase = new DisplayAddProjectUseCase(userRepository,userMapper);
@@ -38,4 +45,6 @@ const editProjectUseCase = new EditProjectUseCase(projectRepository);
 const displayProjectUseCase = new DisplayAllProjectUseCase(projectRepository,projectmapper);
 const changeStatusUseCase = new ChangeStatusUseCase(projectRepository);
 const fetchProjectCountandStatus = new FetchProjectCountandStatusUseCase(projectRepository,projectmapper);
-export const injectedProjectController = new ProjectController(fetchProjectUseCase,addSiteToProjectFetchProjectUseCase,displayAddProjectUseCase,addProjectUseCase,deleteProjectUseCase,editProjectUseCase,displayProjectUseCase,changeStatusUseCase,fetchProjectCountandStatus);
+const fetchProjectwithCompletionUseCase = new FetchProjectWithCompletionUseCase(stageRepository,stagemapper)
+export const injectedProjectController = new ProjectController(fetchProjectUseCase,addSiteToProjectFetchProjectUseCase,displayAddProjectUseCase,addProjectUseCase,deleteProjectUseCase,editProjectUseCase,displayProjectUseCase,
+   changeStatusUseCase,fetchProjectCountandStatus,jwtservice,fetchProjectwithCompletionUseCase);

@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { commonOutput } from '../../../application/dto/common';
-import { displayProjectDTO, displayStatusCountDTO, fetchProjectIdnameDTO } from '../../../application/dto/project.dto';
+import { displayProjectDTO, displayProjectWithCompletionDTO, displayStatusCountDTO, fetchProjectIdnameDTO } from '../../../application/dto/project.dto';
 import { userLoginDTO } from '../../../application/dto/user.dto';
 
 
@@ -32,5 +32,8 @@ export interface IProjectController {
 
    fetchAllProjectwithStatusAndcount(req: Request, res: Response, next: NextFunction):
       Promise<commonOutput<displayStatusCountDTO[]> | commonOutput | void>
+
+   getSitemanagersProjectsWithCompletion(req: Request, res: Response, next: NextFunction):
+     Promise<commonOutput<{data:displayProjectWithCompletionDTO[],totalPages:number}> | void>
 
 }

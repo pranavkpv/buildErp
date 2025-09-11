@@ -4,6 +4,7 @@ import CostComparisonGraph from "./SubComponents/CostComparisonGraph";
 import { toast } from "react-toastify";
 import { fetchBudgetAndActual, fetLabourAnalysis, fetMaterialAnalysis } from "../../../api/Admin/dashboard";
 import MaterialLabourAnalysis from "./SubComponents/MaterialAnalysisReport";
+import CountProject from "./SubComponents/CountProject";
 
 type reportData = {
   project_name: string;
@@ -78,6 +79,7 @@ function Dashboard() {
               Admin Dashboard
             </h1>
             <div className="space-y-8">
+              <CountProject />
               <BudgetVsActual data={data.slice(page * 5, page * 5 + 5)}
                 total={total} setPage={setPage} search={search} setSearch={setSearch}
                 page={page} />

@@ -55,11 +55,6 @@ function AddTransfer({ addEnable, setAddEnable, onAddSuccess }: setAdd) {
    };
 
    const fetchProject = async () => {
-      const token = localStorage.getItem("accessToken");
-      if (!token) {
-         toast.error("No access token found");
-         return;
-      }
       const response = await getSitemanagersProject();
       setFromProject(response.data);
    };

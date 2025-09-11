@@ -1,7 +1,7 @@
 import { IProjectModelEntity } from '../../domain/Entities/modelEntities/project.entity';
 import { IProjectmapper } from '../../domain/IMappers/IProject.mapper';
 import { listAddsiteDTO } from '../dto/addsitemanagerToproject';
-import { displayProjectDTO, displayStatusCountDTO, fetchProjectIdnameDTO, publicProjectDTO, userBasechatListDTO, userBaseProjectDTO } from '../dto/project.dto';
+import { displayProjectDTO, displayStatusCountDTO, fetchProjectIdnameDTO, OnlyIdDTO, publicProjectDTO, userBasechatListDTO, userBaseProjectDTO } from '../dto/project.dto';
 import { stageListDTO } from '../dto/stage.dto';
 import { listAddSiteToproject } from '../Entities/addsitemanagertoproject.entity';
 import { groupedProjectwithStatus, projectwithClient, userBaseChatoutput } from '../Entities/project.entity';
@@ -34,7 +34,7 @@ export class ProjectMapper implements IProjectmapper {
             start_date: project.start_date,
             status: project.status,
             estimateBy: project.estimateBy,
-            estimateStatus:project.estimateStatus
+            estimateStatus: project.estimateStatus
         }));
     }
     toUserBaseChatDto(projects: userBaseChatoutput[]): userBasechatListDTO[] {
@@ -110,7 +110,12 @@ export class ProjectMapper implements IProjectmapper {
             project_name: project.project_name,
             start_date: project.start_date,
             status: project.status,
-            estimateStatus:project.estimateStatus
+            estimateStatus: project.estimateStatus
         })
+    }
+    toOnlyId(project: IProjectModelEntity[]): OnlyIdDTO[] {
+        return project.map((element) => ({
+            _id: element._id
+        }))
     }
 }

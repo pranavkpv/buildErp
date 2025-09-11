@@ -111,7 +111,7 @@ export class TransferRepository implements ITransferRepository {
 
     // Fetch all projects except the given project ID
     async fectToproject(projectId: string): Promise<fetchProjectIdnameDTO[]> {
-        const projectList = await projectDB.find({ _id: { $ne: projectId } }, { _id: 1, project_name: 1 });
+        const projectList = await projectDB.find({ _id: { $ne: projectId },status:"processing" }, { _id: 1, project_name: 1 });
         return projectList.map(project => ({
             _id: project._id.toString(),
             project_name: project.project_name,

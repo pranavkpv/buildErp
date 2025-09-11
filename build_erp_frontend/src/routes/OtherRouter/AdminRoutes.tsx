@@ -17,6 +17,8 @@ import SpecList from "../../components/ADMIN/Specification/SpecList";
 import Unit from "../../components/UnitComponent/Unit";
 import ListBanner from "../../components/ADMIN/Banner/ListBanner";
 import NotFound from "../../components/NotFound";
+import AdminProjectList from "../../components/ADMIN/dashboard/AdminProjectList";
+import AdminProjectDetails from "../../components/ADMIN/dashboard/AdminProjectDetails";
 
 export const AdminRoutes = () => {
   return (
@@ -32,6 +34,8 @@ export const AdminRoutes = () => {
 
       <Route path="/" element={<Adminlayout />}>
         <Route path="dashboard" element={<AdminbackDashprotected><Dashboard /></AdminbackDashprotected>} />
+        <Route path="ProjectList" element={<AdminbackDashprotected><AdminProjectList /></AdminbackDashprotected>} />
+        <Route path="projectDetails" element={<AdminbackDashprotected><AdminProjectDetails /></AdminbackDashprotected>} />
         <Route path="banner" element={<AdminbackDashprotected><ListBanner /></AdminbackDashprotected>} />
         <Route path="project" element={<AdminbackDashprotected><Project /></AdminbackDashprotected>} />
         <Route path="category" element={<AdminbackDashprotected><Category /></AdminbackDashprotected>} />

@@ -1,5 +1,5 @@
 import { listAddsiteDTO } from '../../application/dto/addsitemanagerToproject';
-import { displayProjectDTO, displayStatusCountDTO, fetchProjectIdnameDTO, publicProjectDTO, userBasechatListDTO, userBaseProjectDTO } from '../../application/dto/project.dto';
+import { displayProjectDTO, displayStatusCountDTO, fetchProjectIdnameDTO, OnlyIdDTO, publicProjectDTO, userBasechatListDTO, userBaseProjectDTO } from '../../application/dto/project.dto';
 import { stageListDTO } from '../../application/dto/stage.dto';
 import { listAddSiteToproject } from '../../application/Entities/addsitemanagertoproject.entity';
 import { groupedProjectwithStatus, projectwithClient, userBaseChatoutput } from '../../application/Entities/project.entity';
@@ -15,4 +15,5 @@ export interface IProjectmapper {
    toStageListDto(stage: IProjectModelEntity[]): stageListDTO[]
    toStatusCountDto(project:groupedProjectwithStatus[]):displayStatusCountDTO[]
    toUserBaseOneProjectDto(project:IProjectModelEntity):userBaseProjectDTO
+   toOnlyId(project:IProjectModelEntity[]):OnlyIdDTO[]
 }

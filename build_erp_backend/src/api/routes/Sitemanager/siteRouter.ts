@@ -17,6 +17,7 @@ import { validateAttendance } from '../../../infrastructure/middlewares/validati
 import { validatePurchase } from '../../../infrastructure/middlewares/validation/purchase.validation';
 import { validateTransfer } from '../../../infrastructure/middlewares/validation/transfer.validation';
 import { receiveValidation } from '../../../infrastructure/middlewares/validation/receive.validation';
+import { injectedProjectController } from '../../DI/Project';
 
 
 export class SitemanagerRoute {
@@ -59,6 +60,12 @@ export class SitemanagerRoute {
             '/siteproject',
             withLogging(injectedSitemanagerController.getSitemanagerProjects),
         );
+
+        this.sitemanagerRoute.get(
+            '/projectWithCompletion',
+            withLogging(injectedProjectController.getSitemanagersProjectsWithCompletion),
+        );
+
 
         // ================================
         // 🔹 Change Password
@@ -149,7 +156,7 @@ export class SitemanagerRoute {
         // 🔹 Transfer
         // ================================
         this.sitemanagerRoute.get(
-            '/transfer',     
+            '/transfer',
             withLogging(injectedTransferController.fetchTransfers),
         );
         this.sitemanagerRoute.get(

@@ -1,5 +1,5 @@
 import { changeStatusInput } from '../../../application/Entities/sitemanager.entity';
-import { stage, uploadImageInput } from '../../../application/Entities/stage.entity';
+import { stage, stageWithAggregateProject, uploadImageInput } from '../../../application/Entities/stage.entity';
 import { IStageModelEntity } from '../modelEntities/stage.entity';
 
 export interface IStageRepository {
@@ -20,4 +20,7 @@ export interface IStageRepository {
 
    uploadImageByStageId(input: uploadImageInput):
       Promise<void>
+
+   getAggregateStageByProjectIdmatchSitemanager(sitemanagerId: string,page:number,search:string):
+      Promise<{data:stageWithAggregateProject[],totalPages:number}>
 }
