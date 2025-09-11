@@ -74,43 +74,43 @@ export class userRoute {
         );
         this.userRoute.get(
             '/getSpec',
-            withLogging(injectSpecController.getSpecnameandId)
+            withLogging(injectSpecController.getSpecnameandId),
         );
         this.userRoute.get(
             '/getmaterialbySpec',
-            withLogging(injectSpecController.getMaterialandBrandById)
+            withLogging(injectSpecController.getMaterialandBrandById),
         );
         this.userRoute.post(
             '/addRequirement',
-            withLogging(injectedRequirementController.saveRequirement)
+            withLogging(injectedRequirementController.saveRequirement),
         );
         this.userRoute.patch(
             '/addRequirement/:id',
-            withLogging(injectedRequirementController.updateEstimateBy)
+            withLogging(injectedRequirementController.updateEstimateBy),
         );
         this.userRoute.get(
             '/getEstimation/:id',
-            withLogging(injectEstimationController.getEstimationById)
+            withLogging(injectEstimationController.getEstimationById),
         );
-         this.userRoute.get(
+        this.userRoute.get(
             '/getMaterialEstimation/:id',
-            withLogging(injectEstimationController.getMaterialEstimationById)
+            withLogging(injectEstimationController.getMaterialEstimationById),
         );
-         this.userRoute.get(
+        this.userRoute.get(
             '/getLabourEstimation/:id',
-            withLogging(injectEstimationController.getLabourEstimationById)
+            withLogging(injectEstimationController.getLabourEstimationById),
         );
-         this.userRoute.get(
+        this.userRoute.get(
             '/getAdditionEstimation/:id',
-            withLogging(injectEstimationController.getAdditionEstimationById)
+            withLogging(injectEstimationController.getAdditionEstimationById),
         );
-          this.userRoute.patch(
+        this.userRoute.patch(
             '/rejectEstimation/:id',
-            withLogging(injectEstimationController.rejectEstimation)
+            withLogging(injectEstimationController.rejectEstimation),
         );
-          this.userRoute.patch(
+        this.userRoute.patch(
             '/approveEstimation/:id',
-            withLogging(injectEstimationController.ApproveEstimation)
+            withLogging(injectEstimationController.ApproveEstimation),
         );
     }
 }

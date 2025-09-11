@@ -8,8 +8,8 @@ export class DeleteBannerUseCase implements IDeleteBannerUsecase {
     constructor(
       private _bannerRepository: IBannerRepository,
     ) { }
-    async execute(_id: string): Promise<commonOutput | void> {
-        await this._bannerRepository.deleteBanner(_id);
+    async execute(id: string): Promise<commonOutput | void> {
+        await this._bannerRepository.deleteBanner(id);
         return ResponseHelper.success(bannerSuccessMessage.DELETE);
     }
 }

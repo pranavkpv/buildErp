@@ -18,7 +18,7 @@ import {
 } from '../../application/Entities/estimation.entity';
 import { IEstimationRepository } from '../../domain/Entities/IRepository/IEstimation';
 import { IEstimationAdditionalModalEntity } from '../../domain/Entities/modelEntities/estimationAdditional.entity';
-import { Role } from '../../Shared/Constants/Role.constant';
+
 
 export class EstimationRepository implements IEstimationRepository {
 
@@ -53,7 +53,7 @@ export class EstimationRepository implements IEstimationRepository {
                     unit_rate: spec.unitrate,
                     project_id: projectId,
                     approvalStatus: false,
-                    rejectStatus: true
+                    rejectStatus: true,
                 });
                 await newEstimation.save();
                 for (const mat of specData.materialDetails) {
@@ -106,14 +106,14 @@ export class EstimationRepository implements IEstimationRepository {
         const data = await estimationDB.aggregate([
             {
                 $match: {
-                    rejectStatus: true
-                }
+                    rejectStatus: true,
+                },
             },
             {
                 $group: {
                     _id: '$project_id',
                     budgeted_cost: { $sum: { $multiply: ['$quantity', '$unit_rate'] } },
-                    reason:{$first:"$reason"}
+                    reason:{ $first:'$reason' },
                 },
             },
             {
@@ -200,149 +200,149 @@ export class EstimationRepository implements IEstimationRepository {
     async getAllEstimationLabours(): Promise<IEstimationLabourModelEntity[]> {
         return await estimationLabourDB.find();
     }
-    async saveEstimation(spec_id: string, project_id: string, unit_rate: number, quantity: number):
+    async saveEstimation(specId: string, projectId: string, unitRate: number, quantity: number):
         Promise<IEstimationModelEntity | null> {
         const newEstimation = new estimationDB({
-            project_id,
-            spec_id,
+            project_id:projectId,
+            spec_id:specId,
             quantity,
-            unit_rate,
+            unit_rate:unitRate,
             approvalStatus: false,
-            rejectStatus: true
-        })
-        return await newEstimation.save()
+            rejectStatus: true,
+        });
+        return await newEstimation.save();
     }
-    async saveMaterialEstimation(material_id: string, quantity: number, unit_rate: number, project_id: string):
+    async saveMaterialEstimation(materialId: string, quantity: number, unitRate: number, projectId: string):
         Promise<IEstimationMaterialModelEntity | null> {
         const newMaterialEstimation = new estimationMaterialDB({
-            material_id,
+            material_id:materialId,
             quantity,
-            unit_rate,
-            project_id
-        })
-        return await newMaterialEstimation.save()
+            unit_rate:unitRate,
+            project_id:projectId,
+        });
+        return await newMaterialEstimation.save();
     }
-    async saveLabourEstimation(labour_id: string, daily_wage: number, numberoflabour: number, project_id: string):
+    async saveLabourEstimation(labourId: string, dailyWage: number, numberoflabour: number, projectId: string):
         Promise<IEstimationLabourModelEntity | null> {
         const newLabourEstimation = new estimationLabourDB({
-            labour_id,
+            labour_id:labourId,
             numberoflabour,
-            daily_wage,
-            project_id
-        })
-        return await newLabourEstimation.save()
+            daily_wage:dailyWage,
+            project_id:projectId,
+        });
+        return await newLabourEstimation.save();
     }
-    async saveAdditionalEstimation(additional_expense_amount: number, additional_expense_per: number, profit_amount: number, profit_per: number, project_id: string):
+    async saveAdditionalEstimation(additionalExpenseAmount: number, additionalExpensePer: number, profitAmount: number, profitPer: number, projectId: string):
         Promise<IEstimationAdditionalModalEntity | null> {
         const newAdditionalEstimation = new estimationAdditionalDB({
-            additionalExpense_amount: additional_expense_amount,
-            additionalExpense_per: additional_expense_per,
-            profit_amount,
-            profit_per,
-            project_id
-        })
-        return await newAdditionalEstimation.save()
+            additionalExpense_amount: additionalExpenseAmount,
+            additionalExpense_per: additionalExpensePer,
+            profit_amount:profitAmount,
+            profit_per:profitPer,
+            project_id:projectId,
+        });
+        return await newAdditionalEstimation.save();
     }
     async deleteEstimationsByProjectId(id: string): Promise<void> {
-        await estimationDB.deleteMany({ project_id: id })
-        await estimationMaterialDB.deleteMany({ project_id: id })
-        await estimationLabourDB.deleteMany({ project_id: id })
-        await estimationAdditionalDB.deleteMany({ project_id: id })
+        await estimationDB.deleteMany({ project_id: id });
+        await estimationMaterialDB.deleteMany({ project_id: id });
+        await estimationLabourDB.deleteMany({ project_id: id });
+        await estimationAdditionalDB.deleteMany({ project_id: id });
     }
     async getAggregateEstimationByProject(projectId: string):
         Promise<estimationAggregatebySpec[]> {
         const data = await estimationDB.aggregate([{
             $match: {
-                project_id: projectId
-            }
+                project_id: projectId,
+            },
         }, {
             $addFields: {
-                specObjectId: { $toObjectId: "$spec_id" }
-            }
+                specObjectId: { $toObjectId: '$spec_id' },
+            },
         }, {
             $lookup: {
-                from: "specs",
-                localField: "specObjectId",
-                foreignField: "_id",
-                as: "specDetails"
-            }
-        }, { $unwind: "$specDetails" }])
-        return data
+                from: 'specs',
+                localField: 'specObjectId',
+                foreignField: '_id',
+                as: 'specDetails',
+            },
+        }, { $unwind: '$specDetails' }]);
+        return data;
     }
     async getAggregateByMaterialBrandUnit(projectId: string):
         Promise<estimationAggregatebymaterialbrandunit[]> {
         const data = await estimationMaterialDB.aggregate([
             {
                 $match: {
-                    project_id: projectId
-                }
+                    project_id: projectId,
+                },
             }, {
                 $addFields: {
-                    materialObjectId: { $toObjectId: "$material_id" }
-                }
+                    materialObjectId: { $toObjectId: '$material_id' },
+                },
             },
             {
                 $lookup: {
-                    from: "materials",
-                    localField: "materialObjectId",
-                    foreignField: "_id",
-                    as: "materialDetails"
-                }
+                    from: 'materials',
+                    localField: 'materialObjectId',
+                    foreignField: '_id',
+                    as: 'materialDetails',
+                },
             },
-            { $unwind: "$materialDetails" },
+            { $unwind: '$materialDetails' },
             {
                 $addFields: {
-                    brandObjectId: { $toObjectId: "$materialDetails.brand_id" },
-                    unitObjectId: { $toObjectId: "$materialDetails.unit_id" }
-                }
+                    brandObjectId: { $toObjectId: '$materialDetails.brand_id' },
+                    unitObjectId: { $toObjectId: '$materialDetails.unit_id' },
+                },
             },
             {
                 $lookup: {
-                    from: "brands",
-                    localField: "brandObjectId",
-                    foreignField: "_id",
-                    as: "brandDetails"
-                }
+                    from: 'brands',
+                    localField: 'brandObjectId',
+                    foreignField: '_id',
+                    as: 'brandDetails',
+                },
             },
             {
                 $lookup: {
-                    from: "units",
-                    localField: "unitObjectId",
-                    foreignField: "_id",
-                    as: "unitDetails"
-                }
-            }, { $unwind: "$unitDetails" }, { $unwind: "$brandDetails" }
-        ])
-        return data
+                    from: 'units',
+                    localField: 'unitObjectId',
+                    foreignField: '_id',
+                    as: 'unitDetails',
+                },
+            }, { $unwind: '$unitDetails' }, { $unwind: '$brandDetails' },
+        ]);
+        return data;
     }
     async getAdditionalExpenseByProject(projectId: string): Promise<IEstimationAdditionalModalEntity[]> {
-        return await estimationAdditionalDB.find({ project_id: projectId })
+        return await estimationAdditionalDB.find({ project_id: projectId });
     }
     async getAggregateByLabour(projectId: string): Promise<estimationAggregatebyLabour[]> {
         const data = await estimationLabourDB.aggregate([{
             $match:{
-                project_id:projectId
-            }
+                project_id:projectId,
+            },
         },{
             $addFields:{
-                labourObjectId:{$toObjectId:"$labour_id"}
-            }
+                labourObjectId:{ $toObjectId:'$labour_id' },
+            },
         },{
             $lookup:{
-                from:"labour",
-                localField:"labourObjectId",
-                foreignField:"_id",
-                as:"labourDetails"
-            }
+                from:'labour',
+                localField:'labourObjectId',
+                foreignField:'_id',
+                as:'labourDetails',
+            },
         },{
-            $unwind:"$labourDetails"
-        }])
-        return data
+            $unwind:'$labourDetails',
+        }]);
+        return data;
     }
     async updateRejectStatusAndReason(projectId: string, reason: string): Promise<void> {
-        await estimationDB.updateMany({project_id:projectId},{reason,rejectStatus:true})
+        await estimationDB.updateMany({ project_id:projectId },{ reason,rejectStatus:true });
     }
     async updateEstimationStatus(status: boolean, projectId: string): Promise<void> {
-        await estimationDB.updateMany({project_id:projectId},{approvalStatus:status})
+        await estimationDB.updateMany({ project_id:projectId },{ approvalStatus:status });
     }
 }

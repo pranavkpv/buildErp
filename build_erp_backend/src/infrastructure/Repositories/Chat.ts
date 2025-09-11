@@ -2,7 +2,7 @@ import { chatDB } from '../../api/models/ChatModel';
 import { fetchingChatInput, savingChatInput } from '../../application/Entities/chat.entity';
 import { IChatModelEntity } from '../../domain/Entities/modelEntities/chat.entity';
 import { IChatRepository } from '../../domain/Entities/IRepository/IChat';
-import { messageStatus } from '../../Shared/Constants/MessasageStatus.constant';
+import { messageStatusConstant } from '../../Shared/Constants/MessasageStatus.constant';
 
 export class ChatRepository implements IChatRepository {
 
@@ -24,15 +24,15 @@ export class ChatRepository implements IChatRepository {
             senderId,
             receiverId,
             message,
-            messageStatus
+            messageStatus,
         });
 
         return await newChat.save();
     }
     async updateMessageStatus(id: string): Promise<void> {
-        await chatDB.findByIdAndUpdate(id, { messageStatus: messageStatus.DELIVERED })
+        await chatDB.findByIdAndUpdate(id, { messageStatus: messageStatusConstant.DELIVERED });
     }
     async getChatById(id: string): Promise<IChatModelEntity | null> {
-        return await chatDB.findById(id)
+        return await chatDB.findById(id);
     }
 }

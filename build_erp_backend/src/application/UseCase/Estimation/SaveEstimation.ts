@@ -11,15 +11,15 @@ import { Role } from '../../../Shared/Constants/Role.constant';
 export class SaveEstimationUseCase implements ISaveEstimationUseCase {
     constructor(
         private _estimationRepository: IEstimationRepository,
-        private _projectRepository: IprojectRepository
+        private _projectRepository: IprojectRepository,
     ) { }
     async execute(input: { projectId: string, row: saveEstimationInput[] }):
         Promise<commonOutput> {
         const projectId = input.projectId;
         const specDetails = input.row;
-        const projectById = await this._projectRepository.getProjectById(projectId)
+        const projectById = await this._projectRepository.getProjectById(projectId);
         if (projectById?.estimateBy !== Role.ADMIN) {
-            return ResponseHelper.conflictData(EstimationFailedMessage.NOT_ACCESS)
+            return ResponseHelper.conflictData(EstimationFailedMessage.NOT_ACCESS);
         }
         const existEstimation = await this._estimationRepository.getEstimationsByProjectId(projectId);
         if (existEstimation.length > 0) {

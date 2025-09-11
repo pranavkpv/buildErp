@@ -7,7 +7,7 @@ export const EstimationSuccessMessage = {
     REQUIREMENT_ADD: 'Requirement addedd successfully',
     TAKE_DEFAULT: 'Set Default Requirements',
     REJECT_SUCCESS:'Estimation data reject successfully',
-    APPROVE_SUCCESS:'Estimation data approved successfully'
+    APPROVE_SUCCESS:'Estimation data approved successfully',
 };
 
 export const EstimationFailedMessage = {
@@ -16,5 +16,5 @@ export const EstimationFailedMessage = {
     NO_IMAGE: 'Failed to Image Upload',
     ALREADY_DONE: 'Already estimate the project',
     REQUIREMENT_FAIL: 'Failed to requirement save',
-    NOT_ACCESS: 'Failed to save estimation because the corresponding user is not authorized to decide the estimation.'
+    NOT_ACCESS: 'Failed to save estimation because the corresponding user is not authorized to decide the estimation.',
 };

@@ -70,7 +70,7 @@ export interface IprojectRepository {
    getGroupProjectByStatus():
       Promise<groupedProjectwithStatus[]>
 
-   updateEstimatedUser(user: string, project_id: string):
+   updateEstimatedUser(user: string, projectId: string):
       Promise<void>
 
    updateEstimationStatus(status: boolean,id:string):

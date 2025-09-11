@@ -34,7 +34,7 @@ export class ProjectMapper implements IProjectmapper {
             start_date: project.start_date,
             status: project.status,
             estimateBy: project.estimateBy,
-            estimateStatus: project.estimateStatus
+            estimateStatus: project.estimateStatus,
         }));
     }
     toUserBaseChatDto(projects: userBaseChatoutput[]): userBasechatListDTO[] {
@@ -110,12 +110,12 @@ export class ProjectMapper implements IProjectmapper {
             project_name: project.project_name,
             start_date: project.start_date,
             status: project.status,
-            estimateStatus: project.estimateStatus
-        })
+            estimateStatus: project.estimateStatus,
+        });
     }
     toOnlyId(project: IProjectModelEntity[]): OnlyIdDTO[] {
         return project.map((element) => ({
-            _id: element._id
-        }))
+            _id: element._id,
+        }));
     }
 }

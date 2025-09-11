@@ -12,9 +12,9 @@ export class AddBannerUseCase implements IAddBannerUsecase {
 
     }
     async execute(input: addBannerInput): Promise<commonOutput> {
-        const existData = await this._bannerRepository.getBannerByTitle(input.title)
+        const existData = await this._bannerRepository.getBannerByTitle(input.title);
         if (existData) {
-            return ResponseHelper.conflictData(bannerFailedMessage.ALREADY_EXIST)
+            return ResponseHelper.conflictData(bannerFailedMessage.ALREADY_EXIST);
         }
         const response = await this._bannerRepository.saveBanner(input);
         if (response) {

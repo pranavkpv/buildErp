@@ -14,16 +14,29 @@ import { fetchSpec } from "../../../api/Specification";
 import { findMaterialById } from "../../../api/Admin/material";
 import { getLabourData } from "../../../api/Admin/labour";
 
+
 export interface materialData {
   material_id: string;
   unitRate: number;
   quantity: number;
+  material_info: {
+    material_name: string
+    brand: {
+      brand_name: string
+    }
+    unit: {
+      unit_name: string
+    }
+  }
 }
 
 export interface labourData {
   labour_id: string;
   numberoflabour: number;
   rate: number;
+  labour_info: {
+    labour_type: string
+  }
 }
 
 type labourList = {
@@ -46,6 +59,7 @@ export interface specTable {
   profit_per: number
 }
 
+
 type listMaterail = {
   sl: number;
   material_name: string;
@@ -60,7 +74,7 @@ function SpecList() {
   const [data, setData] = useState<specTable[]>([]);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(0);
-  const [response, setResponse] = useState<any[]>([]);
+  const [response, setResponse] = useState<specTable[]>([]);
   const [editMaterialRow, setEditMaterialRow] = useState<listMaterail[]>([]);
   const [editLabourRow, setEditLabourRow] = useState<labourList[]>([]);
   const [total, setTotal] = useState(0)
@@ -81,6 +95,7 @@ function SpecList() {
 
   const fetchSpecList = async () => {
     const response = await fetchSpec(page, search);
+    console.log(response)
     setTotal(response.data.totalPage)
     for (let element of response.data.data) {
       for (let item of element.materialDetails) {

@@ -12,7 +12,7 @@ export class SendEstimationUseCase implements ISendEstimationUseCase {
     constructor(
       private _estimationRepository: IEstimationRepository,
       private _stageRepository: IStageRepository,
-      private _projectRepository: IprojectRepository
+      private _projectRepository: IprojectRepository,
     ) { }
     async execute(id: string): Promise<commonOutput> {
         const existStage = await this._stageRepository.findStageByprojectId(id);
@@ -20,7 +20,7 @@ export class SendEstimationUseCase implements ISendEstimationUseCase {
             return ResponseHelper.conflictData(EstimationFailedMessage.USED_STAGE);
         }
         await this._estimationRepository.sendEstimationsByProjectId(id);
-        await this._projectRepository.updateEstimationStatus(true,id)
+        await this._projectRepository.updateEstimationStatus(true,id);
         return ResponseHelper.success(EstimationSuccessMessage.DELETE);
     }
 }

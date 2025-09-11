@@ -1,5 +1,5 @@
-export enum messageStatus {
-   SEND = "send",
-   DELIVERED = "delivered",
-   SEEN = "seen"
+export enum messageStatusConstant {
+   SEND = 'send',
+   DELIVERED = 'delivered',
+   SEEN = 'seen'
 }

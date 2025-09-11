@@ -47,7 +47,7 @@ function EditStage({ editEnable, setEditEnable, editId, onEditSuccess }: stagePr
 
    const fetchProject = async () => {
          const response = await getProjectAll();
-         const filteredProject = response.data.find((element: any) => element._id == editId)
+         const filteredProject = response.data.find((element: Project) => element._id == editId)
          setCost(filteredProject.budgeted_cost)
          setStartDate(filteredProject.start_date.split("T")[0])
          setEndDate(filteredProject.end_date.split("T")[0])

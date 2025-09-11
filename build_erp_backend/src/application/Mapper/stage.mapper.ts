@@ -23,7 +23,7 @@ export class Stagemapper implements IStagemapper {
             completion_per:element.completion_per/element.count,
             project_name:element.project_name,
             start_date:element.start_date,
-            end_date:element.end_date
-        }))
+            end_date:element.end_date,
+        }));
     }
 }

@@ -18,6 +18,12 @@ interface Location {
   name: string;
 }
 
+interface actualLocation {
+  lat: string;
+  lon: string;
+  display_name: string;
+}
+
 interface Prop {
   address: string;
   onMap: boolean;
@@ -45,11 +51,11 @@ function MapIntegrationApp({ address, onMap, setOnMap, setSelectedLocation, sele
     if (!searchQuery) return;
     try {
       const response = await axios.get(
-        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
+        `https://nominatim.openstreetmap.org/search?format=json&q=${ encodeURIComponent(
           searchQuery
-        )}&addressdetails=1&limit=10`
+        ) }&addressdetails=1&limit=10`
       );
-      const results = response.data.map((item: any) => ({
+      const results = response.data.map((item: actualLocation) => ({
         lat: parseFloat(item.lat),
         lng: parseFloat(item.lon),
         name: item.display_name,
@@ -129,12 +135,12 @@ function MapIntegrationApp({ address, onMap, setOnMap, setSelectedLocation, sele
       >
         <option value="">Select a location</option>
         {locations.map((loc) => (
-          <option key={`saved-${loc.lat}-${loc.lng}`} value={loc.name}>
+          <option key={`saved-${ loc.lat }-${ loc.lng }`} value={loc.name}>
             {loc.name} (Saved)
           </option>
         ))}
         {searchResults.map((loc) => (
-          <option key={`search-${loc.lat}-${loc.lng}`} value={loc.name}>
+          <option key={`search-${ loc.lat }-${ loc.lng }`} value={loc.name}>
             {loc.name}
           </option>
         ))}
@@ -168,12 +174,12 @@ function MapIntegrationApp({ address, onMap, setOnMap, setSelectedLocation, sele
         />
         <MapViewUpdater location={selectedLocation} />
         {locations.map((loc) => (
-          <Marker key={`saved-${loc.lat}-${loc.lng}`} position={[loc.lat, loc.lng]}>
+          <Marker key={`saved-${ loc.lat }-${ loc.lng }`} position={[loc.lat, loc.lng]}>
             <Popup>{loc.name} (Saved)</Popup>
           </Marker>
         ))}
         {searchResults.map((loc) => (
-          <Marker key={`search-${loc.lat}-${loc.lng}`} position={[loc.lat, loc.lng]}>
+          <Marker key={`search-${ loc.lat }-${ loc.lng }`} position={[loc.lat, loc.lng]}>
             <Popup>{loc.name}</Popup>
           </Marker>
         ))}

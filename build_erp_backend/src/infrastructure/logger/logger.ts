@@ -17,12 +17,12 @@ const cleanupOldLogs = () => {
         const now = Date.now();
         files.forEach(file => {
             const filePath = path.join(LOGS_DIR, file);
-            fs.stat(filePath, (err, stats) => {
-                if (err) return console.error('Error getting file stats:', err);
+            fs.stat(filePath, (error, stats) => {
+                if (error) return console.error('Error getting file stats:', err);
                 const ageInDays = (now - stats.mtime.getTime()) / (1000 * 60 * 60 * 24);
                 if (ageInDays > RETENTION_DAYS) {
-                    fs.unlink(filePath, err => {
-                        if (err) console.error('Error deleting old log file:', err);
+                    fs.unlink(filePath, anothererror => {
+                        if (anothererror) console.error('Error deleting old log file:', err);
                         else console.log(`Deleted old log file: ${file}`);
                     });
                 }
@@ -34,8 +34,8 @@ const cleanupOldLogs = () => {
 cleanupOldLogs();
 setInterval(cleanupOldLogs, 24 * 60 * 60 * 1000);
 
-const customFormat = printf(({ timestamp, level, message, stack }) => {
-    return `[${timestamp}] ${level.toUpperCase()}: ${stack || message}`;
+const customFormat = printf(({ time, level, message, stack }) => {
+    return `[${time}] ${level.toUpperCase()}: ${stack || message}`;
 });
 
 const logger = createLogger({

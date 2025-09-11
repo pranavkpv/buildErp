@@ -12,7 +12,7 @@ import { IGetSpecUseCase } from '../../application/IUseCases/ISpecification/IGet
 import { ISpecSumUseCase } from '../../application/IUseCases/ISpecification/ISpecificationSum';
 import { materialSumInput } from '../../application/Entities/material.entity';
 import { IGetSpecIdnameUseCase } from '../../application/IUseCases/ISpecification/IGetSpecIdname';
-import { userSpecMaterial } from '../../application/Entities/spec.entity';
+import { listSpec, userSpecMaterial } from '../../application/Entities/spec.entity';
 import { IGetMaterialAndBrandInSpecsUseCase } from '../../application/IUseCases/ISpecification/IGetMaterialAndBrandInSpecs';
 
 export class SpecController implements ISpecController {
@@ -26,11 +26,11 @@ export class SpecController implements ISpecController {
         private _deleteSpecUseCase: IDeleteSpecUseCase,
         private _updateSpecUseCase: IUpdateSpecUseCase,
         private _getSpecIdnameuseCase: IGetSpecIdnameUseCase,
-        private _getMaterialAndBrandInSpecsUseCase: IGetMaterialAndBrandInSpecsUseCase
+        private _getMaterialAndBrandInSpecsUseCase: IGetMaterialAndBrandInSpecsUseCase,
     ) { }
 
     // Fetch all specifications
-    getSpecifications = async (req: Request, res: Response, next: NextFunction):
+    getSpecifications = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<specFullDTO[]> | commonOutput | void> => {
         try {
             const result = await this._getSpecUseCase.execute();
@@ -41,7 +41,7 @@ export class SpecController implements ISpecController {
     };
 
     // Calculate total cost of selected materials
-    calculateMaterialSum = async (req: Request, res: Response, next: NextFunction):
+    calculateMaterialSum = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<number> | commonOutput | void> => {
         try {
             const materials = JSON.parse(req.query.materials as string) as materialSumInput[];
@@ -53,7 +53,7 @@ export class SpecController implements ISpecController {
     };
 
     // Calculate total wage of selected labour
-    calculateLabourSum = async (req: Request, res: Response, next: NextFunction):
+    calculateLabourSum = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<number> | commonOutput | void> => {
         try {
             const labours = JSON.parse(req.query.labours as string);
@@ -65,8 +65,8 @@ export class SpecController implements ISpecController {
     };
 
     // Get specification list with pagination and search
-    getSpecificationList = async (req: Request, res: Response, next: NextFunction):
-        Promise<commonOutput<{ data: any[], totalPage: number }> | commonOutput | void> => {
+    getSpecificationList = async(req: Request, res: Response, next: NextFunction):
+        Promise<commonOutput<{ data: listSpec[], totalPage: number }> | commonOutput | void> => {
         try {
             const { page, search } = req.query;
             const specData = await this._specListUseCase.execute({ page: Number(page), search: String(search) });
@@ -77,7 +77,7 @@ export class SpecController implements ISpecController {
     };
 
     // Save a new specification
-    createSpecification = async (req: Request, res: Response, next: NextFunction):
+    createSpecification = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput | void> => {
         try {
             const result = await this._saveSpecUseCase.execute(req.body);
@@ -88,7 +88,7 @@ export class SpecController implements ISpecController {
     };
 
     // Fetch sum of labour and material in a specification
-    getLabourMaterialSum = async (req: Request, res: Response, next: NextFunction):
+    getLabourMaterialSum = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<number> | commonOutput | void> => {
         try {
             const result = await this._specSumUseCase.execute(req.body);
@@ -99,7 +99,7 @@ export class SpecController implements ISpecController {
     };
 
     // Delete a specification by id
-    removeSpecification = async (req: Request, res: Response, next: NextFunction):
+    removeSpecification = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput | void> => {
         try {
             const { id } = req.params;
@@ -111,7 +111,7 @@ export class SpecController implements ISpecController {
     };
 
     // Update a specification by id
-    updateSpecification = async (req: Request, res: Response, next: NextFunction):
+    updateSpecification = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput | void> => {
         try {
             const _id = req.params.id;
@@ -122,25 +122,25 @@ export class SpecController implements ISpecController {
         }
     };
 
-    getSpecnameandId = async (req: Request, res: Response, next: NextFunction):
+    getSpecnameandId = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<userSpecDTO[]> | void> => {
         try {
-            const result = await this._getSpecIdnameuseCase.execute()
-            return result
+            const result = await this._getSpecIdnameuseCase.execute();
+            return result;
         } catch (error) {
-            next(error)
+            next(error);
         }
 
-    }
-    getMaterialandBrandById = async (req: Request, res: Response, next: NextFunction):
+    };
+    getMaterialandBrandById = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<userSpecMaterial[]> | void> => {
         try {
-            const { specIds } = req.query
-            const specId = String(specIds).split(",");
-            const result = await this._getMaterialAndBrandInSpecsUseCase.execute(specId)
-            return result
+            const { specIds } = req.query;
+            const specId = String(specIds).split(',');
+            const result = await this._getMaterialAndBrandInSpecsUseCase.execute(specId);
+            return result;
         } catch (error) {
-            next(error)
+            next(error);
         }
-    }
+    };
 }

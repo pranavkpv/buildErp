@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { commonOutput } from '../../../application/dto/common';
 import { specFullDTO, userSpecDTO } from '../../../application/dto/specification.dto';
-import { userSpecMaterial } from '../../../application/Entities/spec.entity';
+import { listSpec, userSpecMaterial } from '../../../application/Entities/spec.entity';
 
 
 export interface ISpecController {
@@ -16,7 +16,7 @@ export interface ISpecController {
       Promise<commonOutput<number> | commonOutput | void>
 
    getSpecificationList(req: Request, res: Response, next: NextFunction):
-      Promise<commonOutput<{ data: any[], totalPage: number }> | commonOutput | void>
+      Promise<commonOutput<{ data: listSpec[], totalPage: number }> | commonOutput | void>
 
    createSpecification(req: Request, res: Response, next: NextFunction):
       Promise<commonOutput | void>

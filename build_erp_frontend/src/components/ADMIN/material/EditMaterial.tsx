@@ -91,7 +91,7 @@ function EditMaterial({ setEditEnable, editEnable, setEditId, editId, refreshDat
     setTotalStock(editData.data.materialData.stock);
 
     // Transform project stock data to match addRowData format
-    const transformedProjectData = editData.data.projectStockData.map((item: any) => ({
+    const transformedProjectData = editData.data.projectStockData.map((item:{project_id:string,stock:number,_id:string}) => ({
       project: item.project_id,
       stock: Number(item.stock),
       _id: item._id

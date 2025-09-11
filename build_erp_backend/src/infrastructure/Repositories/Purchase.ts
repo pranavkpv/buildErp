@@ -98,7 +98,7 @@ export class PurchaseRepository implements IPurchaseRepository {
             { $limit: 5 },
         ]);
 
-        const data: PurchaseDTO[] = allPurchase.map((element: any) => ({
+        const data: PurchaseDTO[] = allPurchase.map((element) => ({
             _id: element._id,
             project_id: element.project_id,
             project_name: element.project_name,
@@ -107,7 +107,7 @@ export class PurchaseRepository implements IPurchaseRepository {
             description: element.description,
             materialDetails: element.materialDetails,
             finalAmount: element.materialDetails.reduce(
-                (sum: number, mat: any) => sum + (mat.quantity * mat.unit_rate),
+                (sum: number, mat: {quantity:number,unit_rate:number}) => sum + (mat.quantity * mat.unit_rate),
                 0,
             ),
         }));

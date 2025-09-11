@@ -41,9 +41,9 @@ export class BannerRepository implements IBannerRepository {
         return await bannerDB.find();
     }
     async getBannerByTitle(title: string): Promise<IBannerModelEntity | null> {
-        return await bannerDB.findOne({ title: { $regex: title, $options: "i" } })
+        return await bannerDB.findOne({ title: { $regex: title, $options: 'i' } });
     }
     async getBannerIneditByname(id: string, title: string): Promise<IBannerModelEntity | null> {
-        return await bannerDB.findOne({ _id: { $ne: id }, title: { $regex: title, $options: "i" } })
+        return await bannerDB.findOne({ _id: { $ne: id }, title: { $regex: title, $options: 'i' } });
     }
 }

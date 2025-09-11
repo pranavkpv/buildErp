@@ -28,7 +28,7 @@ const saveSpecUseCase = new SaveSpecUseCase(specRepository);
 const specSumUseCase = new SpecSumUseCase(materialRepository,labourRepository);
 const deleteSpecUseCase = new DeleteSpecUseCase(specRepository,estimationRepostory);
 const updateSpecUseCase = new UpdateSpecUseCase(specRepository);
-const getMaterialAndBrandInSpecsUseCase = new GetMaterialAndBrandInSpecsUseCase(specRepository,materialRepository)
-const getSpecIdnameuseCase = new GetSpecIdnameUseCase(specRepository,specificationMapper)
+const getMaterialAndBrandInSpecsUseCase = new GetMaterialAndBrandInSpecsUseCase(specRepository,materialRepository);
+const getSpecIdnameuseCase = new GetSpecIdnameUseCase(specRepository,specificationMapper);
 export const injectSpecController = new SpecController(getSpecUseCase,findMaterialSumUseCase,findLabourSumUseCase,specListUseCase,saveSpecUseCase,specSumUseCase,
-   deleteSpecUseCase,updateSpecUseCase,getSpecIdnameuseCase,getMaterialAndBrandInSpecsUseCase);
+    deleteSpecUseCase,updateSpecUseCase,getSpecIdnameuseCase,getMaterialAndBrandInSpecsUseCase);

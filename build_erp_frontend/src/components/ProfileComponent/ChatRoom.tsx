@@ -25,6 +25,7 @@ interface ReceiveMessage {
   createdAt: string | Date;
 }
 
+
 interface ChatRoomProps {
   sitemanagerName: string;
   sitemanagerId: string | null;
@@ -57,7 +58,7 @@ function ChatRoom({ sitemanagerName, sitemanagerId }: ChatRoomProps) {
     try {
       const response = await fetchMessagesApi(sitemanagerId);
       if (response.success) {
-        const x: Message[] = response.data.map((element: any) => ({
+        const x: Message[] = response.data.map((element: ReceiveMessage) => ({
           id: element._id,
           message: element.message,
           senderId: element.senderId,

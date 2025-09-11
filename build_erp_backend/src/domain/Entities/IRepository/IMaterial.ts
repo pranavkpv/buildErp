@@ -61,7 +61,7 @@ export interface IMaterialRepository {
    getMaterialByIds(materialIds: string[]):
       Promise<IMaterialModelEntity[]>
 
-   getMaterialBynameAndBrand(material_name: string, brand_id: string):
+   getMaterialBynameAndBrand(materialName: string, brandId: string):
       Promise<IMaterialModelEntity | null>
 
 }

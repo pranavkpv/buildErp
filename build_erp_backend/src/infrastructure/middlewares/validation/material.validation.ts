@@ -20,7 +20,7 @@ export const validateAddMaterial = (req: Request, res: Response, next: NextFunct
             json({ success: false, message: MaterialFailedMessage.MAX_MATERIAL_NAME });
         return;
     }
-    const validateId = (id: any, field: string) => {
+    const validateId = (id: string, field: string) => {
         if (!id || (typeof id !== 'string' && typeof id !== 'number')) {
             res.status(HTTP_STATUS.BAD_REQUEST).json({ success: false, message: `${ field } must be a valid string or number` });
             return false;

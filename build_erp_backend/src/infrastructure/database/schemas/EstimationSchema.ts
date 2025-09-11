@@ -20,14 +20,14 @@ export const EstimationSchema = new mongoose.Schema<IEstimationModelEntity>({
     },
     approvalStatus: {
         type: Boolean,
-        required: true
+        required: true,
     },
     rejectStatus: {
         type: Boolean,
-        required: true
+        required: true,
     },
     reason:{
-        type:String
-    }
+        type:String,
+    },
 }, { timestamps: true });
 

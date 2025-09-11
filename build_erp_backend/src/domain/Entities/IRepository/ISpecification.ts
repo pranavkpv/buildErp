@@ -1,13 +1,13 @@
 import { aggregateUnitSpecDTO } from '../../../application/dto/specification.dto';
 import { listingInput } from '../../../application/Entities/common.entity';
-import { InputSpecification } from '../../../application/Entities/spec.entity';
+import { InputSpecification, listSpec } from '../../../application/Entities/spec.entity';
 import { ISpecModelEntity } from '../modelEntities/spec.entity';
 
 
 export interface ISpecRepository {
 
    getAllSpecs(input: listingInput):
-      Promise<{ result: any[], totalPage: number }>;
+      Promise<{ result: listSpec[], totalPage: number }>;
 
    createSpec(input: InputSpecification):
       Promise<void>;

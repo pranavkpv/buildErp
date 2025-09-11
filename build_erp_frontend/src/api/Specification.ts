@@ -85,14 +85,10 @@ export const fetchSum = async (
    materialDetails: materialData[],
    labourDetails: labourData[]
 ) => {
-   try {
       const response = await adminAxios.get("/fetchSum", {
          data: { materialDetails, labourDetails },
       });
       return response.data;
-   } catch (error: any) {
-      toast.error(error.response.data.message)
-   }
 };
 
 // ---------------- Delete Spec ---------------- //

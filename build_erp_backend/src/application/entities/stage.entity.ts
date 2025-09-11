@@ -1,5 +1,3 @@
-import { IProjectModelEntity } from "../../domain/Entities/modelEntities/project.entity"
-import { IStageModelEntity } from "../../domain/Entities/modelEntities/stage.entity"
 
 
 export interface stageInputData {

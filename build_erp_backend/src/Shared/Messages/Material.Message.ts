@@ -31,5 +31,5 @@ export const MaterialFailedMessage = {
     PROJECT_WISE_STOCK_POSITIVE: 'Project wise stock is must be positive',
     STOCK_NOT_MATCH:'Project wise stock and total stock of that material should match',
     USED_PURCHASE : 'Material is already used the purchase',
-    NO_EXIST:"Material is not exist"
+    NO_EXIST:'Material is not exist',
 };

@@ -4,7 +4,7 @@ import { userLoginDTO } from '../../../application/dto/user.dto';
 import { Tokens } from '../../../application/Entities/token.entity';
 import { userBasechatListDTO, userBaseProjectDTO } from '../../../application/dto/project.dto';
 import { chatDataDTO } from '../../../application/dto/chat.dto';
-import { listBannerDTO } from '../../../application/dto/banner.dto';
+
 
 export interface IUserprofileController {
 

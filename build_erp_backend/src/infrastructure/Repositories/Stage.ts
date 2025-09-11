@@ -4,7 +4,6 @@ import { IStageModelEntity } from '../../domain/Entities/modelEntities/stage.ent
 import { IStageRepository } from '../../domain/Entities/IRepository/IStage';
 import { stage, stageWithAggregateProject, uploadImageInput } from '../../application/Entities/stage.entity';
 import { changeStatusInput } from '../../application/Entities/sitemanager.entity';
-import { sitemanagerDB } from '../../api/models/SitemanagerModel';
 
 
 export class StageRepository implements IStageRepository {
@@ -65,68 +64,68 @@ export class StageRepository implements IStageRepository {
     }
     async getAggregateStageByProjectIdmatchSitemanager(sitemanagerId: string, page: number, search: string):
         Promise<{data:stageWithAggregateProject[],totalPages:number}> {
-        const skip = page * 5
+        const skip = page * 5;
         const data = await stageDB.aggregate([
             {
                 $addFields: {
-                    projectObjectId: { $toObjectId: "$project_id" }
-                }
+                    projectObjectId: { $toObjectId: '$project_id' },
+                },
             }, {
                 $lookup: {
-                    from: "projects",
-                    localField: "projectObjectId",
-                    foreignField: "_id",
-                    as: "projectDetails"
-                }
-            }, { $unwind: "$projectDetails" },
+                    from: 'projects',
+                    localField: 'projectObjectId',
+                    foreignField: '_id',
+                    as: 'projectDetails',
+                },
+            }, { $unwind: '$projectDetails' },
             {
                 $match: {
-                    "projectDetails.sitemanager_id": sitemanagerId,
-                    "projectDetails.project_name": { $regex: search, $options: "i" }
-                }
+                    'projectDetails.sitemanager_id': sitemanagerId,
+                    'projectDetails.project_name': { $regex: search, $options: 'i' },
+                },
             }, {
                 $group: {
-                    _id: "$project_id",
+                    _id: '$project_id',
                     count: { $sum: 1 },
-                    completion_per: { $sum: "$progress" },
-                    project_name: { $first: "$projectDetails.project_name" },
-                    start_date: { $first: "$projectDetails.start_date" },
-                    end_date: { $first: "$projectDetails.end_date" }
-                }
-            },{$skip:skip},{$limit:5}
-        ])
+                    completion_per: { $sum: '$progress' },
+                    project_name: { $first: '$projectDetails.project_name' },
+                    start_date: { $first: '$projectDetails.start_date' },
+                    end_date: { $first: '$projectDetails.end_date' },
+                },
+            },{ $skip:skip },{ $limit:5 },
+        ]);
         const totalDoc = await stageDB.aggregate([
             {
                 $addFields: {
-                    projectObjectId: { $toObjectId: "$project_id" }
-                }
+                    projectObjectId: { $toObjectId: '$project_id' },
+                },
             }, {
                 $lookup: {
-                    from: "projects",
-                    localField: "projectObjectId",
-                    foreignField: "_id",
-                    as: "projectDetails"
-                }
-            }, { $unwind: "$projectDetails" },
+                    from: 'projects',
+                    localField: 'projectObjectId',
+                    foreignField: '_id',
+                    as: 'projectDetails',
+                },
+            }, { $unwind: '$projectDetails' },
             {
                 $match: {
-                    "projectDetails.sitemanager_id": sitemanagerId,
-                    "projectDetails.project_name": { $regex: search, $options: "i" }
-                }
+                    'projectDetails.sitemanager_id': sitemanagerId,
+                    'projectDetails.project_name': { $regex: search, $options: 'i' },
+                },
             }, {
                 $group: {
-                    _id: "$project_id",
+                    _id: '$project_id',
                     count: { $sum: 1 },
-                    completion_per: { $sum: "$progress" },
-                    project_name: { $first: "$projectDetails.project_name" },
-                    start_date: { $first: "$projectDetails.start_date" },
-                    end_date: { $first: "$projectDetails.end_date" }
-                }
-            }
-        ])
+                    completion_per: { $sum: '$progress' },
+                    project_name: { $first: '$projectDetails.project_name' },
+                    start_date: { $first: '$projectDetails.start_date' },
+                    end_date: { $first: '$projectDetails.end_date' },
+                },
+            },
+        ]);
         return {
             data,
-            totalPages:Math.ceil(totalDoc.length)
-        }
+            totalPages:Math.ceil(totalDoc.length),
+        };
     }
 }

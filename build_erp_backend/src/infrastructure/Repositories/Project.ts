@@ -139,7 +139,7 @@ export class ProjectRepository implements IprojectRepository {
 
     // Get all projects (without pagination)
     async getAllProjects(): Promise<IProjectModelEntity[]> {
-        return await projectDB.find({status:"processing"});
+        return await projectDB.find({ status:'processing' });
     }
 
     // Get project with cost
@@ -188,7 +188,7 @@ export class ProjectRepository implements IprojectRepository {
 
     // Get projects by sitemanager ID
     async getProjectsBySitemanagerId(user: string): Promise<IProjectModelEntity[]> {
-        return await projectDB.find({ sitemanager_id: user,status:"processing" });
+        return await projectDB.find({ sitemanager_id: user,status:'processing' });
     }
 
     // Get projects by status with pagination
@@ -302,13 +302,13 @@ export class ProjectRepository implements IprojectRepository {
         }]);
         return data;
     }
-    async updateEstimatedUser(user: string, project_id: string):
+    async updateEstimatedUser(user: string, projectId: string):
         Promise<void> {
-        await projectDB.findByIdAndUpdate(project_id, { estimateBy: user })
+        await projectDB.findByIdAndUpdate(projectId, { estimateBy: user });
     }
     async updateEstimationStatus(status: boolean, id: string):
         Promise<void> {
-        await projectDB.findByIdAndUpdate(id, { estimateStatus: status })
+        await projectDB.findByIdAndUpdate(id, { estimateStatus: status });
     }
 
 }

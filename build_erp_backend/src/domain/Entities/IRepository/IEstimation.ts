@@ -30,16 +30,16 @@ export interface IEstimationRepository {
    getAllEstimationLabours():
       Promise<IEstimationLabourModelEntity[]>
 
-   saveEstimation(spec_id: string, project_id: string, unit_rate: number, quantity: number):
+   saveEstimation(specId: string, projectId: string, unitRate: number, quantity: number):
       Promise<IEstimationModelEntity | null>
 
-   saveMaterialEstimation(material_id: string, quantity: number, unit_rate: number, project_id: string):
+   saveMaterialEstimation(materialId: string, quantity: number, unitRate: number, projectId: string):
       Promise<IEstimationMaterialModelEntity | null>
 
-   saveLabourEstimation(labour_id: string, daily_wage: number, numberoflabour: number, project_id: string):
+   saveLabourEstimation(labourId: string, dailyWage: number, numberoflabour: number, projectId: string):
       Promise<IEstimationLabourModelEntity | null>
 
-   saveAdditionalEstimation(additional_expense_amount: number, additional_expense_per: number, profit_amount: number, profit_per: number, project_id: string):
+   saveAdditionalEstimation(additionalExpenseAmount: number, additionalExpensePer: number, profitAmount: number, profitPer: number, projectId: string):
       Promise<IEstimationAdditionalModalEntity | null>
 
    deleteEstimationsByProjectId(id: string):

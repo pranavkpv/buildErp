@@ -10,20 +10,20 @@ import { ProjectSuccessMessage } from '../../../Shared/Messages/Project.Message'
 import cloudinary from '../../../infrastructure/config/cloudinary';
 
 export class FetchStatusBaseProjectUseCase implements IFetchStatusBaseProjectUseCase {
-  constructor(
+    constructor(
     private _projectRepository: IprojectRepository,
     private _projectmapper: IProjectmapper,
-  ) { }
-  async execute(input: fetchprojectInput): Promise<commonOutput<{ projectData: publicProjectDTO[], totalPage: number, areas: number[] }> | commonOutput> {
-    const { data, totalPage, areas } = await this._projectRepository.getProjectsByStatus(input);
-    for (const element of data) {
-      element.expected_image = cloudinary.url(element.expected_image, {
-        type: 'authenticated',
-        sign_url: true,
-        expires_at: Math.floor(Date.now() / 1000) + 60,
-      });
+    ) { }
+    async execute(input: fetchprojectInput): Promise<commonOutput<{ projectData: publicProjectDTO[], totalPage: number, areas: number[] }> | commonOutput> {
+        const { data, totalPage, areas } = await this._projectRepository.getProjectsByStatus(input);
+        for (const element of data) {
+            element.expected_image = cloudinary.url(element.expected_image, {
+                type: 'authenticated',
+                sign_url: true,
+                expires_at: Math.floor(Date.now() / 1000) + 60,
+            });
+        }
+        const mappedData = this._projectmapper.toPublicProjectDto(data);
+        return ResponseHelper.success(ProjectSuccessMessage.FETCH, { projectData: mappedData, totalPage, areas });
     }
-    const mappedData = this._projectmapper.toPublicProjectDto(data);
-    return ResponseHelper.success(ProjectSuccessMessage.FETCH, { projectData: mappedData, totalPage, areas });
-  }
 }

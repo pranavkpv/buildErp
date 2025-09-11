@@ -1,6 +1,6 @@
 import { createTokenInput, JwtPayloadData, Tokens } from '../Entities/token.entity';
 import { IJwtService } from '../../domain/Entities/Service.Entities/IJwtservice';
-import jwt, { TokenExpiredError } from 'jsonwebtoken';
+import jwt, { JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken';
 
 
 
@@ -39,22 +39,25 @@ export class JwtService implements IJwtService {
     verifyAccessToken(token: string): JwtPayloadData | null {
         try {
             return jwt.verify(token, this._accessSecret) as JwtPayloadData;
-        } catch (error:any) {
+        } catch (error: unknown) {
             if (error instanceof TokenExpiredError) {
-                return null; 
+                return null;
             }
-            throw error; 
+            if (error instanceof JsonWebTokenError) {
+                return null;
+            }
+            throw error;
         }
     }
 
     verifyRefreshToken(token: string): JwtPayloadData | null {
         try {
             const decoded = jwt.verify(token, this._refreshSecret);
-            if (typeof decoded === 'object' && decoded !== null) {
-                return decoded as JwtPayloadData;
-            }
-            return null;
-        } catch {
+            return typeof decoded === 'object' && decoded !== null
+                ? (decoded as JwtPayloadData)
+                : null;
+        } catch (err: unknown) {
+            console.log(err);
             return null;
         }
     }

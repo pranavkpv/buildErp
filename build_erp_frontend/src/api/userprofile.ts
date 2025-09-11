@@ -41,7 +41,7 @@ export const fetchSitemanagerApI = async () => {
 //-------------------fetch chat list------------------//
 
 export const fetchMessagesApi = async (sitemanagerId: string | null) => {
-   const response = await userAxios.get(`chats/${ sitemanagerId }`)
+   const response = await userAxios.get(`/chats/${ sitemanagerId }`)
    return response.data
 }
 

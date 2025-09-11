@@ -134,13 +134,13 @@ function AddEstimation({ addEnable, setAddEnable, anAddSuccess, projectIds }: ad
       return;
     }
 
-    // Validation: Check if any row has total = 0
+  
     if (row.some((r) => r.total === 0)) {
       toast.error("All specification rows must have a total greater than 0.");
       return;
     }
 
-    // Validation: Check if any row has empty spec_id
+
     if (row.some((r) => r.spec_id === "")) {
       toast.error("Please select a specification ID for all rows.");
       return;

@@ -9,14 +9,18 @@ type imageProp = {
   projectId: string;
 };
 
+type stageData = {
+  date:string
+  image:string
+}
+
 function ProjectImage({ imageEnable, setImageEnable, projectId }: imageProp) {
     if (!imageEnable) return null;
-  const [stage, setStage] = useState<any[]>([]);
+  const [stage, setStage] = useState<stageData[]>([]);
   const [count, setCount] = useState(0);
 
   const fetchStage = async (): Promise<void> => {
       const response = await getStageInUser(projectId);
-      console.log(response)
       if (response.success) {
         let x = [];
         for (let element of response.data) {

@@ -176,36 +176,36 @@ export class MaterialRepository implements IMaterialRepository {
         const materialData = await materialDB.aggregate([
             {
                 $match: {
-                    material_name: { $in: materialnames }
-                }
+                    material_name: { $in: materialnames },
+                },
             },
             {
                 $addFields: {
-                    brandObjectId: { $toObjectId: "$brand_id" }
-                }
+                    brandObjectId: { $toObjectId: '$brand_id' },
+                },
             },
             {
                 $lookup: {
-                    from: "brands",
-                    localField: "brandObjectId",
-                    foreignField: "_id",
-                    as: "brandDetails"
-                }
+                    from: 'brands',
+                    localField: 'brandObjectId',
+                    foreignField: '_id',
+                    as: 'brandDetails',
+                },
             },
             {
-                $unwind: "$brandDetails"
-            }
-        ])
+                $unwind: '$brandDetails',
+            },
+        ]);
 
-        return materialData
+        return materialData;
     }
     async getMaterialByIds(materialIds: string[]):
         Promise<IMaterialModelEntity[]> {
-        return await materialDB.find({ _id: { $in: materialIds } })
+        return await materialDB.find({ _id: { $in: materialIds } });
     }
-    async getMaterialBynameAndBrand(material_name: string, brand_id: string):
+    async getMaterialBynameAndBrand(materialName: string, brandId: string):
         Promise<IMaterialModelEntity | null> {
-        return await materialDB.findOne({ material_name, brand_id })
+        return await materialDB.findOne({ material_name:materialName, brand_id:brandId });
     }
 }
 

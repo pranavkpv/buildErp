@@ -83,10 +83,9 @@ export class AddSiteToProjectRepository implements IAddSiteToProjectRepository {
 
     // Get all projects that do not have a site manager assigned
     async getProjectsWithoutSiteManager(): Promise<IProjectModelEntity[] | []> {
-        return await projectDB.find({ sitemanager_id: null,status:"processing" });
+        return await projectDB.find({ sitemanager_id: null,status:'processing' });
     }
 
-    // Get all site managers who are not assigned to any project
     async getUnassignedSiteManagers(): Promise<ISitemanagerModelEntity[] | []> {
         return await sitemanagerDB.find();
     }

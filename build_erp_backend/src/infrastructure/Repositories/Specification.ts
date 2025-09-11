@@ -1,14 +1,14 @@
 import { specDB } from '../../api/models/SpecModel';
 import { aggregateUnitSpecDTO } from '../../application/dto/specification.dto';
 import { listingInput } from '../../application/Entities/common.entity';
-import { InputSpecification } from '../../application/Entities/spec.entity';
+import { InputSpecification, listSpec } from '../../application/Entities/spec.entity';
 import { ISpecModelEntity } from '../../domain/Entities/modelEntities/spec.entity';
 import { ISpecRepository } from '../../domain/Entities/IRepository/ISpecification';
 
 export class SpecRepository implements ISpecRepository {
 
     //  Get paginated and searched specification list
-    async getAllSpecs(input: listingInput): Promise<{ result: any[]; totalPage: number }> {
+    async getAllSpecs(input: listingInput): Promise<{ result: listSpec[]; totalPage: number }> {
         const { page, search } = input;
         const skip = page * 5;
 
@@ -119,6 +119,8 @@ export class SpecRepository implements ISpecRepository {
             { $limit: 5 },
         ]);
 
+
+
         const totalPage = Math.ceil(sample.length / 5);
         return { result: sample, totalPage };
     }
@@ -173,7 +175,7 @@ export class SpecRepository implements ISpecRepository {
 
     // Fetch all specs (no pagination)
     async getAllSpecsList(): Promise<ISpecModelEntity[]> {
-        return await specDB.find({blockStatus:false});
+        return await specDB.find({ blockStatus:false });
     }
 
     // Find spec by material ID
@@ -211,9 +213,9 @@ export class SpecRepository implements ISpecRepository {
         return await specDB.findOne({ _id: { $ne: id }, spec_id: { $regex: specname, $options: 'i' } });
     }
     async getAllSpecByIds(specIds: string[]): Promise<ISpecModelEntity[]> {
-        return await specDB.find({_id:{$in:specIds}})
+        return await specDB.find({ _id:{ $in:specIds } });
     }
     async getSpecById(id: string): Promise<ISpecModelEntity | null> {
-        return await specDB.findById(id)
+        return await specDB.findById(id);
     }
 }

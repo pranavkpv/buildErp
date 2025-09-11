@@ -59,11 +59,11 @@ export const ProjectSchema = new mongoose.Schema<IProjectModelEntity>(
             type: Number,
         },
         estimateBy: {
-            type: String
+            type: String,
         },
         estimateStatus:{
-            type:Boolean
-        }
+            type:Boolean,
+        },
     },
     { timestamps: true },
 );

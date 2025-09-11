@@ -42,8 +42,8 @@ export class EstimationMapper implements IEstimationmapper {
             spec_name:element.specDetails.spec_name,
             unit_rate:element.unit_rate,
             quantity:element.quantity,
-            approvalStatus:element.approvalStatus
-        }))
+            approvalStatus:element.approvalStatus,
+        }));
     }
     toMaterialEstimateDTO(estimation: estimationAggregatebymaterialbrandunit[]): materialEstimateDTO[] {
         return estimation.map((element)=>({
@@ -52,16 +52,16 @@ export class EstimationMapper implements IEstimationmapper {
             material_name:element.materialDetails.material_name,
             unit_name:element.unitDetails.unit_name,
             quantity:element.quantity,
-            unit_rate:element.unit_rate
-        }))
+            unit_rate:element.unit_rate,
+        }));
     }
     toadditionEstimateDTO(estimation: IEstimationAdditionalModalEntity[]): additionEstimateDTO[] {
         return estimation.map((element)=>({
             additionalExpense_amount:element.additionalExpense_amount || 0,
             additionalExpense_per:element.additionalExpense_per || 0,
             profit_amount:element.profit_amount || 0,
-            profit_per:element.profit_per || 0
-        }))
+            profit_per:element.profit_per || 0,
+        }));
     }
     tolabourEstimateDTO(estimation: estimationAggregatebyLabour[]): labourEstimateDTO[] {
         return estimation.map((element)=>({
@@ -69,7 +69,7 @@ export class EstimationMapper implements IEstimationmapper {
             daily_wage:element.daily_wage,
             labour_name:element.labourDetails.labour_type,
             numberoflabour:element.numberoflabour,
-        }))
+        }));
     }
 
 }

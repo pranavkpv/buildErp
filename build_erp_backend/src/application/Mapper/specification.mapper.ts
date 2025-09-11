@@ -25,7 +25,7 @@ export class SpecificationMapper implements ISpecificationMapper {
     toUserSpecDto(spec: ISpecModelEntity[]): userSpecDTO[] {
         return spec.map((item)=>({
             _id:item._id,
-            spec_name:item.spec_name
-        }))
+            spec_name:item.spec_name,
+        }));
     }
 }

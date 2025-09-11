@@ -33,22 +33,22 @@ const sendEstimationUseCase = new SendEstimationUseCase(estimationRepository,sta
 const updateEstimationUseCase = new UpdateEstimationUsecase(estimationRepository,stageRepository);
 const displayEstimationUseCase = new DisplayEstimationUseCase(estimationRepository,estimationMapper);
 const uploadEstimationUseCase = new UploadEstimateImageUseCase(projectRepository);
-const getEstimationByProjectUsecase = new GetEstimationByProjectUseCase(estimationRepository,estimationMapper)
+const getEstimationByProjectUsecase = new GetEstimationByProjectUseCase(estimationRepository,estimationMapper);
 const fetchSpecListUsingEstimationUseCase = new FetchSpecListinEstimationUsecase(estimationRepository,estimationMapper);
-const getMaterialEstimationUseCase = new GetMaterialEstimationUseCase(estimationRepository,estimationMapper)
-const getAdditionEstimationUseCase = new GetAdditionEstimationUseCase(estimationRepository,estimationMapper)
-const getLabourEstimationUseCase = new GetLabourEstimationUseCase(estimationRepository,estimationMapper)
-const rejectEstimationUseCase = new RejectEstimationUsecase(projectRepository,estimationRepository)
-const approveEstimationUseCase = new ApproveEstimationUseCase(estimationRepository,projectRepository)
+const getMaterialEstimationUseCase = new GetMaterialEstimationUseCase(estimationRepository,estimationMapper);
+const getAdditionEstimationUseCase = new GetAdditionEstimationUseCase(estimationRepository,estimationMapper);
+const getLabourEstimationUseCase = new GetLabourEstimationUseCase(estimationRepository,estimationMapper);
+const rejectEstimationUseCase = new RejectEstimationUsecase(projectRepository,estimationRepository);
+const approveEstimationUseCase = new ApproveEstimationUseCase(estimationRepository,projectRepository);
 export const injectEstimationController = new EstimationController(saveEstimationUseCase,sendEstimationUseCase,updateEstimationUseCase,displayEstimationUseCase,
-   uploadEstimationUseCase,fetchSpecListUsingEstimationUseCase,getEstimationByProjectUsecase,getMaterialEstimationUseCase,getAdditionEstimationUseCase,
-   getLabourEstimationUseCase,rejectEstimationUseCase,approveEstimationUseCase);
+    uploadEstimationUseCase,fetchSpecListUsingEstimationUseCase,getEstimationByProjectUsecase,getMaterialEstimationUseCase,getAdditionEstimationUseCase,
+    getLabourEstimationUseCase,rejectEstimationUseCase,approveEstimationUseCase);
 
-const specRepository = new SpecRepository()
-const brandRepository = new BrandRepository()
-const materialRepository = new MaterialRepository()
-const labourRepository = new LabourRepository()
-const projectmapper = new ProjectMapper()
-const updateEstimationByUseCase = new UpdateEstimationByUseCase(projectRepository,projectmapper)
-const saveRequirement = new SaveRequirementUseCase(estimationRepository,specRepository,brandRepository,materialRepository,labourRepository,projectRepository,projectmapper)
-export const injectedRequirementController = new RequirementController(saveRequirement,updateEstimationByUseCase)
+const specRepository = new SpecRepository();
+const brandRepository = new BrandRepository();
+const materialRepository = new MaterialRepository();
+const labourRepository = new LabourRepository();
+const projectmapper = new ProjectMapper();
+const updateEstimationByUseCase = new UpdateEstimationByUseCase(projectRepository,projectmapper);
+const saveRequirement = new SaveRequirementUseCase(estimationRepository,specRepository,brandRepository,materialRepository,labourRepository,projectRepository,projectmapper);
+export const injectedRequirementController = new RequirementController(saveRequirement,updateEstimationByUseCase);

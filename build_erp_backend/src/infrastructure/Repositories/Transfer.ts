@@ -67,7 +67,7 @@ export class TransferRepository implements ITransferRepository {
             { $limit: 5 },
         ]);
 
-        const data: listTransferDTO[] = allTransfer.map((element: any) => ({
+        const data: listTransferDTO[] = allTransfer.map((element) => ({
             _id: element._id,
             from_project_id: element.from_project_id,
             fromproject_name: element.fromproject_name,
@@ -77,7 +77,7 @@ export class TransferRepository implements ITransferRepository {
             date: element.date,
             description: element.description,
             materialDetails: element.materialDetails,
-            finalAmount: element.materialDetails.reduce((sum: number, mat: any) => sum + (mat.quantity * mat.unit_rate), 0),
+            finalAmount: element.materialDetails.reduce((sum:number, mat:{quantity:number,unit_rate:number}) => sum + (mat.quantity * mat.unit_rate), 0),
         }));
 
         const totalDocuments = await transferDB.aggregate([
@@ -111,7 +111,7 @@ export class TransferRepository implements ITransferRepository {
 
     // Fetch all projects except the given project ID
     async fectToproject(projectId: string): Promise<fetchProjectIdnameDTO[]> {
-        const projectList = await projectDB.find({ _id: { $ne: projectId },status:"processing" }, { _id: 1, project_name: 1 });
+        const projectList = await projectDB.find({ _id: { $ne: projectId },status:'processing' }, { _id: 1, project_name: 1 });
         return projectList.map(project => ({
             _id: project._id.toString(),
             project_name: project.project_name,
