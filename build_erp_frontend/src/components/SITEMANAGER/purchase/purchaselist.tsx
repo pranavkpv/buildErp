@@ -22,7 +22,7 @@ export type Purchase = {
    _id: string
    project_id: string;
    project_name: string;
-   invoice_number: string;
+   invoice_number: number;
    date: string;
    description: string;
    materialDetails: materialData[];
@@ -53,27 +53,38 @@ function PurchaseList() {
    const [editEnable, setEditEnable] = useState(false);
    const [editData, setEditData] = useState<Purchase>()
 
+   const [highInvoice, setHighInvoice] = useState(0)
+
 
 
    const fetchPurchaseData = async () => {
-         const response = await getPurchaseDataAPI(search, page);
-         console.log(response)
-         if (response.success) {
-            setPurchaseData(response.data.data);
-            setTotalpage(response.data.totalPage);
-         } else {
-            toast.error("Error occurred while fetching purchase data");
-         }
+      const response = await getPurchaseDataAPI(search, page);
+      if (response.success) {
+         setPurchaseData(response.data.data);
+         setTotalpage(response.data.totalPage);
+      } else {
+         toast.error("Error occurred while fetching purchase data");
+      }
    };
 
    useEffect(() => {
-      const debounce = setTimeout(()=>{
+      const debounce = setTimeout(() => {
          fetchPurchaseData();
-      },500)
-      return ()=>{
+      }, 500)
+      return () => {
          clearTimeout(debounce)
       }
    }, [search, page]);
+
+   useEffect(() => {
+      let maximumInvoice = purchaseData.reduce((max:number,element:Purchase)=>{
+         if(element.invoice_number>max){
+            max = element.invoice_number
+         }
+         return max
+      },0)
+      setHighInvoice(maximumInvoice)
+   },[])
 
    const formatDate = (dateString: string) => {
       if (!dateString) return "";
@@ -215,7 +226,11 @@ function PurchaseList() {
                   ))}
                </div>
             )}
-            <AddPurchase addEnable={addEnable} setAddEnable={setAddEnable} onAddSuccess={fetchPurchaseData} />
+            <AddPurchase 
+            addEnable={addEnable} 
+            setAddEnable={setAddEnable} 
+            onAddSuccess={fetchPurchaseData} 
+            highInvoice={highInvoice} />
 
 
             <DeletePurchase
@@ -230,7 +245,7 @@ function PurchaseList() {
                setApproveEnable={setApproveEnable}
                approveEnable={approveEnable}
                onApproveSuccess={fetchPurchaseData}
-               approveData = {approveData}
+               approveData={approveData}
             />
 
             <EditPurchase

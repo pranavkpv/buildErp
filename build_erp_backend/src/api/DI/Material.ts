@@ -3,6 +3,7 @@ import { categoryMapper } from '../../application/Mapper/category.mapper';
 import { MaterialMapper } from '../../application/Mapper/material.mapper';
 import { ProjectMapper } from '../../application/Mapper/project.mapper';
 import { UnitMapper } from '../../application/Mapper/unit.mapper';
+import { JwtService } from '../../application/services/JwtService';
 import { AddMaterialUseCase } from '../../application/UseCase/Material/AddMaterial';
 import { DeleteMaterialUseCase } from '../../application/UseCase/Material/DeleteMaterial';
 import { DisplayAddMaterialDataUseCase } from '../../application/UseCase/Material/DisplayAddMaterial';
@@ -13,6 +14,7 @@ import { FetchMaterialByMaterialNameUseCasse } from '../../application/UseCase/M
 import { FetchUnitRateUseCase } from '../../application/UseCase/Material/FetchUnitRate';
 import { FindMaterialByIdUseCase } from '../../application/UseCase/Material/FindMaterialById';
 import { GetEditMaterialUseCase } from '../../application/UseCase/Material/GetEditMaterial';
+import { GetStockOfMaterialUseCase } from '../../application/UseCase/Material/GetStockOfMaterial';
 import { UpdateMaterialUseCase } from '../../application/UseCase/Material/UpdateMaterial';
 import { BrandRepository } from '../../infrastructure/Repositories/Brand';
 import { CategoryRepository } from '../../infrastructure/Repositories/Category';
@@ -37,6 +39,8 @@ const projectStockRepository = new ProjectStockRepository();
 const specRepository = new SpecRepository();
 const purchaseRepository = new PurchaseRepository();
 const transferRepository = new TransferRepository();
+const jwtService = new JwtService()
+const getStockOfMaterialUseCase = new GetStockOfMaterialUseCase(projectStockRepository,materialMapper)
 const displayAllMaterialUseCase = new DisplayAllMaterialUseCase(materialRepository,materialMapper);
 const getAddMaterialUseCase = new DisplayAddMaterialDataUseCase(materialRepository,categoryRepository,brandRepository,unitRepository,unitmapper,brandmapper,categorymapper,projectmapper);
 const saveMaterialUseCase = new AddMaterialUseCase(materialRepository,projectStockRepository);
@@ -48,4 +52,5 @@ const fetchMaterialByMaterialName = new FetchMaterialByMaterialNameUseCasse(mate
 const fetchbrandBynameusecase = new FetchBrandByMaterialNameUsecase(materialRepository);
 const fetUnitRateUseCase = new FetchUnitRateUseCase(materialRepository,materialMapper);
 const findMaterialByIdUsecase = new FindMaterialByIdUseCase(materialRepository);
-export const injectedMaterialController = new MaterialController(displayAllMaterialUseCase,getAddMaterialUseCase,saveMaterialUseCase,getEditMaterialUseCase,updateMaterialUseCase,deleteMaterialUseCase,fetchMaterialUseCase,fetchMaterialByMaterialName,fetchbrandBynameusecase,fetUnitRateUseCase,findMaterialByIdUsecase);
+export const injectedMaterialController = new MaterialController(displayAllMaterialUseCase,getAddMaterialUseCase,saveMaterialUseCase,getEditMaterialUseCase,updateMaterialUseCase,deleteMaterialUseCase,fetchMaterialUseCase,fetchMaterialByMaterialName,
+   fetchbrandBynameusecase,fetUnitRateUseCase,findMaterialByIdUsecase,jwtService,getStockOfMaterialUseCase);

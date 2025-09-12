@@ -244,6 +244,10 @@ export class SitemanagerRoute {
             '/chats/:id',
             withLogging(injecteduserprofileController.fetchMessages),
         );
+        this.sitemanagerRoute.get(
+            '/stock',
+            withLogging(injectedMaterialController.fetchStock),
+        );
 
 
     }

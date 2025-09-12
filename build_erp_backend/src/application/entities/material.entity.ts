@@ -1,6 +1,8 @@
 import { IBrandModelEntity } from '../../domain/Entities/modelEntities/brand.entity';
 import { ICategoryModelEntity } from '../../domain/Entities/modelEntities/category.entity';
 import { IMaterialModelEntity } from '../../domain/Entities/modelEntities/material.entity';
+import { IProjectModelEntity } from '../../domain/Entities/modelEntities/project.entity';
+import { IProjectStockModelEntity } from '../../domain/Entities/modelEntities/projectStock.entity';
 import { IUnitModelEntity } from '../../domain/Entities/modelEntities/unit.entity';
 import { idBrandnameDTO } from '../dto/brand.dto';
 import { idCategorynameDTO } from '../dto/category.dto';
@@ -80,4 +82,11 @@ export interface fetchUnitRateInput {
 
 export interface materialswithAggregateBrand extends IMaterialModelEntity {
    brandDetails: IBrandModelEntity
+}
+
+export interface stockDisplayAggregate extends IProjectStockModelEntity {
+   projectDetails:IProjectModelEntity 
+   materialDetails:IMaterialModelEntity
+   unitDetails:IUnitModelEntity
+   brandDetails:IBrandModelEntity
 }

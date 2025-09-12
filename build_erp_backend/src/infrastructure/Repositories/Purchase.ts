@@ -203,7 +203,7 @@ export class PurchaseRepository implements IPurchaseRepository {
         return await purchaseDB.findOne({ materialDetails: { $elemMatch: { material_id: id } } });
     }
     //get purchase by invoice
-    async getPurchaseByInvoice(invoice: string): Promise<IPurchaseModelEntity | null> {
+    async getPurchaseByInvoice(invoice: number): Promise<IPurchaseModelEntity | null> {
         return await purchaseDB.findOne({ invoice_number: invoice });
     }
     //get all purchase without aprove by projectId
@@ -211,7 +211,7 @@ export class PurchaseRepository implements IPurchaseRepository {
         return await purchaseDB.find({ project_id:id,approval_status:false });
     }
 
-    async getPurchaseByInvoiceInEdit(invoice: string, id: string): Promise<IPurchaseModelEntity | null> {
+    async getPurchaseByInvoiceInEdit(invoice: number, id: string): Promise<IPurchaseModelEntity | null> {
         return await purchaseDB.findOne({ _id:{ $ne:id },invoice_number:invoice });
     }
 }

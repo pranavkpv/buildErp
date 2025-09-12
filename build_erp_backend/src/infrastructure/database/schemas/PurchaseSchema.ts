@@ -16,7 +16,7 @@ export const PurchaseSchema = new mongoose.Schema<IPurchaseModelEntity>({
         type:String,
     },
     invoice_number:{
-        type:String,
+        type:Number,
     },
     materialDetails:[
         {

@@ -2,6 +2,7 @@ import { getProjectWithCompletionRateApi } from "../../../api/Sitemanager/dashbo
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import StockManagement from "./StockManagement";
 
 type projectData = {
    _id:string
@@ -200,6 +201,8 @@ function SiteDashboard() {
                </>
             )}
          </div>
+              <StockManagement />
+    
       </div>
    );
 }

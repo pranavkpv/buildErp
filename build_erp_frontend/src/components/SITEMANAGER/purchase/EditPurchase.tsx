@@ -52,12 +52,12 @@ function EditPurchase({ editId, editEnable, setEditEnable, onEditSuccess, editDa
             material_id: item.material_id || "",
             quantity: item.quantity || 0,
             brands: [],
-            units: [], 
+            units: [],
          }))
          : []
    );
    const [project_id, setProjectId] = useState(editData?.project_id || "");
-   const [invoice_number, setInvoice] = useState(editData?.invoice_number || "");
+   const [invoice_number, setInvoice] = useState(editData?.invoice_number);
    const [date, setDate] = useState(editData?.date || "");
    const [description, setDescription] = useState(editData?.description || "");
    const [errors, setErrors] = useState<{ [key: string]: string }>({});
@@ -119,7 +119,6 @@ function EditPurchase({ editId, editEnable, setEditEnable, onEditSuccess, editDa
    const validateForm = () => {
       const newErrors: { [key: string]: string } = {};
       if (!project_id) newErrors.project = "Project is required";
-      if (!invoice_number) newErrors.invoice = "Invoice number is required";
       if (!date) newErrors.date = "Purchase date is required";
       if (row.length === 0) newErrors.materials = "At least one material is required";
       row.forEach((item, idx) => {
@@ -144,12 +143,13 @@ function EditPurchase({ editId, editEnable, setEditEnable, onEditSuccess, editDa
          quantity: element.quantity,
          unit_rate: element.unit_rate,
       }))
+      if (!invoice_number) return
       const response = await updatePurchaseAPI(editId, project_id, invoice_number, date, description, materialDetails)
       if (response.success) {
          toast.success(response.message);
          onEditSuccess();
          setEditEnable(false);
-      }else{
+      } else {
          toast.error(response.message)
       }
    };
@@ -232,8 +232,8 @@ function EditPurchase({ editId, editEnable, setEditEnable, onEditSuccess, editDa
                         type="text"
                         placeholder="Invoice Number"
                         value={invoice_number}
-                        onChange={(e) => setInvoice(e.target.value)}
                         className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 text-white"
+                        readOnly
                      />
                      {errors.invoice && <p className="text-red-400 text-sm mt-1">{errors.invoice}</p>}
                   </div>

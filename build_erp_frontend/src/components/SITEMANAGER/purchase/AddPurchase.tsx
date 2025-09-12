@@ -7,6 +7,7 @@ type setAdd = {
    addEnable: boolean;
    setAddEnable: React.Dispatch<React.SetStateAction<boolean>>;
    onAddSuccess: () => void;
+   highInvoice:number
 };
 
 type listMaterial = {
@@ -30,7 +31,7 @@ type JwtPayload = {
    exp: number;
 };
 
-function AddPurchase({ addEnable, setAddEnable, onAddSuccess }: setAdd) {
+function AddPurchase({ addEnable, setAddEnable, onAddSuccess,highInvoice }: setAdd) {
    if (!addEnable) return null;
 
    const [material, setMaterial] = useState<string[]>([]);
@@ -39,7 +40,7 @@ function AddPurchase({ addEnable, setAddEnable, onAddSuccess }: setAdd) {
    const [index, setIndex] = useState(0);
    const [row, setRow] = useState<listMaterial[]>([]);
    const [project_id, setProjectId] = useState("");
-   const [invoice_number, setInvoice] = useState("");
+   const [invoice_number, setInvoice] = useState(highInvoice+1);
    const [date, setDate] = useState("");
    const [description, setDescription] = useState("");
    const [project, setProject] = useState<Project[]>([]);
@@ -98,7 +99,6 @@ function AddPurchase({ addEnable, setAddEnable, onAddSuccess }: setAdd) {
    const validateForm = () => {
       const newErrors: { [key: string]: string } = {};
       if (!project_id) newErrors.project = "Project is required";
-      if (!invoice_number) newErrors.invoice = "Invoice number is required";
       if (!date) newErrors.date = "Purchase date is required";
       if (row.length === 0) newErrors.materials = "At least one material is required";
       row.forEach((item, idx) => {
@@ -125,6 +125,7 @@ function AddPurchase({ addEnable, setAddEnable, onAddSuccess }: setAdd) {
       }));
 
       const response = await savePurchaseAPI(project_id, invoice_number, date, description, materialDetails);
+      console.log(response)
       if (response.success) {
          toast.success(response.message);
          setAddEnable(false);
@@ -173,7 +174,7 @@ function AddPurchase({ addEnable, setAddEnable, onAddSuccess }: setAdd) {
                         type="text"
                         placeholder="Invoice Number"
                         value={invoice_number}
-                        onChange={(e) => setInvoice(e.target.value)}
+                        readOnly
                         className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 text-white"
                      />
                      {errors.invoice && <p className="text-red-400 text-sm mt-1">{errors.invoice}</p>}

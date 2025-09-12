@@ -1,5 +1,5 @@
-import { EditmaterialDetailsDTO, EditprojectDetailsDTO, listingMaterialDTO, unitRateDTO } from '../../application/dto/material.dto';
-import { editMaterialFullDatafetch } from '../../application/Entities/material.entity';
+import { EditmaterialDetailsDTO, EditprojectDetailsDTO, listingMaterialDTO, stockDTO, unitRateDTO } from '../../application/dto/material.dto';
+import { editMaterialFullDatafetch, stockDisplayAggregate } from '../../application/Entities/material.entity';
 import { ProjectStockOutput } from '../../application/Entities/project.entity';
 import { IMaterialModelEntity } from '../Entities/modelEntities/material.entity';
 
@@ -8,4 +8,5 @@ export interface IMaterialMapper {
    toEditMaterialDTO(material:editMaterialFullDatafetch):EditmaterialDetailsDTO
    toEditProjectStockDTO(project:ProjectStockOutput[]):EditprojectDetailsDTO[]
    toUniRateDTO(material:IMaterialModelEntity):unitRateDTO
+   toStockDisplayDTO(material:stockDisplayAggregate[]):stockDTO[]
 }

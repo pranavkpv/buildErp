@@ -1,4 +1,4 @@
-import { addProjectStockInput } from '../../../application/Entities/material.entity';
+import { addProjectStockInput, stockDisplayAggregate } from '../../../application/Entities/material.entity';
 import { incrementStockInput, projectStockInput, ProjectStockOutput } from '../../../application/Entities/project.entity';
 import { IProjectStockModelEntity } from '../modelEntities/projectStock.entity';
 
@@ -28,4 +28,8 @@ export interface IProjectStockRepository {
 
    getStockQuantityByProjectAndMaterial(input: incrementStockInput):
       Promise<number | undefined>
+
+   getMaterialStockByProject(projectId: string, material: string, page: number, id: string):
+      Promise<{ data: stockDisplayAggregate[], totalPage: number }>
+
 }

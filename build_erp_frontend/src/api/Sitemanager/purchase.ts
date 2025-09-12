@@ -15,13 +15,13 @@ export const getPurchaseDataAPI = async (search: string, page: number) => {
       return response.data
 }
 
-export const savePurchaseAPI = async (project_id: string, invoice_number: string, date: string, description: string, materialDetails: materialData[]) => {
+export const savePurchaseAPI = async (project_id: string, invoice_number: number, date: string, description: string, materialDetails: materialData[]) => {
       const response = await siteAxios.post("/purchase", { project_id, invoice_number, date, description, materialDetails })
       return response.data
 }
 
 
-export const updatePurchaseAPI = async (_id: string, project_id: string, invoice_number: string, date: string, description: string, materialDetails: materialData[]) => {
+export const updatePurchaseAPI = async (_id: string, project_id: string, invoice_number: number, date: string, description: string, materialDetails: materialData[]) => {
       const response = await siteAxios.put(`/purchase/${ _id }`, { project_id, invoice_number, date, description, materialDetails })
       return response.data
 }

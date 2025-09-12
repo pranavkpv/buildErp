@@ -10,7 +10,7 @@ export const validatePurchase = (req: Request, res: Response, next: NextFunction
             json({ success: false, message: PurchaseFailedMessage.PROJECT_REQUIRED });
         return;
     }
-    if (!invoice_number || invoice_number.trim().length === 0) {
+    if (!invoice_number) {
         res.status(HTTP_STATUS.BAD_REQUEST).
             json({ success: false, message: PurchaseFailedMessage.INVOICE_REQUIRED });
         return;

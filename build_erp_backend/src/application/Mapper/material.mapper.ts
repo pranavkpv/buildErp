@@ -1,7 +1,7 @@
 import { IMaterialModelEntity } from '../../domain/Entities/modelEntities/material.entity';
 import { IMaterialMapper } from '../../domain/IMappers/IMaterial.mapper';
-import { EditmaterialDetailsDTO, EditprojectDetailsDTO, listingMaterialDTO, unitRateDTO } from '../dto/material.dto';
-import { editMaterialFullDatafetch } from '../Entities/material.entity';
+import { EditmaterialDetailsDTO, EditprojectDetailsDTO, listingMaterialDTO, stockDTO, unitRateDTO } from '../dto/material.dto';
+import { editMaterialFullDatafetch, stockDisplayAggregate } from '../Entities/material.entity';
 import { ProjectStockOutput } from '../Entities/project.entity';
 
 export class MaterialMapper implements IMaterialMapper {
@@ -35,16 +35,25 @@ export class MaterialMapper implements IMaterialMapper {
         };
     }
     toEditProjectStockDTO(project: ProjectStockOutput[]): EditprojectDetailsDTO[] {
-        return project.map((item)=>({
-            _id:item._id,
-            project:item.project_id,
-            stock:item.stock,
+        return project.map((item) => ({
+            _id: item._id,
+            project: item.project_id,
+            stock: item.stock,
         }));
     }
     toUniRateDTO(material: IMaterialModelEntity): unitRateDTO {
         return {
-            material_id:material._id,
-            unit_rate:material.unit_rate,
+            material_id: material._id,
+            unit_rate: material.unit_rate,
         };
+    }
+    toStockDisplayDTO(material: stockDisplayAggregate[]): stockDTO[] {
+        return material.map((item) => ({
+            _id: item._id,
+            brand_name: item.brandDetails.brand_name,
+            material_name: item.materialDetails.material_name,
+            unit_name: item.unitDetails.unit_name,
+            stock: item.stock
+        }))
     }
 }

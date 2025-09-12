@@ -15,7 +15,7 @@ export type Purchase = {
    _id: string
    project_id: string;
    project_name: string;
-   invoice_number: string;
+   invoice_number: number;
    date: string;
    description: string;
    materialDetails: materialData[];

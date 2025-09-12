@@ -33,7 +33,15 @@ export interface EditprojectDetailsDTO {
 }
 
 export interface unitRateDTO {
-   material_id:string 
-   unit_rate:number
+   material_id: string
+   unit_rate: number
+}
+
+export interface stockDTO {
+   _id: string
+   material_name: string
+   brand_name: string
+   unit_name: string
+   stock: number
 }
 

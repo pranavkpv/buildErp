@@ -1,7 +1,7 @@
 import { IProjectStockRepository } from '../../domain/Entities/IRepository/IProjectStock';
 import { projectStockDB } from '../../api/models/ProjectStockModel';
 import { IProjectStockModelEntity } from '../../domain/Entities/modelEntities/projectStock.entity';
-import { addProjectStockInput } from '../../application/Entities/material.entity';
+import { addProjectStockInput, stockDisplayAggregate } from '../../application/Entities/material.entity';
 import { incrementStockInput, projectStockInput, ProjectStockOutput } from '../../application/Entities/project.entity';
 
 export class ProjectStockRepository implements IProjectStockRepository {
@@ -101,5 +101,102 @@ export class ProjectStockRepository implements IProjectStockRepository {
         const { material_id, project_id } = input;
         const data = await projectStockDB.findOne({ material_id, project_id });
         return data?.stock;
+    }
+    async getMaterialStockByProject(projectId: string, material: string, page: number, id: string)
+        : Promise<{ data: stockDisplayAggregate[], totalPage: number }> {
+        const skip = page * 5
+       
+   
+        const data = await projectStockDB.aggregate([
+            {
+                $match: { project_id: { $regex: projectId } }
+            }, {
+                $addFields: {
+                    "projectObjectId": { $toObjectId: "$project_id" },
+                    "materialObjectId": { $toObjectId: "$material_id" }
+                }
+            }, {
+                $lookup: {
+                    from: "projects",
+                    localField: "projectObjectId",
+                    foreignField: "_id",
+                    as: "projectDetails"
+                }
+            }, { $unwind: "$projectDetails" }, {
+                $match: {
+                    "projectDetails.sitemanager_id": id
+                }
+            }, {
+                $lookup: {
+                    from: "materials",
+                    localField: "materialObjectId",
+                    foreignField: "_id",
+                    as: "materialDetails"
+                }
+            }, { $unwind: "$materialDetails" }, {
+                $match: {
+                    "materialDetails.material_name": { $regex: material, $options: "i" }
+                }
+            }, {
+                $addFields: {
+                    "unitObjectId": { $toObjectId: "$materialDetails.unit_id" },
+                    "brandObjectId": { $toObjectId: "$materialDetails.brand_id" },
+                }
+            }, {
+                $lookup: {
+                    from: "units",
+                    localField: "unitObjectId",
+                    foreignField: "_id",
+                    as: "unitDetails"
+                }
+            }, { $unwind: "$unitDetails" },
+            {
+                $lookup: {
+                    from: "brands",
+                    localField: "brandObjectId",
+                    foreignField: "_id",
+                    as: "brandDetails"
+                }
+            }, { $unwind: "$brandDetails" },
+            { $skip: skip }, { $limit: 5 }
+        ])
+
+        const totalDoc = await projectStockDB.aggregate([
+            {
+                $match: { project_id: { $regex: projectId } }
+            }, {
+                $addFields: {
+                    "projectObjectId": { $toObjectId: "$project_id" },
+                    "materialObjectId": { $toObjectId: "$material_id" }
+                }
+            }, {
+                $lookup: {
+                    from: "projects",
+                    localField: "projectObjectId",
+                    foreignField: "_id",
+                    as: "projectDetails"
+                }
+            }, { $unwind: "$projectDetails" }, {
+                $match: {
+                    "projectDetails.sitemanager_id": id
+                }
+            }, {
+                $lookup: {
+                    from: "materials",
+                    localField: "materialObjectId",
+                    foreignField: "_id",
+                    as: "materialDetails"
+                }
+            }, { $unwind: "$materialDetails" }, {
+                $match: {
+                    "materialDetails.material_name": { $regex: material, $options: "i" }
+                }
+            }
+        ])
+
+        return {
+            data,
+            totalPage: Math.ceil(totalDoc.length / 5)
+        }
     }
 }

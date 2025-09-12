@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { commonOutput } from '../../../application/dto/common';
-import { EditmaterialDetailsDTO, EditprojectDetailsDTO, listingMaterialDTO, unitRateDTO } from '../../../application/dto/material.dto';
+import { EditmaterialDetailsDTO, EditprojectDetailsDTO, listingMaterialDTO, stockDTO, unitRateDTO } from '../../../application/dto/material.dto';
 import { addMaterialFetch, editMaterialFullDatafetch } from '../../../application/Entities/material.entity';
 
 
@@ -39,5 +39,8 @@ export interface IMaterialController {
 
    getMaterialById(req: Request, res: Response, next: NextFunction):
       Promise<commonOutput<editMaterialFullDatafetch | null> | void>
+
+   fetchStock(req: Request, res: Response, next: NextFunction):
+       Promise<commonOutput<{ data: stockDTO[], totalPage: number }> | commonOutput | void>
       
 }
