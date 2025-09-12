@@ -3,33 +3,12 @@ import ProjectAdd from "./ProjectAdd";
 import DeleteProject from "./ProjectDelete";
 import EditProject from "./ProjectEdit";
 import ChangeStatus from "./Status";
-import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { projectListData } from "../../../api/project";
+import type { ProjectType } from "../../../ApiInterface/project.interface";
+import ReUsableTable from "../../../components/ReUsableComponents/ReUsableTable";
 
-type ProjectType = {
-  _id: string;
-  project_name: string;
-  address: string;
-  mobile_number: string;
-  email: string;
-  description: string;
-  area: number;
-  lat:number;
-  long:number;
-  userDetails: {
-    _id: string;
-    username: string;
-    email?: string;
-    phone?: number;
-  };
-  status: string;
-};
 
-interface Location {
-  lat: number;
-  lng: number;
-  name: string;
-}
+
 
 function Project() {
   const [projectList, setProjectList] = useState<ProjectType[]>([]);
@@ -44,17 +23,12 @@ function Project() {
   const [deleteId, setDeleteId] = useState("");
 
   // edit
-  const [editProject, setEditProject] = useState("");
-  const [editUserId, setEditUserId] = useState("");
-  const [editUserName, setEditUserName] = useState("");
-  const [editAddress, setEditAddress] = useState("");
-  const [editEmail, setEditEmail] = useState("");
-  const [editPhone, setEditPhone] = useState("");
-  const [editDescription, setEditDescription] = useState("");
-  const [editArea, setEditArea] = useState<number>(0);
+
   const [editEnable, setEditEnable] = useState(false);
-  const [editProjectId, setEditProjectId] = useState("");
-  const [editLocation,setEditLocation] = useState<Location | null>(null)
+  const [editData, setEditData] = useState<ProjectType>({
+    _id: "", project_name: "", address: "", mobile_number: "", email: "", description: "",
+    area: 0, lat: 0, long: 0, userDetails: { _id: "", username: "", email: "", phone: 0 }, status: ""
+  })
 
 
   // change
@@ -63,20 +37,68 @@ function Project() {
   const [changeEnable, setChangeEnable] = useState(false);
 
   const fetchData = async () => {
-      const response = await projectListData(page,search)
-      setProjectList(response.data.data);
-      setTotal(Math.ceil(response.data.totalPage) )
+    const response = await projectListData(page, search)
+    setProjectList(response.data.data);
+    setTotal(Math.ceil(response.data.totalPage))
   };
 
   useEffect(() => {
-  const handler = setTimeout(() => {
-    fetchData();
-  }, 500);
+    const handler = setTimeout(() => {
+      fetchData();
+    }, 500);
 
-  return () => {
-    clearTimeout(handler); 
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [page, search]);
+
+
+  const heading = ["Sl No", "Project Name", "Client Name", "Status", "Action"];
+  const dataKey = ["project_name", "email", "status"] as (keyof ProjectType)[];
+
+  const renderCell = (key: keyof ProjectType, value: any, item: ProjectType) => {
+    if (key === "email") {
+      return (
+        <span className="text-gray-200">{item.userDetails.username}</span>
+      );
+    }
+    if (key === "status") {
+      return(<td className="px-6 py-4">
+        {item.status === "completed" ? (
+          <p className="text-gray-200 capitalize">{item.status}</p>
+        ) : (
+          <select
+            aria-label={`Select status for ${ item.project_name }`}
+            id={`status-${ item._id }`}
+            defaultValue={item.status}
+            className="w-full px-3 py-2 bg-gray-800/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent transition-all duration-200 text-gray-100 text-sm font-medium"
+            onChange={(e) => {
+              setChangeProjectId(item._id);
+              setChangeStatus(e.target.value);
+              setChangeEnable(true);
+            }}
+          >
+            <option value={item.status} className="capitalize">
+              {item.status}
+            </option>
+            {item.status === "pending" &&
+              ["completed"].map((value) => (
+                <option key={value} value={value} className="capitalize">
+                  {value}
+                </option>
+              ))}
+            {item.status === "processing" &&
+              ["completed"].map((value) => (
+                <option key={value} value={value} className="capitalize">
+                  {value}
+                </option>
+              ))}
+          </select>
+        )}
+      </td>)
+    }
+    return value;
   };
-}, [page, search]);
 
 
   return (
@@ -105,105 +127,26 @@ function Project() {
         </div>
 
         <div className="overflow-x-auto rounded-xl border border-gray-700/50">
-          <table className="min-w-full text-sm text-left bg-gray-800/50">
-            <thead className="bg-gray-800/70 text-gray-200 uppercase text-xs font-semibold tracking-wider">
-              <tr>
-                <th className="px-6 py-4">SL No</th>
-                <th className="px-6 py-4">Project Name</th>
-                <th className="px-6 py-4">Client Name</th>
-                <th className="px-6 py-4">Status</th>
-                <th className="px-6 py-4 text-center">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-700/50">
-              {projectList.length === 0 ? (
-                <tr>
-                  <td colSpan={5} className="text-center py-12 text-gray-400 text-sm font-medium">
-                    No Projects Found.
-                  </td>
-                </tr>
-              ) : (
-                projectList.map((element, index) => (
-                    <tr key={element._id} className="hover:bg-gray-700/50 transition-colors duration-150">
-                      <td className="px-6 py-4 font-medium text-gray-200">{(index + 1)+(page*5)}</td>
-                      <td className="px-6 py-4 text-gray-200">{element.project_name}</td>
-                      <td className="px-6 py-4 text-gray-200">{element.userDetails.username}</td>
-                      <td className="px-6 py-4">
-                        {element.status === "completed" ? (
-                          <p className="text-gray-200 capitalize">{element.status}</p>
-                        ) : (
-                          <select
-                            aria-label={`Select status for ${ element.project_name }`}
-                            id={`status-${ element._id }`}
-                            defaultValue={element.status}
-                            className="w-full px-3 py-2 bg-gray-800/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent transition-all duration-200 text-gray-100 text-sm font-medium"
-                            onChange={(e) => {
-                              setChangeProjectId(element._id);
-                              setChangeStatus(e.target.value);
-                              setChangeEnable(true);
-                            }}
-                          >
-                            <option value={element.status} className="capitalize">
-                              {element.status}
-                            </option>
-                            {element.status === "pending" &&
-                              ["completed"].map((value) => (
-                                <option key={value} value={value} className="capitalize">
-                                  {value}
-                                </option>
-                              ))}
-                            {element.status === "processing" &&
-                              ["completed"].map((value) => (
-                                <option key={value} value={value} className="capitalize">
-                                  {value}
-                                </option>
-                              ))}
-                          </select>
-                        )}
-                      </td>
-                      <td className="px-6 py-4 text-center space-x-3">
-                        <button
-                          onClick={() => {
-                            setEditProject(element.project_name);
-                            setEditUserId(element.userDetails._id || "");
-                            setEditUserName(element.userDetails.username || "");
-                            setEditAddress(element.address);
-                            setEditEmail(element.email);
-                            setEditPhone(element.mobile_number);
-                            setEditDescription(element.description);
-                            setEditArea(element.area);
-                            setEditEnable(true);
-                            setEditProjectId(element._id);
-                            setEditLocation({lat:element.lat,lng:element.long,name:element.address})
-                          }}
-                          className="text-yellow-400 hover:text-yellow-300 p-2 rounded-md hover:bg-gray-600/50 transition-all duration-200"
-                          aria-label={`Edit project ${ element.project_name }`}
-                        >
-                          <PencilIcon className="h-5 w-5" />
-                        </button>
-                        <button
-                          onClick={() => {
-                            setDeleteEnable(true);
-                            setDeleteId(element._id);
-                          }}
-                          className="text-red-400 hover:text-red-300 p-2 rounded-md hover:bg-gray-600/50 transition-all duration-200"
-                          aria-label={`Delete project ${ element.project_name }`}
-                        >
-                          <TrashIcon className="h-5 w-5" />
-                        </button>
-                      </td>
-                    </tr>
-                  ))
-              )}
-            </tbody>
-          </table>
+
+          <ReUsableTable<ProjectType>
+            data={projectList}
+            dataKey={dataKey}
+            heading={heading}
+            page={page}
+            setDeleteEnable={setDeleteEnable}
+            setDeleteId={setDeleteId}
+            setEditData={setEditData}
+            setEditEnable={setEditEnable}
+            renderCell={renderCell}
+          />
+
           <div className="flex justify-center gap-2 mt-6">
             {Array.from({ length: totalPage }, (_, i) => (
               <button
                 key={i + 1}
                 onClick={() => setPage(i)}
                 className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200
-        ${ page === i 
+        ${ page === i
                     ? 'bg-teal-600 text-white shadow-md'
                     : 'bg-gray-700 text-gray-300 hover:bg-teal-500 hover:text-white' }
       `}
@@ -217,36 +160,27 @@ function Project() {
       <ProjectAdd enableAdd={addEnable} setEnableAdd={setAddEnable} onAddSuccess={fetchData} />
 
 
-        <ChangeStatus
-          project_id={changeProjectId}
-          status={changeStatus}
-          enable={changeEnable}
-          setEnable={setChangeEnable}
-          onChangeSuccess={fetchData}
-        />
+      <ChangeStatus
+        project_id={changeProjectId}
+        status={changeStatus}
+        enable={changeEnable}
+        setEnable={setChangeEnable}
+        onChangeSuccess={fetchData}
+      />
 
-        <EditProject
-          editProject={editProject}
-          editUserId={editUserId}
-          edituserName={editUserName}
-          editAddress={editAddress}
-          editEmail={editEmail}
-          editPhone={editPhone}
-          editDescription={editDescription}
-          editArea={editArea}
-          editEnable={editEnable}
-          setEnableEdit={setEditEnable}
-          onEditSuccess={fetchData}
-          editProjectId={editProjectId}
-          editLocation ={editLocation}
-        />
+      <EditProject
+        editData={editData}
+        editEnable={editEnable}
+        setEnableEdit={setEditEnable}
+        onEditSuccess={fetchData}
+      />
 
-        <DeleteProject
-          enable={deleteEnable}
-          deleteId={deleteId}
-          setEnable={setDeleteEnable}
-          onDeleteSuccess={fetchData}
-        />
+      <DeleteProject
+        enable={deleteEnable}
+        deleteId={deleteId}
+        setEnable={setDeleteEnable}
+        onDeleteSuccess={fetchData}
+      />
     </div>
 
 

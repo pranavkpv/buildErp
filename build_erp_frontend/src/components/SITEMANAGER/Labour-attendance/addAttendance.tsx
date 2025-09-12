@@ -123,6 +123,7 @@ function AddAttendance({ addEnable, setAddEnable, onAddSuccess }: setAdd) {
               placeholder="Select date"
               value={selectedDate}
               onChange={(e) => setSelectedDate(e.target.value)}
+              min={new Date().toISOString().split("T")[0]}
             />
             {dateError && <p className="text-red-400 text-sm mt-1">{dateError}</p>}
           </div>

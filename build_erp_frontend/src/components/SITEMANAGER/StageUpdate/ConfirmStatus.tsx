@@ -56,6 +56,7 @@ function ConfirmStatus({
               placeholder="Select status changed date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
+              min={new Date().toISOString().split("T")[0]}
             />
           </div>
           <p className="text-gray-200 text-sm font-medium text-center">

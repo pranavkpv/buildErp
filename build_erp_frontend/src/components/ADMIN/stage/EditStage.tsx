@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { PlusCircleIcon, MinusCircleIcon } from "@heroicons/react/24/outline";
 import { editStageAPI, fetchBugetAPI, getStageInAdmin } from "../../../api/Admin/StageSetting";
 import { getProjectAll } from "../../../api/project";
+import type { stageDatas } from "../../../ApiInterface/stageApi.interface";
 
 
 type Project = {
@@ -14,15 +15,15 @@ type stageProp = {
    editEnable: boolean;
    setEditEnable: React.Dispatch<React.SetStateAction<boolean>>;
    onEditSuccess: () => void
-   editId: string
+   editData: stageDatas
 };
 
-function EditStage({ editEnable, setEditEnable, editId, onEditSuccess }: stageProp) {
+function EditStage({ editEnable, setEditEnable, editData, onEditSuccess }: stageProp) {
    if (!editEnable) return null;
 
    const [project, setProject] = useState<Project[]>([]);
    const [cost, setCost] = useState(0);
-   const [projectId, setProjectId] = useState(editId);
+   const [projectId, setProjectId] = useState("");
    const [startDate, setStartDate] = useState("")
    const [endDate, setEndDate] = useState("")
    const [stages, setStages] = useState<{ stage_name: string; start_date: string; end_date: string; stage_percentage: number; stage_amount: number }[]>([]);
@@ -32,104 +33,105 @@ function EditStage({ editEnable, setEditEnable, editId, onEditSuccess }: stagePr
    const endRef = useRef<HTMLParagraphElement>(null)
 
    const fetchStage = async (projectId: string): Promise<void> => {
-         const response = await getStageInAdmin(projectId);
-         if (response.success) {
-             const updatedStage = []
-            for (let element of response.data) {
-               updatedStage.push({stage_name:element.stage_name,start_date:element.start_date.split("T")[0],end_date:element.end_date.split("T")[0],stage_percentage:element.stage_per,stage_amount:element.stage_amount})
-            }
-            setStages(updatedStage)
-         } else {
-            toast.error(response.message);
+      const response = await getStageInAdmin(projectId);
+      if (response.success) {
+         const updatedStage = []
+         for (let element of response.data) {
+            updatedStage.push({ stage_name: element.stage_name, start_date: element.start_date.split("T")[0], end_date: element.end_date.split("T")[0], stage_percentage: element.stage_per, stage_amount: element.stage_amount })
          }
+         setStages(updatedStage)
+      } else {
+         toast.error(response.message);
+      }
    };
 
 
    const fetchProject = async () => {
-         const response = await getProjectAll();
-         const filteredProject = response.data.find((element: Project) => element._id == editId)
-         setCost(filteredProject.budgeted_cost)
-         setStartDate(filteredProject.start_date.split("T")[0])
-         setEndDate(filteredProject.end_date.split("T")[0])
-         setProject(response.data);
+      const response = await getProjectAll();
+      console.log(response)
+      const filteredProject = response.data.find((element: Project) => element._id == editData._id)
+      setCost(filteredProject.budgeted_cost)
+      setStartDate(filteredProject.start_date.split("T")[0])
+      setEndDate(filteredProject.end_date.split("T")[0])
+      setProject(response.data);
    };
 
    const fetchBudgetedCost = async (projectId: string) => {
-         const data = await fetchBugetAPI(projectId);
-         if (data.success) {
-            setCost(data.message);
-         } else {
-            setProjectId("")
-            setCost(0)
-            toast.error(data.message);
-         }
+      const data = await fetchBugetAPI(projectId);
+      if (data.success) {
+         setCost(data.message);
+      } else {
+         setProjectId("")
+         setCost(0)
+         toast.error(data.message);
+      }
    };
 
    useEffect(() => {
       fetchProject();
-   },[editId]);
-   useEffect(()=>{
-      fetchStage(editId);
-   },[cost])
+   }, []);
+   useEffect(() => {
+      fetchStage(editData._id);
+   }, [cost])
 
    const addStageRow = () => {
       setStages([...stages, { stage_name: "", start_date: "", end_date: "", stage_percentage: 0, stage_amount: 0 }]);
    };
 
    const saveStageFun = async () => {
-         if (projectId == "") {
-            projectRef.current ? projectRef.current.innerText = "project name is required" : ""
-            return
-         } else {
-            projectRef.current ? projectRef.current.innerText = "" : "project name is required"
-         }
+      if (projectId == "") {
+         projectRef.current ? projectRef.current.innerText = "project name is required" : ""
+         return
+      } else {
+         projectRef.current ? projectRef.current.innerText = "" : "project name is required"
+      }
 
-         if (startDate == "") {
-            startRef.current ? startRef.current.innerText = "start date is required" : ""
-            return
-         } else {
-            startRef.current ? startRef.current.innerText = "" : "start date is required"
-         }
-         if (endDate == "") {
-            endRef.current ? endRef.current.innerText = "end date is required" : ""
-            return
-         } else {
-            endRef.current ? endRef.current.innerText = "" : "end date is required"
-         }
+      if (startDate == "") {
+         startRef.current ? startRef.current.innerText = "start date is required" : ""
+         return
+      } else {
+         startRef.current ? startRef.current.innerText = "" : "start date is required"
+      }
+      if (endDate == "") {
+         endRef.current ? endRef.current.innerText = "end date is required" : ""
+         return
+      } else {
+         endRef.current ? endRef.current.innerText = "" : "end date is required"
+      }
 
-         let sum = 0
-         for (let element of stages) {
-            sum += element.stage_amount
-            if (element.stage_name.trim() == "") {
-               toast.warning("should enter stage name")
-               return
-            }
-            if (element.start_date == "") {
-               toast.warning("should enter start date of stage")
-               return
-            }
-            if (element.end_date == "") {
-               toast.warning("should enter end date of stage")
-               return
-            }
-            if (element.stage_amount == 0) {
-               toast.warning("stage amount must be greater than 0")
-               return
-            }
-         }
-         if (sum != cost) {
-            toast.warning("Must set all stages in corresponding project")
+      let sum = 0
+      for (let element of stages) {
+         sum += element.stage_amount
+         if (element.stage_name.trim() == "") {
+            toast.warning("should enter stage name")
             return
          }
-
-         const data = await editStageAPI({stages, projectId, startDate, endDate, cost})
-         if (data.success) {
-            toast.success(data.message)
-            setEditEnable(false)
-            onEditSuccess()
-         } else {
-            toast.error(data.message)
+         if (element.start_date == "") {
+            toast.warning("should enter start date of stage")
+            return
          }
+         if (element.end_date == "") {
+            toast.warning("should enter end date of stage")
+            return
+         }
+         if (element.stage_amount == 0) {
+            toast.warning("stage amount must be greater than 0")
+            return
+         }
+      }
+      if (sum != cost) {
+         toast.warning("Must set all stages in corresponding project")
+         return
+      }
+
+      const data = await editStageAPI({ stages, projectId, startDate, endDate, cost })
+      if (data.success) {
+         toast.success(data.message)
+         setEditEnable(false)
+         onEditSuccess()
+      } else {
+         toast.error(data.message)
+      }
    }
 
    return (
@@ -178,7 +180,7 @@ function EditStage({ editEnable, setEditEnable, editId, onEditSuccess }: stagePr
                      type="text"
                      placeholder="Budgeted cost"
                      className="w-full px-4 py-2.5 bg-gray-700/50 border border-gray-600 rounded-lg text-gray-100 placeholder-gray-400 text-sm"
-                     value={cost === 0 ? "" : cost.toLocaleString()}
+                     value={cost === 0 ? "" : cost}
                      readOnly
                   />
                </div>
@@ -189,7 +191,7 @@ function EditStage({ editEnable, setEditEnable, editId, onEditSuccess }: stagePr
                      Start Date
                   </label>
                   <input
-                  value={startDate}
+                     value={startDate}
                      onChange={(e) => setStartDate(e.target.value)}
                      id="startDate"
                      type="date"
@@ -205,7 +207,7 @@ function EditStage({ editEnable, setEditEnable, editId, onEditSuccess }: stagePr
                      End Date
                   </label>
                   <input
-                  value={endDate}
+                     value={endDate}
                      onChange={(e) => {
                         if (e.target.value < startDate) {
                            toast.warning("end date must be greater than start date")

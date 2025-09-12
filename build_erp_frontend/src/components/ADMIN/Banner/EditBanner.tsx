@@ -1,39 +1,34 @@
+import type { inputBannerInterface } from "ApiInterface/banner.interface";
 import { editBannerApi } from "../../../api/banner";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
 
 interface BannerEditProps {
-   editTitle: string;
-   editSubtitle: string;
-   editFile: string;
+   editData:inputBannerInterface
    editEnable: boolean;
    setEnableEdit: (value: boolean) => void;
    onEditSuccess: () => void;
-   editBannerId: string;
 }
 
 function BannerEdit({
-   editTitle,
-   editSubtitle,
-   editFile,
+   editData,
    editEnable,
    setEnableEdit,
    onEditSuccess,
-   editBannerId,
 }: BannerEditProps) {
    if (!editEnable) return null;
-   const [title, setTitle] = useState(editTitle);
-   const [subtitle, setSubtitle] = useState(editSubtitle);
+   const [title, setTitle] = useState(editData.title);
+   const [subtitle, setSubtitle] = useState(editData.subtitle);
    const [file, setFile] = useState<File | null>(null);
-   const [previewImage, setPreviewImage] = useState(editFile);
+   const [previewImage, setPreviewImage] = useState(editData.image);
 
    useEffect(() => {
-      setTitle(editTitle);
-      setSubtitle(editSubtitle);
-      setPreviewImage(editFile);
+      setTitle(editData.title);
+      setSubtitle(editData.subtitle);
+      setPreviewImage(editData.image);
       setFile(null);
-   }, [editTitle, editSubtitle, editFile]);
+   }, [editData.title, editData.subtitle, editData.image]);
 
    const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
@@ -41,7 +36,7 @@ function BannerEdit({
          toast.error("Title is required");
          return;
       }
-      const response = await editBannerApi({ id: editBannerId, title, subtitle, file });
+      const response = await editBannerApi({ id: editData._id, title, subtitle, file });
       if (response.success) {
          toast.success(response.message);
          setTitle("");

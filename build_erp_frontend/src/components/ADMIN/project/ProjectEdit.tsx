@@ -2,6 +2,7 @@ import { fetchUser, putProject } from "../../../api/project";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import MapIntegrationApp from "../Map/Map";
+import type { ProjectType } from "ApiInterface/project.interface";
 
 type UserType = {
   _id: string;
@@ -11,19 +12,10 @@ type UserType = {
 };
 
 type EditProjectProp = {
-  editProject: string;
-  editUserId: string;
-  edituserName: string;
-  editAddress: string;
-  editEmail: string;
-  editPhone: string;
-  editDescription: string;
-  editArea: number;
+  editData: ProjectType
   editEnable: boolean;
-  editProjectId: string;
   setEnableEdit: React.Dispatch<React.SetStateAction<boolean>>;
   onEditSuccess: () => void;
-  editLocation:Location | null;
 };
 
 interface Location {
@@ -33,32 +25,24 @@ interface Location {
 }
 
 function EditProject({
-  editProject,
-  editUserId,
-  editAddress,
-  editEmail,
-  editPhone,
-  editDescription,
-  editArea,
+  editData,
   editEnable,
-  editProjectId,
   setEnableEdit,
   onEditSuccess,
-  editLocation
 }: EditProjectProp) {
-  
+
   if (!editEnable) return null;
 
-  const [project_name, setProjectName] = useState(editProject);
-  const [user_id, setUserId] = useState(editUserId);
-  const [address, setAddress] = useState(editAddress);
-  const [email, setEmail] = useState(editEmail);
-  const [mobile_number, setMobile] = useState(editPhone);
-  const [description, setDescription] = useState(editDescription);
-  const [area, setArea] = useState<number>(editArea);
+  const [project_name, setProjectName] = useState(editData.project_name);
+  const [user_id, setUserId] = useState(editData.userDetails._id);
+  const [address, setAddress] = useState(editData.address);
+  const [email, setEmail] = useState(editData.email);
+  const [mobile_number, setMobile] = useState(editData.mobile_number);
+  const [description, setDescription] = useState(editData.description);
+  const [area, setArea] = useState<number>(editData.area);
   const [userList, setUserList] = useState<UserType[]>([]);
   const [onMap, setOnMap] = useState(false);
-  const [selectedLocation, setSelectedLocation] = useState<Location | null>(editLocation);
+  const [selectedLocation, setSelectedLocation] = useState<Location | null>({ lat: editData.lat, lng: editData.long, name: editData.address });
 
   const projectRef = useRef<HTMLParagraphElement>(null);
   const userRef = useRef<HTMLParagraphElement>(null);
@@ -69,14 +53,14 @@ function EditProject({
   const descriptionRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
-    setProjectName(editProject);
-    setUserId(editUserId);
-    setAddress(editAddress);
-    setEmail(editEmail);
-    setMobile(editPhone);
-    setDescription(editDescription);
-    setArea(editArea);
-    setSelectedLocation(editLocation)
+    setProjectName(editData.project_name);
+    setUserId(editData.userDetails._id);
+    setAddress(editData.address);
+    setEmail(editData.email);
+    setMobile(editData.mobile_number);
+    setDescription(editData.description);
+    setArea(editData.area);
+    setSelectedLocation({ lat: editData.lat, lng: editData.long, name: editData.address })
   });
 
   useEffect(() => {
@@ -144,18 +128,20 @@ function EditProject({
 
     let latitude = selectedLocation?.lat;
     let longitude = selectedLocation?.lng
-    if(!latitude || !longitude)return
+    if (!latitude || !longitude) return
     const data = await putProject(
-      {_id:editProjectId,
-      project_name,
-      user_id,
-      address,
-      mobile_number,
-      email,
-      area,
-      description,
-      latitude,
-      longitude}
+      {
+        _id: editData._id,
+        project_name,
+        user_id,
+        address,
+        mobile_number,
+        email,
+        area,
+        description,
+        latitude,
+        longitude
+      }
     );
     if (data.success) {
       toast.success(data.message);
@@ -174,7 +160,7 @@ function EditProject({
     }
   };
 
-  
+
 
   return (
     <div className="fixed inset-0 bg-gray-900/80 flex items-center justify-center z-50 p-4 sm:p-6">

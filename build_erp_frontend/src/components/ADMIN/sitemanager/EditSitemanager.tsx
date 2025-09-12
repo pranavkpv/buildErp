@@ -1,3 +1,4 @@
+import type { SiteData } from "ApiInterface/sitemanager.interface";
 import { editSitemanagerData } from "../../../api/Admin/sitemanager";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
@@ -5,31 +6,27 @@ import { toast } from "react-toastify";
 type EditSitemanagerProps = {
   editEnable: boolean;
   setEditEnable: React.Dispatch<React.SetStateAction<boolean>>;
-  editId: string;
-  editSitemanager: string;
-  editEmail: string;
+  editData: SiteData
   onEditSuccess: () => void;
 };
 
 function EditSitemanager({
   editEnable,
   setEditEnable,
-  editId,
-  editSitemanager,
-  editEmail,
+  editData,
   onEditSuccess,
 }: EditSitemanagerProps) {
-  const [sitemanager, setSitemanager] = useState(editSitemanager);
-  const [email, setEmail] = useState(editEmail);
+  const [sitemanager, setSitemanager] = useState(editData.username);
+  const [email, setEmail] = useState(editData.email);
 
   const sitemanagerRef = useRef<HTMLParagraphElement>(null);
   const emailRef = useRef<HTMLParagraphElement>(null);
 
 
   useEffect(() => {
-    setSitemanager(editSitemanager);
-    setEmail(editEmail);
-  }, [editSitemanager, editEmail]);
+    setSitemanager(editData.username);
+    setEmail(editData.email);
+  }, [editData.username, editData.email]);
 
   const sitemanagerEdit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -51,17 +48,17 @@ function EditSitemanager({
     }
 
     if (hasError) return;
-      const _id = editId
-      const username = sitemanager
+    const _id = editData._id
+    const username = sitemanager
 
-      const data = await editSitemanagerData(_id, username, email)
-      if (data.success) {
-        toast.success(data.message);
-        setEditEnable(false);
-        onEditSuccess();
-      } else {
-        toast.error(data.message);
-      }
+    const data = await editSitemanagerData(_id, username, email)
+    if (data.success) {
+      toast.success(data.message);
+      setEditEnable(false);
+      onEditSuccess();
+    } else {
+      toast.error(data.message);
+    }
   };
 
   if (!editEnable) return null;

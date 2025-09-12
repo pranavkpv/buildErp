@@ -2,16 +2,11 @@ import { useEffect, useState } from "react";
 import AddSitemanager from "./Addsitemanager";
 import EditSitemanager from "./EditSitemanager";
 import DeleteSitemanager from "./DeleteSitemanager";
-import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 import { fetchSitemanager } from "../../../api/Admin/sitemanager";
+import type { SiteData } from "ApiInterface/sitemanager.interface";
+import ReUsableTable from "../../../components/ReUsableComponents/ReUsableTable";
 
-type SiteData = {
-  _id: string;
-  project_id: string;
-  username: string;
-  email: string;
-  password: string;
-};
+
 
 function SitemanagerList() {
   const [sitedata, setSiteData] = useState<SiteData[]>([]);
@@ -24,24 +19,27 @@ function SitemanagerList() {
 
   // Edit
   const [editEnable, setEditEnable] = useState(false);
-  const [editId, setId] = useState("");
-  const [editSitemanager, setEditSitemanager] = useState("");
-  const [editEmail, setEmail] = useState("");
+  const [editData, setEditData] = useState<SiteData>({ _id: "", email: "", project_id: "", username: "" })
 
   // Delete
   const [deleteEnable, setDeleteEnable] = useState(false);
   const [deleteId, setDeleteId] = useState("");
 
   const fetchData = async () => {
-      const search = searchSite
-      const response = await fetchSitemanager(page,search)
-      setTotal(Math.ceil(response.data.totalPage))
-      setSiteData(response.data.data);
+    const search = searchSite
+    const response = await fetchSitemanager(page, search)
+    setTotal(Math.ceil(response.data.totalPage))
+    setSiteData(response.data.data);
   };
 
   useEffect(() => {
     fetchData();
   }, [page, searchSite]);
+
+  const heading = ["Sl No", "Site Manager Name", "Email", "Action"];
+  const dataKey = ["username", "email"] as (keyof SiteData)[];
+
+
 
   return (
     <div className="p-6 sm:p-8 min-h-screen bg-gray-900">
@@ -71,58 +69,16 @@ function SitemanagerList() {
 
         {/* Table Section */}
         <div className="overflow-x-auto rounded-xl border border-gray-700/50">
-          <table className="min-w-full text-sm text-left bg-gray-800/50">
-            <thead className="bg-gray-800/70 text-gray-200 uppercase text-xs font-semibold tracking-wider">
-              <tr>
-                <th className="px-6 py-4">SL NO</th>
-                <th className="px-6 py-4">Site Manager Name</th>
-                <th className="px-6 py-4">Email</th>
-                <th className="px-6 py-4">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-700/50">
-              {sitedata.length === 0 ? (
-                <tr>
-                  <td colSpan={4} className="text-center py-12 text-gray-400 text-sm font-medium">
-                    No Site Managers Found.
-                  </td>
-                </tr>
-              ) : (
-                sitedata.map((element, index) => (
-                  <tr key={element._id} className="hover:bg-gray-700/50 transition-colors duration-150">
-                    <td className="px-6 py-4 font-medium text-gray-200">{(index + 1) + (page * 5)}</td>
-                    <td className="px-6 py-4 text-gray-200">{element.username}</td>
-                    <td className="px-6 py-4 text-gray-200">{element.email}</td>
-                    <td className="px-6 py-4 space-x-3">
-                      <button
-                        onClick={() => {
-                          setEditEnable(true);
-                          setId(element._id);
-                          setEditSitemanager(element.username);
-                          setEmail(element.email);
-                        }}
-                        className="text-yellow-400 hover:text-yellow-300 p-2 rounded-md hover:bg-gray-600/50 transition-all duration-200"
-                        aria-label={`Edit site manager ${ element.username }`}
-                      >
-
-                        <PencilIcon className="h-5 w-5" />
-                      </button>
-                      <button
-                        onClick={() => {
-                          setDeleteEnable(true);
-                          setDeleteId(element._id);
-                        }}
-                        className="text-red-400 hover:text-red-300 p-2 rounded-md hover:bg-gray-600/50 transition-all duration-200"
-                        aria-label={`Delete site manager ${ element.username }`}
-                      >
-                        <TrashIcon className="h-5 w-5" />
-                      </button>
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+          <ReUsableTable
+            data={sitedata}
+            dataKey={dataKey}
+            heading={heading}
+            page={page}
+            setDeleteEnable={setDeleteEnable}
+            setDeleteId={setDeleteId}
+            setEditData={setEditData}
+            setEditEnable={setEditEnable}
+          />
           <div className="flex justify-center gap-2 mt-6">
             {Array.from({ length: totalPage }, (_, i) => (
               <button
@@ -148,11 +104,9 @@ function SitemanagerList() {
         onAddSuccess={fetchData}
       />
       <EditSitemanager
+        editData={editData}
         editEnable={editEnable}
         setEditEnable={setEditEnable}
-        editId={editId}
-        editSitemanager={editSitemanager}
-        editEmail={editEmail}
         onEditSuccess={fetchData}
       />
       <DeleteSitemanager

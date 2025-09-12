@@ -13,3 +13,10 @@ export interface stageSaveInterface {
    endDate: string,
    cost: number
 }
+
+export interface stageDatas  {
+  _id: string
+  project_name: string;
+  start_date: string;
+  end_date: string;
+};

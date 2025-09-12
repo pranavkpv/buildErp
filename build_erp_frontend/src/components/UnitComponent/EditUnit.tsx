@@ -1,3 +1,4 @@
+import type { unitInput } from "ApiInterface/UnitApiInterface";
 import { editUnitData } from "../../api/UnitApi/unit";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
@@ -5,10 +6,8 @@ import { toast } from "react-toastify";
 
 
 type Unitprops = {
-  editId: string;
   enable: boolean;
-  editUnit: string;
-  editShortname: string;
+  editData:unitInput
   setEnable: React.Dispatch<React.SetStateAction<boolean>>;
   onUpdate: () => void;
 };
@@ -16,20 +15,18 @@ type Unitprops = {
 function EditUnit({
   enable,
   setEnable,
-  editId,
-  editUnit,
-  editShortname,
+  editData,
   onUpdate,
 }: Unitprops) {
-  const [unit, setUnit] = useState(editUnit);
-  const [short_name, setShortname] = useState(editShortname);
+  const [unit, setUnit] = useState(editData.unit_name);
+  const [short_name, setShortname] = useState(editData.short_name);
   const unitRef = useRef<HTMLParagraphElement>(null);
   const shortnameRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
-    setUnit(editUnit);
-    setShortname(editShortname);
-  }, [editUnit, editShortname]);
+    setUnit(editData.unit_name);
+    setShortname(editData.short_name);
+  }, [editData.unit_name, editData.short_name]);
 
   const editSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -51,7 +48,7 @@ function EditUnit({
     }
 
     if (hasError) return;
-      const _id = editId
+      const _id = editData._id
       const unit_name = unit
       const data = await editUnitData({_id,unit_name,short_name})
       if (data.success) {

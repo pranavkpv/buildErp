@@ -1,14 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { putCategory } from "../../api/CategoryApi/category";
+import type { CategoryInput } from "ApiInterface/CategoryApiInterface";
 
 
 
 type CategoryProps = {
-  editId: string;
   enable: boolean;
-  editCategory: string;
-  editDescription: string;
+  editData: CategoryInput
   setEnable: React.Dispatch<React.SetStateAction<boolean>>;
   onUpdate: () => void;
 };
@@ -16,20 +15,18 @@ type CategoryProps = {
 function EditCategory({
   enable,
   setEnable,
-  editId,
-  editCategory,
-  editDescription,
+  editData,
   onUpdate,
 }: CategoryProps) {
-  const [category, setCategory] = useState(editCategory);
-  const [description, setDescription] = useState(editDescription);
+  const [category, setCategory] = useState(editData.category_name);
+  const [description, setDescription] = useState(editData.description);
   const catRef = useRef<HTMLParagraphElement>(null);
 
   // Update local state when props change (when a different category is selected for edit)
   useEffect(() => {
-    setCategory(editCategory);
-    setDescription(editDescription);
-  }, [editCategory, editDescription]);
+    setCategory(editData.category_name);
+    setDescription(editData.description);
+  }, [editData.category_name, editData.description]);
 
   const editSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,16 +42,16 @@ function EditCategory({
         catRef.current.innerText = "";
       }
     }
-      const _id= editId
-      const category_name=category
-      const data = await putCategory({_id,category_name,description})
-      if (data.success) {
-        toast.success(data.message);
-        onUpdate(); 
-        setEnable(false); 
-      } else {
-        toast.error(data.message);
-      }
+    const _id = editData._id
+    const category_name = category
+    const data = await putCategory({ _id, category_name, description })
+    if (data.success) {
+      toast.success(data.message);
+      onUpdate();
+      setEnable(false);
+    } else {
+      toast.error(data.message);
+    }
   };
 
   if (!enable) return null;

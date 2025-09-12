@@ -1,11 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { putLabour } from "../../../api/Admin/labour";
+import type { labourData } from "ApiInterface/labour.interface";
 
 type labourProps = {
-  labourId: string;
-  lab_type: string;
-  wage: number;
+  editData:labourData
   editEnable: boolean;
   setEditEnable: React.Dispatch<React.SetStateAction<boolean>>;
   onSuccessEdit: () => void;
@@ -14,20 +13,18 @@ type labourProps = {
 function LabourEdit({
   editEnable,
   setEditEnable,
-  labourId,
-  lab_type,
-  wage,
+  editData,
   onSuccessEdit,
 }: labourProps) {
-  const [labourData, setLabour] = useState(lab_type);
-  const [wageData, setWage] = useState(wage);
+  const [labourData, setLabour] = useState(editData.labour_type);
+  const [wageData, setWage] = useState(editData.daily_wage);
   const labourRef = useRef<HTMLParagraphElement>(null);
 
   // Update local state when props change (when a different item is selected for edit)
   useEffect(() => {
-    setLabour(lab_type);
-    setWage(wage);
-  }, [lab_type, wage]);
+    setLabour(editData.labour_type);
+    setWage(editData.daily_wage);
+  }, [editData.labour_type, editData.daily_wage]);
 
   const editLabour = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,7 +41,7 @@ function LabourEdit({
       toast.warning("Daily wage must be a positive number.");
       return;
     }
-      const _id = labourId
+      const _id = editData._id
       const labour_type = labourData
       const daily_wage = wageData
       const data = await putLabour({_id, labour_type, daily_wage})

@@ -16,7 +16,6 @@ export class sitemanagerMapper implements ISitemanagerMapper {
         return sitemanager.map((element) => ({
             _id: element._id,
             email: element.email,
-            password: element.password,
             username: element.username,
         }));
     }

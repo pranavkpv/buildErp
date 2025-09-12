@@ -172,6 +172,7 @@ function AddStage({ addEnable, setAddEnable ,onAddSuccess}: stageProp) {
                      type="date"
                      className="w-full px-4 py-2.5 bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors duration-200 text-gray-100 placeholder-gray-400 text-sm"
                      placeholder="Start date"
+                     min={new Date().toISOString().split("T")[0]}
                   />
                   <p ref={startRef}></p>
                </div>
@@ -195,6 +196,7 @@ function AddStage({ addEnable, setAddEnable ,onAddSuccess}: stageProp) {
                      type="date"
                      className="w-full px-4 py-2.5 bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors duration-200 text-gray-100 placeholder-gray-400 text-sm"
                      placeholder="End date"
+                     min={new Date().toISOString().split("T")[0]}
                   />
                   <p ref={endRef}></p>
                </div>
@@ -251,6 +253,7 @@ function AddStage({ addEnable, setAddEnable ,onAddSuccess}: stageProp) {
                                  <td className="px-6 py-4 w-[20%]">
                                     <input placeholder="enter startdate"
                                        type="date"
+                                       min={new Date().toISOString().split("T")[0]}
                                        className="w-full px-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors duration-200 text-gray-100 placeholder-gray-400 text-sm"
                                        value={stage.start_date}
                                        onChange={(e) => {
@@ -265,6 +268,7 @@ function AddStage({ addEnable, setAddEnable ,onAddSuccess}: stageProp) {
                                        type="date"
                                        className="w-full px-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors duration-200 text-gray-100 placeholder-gray-400 text-sm"
                                        value={stage.end_date}
+                                       min={new Date().toISOString().split("T")[0]}
                                        onChange={(e) => {
                                           const updatedStages = [...stages];
                                           if (e.target.value < updatedStages[index].start_date) {

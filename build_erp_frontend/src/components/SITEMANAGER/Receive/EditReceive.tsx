@@ -156,6 +156,7 @@ function EditReceive({ editId, editEnable, setEditEnable, onEditSuccess, editDat
                 placeholder="Select date"
                 type="date"
                 value={date}
+                min={new Date().toISOString().split("T")[0]}
                 onChange={(e) => setDate(e.target.value)}
                 className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 text-white"
               />
