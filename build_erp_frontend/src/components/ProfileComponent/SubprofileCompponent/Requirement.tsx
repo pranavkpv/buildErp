@@ -29,10 +29,9 @@ interface Prop {
   setRequireOn: React.Dispatch<React.SetStateAction<boolean>>;
   setConfirmEnable: React.Dispatch<React.SetStateAction<boolean>>;
   projectId: string;
-  onSuccess: (updatedProject: ProjectData) => void;
 }
 
-function Requirement({ requireOn, setRequireOn, setConfirmEnable, projectId, onSuccess }: Prop) {
+function Requirement({ requireOn, setRequireOn, setConfirmEnable, projectId }: Prop) {
   const [specs, setSpecs] = useState<SpecData[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const { spec_id, setSpecId } = useContext(RequirementContext);

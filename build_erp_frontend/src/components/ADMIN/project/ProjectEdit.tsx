@@ -1,7 +1,7 @@
 import { fetchUser, putProject } from "../../../api/project";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
-import MapIntegrationApp from "../Map/Map";
+import MapIntegrationApp from "../../ProfileComponent/Map/Map";
 import type { ProjectType } from "ApiInterface/project.interface";
 
 type UserType = {
@@ -30,7 +30,6 @@ function EditProject({
   setEnableEdit,
   onEditSuccess,
 }: EditProjectProp) {
-
   if (!editEnable) return null;
 
   const [project_name, setProjectName] = useState(editData.project_name);
@@ -40,9 +39,12 @@ function EditProject({
   const [mobile_number, setMobile] = useState(editData.mobile_number);
   const [description, setDescription] = useState(editData.description);
   const [area, setArea] = useState<number>(editData.area);
+  const [cost, setCost] = useState<number>(editData.cost || 0);
+  const [floors, setFloors] = useState<number>(editData.floor || 1);
   const [userList, setUserList] = useState<UserType[]>([]);
   const [onMap, setOnMap] = useState(false);
   const [selectedLocation, setSelectedLocation] = useState<Location | null>({ lat: editData.lat, lng: editData.long, name: editData.address });
+  const [type,setType] = useState("")
 
   const projectRef = useRef<HTMLParagraphElement>(null);
   const userRef = useRef<HTMLParagraphElement>(null);
@@ -50,6 +52,8 @@ function EditProject({
   const addressRef = useRef<HTMLParagraphElement>(null);
   const mobileRef = useRef<HTMLParagraphElement>(null);
   const areaRef = useRef<HTMLParagraphElement>(null);
+  const costRef = useRef<HTMLParagraphElement>(null);
+  const floorsRef = useRef<HTMLParagraphElement>(null);
   const descriptionRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
@@ -60,8 +64,11 @@ function EditProject({
     setMobile(editData.mobile_number);
     setDescription(editData.description);
     setArea(editData.area);
-    setSelectedLocation({ lat: editData.lat, lng: editData.long, name: editData.address })
-  });
+    setCost(editData.cost || 0);
+    setFloors(editData.floor || 1);
+    setSelectedLocation({ lat: editData.lat, lng: editData.long, name: editData.address });
+    setType(editData.project_type)
+  }, [editData]);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -72,7 +79,6 @@ function EditProject({
   }, []);
 
   const editFormSubmit = async (e: React.FormEvent) => {
-    console.log(selectedLocation)
     e.preventDefault();
 
     let hasError = false;
@@ -119,6 +125,20 @@ function EditProject({
       areaRef.current.innerText = "";
     }
 
+    if (cost <= 0) {
+      if (costRef.current) costRef.current.innerText = "Cost must be greater than zero.";
+      hasError = true;
+    } else if (costRef.current) {
+      costRef.current.innerText = "";
+    }
+
+    if (floors <= 0) {
+      if (floorsRef.current) floorsRef.current.innerText = "Number of floors must be greater than zero.";
+      hasError = true;
+    } else if (floorsRef.current) {
+      floorsRef.current.innerText = "";
+    }
+
     if (!selectedLocation) {
       if (addressRef.current) addressRef.current.innerText = "Please select a location on the map.";
       hasError = true;
@@ -127,22 +147,25 @@ function EditProject({
     if (hasError) return;
 
     let latitude = selectedLocation?.lat;
-    let longitude = selectedLocation?.lng
-    if (!latitude || !longitude) return
-    const data = await putProject(
-      {
-        _id: editData._id,
-        project_name,
-        user_id,
-        address,
-        mobile_number,
-        email,
-        area,
-        description,
-        latitude,
-        longitude
-      }
-    );
+    let longitude = selectedLocation?.lng;
+    if (!latitude || !longitude) return;
+
+    const data = await putProject({
+      _id: editData._id,
+      project_name,
+      type,
+      user_id,
+      address,
+      mobile_number: Number(mobile_number),
+      email,
+      area,
+      cost,
+      floor: floors,
+      description,
+      latitude,
+      longitude
+    });
+
     if (data.success) {
       toast.success(data.message);
       setEnableEdit(false);
@@ -153,14 +176,14 @@ function EditProject({
       setMobile("");
       setDescription("");
       setArea(0);
+      setCost(0);
+      setFloors(1);
       setSelectedLocation(null);
       onEditSuccess();
     } else {
       toast.error(data.message);
     }
   };
-
-
 
   return (
     <div className="fixed inset-0 bg-gray-900/80 flex items-center justify-center z-50 p-4 sm:p-6">
@@ -187,6 +210,26 @@ function EditProject({
               className="w-full px-4 py-2.5 bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors duration-200 text-gray-100 placeholder-gray-400 text-sm sm:text-base"
             />
             <p ref={projectRef} className="text-sm text-red-400 mt-2"></p>
+          </div>
+          <div>
+            <label htmlFor="type" className="block text-sm font-medium text-gray-200 mb-2">
+              Project Type *
+            </label>
+            <select
+              id="type"
+              name="type"
+              onChange={(e) => {
+                setType(e.target.value)
+              }}
+              value={type}
+              className="w-full px-4 py-2.5 bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors duration-200 text-gray-100 placeholder-gray-400 text-sm sm:text-base"
+            >
+              <option value="">Select project type</option>
+              <option value="residential">Residential</option>
+              <option value="commercial">Commercial</option>
+              <option value="industrial">Industrial</option>
+              <option value="mixed-use">Mixed-Use</option>
+            </select>
           </div>
 
           {/* Client */}
@@ -282,6 +325,38 @@ function EditProject({
             />
             <p ref={areaRef} className="text-sm text-red-400 mt-2"></p>
           </div>
+
+          {/* Cost */}
+          <div>
+            <label htmlFor="cost" className="block text-sm font-medium text-gray-200 mb-2">
+              Budget Cost ($)
+            </label>
+            <input
+              id="cost"
+              type="number"
+              value={cost}
+              onChange={(e) => setCost(Number(e.target.value))}
+              placeholder="Enter budget cost"
+              className="w-full px-4 py-2.5 bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors duration-200 text-gray-100 placeholder-gray-400 text-sm sm:text-base"
+            />
+            <p ref={costRef} className="text-sm text-red-400 mt-2"></p>
+          </div>
+
+          {/* Floors */}
+          <div>
+            <label htmlFor="floors" className="block text-sm font-medium text-gray-200 mb-2">
+              Number of Floors
+            </label>
+            <input
+              id="floors"
+              type="number"
+              value={floors}
+              onChange={(e) => setFloors(Number(e.target.value))}
+              placeholder="Enter number of floors"
+              className="w-full px-4 py-2.5 bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors duration-200 text-gray-100 placeholder-gray-400 text-sm sm:text-base"
+            />
+            <p ref={floorsRef} className="text-sm text-red-400 mt-2"></p>
+          </div>
         </div>
 
         {/* Description */}
@@ -312,6 +387,8 @@ function EditProject({
               setMobile("");
               setDescription("");
               setArea(0);
+              setCost(0);
+              setFloors(1);
               setSelectedLocation(null);
             }}
             className="bg-gray-600 hover:bg-gray-700 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition-colors duration-200"

@@ -4,7 +4,6 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import axios from 'axios';
 
-
 delete (L.Icon.Default.prototype as any)._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.3/dist/images/marker-icon-2x.png',
@@ -51,9 +50,9 @@ function MapIntegrationApp({ address, onMap, setOnMap, setSelectedLocation, sele
     if (!searchQuery) return;
     try {
       const response = await axios.get(
-        `https://nominatim.openstreetmap.org/search?format=json&q=${ encodeURIComponent(
+        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
           searchQuery
-        ) }&addressdetails=1&limit=10`
+        )}&addressdetails=1&limit=10`
       );
       const results = response.data.map((item: actualLocation) => ({
         lat: parseFloat(item.lat),
@@ -88,9 +87,9 @@ function MapIntegrationApp({ address, onMap, setOnMap, setSelectedLocation, sele
   };
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-6 bg-white rounded-2xl shadow-xl p-6 sm:p-8">
       <div className="flex items-center justify-between">
-        <h2 className="text-xl sm:text-2xl font-bold text-gray-100">Select Location</h2>
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Select Location</h2>
         <button
           type="button"
           onClick={() => {
@@ -100,24 +99,24 @@ function MapIntegrationApp({ address, onMap, setOnMap, setSelectedLocation, sele
             }
           }}
           disabled={!selectedLocation}
-          className="bg-teal-600 hover:bg-teal-700 disabled:bg-gray-600 disabled:cursor-not-allowed text-white px-5 py-2.5 rounded-lg text-sm font-medium transition-colors duration-200"
+          className="bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-400 disabled:cursor-not-allowed text-white px-5 py-3 rounded-lg text-sm font-medium transition-colors duration-200"
         >
           Save Location
         </button>
       </div>
 
-      <div className="flex gap-2">
+      <div className="flex gap-4">
         <input
           type="text"
           placeholder="Search location (e.g., Brototype Kochi)"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="flex-grow px-4 py-2.5 bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors duration-200 text-gray-100 placeholder-gray-400 text-sm sm:text-base"
+          className="flex-grow px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200 bg-gray-50 text-gray-900 placeholder-gray-400 text-sm sm:text-base"
         />
         <button
           type="button"
           onClick={handleSearch}
-          className="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2.5 rounded-lg text-sm font-medium transition-colors duration-200"
+          className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-3 rounded-lg text-sm font-medium transition-colors duration-200"
         >
           Search
         </button>
@@ -125,7 +124,7 @@ function MapIntegrationApp({ address, onMap, setOnMap, setSelectedLocation, sele
 
       <select
         aria-label="select location"
-        className="w-full px-4 py-2.5 bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors duration-200 text-gray-100 text-sm sm:text-base"
+        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200 bg-gray-50 text-gray-900 text-sm sm:text-base"
         onChange={(e) => {
           const loc = [...locations, ...searchResults].find((l) => l.name === e.target.value);
           setSelectedLocation(loc || null);
@@ -135,12 +134,12 @@ function MapIntegrationApp({ address, onMap, setOnMap, setSelectedLocation, sele
       >
         <option value="">Select a location</option>
         {locations.map((loc) => (
-          <option key={`saved-${ loc.lat }-${ loc.lng }`} value={loc.name}>
+          <option key={`saved-${loc.lat}-${loc.lng}`} value={loc.name}>
             {loc.name} (Saved)
           </option>
         ))}
         {searchResults.map((loc) => (
-          <option key={`search-${ loc.lat }-${ loc.lng }`} value={loc.name}>
+          <option key={`search-${loc.lat}-${loc.lng}`} value={loc.name}>
             {loc.name}
           </option>
         ))}
@@ -148,7 +147,7 @@ function MapIntegrationApp({ address, onMap, setOnMap, setSelectedLocation, sele
 
       {selectedLocation && (
         <div>
-          <label htmlFor="locationName" className="block text-sm font-medium text-gray-200 mb-2">
+          <label htmlFor="locationName" className="block text-sm font-medium text-gray-700 mb-2">
             Location Name
           </label>
           <input
@@ -157,7 +156,7 @@ function MapIntegrationApp({ address, onMap, setOnMap, setSelectedLocation, sele
             placeholder="Enter location name"
             value={newLocationName}
             onChange={(e) => setNewLocationName(e.target.value)}
-            className="w-full px-4 py-2.5 bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors duration-200 text-gray-100 placeholder-gray-400 text-sm sm:text-base"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200 bg-gray-50 text-gray-900 placeholder-gray-400 text-sm sm:text-base"
           />
         </div>
       )}
@@ -166,7 +165,7 @@ function MapIntegrationApp({ address, onMap, setOnMap, setSelectedLocation, sele
         center={[51.505, -0.09]}
         zoom={13}
         style={{ height: '400px', width: '100%', borderRadius: '8px', overflow: 'hidden' }}
-        className="border border-gray-600"
+        className="border border-gray-300 shadow-sm"
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -174,12 +173,12 @@ function MapIntegrationApp({ address, onMap, setOnMap, setSelectedLocation, sele
         />
         <MapViewUpdater location={selectedLocation} />
         {locations.map((loc) => (
-          <Marker key={`saved-${ loc.lat }-${ loc.lng }`} position={[loc.lat, loc.lng]}>
+          <Marker key={`saved-${loc.lat}-${loc.lng}`} position={[loc.lat, loc.lng]}>
             <Popup>{loc.name} (Saved)</Popup>
           </Marker>
         ))}
         {searchResults.map((loc) => (
-          <Marker key={`search-${ loc.lat }-${ loc.lng }`} position={[loc.lat, loc.lng]}>
+          <Marker key={`search-${loc.lat}-${loc.lng}`} position={[loc.lat, loc.lng]}>
             <Popup>{loc.name}</Popup>
           </Marker>
         ))}
@@ -194,9 +193,9 @@ function MapIntegrationApp({ address, onMap, setOnMap, setSelectedLocation, sele
         <button
           type="button"
           onClick={() => setOnMap(false)}
-          className="bg-gray-600 hover:bg-gray-700 text-white px-5 py-2.5 rounded-lg text-sm font-medium transition-colors duration-200"
+          className="bg-gray-600 hover:bg-gray-700 text-white px-5 py-3 rounded-lg text-sm font-medium transition-colors duration-200"
         >
-          save
+          Cancel
         </button>
       </div>
     </div>

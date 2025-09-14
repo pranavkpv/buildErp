@@ -24,7 +24,7 @@ interface Prop {
   confirmEnable: boolean;
   setConfirmEnable: React.Dispatch<React.SetStateAction<boolean>>;
   projectId: string;
-  onSuccess: (updatedProject: ProjectData) => void;
+  setIsSubmitted: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 interface MaterialData {
@@ -36,7 +36,7 @@ interface BrandSelection {
   [material_name: string]: string;
 }
 
-function ConfirmBrandSelection({ confirmEnable, setConfirmEnable, projectId, onSuccess }: Prop) {
+function ConfirmBrandSelection({ confirmEnable, setConfirmEnable, projectId, setIsSubmitted }: Prop) {
   const { spec_id, materialDetails, setMaterialDetails } = useContext(RequirementContext);
   const [materials, setMaterials] = useState<MaterialData[]>([]);
   const [currentMaterialIndex, setCurrentMaterialIndex] = useState(0);
@@ -97,8 +97,10 @@ function ConfirmBrandSelection({ confirmEnable, setConfirmEnable, projectId, onS
         const response = await saveRequirement({ materialDetails: materialBrands, spec_id, projectId });
         if (response.success) {
           toast.success(response.message);
-          onSuccess(response.data);
           setConfirmEnable(false);
+          setTimeout(() => {
+            setIsSubmitted(false)
+          }, 3000)
         } else {
           toast.error(response.message);
         }
@@ -161,15 +163,14 @@ function ConfirmBrandSelection({ confirmEnable, setConfirmEnable, projectId, onS
                   {materials[currentMaterialIndex].brand_name.map((brand) => (
                     <div
                       key={brand}
-                      className={`flex items-center gap-3 p-3 border rounded-lg transition-colors duration-200 ${
-                        selectedBrands[materials[currentMaterialIndex].material_name] === brand
+                      className={`flex items-center gap-3 p-3 border rounded-lg transition-colors duration-200 ${ selectedBrands[materials[currentMaterialIndex].material_name] === brand
                           ? 'border-indigo-600 bg-indigo-50'
                           : 'border-gray-200 hover:bg-gray-50'
-                      }`}
+                        }`}
                     >
                       <input
                         type="radio"
-                        id={`${materials[currentMaterialIndex].material_name}-${brand}`}
+                        id={`${ materials[currentMaterialIndex].material_name }-${ brand }`}
                         name={materials[currentMaterialIndex].material_name}
                         value={brand}
                         checked={selectedBrands[materials[currentMaterialIndex].material_name] === brand}
@@ -177,7 +178,7 @@ function ConfirmBrandSelection({ confirmEnable, setConfirmEnable, projectId, onS
                         className="w-5 h-5 text-indigo-600 border-gray-300 focus:ring-indigo-500 cursor-pointer"
                       />
                       <label
-                        htmlFor={`${materials[currentMaterialIndex].material_name}-${brand}`}
+                        htmlFor={`${ materials[currentMaterialIndex].material_name }-${ brand }`}
                         className="text-gray-700 text-base sm:text-lg font-medium cursor-pointer flex-1"
                       >
                         {brand}

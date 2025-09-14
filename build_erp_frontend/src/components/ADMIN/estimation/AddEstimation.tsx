@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { PlusCircleIcon, MinusCircleIcon } from "@heroicons/react/24/outline";
 import {  getSpec, sumOfLabourFun, sumOfMaterialFun } from "../../../api/Specification";
-import { getProjectAll } from "../../../api/project";
+import { getPendingAllProject, getProjectAll } from "../../../api/project";
 import { EstimationSave } from "../../../api/Estimation";
 
 type rowData = {
@@ -57,7 +57,7 @@ function AddEstimation({ addEnable, setAddEnable, anAddSuccess, projectIds }: ad
   const [projectId, setProjectId] = useState("");
 
   const fetchProject = async () => {
-    const response = await getProjectAll();
+    const response = await getPendingAllProject();
     setProject(response.data);
   };
 

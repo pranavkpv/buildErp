@@ -6,6 +6,7 @@ export interface publicstageDTO {
    start_date: Date;
    end_date: Date;
    stage_amount: number;
+   stage_per:number;
    progress: number;
    status_date: Date;
    stage_image:IStageImageEntry[]
@@ -16,5 +17,6 @@ export interface stageListDTO {
    project_name: string;
    start_date: Date;
    end_date: Date;
+   budgeted_cost:number
 }
 

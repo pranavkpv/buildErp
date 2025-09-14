@@ -8,6 +8,8 @@ export interface IProjectModelEntity{
    description:string
    area:number
    status:string
+   project_type:string
+   floor:number
    sitemanager_id?:string
    start_date : Date
    end_date : Date

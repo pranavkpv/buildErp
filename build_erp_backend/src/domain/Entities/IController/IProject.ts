@@ -19,7 +19,7 @@ export interface IProjectController {
       Promise<commonOutput<userLoginDTO[]> | commonOutput | void>
 
    createProject(req: Request, res: Response, next: NextFunction):
-      Promise<commonOutput | void>
+      Promise<commonOutput<string> | commonOutput | void>
 
    updateProject(req: Request, res: Response, next: NextFunction):
       Promise<commonOutput | void>
@@ -35,5 +35,8 @@ export interface IProjectController {
 
    getSitemanagersProjectsWithCompletion(req: Request, res: Response, next: NextFunction):
      Promise<commonOutput<{data:displayProjectWithCompletionDTO[],totalPages:number}> | void>
+
+   getPendingProjects(req: Request, res: Response, next: NextFunction):
+     Promise<commonOutput<fetchProjectIdnameDTO[]> | void>
 
 }

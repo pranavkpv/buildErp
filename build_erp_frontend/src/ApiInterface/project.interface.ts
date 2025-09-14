@@ -1,17 +1,13 @@
 export interface addProjectInterface {
    project_name: string,
-   user_id: string,
+   type: string
+   floor: number
+   cost: number
    address: string,
-   mobile_number: string,
-   email: string,
    area: number,
    description: string,
    latitude: number,
    longitude: number
-}
-
-export interface editProjectInterface extends addProjectInterface {
-   _id: string
 }
 
 interface Location {
@@ -30,6 +26,9 @@ export interface ProjectType {
    area: number;
    lat: number;
    long: number;
+   cost: number;
+   floor: number;
+   project_type:string;
    userDetails: {
       _id: string;
       username: string;
@@ -41,9 +40,22 @@ export interface ProjectType {
 
 
 export interface datakeyInterface {
-  project_name: string,
-  userDetails: {
-    username: string
-  },
-  status:string
+   project_name: string,
+   userDetails: {
+      username: string
+   },
+   status: string
 }
+
+export interface editProjectInterface {
+   _id: string, project_name: string,type:string, user_id: string,
+   address: string, mobile_number: number, email: string,
+   area: number, description: string, latitude: number, longitude: number,
+   cost: number,floor: number,
+}
+
+
+
+
+
+

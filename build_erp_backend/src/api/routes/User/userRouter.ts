@@ -6,6 +6,8 @@ import { validatechangePassword, validateUpdateprofile, validateUpdateProfileIma
 import { injecteduserprofileController } from '../../DI/UserProfile';
 import { injectSpecController } from '../../DI/Specification';
 import { injectedRequirementController, injectEstimationController } from '../../DI/Estimation';
+import { validateProjectAdd } from '../../../infrastructure/middlewares/validation/project.validation';
+import { injectedProjectController } from '../../DI/Project';
 
 export class userRoute {
     public userRoute: Router;
@@ -112,5 +114,9 @@ export class userRoute {
             '/approveEstimation/:id',
             withLogging(injectEstimationController.ApproveEstimation),
         );
+        this.userRoute.post(
+            '/project',
+            validateProjectAdd,
+            withLogging(injectedProjectController.createProject));
     }
 }

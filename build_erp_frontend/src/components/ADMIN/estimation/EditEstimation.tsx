@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { PlusCircleIcon, MinusCircleIcon } from "@heroicons/react/24/outline";
-import {  getProjectAll } from "../../../api/project";
+import {  getPendingAllProject, getProjectAll } from "../../../api/project";
 import { getSpec, sumOfLabourFun, sumOfMaterialFun } from "../../../api/Specification";
 import { EstimationUpdate, fetchExistEstimation } from "../../../api/Estimation";
 
@@ -59,7 +59,7 @@ function EditEstimation({ editEnable, setEditEnable, anEditSuccess, projectIds, 
    const [projectId, setProjectId] = useState(editProjectId);
 
    const fetchProject = async () => {
-      const response = await getProjectAll();
+      const response = await getPendingAllProject();
       setProject(response.data);
    };
 

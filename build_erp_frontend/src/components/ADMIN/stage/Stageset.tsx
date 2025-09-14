@@ -23,7 +23,7 @@ function ListStage() {
 
   //edit data 
   const [editEnable, setEditEnable] = useState(false)
-  const [editData, setEditData] = useState<stageDatas>({ _id: "", project_name: "", start_date: "", end_date: "" })
+  const [editData, setEditData] = useState<stageDatas>({ _id: "", project_name: "", start_date: "", end_date: "" ,budgeted_cost:0})
 
   const fetchStage = async () => {
     const response = await fetchStageDataAPI(search, page);
@@ -48,14 +48,14 @@ function ListStage() {
     if (key === "start_date") {
       return (
         <td className="px-6 py-4 text-gray-100">
-          {item.start_date.split("T")[0].split('-').reverse().join('-')}
+          {item.start_date.split("T")[0].split("-").reverse().join("-")}
         </td>
       );
     }
      if (key === "end_date") {
       return (
         <td className="px-6 py-4 text-gray-100">
-          {item.end_date.split("T")[0].split('-').reverse().join('-')}
+          {item.end_date.split("T")[0].split("-").reverse().join("-")}
         </td>
       );
     }

@@ -49,6 +49,9 @@ export interface displayProjectDTO {
    area: number;
    lat: number;
    long: number;
+   cost:number;
+   floor:number;
+   project_type:string;
    userDetails: {
       _id: string;
       username: string;

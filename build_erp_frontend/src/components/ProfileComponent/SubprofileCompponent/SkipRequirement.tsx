@@ -22,10 +22,10 @@ interface Prop {
   skipOn: boolean;
   setSkipOn: React.Dispatch<React.SetStateAction<boolean>>;
   projectId: string;
-  onSuccess: (updatedProject: ProjectData) => void;
+  setIsSubmitted: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-function SkipRequirement({ skipOn, setSkipOn, projectId, onSuccess }: Prop) {
+function SkipRequirement({ skipOn, setSkipOn, projectId, setIsSubmitted }: Prop) {
   const [isLoading, setIsLoading] = useState(false);
 
   if (!skipOn) return null;
@@ -36,8 +36,10 @@ function SkipRequirement({ skipOn, setSkipOn, projectId, onSuccess }: Prop) {
       const response = await adminRequireApi(projectId);
       if (response.success) {
         toast.success(response.message);
-        onSuccess(response.data);
-        setSkipOn(false);
+        setTimeout(() => {
+          setSkipOn(false);
+          setIsSubmitted(false)
+        },3000)
       } else {
         toast.error(response.message);
       }

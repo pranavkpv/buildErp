@@ -8,15 +8,14 @@ import { commonOutput } from '../../dto/common';
 
 export class EditProjectUseCase implements IEditProjectUseCase {
     constructor(
-      private _projectRepository: IprojectRepository,
+        private _projectRepository: IprojectRepository,
     ) { }
     async execute(input: editProjectInput): Promise<commonOutput> {
-        const { _id, project_name, user_id, address, mobile_number, email, area, description, latitude, longitude } = input;
-        const existData = await this._projectRepository.checkDuplicateProjectInEdit(_id, project_name);
+        const existData = await this._projectRepository.checkDuplicateProjectInEdit(input._id, input.project_name);
         if (existData) {
             return ResponseHelper.conflictData(ProjectFailedMessage.EXIST_PROJECT);
         }
-        await this._projectRepository.UpdateProjectById({ _id, project_name, user_id, address, mobile_number, email, area, description, latitude, longitude });
+        await this._projectRepository.UpdateProjectById(input);
         return ResponseHelper.success(ProjectSuccessMessage.UPDATE);
     }
 }

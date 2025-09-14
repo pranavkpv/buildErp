@@ -14,6 +14,8 @@ import { userLoginDTO } from '../../application/dto/user.dto';
 import { IFetchProjectCountandStatusUseCase } from '../../application/IUseCases/IProject/IFetchProjectCountandStatus';
 import { IJwtService } from '../../domain/Entities/Service.Entities/IJwtservice';
 import { IfetchProjectWithCompletionUseCase } from '../../application/IUseCases/IProject/IfetchProjectWithCompletion';
+import { ResponseHelper } from '../../Shared/responseHelpers/response';
+import { IGetPendingProjectUseCase } from '../../application/IUseCases/IProject/IGetPendingProject';
 
 export class ProjectController implements IProjectController {
     constructor(
@@ -27,11 +29,12 @@ export class ProjectController implements IProjectController {
         private _changeStatusUseCase: IChangeStatusUseCase,
         private _fetchProjectCountandStatus: IFetchProjectCountandStatusUseCase,
         private _jwtservice: IJwtService,
-        private _fetchProjectwithCompletionUseCase:IfetchProjectWithCompletionUseCase,
+        private _fetchProjectwithCompletionUseCase: IfetchProjectWithCompletionUseCase,
+        private _getPendingProjectsUseCase:IGetPendingProjectUseCase
     ) { }
 
     //  Fetch projects available for assigning site managers
-    getProjectsForSiteManager = async(req: Request, res: Response, next: NextFunction):
+    getProjectsForSiteManager = async (req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<fetchProjectIdnameDTO[]> | commonOutput | void> => {
         try {
             const result = await this._addSiteToProjectFetchProjectUseCase.execute();
@@ -42,7 +45,7 @@ export class ProjectController implements IProjectController {
     };
 
     //  Fetch all projects
-    getAllProjects = async(req: Request, res: Response, next: NextFunction):
+    getAllProjects = async (req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<fetchProjectIdnameDTO[]> | commonOutput | void> => {
         try {
             const result = await this._fetchProjectUseCase.execute();
@@ -53,7 +56,7 @@ export class ProjectController implements IProjectController {
     };
 
     // Fetch paginated & searchable project list
-    getPaginatedProjects = async(req: Request, res: Response, next: NextFunction):
+    getPaginatedProjects = async (req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<{ data: displayProjectDTO[], totalPage: number }> | commonOutput | void> => {
         try {
             const { page, search } = req.query;
@@ -65,7 +68,7 @@ export class ProjectController implements IProjectController {
     };
 
     //  Fetch data needed before adding a project (e.g., user list)
-    getAddProjectData = async(req: Request, res: Response, next: NextFunction):
+    getAddProjectData = async (req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<userLoginDTO[]> | commonOutput | void> => {
         try {
             const result = await this._displayAddProjectUseCase.execute();
@@ -76,10 +79,15 @@ export class ProjectController implements IProjectController {
     };
 
     // Save new project
-    createProject = async(req: Request, res: Response, next: NextFunction):
-        Promise<commonOutput | void> => {
+    createProject = async (req: Request, res: Response, next: NextFunction):
+        Promise<commonOutput<string> | commonOutput | void> => {
         try {
-            const result = await this._addProjectUseCase.execute(req.body);
+            const userHeader = req.headers.authorization;
+            const accessToken = userHeader?.split(' ')[1];
+            if (!accessToken) return ResponseHelper.unAuthor();
+            const payload = await this._jwtservice.verifyAccessToken(accessToken);
+            if (!payload) return ResponseHelper.unAuthor();
+            const result = await this._addProjectUseCase.execute({ _id: payload._id, ...req.body });
             return result;
         } catch (error) {
             return next(error);
@@ -87,7 +95,7 @@ export class ProjectController implements IProjectController {
     };
 
     // Update existing project
-    updateProject = async(req: Request, res: Response, next: NextFunction):
+    updateProject = async (req: Request, res: Response, next: NextFunction):
         Promise<commonOutput | void> => {
         try {
             const result = await this._editProjectUseCase.execute({ _id: req.params.id, ...req.body });
@@ -98,7 +106,7 @@ export class ProjectController implements IProjectController {
     };
 
     // Delete a project
-    deleteProject = async(req: Request, res: Response, next: NextFunction):
+    deleteProject = async (req: Request, res: Response, next: NextFunction):
         Promise<commonOutput | void> => {
         try {
             const result = await this._deleteProjectUseCase.execute(req.params.id);
@@ -109,7 +117,7 @@ export class ProjectController implements IProjectController {
     };
 
     // Change project status (active/inactive)
-    changeProjectStatus = async(req: Request, res: Response, next: NextFunction):
+    changeProjectStatus = async (req: Request, res: Response, next: NextFunction):
         Promise<commonOutput | void> => {
         try {
             const result = await this._changeStatusUseCase.execute(req.params.id, req.body.status);
@@ -119,7 +127,7 @@ export class ProjectController implements IProjectController {
         }
     };
 
-    fetchAllProjectwithStatusAndcount = async(req: Request, res: Response, next: NextFunction):
+    fetchAllProjectwithStatusAndcount = async (req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<displayStatusCountDTO[]> | commonOutput | void> => {
         try {
             const result = await this._fetchProjectCountandStatus.execute();
@@ -128,8 +136,8 @@ export class ProjectController implements IProjectController {
             next(error);
         }
     };
-    getSitemanagersProjectsWithCompletion = async(req: Request, res: Response, next: NextFunction):
-        Promise<commonOutput<{data:displayProjectWithCompletionDTO[],totalPages:number}> | void> => {
+    getSitemanagersProjectsWithCompletion = async (req: Request, res: Response, next: NextFunction):
+        Promise<commonOutput<{ data: displayProjectWithCompletionDTO[], totalPages: number }> | void> => {
         try {
             const header = req.headers.authorization?.split(' ')[1];
             if (!header) {
@@ -139,11 +147,20 @@ export class ProjectController implements IProjectController {
             if (!payload) {
                 return;
             }
-            const { page,search } = req.query;
-            const result = await this._fetchProjectwithCompletionUseCase.execute(payload._id,Number(page),String(search));
+            const { page, search } = req.query;
+            const result = await this._fetchProjectwithCompletionUseCase.execute(payload._id, Number(page), String(search));
             return result;
         } catch (error) {
             next(error);
         }
     };
+    getPendingProjects = async (req: Request, res: Response, next: NextFunction):
+        Promise<commonOutput<fetchProjectIdnameDTO[]> | void> => {
+        try {
+            const result = await this._getPendingProjectsUseCase.execute();
+            return result;
+        } catch (error) {
+            next(error);
+        }
+    }
 }

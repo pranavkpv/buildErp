@@ -2,7 +2,7 @@ import { projectDB } from '../../api/models/ProjectModel';
 import { chatListDTO } from '../../application/dto/user.dto';
 import { AddsitetoprojectInput } from '../../application/Entities/addsitemanagertoproject.entity';
 import { listingInput } from '../../application/Entities/common.entity';
-import { addProjectInput, editProjectInput, groupedProjectwithStatus, projectwithClient, statusBaseProjectInput, userBaseChatoutput } from '../../application/Entities/project.entity';
+import { createProjectInterface, editProjectInput, groupedProjectwithStatus, projectwithClient, statusBaseProjectInput, userBaseChatoutput } from '../../application/Entities/project.entity';
 import { costInput } from '../../application/Entities/stage.entity';
 import { IProjectModelEntity } from '../../domain/Entities/modelEntities/project.entity';
 import { IprojectRepository } from '../../domain/Entities/IRepository/IProject';
@@ -72,8 +72,8 @@ export class ProjectRepository implements IprojectRepository {
     }
 
     //  Create new project
-    async createProject(input: addProjectInput): Promise<void> {
-        const { project_name, user_id, address, mobile_number, email, area, description, latitude, longitude } = input;
+    async createProject(input: createProjectInterface): Promise<IProjectModelEntity> {
+        const { user_id, project_name, type, floor, cost, address, area, description, latitude, longitude, email, mobile_number } = input;
         const newProject = new projectDB({
             project_name,
             user_id,
@@ -85,9 +85,13 @@ export class ProjectRepository implements IprojectRepository {
             status: 'pending',
             latitude,
             longitude,
+            project_type: type,
+            floor,
+            budgeted_cost: cost
         });
 
-        await newProject.save();
+        const data = await newProject.save();
+        return data
     }
 
     // Check duplicate project name while editing
@@ -101,7 +105,7 @@ export class ProjectRepository implements IprojectRepository {
 
     // Update project by ID
     async UpdateProjectById(input: editProjectInput): Promise<void> {
-        const { _id, project_name, user_id, address, mobile_number, email, area, description, latitude, longitude } = input;
+        const { _id, project_name, type, floor, cost, address, area, description, latitude, longitude, user_id, mobile_number, email } = input;
         await projectDB.findByIdAndUpdate(_id, {
             project_name,
             user_id,
@@ -112,6 +116,9 @@ export class ProjectRepository implements IprojectRepository {
             description,
             latitude,
             longitude,
+            project_type: type,
+            budgeted_cost: cost,
+            floor
         });
     }
 
@@ -139,7 +146,7 @@ export class ProjectRepository implements IprojectRepository {
 
     // Get all projects (without pagination)
     async getAllProjects(): Promise<IProjectModelEntity[]> {
-        return await projectDB.find({ status:'processing' });
+        return await projectDB.find({ status: 'processing' });
     }
 
     // Get project with cost
@@ -162,13 +169,13 @@ export class ProjectRepository implements IprojectRepository {
         const skip = input.page * 5;
 
         const data = await projectDB.find({
-            budgeted_cost: { $ne: null },
+            budgeted_cost: { $ne: null }, start_date: { $ne: null },
             project_name: { $regex: input.search, $options: 'i' },
         }).skip(skip).limit(5);
 
         const totalPage = Math.ceil(
             await projectDB.countDocuments({
-                budgeted_cost: { $ne: null },
+                budgeted_cost: { $ne: null }, start_date: { $ne: null },
                 project_name: { $regex: input.search, $options: 'i' },
             }) / 5,
         );
@@ -188,7 +195,7 @@ export class ProjectRepository implements IprojectRepository {
 
     // Get projects by sitemanager ID
     async getProjectsBySitemanagerId(user: string): Promise<IProjectModelEntity[]> {
-        return await projectDB.find({ sitemanager_id: user,status:'processing' });
+        return await projectDB.find({ sitemanager_id: user, status: 'processing' });
     }
 
     // Get projects by status with pagination
@@ -309,6 +316,12 @@ export class ProjectRepository implements IprojectRepository {
     async updateEstimationStatus(status: boolean, id: string):
         Promise<void> {
         await projectDB.findByIdAndUpdate(id, { estimateStatus: status });
+    }
+    async getAllProject(): Promise<IProjectModelEntity[]> {
+        return await projectDB.find()
+    }
+    async getProjectByStatus(status: string): Promise<IProjectModelEntity[]> {
+        return await projectDB.find({ status })
     }
 
 }

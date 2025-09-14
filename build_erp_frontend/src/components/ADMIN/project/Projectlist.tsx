@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import ProjectAdd from "./ProjectAdd";
 import DeleteProject from "./ProjectDelete";
 import EditProject from "./ProjectEdit";
 import ChangeStatus from "./Status";
@@ -13,7 +12,6 @@ import ReUsableTable from "../../../components/ReUsableComponents/ReUsableTable"
 function Project() {
   const [projectList, setProjectList] = useState<ProjectType[]>([]);
   const [search, setSearch] = useState("");
-  const [addEnable, setAddEnable] = useState(false);
   const [page, setPage] = useState(0)
   const [totalPage, setTotal] = useState(0)
 
@@ -27,7 +25,7 @@ function Project() {
   const [editEnable, setEditEnable] = useState(false);
   const [editData, setEditData] = useState<ProjectType>({
     _id: "", project_name: "", address: "", mobile_number: "", email: "", description: "",
-    area: 0, lat: 0, long: 0, userDetails: { _id: "", username: "", email: "", phone: 0 }, status: ""
+    area: 0, lat: 0, long: 0, userDetails: { _id: "", username: "", email: "", phone: 0 }, status: "",cost:0,floor:0,project_type:""
   })
 
 
@@ -38,6 +36,7 @@ function Project() {
 
   const fetchData = async () => {
     const response = await projectListData(page, search)
+    console.log(response)
     setProjectList(response.data.data);
     setTotal(Math.ceil(response.data.totalPage))
   };
@@ -118,12 +117,6 @@ function Project() {
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
-          <button
-            className="w-full sm:w-auto bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white px-6 py-3 rounded-lg shadow-md hover:shadow-xl transition-all duration-200 font-semibold text-sm"
-            onClick={() => setAddEnable(true)}
-          >
-            + Add Project
-          </button>
         </div>
 
         <div className="overflow-x-auto rounded-xl border border-gray-700/50">
@@ -157,7 +150,6 @@ function Project() {
           </div>
         </div>
       </div>
-      <ProjectAdd enableAdd={addEnable} setEnableAdd={setAddEnable} onAddSuccess={fetchData} />
 
 
       <ChangeStatus

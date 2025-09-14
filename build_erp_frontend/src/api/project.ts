@@ -1,6 +1,7 @@
 import adminAxios from '../axios/adminAxios'
 import type { addProjectInterface, editProjectInterface } from "ApiInterface/project.interface";
 import authAxios from '../axios/commonAxios'
+import userAxios from '../axios/userAxios';
 
 
 export const getProjectidandname = async () => {
@@ -27,7 +28,7 @@ export const fetchUser = async () => {
 export const postProject = async (
    input: addProjectInterface
 ) => {
-   const response = await adminAxios.post(`/project`, input);
+   const response = await userAxios.post(`/project`, input);
    return response.data;
 };
 
@@ -43,9 +44,10 @@ export const deleteProjectData = async (_id: string) => {
 export const putProject = async (
    input: editProjectInterface
 ) => {
-   const { _id, project_name, user_id, address, mobile_number, email, area, description, latitude, longitude } = input
+   const { _id, project_name,type, user_id, address, mobile_number, email, area, description, latitude, longitude, cost, floor } = input
    const response = await adminAxios.put(`/project/${ _id }`, {
       project_name,
+      type,
       user_id,
       address,
       mobile_number,
@@ -53,7 +55,7 @@ export const putProject = async (
       area,
       description,
       latitude,
-      longitude
+      longitude, cost, floor
    });
    return response.data;
 };
@@ -74,8 +76,13 @@ export const pustStatusChange = async (_id: string, status: string) => {
    return response.data;
 };
 
-export const fetchStatusandCountApi = async()=>{
+export const fetchStatusandCountApi = async () => {
    const response = await authAxios.get('/projectstatuscount')
+   return response.data
+}
+
+export const getPendingAllProject = async()=>{
+   const response = await adminAxios.get('/pendingProjects')
    return response.data
 }
 

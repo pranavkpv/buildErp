@@ -1,7 +1,7 @@
 import { chatListDTO } from '../../../application/dto/user.dto';
 import { AddsitetoprojectInput } from '../../../application/Entities/addsitemanagertoproject.entity';
 import { listingInput } from '../../../application/Entities/common.entity';
-import { addProjectInput, editProjectInput, fetchprojectInput, groupedProjectwithStatus, projectwithClient, userBaseChatoutput } from '../../../application/Entities/project.entity';
+import { createProjectInterface, editProjectInput, fetchprojectInput, groupedProjectwithStatus, projectwithClient, userBaseChatoutput } from '../../../application/Entities/project.entity';
 import { costInput } from '../../../application/Entities/stage.entity';
 import { IProjectModelEntity } from '../modelEntities/project.entity';
 
@@ -13,8 +13,8 @@ export interface IprojectRepository {
    getProjectByName(projectname: string):
       Promise<IProjectModelEntity | null>
 
-   createProject(input: addProjectInput):
-      Promise<void>;
+   createProject(input: createProjectInterface):
+      Promise<IProjectModelEntity>;
 
    checkDuplicateProjectInEdit(id: string, projectname: string):
       Promise<IProjectModelEntity | null>
@@ -73,6 +73,13 @@ export interface IprojectRepository {
    updateEstimatedUser(user: string, projectId: string):
       Promise<void>
 
-   updateEstimationStatus(status: boolean,id:string):
+   updateEstimationStatus(status: boolean, id: string):
       Promise<void>
+
+   getAllProject():
+      Promise<IProjectModelEntity[]>
+
+   getProjectByStatus(status: string):
+      Promise<IProjectModelEntity[]>
+
 }

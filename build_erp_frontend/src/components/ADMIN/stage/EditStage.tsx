@@ -2,7 +2,7 @@ import { toast } from "react-toastify";
 import { useEffect, useRef, useState } from "react";
 import { PlusCircleIcon, MinusCircleIcon } from "@heroicons/react/24/outline";
 import { editStageAPI, fetchBugetAPI, getStageInAdmin } from "../../../api/Admin/StageSetting";
-import { getProjectAll } from "../../../api/project";
+import { getPendingAllProject, getProjectAll } from "../../../api/project";
 import type { stageDatas } from "../../../ApiInterface/stageApi.interface";
 
 
@@ -47,13 +47,16 @@ function EditStage({ editEnable, setEditEnable, editData, onEditSuccess }: stage
 
 
    const fetchProject = async () => {
-      const response = await getProjectAll();
-      console.log(response)
-      const filteredProject = response.data.find((element: Project) => element._id == editData._id)
-      setCost(filteredProject.budgeted_cost)
-      setStartDate(filteredProject.start_date.split("T")[0])
-      setEndDate(filteredProject.end_date.split("T")[0])
-      setProject(response.data);
+      const response = await getPendingAllProject();
+      if (response.success) {
+         setProject(response.data);
+         setProjectId(editData._id)
+         setStartDate(editData.start_date.split("T")[0])
+         setEndDate(editData.end_date.split("T")[0])
+         setCost(editData.budgeted_cost)
+      }else{
+         toast.error(response.message)
+      }
    };
 
    const fetchBudgetedCost = async (projectId: string) => {

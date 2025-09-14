@@ -2,7 +2,7 @@ import { toast } from "react-toastify";
 import { useEffect, useRef, useState } from "react";
 import { PlusCircleIcon, MinusCircleIcon } from "@heroicons/react/24/outline";
 import { fetchBugetAPI, stageSaveAPI } from "../../../api/Admin/StageSetting";
-import { getProjectAll } from "../../../api/project";
+import { getPendingAllProject, getProjectAll } from "../../../api/project";
 
 type Project = {
    _id: string;
@@ -30,7 +30,7 @@ function AddStage({ addEnable, setAddEnable ,onAddSuccess}: stageProp) {
    const endRef = useRef<HTMLParagraphElement>(null)
 
    const fetchProject = async () => {
-         const response = await getProjectAll();
+         const response = await getPendingAllProject();
          setProject(response.data);
    };
 

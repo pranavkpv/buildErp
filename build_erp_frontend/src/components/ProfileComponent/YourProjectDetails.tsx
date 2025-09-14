@@ -3,10 +3,7 @@ import { useEffect, useState } from "react";
 import ProjectImage from "./SubprofileCompponent/ProjectImage";
 import ProgressBar from "./SubprofileCompponent/ProgressBar";
 import { fetchUserProjectAPI } from "../../api/userprofile";
-import Requirement from "./SubprofileCompponent/Requirement";
-import ConfirmBrandSelection from "./SubprofileCompponent/ConfirmBrandSelection";
-import SkipRequirement from "./SubprofileCompponent/SkipRequirement";
-import EstimationDetails from "./SubprofileCompponent/EstimateDetails";
+
 
 type ProjectData = {
   _id: string;
@@ -28,11 +25,7 @@ function ProjectDetails() {
   const [progressEnable, setProgressEnable] = useState(false);
   const [imageEnable, setImageEnable] = useState(false);
   const [count, setCount] = useState(0);
-  const [requireOn, setRequireOn] = useState(false);
-  const [confirmEnable, setConfirmEnable] = useState(false);
-  const [skipOn, setSkipOn] = useState(false);
-
-  const [estimateOn, setEstimateOn] = useState(false)
+ 
 
   const fetchUserProject = async () => {
     try {
@@ -67,27 +60,7 @@ function ProjectDetails() {
     if (count < project.length - 1) setCount(count + 1);
   };
 
-  const handleRequirementSuccess = (updatedProject: ProjectData) => {
-    setProject((prevProjects) =>
-      prevProjects.map((proj) =>
-        proj._id === updatedProject._id ? updatedProject : proj
-      )
-    );
-    setRequireOn(false);
-  };
-
-  const handleSkipSuccess = (updatedProject: ProjectData) => {
-    setProject((prevProjects) =>
-      prevProjects.map((proj) =>
-        proj._id === updatedProject._id ? updatedProject : proj
-      )
-    );
-    setSkipOn(false);
-  };
-
-  const handleViewEstimateDetails = () => {
-    setEstimateOn(true)
-  };
+ 
 
   const currentProject = project[count];
 
@@ -191,39 +164,6 @@ function ProjectDetails() {
                     <Image className="w-5 h-5 mr-2" />
                     {imageEnable ? "Hide Images" : "View Images"}
                   </button>
-                  {currentProject.estimateBy == null ? (
-                    <>
-                      <button
-                        onClick={() => setRequireOn(true)}
-                        className="px-5 py-2.5 bg-green-600 text-white rounded-lg hover:bg-green-700 focus:ring-4 focus:ring-green-200 transition-all duration-200 text-sm sm:text-base font-medium"
-                        aria-label="Add project requirements"
-                      >
-                        Add Project Requirements
-                      </button>
-                      <button
-                        onClick={() => setSkipOn(true)}
-                        className="px-5 py-2.5 bg-gray-600 text-white rounded-lg hover:bg-gray-700 focus:ring-4 focus:ring-gray-200 transition-all duration-200 text-sm sm:text-base font-medium"
-                        aria-label="Skip adding project requirements"
-                      >
-                        Skip Add Requirements
-                      </button>
-                    </>
-                  ) : currentProject.estimateStatus ? (
-                    <button
-                      onClick={handleViewEstimateDetails}
-                      className="px-5 py-2.5 bg-teal-600 text-white rounded-lg hover:bg-teal-700 focus:ring-4 focus:ring-teal-200 transition-all duration-200 text-sm sm:text-base font-medium"
-                      aria-label="View estimate details"
-                    >
-                      View Estimate Details
-                    </button>
-                  ) : (
-                    <button
-                      className="px-5 py-2.5 bg-purple-600 text-white rounded-lg hover:bg-purple-700 focus:ring-4 focus:ring-purple-200 transition-all duration-200 text-sm sm:text-base font-medium"
-                      aria-label="Wait for estimate data"
-                    >
-                      Wait for Estimate Data
-                    </button>
-                  )}
                   <button
                     onClick={handlePrev}
                     disabled={count === 0}
@@ -252,31 +192,6 @@ function ProjectDetails() {
               imageEnable={imageEnable}
               setImageEnable={setImageEnable}
               projectId={currentProject._id}
-            />
-            <Requirement
-              requireOn={requireOn}
-              setRequireOn={setRequireOn}
-              setConfirmEnable={setConfirmEnable}
-              projectId={currentProject._id}
-              onSuccess={handleRequirementSuccess}
-            />
-            <ConfirmBrandSelection
-              confirmEnable={confirmEnable}
-              setConfirmEnable={setConfirmEnable}
-              projectId={currentProject._id}
-              onSuccess={handleRequirementSuccess}
-            />
-            <SkipRequirement
-              skipOn={skipOn}
-              setSkipOn={setSkipOn}
-              projectId={currentProject._id}
-              onSuccess={handleSkipSuccess}
-            />
-            <EstimationDetails
-              estimateOn={estimateOn}
-              setEstimateOn={setEstimateOn}
-              projectId={currentProject._id}
-              onSuccess={fetchUserProject}
             />
           </div>
         )}

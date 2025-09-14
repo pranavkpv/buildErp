@@ -15,6 +15,7 @@ export class Stagemapper implements IStagemapper {
             progress:element.progress,
             status_date:element.status_date,
             stage_image:element.stage_image,
+            stage_per:element.stage_per
         }));
     }
     toProjectWithCompletionDTO(input: stageWithAggregateProject[]): displayProjectWithCompletionDTO[] {

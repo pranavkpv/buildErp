@@ -3,5 +3,5 @@ import { addProjectInput } from '../../Entities/project.entity';
 
 
 export interface IAddProjectUseCase {
-   execute(input: addProjectInput): Promise<commonOutput>
+   execute(input: addProjectInput): Promise<commonOutput<string> | commonOutput>
 }

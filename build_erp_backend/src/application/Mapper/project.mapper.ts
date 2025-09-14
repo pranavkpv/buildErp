@@ -75,6 +75,9 @@ export class ProjectMapper implements IProjectmapper {
             status: element.status,
             lat: element.latitude,
             long: element.longitude,
+            cost:element.budgeted_cost,
+            floor:element.floor,
+            project_type:element.project_type,
             userDetails: {
                 _id: element.userDetails._id,
                 username: element.userDetails.username,
@@ -89,6 +92,7 @@ export class ProjectMapper implements IProjectmapper {
             end_date: element.end_date,
             project_name: element.project_name,
             start_date: element.start_date,
+            budgeted_cost:element.budgeted_cost
         }));
     }
     toStatusCountDto(project: groupedProjectwithStatus[]): displayStatusCountDTO[] {

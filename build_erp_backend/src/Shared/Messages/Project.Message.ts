@@ -28,4 +28,7 @@ export const ProjectFailedMessage = {
     USED_TRANSFER : 'Project already used in transfer',
     USED_ATTENDANCE:'Project is already used in attendance',
     FETCH:'Failed to fetch project',
+    FLOOR_GREATER:'Floor value is always greater than 0',
+    COST_GREATER:'Cost value is always greater than 0',
+    ADD_FAIL:'Failed to add project'
 };

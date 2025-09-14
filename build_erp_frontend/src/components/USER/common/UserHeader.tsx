@@ -1,6 +1,6 @@
 import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import LogoutModal from "../UserFrontPage/LogoutModal";
 import { jwtDecode } from "jwt-decode";
 
@@ -16,7 +16,6 @@ function UserHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const [logoutEnable, setLogoutEnable] = useState<boolean>(false);
   const [user, setUser] = useState(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
@@ -71,15 +70,15 @@ function UserHeader() {
               Services
               <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
             </a>
-            <Link
-              to="/contact"
-              className="relative text-gray-700 hover:text-blue-600 text-base font-medium transition-colors duration-200 group"
-            >
-              Contact
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
-            </Link>
             {user ? (
               <>
+                <Link
+                  to="/proposal"
+                  className="relative text-gray-700 hover:text-blue-600 text-base font-medium transition-colors duration-200 group"
+                >
+                  Start Proposal
+                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
+                </Link>
                 <Link
                   to="/profile"
                   className="relative text-gray-700 hover:text-blue-600 text-base font-medium transition-colors duration-200 group"

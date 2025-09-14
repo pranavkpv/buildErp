@@ -5,7 +5,7 @@ import { validateAddSitemanagerToproject } from '../../../infrastructure/middlew
 import { validateSaveEstimation, validateUploadEstimationImage } from '../../../infrastructure/middlewares/validation/estimation.validaion';
 import { validateAddLabour } from '../../../infrastructure/middlewares/validation/labour.validation';
 import { validateAddMaterial } from '../../../infrastructure/middlewares/validation/material.validation';
-import { validateProjectAdd } from '../../../infrastructure/middlewares/validation/project.validation';
+import { validateProjectEdit } from '../../../infrastructure/middlewares/validation/project.validation';
 import { validateSpecification } from '../../../infrastructure/middlewares/validation/spec.validation';
 import { validateBrandAction } from '../../../infrastructure/middlewares/validation/brand.validation';
 import { validateCategoryAction } from '../../../infrastructure/middlewares/validation/category.validation';
@@ -183,12 +183,8 @@ export class AdminRoute {
         this.adminRoute.get('/addproject',
             withLogging(injectedProjectController.getAddProjectData));
 
-        this.adminRoute.post('/project',
-            validateProjectAdd,
-            withLogging(injectedProjectController.createProject));
-
         this.adminRoute.put('/project/:id',
-            validateProjectAdd,
+            validateProjectEdit,
             withLogging(injectedProjectController.updateProject));
 
         this.adminRoute.delete('/project/:id',
@@ -196,6 +192,9 @@ export class AdminRoute {
 
         this.adminRoute.put('/status/:id',
             withLogging(injectedProjectController.changeProjectStatus));
+
+        this.adminRoute.get('/pendingProjects',
+            withLogging(injectedProjectController.getPendingProjects));
 
 
         // =====================================================================

@@ -13,7 +13,7 @@ export class GetAllProjectListInUserUseCase implements IGetAllProjectListInUseru
     private _projectmapper: IProjectmapper,
     ) { }
     async execute(): Promise<commonOutput<publicProjectDTO[]>> {
-        const projectList = await this._projectRepository.getAllProjects();
+        const projectList = await this._projectRepository.getAllProject();
         for (const element of projectList) {
             element.expected_image = cloudinary.url(element.expected_image, {
                 type: 'authenticated',

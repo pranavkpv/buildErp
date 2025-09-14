@@ -19,4 +19,5 @@ export interface stageDatas  {
   project_name: string;
   start_date: string;
   end_date: string;
+  budgeted_cost:number
 };

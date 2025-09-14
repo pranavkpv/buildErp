@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { fetchStatusandCountApi } from "../../api/project";
 import { useNavigate } from "react-router-dom";
+import { PencilSquareIcon } from "@heroicons/react/24/outline";
 
 interface Stat {
   number: string;
@@ -40,7 +41,7 @@ function Home() {
       <section className="relative py-16 md:py-24 bg-white overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,#38BDF8_0%,transparent_50%),radial-gradient(circle_at_bottom_right,#10B981_0%,transparent_50%)] opacity-10"></div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className={`transition-all duration-700 ease-out ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+          <div className={`transition-all duration-700 ease-out ${ isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0' }`}>
             <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4 tracking-tight">
               Why Choose BuildERP?
             </h2>
@@ -61,9 +62,8 @@ function Home() {
             {stats.map((stat, index) => (
               <div
                 key={index}
-                className={`text-center transition-all duration-700 ease-out delay-${index * 150} ${
-                  isVisible ? 'translate-y-0 opacity-100 scale-100' : 'translate-y-10 opacity-0 scale-95'
-                }`}
+                className={`text-center transition-all duration-700 ease-out delay-${ index * 150 } ${ isVisible ? 'translate-y-0 opacity-100 scale-100' : 'translate-y-10 opacity-0 scale-95'
+                  }`}
               >
                 <div className="relative group">
                   <div className="absolute inset-0 bg-white opacity-0 rounded-xl blur-md group-hover:opacity-10 transition-opacity duration-300"></div>
@@ -81,12 +81,12 @@ function Home() {
       {/* MD's Message Section */}
       <section className="relative py-16 md:py-24 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className={`transition-all duration-700 ease-out ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+          <div className={`transition-all duration-700 ease-out ${ isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0' }`}>
             <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4 tracking-tight">MD's Message</h2>
             <div className="w-20 h-1 bg-gradient-to-r from-blue-500 to-emerald-500 mx-auto mb-8 rounded-full"></div>
           </div>
           <div className="max-w-4xl mx-auto">
-            <div className={`transition-all duration-700 ease-out delay-300 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+            <div className={`transition-all duration-700 ease-out delay-300 ${ isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0' }`}>
               <div className="relative">
                 <span className="absolute -top-4 -left-2 text-5xl text-blue-200 font-serif">"</span>
                 <blockquote className="text-xl md:text-2xl text-gray-700 mb-6 leading-relaxed italic pl-6">
@@ -95,7 +95,7 @@ function Home() {
                 </blockquote>
               </div>
             </div>
-            <div className={`transition-all duration-700 ease-out delay-500 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+            <div className={`transition-all duration-700 ease-out delay-500 ${ isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0' }`}>
               <div className="bg-white rounded-2xl p-6 md:p-8 shadow-md hover:shadow-lg transition-shadow duration-300">
                 <p className="text-base md:text-lg text-gray-600 leading-relaxed">
                   At BuildERP, we prioritize quality, efficiency, and customer-centric design. As a{" "}
@@ -111,7 +111,7 @@ function Home() {
       <section className="relative py-16 md:py-24 bg-gradient-to-br from-gray-800 to-blue-900 overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,#38BDF8_0%,transparent_70%)] opacity-10"></div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className={`transition-all duration-700 ease-out ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
+          <div className={`transition-all duration-700 ease-out ${ isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0' }`}>
             <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-4 tracking-tight">
               Ready to Transform Your{" "}
               <span className="bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent">Business?</span>
@@ -129,11 +129,11 @@ function Home() {
                 <div className="absolute inset-0 bg-white opacity-0 hover:opacity-10 rounded-full transition-opacity duration-300"></div>
               </button>
               <button
-                onClick={() => navigate('/contact')}
-                className="relative border-2 border-white text-white px-8 py-3 rounded-full font-semibold text-base hover:bg-white hover:text-gray-800 transition-all duration-300 transform hover:scale-105 bg-opacity-10 hover:bg-opacity-20"
-                aria-label="Contact us for more information"
+                onClick={() => navigate('/proposal')}
+                className="flex items-center gap-2 border-2 border-white text-white px-8 py-3 rounded-full font-semibold text-base hover:bg-white hover:text-gray-800 transition-all duration-300 transform hover:scale-105 bg-opacity-10 hover:bg-opacity-20"
               >
-                <span className="relative z-10">Contact Us</span>
+                <PencilSquareIcon className="w-5 h-5" />
+                <span>Start Your Proposal</span>
               </button>
             </div>
           </div>

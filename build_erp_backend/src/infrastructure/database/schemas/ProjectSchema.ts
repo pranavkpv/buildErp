@@ -40,6 +40,14 @@ export const ProjectSchema = new mongoose.Schema<IProjectModelEntity>(
             enum: ['pending', 'processing', 'completed'],
             required: true,
         },
+        project_type: {
+            type: String,
+            required: true
+        },
+        floor: {
+            type: Number,
+            required: true
+        },
         sitemanager_id: {
             type: String,
         },
@@ -61,8 +69,8 @@ export const ProjectSchema = new mongoose.Schema<IProjectModelEntity>(
         estimateBy: {
             type: String,
         },
-        estimateStatus:{
-            type:Boolean,
+        estimateStatus: {
+            type: Boolean,
         },
     },
     { timestamps: true },

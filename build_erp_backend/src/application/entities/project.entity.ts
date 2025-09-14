@@ -20,20 +20,19 @@ export interface fetchprojectInput {
 }
 
 export interface addProjectInput {
+   _id:string
    project_name: string,
-   user_id: string,
+   type: string
+   floor: number
+   cost: number
    address: string,
-   mobile_number: number,
-   email: string,
    area: number,
    description: string,
    latitude: number,
    longitude: number
 }
 
-export interface editProjectInput extends addProjectInput {
-   _id: string
-}
+
 export interface projectwithClient extends IProjectModelEntity {
    userDetails: IUserModelEntity
 }
@@ -68,4 +67,15 @@ export interface groupedProjectwithStatus {
    count: number
    createdAt: Date
    updatedAt: Date
+}
+
+
+export interface createProjectInterface {
+   user_id: string, project_name: string, type: string, floor: number,
+   cost: number, address: string, area: number, description: string, latitude: number,
+   longitude: number, email: string, mobile_number: number
+}
+
+export interface editProjectInput extends createProjectInterface {
+   _id: string
 }

@@ -1,6 +1,7 @@
 import { jwtDecode } from 'jwt-decode';
 import React from 'react';
 import { Navigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 type ProtectedRouteProps = {
   children: React.ReactNode;
@@ -17,11 +18,13 @@ interface TokenPayload {
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const accessToken = localStorage.getItem('accessToken');
   if (!accessToken) {
-    return <Navigate to="/login" replace />;
+    toast.error("please login the user")
+    return <Navigate to="/" replace />;
   }
   const decoded = jwtDecode<TokenPayload>(accessToken);
-  if(decoded.role!="user"){
-     return <Navigate to="/login" replace />;
+  if (decoded.role != "user") {
+    toast.error("please login the user")
+    return <Navigate to="/" replace />;
   }
   return <>{children}</>;
 };

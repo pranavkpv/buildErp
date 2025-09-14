@@ -16,8 +16,8 @@ export class SendEstimationUseCase implements ISendEstimationUseCase {
     ) { }
     async execute(id: string): Promise<commonOutput> {
         const existStage = await this._stageRepository.findStageByprojectId(id);
-        if (existStage.length>0) {
-            return ResponseHelper.conflictData(EstimationFailedMessage.USED_STAGE);
+        if (existStage.length===0) {
+            return ResponseHelper.conflictData(EstimationFailedMessage.NOT_STAGE);
         }
         await this._estimationRepository.sendEstimationsByProjectId(id);
         await this._projectRepository.updateEstimationStatus(true,id);
