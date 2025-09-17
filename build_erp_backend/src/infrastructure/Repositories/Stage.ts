@@ -63,7 +63,7 @@ export class StageRepository implements IStageRepository {
         );
     }
     async getAggregateStageByProjectIdmatchSitemanager(sitemanagerId: string, page: number, search: string):
-        Promise<{data:stageWithAggregateProject[],totalPages:number}> {
+        Promise<{ data: stageWithAggregateProject[], totalPages: number }> {
         const skip = page * 5;
         const data = await stageDB.aggregate([
             {
@@ -92,7 +92,7 @@ export class StageRepository implements IStageRepository {
                     start_date: { $first: '$projectDetails.start_date' },
                     end_date: { $first: '$projectDetails.end_date' },
                 },
-            },{ $skip:skip },{ $limit:5 },
+            }, { $skip: skip }, { $limit: 5 },
         ]);
         const totalDoc = await stageDB.aggregate([
             {
@@ -125,7 +125,15 @@ export class StageRepository implements IStageRepository {
         ]);
         return {
             data,
-            totalPages:Math.ceil(totalDoc.length),
+            totalPages: Math.ceil(totalDoc.length),
         };
+    }
+    async getStageById(stageId: string):
+        Promise<IStageModelEntity | null> {
+        return await stageDB.findById(stageId)
+    }
+    async updatePaymentStatus(stageId: string, status: string):
+        Promise<void> {
+        await stageDB.findByIdAndUpdate(stageId, { payment_status: status })
     }
 }

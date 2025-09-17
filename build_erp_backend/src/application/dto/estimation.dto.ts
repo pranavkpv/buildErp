@@ -8,7 +8,6 @@ export interface publicEstimationDTO {
 
 type project = {
    project_name: string;
-   expected_image: string;
 };
 
 export interface listEstimationDTO {

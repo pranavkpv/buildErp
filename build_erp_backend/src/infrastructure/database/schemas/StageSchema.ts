@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import { IStageModelEntity } from '../../../domain/Entities/modelEntities/stage.entity';
 
 
-export const StageSchema= new mongoose.Schema<IStageModelEntity>(
+export const StageSchema = new mongoose.Schema<IStageModelEntity>(
     {
         project_id: {
             type: String,
@@ -25,15 +25,20 @@ export const StageSchema= new mongoose.Schema<IStageModelEntity>(
             type: Number,
         },
         stage_image: {
-            type: [{ date:{ type:String },image:[String] }],
+            type: [{ date: { type: String }, image: [String] }],
         },
-        progress:{
-            type:Number,
-            enum:[0,25,50,75,100],
+        progress: {
+            type: Number,
+            enum: [0, 25, 50, 75, 100],
         },
-        status_date:{
-            type:Date,
+        status_date: {
+            type: Date,
         },
+        payment_status: {
+            type: String,
+            enum: ['pending', 'completed', 'verified'],
+            default: 'pending'
+        }
     },
     { timestamps: true },
 );

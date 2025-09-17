@@ -17,7 +17,7 @@ export class FetchStatusBaseProjectUseCase implements IFetchStatusBaseProjectUse
     async execute(input: fetchprojectInput): Promise<commonOutput<{ projectData: publicProjectDTO[], totalPage: number, areas: number[] }> | commonOutput> {
         const { data, totalPage, areas } = await this._projectRepository.getProjectsByStatus(input);
         for (const element of data) {
-            element.expected_image = cloudinary.url(element.expected_image, {
+            element.expected_image[0].image = cloudinary.url(element.expected_image[0].image, {
                 type: 'authenticated',
                 sign_url: true,
                 expires_at: Math.floor(Date.now() / 1000) + 60,

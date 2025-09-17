@@ -14,6 +14,7 @@ export interface IStageModelEntity {
    stage_image: IStageImageEntry[];
    progress: number,
    status_date: Date
+   payment_status:string
    createdAt: Date
    updatedAt: Date
 }

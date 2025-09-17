@@ -120,7 +120,7 @@ function SpecList() {
       let additionalExpense =
         ((materialSum + labourSum) * element.additionalExpense_per) / 100 || 0;
       let profitAmount =
-        ((materialSum + labourSum) * element.profit_per) / 100 || 0;
+        ((materialSum + labourSum +additionalExpense) * element.profit_per) / 100 || 0;
       x.push({
         specId: element.spec_id,
         specName: element.spec_name,

@@ -41,17 +41,24 @@ export class App {
       const chatRepository = new ChatRepository()
       const chatSaveUseCase = new ChatSaveusecase(chatRepository);
       const chatMessageStatusUpdate = new ChatMessageStatusUpdateUseCase(chatRepository)
-      const chatSocket = new ChatSocket(this.io, chatSaveUseCase,chatMessageStatusUpdate);
+      const chatSocket = new ChatSocket(this.io, chatSaveUseCase, chatMessageStatusUpdate);
       chatSocket.init();
    }
 
    private setMiddlewares() {
       this.app.use(cors({
-         origin: ['http://localhost:5173' , 'https://93f4stm6-5173.inc1.devtunnels.ms'],
+         origin: ['http://localhost:5173', 'https://93f4stm6-5173.inc1.devtunnels.ms'],
          credentials: true
       }));
       this.app.use(cookieParser());
-      this.app.use(express.json());
+      this.app.use((req, res, next) => {
+         if (req.originalUrl === '/user/payment/webhook') {
+            next();
+         } else {
+            express.json()(req, res, next);
+         }
+      });
+      // this.app.use(express.json());
       this.app.use(express.urlencoded({ extended: true }));
       this.app.use(fileUpload({ useTempFiles: true }));
       this.app.use((req: Request, res: Response, next: NextFunction) => {

@@ -18,7 +18,10 @@ import Chat from "../../components/ProfileComponent/Chat";
 import NotFound from "../../components/NotFound";
 import ProtectedRoute from "../../routes/protectedRoute/user/protectedRoute";
 import ProjectProposal from "../../components/ProfileComponent/Proposal";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 
+const stripePromise = loadStripe("pk_test_51S7bMD1P84WAbTJTerojk1ff5MKXMgAJX2YZ5XQPA1DJHsraJm1YSjr5oGTYRuDbyoSPakUJfx7FT7NMGJUVexwm00fPjEzze7")
 export const UserRoutes = () => {
   return (
     <Routes>
@@ -42,9 +45,9 @@ export const UserRoutes = () => {
       <Route path="/proposal" element={<ProtectedRoute><ProjectProposal /></ProtectedRoute>} />
       <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} >
         <Route path="" element={<ProfileEdit />} />
-        <Route path="project" element={<ProjectDetails />} />
-        <Route path="change-password" element ={<ChangePassword />} />
-        <Route path="chat" element ={<Chat />} />
+        <Route path="project" element={<Elements stripe={stripePromise}><ProjectDetails /></Elements>} />
+        <Route path="change-password" element={<ChangePassword />} />
+        <Route path="chat" element={<Chat />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>

@@ -11,6 +11,7 @@ import { EditProjectUseCase } from '../../application/UseCase/Project/EditProjec
 import { FetchProjectUseCase } from '../../application/UseCase/Project/FetchProject';
 import { FetchProjectCountandStatusUseCase } from '../../application/UseCase/Project/FetchProjectcountAndStatus';
 import { FetchProjectWithCompletionUseCase } from '../../application/UseCase/Project/FetchProjectWithCompletion';
+import {  GetExpectedImageUseCase } from '../../application/UseCase/Project/GetExpectedImage';
 import { GetPendingProjectUseCase } from '../../application/UseCase/Project/GetPendingProject';
 import { AddSiteToprojectFetchProjectUseCase } from '../../application/UseCase/SiteManager/AddSiteToprojectFetchProject';
 import { AddSiteToProjectRepository } from '../../infrastructure/Repositories/AddSiteToProject';
@@ -48,5 +49,6 @@ const changeStatusUseCase = new ChangeStatusUseCase(projectRepository);
 const fetchProjectCountandStatus = new FetchProjectCountandStatusUseCase(projectRepository,projectmapper);
 const fetchProjectwithCompletionUseCase = new FetchProjectWithCompletionUseCase(stageRepository,stagemapper);
 const getPendingProjectsUseCase = new GetPendingProjectUseCase(projectRepository,projectmapper)
+const getExpectedImageUseCase = new GetExpectedImageUseCase(projectRepository,projectmapper)
 export const injectedProjectController = new ProjectController(fetchProjectUseCase,addSiteToProjectFetchProjectUseCase,displayAddProjectUseCase,addProjectUseCase,deleteProjectUseCase,editProjectUseCase,displayProjectUseCase,
-    changeStatusUseCase,fetchProjectCountandStatus,jwtservice,fetchProjectwithCompletionUseCase,getPendingProjectsUseCase);
+    changeStatusUseCase,fetchProjectCountandStatus,jwtservice,fetchProjectwithCompletionUseCase,getPendingProjectsUseCase,getExpectedImageUseCase);

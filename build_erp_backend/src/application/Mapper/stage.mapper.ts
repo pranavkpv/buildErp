@@ -14,6 +14,7 @@ export class Stagemapper implements IStagemapper {
             stage_amount:element.stage_amount,
             progress:element.progress,
             status_date:element.status_date,
+            paymentStatus:element.payment_status,
             stage_image:element.stage_image,
             stage_per:element.stage_per
         }));

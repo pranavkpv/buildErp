@@ -41,9 +41,9 @@ export class EstimationRepository implements IEstimationRepository {
 
     //  Create and persist full estimation (spec, material, labour, additional)
     async createEstimation(specDetails: saveEstimationInput[], projectId: string): Promise<void> {
-        let sum = 0;
 
         for (const spec of specDetails) {
+            let sum = 0;
             const specData = await specDB.findOne({ spec_id: spec.spec_id });
 
             if (specData) {
@@ -59,12 +59,12 @@ export class EstimationRepository implements IEstimationRepository {
                 for (const mat of specData.materialDetails) {
                     const existMaterial = await materialDB.findById(mat.material_id);
                     if (existMaterial) {
-                        sum += mat.quantity * existMaterial.unit_rate;
+                        sum += mat.quantity * spec.quantity * existMaterial.unit_rate;
 
                         const newEstimationMaterial = new estimationMaterialDB({
                             project_id: projectId,
                             material_id: mat.material_id,
-                            quantity: mat.quantity,
+                            quantity: mat.quantity * spec.quantity,
                             unit_rate: existMaterial.unit_rate,
                         });
                         await newEstimationMaterial.save();
@@ -73,12 +73,12 @@ export class EstimationRepository implements IEstimationRepository {
                 for (const lab of specData.labourDetails) {
                     const existLabour = await labourDB.findById(lab.labour_id);
                     if (existLabour) {
-                        sum += lab.numberoflabour * existLabour.daily_wage;
+                        sum += lab.numberoflabour * spec.quantity * existLabour.daily_wage;
 
                         const newEstimationLabour = new estimationLabourDB({
                             project_id: projectId,
                             labour_id: lab.labour_id,
-                            numberoflabour: lab.numberoflabour,
+                            numberoflabour: lab.numberoflabour * spec.quantity,
                             daily_wage: existLabour.daily_wage,
                         });
                         await newEstimationLabour.save();
@@ -88,7 +88,7 @@ export class EstimationRepository implements IEstimationRepository {
                     additionalExpense_per: specData.additionalExpense_per || 0,
                     additionalExpense_amount: (sum * (specData.additionalExpense_per || 0)) / 100,
                     profit_per: specData.profit_per || 0,
-                    profit_amount: (sum * (specData.profit_per || 0)) / 100,
+                    profit_amount: ((sum + (sum * (specData.additionalExpense_per || 0)) / 100) * (specData.profit_per || 0)) / 100,
                     project_id: projectId,
                 });
                 await newEstimationAdditionalModel.save();

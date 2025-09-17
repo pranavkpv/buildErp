@@ -7,7 +7,7 @@ import { IEditProjectUseCase } from '../../application/IUseCases/IProject/IEditP
 import { IDeleteProjectUseCase } from '../../application/IUseCases/IProject/IDeleteProject';
 import { IChangeStatusUseCase } from '../../application/IUseCases/IProject/IChangeStatus';
 import { IFetchProjectUseCase } from '../../application/IUseCases/IProject/IFetchProject';
-import { displayProjectDTO, displayProjectWithCompletionDTO, displayStatusCountDTO, fetchProjectIdnameDTO } from '../../application/dto/project.dto';
+import { displayProjectDTO, displayProjectWithCompletionDTO, displayStatusCountDTO, expectedImageDTO, fetchProjectIdnameDTO } from '../../application/dto/project.dto';
 import { commonOutput } from '../../application/dto/common';
 import { IAddSiteToprojectFetchProjectUseCase } from '../../application/IUseCases/ISitemanager/IAddSiteToProjectFetchProject';
 import { userLoginDTO } from '../../application/dto/user.dto';
@@ -16,6 +16,7 @@ import { IJwtService } from '../../domain/Entities/Service.Entities/IJwtservice'
 import { IfetchProjectWithCompletionUseCase } from '../../application/IUseCases/IProject/IfetchProjectWithCompletion';
 import { ResponseHelper } from '../../Shared/responseHelpers/response';
 import { IGetPendingProjectUseCase } from '../../application/IUseCases/IProject/IGetPendingProject';
+import { IGetExpectedImageUseCase } from '../../application/IUseCases/IProject/IGetExpectedImage';
 
 export class ProjectController implements IProjectController {
     constructor(
@@ -30,7 +31,8 @@ export class ProjectController implements IProjectController {
         private _fetchProjectCountandStatus: IFetchProjectCountandStatusUseCase,
         private _jwtservice: IJwtService,
         private _fetchProjectwithCompletionUseCase: IfetchProjectWithCompletionUseCase,
-        private _getPendingProjectsUseCase:IGetPendingProjectUseCase
+        private _getPendingProjectsUseCase: IGetPendingProjectUseCase,
+        private _getExpectedImageUseCase: IGetExpectedImageUseCase
     ) { }
 
     //  Fetch projects available for assigning site managers
@@ -161,6 +163,16 @@ export class ProjectController implements IProjectController {
             return result;
         } catch (error) {
             next(error);
+        }
+    }
+    getExpectedImage = async (req: Request, res: Response, next: NextFunction):
+        Promise<commonOutput<expectedImageDTO[]> | commonOutput | void> => {
+        try {
+            const projectId=req.params.id
+            const result = await this._getExpectedImageUseCase.execute(projectId);
+            return result;
+        } catch (error) {
+            next(error)
         }
     }
 }

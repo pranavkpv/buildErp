@@ -1,7 +1,8 @@
 import { commonOutput } from '../../dto/common';
+import { imageUploadInput } from '../../Entities/estimation.entity';
 
 
 export interface IUploadEstimateImageUseCase {
-   execute(url: string, id: string):
+   execute(input: imageUploadInput):
       Promise<commonOutput>
 }

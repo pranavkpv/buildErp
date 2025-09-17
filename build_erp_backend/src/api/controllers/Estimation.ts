@@ -15,6 +15,8 @@ import { IGetAdditionEstimationUseCase } from '../../application/IUseCases/IEsti
 import { IGetLabourEstimationUseCase } from '../../application/IUseCases/IEstimation/IGetLabourEstimation';
 import { IRejectEstimationUseCase } from '../../application/IUseCases/IEstimation/IRejectEstimation';
 import { IApproveEstimationUseCase } from '../../application/IUseCases/IEstimation/IApproveEstimation';
+import { ResponseHelper } from '../../Shared/responseHelpers/response';
+import { EstimationFailedMessage } from '../../Shared/Messages/Estimation.Message';
 
 
 
@@ -36,7 +38,7 @@ export class EstimationController implements IEstimationController {
     ) { }
 
     // Create a new estimation
-    createEstimation = async(req: Request, res: Response, next: NextFunction):
+    createEstimation = async (req: Request, res: Response, next: NextFunction):
         Promise<commonOutput | void> => {
         try {
             const result = await this._saveEstimationUseCase.execute(req.body);
@@ -47,7 +49,7 @@ export class EstimationController implements IEstimationController {
     };
 
     // Delete an estimation by ID
-    sendEstimation = async(req: Request, res: Response, next: NextFunction):
+    sendEstimation = async (req: Request, res: Response, next: NextFunction):
         Promise<commonOutput | void> => {
         try {
             const result = await this._sendEstimationUseCase.execute(req.params.id);
@@ -58,7 +60,7 @@ export class EstimationController implements IEstimationController {
     };
 
     // Update an estimation
-    modifyEstimation = async(req: Request, res: Response, next: NextFunction):
+    modifyEstimation = async (req: Request, res: Response, next: NextFunction):
         Promise<commonOutput | void> => {
         try {
             console.log();
@@ -69,7 +71,7 @@ export class EstimationController implements IEstimationController {
         }
     };
     // Fetch all estimations with search and pagination
-    getAllEstimations = async(req: Request, res: Response, next: NextFunction):
+    getAllEstimations = async (req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<{ data: listEstimationDTO[], totalPage: number }> | commonOutput | void> => {
         try {
             const { search, page } = req.query;
@@ -83,22 +85,33 @@ export class EstimationController implements IEstimationController {
 
 
     // Upload estimation image to Cloudinary
-    uploadEstimationImage = async(req: Request, res: Response, next: NextFunction):
+    uploadEstimationImage = async (req: Request, res: Response, next: NextFunction):
         Promise<commonOutput | void> => {
         try {
-            const file = req.files?.image;
-            const projectId = req.body._id;
-
-            if (!file || Array.isArray(file)) {
-                return;
+            const projectId = req.params.id;
+            const files = req.files as any
+            const body = req.body;
+            let imageCollection:string[]= []
+            let title = []
+            let finalImage:{title:string,image:string}[] = []
+            for (let key in files) {
+                const uploadedImage = await cloudinary.uploader.upload(files[key].tempFilePath, {
+                    folder: 'Estimation',
+                    type: 'authenticated',
+                });
+                imageCollection.push(uploadedImage.secure_url)
+            }
+            for(let element in body){
+                title.push(body[element])
+            }
+            if(imageCollection.length !== title.length){
+                return ResponseHelper.badRequest(EstimationFailedMessage.KEEP_SAME)
+            }
+            for(let i=0;i<title.length;i++){
+                finalImage.push({title:title[i],image:imageCollection[i]})
             }
 
-            const uploadedImage = await cloudinary.uploader.upload(file.tempFilePath, {
-                folder: 'Estimation',
-                type: 'authenticated',
-            });
-
-            const result = await this._uploadEstimationUseCase.execute(uploadedImage.public_id, projectId);
+            const result = await this._uploadEstimationUseCase.execute({expected_image:finalImage, projectId});
             return result;
         } catch (error) {
             next(error);
@@ -106,7 +119,7 @@ export class EstimationController implements IEstimationController {
     };
 
     // Fetch specification list for a given estimation
-    getSpecListByEstimation = async(req: Request, res: Response, next: NextFunction):
+    getSpecListByEstimation = async (req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<specListInProjectDTO[]> | void> => {
         try {
             const data = await this._fetchSpecListUsingEstimationUseCase.execute(req.params.id);
@@ -116,7 +129,7 @@ export class EstimationController implements IEstimationController {
         }
     };
 
-    getEstimationById = async(req: Request, res: Response, next: NextFunction):
+    getEstimationById = async (req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<estimateByProjectDTO[]> | void> => {
         try {
             const projectId = req.params.id;
@@ -126,7 +139,7 @@ export class EstimationController implements IEstimationController {
             next(error);
         }
     };
-    getMaterialEstimationById = async(req: Request, res: Response, next: NextFunction):
+    getMaterialEstimationById = async (req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<materialEstimateDTO[]> | void> => {
         try {
             const projectId = req.params.id;
@@ -136,7 +149,7 @@ export class EstimationController implements IEstimationController {
             next(error);
         }
     };
-    getAdditionEstimationById = async(req: Request, res: Response, next: NextFunction):
+    getAdditionEstimationById = async (req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<additionEstimateDTO[]> | void> => {
         try {
             const projectId = req.params.id;
@@ -146,7 +159,7 @@ export class EstimationController implements IEstimationController {
             next(error);
         }
     };
-    getLabourEstimationById = async(req: Request, res: Response, next: NextFunction):
+    getLabourEstimationById = async (req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<labourEstimateDTO[]> | void> => {
         try {
             const projectId = req.params.id;
@@ -156,7 +169,7 @@ export class EstimationController implements IEstimationController {
             next(error);
         }
     };
-    rejectEstimation = async(req: Request, res: Response, next: NextFunction):
+    rejectEstimation = async (req: Request, res: Response, next: NextFunction):
         Promise<commonOutput | void> => {
         try {
             const projectId = req.params.id;
@@ -167,7 +180,7 @@ export class EstimationController implements IEstimationController {
             next(error);
         }
     };
-    ApproveEstimation = async(req: Request, res: Response, next: NextFunction): Promise<commonOutput | void>=> {
+    ApproveEstimation = async (req: Request, res: Response, next: NextFunction): Promise<commonOutput | void> => {
         try {
             const projectId = req.params.id;
             const result = await this._approveEstimationUseCase.execute(projectId);

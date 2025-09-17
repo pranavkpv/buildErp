@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import AddEstimation from "./AddEstimation";
 import { PencilSquareIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
-import UploadConfirm from "./Uploadconfirm";
 import EditEstimation from "./EditEstimation";
 import { fetChEstimation } from "../../../api/Estimation";
 import { EyeIcon, SendIcon } from "lucide-react";
 import SendEstimation from "./SendEstimation";
 import RejectView from "./RejectView";
+import ProjectImageUpload from "./ProjectImageUpload";
 
 type project = {
    project_name: string;
@@ -32,10 +32,6 @@ function ListEstimation() {
    const [sendEnable, setSendEnable] = useState(false);
    const [sendProjectId, setSendProjectId] = useState("");
 
-   // Upload image
-   const [file, setFile] = useState<File | null>(null);
-   const [uploadEnable, setUploadEnable] = useState(false);
-   const [uploadProjectId, setUploadProjectId] = useState("");
 
    //edit estimation
    const [editEnable, setEditEnable] = useState(false)
@@ -43,6 +39,12 @@ function ListEstimation() {
 
    const [viewRejectOn, setViewRejectOn] = useState(false)
    const [reason, setReason] = useState('')
+
+
+   //image upload 
+   const [imageEnable, setImageEnable] = useState(false)
+   const [uploadProject, setUploadImage] = useState("")
+
 
    const fetchData = async () => {
       const response = await fetChEstimation(search, page);
@@ -126,37 +128,21 @@ function ListEstimation() {
                               <td className="px-6 py-4 text-gray-100">{element.projectDetails.project_name}</td>
                               <td className="px-6 py-4 text-gray-100">₹{element.budgeted_cost.toLocaleString()}</td>
                               <td className="px-6 py-4 flex flex-col items-start gap-3">
-                                 <div className="w-full">
-                                    <label htmlFor={`file-upload-${element.projectObjectId}`} className="sr-only">
-                                       Upload estimated image for {element.projectDetails.project_name}
-                                    </label>
-                                    <input
-                                       id={`file-upload-${element.projectObjectId}`}
-                                       type="file"
-                                       accept="image/*"
-                                       className="w-30 px-3 py-2 bg-gray-700/50 border border-gray-600 rounded-lg text-gray-100 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-teal-400 transition-all duration-200 cursor-pointer file:mr-4 file:py-1 file:px-3 file:rounded-md file:border-0 file:bg-teal-500 file:text-white file:hover:bg-teal-600"
-                                       onChange={(e) => {
-                                          if (e.target.files && e.target.files.length > 0) {
-                                             setFile(e.target.files[0]);
-                                             setUploadEnable(true);
-                                             setUploadProjectId(element.projectObjectId);
-                                          }
-                                       }}
-                                    />
-                                 </div>
-                                 {element.projectDetails.expected_image && (
-                                    <img
-                                       src={element.projectDetails.expected_image}
-                                       alt={`Estimated for ${element.projectDetails.project_name}`}
-                                       className="h-16 w-16 object-cover rounded-md border border-gray-600 shadow-sm"
-                                    />
-                                 )}
+                                 <button
+                                    onClick={() => {
+                                       setImageEnable(true);
+                                       setUploadImage(element.project_id);
+                                    }}
+                                    className="bg-teal-500/90 hover:bg-teal-600 text-white px-4 py-2 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-teal-400"
+                                 >
+                                    Upload Estimated Image
+                                 </button>
                               </td>
                               <td className="px-6 py-4 ">
                                  <button
                                     type="button"
                                     className="text-teal-400 hover:text-teal-300 p-2 rounded-md hover:bg-gray-600/50 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-teal-400"
-                                    aria-label={`Edit estimation for ${element.projectDetails.project_name}`}
+                                    aria-label={`Edit estimation for ${ element.projectDetails.project_name }`}
                                     onClick={() => {
                                        setEditEnable(true)
                                        setEditProjectId(element.projectObjectId)
@@ -167,7 +153,7 @@ function ListEstimation() {
                                  <button
                                     type="button"
                                     className="text-red-400 hover:text-red-300 p-2 rounded-md hover:bg-gray-600/50 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-red-400"
-                                    aria-label={`Send estimation for ${element.projectDetails.project_name}`}
+                                    aria-label={`Send estimation for ${ element.projectDetails.project_name }`}
                                     onClick={() => {
                                        setSendEnable(true);
                                        setSendProjectId(element.projectObjectId);
@@ -178,7 +164,7 @@ function ListEstimation() {
                                  <button
                                     type="button"
                                     className="text-blue-400 hover:text-blue-300 p-2 rounded-md hover:bg-gray-600/50 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                                    aria-label={`View rejection reason for ${element.projectDetails.project_name}`}
+                                    aria-label={`View rejection reason for ${ element.projectDetails.project_name }`}
                                     onClick={() => {
                                        setViewRejectOn(true)
                                        setReason(element.reason)
@@ -198,7 +184,7 @@ function ListEstimation() {
                         key={element}
                         onClick={() => setPage(element)}
                         className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 
-          ${page === element
+          ${ page === element
                               ? 'bg-teal-500 text-white'
                               : 'bg-gray-700/50 text-gray-200 hover:bg-gray-600/50 hover:text-teal-300'
                            } focus:outline-none focus:ring-2 focus:ring-teal-400`}
@@ -216,14 +202,7 @@ function ListEstimation() {
                onSendSuccess={fetchData}
             />
 
-            <UploadConfirm
-               file={file}
-               uploadEnable={uploadEnable}
-               setUploadEnable={setUploadEnable}
-               setFile={setFile}
-               uploadProjectId={uploadProjectId}
-               uploadSuccess={fetchData}
-            />
+
             <EditEstimation
                editEnable={editEnable}
                setEditEnable={setEditEnable}
@@ -235,6 +214,11 @@ function ListEstimation() {
                viewRejectOn={viewRejectOn}
                setViewRejectOn={setViewRejectOn}
                reason={reason}
+            />
+            <ProjectImageUpload
+               setUploadEnable={setImageEnable}
+               uploadEnable={imageEnable}
+               uploadProjectId={uploadProject}
             />
          </div>
       </div>

@@ -1,6 +1,6 @@
 import userAxios from "../axios/userAxios";
 import adminAxios from "../axios/adminAxios"
-import type { estimationSaveInterface, reasonInterface } from "ApiInterface/estimation.interface";
+import type { estimatedImage, estimationSaveInterface, reasonInterface } from "ApiInterface/estimation.interface";
 
 
 // ---------------- Save Estimation ---------------- //
@@ -88,4 +88,38 @@ export const ApproveEstimationApi = async (projectId: string) => {
    const response = await userAxios.patch(`/approveEstimation/${ projectId }`)
    return response.data
 }
+
+export const uploadProjectImageAPI = async (projectId: string, estimatedImages: estimatedImage[]) => {
+   const formData = new FormData();
+   estimatedImages.forEach((item, index) => {
+      formData.append(`images[${ index }][title]`, item.title);
+      if (item.file) {
+         formData.append(`images[${ index }][file]`, item.file);
+      }
+   });
+
+   const response = await adminAxios.patch(`/uploadEstimateImage/${ projectId }`, formData, {
+      headers: { "Content-Type": "multipart/form-data" }
+   });
+
+   return response.data;
+};
+
+
+export const uploadProjectImageUserAPI = async (projectId: string, estimatedImages: estimatedImage[]) => {
+   const formData = new FormData();
+   estimatedImages.forEach((item, index) => {
+      formData.append(`images[${ index }][title]`, item.title);
+      if (item.file) {
+         formData.append(`images[${ index }][file]`, item.file);
+      }
+   });
+
+   const response = await userAxios.patch(`/uploadEstimateImage/${ projectId }`, formData, {
+      headers: { "Content-Type": "multipart/form-data" }
+   });
+
+   return response.data;
+};
+
 

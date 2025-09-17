@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { commonOutput } from '../../../application/dto/common';
-import { displayProjectDTO, displayProjectWithCompletionDTO, displayStatusCountDTO, fetchProjectIdnameDTO } from '../../../application/dto/project.dto';
+import { displayProjectDTO, displayProjectWithCompletionDTO, displayStatusCountDTO, expectedImageDTO, fetchProjectIdnameDTO } from '../../../application/dto/project.dto';
 import { userLoginDTO } from '../../../application/dto/user.dto';
 
 
@@ -34,9 +34,12 @@ export interface IProjectController {
       Promise<commonOutput<displayStatusCountDTO[]> | commonOutput | void>
 
    getSitemanagersProjectsWithCompletion(req: Request, res: Response, next: NextFunction):
-     Promise<commonOutput<{data:displayProjectWithCompletionDTO[],totalPages:number}> | void>
+      Promise<commonOutput<{ data: displayProjectWithCompletionDTO[], totalPages: number }> | void>
 
    getPendingProjects(req: Request, res: Response, next: NextFunction):
-     Promise<commonOutput<fetchProjectIdnameDTO[]> | void>
+      Promise<commonOutput<fetchProjectIdnameDTO[]> | void>
+
+   getExpectedImage(req: Request, res: Response, next: NextFunction):
+      Promise<commonOutput<expectedImageDTO[]> | commonOutput | void>
 
 }

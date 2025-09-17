@@ -3,7 +3,12 @@ import { useEffect, useState } from "react";
 import ProjectImage from "./SubprofileCompponent/ProjectImage";
 import ProgressBar from "./SubprofileCompponent/ProgressBar";
 import { fetchUserProjectAPI } from "../../api/userprofile";
-
+import EstimationDetails from "./SubprofileCompponent/EstimateDetails";
+import { toast } from "react-toastify";
+import { getStageInUser } from "../../api/auth";
+import PaymentForm from "./SubprofileCompponent/PaymentForm";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
 
 type ProjectData = {
   _id: string;
@@ -20,24 +25,63 @@ type ProjectData = {
   end_date: string;
 };
 
+type StageData = {
+  _id: string;
+  stage_name: string;
+  start_date: string;
+  end_date: string;
+  stage_amount: number;
+  progress: number;
+  paymentStatus: string;
+  status_date: string;
+};
+
 function ProjectDetails() {
   const [project, setProject] = useState<ProjectData[]>([]);
   const [progressEnable, setProgressEnable] = useState(false);
   const [imageEnable, setImageEnable] = useState(false);
   const [count, setCount] = useState(0);
- 
+  const [estimateOn, setEstimateOn] = useState(false);
+  const [stage, setStage] = useState<StageData[]>([]);
+  const [checkOn, setCheckOn] = useState(false);
+  const [checkData, setCheckData] = useState<StageData | undefined>();
+  const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
   const fetchUserProject = async () => {
     try {
       const response = await fetchUserProjectAPI();
-      setProject(response.data);
+      if (response.success) {
+        setProject(response.data.filter((element: ProjectData) => element.start_date != null));
+      } else {
+        toast.error(response.message);
+      }
     } catch (error) {
-      console.error("Error fetching projects:", error);
+      toast.error("Failed to fetch projects");
     }
   };
+
+  const fetchStage = async (projectId: string): Promise<void> => {
+    try {
+      const response = await getStageInUser(projectId);
+      if (response.success) {
+        setStage(response.data);
+      } else {
+        toast.error(response.message);
+      }
+    } catch (error) {
+      toast.error("Failed to fetch stages");
+    }
+  };
+
   useEffect(() => {
     fetchUserProject();
   }, []);
+
+  useEffect(() => {
+    if (project[count]?._id) {
+      fetchStage(project[count]._id);
+    }
+  }, [count, project]);
 
   const getStatusStyles = (status: string) => {
     switch (status) {
@@ -60,13 +104,11 @@ function ProjectDetails() {
     if (count < project.length - 1) setCount(count + 1);
   };
 
- 
-
   const currentProject = project[count];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto">
         <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 mb-12 text-center tracking-tight">
           Your Project Details
         </h2>
@@ -78,10 +120,7 @@ function ProjectDetails() {
         )}
 
         {currentProject && (
-          <div
-            key={currentProject._id}
-            className="bg-white rounded-2xl shadow-xl p-6 sm:p-8 border border-gray-200 hover:shadow-2xl transition-all duration-300"
-          >
+          <div className="bg-white rounded-2xl shadow-xl p-6 sm:p-8 border border-gray-200 hover:shadow-2xl transition-all duration-300">
             <div className="flex flex-col md:flex-row gap-6 md:gap-10">
               <div className="md:w-1/3">
                 <img
@@ -129,8 +168,8 @@ function ProjectDetails() {
                   <div className="flex items-center">
                     <Calendar className="w-6 h-6 mr-3 text-indigo-600" />
                     <span className="text-base sm:text-lg font-medium">
-                      {new Date(currentProject.start_date).toLocaleDateString()} -{" "}
-                      {new Date(currentProject.end_date).toLocaleDateString()}
+                      {currentProject.start_date.split("T")[0].split("-").reverse().join("-")} -{" "}
+                      {currentProject.end_date.split("T")[0].split("-").reverse().join("-")}
                     </span>
                   </div>
                   <p className="text-gray-600 text-sm sm:text-base leading-relaxed mt-4">
@@ -164,37 +203,142 @@ function ProjectDetails() {
                     <Image className="w-5 h-5 mr-2" />
                     {imageEnable ? "Hide Images" : "View Images"}
                   </button>
-                  <button
-                    onClick={handlePrev}
-                    disabled={count === 0}
-                    className="px-5 py-2.5 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 focus:ring-4 focus:ring-gray-200 transition-all duration-200 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed text-sm sm:text-base font-medium"
-                    aria-label="Previous project"
-                  >
-                    Prev
-                  </button>
-                  <button
-                    onClick={handleNext}
-                    disabled={count === project.length - 1}
-                    className="px-5 py-2.5 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 focus:ring-4 focus:ring-gray-200 transition-all duration-200 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed text-sm sm:text-base font-medium"
-                    aria-label="Next project"
-                  >
-                    Next
-                  </button>
+                  {currentProject.estimateStatus && (
+                    <button
+                      onClick={() => setEstimateOn(true)}
+                      className="bg-teal-500/90 hover:bg-teal-600 text-white px-4 py-2 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-teal-400"
+                    >
+                      View Estimation Details
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
 
-            <ProgressBar
-              progressEnable={progressEnable}
-              projectId={currentProject._id}
-            />
+            {stage.length > 0 && (
+              <div className="mt-8 overflow-x-auto">
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        SL No
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Stage Name
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Start Date
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-Feeling like I missed something? Let me know, and I’ll dig deeper!500 uppercase tracking-wider">
+                        End Date
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Amount
+                      </th>
+                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Action
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-200">
+                    {stage.map((element, index) => (
+                      <tr key={element._id} className="hover:bg-gray-50">
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{index + 1}</td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                          {element.stage_name}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          {element.start_date.split("T")[0].split("-").reverse().join("-")}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          {element.end_date.split("T")[0].split("-").reverse().join("-")}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          ₹{element.stage_amount.toLocaleString()}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm">
+                          {(() => {
+                            const isDisabled =
+                              new Date(element.end_date) >=
+                                new Date(Date.now() + 2 * 24 * 60 * 60 * 1000) &&
+                                element.paymentStatus === "pending"
+                                ? false
+                                : true;
+
+                            const buttonText =
+                              element.paymentStatus === "completed"
+                                ? "Paid"
+                                : element.paymentStatus === "verified"
+                                  ? "Verified"
+                                  : "Pay";
+
+                            const buttonColors: Record<string, string> = {
+                              Paid: "bg-green-600 hover:bg-green-700",
+                              Verified: "bg-blue-600 hover:bg-blue-700",
+                              Pay: "bg-indigo-600 hover:bg-indigo-700",
+                            };
+
+                            return (
+                              <button
+                                onClick={() => {
+                                  setCheckData(element);
+                                  setCheckOn(true);
+                                }}
+                                disabled={isDisabled}
+                                className={`px-4 py-2 text-white rounded-lg 
+                                  ${ buttonColors[buttonText] } 
+                                   disabled:opacity-50 disabled:cursor-not-allowed 
+                                  transition-all duration-200 text-sm font-medium`}
+                              >
+                                {buttonText}
+                              </button>
+                            );
+                          })()}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+
+            <ProgressBar progressEnable={progressEnable} projectId={currentProject._id} />
             <ProjectImage
               imageEnable={imageEnable}
               setImageEnable={setImageEnable}
               projectId={currentProject._id}
             />
+            <EstimationDetails
+              estimateOn={estimateOn}
+              setEstimateOn={setEstimateOn}
+              projectId={currentProject._id}
+              onSuccess={fetchUserProject}
+            />
+            <Elements stripe={stripePromise}>
+              <PaymentForm
+                checkData={checkData}
+              />
+            </Elements>
           </div>
         )}
+        <div className="mt-8 flex justify-between">
+          <button
+            onClick={handlePrev}
+            disabled={count === 0}
+            className="px-5 py-2.5 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 focus:ring-4 focus:ring-gray-200 transition-all duration-200 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed text-sm sm:text-base font-medium"
+            aria-label="Previous project"
+          >
+            Prev
+          </button>
+          <button
+            onClick={handleNext}
+            disabled={count === project.length - 1}
+            className="px-5 py-2.5 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 focus:ring-4 focus:ring-gray-200 transition-all duration-200 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed text-sm sm:text-base font-medium"
+            aria-label="Next project"
+          >
+            Next
+          </button>
+        </div>
       </div>
     </div>
   );

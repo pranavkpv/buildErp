@@ -44,7 +44,7 @@ export const deleteProjectData = async (_id: string) => {
 export const putProject = async (
    input: editProjectInterface
 ) => {
-   const { _id, project_name,type, user_id, address, mobile_number, email, area, description, latitude, longitude, cost, floor } = input
+   const { _id, project_name, type, user_id, address, mobile_number, email, area, description, latitude, longitude, cost, floor } = input
    const response = await adminAxios.put(`/project/${ _id }`, {
       project_name,
       type,
@@ -81,8 +81,13 @@ export const fetchStatusandCountApi = async () => {
    return response.data
 }
 
-export const getPendingAllProject = async()=>{
+export const getPendingAllProject = async () => {
    const response = await adminAxios.get('/pendingProjects')
+   return response.data
+}
+
+export const getExpectedImageApi = async (projectId: string) => {
+   const response = await userAxios.get(`/expectImage/${ projectId }`)
    return response.data
 }
 

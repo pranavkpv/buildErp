@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import Requirement from './SubprofileCompponent/Requirement';
 import ConfirmBrandSelection from './SubprofileCompponent/ConfirmBrandSelection';
 import SkipRequirement from './SubprofileCompponent/SkipRequirement';
+import ExpectedImageUpload from './SubprofileCompponent/ExpectedImageUpload';
 
 interface Location {
   lat: number;
@@ -30,6 +31,8 @@ function ProjectProposal() {
   const [confirmEnable, setConfirmEnable] = useState(false);
   const [skipOn, setSkipOn] = useState(false);
   const [selectProject, setSelectProject] = useState("");
+  const [imageEnable,setImageEnable] = useState(false)
+  const [uploadProject,setUploadImage] = useState("")
 
   const projectRef = useRef<HTMLParagraphElement>(null);
   const typeRef = useRef<HTMLParagraphElement>(null);
@@ -156,9 +159,6 @@ function ProjectProposal() {
           <p className="text-gray-600 mb-6 text-sm sm:text-base">
             Your project proposal has been sent successfully. We will review and respond within 24 hours.
           </p>
-          <div className="animate-pulse text-sm text-gray-500 mb-6">
-            Redirecting in a moment...
-          </div>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
               onClick={() => setRequireOn(true)}
@@ -173,6 +173,15 @@ function ProjectProposal() {
               aria-label="Skip adding project requirements"
             >
               Skip Requirements
+            </button>
+            <button
+              onClick={() => {
+                setImageEnable(true);
+                setUploadImage(selectProject);
+              }}
+              className="bg-teal-500/90 hover:bg-teal-600 text-white px-4 py-2 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-teal-400"
+            >
+              Upload Image You Expect
             </button>
           </div>
         </div>
@@ -193,6 +202,11 @@ function ProjectProposal() {
           setSkipOn={setSkipOn}
           projectId={selectProject}
           setIsSubmitted={setIsSubmitted}
+        />
+        <ExpectedImageUpload 
+        setUploadEnable={setImageEnable}
+        uploadEnable={imageEnable}
+        uploadProjectId={uploadProject}
         />
 
       </div>

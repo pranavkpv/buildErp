@@ -1,6 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
 import { HTTP_STATUS } from '../../../Shared/statusCodes/statusCodes';
 import { SpecFailedMessage } from '../../../Shared/Messages/Specification.Message';
+import { ProjectFailedMessage } from '../../../Shared/Messages/Project.Message';
+import { EstimationFailedMessage } from '../../../Shared/Messages/Estimation.Message';
+import { bannerFailedMessage } from '../../../Shared/Messages/Banner.message';
 
 //validate save estimation
 export const validateSaveEstimation = (req: Request, res: Response, next: NextFunction): void => {
@@ -62,29 +65,40 @@ export const validateSaveEstimation = (req: Request, res: Response, next: NextFu
 
 //validate upload estimation image
 export const validateUploadEstimationImage = (req: Request, res: Response, next: NextFunction): void => {
-    const file = req.files?.image;
-    if (!file) {
-        res.status(HTTP_STATUS.BAD_REQUEST).
-            json({ success: false, message: SpecFailedMessage.IMAGE_REQUIRED });
-        return;
+    const projectId = req.params.id;
+    const files = req.files as any
+    const body = req.body;
+    if (!projectId) {
+        res.status(HTTP_STATUS.BAD_REQUEST).json({
+            success: false,
+            message: ProjectFailedMessage.NOT_PROJECT,
+        });
+        return
     }
-    if (Array.isArray(file)) {
-        res.status(HTTP_STATUS.BAD_REQUEST).
-            json({ success: false, message: SpecFailedMessage.ONLY_ONE });
-        return;
+    for (let key in body) {
+        if (body[key].trim() == "") {
+            res.status(HTTP_STATUS.BAD_REQUEST).json({
+                success: false,
+                message: EstimationFailedMessage.NO_TITLE,
+            });
+            return
+        }
     }
-
     const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
-    if (!allowedTypes.includes(file.mimetype)) {
-        res.status(HTTP_STATUS.BAD_REQUEST).
-            json({ success: false, message: SpecFailedMessage.INVALID_FILE });
-        return;
-    }
-    const MAX_SIZE = 5 * 1024 * 1024; // 5MB
-    if (file.size > MAX_SIZE) {
-        res.status(HTTP_STATUS.BAD_REQUEST).
-            json({ success: false, message: SpecFailedMessage.INVALID_FILE_SIZE });
-        return;
+    for (let key in files) {
+        if (!files[key]) {
+            res.status(HTTP_STATUS.BAD_REQUEST).json({
+                success: false, message: bannerFailedMessage.IMAGE_REQUIRED
+            });
+            return
+        }
+        if (!allowedTypes.includes(files[key].mimetype)) {
+            res.status(HTTP_STATUS.BAD_REQUEST).json({
+                success: false,
+                message: bannerFailedMessage.ALLOWED_IMAGE,
+            });
+            return;
+        }
     }
     next();
 };

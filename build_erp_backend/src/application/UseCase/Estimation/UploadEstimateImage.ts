@@ -3,15 +3,16 @@ import { EstimationSuccessMessage } from '../../../Shared/Messages/Estimation.Me
 import { IUploadEstimateImageUseCase } from '../../IUseCases/IEstimation/IUploadEstimateImage';
 import { IprojectRepository } from '../../../domain/Entities/IRepository/IProject';
 import { commonOutput } from '../../dto/common';
+import { imageUploadInput } from '../../Entities/estimation.entity';
 
 
 export class UploadEstimateImageUseCase implements IUploadEstimateImageUseCase {
     constructor(
     private _projectRepository: IprojectRepository,
     ) { }
-    async execute(url: string, id: string):
+    async execute(input: imageUploadInput):
     Promise<commonOutput> {
-        await this._projectRepository.updateEstimationImageById(url, id);
+        await this._projectRepository.updateEstimationImageById(input);
         return ResponseHelper.success(EstimationSuccessMessage.UPLOAD);
     }
 }

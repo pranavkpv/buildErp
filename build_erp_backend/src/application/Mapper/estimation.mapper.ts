@@ -21,8 +21,7 @@ export class EstimationMapper implements IEstimationmapper {
             projectObjectId: element.projectObjectId,
             reason:element.reason,
             projectDetails: {
-                project_name: element.projectDetails.project_name,
-                expected_image: element.projectDetails.expected_image,
+                project_name: element.projectDetails.project_name
             },
         }));
     }

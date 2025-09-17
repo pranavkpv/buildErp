@@ -6,6 +6,7 @@ import { createProjectInterface, editProjectInput, groupedProjectwithStatus, pro
 import { costInput } from '../../application/Entities/stage.entity';
 import { IProjectModelEntity } from '../../domain/Entities/modelEntities/project.entity';
 import { IprojectRepository } from '../../domain/Entities/IRepository/IProject';
+import { imageUploadInput } from '../../application/Entities/estimation.entity';
 
 
 export class ProjectRepository implements IprojectRepository {
@@ -184,8 +185,8 @@ export class ProjectRepository implements IprojectRepository {
     }
 
     // Update estimation image by project ID
-    async updateEstimationImageById(url: string, id: string): Promise<void> {
-        await projectDB.findByIdAndUpdate(id, { expected_image: url });
+    async updateEstimationImageById(input: imageUploadInput): Promise<void> {
+        await projectDB.findByIdAndUpdate(input.projectId, { expected_image: input.expected_image });
     }
 
     // Get projects by user ID

@@ -286,7 +286,7 @@ export class AdminRoute {
         this.adminRoute.get('/fetchEstimation',
             withLogging(injectEstimationController.getAllEstimations));
 
-        this.adminRoute.post('/uploadEstimated',
+        this.adminRoute.patch('/uploadEstimateImage/:id',
             validateUploadEstimationImage,
             withLogging(injectEstimationController.uploadEstimationImage));
 

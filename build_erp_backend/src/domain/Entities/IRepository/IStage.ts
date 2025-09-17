@@ -21,6 +21,11 @@ export interface IStageRepository {
    uploadImageByStageId(input: uploadImageInput):
       Promise<void>
 
-   getAggregateStageByProjectIdmatchSitemanager(sitemanagerId: string,page:number,search:string):
-      Promise<{data:stageWithAggregateProject[],totalPages:number}>
+   getAggregateStageByProjectIdmatchSitemanager(sitemanagerId: string, page: number, search: string):
+      Promise<{ data: stageWithAggregateProject[], totalPages: number }>
+
+   getStageById(stageId: string):
+      Promise<IStageModelEntity | null>
+
+   updatePaymentStatus(stageId: string, status: string): Promise<void>
 }

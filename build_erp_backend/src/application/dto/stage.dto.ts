@@ -9,6 +9,7 @@ export interface publicstageDTO {
    stage_per:number;
    progress: number;
    status_date: Date;
+   paymentStatus:string;
    stage_image:IStageImageEntry[]
 }
 

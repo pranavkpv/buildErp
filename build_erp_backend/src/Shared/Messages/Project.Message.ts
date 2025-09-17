@@ -30,5 +30,6 @@ export const ProjectFailedMessage = {
     FETCH:'Failed to fetch project',
     FLOOR_GREATER:'Floor value is always greater than 0',
     COST_GREATER:'Cost value is always greater than 0',
-    ADD_FAIL:'Failed to add project'
+    ADD_FAIL:'Failed to add project',
+    NOT_PROJECT:'ProjectIs is not Exist'
 };

@@ -54,7 +54,7 @@ function EditAdditionalSpec({ fetchSpecList }: prop) {
 
   const calculateNetAmount = () => {
     const additionalExpenseAmount = final * (editadditionalExpense_per || 0) / 100;
-    const profitAmount = final * (editprofit_per || 0) / 100;
+    const profitAmount = (final+additionalExpenseAmount) * (editprofit_per || 0) / 100;
     return (final + additionalExpenseAmount + profitAmount).toFixed(2);
   };
 
@@ -147,7 +147,7 @@ function EditAdditionalSpec({ fetchSpecList }: prop) {
             <input
               id="profitAmount"
               type="text"
-              value={(final * (editprofit_per || 0) / 100).toFixed(2)}
+              value={( (final+(final * (editadditionalExpense_per || 0) / 100)) * (editprofit_per || 0) / 100).toFixed(2)}
               readOnly
               placeholder="Profit amount"
               className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg text-gray-400 text-sm font-medium cursor-not-allowed"

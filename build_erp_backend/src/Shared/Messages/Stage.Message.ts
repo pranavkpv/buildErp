@@ -6,6 +6,8 @@ export const StageSuccessMessage = {
     FETCH_COST: 'fetch Cost successFully',
     ADD: 'Stage Added SuccessFully',
     UPDATE: 'Stage Updated SuccessFully',
+    FETCH_SECRET:'Stage Payment Secret key Fetch Successfully',
+    SUCCESS_PAY:'Stage Payment Successfully completed'
 };
 
 export const StageFailedMessage = {
@@ -29,4 +31,7 @@ export const StageFailedMessage = {
     STAGE_AMOUNT_VALUE: 'stage_amount does not match stage_percentage of total cost',
     STAGE_LENGTH : 'Stage name length should be less than 20',
     STAGE_AMOUNT_MATCH  : 'Sum of stage amount should match total budget cost',
+    NOT_EXIST:'Not exist the stage',
+    NO_SESSION:'Not found the session Id',
+    PAY_FAIL:'Stage Payment failed'
 };

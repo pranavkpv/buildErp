@@ -10,3 +10,8 @@ export interface reasonInterface {
    reason:string 
    projectId:string
 }
+
+export interface estimatedImage {
+   title : string
+   file:File | null
+}

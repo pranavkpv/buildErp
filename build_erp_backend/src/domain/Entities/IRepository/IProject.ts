@@ -1,6 +1,7 @@
 import { chatListDTO } from '../../../application/dto/user.dto';
 import { AddsitetoprojectInput } from '../../../application/Entities/addsitemanagertoproject.entity';
 import { listingInput } from '../../../application/Entities/common.entity';
+import { imageUploadInput } from '../../../application/Entities/estimation.entity';
 import { createProjectInterface, editProjectInput, fetchprojectInput, groupedProjectwithStatus, projectwithClient, userBaseChatoutput } from '../../../application/Entities/project.entity';
 import { costInput } from '../../../application/Entities/stage.entity';
 import { IProjectModelEntity } from '../modelEntities/project.entity';
@@ -46,7 +47,7 @@ export interface IprojectRepository {
    getProjectsWithStage(input: listingInput):
       Promise<{ data: IProjectModelEntity[], totalPage: number }>
 
-   updateEstimationImageById(url: string, id: string):
+   updateEstimationImageById(input: imageUploadInput):
       Promise<void>
 
    getProjectsByUserId(userId: string):

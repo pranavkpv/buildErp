@@ -77,3 +77,8 @@ export interface displayProjectWithCompletionDTO {
 export interface OnlyIdDTO {
    _id:string
 }
+
+export interface expectedImageDTO {
+   title:string
+   image:string
+}

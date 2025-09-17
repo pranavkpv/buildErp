@@ -1,7 +1,7 @@
 import { IProjectModelEntity } from '../../domain/Entities/modelEntities/project.entity';
 import { IProjectmapper } from '../../domain/IMappers/IProject.mapper';
 import { listAddsiteDTO } from '../dto/addsitemanagerToproject';
-import { displayProjectDTO, displayStatusCountDTO, fetchProjectIdnameDTO, OnlyIdDTO, publicProjectDTO, userBasechatListDTO, userBaseProjectDTO } from '../dto/project.dto';
+import { displayProjectDTO, displayStatusCountDTO, expectedImageDTO, fetchProjectIdnameDTO, OnlyIdDTO, publicProjectDTO, userBasechatListDTO, userBaseProjectDTO } from '../dto/project.dto';
 import { stageListDTO } from '../dto/stage.dto';
 import { listAddSiteToproject } from '../Entities/addsitemanagertoproject.entity';
 import { groupedProjectwithStatus, projectwithClient, userBaseChatoutput } from '../Entities/project.entity';
@@ -11,7 +11,7 @@ export class ProjectMapper implements IProjectmapper {
         return projects.map((project) => ({
             _id: project._id,
             project_name: project.project_name,
-            expected_image: project.expected_image,
+            expected_image: project.expected_image[0].image,
             finalImage: project.finalImage,
             area: project.area,
             address: project.address,
@@ -29,7 +29,7 @@ export class ProjectMapper implements IProjectmapper {
             budgeted_cost: project.budgeted_cost,
             description: project.description,
             end_date: project.end_date,
-            expected_image: project.expected_image,
+            expected_image: project.expected_image[0].image,
             project_name: project.project_name,
             start_date: project.start_date,
             status: project.status,
@@ -75,9 +75,9 @@ export class ProjectMapper implements IProjectmapper {
             status: element.status,
             lat: element.latitude,
             long: element.longitude,
-            cost:element.budgeted_cost,
-            floor:element.floor,
-            project_type:element.project_type,
+            cost: element.budgeted_cost,
+            floor: element.floor,
+            project_type: element.project_type,
             userDetails: {
                 _id: element.userDetails._id,
                 username: element.userDetails.username,
@@ -92,7 +92,7 @@ export class ProjectMapper implements IProjectmapper {
             end_date: element.end_date,
             project_name: element.project_name,
             start_date: element.start_date,
-            budgeted_cost:element.budgeted_cost
+            budgeted_cost: element.budgeted_cost
         }));
     }
     toStatusCountDto(project: groupedProjectwithStatus[]): displayStatusCountDTO[] {
@@ -110,7 +110,7 @@ export class ProjectMapper implements IProjectmapper {
             description: project.description,
             end_date: project.end_date,
             estimateBy: project.estimateBy,
-            expected_image: project.expected_image,
+            expected_image: project.expected_image[0].image,
             project_name: project.project_name,
             start_date: project.start_date,
             status: project.status,
@@ -121,5 +121,11 @@ export class ProjectMapper implements IProjectmapper {
         return project.map((element) => ({
             _id: element._id,
         }));
+    }
+    toExpectedImageDto(project: IProjectModelEntity): expectedImageDTO[] {
+        return project.expected_image.map((element)=>({
+            title:element.title,
+            image:element.image
+        }))
     }
 }

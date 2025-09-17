@@ -50,3 +50,10 @@ export interface rejectEstimationInput {
    projectId:string
 }
 
+export interface imageUploadInput {
+   expected_image:{
+      title:string 
+      image:string
+   }[]
+   projectId:string
+}

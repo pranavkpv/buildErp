@@ -57,9 +57,12 @@ export const ProjectSchema = new mongoose.Schema<IProjectModelEntity>(
         end_date: {
             type: Date,
         },
-        expected_image: {
-            type: String,
-        },
+        expected_image: [
+            {
+                title: { type: String },
+                image: { type: String }
+            }
+        ],
         finalImage: {
             type: String,
         },

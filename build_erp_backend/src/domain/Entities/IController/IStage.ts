@@ -4,7 +4,7 @@ import { stageListDTO } from '../../../application/dto/stage.dto';
 
 
 export interface IStageController {
-   
+
    fetchProjectCost(req: Request, res: Response, next: NextFunction):
       Promise<commonOutput<number> | commonOutput | void>
 
@@ -18,6 +18,12 @@ export interface IStageController {
       Promise<commonOutput | void>
 
    updateStage(req: Request, res: Response, next: NextFunction):
+      Promise<commonOutput | void>
+
+   paymentIntendCreation(req: Request, res: Response, next: NextFunction):
+      Promise<commonOutput<string>| commonOutput | void>
+
+   handleWebhook(req: Request, res: Response, next: NextFunction):
       Promise<commonOutput | void>
 
 }
