@@ -1,5 +1,5 @@
 export const EstimationSuccessMessage = {
-    DELETE: 'Estimation deleted successfully',
+    DELETE: 'Estimation Data send successfully',
     FETCH: 'Estimation fetch successfully',
     ADD: 'Estimation added successfully',
     UPDATE: 'Estimation updated successfully',

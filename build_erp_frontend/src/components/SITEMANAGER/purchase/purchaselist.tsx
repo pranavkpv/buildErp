@@ -230,7 +230,7 @@ function PurchaseList() {
             addEnable={addEnable} 
             setAddEnable={setAddEnable} 
             onAddSuccess={fetchPurchaseData} 
-            highInvoice={highInvoice} />
+           />
 
 
             <DeletePurchase

@@ -110,7 +110,7 @@ export class UserRepository implements IUserRepository {
 
     }
     // Create a new Google-authenticated user 
-    async createGoogleUser(input: googleLoginInput): Promise<void> {
+    async createGoogleUser(input: googleLoginInput): Promise<IUserModelEntity> {
         const { email, username, profile_image } = input;
         const newUser = new userDB({
             email,
@@ -118,7 +118,7 @@ export class UserRepository implements IUserRepository {
             profile_image,
             password: 'googelAuthpassword',
         });
-        await newUser.save();
+        return await newUser.save();
     }
     //  Add a JWT token to the blacklist (stored in Redis)
     async blackListToken(accessToken: string): Promise<boolean> {

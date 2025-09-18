@@ -36,7 +36,6 @@ function Project() {
 
   const fetchData = async () => {
     const response = await projectListData(page, search)
-    console.log(response)
     setProjectList(response.data.data);
     setTotal(Math.ceil(response.data.totalPage))
   };

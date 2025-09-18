@@ -15,7 +15,7 @@ export interface IUserRepository {
 
    // User mutations
    createUser(input: userSignupinput): Promise<IUserModelEntity>;
-   createGoogleUser(input:googleLoginInput): Promise<void>
+   createGoogleUser(input:googleLoginInput): Promise<IUserModelEntity>
    updateUserPassword(id: string, password: string): Promise<void>;
    updateUserProfile(input:Omit<updateprofileInput, 'password'>): Promise<void>;
    updateUserProfileImage(id: string, url: string): Promise<void>;

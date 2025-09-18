@@ -12,6 +12,8 @@ import { IPaymentIntendCreationUseCase } from '../../application/IUseCases/IStag
 import { IHandleWebhookUseCase } from '../../application/IUseCases/IStage/IHandlewebhook';
 import { IFetchStageForVerifyUseCase } from '../../application/IUseCases/IStage/IFetchStageForVerify';
 import { IVerifyPaymentUseCase } from '../../application/IUseCases/IStage/IVerifyPayment';
+import { walletDTO } from '../../application/dto/payment.dto';
+import { IGetWalletHistoryUseCase } from '../../application/IUseCases/IUserProfile/IGetWalletHistory';
 
 
 export class StageController implements IStageController {
@@ -25,7 +27,8 @@ export class StageController implements IStageController {
         private _payIntentCreationUseCase: IPaymentIntendCreationUseCase,
         private _handleWebhookUseCase: IHandleWebhookUseCase,
         private _fetchStageForVerifyUseCase: IFetchStageForVerifyUseCase,
-        private _verifyPaymentUseCase: IVerifyPaymentUseCase
+        private _verifyPaymentUseCase: IVerifyPaymentUseCase,
+        private _getWalletHistoryUseCase: IGetWalletHistoryUseCase
     ) { }
 
     //  Fetch project cost by projectId
@@ -154,6 +157,16 @@ export class StageController implements IStageController {
             const stageId = req.params.id
             const result = await this._verifyPaymentUseCase.execute(stageId)
             return result
+        } catch (error) {
+            next(error)
+        }
+    }
+    getwalletHistory = async (req: Request, res: Response, next: NextFunction):
+        Promise<commonOutput<{data:walletDTO[],totalPage:number}> | commonOutput | void> => {
+        try {
+            const { page, search } = req.query
+            const response = await this._getWalletHistoryUseCase.execute({ page: Number(page), search: String(search) })
+            return response
         } catch (error) {
             next(error)
         }

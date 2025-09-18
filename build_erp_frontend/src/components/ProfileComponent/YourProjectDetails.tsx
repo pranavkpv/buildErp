@@ -6,9 +6,7 @@ import { fetchUserProjectAPI } from "../../api/userprofile";
 import EstimationDetails from "./SubprofileCompponent/EstimateDetails";
 import { toast } from "react-toastify";
 import { getStageInUser } from "../../api/auth";
-import PaymentForm from "./SubprofileCompponent/PaymentForm";
-import { loadStripe } from "@stripe/stripe-js";
-import { Elements } from "@stripe/react-stripe-js";
+import StagePayment from "./SubprofileCompponent/StagePayment";
 
 type ProjectData = {
   _id: string;
@@ -43,9 +41,9 @@ function ProjectDetails() {
   const [count, setCount] = useState(0);
   const [estimateOn, setEstimateOn] = useState(false);
   const [stage, setStage] = useState<StageData[]>([]);
-  const [checkOn, setCheckOn] = useState(false);
-  const [checkData, setCheckData] = useState<StageData | undefined>();
-  const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+
+  const [approvalStatus, setApprovalStatus] = useState(false)
+  const [stagePayOn, setStagePayOn] = useState(false)
 
   const fetchUserProject = async () => {
     try {
@@ -206,101 +204,24 @@ function ProjectDetails() {
                   {currentProject.estimateStatus && (
                     <button
                       onClick={() => setEstimateOn(true)}
-                      className="bg-teal-500/90 hover:bg-teal-600 text-white px-4 py-2 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-teal-400"
+                      className="flex items-center px-5 py-2.5 bg-teal-500/90 text-white rounded-lg hover:bg-teal-600 focus:ring-4 focus:ring-teal-200 transition-all duration-200 text-sm sm:text-base font-medium"
+                      aria-label="View estimation details"
                     >
+                      <Image className="w-5 h-5 mr-2" />
                       View Estimation Details
                     </button>
                   )}
+                  <button
+                    onClick={() => setStagePayOn(true)}
+                    className="flex items-center px-5 py-2.5 border-2 border-indigo-600 text-indigo-600 rounded-lg hover:bg-indigo-50 focus:ring-4 focus:ring-indigo-200 transition-all duration-200 text-sm sm:text-base font-medium"
+                    aria-label="View payment details"
+                  >
+                    <DollarSign className="w-5 h-5 mr-2" />
+                    View Payment Details
+                  </button>
                 </div>
               </div>
             </div>
-
-            {stage.length > 0 && (
-              <div className="mt-8 overflow-x-auto">
-                <table className="min-w-full divide-y divide-gray-200">
-                  <thead className="bg-gray-50">
-                    <tr>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        SL No
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Stage Name
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Start Date
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-Feeling like I missed something? Let me know, and I’ll dig deeper!500 uppercase tracking-wider">
-                        End Date
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Amount
-                      </th>
-                      <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Action
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
-                    {stage.map((element, index) => (
-                      <tr key={element._id} className="hover:bg-gray-50">
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{index + 1}</td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                          {element.stage_name}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {element.start_date.split("T")[0].split("-").reverse().join("-")}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          {element.end_date.split("T")[0].split("-").reverse().join("-")}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                          ₹{element.stage_amount.toLocaleString()}
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap text-sm">
-                          {(() => {
-                            const isDisabled =
-                              new Date(element.end_date) >=
-                                new Date(Date.now() + 2 * 24 * 60 * 60 * 1000) &&
-                                element.paymentStatus === "pending"
-                                ? false
-                                : true;
-
-                            const buttonText =
-                              element.paymentStatus === "completed"
-                                ? "Paid"
-                                : element.paymentStatus === "verified"
-                                  ? "Verified"
-                                  : "Pay";
-
-                            const buttonColors: Record<string, string> = {
-                              Paid: "bg-green-600 hover:bg-green-700",
-                              Verified: "bg-blue-600 hover:bg-blue-700",
-                              Pay: "bg-indigo-600 hover:bg-indigo-700",
-                            };
-
-                            return (
-                              <button
-                                onClick={() => {
-                                  setCheckData(element);
-                                  setCheckOn(true);
-                                }}
-                                disabled={isDisabled}
-                                className={`px-4 py-2 text-white rounded-lg 
-                                  ${ buttonColors[buttonText] } 
-                                   disabled:opacity-50 disabled:cursor-not-allowed 
-                                  transition-all duration-200 text-sm font-medium`}
-                              >
-                                {buttonText}
-                              </button>
-                            );
-                          })()}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            )}
 
             <ProgressBar progressEnable={progressEnable} projectId={currentProject._id} />
             <ProjectImage
@@ -313,12 +234,13 @@ function ProjectDetails() {
               setEstimateOn={setEstimateOn}
               projectId={currentProject._id}
               onSuccess={fetchUserProject}
+              setApprovalStatus={setApprovalStatus}
             />
-            <Elements stripe={stripePromise}>
-              <PaymentForm
-                checkData={checkData}
-              />
-            </Elements>
+            <StagePayment
+              stagePayOn={stagePayOn}
+              setStagePayOn={setStagePayOn}
+              projectId={currentProject._id}
+            />
           </div>
         )}
         <div className="mt-8 flex justify-between">

@@ -66,7 +66,9 @@ function AddAdditionalSpec({ fetchSpecList }: prop) {
     if (specSave.success) {
       toast.success(specSave.message);
       setAddAdditionalEnable(false);
+      setAdditionalExpense(0)
       fetchSpecList();
+      setProfit(0)
     } else {
       toast.error(specSave.message);
     }

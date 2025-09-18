@@ -7,7 +7,7 @@ import { ISendEstimationUseCase } from '../../application/IUseCases/IEstimation/
 import { IUploadEstimateImageUseCase } from '../../application/IUseCases/IEstimation/IUploadEstimateImage';
 import { IUpdateEstimationUseCase } from '../../application/IUseCases/IEstimation/IUpdateEstimation';
 import { commonOutput } from '../../application/dto/common';
-import { additionEstimateDTO, estimateByProjectDTO, labourEstimateDTO, listEstimationDTO, materialEstimateDTO, specListInProjectDTO } from '../../application/dto/estimation.dto';
+import { additionEstimateDTO, estimateByProjectDTO, estimationImageDTO, labourEstimateDTO, listEstimationDTO, materialEstimateDTO, specListInProjectDTO } from '../../application/dto/estimation.dto';
 import { IFetchSpecListUsingEstimationUsecase } from '../../application/IUseCases/IEstimation/IFetchSpecListUsingEstimation';
 import { IGetEstimationByProjectUsecase } from '../../application/IUseCases/IEstimation/IGetEstimationByProject';
 import { IGetMaterialEstimationUseCase } from '../../application/IUseCases/IEstimation/IGetMaterialEstimation';
@@ -17,6 +17,7 @@ import { IRejectEstimationUseCase } from '../../application/IUseCases/IEstimatio
 import { IApproveEstimationUseCase } from '../../application/IUseCases/IEstimation/IApproveEstimation';
 import { ResponseHelper } from '../../Shared/responseHelpers/response';
 import { EstimationFailedMessage } from '../../Shared/Messages/Estimation.Message';
+import { IGetEstimationImageUsecase } from '../../application/IUseCases/IEstimation/IGetEstimationImage';
 
 
 
@@ -35,6 +36,7 @@ export class EstimationController implements IEstimationController {
         private _getLabourEstimationUseCase: IGetLabourEstimationUseCase,
         private _rejectEstimationUseCase: IRejectEstimationUseCase,
         private _approveEstimationUseCase: IApproveEstimationUseCase,
+        private _getEstimationImageUseCase: IGetEstimationImageUsecase
     ) { }
 
     // Create a new estimation
@@ -91,9 +93,9 @@ export class EstimationController implements IEstimationController {
             const projectId = req.params.id;
             const files = req.files as any
             const body = req.body;
-            let imageCollection:string[]= []
+            let imageCollection: string[] = []
             let title = []
-            let finalImage:{title:string,image:string}[] = []
+            let finalImage: { title: string, image: string }[] = []
             for (let key in files) {
                 const uploadedImage = await cloudinary.uploader.upload(files[key].tempFilePath, {
                     folder: 'Estimation',
@@ -101,17 +103,17 @@ export class EstimationController implements IEstimationController {
                 });
                 imageCollection.push(uploadedImage.secure_url)
             }
-            for(let element in body){
+            for (let element in body) {
                 title.push(body[element])
             }
-            if(imageCollection.length !== title.length){
+            if (imageCollection.length !== title.length) {
                 return ResponseHelper.badRequest(EstimationFailedMessage.KEEP_SAME)
             }
-            for(let i=0;i<title.length;i++){
-                finalImage.push({title:title[i],image:imageCollection[i]})
+            for (let i = 0; i < title.length; i++) {
+                finalImage.push({ title: title[i], image: imageCollection[i] })
             }
 
-            const result = await this._uploadEstimationUseCase.execute({expected_image:finalImage, projectId});
+            const result = await this._uploadEstimationUseCase.execute({ expected_image: finalImage, projectId });
             return result;
         } catch (error) {
             next(error);
@@ -189,5 +191,15 @@ export class EstimationController implements IEstimationController {
             next(error);
         }
     };
+    getEstimationImage = async (req: Request, res: Response, next: NextFunction):
+        Promise<commonOutput<estimationImageDTO[]> | void> => {
+        try {
+            const projectId = req.params.id
+            const data = await this._getEstimationImageUseCase.execute(projectId)
+            return data
+        } catch (error) {
+            next(error)
+        }
+    }
 
 }

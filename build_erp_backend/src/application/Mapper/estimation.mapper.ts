@@ -12,6 +12,7 @@ export class EstimationMapper implements IEstimationmapper {
                 spec_name: element.specDetails.spec_name,
                 description: element.specDetails.description,
             },
+            
         }));
     }
     tolistEstimationDTO(estimation: estiomationAggregatebyProject[]): listEstimationDTO[] {

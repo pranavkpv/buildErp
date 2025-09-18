@@ -3,9 +3,9 @@ import siteAxios from "../../axios/SitemanagerAxioInterceptor"
 
 
 type materialData = {
-   material_id: string;
-   quantity: number;
-   unit_rate: number;
+      material_id: string;
+      quantity: number;
+      unit_rate: number;
 };
 
 // ---------------- Fetch all purchase data ---------------- //
@@ -31,39 +31,44 @@ export const deletePurchaseAPI = async (_id: string) => {
       return response.data
 }
 
-export const ApprovePurchaseAPI = async (_id: string,data:Purchase) => {
-      const response = await siteAxios.patch(`/purchase/${ _id }`,{data})
+export const ApprovePurchaseAPI = async (_id: string, data: Purchase) => {
+      const response = await siteAxios.patch(`/purchase/${ _id }`, { data })
       return response.data
 }
 
 export const fetchUniqueMaterialInSiteManager = async () => {
-    const response = await siteAxios.get(`/fetchMaterial`);
-    return response.data;
+      const response = await siteAxios.get(`/fetchMaterial`);
+      return response.data;
 };
 
 
 export const fetchBrandCorrespondingMaterialInSitemanager = async (material: string) => {
-    const response = await siteAxios.get(`/fetchMatbyBrand/${material}`);
-    return response.data;
+      const response = await siteAxios.get(`/fetchMatbyBrand/${ material }`);
+      return response.data;
 };
 
 export const fetchUnitCorrespondingMaterialInsitemanager = async (material: string) => {
-    const response = await siteAxios.get(`/fetMatbyUnit/${material}`);
-    return response.data;
+      const response = await siteAxios.get(`/fetMatbyUnit/${ material }`);
+      return response.data;
 };
 
 
 export const fetchUnitRateInSitemanager = async (
-  selectedMaterial: string,
-  selectedUnit: string,
-  selectedBrand: string
+      selectedMaterial: string,
+      selectedUnit: string,
+      selectedBrand: string
 ) => {
-    const response = await siteAxios.get('/unitRate', {
-      params: {
-        material_name: selectedMaterial,
-        brand_name: selectedBrand,
-        unit_name: selectedUnit,
-      },
-    });
-    return response.data;
+      const response = await siteAxios.get('/unitRate', {
+            params: {
+                  material_name: selectedMaterial,
+                  brand_name: selectedBrand,
+                  unit_name: selectedUnit,
+            },
+      });
+      return response.data;
 };
+
+export const fetchLastInvoiceApi = async () => {
+      const response = await siteAxios.get('/lastInvoice')
+      return response.data
+}

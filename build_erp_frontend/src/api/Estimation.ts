@@ -122,4 +122,9 @@ export const uploadProjectImageUserAPI = async (projectId: string, estimatedImag
    return response.data;
 };
 
+export const getEstimationImageApi = async (projectId: string) => {
+   const response = await adminAxios.get(`/EstimationImage/${ projectId }`)
+   return response.data
+}
+
 

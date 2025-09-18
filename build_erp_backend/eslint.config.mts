@@ -2,7 +2,6 @@ import js from '@eslint/js';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 import { defineConfig } from 'eslint/config';
-import { fileURLToPath } from 'url';
 import path from 'path';
 
 const __dirname = path.resolve();

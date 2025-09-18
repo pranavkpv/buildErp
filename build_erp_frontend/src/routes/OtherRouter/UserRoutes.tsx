@@ -21,6 +21,7 @@ import ProjectProposal from "../../components/ProfileComponent/Proposal";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import Transfer from "../../components/ProfileComponent/Transfer";
+import Wallet from "../../components/ProfileComponent/Wallet";
 
 const stripePromise = loadStripe("pk_test_51S7bMD1P84WAbTJTerojk1ff5MKXMgAJX2YZ5XQPA1DJHsraJm1YSjr5oGTYRuDbyoSPakUJfx7FT7NMGJUVexwm00fPjEzze7")
 export const UserRoutes = () => {
@@ -50,6 +51,7 @@ export const UserRoutes = () => {
         <Route path="change-password" element={<ChangePassword />} />
         <Route path="chat" element={<Chat />} />
         <Route path="transfer" element={<Transfer />} />
+        <Route path="wallet" element={<Wallet />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>

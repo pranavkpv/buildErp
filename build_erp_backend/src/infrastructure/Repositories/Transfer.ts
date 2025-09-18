@@ -6,6 +6,7 @@ import { listTransferDTO, material, TransferOutput } from '../../application/dto
 import { fetchProjectIdnameDTO } from '../../application/dto/project.dto';
 import { transferInput } from '../../application/Entities/transfer.entity';
 import { ITransferRepository } from '../../domain/Entities/IRepository/ITransfer';
+import { Types } from 'mongoose';
 
 export class TransferRepository implements ITransferRepository {
 
@@ -247,7 +248,11 @@ export class TransferRepository implements ITransferRepository {
     }
     async getUserBaseTransfer(userId: string): Promise<listTransferDTO[]> {
         const allTransfer = await transferDB.aggregate([
-            { $addFields: { fromprojectObjectId: { $toObjectId: '$from_project_id' } } },
+            {
+                $addFields: {
+                    fromprojectObjectId: { $toObjectId: '$from_project_id' },
+                }
+            },
             { $lookup: { from: 'projects', localField: 'fromprojectObjectId', foreignField: '_id', as: 'fromprojectDetails' } },
             { $unwind: '$fromprojectDetails' },
             { $addFields: { toprojectObjectId: { $toObjectId: '$to_project_id' } } },
@@ -293,6 +298,7 @@ export class TransferRepository implements ITransferRepository {
                 },
             },
         ]);
+
 
         const data: listTransferDTO[] = allTransfer.map((element) => ({
             _id: element._id,

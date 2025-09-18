@@ -36,4 +36,6 @@ export interface IPurchaseRepository {
    getPurchaseByInvoiceInEdit(invoice: number, id: string):
       Promise<IPurchaseModelEntity | null>
 
+   getAllPurchase(): Promise<IPurchaseModelEntity[]>
+
 }

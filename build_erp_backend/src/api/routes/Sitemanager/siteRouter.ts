@@ -151,6 +151,10 @@ export class SitemanagerRoute {
             '/purchase/:id',
             withLogging(injectedPurchaseController.approvePurchase),
         );
+         this.sitemanagerRoute.get(
+            '/lastInvoice',
+            withLogging(injectedPurchaseController.getLastInvoice),
+        );
 
         // ================================
         // 🔹 Transfer

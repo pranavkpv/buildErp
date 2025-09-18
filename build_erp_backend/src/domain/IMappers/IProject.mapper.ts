@@ -17,4 +17,5 @@ export interface IProjectmapper {
    toUserBaseOneProjectDto(project:IProjectModelEntity):userBaseProjectDTO
    toOnlyId(project:IProjectModelEntity[]):OnlyIdDTO[]
    toExpectedImageDto(project:IProjectModelEntity):expectedImageDTO[]
+
 }

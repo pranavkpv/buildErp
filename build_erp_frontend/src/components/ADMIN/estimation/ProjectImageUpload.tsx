@@ -1,7 +1,7 @@
 import { toast } from "react-toastify";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { estimatedImage } from "../../../ApiInterface/estimation.interface";
-import { uploadProjectImageAPI } from "../../../api/Estimation";
+import { uploadProjectImageAPI, getEstimationImageApi } from "../../../api/Estimation";
 
 type uploadProp = {
   uploadEnable: boolean;
@@ -9,10 +9,16 @@ type uploadProp = {
   uploadProjectId: string;
 };
 
+type existImage = {
+  title: string;
+  image: string;
+};
+
 function ProjectImageUpload({ uploadEnable, setUploadEnable, uploadProjectId }: uploadProp) {
   if (!uploadEnable) return null;
 
   const [estimatedImages, setEstimatedImages] = useState<estimatedImage[]>([{ title: "", file: null }]);
+  const [existImages, setExistImages] = useState<existImage[]>([]);
 
   const handleImageChange = (index: number, field: string, value: string | File | null) => {
     setEstimatedImages((prev) => {
@@ -33,32 +39,71 @@ function ProjectImageUpload({ uploadEnable, setUploadEnable, uploadProjectId }: 
   };
 
   const uploadImageFun = async () => {
-    // Validate inputs
     const isValid = estimatedImages.every((img) => img.title.trim() && img.file);
     if (!isValid) {
       toast.error("Please provide both title and image for all entries");
       return;
     }
 
-
-
     const response = await uploadProjectImageAPI(uploadProjectId, estimatedImages);
     if (response.success) {
       toast.success(response.message);
       setUploadEnable(false);
       setEstimatedImages([{ title: "", file: null }]);
+      fetchExistImage(); // Refresh existing images after upload
     } else {
       toast.error(response.message);
     }
   };
 
+  const fetchExistImage = async () => {
+    try {
+      const response = await getEstimationImageApi(uploadProjectId);
+      if (response.success) {
+        setExistImages(response.data);
+      } else {
+        toast.error(response.message);
+      }
+    } catch (error) {
+      toast.error("Failed to fetch existing images");
+    }
+  };
+
+  useEffect(() => {
+    fetchExistImage();
+  }, [uploadProjectId]);
+
   return (
     <div className="fixed inset-0 bg-gray-900/80 flex items-center justify-center z-50 p-4 sm:p-6">
-      <div className="bg-gray-800/95 backdrop-blur-sm rounded-xl shadow-2xl p-6 sm:p-8 w-full max-w-lg border border-gray-700/50">
+      <div className="bg-gray-800/95 backdrop-blur-sm rounded-xl shadow-2xl p-6 sm:p-8 w-full max-w-2xl border border-gray-700/50">
         <h2 className="text-2xl font-bold text-gray-100 mb-6 text-center">
           Upload Project Images
         </h2>
-        <div className="space-y-6 max-h-[70vh] overflow-y-auto pr-2">
+
+        {/* Existing Images Section */}
+        {existImages.length > 0 && (
+          <div className="mb-8">
+            <h3 className="text-lg font-semibold text-gray-200 mb-4">Existing Images</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-h-[30vh] overflow-y-auto pr-2">
+              {existImages.map((element, index) => (
+                <div
+                  key={index}
+                  className="bg-gray-700/50 p-4 rounded-lg flex flex-col items-center"
+                >
+                  <h4 className="text-sm font-medium text-gray-200 mb-2">{element.title}</h4>
+                  <img
+                    src={element.image}
+                    alt={element.title}
+                    className="w-full h-32 object-cover rounded-md"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Upload New Images Section */}
+        <div className="space-y-6 max-h-[50vh] overflow-y-auto pr-2">
           {estimatedImages.map((image, index) => (
             <div key={index} className="border-b border-gray-700/50 pb-4 mb-4">
               <div className="flex items-center justify-between mb-3">
@@ -102,6 +147,8 @@ function ProjectImageUpload({ uploadEnable, setUploadEnable, uploadProjectId }: 
             + Add Another Image
           </button>
         </div>
+
+        {/* Action Buttons */}
         <div className="flex justify-end gap-4 mt-6">
           <button
             type="button"

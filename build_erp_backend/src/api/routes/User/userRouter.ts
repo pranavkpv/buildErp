@@ -150,5 +150,9 @@ export class userRoute {
             '/transfer/:id',
             withLogging(injectedTransferController.approveTransfer),
         );
+         this.userRoute.get(
+            '/wallet',
+            withLogging(injectStageController.getwalletHistory),
+        );
     }
 }

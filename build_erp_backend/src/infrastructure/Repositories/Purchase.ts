@@ -107,7 +107,7 @@ export class PurchaseRepository implements IPurchaseRepository {
             description: element.description,
             materialDetails: element.materialDetails,
             finalAmount: element.materialDetails.reduce(
-                (sum: number, mat: {quantity:number,unit_rate:number}) => sum + (mat.quantity * mat.unit_rate),
+                (sum: number, mat: { quantity: number, unit_rate: number }) => sum + (mat.quantity * mat.unit_rate),
                 0,
             ),
         }));
@@ -208,10 +208,13 @@ export class PurchaseRepository implements IPurchaseRepository {
     }
     //get all purchase without aprove by projectId
     async getUnApprovedPurchaseByProjectId(id: string): Promise<IPurchaseModelEntity[]> {
-        return await purchaseDB.find({ project_id:id,approval_status:false });
+        return await purchaseDB.find({ project_id: id, approval_status: false });
     }
 
     async getPurchaseByInvoiceInEdit(invoice: number, id: string): Promise<IPurchaseModelEntity | null> {
-        return await purchaseDB.findOne({ _id:{ $ne:id },invoice_number:invoice });
+        return await purchaseDB.findOne({ _id: { $ne: id }, invoice_number: invoice });
+    }
+    async getAllPurchase(): Promise<IPurchaseModelEntity[]> {
+        return await purchaseDB.find()
     }
 }

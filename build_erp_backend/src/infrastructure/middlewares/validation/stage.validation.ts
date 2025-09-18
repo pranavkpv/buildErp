@@ -49,7 +49,7 @@ export const validateStageAction = (req: Request,res: Response,next: NextFunctio
                 json({ success: false, message: StageFailedMessage.STAGE_NAME_REQUIRED });
             return;
         }
-        if (element.stage_name.length > 20) {
+        if (element.stage_name.length > 50) {
             res.status(HTTP_STATUS.BAD_REQUEST)
                 .json({ success: false, message: StageFailedMessage.STAGE_LENGTH });
             return;

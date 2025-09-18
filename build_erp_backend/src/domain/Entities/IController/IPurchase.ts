@@ -19,5 +19,7 @@ export interface IPurchaseController {
 
    approvePurchase(req: Request, res: Response, next: NextFunction):
       Promise<commonOutput | void>
-      
+
+   getLastInvoice(req: Request, res: Response, next: NextFunction):
+      Promise<commonOutput<number> | void>
 }

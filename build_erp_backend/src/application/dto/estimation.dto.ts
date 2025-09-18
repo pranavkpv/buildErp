@@ -57,3 +57,8 @@ export interface additionEstimateDTO {
    profit_per: number
    profit_amount: number
 }
+
+export interface estimationImageDTO {
+   title:string 
+   image:string
+}

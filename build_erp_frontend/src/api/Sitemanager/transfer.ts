@@ -1,4 +1,5 @@
-import type { Transfer } from "../../components/ProfileComponent/SubprofileCompponent/ApproveTransfer";
+
+import type { Transfer } from "../../components/SITEMANAGER/Transfer/TransferList";
 import siteAxios from "../../axios/SitemanagerAxioInterceptor"
 import userAxios from "../../axios/userAxios";
 
@@ -41,7 +42,7 @@ export const deleteTransferAPI = async (_id: string) => {
 
 export const ApproveTransferAPI = async (_id: string, data: Transfer) => {
 
-      const response = await siteAxios.patch(`/transfer/${ _id }`, { data })
+      const response = await userAxios.patch(`/transfer/${ _id }`, { data })
       return response.data
 
 }

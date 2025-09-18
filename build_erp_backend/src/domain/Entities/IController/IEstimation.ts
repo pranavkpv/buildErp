@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { commonOutput } from '../../../application/dto/common';
-import { additionEstimateDTO, estimateByProjectDTO, labourEstimateDTO, listEstimationDTO, materialEstimateDTO, specListInProjectDTO } from '../../../application/dto/estimation.dto';
+import { additionEstimateDTO, estimateByProjectDTO, estimationImageDTO, labourEstimateDTO, listEstimationDTO, materialEstimateDTO, specListInProjectDTO } from '../../../application/dto/estimation.dto';
 
 export interface IEstimationController {
 
@@ -39,5 +39,8 @@ export interface IEstimationController {
 
    ApproveEstimation(req: Request, res: Response, next: NextFunction):
       Promise<commonOutput | void>;
+
+   getEstimationImage(req: Request, res: Response, next: NextFunction):
+      Promise<commonOutput<estimationImageDTO[]> | void>;
 
 }

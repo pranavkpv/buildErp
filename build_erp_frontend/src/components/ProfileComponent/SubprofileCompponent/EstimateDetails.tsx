@@ -12,6 +12,7 @@ interface prop {
    setEstimateOn: React.Dispatch<React.SetStateAction<boolean>>;
    projectId: string
    onSuccess: () => void
+   setApprovalStatus:React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface specs {
@@ -60,7 +61,7 @@ type imageData = {
    title: string
 }
 
-function EstimationDetails({ estimateOn, setEstimateOn, projectId, onSuccess }: prop) {
+function EstimationDetails({ estimateOn, setEstimateOn, projectId, onSuccess,setApprovalStatus }: prop) {
    if (!estimateOn) return null
 
    const [specData, setSpecData] = useState<specs[]>([])
@@ -79,6 +80,7 @@ function EstimationDetails({ estimateOn, setEstimateOn, projectId, onSuccess }: 
       const response = await getEstimationApi(projectId)
       if (response.success) {
          setSpecData(response.data)
+         setApprovalStatus(response.data[0].approvalStatus)
       } else {
          throw new Error(response.message)
       }

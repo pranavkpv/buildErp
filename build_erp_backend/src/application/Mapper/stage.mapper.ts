@@ -1,5 +1,6 @@
 import { IStageModelEntity } from '../../domain/Entities/modelEntities/stage.entity';
 import { IStagemapper } from '../../domain/IMappers/IStage.mapper';
+import { walletDTO } from '../dto/payment.dto';
 import { displayProjectWithCompletionDTO } from '../dto/project.dto';
 import { publicstageDTO, verifyStageDTO } from '../dto/stage.dto';
 import { paymentAggregateByStage, stageWithAggregateProject } from '../Entities/stage.entity';
@@ -35,6 +36,16 @@ export class Stagemapper implements IStagemapper {
             payment_status:element.stageDetails.payment_status,
             project_name:element.projectDetails.project_name,
             stage_amount:element.stageDetails.stage_amount,
+            stage_name:element.stageDetails.stage_name
+        }))
+    }
+    toWalletDTO(input:paymentAggregateByStage[]):walletDTO[]{
+        return input.map((element)=>({
+            date:element.date,
+            payment_amount:element.amount,
+            paymentStatus:element.paymentStatus,
+            project_name:element.projectDetails.project_name,
+            purpose:element.purpose,
             stage_name:element.stageDetails.stage_name
         }))
     }

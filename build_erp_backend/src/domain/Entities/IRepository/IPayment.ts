@@ -10,4 +10,5 @@ export interface IPaymentRepostory {
    findBySessionId(sessionId: string): Promise<IPaymentModelEntity | null>
    updatePaymentStatus(stageId: string, status: string): Promise<void>
    getAggregatePaymentbyStage(input: listingInput): Promise<{data:paymentAggregateByStage[],totalPage:number}>
+   getWalletHistoryRepo(input: listingInput): Promise<{data:paymentAggregateByStage[],totalPage:number}>
 }

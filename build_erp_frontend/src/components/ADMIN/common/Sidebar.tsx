@@ -69,20 +69,20 @@ const sidebarItems = [
       { head: "Labour Type Registration", to: "/admin/labour" },
     ],
   },
-  {
-    title: "Account Head",
-    icon: DollarSign,
-    subs: [
-      { head: "Account Head Registration", to: "/admin/account" },
-    ],
-  },
-  {
-    title: "Report",
-    icon: FileText,
-    subs: [
-      { head: "Project Analysis Report", to: "/admin/report" },
-    ],
-  },
+  // {
+  //   title: "Account Head",
+  //   icon: DollarSign,
+  //   subs: [
+  //     { head: "Account Head Registration", to: "/admin/account" },
+  //   ],
+  // },
+  // {
+  //   title: "Report",
+  //   icon: FileText,
+  //   subs: [
+  //     { head: "Project Analysis Report", to: "/admin/report" },
+  //   ],
+  // },
 ];
 
 function Sidebar() {

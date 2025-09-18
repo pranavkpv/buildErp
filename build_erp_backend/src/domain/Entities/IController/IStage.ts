@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { commonOutput } from '../../../application/dto/common';
 import { stageListDTO, verifyStageDTO } from '../../../application/dto/stage.dto';
+import { walletDTO } from '../../../application/dto/payment.dto';
 
 
 export interface IStageController {
@@ -31,5 +32,8 @@ export interface IStageController {
 
    verifyPayment(req: Request, res: Response, next: NextFunction):
       Promise<commonOutput | void>
+
+   getwalletHistory(req: Request, res: Response, next: NextFunction):
+       Promise<commonOutput<{data:walletDTO[],totalPage:number}> | commonOutput | void>
 
 }

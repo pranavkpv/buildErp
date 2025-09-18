@@ -18,7 +18,7 @@ export const TransferSuccessMessage = {
     APPROVE: 'Transfer Data Approved SuccessFully',
     DELETE: 'TransferData Deleted SuccessFully',
     FETCH: 'TransferData Fetch Successfully',
-    SAVE: 'TransferData Saved SuccessFully',
+    SAVE: 'TransferData Send User for Request Transfer',
     UPDATE: 'TransferData Updated SuccessFully',
     REJECT:'TransferData Rejected SuccessFully'
 };

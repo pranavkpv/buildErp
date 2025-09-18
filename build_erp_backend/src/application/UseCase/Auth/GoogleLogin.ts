@@ -12,27 +12,25 @@ import { Role } from '../../../Shared/Constants/Role.constant';
 
 export class GoogleloginUseCase implements IGoogleloginUseCase {
     constructor(
-      private _userRepository: IUserRepository,
-      private _jwtService: JwtService,
-      private _usermapper: IUserMapper,
+        private _userRepository: IUserRepository,
+        private _jwtService: JwtService,
+        private _usermapper: IUserMapper,
     ) { }
     async execute(input: googleLoginInput):
-      Promise<commonOutput<{ userData: userLoginDTO; tokens: Tokens }> | commonOutput> {
+        Promise<commonOutput<{ userData: userLoginDTO; tokens: Tokens }> | commonOutput> {
         const { email, username, profile_image } = input;
         const savedUser = await this._userRepository.getUserByEmail(email);
-        if (!savedUser) {
-            return ResponseHelper.conflictData(userFailedMessage.EXIST_GOOGLE);
-        }
         const existAuthUser = await this._userRepository.getAuthUserByEmail(email);
         if (existAuthUser) {
             const mappedUser = this._usermapper.touserLoginDTO(existAuthUser);
             const tokens = this._jwtService.generateTokens(existAuthUser._id, existAuthUser.email, Role.USER);
             return ResponseHelper.success(userSuccessMessage.LOGIN, { userData: mappedUser, tokens });
-        } else {
-            await this._userRepository.createGoogleUser({ email, username, profile_image });
+        } else if (savedUser) {
+            return ResponseHelper.conflictData(userFailedMessage.EMAIL_EXIST)
         }
-        const mappedUser = this._usermapper.touserLoginDTO(savedUser);
-        const tokens = this._jwtService.generateTokens(savedUser._id, savedUser.email, Role.USER);
+        const user = await this._userRepository.createGoogleUser({ email, username, profile_image });
+        const mappedUser = this._usermapper.touserLoginDTO(user);
+        const tokens = this._jwtService.generateTokens(user._id, user.email, Role.USER);
         return ResponseHelper.success(userSuccessMessage.LOGIN, { userData: mappedUser, tokens });
     }
 }

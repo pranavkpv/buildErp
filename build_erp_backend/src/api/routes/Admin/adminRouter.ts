@@ -294,6 +294,9 @@ export class AdminRoute {
         this.adminRoute.get('/fetchExistEstimation/:id',
             withLogging(injectEstimationController.getSpecListByEstimation));
 
+        this.adminRoute.get('/EstimationImage/:id',
+            withLogging(injectEstimationController.getEstimationImage));
+
 
         // =====================================================================
         // 🟢 STAGE ROUTES

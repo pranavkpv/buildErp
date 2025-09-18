@@ -52,7 +52,7 @@ function Transfer() {
     if (!dateString) return "Not provided";
     const [date] = dateString.split("T");
     const [year, month, day] = date.split("-");
-    return `${day}-${month}-${year}`;
+    return `${ day }-${ month }-${ year }`;
   };
 
   return (
@@ -119,7 +119,7 @@ function Transfer() {
                             hover:bg-teal-100 hover:text-teal-800 
                             focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 
                             transition-all duration-200"
-                          aria-label={`View actions for transfer ${element.transfer_id}`}
+                          aria-label={`View actions for transfer ${ element.transfer_id }`}
                           onClick={() => {
                             setActionData(element);
                             setActionEnable(true);

@@ -9,6 +9,7 @@ import { ISavePurchaseUseCase } from '../../application/IUseCases/IPurchase/ISav
 import { IUpdatePurchaseUseCase } from '../../application/IUseCases/IPurchase/IUpdatePurchase';
 import { IDeletePurchaseUseCase } from '../../application/IUseCases/IPurchase/IDeletePurchase';
 import { IApprovePurchaseUseCase } from '../../application/IUseCases/IPurchase/IApprovePurchase';
+import { IGetLastInvoiceUsecase } from '../../application/IUseCases/IPurchase/IGetLastInvoice';
 
 export class PurchaseController implements IPurchaseController {
     constructor(
@@ -18,6 +19,7 @@ export class PurchaseController implements IPurchaseController {
       private _updatePurchaseUseCase: IUpdatePurchaseUseCase,
       private _deletePurchaseUseCase: IDeletePurchaseUseCase,
       private _approvePurchaseUseCase: IApprovePurchaseUseCase,
+      private _getLastInvoiceUseCase: IGetLastInvoiceUsecase
     ) { }
 
     // Fetch purchases with search and pagination
@@ -94,4 +96,13 @@ export class PurchaseController implements IPurchaseController {
             next(error);
         }
     };
+    getLastInvoice = async(req: Request, res: Response, next: NextFunction): 
+    Promise<commonOutput<number> | void> =>{
+        try {
+            const result = await this._getLastInvoiceUseCase.execute()
+            return result
+        } catch (error) {
+            next(error)
+        }
+    }
 }

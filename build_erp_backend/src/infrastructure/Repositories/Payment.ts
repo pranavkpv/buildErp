@@ -5,7 +5,6 @@ import { paymentDB } from "../../api/models/PaymentMode";
 import { IPaymentModelEntity } from "../../domain/Entities/modelEntities/payment.entity";
 import { listingInput } from "../../application/Entities/common.entity";
 import { paymentAggregateByStage } from "../../application/Entities/stage.entity";
-import { stageDB } from "../../api/models/StageModel";
 
 export class PaymentRepository implements IPaymentRepostory {
    constructor(
@@ -82,7 +81,7 @@ export class PaymentRepository implements IPaymentRepostory {
             $match: {
                "projectDetails.project_name": {
                   $regex: search, $options: "i"
-               }
+               }, purpose: "stage payment"
             }
          },
          { $skip: skip }, { $limit: limit }
@@ -131,5 +130,94 @@ export class PaymentRepository implements IPaymentRepostory {
          totalPage: Math.ceil(totalDoc.length)
       }
 
+   }
+   async getWalletHistoryRepo(input: listingInput):
+      Promise<{ data: paymentAggregateByStage[]; totalPage: number; }> {
+      const { search, page } = input
+      const limit = 10
+      const skip = page * 10
+      const stage = await paymentDB.aggregate([
+         {
+            $addFields: {
+               stageObjectId: {
+                  $toObjectId: "$stage_id"
+               }
+            }
+         },
+         {
+            $lookup: {
+               from: "stages",
+               localField: "stageObjectId",
+               foreignField: "_id",
+               as: "stageDetails"
+            }
+         }, { $unwind: "$stageDetails" },
+         {
+            $addFields: {
+               projectObjectId: {
+                  $toObjectId: "$stageDetails.project_id"
+               }
+            }
+         },
+         {
+            $lookup: {
+               from: "projects",
+               localField: "projectObjectId",
+               foreignField: "_id",
+               as: "projectDetails"
+            }
+         }, { $unwind: "$projectDetails" },
+         {
+            $match: {
+               "projectDetails.project_name": {
+                  $regex: search, $options: "i"
+               }, paymentMethod: "wallet"
+            }
+         },
+         { $skip: skip }, { $limit: limit }
+      ])
+      const totalDoc = await paymentDB.aggregate([
+         {
+            $addFields: {
+               stageObjectId: {
+                  $toObjectId: "$stage_id"
+               }
+            }
+         },
+         {
+            $lookup: {
+               from: "stages",
+               localField: "stageObjectId",
+               foreignField: "_id",
+               as: "stageDetails"
+            }
+         }, { $unwind: "$stageDetails" },
+         {
+            $addFields: {
+               projectObjectId: {
+                  $toObjectId: "$stageDetails.project_id"
+               }
+            }
+         },
+         {
+            $lookup: {
+               from: "projects",
+               localField: "projectObjectId",
+               foreignField: "_id",
+               as: "projectDetails"
+            }
+         }, { $unwind: "$projectDetails" },
+         {
+            $match: {
+               "projectDetails.project_name": {
+                  $regex: search, $options: "i"
+               }, purpose: "stage payment"
+            }
+         },
+      ])
+      return {
+         data: stage,
+         totalPage: Math.ceil(totalDoc.length)
+      }
    }
 }

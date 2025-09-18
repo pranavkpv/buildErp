@@ -23,6 +23,7 @@ import { GetAdditionEstimationUseCase } from '../../application/UseCase/Estimati
 import { GetLabourEstimationUseCase } from '../../application/UseCase/Estimation/GetLabourEstimation';
 import { RejectEstimationUsecase } from '../../application/UseCase/Estimation/RejectEstimation';
 import { ApproveEstimationUseCase } from '../../application/UseCase/Estimation/ApproveEstimation';
+import { GetEstimationImageUsecase } from '../../application/UseCase/Estimation/GetEstimationImage';
 
 const estimationRepository = new EstimationRepository();
 const stageRepository = new StageRepository();
@@ -40,9 +41,10 @@ const getAdditionEstimationUseCase = new GetAdditionEstimationUseCase(estimation
 const getLabourEstimationUseCase = new GetLabourEstimationUseCase(estimationRepository,estimationMapper);
 const rejectEstimationUseCase = new RejectEstimationUsecase(projectRepository,estimationRepository);
 const approveEstimationUseCase = new ApproveEstimationUseCase(estimationRepository,projectRepository);
+const getEstimationImageUseCase = new GetEstimationImageUsecase(projectRepository)
 export const injectEstimationController = new EstimationController(saveEstimationUseCase,sendEstimationUseCase,updateEstimationUseCase,displayEstimationUseCase,
     uploadEstimationUseCase,fetchSpecListUsingEstimationUseCase,getEstimationByProjectUsecase,getMaterialEstimationUseCase,getAdditionEstimationUseCase,
-    getLabourEstimationUseCase,rejectEstimationUseCase,approveEstimationUseCase);
+    getLabourEstimationUseCase,rejectEstimationUseCase,approveEstimationUseCase,getEstimationImageUseCase);
 
 const specRepository = new SpecRepository();
 const brandRepository = new BrandRepository();

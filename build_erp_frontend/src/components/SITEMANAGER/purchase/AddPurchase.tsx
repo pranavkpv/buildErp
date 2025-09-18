@@ -1,5 +1,5 @@
 import { getSitemanagersProject } from "../../../api/Sitemanager/profile";
-import { fetchBrandCorrespondingMaterialInSitemanager, fetchUniqueMaterialInSiteManager, fetchUnitCorrespondingMaterialInsitemanager, fetchUnitRateInSitemanager, savePurchaseAPI } from "../../../api/Sitemanager/purchase";
+import { fetchBrandCorrespondingMaterialInSitemanager, fetchLastInvoiceApi, fetchUniqueMaterialInSiteManager, fetchUnitCorrespondingMaterialInsitemanager, fetchUnitRateInSitemanager, savePurchaseAPI } from "../../../api/Sitemanager/purchase";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
@@ -7,7 +7,6 @@ type setAdd = {
    addEnable: boolean;
    setAddEnable: React.Dispatch<React.SetStateAction<boolean>>;
    onAddSuccess: () => void;
-   highInvoice:number
 };
 
 type listMaterial = {
@@ -31,7 +30,7 @@ type JwtPayload = {
    exp: number;
 };
 
-function AddPurchase({ addEnable, setAddEnable, onAddSuccess,highInvoice }: setAdd) {
+function AddPurchase({ addEnable, setAddEnable, onAddSuccess }: setAdd) {
    if (!addEnable) return null;
 
    const [material, setMaterial] = useState<string[]>([]);
@@ -40,7 +39,7 @@ function AddPurchase({ addEnable, setAddEnable, onAddSuccess,highInvoice }: setA
    const [index, setIndex] = useState(0);
    const [row, setRow] = useState<listMaterial[]>([]);
    const [project_id, setProjectId] = useState("");
-   const [invoice_number, setInvoice] = useState(highInvoice+1);
+   const [invoice_number, setInvoice] = useState(0);
    const [date, setDate] = useState("");
    const [description, setDescription] = useState("");
    const [project, setProject] = useState<Project[]>([]);
@@ -61,19 +60,30 @@ function AddPurchase({ addEnable, setAddEnable, onAddSuccess,highInvoice }: setA
       setProject(response.data);
    };
 
+   const fetchLastInvoice = async () => {
+      const response = await fetchLastInvoiceApi()
+      console.log(response)
+      if (response.success) {
+         setInvoice(response.data + 1)
+      } else {
+         toast.error(response.message)
+      }
+   }
+
    useEffect(() => {
       fetchMaterial();
       fetchProject();
+      fetchLastInvoice()
    }, []);
 
    const giveBrandAndUnit = async (e: React.ChangeEvent<HTMLSelectElement>, idx: number) => {
       const selectedMaterial = e.target.value;
       if (row.some((item, i) => i !== idx && item.material_name === selectedMaterial)) {
-         setErrors((prev) => ({ ...prev, [`material_${idx}`]: "Material already selected" }));
+         setErrors((prev) => ({ ...prev, [`material_${ idx }`]: "Material already selected" }));
          return;
       }
-      setErrors((prev) => ({ ...prev, [`material_${idx}`]: "" }));
-      
+      setErrors((prev) => ({ ...prev, [`material_${ idx }`]: "" }));
+
       const brandData = await fetchBrandCorrespondingMaterialInSitemanager(selectedMaterial as string);
       const unitData = await fetchUnitCorrespondingMaterialInsitemanager(selectedMaterial);
       const newRow = [...row];
@@ -102,10 +112,10 @@ function AddPurchase({ addEnable, setAddEnable, onAddSuccess,highInvoice }: setA
       if (!date) newErrors.date = "Purchase date is required";
       if (row.length === 0) newErrors.materials = "At least one material is required";
       row.forEach((item, idx) => {
-         if (!item.material_name) newErrors[`material_${idx}`] = "Material is required";
-         if (!item.brand_name) newErrors[`brand_${idx}`] = "Brand is required";
-         if (!item.unit_name) newErrors[`unit_${idx}`] = "Unit is required";
-         if (!item.quantity || item.quantity <= 0) newErrors[`quantity_${idx}`] = "Valid quantity is required";
+         if (!item.material_name) newErrors[`material_${ idx }`] = "Material is required";
+         if (!item.brand_name) newErrors[`brand_${ idx }`] = "Brand is required";
+         if (!item.unit_name) newErrors[`unit_${ idx }`] = "Unit is required";
+         if (!item.quantity || item.quantity <= 0) newErrors[`quantity_${ idx }`] = "Valid quantity is required";
       });
       setErrors(newErrors);
       return Object.keys(newErrors).length === 0;
@@ -240,8 +250,8 @@ function AddPurchase({ addEnable, setAddEnable, onAddSuccess,highInvoice }: setA
                                           <option key={mat} value={mat}>{mat}</option>
                                        ))}
                                     </select>
-                                    {errors[`material_${idx}`] && (
-                                       <p className="text-red-400 text-sm mt-1">{errors[`material_${idx}`]}</p>
+                                    {errors[`material_${ idx }`] && (
+                                       <p className="text-red-400 text-sm mt-1">{errors[`material_${ idx }`]}</p>
                                     )}
                                  </td>
                                  <td className="px-8 py-4 w-[600px]">
@@ -261,8 +271,8 @@ function AddPurchase({ addEnable, setAddEnable, onAddSuccess,highInvoice }: setA
                                           <option key={br} value={br}>{br}</option>
                                        ))}
                                     </select>
-                                    {errors[`brand_${idx}`] && (
-                                       <p className="text-red-400 text-sm mt-1">{errors[`brand_${idx}`]}</p>
+                                    {errors[`brand_${ idx }`] && (
+                                       <p className="text-red-400 text-sm mt-1">{errors[`brand_${ idx }`]}</p>
                                     )}
                                  </td>
                                  <td className="px-8 py-4 w-[600px]">
@@ -282,8 +292,8 @@ function AddPurchase({ addEnable, setAddEnable, onAddSuccess,highInvoice }: setA
                                           <option key={un} value={un}>{un}</option>
                                        ))}
                                     </select>
-                                    {errors[`unit_${idx}`] && (
-                                       <p className="text-red-400 text-sm mt-1">{errors[`unit_${idx}`]}</p>
+                                    {errors[`unit_${ idx }`] && (
+                                       <p className="text-red-400 text-sm mt-1">{errors[`unit_${ idx }`]}</p>
                                     )}
                                  </td>
                                  <td className="px-8 py-4 w-[300px]">
@@ -300,8 +310,8 @@ function AddPurchase({ addEnable, setAddEnable, onAddSuccess,highInvoice }: setA
                                        }}
                                        className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 text-white"
                                     />
-                                    {errors[`quantity_${idx}`] && (
-                                       <p className="text-red-400 text-sm mt-1">{errors[`quantity_${idx}`]}</p>
+                                    {errors[`quantity_${ idx }`] && (
+                                       <p className="text-red-400 text-sm mt-1">{errors[`quantity_${ idx }`]}</p>
                                     )}
                                  </td>
                                  <td className="px-8 py-4 w-[500px]">
@@ -330,7 +340,7 @@ function AddPurchase({ addEnable, setAddEnable, onAddSuccess,highInvoice }: setA
                                           setRow(newRow.map((item, i) => ({ ...item, sl: i + 1 })));
                                        }}
                                        className="text-red-400 hover:text-red-300 p-2 rounded-md hover:bg-gray-600 transition-all duration-200"
-                                       aria-label={`Delete material ${element.material_name || "row"}`}
+                                       aria-label={`Delete material ${ element.material_name || "row" }`}
                                     >
                                        <svg
                                           xmlns="http://www.w3.org/2000/svg"
