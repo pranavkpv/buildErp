@@ -25,10 +25,10 @@ export const stageSaveAPI = async (
 // ---------------- Fetch Stage Data with Pagination & Search ---------------- //
 
 export const fetchStageDataAPI = async (search: string, page: number) => {
-      const response = await adminAxios.get("/fetchstage", {
-         params: { search, page },
-      });
-      return response.data;
+   const response = await adminAxios.get("/fetchstage", {
+      params: { search, page },
+   });
+   return response.data;
 };
 
 // ---------------- Delete Stage ---------------- //
@@ -58,4 +58,14 @@ export const getStageInAdmin = async (projectId: string) => {
    const response = await adminAxios.get(`/stageFetch/${ projectId }`);
    return response.data;
 };
+
+export const getStageForVerifyPayApi = async (search: string, page: number) => {
+   const response = await adminAxios.get(`/stageForverify`, { params: { search, page } });
+   return response.data
+}
+
+export const verifyPaymentApi = async (stageId: string) => {
+   const response = await adminAxios.patch(`/verifyPay/${ stageId }`);
+   return response.data
+}
 

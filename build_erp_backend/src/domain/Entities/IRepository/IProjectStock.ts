@@ -1,5 +1,6 @@
 import { addProjectStockInput, stockDisplayAggregate } from '../../../application/Entities/material.entity';
 import { incrementStockInput, projectStockInput, ProjectStockOutput } from '../../../application/Entities/project.entity';
+import { listProjectStock } from '../../../application/Entities/transfer.entity';
 import { IProjectStockModelEntity } from '../modelEntities/projectStock.entity';
 
 
@@ -31,5 +32,8 @@ export interface IProjectStockRepository {
 
    getMaterialStockByProject(projectId: string, material: string, page: number, id: string):
       Promise<{ data: stockDisplayAggregate[], totalPage: number }>
+
+   projectStockbyAggregate(projectId: string):
+      Promise<listProjectStock[]>
 
 }

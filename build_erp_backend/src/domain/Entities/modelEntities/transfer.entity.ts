@@ -15,6 +15,7 @@ export interface ITransferModelEntity {
    date:Date
    description:string
    approval_status?:boolean
+   reject_status:boolean
    receive_status?:boolean
    materialDetails:materialData[]
    createdAt: Date

@@ -5,7 +5,7 @@ import AddTransfer from "./AddTransfer";
 import EditTransfer from "./EditTransfer";
 import { getTransferDataAPI } from "../../../api/Sitemanager/transfer";
 import DeleteTransfer from "./DeleteTransfer";
-import ApproveTransfer from "./ApproveTransfer";
+
 
 
 
@@ -47,10 +47,6 @@ function TransferList() {
    const [deleteId, setDeleteId] = useState("");
    const [deleteEnable, setDeleteEnable] = useState(false);
 
-   // Approve
-   const [approveId, setApproveId] = useState("");
-   const [approveEnable, setApproveEnable] = useState(false);
-   const [approveData, setApproveData] = useState<Transfer>()
 
    // Edit
    const [editId, setEditId] = useState("");
@@ -89,7 +85,7 @@ function TransferList() {
       <div className="min-h-screen bg-gray-900 p-4 sm:p-6">
          <div className="max-w-5xl mx-auto">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 mb-8">
-               <h1 className="text-2xl font-bold text-gray-100">Purchase List</h1>
+               <h1 className="text-2xl font-bold text-gray-100">Transfer List</h1>
                <div className="flex w-full sm:w-auto gap-4">
                   <div className="w-full sm:w-96">
                      <label htmlFor="search" className="sr-only">
@@ -176,26 +172,6 @@ function TransferList() {
                                  >
                                     <TrashIcon className="h-5 w-5" />
                                  </button>
-                                 <button
-                                    type="button"
-                                    className="text-green-400 hover:text-green-300 p-2 rounded-md hover:bg-gray-600/50 transition-all duration-200"
-                                    aria-label={`Approve purchase for ${ element.fromproject_name }`}
-                                    onClick={() => {
-                                       setApproveId(element._id);
-                                       setApproveEnable(true);
-                                       const updatedElement = {
-                                          ...element,
-                                          date: element.date.split("T")[0],
-                                          materialDetails: element.materialDetails.map((item, i) => ({
-                                             ...item,
-                                             sl: i + 1,
-                                          })),
-                                       };
-                                       setApproveData(updatedElement)
-                                    }}
-                                 >
-                                    <CheckCircleIcon className="h-5 w-5" />
-                                 </button>
                               </td>
                            </tr>
                         ))
@@ -228,14 +204,6 @@ function TransferList() {
                onDeleteSuccess={fetchTransferData}
                setDeleteEnable={setDeleteEnable}
                deleteEnable={deleteEnable}
-            />
-
-            <ApproveTransfer
-               approveId={approveId}
-               setApproveEnable={setApproveEnable}
-               approveEnable={approveEnable}
-               onApproveSuccess={fetchTransferData}
-               approveData={approveData}
             />
 
             <EditTransfer

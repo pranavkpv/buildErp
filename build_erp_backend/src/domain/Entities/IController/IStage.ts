@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { commonOutput } from '../../../application/dto/common';
-import { stageListDTO } from '../../../application/dto/stage.dto';
+import { stageListDTO, verifyStageDTO } from '../../../application/dto/stage.dto';
 
 
 export interface IStageController {
@@ -21,9 +21,15 @@ export interface IStageController {
       Promise<commonOutput | void>
 
    paymentIntendCreation(req: Request, res: Response, next: NextFunction):
-      Promise<commonOutput<string>| commonOutput | void>
+      Promise<commonOutput<string> | commonOutput | void>
 
    handleWebhook(req: Request, res: Response, next: NextFunction):
+      Promise<commonOutput | void>
+
+   getStageForVerify(req: Request, res: Response, next: NextFunction):
+      Promise<commonOutput<{ data: verifyStageDTO[], totalPage: number }> | commonOutput | void>
+
+   verifyPayment(req: Request, res: Response, next: NextFunction):
       Promise<commonOutput | void>
 
 }

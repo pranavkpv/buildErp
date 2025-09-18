@@ -20,4 +20,5 @@ export const TransferSuccessMessage = {
     FETCH: 'TransferData Fetch Successfully',
     SAVE: 'TransferData Saved SuccessFully',
     UPDATE: 'TransferData Updated SuccessFully',
+    REJECT:'TransferData Rejected SuccessFully'
 };

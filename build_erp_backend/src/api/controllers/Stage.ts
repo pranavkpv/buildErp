@@ -6,10 +6,12 @@ import { IFetchStageUsecase } from '../../application/IUseCases/IStage/IFetchSta
 import { IDeleteStageUseCase } from '../../application/IUseCases/IStage/IDeleteStage';
 import { IUpdateStageUseCase } from '../../application/IUseCases/IStage/IUpdateStage';
 import { commonOutput } from '../../application/dto/common';
-import { publicstageDTO, stageListDTO } from '../../application/dto/stage.dto';
+import { publicstageDTO, stageListDTO, verifyStageDTO } from '../../application/dto/stage.dto';
 import { IFetchStatusUseCase } from '../../application/IUseCases/IStageStatusUpdation/IFetchStageStatus';
 import { IPaymentIntendCreationUseCase } from '../../application/IUseCases/IStage/IPaymentIntendCreation';
 import { IHandleWebhookUseCase } from '../../application/IUseCases/IStage/IHandlewebhook';
+import { IFetchStageForVerifyUseCase } from '../../application/IUseCases/IStage/IFetchStageForVerify';
+import { IVerifyPaymentUseCase } from '../../application/IUseCases/IStage/IVerifyPayment';
 
 
 export class StageController implements IStageController {
@@ -21,7 +23,9 @@ export class StageController implements IStageController {
         private _updateStageUseCase: IUpdateStageUseCase,
         private _fetchStatusUseCase: IFetchStatusUseCase,
         private _payIntentCreationUseCase: IPaymentIntendCreationUseCase,
-        private _handleWebhookUseCase: IHandleWebhookUseCase
+        private _handleWebhookUseCase: IHandleWebhookUseCase,
+        private _fetchStageForVerifyUseCase: IFetchStageForVerifyUseCase,
+        private _verifyPaymentUseCase: IVerifyPaymentUseCase
     ) { }
 
     //  Fetch project cost by projectId
@@ -134,4 +138,24 @@ export class StageController implements IStageController {
             next(error);
         }
     };
+    getStageForVerify = async (req: Request, res: Response, next: NextFunction):
+        Promise<commonOutput<{ data: verifyStageDTO[], totalPage: number }> | commonOutput | void> => {
+        try {
+            const { search, page } = req.query
+            const result = await this._fetchStageForVerifyUseCase.execute({ search: String(search), page: Number(page) })
+            return result
+        } catch (error) {
+            next(error)
+        }
+    }
+    verifyPayment = async (req: Request, res: Response, next: NextFunction):
+        Promise<commonOutput | void> => {
+        try {
+            const stageId = req.params.id
+            const result = await this._verifyPaymentUseCase.execute(stageId)
+            return result
+        } catch (error) {
+            next(error)
+        }
+    }
 }

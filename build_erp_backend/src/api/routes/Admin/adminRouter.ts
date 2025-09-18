@@ -318,6 +318,12 @@ export class AdminRoute {
         this.adminRoute.get('/stageFetch/:id',
             withLogging(injectStageController.getStageData));
 
+        this.adminRoute.get('/stageForverify',
+            withLogging(injectStageController.getStageForVerify));
+
+        this.adminRoute.patch('/verifyPay/:id',
+            withLogging(injectStageController.verifyPayment));
+
         // =====================================================================
         // 🟢 DASHBOARD ROUTES
         // =====================================================================

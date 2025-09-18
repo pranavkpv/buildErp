@@ -1,4 +1,4 @@
-import { Folder, MessageSquare, User, Lock } from "lucide-react";
+import { Folder, MessageSquare, User, Lock, CarFront } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -47,6 +47,7 @@ function SidebarUser() {
     { name: "Change Password", path: "/profile/change-password", icon: Lock },
     { name: "Chat", path: "/profile/chat", icon: MessageSquare },
     { name: "Your Projects", path: "/profile/project", icon: Folder },
+    { name: "Transfer Requests", path: "/profile/transfer", icon: CarFront },
   ];
 
   return (

@@ -22,8 +22,11 @@ export const TransferSchema = new mongoose.Schema<ITransferModelEntity>({
     transfer_id: {
         type: String,
     },
-    receive_status :{
-        type:Boolean,
+    receive_status: {
+        type: Boolean,
+    },
+    reject_status: {
+        type: Boolean
     },
     materialDetails: [
         {

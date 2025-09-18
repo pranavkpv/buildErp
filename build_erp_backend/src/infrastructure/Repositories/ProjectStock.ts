@@ -3,6 +3,7 @@ import { projectStockDB } from '../../api/models/ProjectStockModel';
 import { IProjectStockModelEntity } from '../../domain/Entities/modelEntities/projectStock.entity';
 import { addProjectStockInput, stockDisplayAggregate } from '../../application/Entities/material.entity';
 import { incrementStockInput, projectStockInput, ProjectStockOutput } from '../../application/Entities/project.entity';
+import { listProjectStock } from '../../application/Entities/transfer.entity';
 
 export class ProjectStockRepository implements IProjectStockRepository {
 
@@ -105,8 +106,8 @@ export class ProjectStockRepository implements IProjectStockRepository {
     async getMaterialStockByProject(projectId: string, material: string, page: number, id: string)
         : Promise<{ data: stockDisplayAggregate[], totalPage: number }> {
         const skip = page * 5
-       
-   
+
+
         const data = await projectStockDB.aggregate([
             {
                 $match: { project_id: { $regex: projectId } }
@@ -198,5 +199,45 @@ export class ProjectStockRepository implements IProjectStockRepository {
             data,
             totalPage: Math.ceil(totalDoc.length / 5)
         }
+    }
+    async projectStockbyAggregate(projectId: string):
+        Promise<listProjectStock[]> {
+        const data = await projectStockDB.aggregate([
+            {
+                $match: { project_id: projectId }
+            }, {
+                $addFields: {
+                    "materialObjectId": { $toObjectId: "$material_id" }
+                }
+            }, {
+                $lookup: {
+                    from: "materials",
+                    localField: "materialObjectId",
+                    foreignField: "_id",
+                    as: "materialDetails"
+                }
+            }, { $unwind: "$materialDetails" }, {
+                $addFields: {
+                    "unitObjectId": { $toObjectId: "$materialDetails.unit_id" },
+                    "brandObjectId": { $toObjectId: "$materialDetails.brand_id" },
+                }
+            }, {
+                $lookup: {
+                    from: "units",
+                    localField: "unitObjectId",
+                    foreignField: "_id",
+                    as: "unitDetails"
+                }
+            }, { $unwind: "$unitDetails" },
+            {
+                $lookup: {
+                    from: "brands",
+                    localField: "brandObjectId",
+                    foreignField: "_id",
+                    as: "brandDetails"
+                }
+            }, { $unwind: "$brandDetails" }
+        ])
+        return data
     }
 }

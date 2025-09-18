@@ -14,6 +14,8 @@ import { PaymentRepository } from '../../infrastructure/Repositories/Payment';
 import { ProjectRepository } from '../../infrastructure/Repositories/Project';
 import { StageRepository } from '../../infrastructure/Repositories/Stage';
 import { StageController } from '../controllers/Stage';
+import { FetchStageForVerifyUseCase } from '../../application/UseCase/Stage/FetchStageForVerify';
+import { VerifyPaymentUseCase } from '../../application/UseCase/Stage/VerifyPayment';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
   apiVersion: '2025-08-27.basil', 
@@ -34,6 +36,8 @@ const updateStageUseCase = new UpdateStageUseCase(stageRepository,projectReposit
 const fetchStatusUseCase = new FetchStatusUseCase(stageRepository,stagemapper);
 const payIntentCreationUseCase = new PaymentIntendCreationUseCase(stageRepository,paymentRepository)
 const handleWebhookUseCase = new HandleWebhookUseCase(paymentRepository,stageRepository)
+const fetchStageForVerifyUseCase = new FetchStageForVerifyUseCase(paymentRepository,stagemapper)
+const verifyPaymentUseCase = new VerifyPaymentUseCase(paymentRepository,stageRepository)
 
 export const injectStageController = new StageController(stageSaveUseCase,fetchCostUseCase,fetchStageUseCase,deleteStageUseCase,updateStageUseCase,
-   fetchStatusUseCase,payIntentCreationUseCase,handleWebhookUseCase);
+   fetchStatusUseCase,payIntentCreationUseCase,handleWebhookUseCase,fetchStageForVerifyUseCase,verifyPaymentUseCase);

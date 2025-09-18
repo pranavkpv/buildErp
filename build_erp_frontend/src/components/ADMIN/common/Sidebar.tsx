@@ -40,7 +40,8 @@ const sidebarItems = [
     icon: Users,
     subs: [
       { head: "Project Registration", to: "/admin/project" },
-      { head: "Stage Setting", to: "/admin/stage" }
+      { head: "Stage Setting", to: "/admin/stage" },
+      { head: "Verify Payment", to: '/admin/verify' }
     ],
   },
   {
@@ -48,7 +49,7 @@ const sidebarItems = [
     icon: UserCheck,
     subs: [
       { head: "Sitemanager Registration", to: "/admin/sitemanager" },
-      { head: "AddSitemanager to project", to: "/admin/addToSite" }, 
+      { head: "AddSitemanager to project", to: "/admin/addToSite" },
     ],
   },
   {
@@ -145,7 +146,7 @@ function Sidebar() {
                 <div
                   className={`
                     flex items-center justify-between p-3 rounded-lg cursor-pointer transition-all duration-200
-                    ${isActive
+                    ${ isActive
                       ? "bg-gradient-to-r from-orange-600 to-orange-500 text-white shadow-lg scale-105"
                       : "hover:bg-slate-700/70 text-slate-300 hover:text-white hover:shadow-md"
                     } focus:outline-none focus:ring-2 focus:ring-orange-400/50 relative
@@ -159,13 +160,12 @@ function Sidebar() {
                     }
                   }}
                   aria-current={isActive ? "page" : undefined}
-                  aria-label={`Navigate to ${item.title}`}
+                  aria-label={`Navigate to ${ item.title }`}
                 >
                   <div className="flex items-center space-x-3">
                     <IconComponent
-                      className={`w-5 h-5 transition-colors duration-200 ${
-                        isActive ? "text-white" : "text-slate-400 group-hover:text-white"
-                      }`}
+                      className={`w-5 h-5 transition-colors duration-200 ${ isActive ? "text-white" : "text-slate-400 group-hover:text-white"
+                        }`}
                     />
                     <span className="font-medium text-sm tracking-wide">{item.title}</span>
                   </div>
@@ -192,21 +192,19 @@ function Sidebar() {
                         to={sub.to}
                         className={`
                           flex items-center space-x-3 p-2 pl-4 rounded-md text-sm transition-all duration-150 group
-                          ${
-                            activeSubItem === sub.to
-                              ? "text-orange-400 bg-slate-700/50 font-semibold"
-                              : "text-slate-300 hover:text-orange-400 hover:bg-slate-700/50"
+                          ${ activeSubItem === sub.to
+                            ? "text-orange-400 bg-slate-700/50 font-semibold"
+                            : "text-slate-300 hover:text-orange-400 hover:bg-slate-700/50"
                           }
                         `}
                         onClick={() => setActiveSubItem(sub.to)}
                         aria-current={activeSubItem === sub.to ? "page" : undefined}
                       >
                         <Dot
-                          className={`w-4 h-4 ${
-                            activeSubItem === sub.to
+                          className={`w-4 h-4 ${ activeSubItem === sub.to
                               ? "text-orange-400"
                               : "text-slate-500 group-hover:text-orange-400"
-                          }`}
+                            }`}
                         />
                         <span className="group-hover:translate-x-1 transition-transform duration-150">
                           {sub.head}

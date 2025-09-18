@@ -35,10 +35,19 @@ export type material = {
 
 
 export interface TransferOutput {
-   _id:string,
-   date:Date,
+   _id: string,
+   date: Date,
    fromproject_name: string,
-   transfer_id:  string,
+   transfer_id: string,
    materialDetails: material[],
    finalAmount: number
 };
+
+export interface projectStockListDTO {
+   material_name: string;
+   brand_name: string;
+   unit_name: string;
+   unit_rate: number;
+   material_id: string;
+   stock: number
+}

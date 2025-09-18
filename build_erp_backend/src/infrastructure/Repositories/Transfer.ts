@@ -29,6 +29,7 @@ export class TransferRepository implements ITransferRepository {
                     ],
                     'fromprojectDetails.sitemanager_id': id,
                     'approval_status': false,
+                    'reject_status': true
                 },
             },
             { $unwind: '$materialDetails' },
@@ -77,7 +78,7 @@ export class TransferRepository implements ITransferRepository {
             date: element.date,
             description: element.description,
             materialDetails: element.materialDetails,
-            finalAmount: element.materialDetails.reduce((sum:number, mat:{quantity:number,unit_rate:number}) => sum + (mat.quantity * mat.unit_rate), 0),
+            finalAmount: element.materialDetails.reduce((sum: number, mat: { quantity: number, unit_rate: number }) => sum + (mat.quantity * mat.unit_rate), 0),
         }));
 
         const totalDocuments = await transferDB.aggregate([
@@ -96,6 +97,7 @@ export class TransferRepository implements ITransferRepository {
                     ],
                     'fromprojectDetails.sitemanager_id': id,
                     'approval_status': false,
+                    'reject_status': true
                 },
             },
             { $count: 'total' },
@@ -111,7 +113,7 @@ export class TransferRepository implements ITransferRepository {
 
     // Fetch all projects except the given project ID
     async fectToproject(projectId: string): Promise<fetchProjectIdnameDTO[]> {
-        const projectList = await projectDB.find({ _id: { $ne: projectId },status:'processing' }, { _id: 1, project_name: 1 });
+        const projectList = await projectDB.find({ _id: { $ne: projectId }, status: 'processing' }, { _id: 1, project_name: 1 });
         return projectList.map(project => ({
             _id: project._id.toString(),
             project_name: project.project_name,
@@ -129,6 +131,7 @@ export class TransferRepository implements ITransferRepository {
             description,
             materialDetails,
             approval_status: false,
+            reject_status: false,
             receive_status: false,
         });
         await newTransfer.save();
@@ -140,6 +143,7 @@ export class TransferRepository implements ITransferRepository {
         const { _id, from_project_id, to_project_id, transfer_id, date, description, materialDetails } = input;
         await transferDB.findByIdAndUpdate(_id, {
             from_project_id, to_project_id, transfer_id, date, description, materialDetails,
+            reject_status: false
         });
         return true;
     }
@@ -239,6 +243,72 @@ export class TransferRepository implements ITransferRepository {
     }
     //get un approved Transfer details by this project
     async getUnApprovedTransferByProjectId(id: string): Promise<ITransferModelEntity[]> {
-        return await transferDB.find({ from_project_id:id,approval_status:false });
+        return await transferDB.find({ from_project_id: id, approval_status: false });
+    }
+    async getUserBaseTransfer(userId: string): Promise<listTransferDTO[]> {
+        const allTransfer = await transferDB.aggregate([
+            { $addFields: { fromprojectObjectId: { $toObjectId: '$from_project_id' } } },
+            { $lookup: { from: 'projects', localField: 'fromprojectObjectId', foreignField: '_id', as: 'fromprojectDetails' } },
+            { $unwind: '$fromprojectDetails' },
+            { $addFields: { toprojectObjectId: { $toObjectId: '$to_project_id' } } },
+            { $lookup: { from: 'projects', localField: 'toprojectObjectId', foreignField: '_id', as: 'toprojectDetails' } },
+            { $unwind: '$toprojectDetails' },
+            {
+                $match: {
+                    'fromprojectDetails.user_id': userId,
+                    'approval_status': false,
+                    'reject_status': false
+                },
+            },
+            { $unwind: '$materialDetails' },
+            { $addFields: { 'materialDetails.materialObjectId': { $toObjectId: '$materialDetails.material_id' } } },
+            { $lookup: { from: 'materials', localField: 'materialDetails.materialObjectId', foreignField: '_id', as: 'materialDetails.materialInfo' } },
+            { $unwind: '$materialDetails.materialInfo' },
+            { $addFields: { 'materialDetails.brandObjectId': { $toObjectId: '$materialDetails.materialInfo.brand_id' } } },
+            { $lookup: { from: 'brands', localField: 'materialDetails.brandObjectId', foreignField: '_id', as: 'materialDetails.brandInfo' } },
+            { $unwind: '$materialDetails.brandInfo' },
+            { $addFields: { 'materialDetails.unitObjectId': { $toObjectId: '$materialDetails.materialInfo.unit_id' } } },
+            { $lookup: { from: 'units', localField: 'materialDetails.unitObjectId', foreignField: '_id', as: 'materialDetails.unitInfo' } },
+            { $unwind: '$materialDetails.unitInfo' },
+            {
+                $group: {
+                    _id: '$_id',
+                    from_project_id: { $first: '$from_project_id' },
+                    fromproject_name: { $first: '$fromprojectDetails.project_name' },
+                    to_project_id: { $first: '$to_project_id' },
+                    toproject_name: { $first: '$toprojectDetails.project_name' },
+                    transfer_id: { $first: '$transfer_id' },
+                    date: { $first: '$date' },
+                    description: { $first: '$description' },
+                    materialDetails: {
+                        $push: {
+                            material_id: '$materialDetails.material_id',
+                            material_name: '$materialDetails.materialInfo.material_name',
+                            brand_name: '$materialDetails.brandInfo.brand_name',
+                            unit_name: '$materialDetails.unitInfo.unit_name',
+                            quantity: '$materialDetails.quantity',
+                            unit_rate: '$materialDetails.unit_rate',
+                        },
+                    },
+                },
+            },
+        ]);
+
+        const data: listTransferDTO[] = allTransfer.map((element) => ({
+            _id: element._id,
+            from_project_id: element.from_project_id,
+            fromproject_name: element.fromproject_name,
+            to_project_id: element.to_project_id,
+            toproject_name: element.toproject_name,
+            transfer_id: element.transfer_id,
+            date: element.date,
+            description: element.description,
+            materialDetails: element.materialDetails,
+            finalAmount: element.materialDetails.reduce((sum: number, mat: { quantity: number, unit_rate: number }) => sum + (mat.quantity * mat.unit_rate), 0),
+        }));
+        return data
+    }
+    async rejectTransfer(transferId: string): Promise<void> {
+        await transferDB.findByIdAndUpdate(transferId, { reject_status: true })
     }
 }

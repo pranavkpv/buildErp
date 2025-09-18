@@ -1,8 +1,10 @@
 import { IMaterialModelEntity } from '../../domain/Entities/modelEntities/material.entity';
 import { IMaterialMapper } from '../../domain/IMappers/IMaterial.mapper';
 import { EditmaterialDetailsDTO, EditprojectDetailsDTO, listingMaterialDTO, stockDTO, unitRateDTO } from '../dto/material.dto';
+import { projectStockListDTO } from '../dto/transfer.dto';
 import { editMaterialFullDatafetch, stockDisplayAggregate } from '../Entities/material.entity';
 import { ProjectStockOutput } from '../Entities/project.entity';
+import { listProjectStock } from '../Entities/transfer.entity';
 
 export class MaterialMapper implements IMaterialMapper {
     tolistingMaterialDTO(material: editMaterialFullDatafetch[]): listingMaterialDTO[] {
@@ -54,6 +56,16 @@ export class MaterialMapper implements IMaterialMapper {
             material_name: item.materialDetails.material_name,
             unit_name: item.unitDetails.unit_name,
             stock: item.stock
+        }))
+    }
+    toListStockDTO(stock: listProjectStock[]): projectStockListDTO[] {
+        return stock.map((element) => ({
+            material_name: element.materialDetails.material_name,
+            brand_name: element.brandDetails.brand_name,
+            material_id: element.materialDetails._id,
+            stock: element.stock,
+            unit_name: element.unitDetails.unit_name,
+            unit_rate: element.materialDetails.unit_rate
         }))
     }
 }

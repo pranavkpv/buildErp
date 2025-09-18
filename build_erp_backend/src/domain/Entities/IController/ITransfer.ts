@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { listTransferDTO, TransferOutput } from '../../../application/dto/transfer.dto';
+import { listTransferDTO, projectStockListDTO, TransferOutput } from '../../../application/dto/transfer.dto';
 import { commonOutput } from '../../../application/dto/common';
 import { fetchProjectIdnameDTO } from '../../../application/dto/project.dto';
 
@@ -27,4 +27,12 @@ export interface ITransferController {
    receiveTransfer(req: Request, res: Response, next: NextFunction):
       Promise<commonOutput<TransferOutput[]> | commonOutput | void>
 
+   fullStockList(req: Request, res: Response, next: NextFunction):
+      Promise<commonOutput<projectStockListDTO[]> | void>
+
+   getUserBaseTransfer(req: Request, res: Response, next: NextFunction):
+      Promise<commonOutput<listTransferDTO[]> | commonOutput | void>
+
+   rejectTransferById(req: Request, res: Response, next: NextFunction):
+      Promise<commonOutput | void>
 }

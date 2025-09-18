@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import StockManagement from "./StockManagement";
 
 type projectData = {
-   _id:string
+   _id: string
    project_name: string;
    start_date: Date;
    end_date: Date;
@@ -162,7 +162,7 @@ function SiteDashboard() {
                                  <td className="py-3 px-4">
                                     <button
                                        onClick={() => {
-                                          navigate('/site/projectDetails',{state:element._id})
+                                          navigate('/site/projectDetails', { state: element._id })
                                        }}
                                        className="bg-gradient-to-r from-green-400 to-teal-400 text-white font-medium py-1 px-3 rounded-lg hover:from-green-500 hover:to-teal-500 transition-colors duration-300"
                                        disabled={loading}
@@ -201,8 +201,8 @@ function SiteDashboard() {
                </>
             )}
          </div>
-              <StockManagement />
-    
+         <StockManagement />
+
       </div>
    );
 }

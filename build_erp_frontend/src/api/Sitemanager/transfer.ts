@@ -1,12 +1,13 @@
-import type { Transfer } from "../../components/SITEMANAGER/Transfer/ApproveTransfer";
+import type { Transfer } from "../../components/ProfileComponent/SubprofileCompponent/ApproveTransfer";
 import siteAxios from "../../axios/SitemanagerAxioInterceptor"
+import userAxios from "../../axios/userAxios";
 
 
 
 type materialData = {
-   material_id: string;
-   quantity: number;
-   unit_rate: number;
+      material_id: string;
+      quantity: number;
+      unit_rate: number;
 };
 
 export const getTransferDataAPI = async (search: string, page: number) => {
@@ -28,7 +29,7 @@ export const updateTransferAPI = async (_id: string, from_project_id: string, to
 
       const response = await siteAxios.put(`/transfer/${ _id }`, { from_project_id, to_project_id, transfer_id, date, description, materialDetails })
       return response.data
-  
+
 }
 
 export const deleteTransferAPI = async (_id: string) => {
@@ -49,4 +50,19 @@ export const getProjectBaseTransferAPI = async (_id: string, date: string) => {
       const response = await siteAxios.get(`/receiveTransfer/${ _id }`, { params: { date } })
       return response.data
 
+}
+
+export const fetchFullStockApi = async (projectId: string) => {
+      const response = await siteAxios.get(`/fetchstockList/${ projectId }`)
+      return response.data
+}
+
+export const getUserTransferDataAPI = async () => {
+      const response = await userAxios.get(`/transfer`)
+      return response.data
+}
+
+export const rejectTransferApi = async (rejectId:string) => {
+      const response = await userAxios.patch(`/rejectTransfer/${rejectId}`)
+      return response.data
 }

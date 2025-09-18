@@ -7,7 +7,8 @@ export const StageSuccessMessage = {
     ADD: 'Stage Added SuccessFully',
     UPDATE: 'Stage Updated SuccessFully',
     FETCH_SECRET:'Stage Payment Secret key Fetch Successfully',
-    SUCCESS_PAY:'Stage Payment Successfully completed'
+    SUCCESS_PAY:'Stage Payment Successfully completed',
+    VERIFY_PAYMENT:'Payment Verified SuccessFully'
 };
 
 export const StageFailedMessage = {

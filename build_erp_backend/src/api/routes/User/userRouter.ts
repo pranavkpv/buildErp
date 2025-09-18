@@ -11,6 +11,7 @@ import { injectedProjectController } from '../../DI/Project';
 import { validateUploadEstimationImage } from '../../../infrastructure/middlewares/validation/estimation.validaion';
 import express from 'express';
 import { injectStageController } from '../../DI/Stage';
+import { injectedTransferController } from '../../DI/Transfer';
 
 export class userRoute {
     public userRoute: Router;
@@ -136,6 +137,18 @@ export class userRoute {
         this.userRoute.post(
             '/create-payment-intent',
             withLogging(injectStageController.paymentIntendCreation)
+        );
+        this.userRoute.get(
+            '/transfer',
+            withLogging(injectedTransferController.getUserBaseTransfer)
+        );
+        this.userRoute.patch(
+            '/rejectTransfer/:id',
+            withLogging(injectedTransferController.rejectTransferById)
+        );
+        this.userRoute.patch(
+            '/transfer/:id',
+            withLogging(injectedTransferController.approveTransfer),
         );
     }
 }

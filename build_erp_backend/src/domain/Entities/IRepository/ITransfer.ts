@@ -47,4 +47,10 @@ export interface ITransferRepository {
    getUnApprovedTransferByProjectId(id: string):
       Promise<ITransferModelEntity[]>
 
+   getUserBaseTransfer(userId: string):
+      Promise<listTransferDTO[]>
+
+   rejectTransfer(transferId: string):
+      Promise<void>
+
 }

@@ -1,3 +1,6 @@
+import { IPaymentModelEntity } from "../../domain/Entities/modelEntities/payment.entity"
+import { IProjectModelEntity } from "../../domain/Entities/modelEntities/project.entity"
+import { IStageModelEntity } from "../../domain/Entities/modelEntities/stage.entity"
 
 
 export interface stageInputData {
@@ -39,4 +42,9 @@ export interface stageWithAggregateProject {
    project_name: string,
    start_date: Date,
    end_date: Date
+}
+
+export interface paymentAggregateByStage extends IPaymentModelEntity {
+   stageDetails: IStageModelEntity
+   projectDetails: IProjectModelEntity
 }

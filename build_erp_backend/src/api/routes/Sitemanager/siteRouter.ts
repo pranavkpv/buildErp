@@ -177,13 +177,13 @@ export class SitemanagerRoute {
             '/transfer/:id',
             withLogging(injectedTransferController.removeTransfer),
         );
-        this.sitemanagerRoute.patch(
-            '/transfer/:id',
-            withLogging(injectedTransferController.approveTransfer),
-        );
         this.sitemanagerRoute.get(
             '/receiveTransfer/:id',
             withLogging(injectedTransferController.receiveTransfer),
+        );
+         this.sitemanagerRoute.get(
+            '/fetchstockList/:id',
+            withLogging(injectedTransferController.fullStockList),
         );
 
         // ================================
