@@ -10,7 +10,7 @@ export const setupInterceptors = (instance: AxiosInstance, loginRedirect?: strin
   instance.interceptors.request.use((config: InternalAxiosRequestConfig) => {
     const token = localStorage.getItem("accessToken");
     if (token && config.headers) {
-      config.headers.authorization = `Bearer ${token}`;
+      config.headers.authorization = `Bearer ${ token }`;
     }
     return config;
   });
@@ -21,21 +21,22 @@ export const setupInterceptors = (instance: AxiosInstance, loginRedirect?: strin
       const originalRequest = error.config as CustomAxiosRequestConfig | undefined;
       if (!originalRequest) return Promise.reject(error);
 
-      if (error.response?.data?.message) {
-       toast.error(error.response.data.message);
+      if (error.response?.data?.message == 'This User Could not perform this action in this part') {
+       return
+      }else{
+        toast.error(error.response?.data?.message)
       }
 
       if (error.response?.status === 401 && !originalRequest._retry) {
         originalRequest._retry = true;
         try {
-          const refreshResponse = await AuthAxios.post<{ data: string }>("/refreshToken");
-
+          const refreshResponse = await AuthAxios.post("/refreshToken");
           const newAccessToken = refreshResponse.data.data;
 
           localStorage.setItem("accessToken", newAccessToken);
           originalRequest.headers = {
             ...originalRequest.headers,
-            Authorization: `Bearer ${newAccessToken}`,
+            Authorization: `Bearer ${ newAccessToken }`,
           };
 
           return instance(originalRequest);

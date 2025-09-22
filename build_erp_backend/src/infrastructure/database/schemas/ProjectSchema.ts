@@ -42,11 +42,11 @@ export const ProjectSchema = new mongoose.Schema<IProjectModelEntity>(
         },
         project_type: {
             type: String,
-            required: true
+            required: true,
         },
         floor: {
             type: Number,
-            required: true
+            required: true,
         },
         sitemanager_id: {
             type: String,
@@ -60,8 +60,8 @@ export const ProjectSchema = new mongoose.Schema<IProjectModelEntity>(
         expected_image: [
             {
                 title: { type: String },
-                image: { type: String }
-            }
+                image: { type: String },
+            },
         ],
         finalImage: {
             type: String,

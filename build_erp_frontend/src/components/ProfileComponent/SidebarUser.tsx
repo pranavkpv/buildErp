@@ -1,4 +1,4 @@
-import { Folder, MessageSquare, User, Lock, CarFront, Wallet } from "lucide-react";
+import { MessageSquare, User, Lock, Wallet, LayoutDashboard, FolderKanban, Repeat } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -43,11 +43,12 @@ function SidebarUser() {
   };
 
   const menuItems = [
+    { name: "Dashboard", path: "/profile/dashboard", icon: LayoutDashboard },
     { name: "Profile Details", path: "/profile", icon: User },
     { name: "Change Password", path: "/profile/change-password", icon: Lock },
     { name: "Chat", path: "/profile/chat", icon: MessageSquare },
-    { name: "Your Projects", path: "/profile/project", icon: Folder },
-    { name: "Transfer Requests", path: "/profile/transfer", icon: CarFront },
+    { name: "Your Projects", path: "/profile/project", icon: FolderKanban },
+    { name: "Transfer Requests", path: "/profile/transfer", icon: Repeat },
     { name: "Wallet History", path: "/profile/wallet", icon: Wallet },
   ];
 
@@ -90,10 +91,9 @@ function SidebarUser() {
           <button
             key={item.name}
             onClick={() => navigate(item.path)}
-            className={`w-full flex items-center px-3 py-2 text-gray-600 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-all duration-200 ${
-              location.pathname === item.path ? "bg-blue-50 text-blue-600" : ""
-            } focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1`}
-            aria-label={`Navigate to ${item.name}`}
+            className={`w-full flex items-center px-3 py-2 text-gray-600 rounded-lg hover:bg-blue-50 hover:text-blue-600 transition-all duration-200 ${ location.pathname === item.path ? "bg-blue-50 text-blue-600" : ""
+              } focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1`}
+            aria-label={`Navigate to ${ item.name }`}
           >
             <item.icon className="w-4 h-4 mr-2" />
             <span className="text-sm">{item.name}</span>

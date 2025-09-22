@@ -26,7 +26,7 @@ export const TransferSchema = new mongoose.Schema<ITransferModelEntity>({
         type: Boolean,
     },
     reject_status: {
-        type: Boolean
+        type: Boolean,
     },
     materialDetails: [
         {

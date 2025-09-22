@@ -8,7 +8,7 @@ export const StageSuccessMessage = {
     UPDATE: 'Stage Updated SuccessFully',
     FETCH_SECRET:'Stage Payment Secret key Fetch Successfully',
     SUCCESS_PAY:'Stage Payment Successfully completed',
-    VERIFY_PAYMENT:'Payment Verified SuccessFully'
+    VERIFY_PAYMENT:'Payment Verified SuccessFully',
 };
 
 export const StageFailedMessage = {
@@ -34,5 +34,7 @@ export const StageFailedMessage = {
     STAGE_AMOUNT_MATCH  : 'Sum of stage amount should match total budget cost',
     NOT_EXIST:'Not exist the stage',
     NO_SESSION:'Not found the session Id',
-    PAY_FAIL:'Stage Payment failed'
+    PAY_FAIL:'Stage Payment failed',
+    FETCH:'Failed to fetch the stage',
+    INVALID_BALANCE:'Insufficient balance'
 };

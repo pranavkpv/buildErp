@@ -17,9 +17,12 @@ import { StageController } from '../controllers/Stage';
 import { FetchStageForVerifyUseCase } from '../../application/UseCase/Stage/FetchStageForVerify';
 import { VerifyPaymentUseCase } from '../../application/UseCase/Stage/VerifyPayment';
 import { GetWalletHistoryUseCase } from '../../application/UseCase/UserProfile/GetWalletHistory';
+import { JwtService } from '../../application/services/JwtService';
+import { NotificationRepostory } from '../../infrastructure/Repositories/Notifiaction';
+import { WalletPaymentUsecase } from '../../application/UseCase/Stage/WalletPayment';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
-  apiVersion: '2025-08-27.basil', 
+    apiVersion: '2025-08-27.basil', 
 });
 
 const projectRepository = new ProjectRepository();
@@ -27,7 +30,9 @@ const stageRepository = new StageRepository();
 const estimationReposiitory = new EstimationRepository();
 const projectmapper = new ProjectMapper();
 const stagemapper = new Stagemapper();
-const paymentRepository = new PaymentRepository(stripe)
+const jwtservice = new JwtService();
+const notificationRepository = new NotificationRepostory();
+const paymentRepository = new PaymentRepository(stripe);
 
 const stageSaveUseCase = new StageSaveUseCase(projectRepository,stageRepository);
 const fetchCostUseCase = new FetchCostUseCase(estimationReposiitory);
@@ -35,11 +40,13 @@ const fetchStageUseCase = new FetchStageUsecase(projectRepository,projectmapper)
 const deleteStageUseCase = new DeleteStageUseCase(stageRepository);
 const updateStageUseCase = new UpdateStageUseCase(stageRepository,projectRepository);
 const fetchStatusUseCase = new FetchStatusUseCase(stageRepository,stagemapper);
-const payIntentCreationUseCase = new PaymentIntendCreationUseCase(stageRepository,paymentRepository)
-const handleWebhookUseCase = new HandleWebhookUseCase(paymentRepository,stageRepository)
-const fetchStageForVerifyUseCase = new FetchStageForVerifyUseCase(paymentRepository,stagemapper)
-const verifyPaymentUseCase = new VerifyPaymentUseCase(paymentRepository,stageRepository)
-const getWalletHistoryUseCase = new GetWalletHistoryUseCase(paymentRepository,stagemapper)
+const payIntentCreationUseCase = new PaymentIntendCreationUseCase(stageRepository,paymentRepository,notificationRepository,projectRepository);
+const handleWebhookUseCase = new HandleWebhookUseCase(paymentRepository,stageRepository,notificationRepository,projectRepository);
+const fetchStageForVerifyUseCase = new FetchStageForVerifyUseCase(paymentRepository,stagemapper);
+const verifyPaymentUseCase = new VerifyPaymentUseCase(paymentRepository,stageRepository,notificationRepository,projectRepository);
+const getWalletHistoryUseCase = new GetWalletHistoryUseCase(paymentRepository,stagemapper);
+const walletPaymentUseCase = new WalletPaymentUsecase(paymentRepository,stageRepository,projectRepository,notificationRepository)
 
 export const injectStageController = new StageController(stageSaveUseCase,fetchCostUseCase,fetchStageUseCase,deleteStageUseCase,updateStageUseCase,
-   fetchStatusUseCase,payIntentCreationUseCase,handleWebhookUseCase,fetchStageForVerifyUseCase,verifyPaymentUseCase,getWalletHistoryUseCase);
+    fetchStatusUseCase,payIntentCreationUseCase,handleWebhookUseCase,fetchStageForVerifyUseCase,verifyPaymentUseCase,getWalletHistoryUseCase,jwtservice,
+walletPaymentUseCase);

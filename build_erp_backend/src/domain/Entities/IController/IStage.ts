@@ -36,4 +36,6 @@ export interface IStageController {
    getwalletHistory(req: Request, res: Response, next: NextFunction):
        Promise<commonOutput<{data:walletDTO[],totalPage:number}> | commonOutput | void>
 
+   createWalletPayment(req: Request, res: Response, next: NextFunction):
+       Promise<commonOutput | void>
 }

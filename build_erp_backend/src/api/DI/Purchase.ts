@@ -18,7 +18,7 @@ const savePurchaseUseCase = new SavePurchaseUseCase(purchaseRepository);
 const updatePurchaseUseCase = new UpdatePurchaseUseCase(purchaseRepository);
 const deletePurchaseUseCase = new DeletePurchaseUseCase(purchaseRepository);
 const approvePurchaseUseCase = new ApprovePurchaseUseCase(purchaseRepository,projectStockRepository);
-const getLastInvoiceUseCase = new GetLastInvoiceUsecase(purchaseRepository)
+const getLastInvoiceUseCase = new GetLastInvoiceUsecase(purchaseRepository);
 
 export const injectedPurchaseController = new PurchaseController(getPurchaseUsecase,savePurchaseUseCase,jwtService,updatePurchaseUseCase,deletePurchaseUseCase,
-   approvePurchaseUseCase,getLastInvoiceUseCase);
+    approvePurchaseUseCase,getLastInvoiceUseCase);

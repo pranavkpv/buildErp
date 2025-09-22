@@ -19,7 +19,7 @@ export class PurchaseController implements IPurchaseController {
       private _updatePurchaseUseCase: IUpdatePurchaseUseCase,
       private _deletePurchaseUseCase: IDeletePurchaseUseCase,
       private _approvePurchaseUseCase: IApprovePurchaseUseCase,
-      private _getLastInvoiceUseCase: IGetLastInvoiceUsecase
+      private _getLastInvoiceUseCase: IGetLastInvoiceUsecase,
     ) { }
 
     // Fetch purchases with search and pagination
@@ -99,10 +99,10 @@ export class PurchaseController implements IPurchaseController {
     getLastInvoice = async(req: Request, res: Response, next: NextFunction): 
     Promise<commonOutput<number> | void> =>{
         try {
-            const result = await this._getLastInvoiceUseCase.execute()
-            return result
+            const result = await this._getLastInvoiceUseCase.execute();
+            return result;
         } catch (error) {
-            next(error)
+            next(error);
         }
-    }
+    };
 }

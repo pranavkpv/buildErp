@@ -9,7 +9,7 @@ export class LabourRepository implements ILabourRepository {
     //  Calculate total labour wage based on input list
     async calculateTotalLabourWages(input: labourSumInput[]): Promise<number> {
         let sum = 0;
-        for (let element of input) {
+        for (const element of input) {
             const labour = await labourDB.findById(element.labour_id);
             if (labour) {
                 sum += labour.daily_wage * element.numberoflabour;

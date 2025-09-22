@@ -215,6 +215,6 @@ export class PurchaseRepository implements IPurchaseRepository {
         return await purchaseDB.findOne({ _id: { $ne: id }, invoice_number: invoice });
     }
     async getAllPurchase(): Promise<IPurchaseModelEntity[]> {
-        return await purchaseDB.find()
+        return await purchaseDB.find();
     }
 }

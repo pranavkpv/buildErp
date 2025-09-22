@@ -24,21 +24,21 @@ const projectStockRepository = new ProjectStockRepository();
 const transferRepository = new TransferRepository();
 const materialRepository = new MaterialRepository();
 const projectRepository = new ProjectRepository();
-const materialMapper = new MaterialMapper()
+const materialMapper = new MaterialMapper();
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
-  apiVersion: '2025-08-27.basil', 
+    apiVersion: '2025-08-27.basil', 
 });
 const getTransferUseCase = new GetTransferUseCase(transferRepository);
 const getToProjectUseCase = new GetToProjectUseCase(transferRepository);
 const saveTransferUseCase = new SaveTransferUsecase(transferRepository,projectStockRepository,materialRepository,projectRepository);
 const updateTransferUseCase = new UpdateTransferUseCase(transferRepository,projectStockRepository,materialRepository,projectRepository);
 const deleteTransferUseCase = new DeleteTransferUseCase(transferRepository);
-const paymentRepository = new PaymentRepository(stripe)
-const stageRepository = new StageRepository()
+const paymentRepository = new PaymentRepository(stripe);
+const stageRepository = new StageRepository();
 const approveTransferUseCase = new ApproveTransferUseCase(transferRepository,projectStockRepository,materialRepository,projectRepository,paymentRepository,stageRepository);
 const receiveTransferUseCase = new ReceiveTransferUseCase(transferRepository);
-const fetchStockListUseCase = new FetchStockListUseCase(projectStockRepository,materialMapper)
-const getUserBaseTransferUseCase = new GetUserBaseTransferUseCase(transferRepository)
-const rejectTransferUseCase = new RejectTransferUseCase(transferRepository)
+const fetchStockListUseCase = new FetchStockListUseCase(projectStockRepository,materialMapper);
+const getUserBaseTransferUseCase = new GetUserBaseTransferUseCase(transferRepository);
+const rejectTransferUseCase = new RejectTransferUseCase(transferRepository);
 export const injectedTransferController = new TransferController(jwtService,getTransferUseCase,getToProjectUseCase,saveTransferUseCase,updateTransferUseCase,deleteTransferUseCase,approveTransferUseCase,
-   receiveTransferUseCase,fetchStockListUseCase,getUserBaseTransferUseCase,rejectTransferUseCase);
+    receiveTransferUseCase,fetchStockListUseCase,getUserBaseTransferUseCase,rejectTransferUseCase);

@@ -13,7 +13,7 @@ export class StageSaveUseCase implements IStageSaveUseCase {
     ) { }
     async execute(input: stageInputData): Promise<commonOutput> {
         const { stages, projectId, startDate, endDate, cost } = input;
-        const existStage = await this._stageRepository.findStageByprojectId(projectId)
+        const existStage = await this._stageRepository.findStageByprojectId(projectId);
         if (existStage.length>0) {
             return ResponseHelper.conflictData(StageFailedMessage.ALREADY_SET);
         }

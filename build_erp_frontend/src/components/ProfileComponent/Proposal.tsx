@@ -8,6 +8,7 @@ import Requirement from './SubprofileCompponent/Requirement';
 import ConfirmBrandSelection from './SubprofileCompponent/ConfirmBrandSelection';
 import SkipRequirement from './SubprofileCompponent/SkipRequirement';
 import ExpectedImageUpload from './SubprofileCompponent/ExpectedImageUpload';
+import Footer from '../../components/USER/common/Footer';
 
 interface Location {
   lat: number;
@@ -401,6 +402,7 @@ function ProjectProposal() {
           </div>
         </div>
       )}
+      <Footer />
     </>
   );
 }

@@ -6,7 +6,7 @@ import { listTransferDTO, material, TransferOutput } from '../../application/dto
 import { fetchProjectIdnameDTO } from '../../application/dto/project.dto';
 import { transferInput } from '../../application/Entities/transfer.entity';
 import { ITransferRepository } from '../../domain/Entities/IRepository/ITransfer';
-import { Types } from 'mongoose';
+
 
 export class TransferRepository implements ITransferRepository {
 
@@ -30,7 +30,7 @@ export class TransferRepository implements ITransferRepository {
                     ],
                     'fromprojectDetails.sitemanager_id': id,
                     'approval_status': false,
-                    'reject_status': true
+                    'reject_status': true,
                 },
             },
             { $unwind: '$materialDetails' },
@@ -98,7 +98,7 @@ export class TransferRepository implements ITransferRepository {
                     ],
                     'fromprojectDetails.sitemanager_id': id,
                     'approval_status': false,
-                    'reject_status': true
+                    'reject_status': true,
                 },
             },
             { $count: 'total' },
@@ -144,7 +144,7 @@ export class TransferRepository implements ITransferRepository {
         const { _id, from_project_id, to_project_id, transfer_id, date, description, materialDetails } = input;
         await transferDB.findByIdAndUpdate(_id, {
             from_project_id, to_project_id, transfer_id, date, description, materialDetails,
-            reject_status: false
+            reject_status: false,
         });
         return true;
     }
@@ -251,7 +251,7 @@ export class TransferRepository implements ITransferRepository {
             {
                 $addFields: {
                     fromprojectObjectId: { $toObjectId: '$from_project_id' },
-                }
+                },
             },
             { $lookup: { from: 'projects', localField: 'fromprojectObjectId', foreignField: '_id', as: 'fromprojectDetails' } },
             { $unwind: '$fromprojectDetails' },
@@ -262,7 +262,7 @@ export class TransferRepository implements ITransferRepository {
                 $match: {
                     'fromprojectDetails.user_id': userId,
                     'approval_status': false,
-                    'reject_status': false
+                    'reject_status': false,
                 },
             },
             { $unwind: '$materialDetails' },
@@ -312,9 +312,9 @@ export class TransferRepository implements ITransferRepository {
             materialDetails: element.materialDetails,
             finalAmount: element.materialDetails.reduce((sum: number, mat: { quantity: number, unit_rate: number }) => sum + (mat.quantity * mat.unit_rate), 0),
         }));
-        return data
+        return data;
     }
     async rejectTransfer(transferId: string): Promise<void> {
-        await transferDB.findByIdAndUpdate(transferId, { reject_status: true })
+        await transferDB.findByIdAndUpdate(transferId, { reject_status: true });
     }
 }

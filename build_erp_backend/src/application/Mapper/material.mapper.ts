@@ -55,8 +55,8 @@ export class MaterialMapper implements IMaterialMapper {
             brand_name: item.brandDetails.brand_name,
             material_name: item.materialDetails.material_name,
             unit_name: item.unitDetails.unit_name,
-            stock: item.stock
-        }))
+            stock: item.stock,
+        }));
     }
     toListStockDTO(stock: listProjectStock[]): projectStockListDTO[] {
         return stock.map((element) => ({
@@ -65,7 +65,7 @@ export class MaterialMapper implements IMaterialMapper {
             material_id: element.materialDetails._id,
             stock: element.stock,
             unit_name: element.unitDetails.unit_name,
-            unit_rate: element.materialDetails.unit_rate
-        }))
+            unit_rate: element.materialDetails.unit_rate,
+        }));
     }
 }

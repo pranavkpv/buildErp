@@ -1,33 +1,59 @@
 
-import { 
-//   Bell, 
-  User, 
-//   Settings, 
-//   LogOut, 
-//   Menu, 
-  Search,
-  HardHat,
-  ChevronDown,
-  LogOutIcon
+import {
+   User,
+   Search,
+   HardHat,
+   ChevronDown,
+   LogOutIcon,
+   Bell
 } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { logoutSitemanager } from '../../../api/Sitemanager/profile';
+import Notification from '../../../components/ADMIN/common/Nofication';
+import { fetchNotificationByUserApi } from '../../../api/notification';
+
+interface notificationData {
+   _id: string
+   date: Date,
+   description: string
+   userId: string
+   read: boolean
+   url: string
+}
 
 function SiteHeader() {
    const [isProfileOpen, setIsProfileOpen] = useState(false);
-   // const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+   const [count, setCount] = useState(0)
+   const [notification, setNotification] = useState<notificationData[]>([])
+
+
+   const displayNotification = async () => {
+      const response = await fetchNotificationByUserApi()
+      if (response.success) {
+         setNotification(response.data)
+         setCount(response.data.filter((element: notificationData) => element.read == false).length)
+      } else {
+         toast.error(response.message)
+      }
+   }
+
+
+   useEffect(() => {
+      displayNotification()
+   }, [])
    const navigate = useNavigate()
-   const logoutFun = async()=>{
-         const data = await logoutSitemanager()
-         if(data.success){
-            toast.success(data.message)
-            localStorage.removeItem("accessToken")
-            setTimeout(()=>{
-               navigate('/site/login')
-            })
-         }
+   const logoutFun = async () => {
+      const data = await logoutSitemanager()
+      if (data.success) {
+         toast.success(data.message)
+         localStorage.removeItem("accessToken")
+         setTimeout(() => {
+            navigate('/site/login')
+         })
+      }
    }
 
    return (
@@ -50,17 +76,17 @@ function SiteHeader() {
             {/* Right side controls */}
             <div className="flex items-center space-x-4">
                {/* Notifications */}
-               {/* <div className="relative">
+               <div className="relative">
                   <button
                      onClick={() => setIsNotificationOpen(!isNotificationOpen)}
                      className="relative p-2 text-slate-300 hover:text-white hover:bg-slate-700 rounded-lg transition-colors"
                   >
                      <Bell className="w-6 h-6" />
                      <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-medium">
-                        3
+                        {count}
                      </span>
                   </button>
-               </div> */}
+               </div>
 
                {/* Profile Dropdown */}
                <div className="relative">
@@ -73,18 +99,18 @@ function SiteHeader() {
                      </div>
                      <div className="hidden md:block text-left">
                         <p className="text-white font-medium text-sm">Sitemanager</p>
-                  
+
                      </div>
                      <ChevronDown className="w-4 h-4 text-slate-400" />
                   </button>
 
                   {isProfileOpen && (
                      <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-slate-200 z-50">
-                        
+
                         <div className="py-2">
                            <hr className="my-2 border-slate-200" />
                            <button className="w-full flex items-center space-x-3 px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors"
-                           onClick={logoutFun}>
+                              onClick={logoutFun}>
                               <LogOutIcon className="w-4 h-4" />
                               <span>Sign Out</span>
                            </button>
@@ -106,6 +132,12 @@ function SiteHeader() {
                />
             </div>
          </div>
+         <Notification
+            isNotificationOpen={isNotificationOpen}
+            setIsNotificationOpen={setIsNotificationOpen}
+            notification={notification}
+            displayNotification={displayNotification}
+         />
       </header>
    );
 }

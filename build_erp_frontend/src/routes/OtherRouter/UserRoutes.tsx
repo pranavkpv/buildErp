@@ -22,6 +22,9 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import Transfer from "../../components/ProfileComponent/Transfer";
 import Wallet from "../../components/ProfileComponent/Wallet";
+import Dashboard from "../../components/ProfileComponent/SubprofileCompponent/Dashboard";
+import About from "../../pages/User/About";
+import Services from "../../pages/User/Service";
 
 const stripePromise = loadStripe("pk_test_51S7bMD1P84WAbTJTerojk1ff5MKXMgAJX2YZ5XQPA1DJHsraJm1YSjr5oGTYRuDbyoSPakUJfx7FT7NMGJUVexwm00fPjEzze7")
 export const UserRoutes = () => {
@@ -42,11 +45,14 @@ export const UserRoutes = () => {
       />
       <Route path="/" element={<Home />} />
       <Route path="/project" element={<Projects />} />
+      <Route path="/about" element={<About />} />
+      <Route path="/service" element={<Services />} />
       <Route path="/projectDetail" element={<DetailProject />} />
       <Route path="/projectlist" element={<ListProject />} />
       <Route path="/proposal" element={<ProtectedRoute><ProjectProposal /></ProtectedRoute>} />
       <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} >
         <Route path="" element={<ProfileEdit />} />
+        <Route path="dashboard" element={<Dashboard />} />
         <Route path="project" element={<Elements stripe={stripePromise}><ProjectDetails /></Elements>} />
         <Route path="change-password" element={<ChangePassword />} />
         <Route path="chat" element={<Chat />} />

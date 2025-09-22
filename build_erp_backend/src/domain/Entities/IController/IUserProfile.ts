@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { commonOutput } from '../../../application/dto/common';
-import { userLoginDTO } from '../../../application/dto/user.dto';
+import { dashBoardDTO, userLoginDTO } from '../../../application/dto/user.dto';
 import { Tokens } from '../../../application/Entities/token.entity';
 import { userBasechatListDTO, userBaseProjectDTO } from '../../../application/dto/project.dto';
 import { chatDataDTO } from '../../../application/dto/chat.dto';
@@ -38,5 +38,7 @@ export interface IUserprofileController {
     editEmailVerifyOTP(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<userLoginDTO> | commonOutput | void>
 
+    getDashboard(req: Request, res: Response, next: NextFunction):
+        Promise<commonOutput<dashBoardDTO> | commonOutput | void>
 
 }

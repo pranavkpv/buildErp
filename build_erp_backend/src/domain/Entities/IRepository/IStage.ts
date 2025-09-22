@@ -28,4 +28,8 @@ export interface IStageRepository {
       Promise<IStageModelEntity | null>
 
    updatePaymentStatus(stageId: string, status: string): Promise<void>
+
+   findStagesEndingInDays(daysBefore: number): Promise<IStageModelEntity[]>
+
+   getStageByProjectId(projectId:string):Promise<IStageModelEntity[]>
 }

@@ -18,6 +18,7 @@ import { userRoute } from './src/api/routes/User/userRouter';
 import { authRoute } from './src/api/routes/Auth/authRouter';
 import logger from './src/infrastructure/logger/logger';
 import { ChatMessageStatusUpdateUseCase } from './src/application/UseCase/Chat/ChatMessageStatusUpadte';
+import './src/presentation/Cron/StageDeadlineJob'
 
 
 require("dotenv").config();

@@ -187,7 +187,9 @@ export class AuthController implements IAuthController {
     handleRefreshToken = async(req: Request, res: Response, next: NextFunction): Promise<commonOutput<string> | commonOutput | void> => {
         try {
             const refreshToken = req.cookies.refreshToken;
-            if (!refreshToken) return ResponseHelper.unAuthor();
+            if (!refreshToken) {
+                return ResponseHelper.conflictData("user not exist")
+            }
             return await this._refreshTokenUseCase.execute(refreshToken);
         } catch (error) {
             next(error);

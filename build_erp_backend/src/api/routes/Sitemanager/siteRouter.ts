@@ -151,7 +151,7 @@ export class SitemanagerRoute {
             '/purchase/:id',
             withLogging(injectedPurchaseController.approvePurchase),
         );
-         this.sitemanagerRoute.get(
+        this.sitemanagerRoute.get(
             '/lastInvoice',
             withLogging(injectedPurchaseController.getLastInvoice),
         );
@@ -185,7 +185,7 @@ export class SitemanagerRoute {
             '/receiveTransfer/:id',
             withLogging(injectedTransferController.receiveTransfer),
         );
-         this.sitemanagerRoute.get(
+        this.sitemanagerRoute.get(
             '/fetchstockList/:id',
             withLogging(injectedTransferController.fullStockList),
         );

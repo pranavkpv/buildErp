@@ -14,6 +14,9 @@ import { IFetchStageForVerifyUseCase } from '../../application/IUseCases/IStage/
 import { IVerifyPaymentUseCase } from '../../application/IUseCases/IStage/IVerifyPayment';
 import { walletDTO } from '../../application/dto/payment.dto';
 import { IGetWalletHistoryUseCase } from '../../application/IUseCases/IUserProfile/IGetWalletHistory';
+import { ResponseHelper } from '../../Shared/responseHelpers/response';
+import { IJwtService } from '../../domain/Entities/Service.Entities/IJwtservice';
+import { IWalletPaymentUseCase } from '../../application/IUseCases/IStage/IWalletPayment';
 
 
 export class StageController implements IStageController {
@@ -28,7 +31,9 @@ export class StageController implements IStageController {
         private _handleWebhookUseCase: IHandleWebhookUseCase,
         private _fetchStageForVerifyUseCase: IFetchStageForVerifyUseCase,
         private _verifyPaymentUseCase: IVerifyPaymentUseCase,
-        private _getWalletHistoryUseCase: IGetWalletHistoryUseCase
+        private _getWalletHistoryUseCase: IGetWalletHistoryUseCase,
+        private _jwtservice: IJwtService,
+        private _walletPaymentUseCase: IWalletPaymentUseCase
     ) { }
 
     //  Fetch project cost by projectId
@@ -112,13 +117,13 @@ export class StageController implements IStageController {
     paymentIntendCreation = async (req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<string> | commonOutput | void> => {
         try {
-            const { stageId, stageAmount } = req.body
-            const result = await this._payIntentCreationUseCase.execute(stageId, stageAmount)
-            return result
+            const { stageId, stageAmount } = req.body;
+            const result = await this._payIntentCreationUseCase.execute(stageId, stageAmount);
+            return result;
         } catch (error) {
             next(error);
         }
-    }
+    };
     handleWebhook = async (
         req: Request,
         res: Response,
@@ -128,7 +133,7 @@ export class StageController implements IStageController {
             const signature = req.headers['stripe-signature'] as string;
             const endpointSecret = process.env.WEBHOOK_SECRET_KEY;
             if (!endpointSecret) {
-                return
+                return;
             }
 
             const result = await this._handleWebhookUseCase.execute(
@@ -136,7 +141,7 @@ export class StageController implements IStageController {
                 signature,
                 endpointSecret,
             );
-            return result
+            return result;
         } catch (error) {
             next(error);
         }
@@ -144,31 +149,43 @@ export class StageController implements IStageController {
     getStageForVerify = async (req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<{ data: verifyStageDTO[], totalPage: number }> | commonOutput | void> => {
         try {
-            const { search, page } = req.query
-            const result = await this._fetchStageForVerifyUseCase.execute({ search: String(search), page: Number(page) })
-            return result
+            const { search, page } = req.query;
+            const result = await this._fetchStageForVerifyUseCase.execute({ search: String(search), page: Number(page) });
+            return result;
         } catch (error) {
-            next(error)
+            next(error);
         }
-    }
+    };
     verifyPayment = async (req: Request, res: Response, next: NextFunction):
         Promise<commonOutput | void> => {
         try {
-            const stageId = req.params.id
-            const result = await this._verifyPaymentUseCase.execute(stageId)
-            return result
+            const stageId = req.params.id;
+            const result = await this._verifyPaymentUseCase.execute(stageId);
+            return result;
         } catch (error) {
-            next(error)
+            next(error);
         }
-    }
+    };
     getwalletHistory = async (req: Request, res: Response, next: NextFunction):
-        Promise<commonOutput<{data:walletDTO[],totalPage:number}> | commonOutput | void> => {
+        Promise<commonOutput<{ data: walletDTO[], totalPage: number }> | commonOutput | void> => {
         try {
-            const { page, search } = req.query
-            const response = await this._getWalletHistoryUseCase.execute({ page: Number(page), search: String(search) })
-            return response
+            const { page, search } = req.query;
+            const userHeader = req.headers.authorization;
+            const accessToken = userHeader?.split(' ')[1];
+            if (!accessToken) return ResponseHelper.unAuthor();
+
+            const payload = await this._jwtservice.verifyAccessToken(accessToken);
+            if (!payload) return ResponseHelper.unAuthor();
+            const response = await this._getWalletHistoryUseCase.execute(Number(page), String(search), payload._id);
+            return response;
         } catch (error) {
-            next(error)
+            next(error);
         }
+    };
+    createWalletPayment = async (req: Request, res: Response, next: NextFunction):
+        Promise<commonOutput | void> => {
+        const { stageId, stageAmount } = req.body
+        const result = await this._walletPaymentUseCase.execute(stageId, stageAmount)
+        return result
     }
 }

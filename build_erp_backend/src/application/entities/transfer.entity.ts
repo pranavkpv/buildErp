@@ -1,7 +1,7 @@
-import { IBrandModelEntity } from "../../domain/Entities/modelEntities/brand.entity";
-import { IMaterialModelEntity } from "../../domain/Entities/modelEntities/material.entity";
-import { IProjectStockModelEntity } from "../../domain/Entities/modelEntities/projectStock.entity";
-import { IUnitModelEntity } from "../../domain/Entities/modelEntities/unit.entity";
+import { IBrandModelEntity } from '../../domain/Entities/modelEntities/brand.entity';
+import { IMaterialModelEntity } from '../../domain/Entities/modelEntities/material.entity';
+import { IProjectStockModelEntity } from '../../domain/Entities/modelEntities/projectStock.entity';
+import { IUnitModelEntity } from '../../domain/Entities/modelEntities/unit.entity';
 
 type materials = {
    material_id: string;

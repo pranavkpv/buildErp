@@ -29,11 +29,11 @@ export class TransferController implements ITransferController {
         private _receiveTransferUseCase: IReceiveTransferUseCase,
         private _fetchStockListUseCase: IFetchStockListUseCase,
         private _getUserBaseTransferUseCase: IGetUserBaseTransferUseCase,
-        private _rejectTransferUseCase: IRejectTransferUsecase
+        private _rejectTransferUseCase: IRejectTransferUsecase,
     ) { }
 
     //  Fetch transfer list with pagination & search 
-    fetchTransfers = async (req: Request, res: Response, next: NextFunction):
+    fetchTransfers = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<{ data: listTransferDTO[], totalPage: number }> | commonOutput | void> => {
         try {
             const { search, page } = req.query;
@@ -53,7 +53,7 @@ export class TransferController implements ITransferController {
     };
 
     // Fetch projects available for transfer 
-    fetchToProjects = async (req: Request, res: Response, next: NextFunction):
+    fetchToProjects = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<fetchProjectIdnameDTO[]> | commonOutput | void> => {
         try {
             const fromProjectId = req.params.id;
@@ -65,7 +65,7 @@ export class TransferController implements ITransferController {
     };
 
     //  Save a new transfer request
-    createTransfer = async (req: Request, res: Response, next: NextFunction):
+    createTransfer = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput | void> => {
         try {
             const response = await this._saveTransferUseCase.execute(req.body);
@@ -76,7 +76,7 @@ export class TransferController implements ITransferController {
     };
 
     //  Update transfer request 
-    updateTransfer = async (req: Request, res: Response, next: NextFunction):
+    updateTransfer = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput | void> => {
         try {
             const _id = req.params.id;
@@ -88,7 +88,7 @@ export class TransferController implements ITransferController {
     };
 
     //  Delete a transfer request 
-    removeTransfer = async (req: Request, res: Response, next: NextFunction):
+    removeTransfer = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput | void> => {
         try {
             const _id = req.params.id;
@@ -100,7 +100,7 @@ export class TransferController implements ITransferController {
     };
 
     //  Approve transfer request 
-    approveTransfer = async (req: Request, res: Response, next: NextFunction):
+    approveTransfer = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput | void> => {
         try {
             const _id = req.params.id;
@@ -112,7 +112,7 @@ export class TransferController implements ITransferController {
     };
 
     //  Receive transferred materials 
-    receiveTransfer = async (req: Request, res: Response, next: NextFunction):
+    receiveTransfer = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<TransferOutput[]> | commonOutput | void> => {
         try {
             const _id = req.params.id;
@@ -123,17 +123,17 @@ export class TransferController implements ITransferController {
             next(error);
         }
     };
-    fullStockList = async (req: Request, res: Response, next: NextFunction):
+    fullStockList = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<projectStockListDTO[]> | void> => {
         try {
-            const projectId = req.params.id
-            const data = await this._fetchStockListUseCase.execute(projectId)
-            return data
+            const projectId = req.params.id;
+            const data = await this._fetchStockListUseCase.execute(projectId);
+            return data;
         } catch (error) {
             next(error);
         }
-    }
-    getUserBaseTransfer = async (req: Request, res: Response, next: NextFunction):
+    };
+    getUserBaseTransfer = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<listTransferDTO[]> | commonOutput | void> => {
         try {
             const userHeader = req.headers.authorization;
@@ -142,20 +142,20 @@ export class TransferController implements ITransferController {
 
             const payload = await this._jwtService.verifyAccessToken(accessToken);
             if (!payload) return ResponseHelper.unAuthor();
-            const data = await this._getUserBaseTransferUseCase.execute(payload._id)
-            return data
+            const data = await this._getUserBaseTransferUseCase.execute(payload._id);
+            return data;
         } catch (error) {
-            next(error)
+            next(error);
         }
-    }
-    rejectTransferById = async (req: Request, res: Response, next: NextFunction):
+    };
+    rejectTransferById = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput | void> => {
         try {
-            const transferId = req.params.id
-            const data = await this._rejectTransferUseCase.execute(transferId)
-            return data
+            const transferId = req.params.id;
+            const data = await this._rejectTransferUseCase.execute(transferId);
+            return data;
         } catch (error) {
-            next(error)
+            next(error);
         }
-    }
+    };
 }

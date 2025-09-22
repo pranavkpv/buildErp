@@ -42,6 +42,7 @@ function Dashboard() {
 
   const fetchMaterialAnalysisData = async () => {
     const response = await fetMaterialAnalysis(search)
+    console.log("material response",response)
     if (response.success) {
       setMaterialData(response.data.data)
     } else {
@@ -51,6 +52,7 @@ function Dashboard() {
 
   const fetchLabourAnalysisData = async () => {
     const response = await fetLabourAnalysis(search)
+    console.log("Labour Reaposnse",response)
     if (response.success) {
       setLabourData(response.data.data)
     } else {

@@ -1,4 +1,3 @@
-import { Router } from 'express';
 import { JwtService } from '../../../application/services/JwtService';
 import { userMiddleware } from '../../../infrastructure/middlewares/userMiddleware';
 import { withLogging } from '../../../infrastructure/middlewares/withLoggingMiddleware';
@@ -9,9 +8,10 @@ import { injectedRequirementController, injectEstimationController } from '../..
 import { validateProjectAdd } from '../../../infrastructure/middlewares/validation/project.validation';
 import { injectedProjectController } from '../../DI/Project';
 import { validateUploadEstimationImage } from '../../../infrastructure/middlewares/validation/estimation.validaion';
-import express from 'express';
+import express, { Router } from 'express';
 import { injectStageController } from '../../DI/Stage';
 import { injectedTransferController } from '../../DI/Transfer';
+import { injectedNotificationController } from '../../DI/Notification';
 
 export class userRoute {
     public userRoute: Router;
@@ -25,7 +25,7 @@ export class userRoute {
         const jwtService = new JwtService();
         this.userRoute.post(
             '/payment/webhook', express.raw({ type: 'application/json' }),
-            withLogging(injectStageController.handleWebhook)
+            withLogging(injectStageController.handleWebhook),
         );
 
         this.userRoute.use(userMiddleware(jwtService));
@@ -128,31 +128,39 @@ export class userRoute {
         this.userRoute.post(
             '/project',
             validateProjectAdd,
-            withLogging(injectedProjectController.createProject)
+            withLogging(injectedProjectController.createProject),
         );
         this.userRoute.get(
             '/expectImage/:id',
-            withLogging(injectedProjectController.getExpectedImage)
+            withLogging(injectedProjectController.getExpectedImage),
         );
         this.userRoute.post(
             '/create-payment-intent',
-            withLogging(injectStageController.paymentIntendCreation)
+            withLogging(injectStageController.paymentIntendCreation),
+        );
+        this.userRoute.post(
+            '/walletPayment',
+            withLogging(injectStageController.createWalletPayment),
         );
         this.userRoute.get(
             '/transfer',
-            withLogging(injectedTransferController.getUserBaseTransfer)
+            withLogging(injectedTransferController.getUserBaseTransfer),
         );
         this.userRoute.patch(
             '/rejectTransfer/:id',
-            withLogging(injectedTransferController.rejectTransferById)
+            withLogging(injectedTransferController.rejectTransferById),
         );
         this.userRoute.patch(
             '/transfer/:id',
             withLogging(injectedTransferController.approveTransfer),
         );
-         this.userRoute.get(
+        this.userRoute.get(
             '/wallet',
             withLogging(injectStageController.getwalletHistory),
+        );
+        this.userRoute.get(
+            '/dashboard',
+            withLogging(injecteduserprofileController.getDashboard),
         );
     }
 }

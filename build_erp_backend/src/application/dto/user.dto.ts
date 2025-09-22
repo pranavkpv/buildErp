@@ -14,3 +14,16 @@ export interface chatListDTO {
    user_image?: string;
 
 }
+
+interface Project {
+  id: string;
+  name: string;
+  completion: number; 
+  pendingPayment: number; 
+}
+
+export interface dashBoardDTO {
+   projectsCount: number;
+   walletBalance: number;
+   projects: Project[];
+}

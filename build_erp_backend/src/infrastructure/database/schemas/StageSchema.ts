@@ -37,8 +37,8 @@ export const StageSchema = new mongoose.Schema<IStageModelEntity>(
         payment_status: {
             type: String,
             enum: ['pending', 'completed', 'verified'],
-            default: 'pending'
-        }
+            default: 'pending',
+        },
     },
     { timestamps: true },
 );

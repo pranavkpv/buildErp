@@ -88,11 +88,11 @@ export class ProjectRepository implements IprojectRepository {
             longitude,
             project_type: type,
             floor,
-            budgeted_cost: cost
+            budgeted_cost: cost,
         });
 
         const data = await newProject.save();
-        return data
+        return data;
     }
 
     // Check duplicate project name while editing
@@ -119,7 +119,7 @@ export class ProjectRepository implements IprojectRepository {
             longitude,
             project_type: type,
             budgeted_cost: cost,
-            floor
+            floor,
         });
     }
 
@@ -319,10 +319,10 @@ export class ProjectRepository implements IprojectRepository {
         await projectDB.findByIdAndUpdate(id, { estimateStatus: status });
     }
     async getAllProject(): Promise<IProjectModelEntity[]> {
-        return await projectDB.find()
+        return await projectDB.find();
     }
     async getProjectByStatus(status: string): Promise<IProjectModelEntity[]> {
-        return await projectDB.find({ status })
+        return await projectDB.find({ status });
     }
 
 }

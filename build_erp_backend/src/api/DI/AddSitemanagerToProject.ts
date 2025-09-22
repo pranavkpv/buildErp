@@ -6,6 +6,7 @@ import { DeleteSiteToProjectUseCase } from '../../application/UseCase/SiteManage
 import { ListSiteToProjectUsecase } from '../../application/UseCase/SiteManager/ListSiteToProject';
 import { AddSiteToProjectRepository } from '../../infrastructure/Repositories/AddSiteToProject';
 import { AttendanceRepository } from '../../infrastructure/Repositories/Attendance';
+import { NotificationRepostory } from '../../infrastructure/Repositories/Notifiaction';
 import { ProjectRepository } from '../../infrastructure/Repositories/Project';
 import { PurchaseRepository } from '../../infrastructure/Repositories/Purchase';
 import { ReceiveRepository } from '../../infrastructure/Repositories/Receive';
@@ -20,8 +21,9 @@ const purchaseRepository = new PurchaseRepository();
 const transferRepository = new TransferRepository();
 const receiveRepository = new ReceiveRepository();
 const attendanceRepository = new AttendanceRepository();
+const notificationRepository = new NotificationRepostory()
 const fetchSitemanagerUseCase = new AddSiteToprojectFetchSitemanagerUseCase(addSiteToProjectRepository,sitemanagermapper);
-const addSiteToProjectUseCase = new AddSiteToProjectUseCase(projectRepository);
+const addSiteToProjectUseCase = new AddSiteToProjectUseCase(projectRepository,notificationRepository);
 const deleteSiteManagerUseCase = new DeleteSiteToProjectUseCase(projectRepository,purchaseRepository,transferRepository,receiveRepository,attendanceRepository);
 const listSiteToProjectUseCase = new ListSiteToProjectUsecase(addSiteToProjectRepository,projectmapper);
 export const injectAddSitemanagerToprojectController = new AddSiteManagerToProjectController(fetchSitemanagerUseCase,addSiteToProjectUseCase,deleteSiteManagerUseCase,listSiteToProjectUseCase);

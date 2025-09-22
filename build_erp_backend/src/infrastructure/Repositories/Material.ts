@@ -15,7 +15,7 @@ export class MaterialRepository implements IMaterialRepository {
     //  Calculate total material cost
     async calculateTotalMaterialCost(input: materialSumInput[]): Promise<number> {
         let sum = 0;
-        for (let element of input) {
+        for (const element of input) {
             const material = await materialDB.findById(element.material_id);
             if (material) {
                 sum += material.unit_rate * element.quantity;

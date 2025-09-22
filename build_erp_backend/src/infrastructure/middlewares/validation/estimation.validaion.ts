@@ -66,31 +66,31 @@ export const validateSaveEstimation = (req: Request, res: Response, next: NextFu
 //validate upload estimation image
 export const validateUploadEstimationImage = (req: Request, res: Response, next: NextFunction): void => {
     const projectId = req.params.id;
-    const files = req.files as any
+    const files = req.files as any;
     const body = req.body;
     if (!projectId) {
         res.status(HTTP_STATUS.BAD_REQUEST).json({
             success: false,
             message: ProjectFailedMessage.NOT_PROJECT,
         });
-        return
+        return;
     }
-    for (let key in body) {
-        if (body[key].trim() == "") {
+    for (const key in body) {
+        if (body[key].trim() === '') {
             res.status(HTTP_STATUS.BAD_REQUEST).json({
                 success: false,
                 message: EstimationFailedMessage.NO_TITLE,
             });
-            return
+            return;
         }
     }
     const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
-    for (let key in files) {
+    for (const key in files) {
         if (!files[key]) {
             res.status(HTTP_STATUS.BAD_REQUEST).json({
-                success: false, message: bannerFailedMessage.IMAGE_REQUIRED
+                success: false, message: bannerFailedMessage.IMAGE_REQUIRED,
             });
-            return
+            return;
         }
         if (!allowedTypes.includes(files[key].mimetype)) {
             res.status(HTTP_STATUS.BAD_REQUEST).json({

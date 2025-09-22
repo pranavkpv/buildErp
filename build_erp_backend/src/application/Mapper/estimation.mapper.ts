@@ -22,7 +22,7 @@ export class EstimationMapper implements IEstimationmapper {
             projectObjectId: element.projectObjectId,
             reason:element.reason,
             projectDetails: {
-                project_name: element.projectDetails.project_name
+                project_name: element.projectDetails.project_name,
             },
         }));
     }

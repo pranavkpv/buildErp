@@ -17,7 +17,7 @@ export class Stagemapper implements IStagemapper {
             status_date: element.status_date,
             paymentStatus: element.payment_status,
             stage_image: element.stage_image,
-            stage_per: element.stage_per
+            stage_per: element.stage_per,
         }));
     }
     toProjectWithCompletionDTO(input: stageWithAggregateProject[]): displayProjectWithCompletionDTO[] {
@@ -36,8 +36,8 @@ export class Stagemapper implements IStagemapper {
             payment_status:element.stageDetails.payment_status,
             project_name:element.projectDetails.project_name,
             stage_amount:element.stageDetails.stage_amount,
-            stage_name:element.stageDetails.stage_name
-        }))
+            stage_name:element.stageDetails.stage_name,
+        }));
     }
     toWalletDTO(input:paymentAggregateByStage[]):walletDTO[]{
         return input.map((element)=>({
@@ -46,7 +46,7 @@ export class Stagemapper implements IStagemapper {
             paymentStatus:element.paymentStatus,
             project_name:element.projectDetails.project_name,
             purpose:element.purpose,
-            stage_name:element.stageDetails.stage_name
-        }))
+            stage_name:element.stageDetails.stage_name,
+        }));
     }
 }

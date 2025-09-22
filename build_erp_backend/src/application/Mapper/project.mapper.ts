@@ -92,7 +92,7 @@ export class ProjectMapper implements IProjectmapper {
             end_date: element.end_date,
             project_name: element.project_name,
             start_date: element.start_date,
-            budgeted_cost: element.budgeted_cost
+            budgeted_cost: element.budgeted_cost,
         }));
     }
     toStatusCountDto(project: groupedProjectwithStatus[]): displayStatusCountDTO[] {
@@ -125,7 +125,7 @@ export class ProjectMapper implements IProjectmapper {
     toExpectedImageDto(project: IProjectModelEntity): expectedImageDTO[] {
         return project.expected_image.map((element)=>({
             title:element.title,
-            image:element.image
-        }))
+            image:element.image,
+        }));
     }
 }

@@ -32,11 +32,11 @@ export class ProjectController implements IProjectController {
         private _jwtservice: IJwtService,
         private _fetchProjectwithCompletionUseCase: IfetchProjectWithCompletionUseCase,
         private _getPendingProjectsUseCase: IGetPendingProjectUseCase,
-        private _getExpectedImageUseCase: IGetExpectedImageUseCase
+        private _getExpectedImageUseCase: IGetExpectedImageUseCase,
     ) { }
 
     //  Fetch projects available for assigning site managers
-    getProjectsForSiteManager = async (req: Request, res: Response, next: NextFunction):
+    getProjectsForSiteManager = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<fetchProjectIdnameDTO[]> | commonOutput | void> => {
         try {
             const result = await this._addSiteToProjectFetchProjectUseCase.execute();
@@ -47,7 +47,7 @@ export class ProjectController implements IProjectController {
     };
 
     //  Fetch all projects
-    getAllProjects = async (req: Request, res: Response, next: NextFunction):
+    getAllProjects = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<fetchProjectIdnameDTO[]> | commonOutput | void> => {
         try {
             const result = await this._fetchProjectUseCase.execute();
@@ -58,7 +58,7 @@ export class ProjectController implements IProjectController {
     };
 
     // Fetch paginated & searchable project list
-    getPaginatedProjects = async (req: Request, res: Response, next: NextFunction):
+    getPaginatedProjects = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<{ data: displayProjectDTO[], totalPage: number }> | commonOutput | void> => {
         try {
             const { page, search } = req.query;
@@ -70,7 +70,7 @@ export class ProjectController implements IProjectController {
     };
 
     //  Fetch data needed before adding a project (e.g., user list)
-    getAddProjectData = async (req: Request, res: Response, next: NextFunction):
+    getAddProjectData = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<userLoginDTO[]> | commonOutput | void> => {
         try {
             const result = await this._displayAddProjectUseCase.execute();
@@ -81,7 +81,7 @@ export class ProjectController implements IProjectController {
     };
 
     // Save new project
-    createProject = async (req: Request, res: Response, next: NextFunction):
+    createProject = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<string> | commonOutput | void> => {
         try {
             const userHeader = req.headers.authorization;
@@ -97,7 +97,7 @@ export class ProjectController implements IProjectController {
     };
 
     // Update existing project
-    updateProject = async (req: Request, res: Response, next: NextFunction):
+    updateProject = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput | void> => {
         try {
             const result = await this._editProjectUseCase.execute({ _id: req.params.id, ...req.body });
@@ -108,7 +108,7 @@ export class ProjectController implements IProjectController {
     };
 
     // Delete a project
-    deleteProject = async (req: Request, res: Response, next: NextFunction):
+    deleteProject = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput | void> => {
         try {
             const result = await this._deleteProjectUseCase.execute(req.params.id);
@@ -119,7 +119,7 @@ export class ProjectController implements IProjectController {
     };
 
     // Change project status (active/inactive)
-    changeProjectStatus = async (req: Request, res: Response, next: NextFunction):
+    changeProjectStatus = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput | void> => {
         try {
             const result = await this._changeStatusUseCase.execute(req.params.id, req.body.status);
@@ -129,7 +129,7 @@ export class ProjectController implements IProjectController {
         }
     };
 
-    fetchAllProjectwithStatusAndcount = async (req: Request, res: Response, next: NextFunction):
+    fetchAllProjectwithStatusAndcount = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<displayStatusCountDTO[]> | commonOutput | void> => {
         try {
             const result = await this._fetchProjectCountandStatus.execute();
@@ -138,7 +138,7 @@ export class ProjectController implements IProjectController {
             next(error);
         }
     };
-    getSitemanagersProjectsWithCompletion = async (req: Request, res: Response, next: NextFunction):
+    getSitemanagersProjectsWithCompletion = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<{ data: displayProjectWithCompletionDTO[], totalPages: number }> | void> => {
         try {
             const header = req.headers.authorization?.split(' ')[1];
@@ -156,7 +156,7 @@ export class ProjectController implements IProjectController {
             next(error);
         }
     };
-    getPendingProjects = async (req: Request, res: Response, next: NextFunction):
+    getPendingProjects = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<fetchProjectIdnameDTO[]> | void> => {
         try {
             const result = await this._getPendingProjectsUseCase.execute();
@@ -164,15 +164,15 @@ export class ProjectController implements IProjectController {
         } catch (error) {
             next(error);
         }
-    }
-    getExpectedImage = async (req: Request, res: Response, next: NextFunction):
+    };
+    getExpectedImage = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<expectedImageDTO[]> | commonOutput | void> => {
         try {
-            const projectId=req.params.id
+            const projectId=req.params.id;
             const result = await this._getExpectedImageUseCase.execute(projectId);
             return result;
         } catch (error) {
-            next(error)
+            next(error);
         }
-    }
+    };
 }

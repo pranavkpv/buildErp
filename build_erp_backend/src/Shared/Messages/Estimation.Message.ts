@@ -19,5 +19,5 @@ export const EstimationFailedMessage = {
     NOT_ACCESS: 'Failed to save estimation because the corresponding user is not authorized to decide the estimation.',
     NOT_STAGE: 'Please set the stage first before approving the estimated data.',
     NO_TITLE:'Title is mandatory',
-    KEEP_SAME:'In every title should need atleast one image'
+    KEEP_SAME:'In every title should need atleast one image',
 };

@@ -26,7 +26,7 @@ export class GoogleloginUseCase implements IGoogleloginUseCase {
             const tokens = this._jwtService.generateTokens(existAuthUser._id, existAuthUser.email, Role.USER);
             return ResponseHelper.success(userSuccessMessage.LOGIN, { userData: mappedUser, tokens });
         } else if (savedUser) {
-            return ResponseHelper.conflictData(userFailedMessage.EMAIL_EXIST)
+            return ResponseHelper.conflictData(userFailedMessage.EMAIL_EXIST);
         }
         const user = await this._userRepository.createGoogleUser({ email, username, profile_image });
         const mappedUser = this._usermapper.touserLoginDTO(user);

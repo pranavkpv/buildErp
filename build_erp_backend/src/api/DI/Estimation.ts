@@ -24,13 +24,15 @@ import { GetLabourEstimationUseCase } from '../../application/UseCase/Estimation
 import { RejectEstimationUsecase } from '../../application/UseCase/Estimation/RejectEstimation';
 import { ApproveEstimationUseCase } from '../../application/UseCase/Estimation/ApproveEstimation';
 import { GetEstimationImageUsecase } from '../../application/UseCase/Estimation/GetEstimationImage';
+import { NotificationRepostory } from '../../infrastructure/Repositories/Notifiaction';
 
 const estimationRepository = new EstimationRepository();
 const stageRepository = new StageRepository();
 const estimationMapper = new EstimationMapper();
 const projectRepository = new ProjectRepository();
+const notificationRepository = new NotificationRepostory();
 const saveEstimationUseCase = new SaveEstimationUseCase(estimationRepository,projectRepository);
-const sendEstimationUseCase = new SendEstimationUseCase(estimationRepository,stageRepository,projectRepository);
+const sendEstimationUseCase = new SendEstimationUseCase(estimationRepository,stageRepository,projectRepository,notificationRepository);
 const updateEstimationUseCase = new UpdateEstimationUsecase(estimationRepository,stageRepository);
 const displayEstimationUseCase = new DisplayEstimationUseCase(estimationRepository,estimationMapper);
 const uploadEstimationUseCase = new UploadEstimateImageUseCase(projectRepository);
@@ -39,9 +41,9 @@ const fetchSpecListUsingEstimationUseCase = new FetchSpecListinEstimationUsecase
 const getMaterialEstimationUseCase = new GetMaterialEstimationUseCase(estimationRepository,estimationMapper);
 const getAdditionEstimationUseCase = new GetAdditionEstimationUseCase(estimationRepository,estimationMapper);
 const getLabourEstimationUseCase = new GetLabourEstimationUseCase(estimationRepository,estimationMapper);
-const rejectEstimationUseCase = new RejectEstimationUsecase(projectRepository,estimationRepository);
-const approveEstimationUseCase = new ApproveEstimationUseCase(estimationRepository,projectRepository);
-const getEstimationImageUseCase = new GetEstimationImageUsecase(projectRepository)
+const rejectEstimationUseCase = new RejectEstimationUsecase(projectRepository,estimationRepository,notificationRepository);
+const approveEstimationUseCase = new ApproveEstimationUseCase(estimationRepository,projectRepository,notificationRepository);
+const getEstimationImageUseCase = new GetEstimationImageUsecase(projectRepository);
 export const injectEstimationController = new EstimationController(saveEstimationUseCase,sendEstimationUseCase,updateEstimationUseCase,displayEstimationUseCase,
     uploadEstimationUseCase,fetchSpecListUsingEstimationUseCase,getEstimationByProjectUsecase,getMaterialEstimationUseCase,getAdditionEstimationUseCase,
     getLabourEstimationUseCase,rejectEstimationUseCase,approveEstimationUseCase,getEstimationImageUseCase);

@@ -17,7 +17,7 @@ export class ApproveTransferUseCase implements IApproveTransferUseCase {
         private _materialRepository: IMaterialRepository,
         private _projectRepository: IprojectRepository,
         private _paymentRepository: IPaymentRepostory,
-        private _stageRepository: IStageRepository
+        private _stageRepository: IStageRepository,
     ) { }
     async execute(input: transferInput): Promise<commonOutput> {
         if (!input._id) return ResponseHelper.badRequest(TransferFailedMessage.ID_NOT_MATCH);
@@ -33,20 +33,20 @@ export class ApproveTransferUseCase implements IApproveTransferUseCase {
         for (const char of input.materialDetails) {
             await this._projectStockRepository.decreaseStock({ material_id: char.material_id, project_id: input.from_project_id, quantity: char.quantity });
         }
-        const stageData = (await this._stageRepository.findStageByprojectId(input.from_project_id)).find((element) => element.progress != 100)
+        const stageData = (await this._stageRepository.findStageByprojectId(input.from_project_id)).find((element) => element.progress !== 100);
         if (!stageData) {
-            const sumofTransferAmount = input.materialDetails.reduce((sum, element) => sum += (element.quantity * element.unit_rate), 0)
+            const sumofTransferAmount = input.materialDetails.reduce((sum, element) => sum += (element.quantity * element.unit_rate), 0);
             await this._paymentRepository.createCheckoutSession({
                 date: new Date(), amount: sumofTransferAmount, paymentMethod: 'wallet',
-                purpose: 'Transfer Payment', paymentStatus: 'verified', stage_id: "", stripeSessionId: ""
-            })
+                purpose: 'Transfer Payment', paymentStatus: 'verified', stage_id: '', stripeSessionId: '',
+            });
             return ResponseHelper.success(TransferSuccessMessage.APPROVE);
         }
-        const sumofTransferAmount = input.materialDetails.reduce((sum, element) => sum += (element.quantity * element.unit_rate), 0)
+        const sumofTransferAmount = input.materialDetails.reduce((sum, element) => sum += (element.quantity * element.unit_rate), 0);
         await this._paymentRepository.createCheckoutSession({
             date: new Date(), amount: sumofTransferAmount, paymentMethod: 'wallet',
-            purpose: 'Transfer Payment', paymentStatus: 'verified', stage_id: stageData._id, stripeSessionId: ""
-        })
+            purpose: 'Transfer Payment', paymentStatus: 'verified', stage_id: stageData._id, stripeSessionId: '',
+        });
         return ResponseHelper.success(TransferSuccessMessage.APPROVE);
     }
 }

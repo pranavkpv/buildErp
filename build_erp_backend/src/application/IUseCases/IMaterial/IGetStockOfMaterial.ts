@@ -1,5 +1,5 @@
-import { commonOutput } from "../../dto/common";
-import { stockDTO } from "../../dto/material.dto";
+import { commonOutput } from '../../dto/common';
+import { stockDTO } from '../../dto/material.dto';
 
 export interface IGetStockOfMaterialUseCase {
    execute(projectId: string, material: string, page: number, id: string):

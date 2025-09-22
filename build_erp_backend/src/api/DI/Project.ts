@@ -17,6 +17,7 @@ import { AddSiteToprojectFetchProjectUseCase } from '../../application/UseCase/S
 import { AddSiteToProjectRepository } from '../../infrastructure/Repositories/AddSiteToProject';
 import { AttendanceRepository } from '../../infrastructure/Repositories/Attendance';
 import { EstimationRepository } from '../../infrastructure/Repositories/Estimation';
+import { NotificationRepostory } from '../../infrastructure/Repositories/Notifiaction';
 import { ProjectRepository } from '../../infrastructure/Repositories/Project';
 import { ProjectStockRepository } from '../../infrastructure/Repositories/ProjectStock';
 import { PurchaseRepository } from '../../infrastructure/Repositories/Purchase';
@@ -38,17 +39,18 @@ const transferRepository = new TransferRepository();
 const attendanceRepository = new AttendanceRepository();
 const stageRepository = new StageRepository();
 const stagemapper = new Stagemapper();
+const notificationRepository = new NotificationRepostory();
 const fetchProjectUseCase = new FetchProjectUseCase(projectRepository,projectmapper);
 const addSiteToProjectFetchProjectUseCase = new AddSiteToprojectFetchProjectUseCase(addSiteToprojectRepository,projectmapper);
 const displayAddProjectUseCase = new DisplayAddProjectUseCase(userRepository,userMapper);
-const addProjectUseCase = new AddProjectUseCase(projectRepository,userRepository);
+const addProjectUseCase = new AddProjectUseCase(projectRepository,userRepository,notificationRepository);
 const deleteProjectUseCase = new DeleteProjectUseCase(projectRepository,projectStockRepository,estimationRepository,purchaseRepository,transferRepository,attendanceRepository);
 const editProjectUseCase = new EditProjectUseCase(projectRepository);
 const displayProjectUseCase = new DisplayAllProjectUseCase(projectRepository,projectmapper);
 const changeStatusUseCase = new ChangeStatusUseCase(projectRepository);
 const fetchProjectCountandStatus = new FetchProjectCountandStatusUseCase(projectRepository,projectmapper);
 const fetchProjectwithCompletionUseCase = new FetchProjectWithCompletionUseCase(stageRepository,stagemapper);
-const getPendingProjectsUseCase = new GetPendingProjectUseCase(projectRepository,projectmapper)
-const getExpectedImageUseCase = new GetExpectedImageUseCase(projectRepository,projectmapper)
+const getPendingProjectsUseCase = new GetPendingProjectUseCase(projectRepository,projectmapper);
+const getExpectedImageUseCase = new GetExpectedImageUseCase(projectRepository,projectmapper);
 export const injectedProjectController = new ProjectController(fetchProjectUseCase,addSiteToProjectFetchProjectUseCase,displayAddProjectUseCase,addProjectUseCase,deleteProjectUseCase,editProjectUseCase,displayProjectUseCase,
     changeStatusUseCase,fetchProjectCountandStatus,jwtservice,fetchProjectwithCompletionUseCase,getPendingProjectsUseCase,getExpectedImageUseCase);

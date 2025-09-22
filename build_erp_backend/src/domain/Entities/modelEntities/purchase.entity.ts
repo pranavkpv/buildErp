@@ -10,7 +10,7 @@ interface materialData {
 export interface IPurchaseModelEntity {
    _id:string
    project_id:string
-   invoice_number:Number
+   invoice_number:number
    date:Date
    description:string
    approval_status?:boolean

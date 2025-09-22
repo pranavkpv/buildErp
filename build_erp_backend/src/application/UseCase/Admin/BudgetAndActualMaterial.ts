@@ -32,7 +32,7 @@ export class BudgetAndActualMaterialUseCase implements IBudgetAndActualMaterialU
         if (Array.isArray(estimateMaterialData)) {
             for (const element of estimateMaterialData) {
                 for (const item of result) {
-                    if (item.project_id === element.project_id) {
+                    if (String(item.project_id) === element.project_id) {
                         const materialSum = element.quantity * element.unit_rate;
                         item.budgeted_cost = (item.budgeted_cost || 0) + materialSum;
                     }
@@ -44,7 +44,7 @@ export class BudgetAndActualMaterialUseCase implements IBudgetAndActualMaterialU
         if (Array.isArray(purchaseData)) {
             for (const element of purchaseData) {
                 for (const item of result) {
-                    if (item.project_id === element.project_id) {
+                    if (String(item.project_id) === element.project_id) {
                         const materialSum = element.materialDetails.reduce((sum, material) => {
                             return sum += (material.quantity * material.unit_rate);
                         }, 0);
@@ -59,7 +59,7 @@ export class BudgetAndActualMaterialUseCase implements IBudgetAndActualMaterialU
         if (Array.isArray(transferData)) {
             for (const element of transferData) {
                 for (const item of result) {
-                    if (item.project_id === element.from_project_id) {
+                    if (String(item.project_id) === element.from_project_id) {
                         const materialSum = element.materialDetails.reduce((sum, material) => {
                             return sum += (material.quantity * material.unit_rate);
                         }, 0);
@@ -73,7 +73,7 @@ export class BudgetAndActualMaterialUseCase implements IBudgetAndActualMaterialU
         if (Array.isArray(receiveData)) {
             for (const element of receiveData) {
                 for (const item of result) {
-                    if (item.project_id === element.project_id) {
+                    if (String(item.project_id) === element.project_id) {
                         const materialSum = element.materialDetails.reduce((sum, material) => {
                             return sum += (material.quantity * material.unit_rate);
                         }, 0);

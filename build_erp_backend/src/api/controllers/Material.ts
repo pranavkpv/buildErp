@@ -32,11 +32,11 @@ export class MaterialController implements IMaterialController {
         private _fetUnitRateUseCase: IFetchUnitRateUseCase,
         private _findMaterialByIdUsecase: IFindMaterialByIdUsecase,
         private _jwtService: IJwtService,
-        private _getStockOfMaterialUseCase: IGetStockOfMaterialUseCase
+        private _getStockOfMaterialUseCase: IGetStockOfMaterialUseCase,
     ) { }
 
     // Fetch paginated material list with search filter
-    getPaginatedMaterialList = async (req: Request, res: Response, next: NextFunction):
+    getPaginatedMaterialList = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<{ data: listingMaterialDTO[]; totalPage: number }> | commonOutput | void> => {
         try {
             const { page, search } = req.query;
@@ -48,7 +48,7 @@ export class MaterialController implements IMaterialController {
     };
 
     // Fetch supporting data (category, brand, unit, project) for material creation
-    getAddMaterialDependencies = async (req: Request, res: Response, next: NextFunction):
+    getAddMaterialDependencies = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<addMaterialFetch> | commonOutput | void> => {
         try {
             const result = await this._getAddMaterialUseCase.execute();
@@ -59,7 +59,7 @@ export class MaterialController implements IMaterialController {
     };
 
     // Create a new material
-    createMaterial = async (req: Request, res: Response, next: NextFunction):
+    createMaterial = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput | void> => {
         try {
             const result = await this._saveMaterialUseCase.execute(req.body);
@@ -70,7 +70,7 @@ export class MaterialController implements IMaterialController {
     };
 
     // Fetch supporting data (category, brand, unit, project) for material editing
-    getEditMaterialDependencies = async (req: Request, res: Response, next: NextFunction):
+    getEditMaterialDependencies = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<{ materialData: EditmaterialDetailsDTO; projectStockData: EditprojectDetailsDTO[] }> | commonOutput | void> => {
         try {
             const { id } = req.params;
@@ -82,7 +82,7 @@ export class MaterialController implements IMaterialController {
     };
 
     // Update an existing material
-    updateMaterial = async (req: Request, res: Response, next: NextFunction):
+    updateMaterial = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput | void> => {
         try {
             const _id = req.params.id;
@@ -94,7 +94,7 @@ export class MaterialController implements IMaterialController {
     };
 
     // Delete a material by ID
-    deleteMaterial = async (req: Request, res: Response, next: NextFunction):
+    deleteMaterial = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput | void> => {
         try {
             const result = await this._deleteMaterialUseCase.execute(req.params.id);
@@ -105,7 +105,7 @@ export class MaterialController implements IMaterialController {
     };
 
     // Fetch unique material names for specification registration
-    getUniqueMaterialNames = async (req: Request, res: Response, next: NextFunction):
+    getUniqueMaterialNames = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<string[]> | void> => {
         try {
             const result = await this._fetchMaterialUseCase.execute();
@@ -116,7 +116,7 @@ export class MaterialController implements IMaterialController {
     };
 
     // Fetch unit list based on material name
-    getUnitsByMaterialName = async (req: Request, res: Response, next: NextFunction):
+    getUnitsByMaterialName = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<string[]> | void> => {
         try {
             const materialName = req.params.material;
@@ -128,7 +128,7 @@ export class MaterialController implements IMaterialController {
     };
 
     // Fetch brand list based on material name
-    getBrandsByMaterialName = async (req: Request, res: Response, next: NextFunction):
+    getBrandsByMaterialName = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<string[]> | void> => {
         try {
             const materialName = req.params.material;
@@ -140,7 +140,7 @@ export class MaterialController implements IMaterialController {
     };
 
     // Fetch unit rate of a material by material, brand, and unit name
-    getUnitRate = async (req: Request, res: Response, next: NextFunction):
+    getUnitRate = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<unitRateDTO> | void> => {
         try {
             const { material_name, brand_name, unit_name } = req.query;
@@ -156,7 +156,7 @@ export class MaterialController implements IMaterialController {
     };
 
     // Fetch a single material by ID
-    getMaterialById = async (req: Request, res: Response, next: NextFunction):
+    getMaterialById = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<editMaterialFullDatafetch | null> | void> => {
         try {
             const { id } = req.params;
@@ -166,10 +166,10 @@ export class MaterialController implements IMaterialController {
             next(error);
         }
     };
-    fetchStock = async (req: Request, res: Response, next: NextFunction):
+    fetchStock = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<{ data: stockDTO[], totalPage: number }> | commonOutput | void> => {
         try {
-            const { projectId, material, page } = req.query
+            const { projectId, material, page } = req.query;
             const userHeader = req.headers.authorization;
             const accessToken = userHeader?.split(' ')[1];
 
@@ -186,5 +186,5 @@ export class MaterialController implements IMaterialController {
         } catch (error) {
             next(error);
         }
-    }
+    };
 }

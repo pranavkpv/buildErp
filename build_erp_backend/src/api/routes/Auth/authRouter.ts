@@ -4,6 +4,7 @@ import { validateForgotOtpSend, validateResendotp, validateSignup, validateUserL
 import { injectAuthController } from '../../DI/Auth';
 import { injectedBannerController } from '../../DI/Banner';
 import { injectedProjectController } from '../../DI/Project';
+import { injectedNotificationController } from '../../DI/Notification';
 
 
 
@@ -93,6 +94,16 @@ export class authRoute {
         this.authRoute.get(
             '/projectstatuscount',
             withLogging(injectedProjectController.fetchAllProjectwithStatusAndcount),
+        );
+
+        this.authRoute.get(
+            '/notification',
+            withLogging(injectedNotificationController.fetchUserBaseNotification),
+        );
+
+        this.authRoute.patch(
+            '/notification/:id',
+            withLogging(injectedNotificationController.markReadInNotification),
         );
     }
 }

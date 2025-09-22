@@ -10,12 +10,12 @@ import { budgetActualDTO } from '../../dto/admin.dashoard.dto';
 
 export class BudgetAndActualLabourUseCase implements IBudgetAndActualLabourUseCase {
     constructor(
-      private _estimationRepository: IEstimationRepository,
-      private _projectRepository: IprojectRepository,
-      private _attendanceRepository: IAttendanceRepository,
+        private _estimationRepository: IEstimationRepository,
+        private _projectRepository: IprojectRepository,
+        private _attendanceRepository: IAttendanceRepository,
     ) { }
     async execute(search: string):
-      Promise<commonOutput<{ data: budgetActualDTO[], totalPage: number }> | commonOutput> {
+        Promise<commonOutput<{ data: budgetActualDTO[], totalPage: number }> | commonOutput> {
         const result = [];
         const projectData = await this._projectRepository.getAllProjects();
         for (const element of projectData) {
@@ -26,9 +26,10 @@ export class BudgetAndActualLabourUseCase implements IBudgetAndActualLabourUseCa
         if (Array.isArray(estimateLabourData)) {
             for (const element of estimateLabourData) {
                 for (const item of result) {
-                    if (item.project_id === element.project_id) {
-                        const labourSum = element.numberoflabour * element.daily_wage;
-                        item.budgeted_cost = (item.budgeted_cost || 0) + labourSum;
+                    if (String(item.project_id) === element.project_id) {
+                        let  labourSum = element.numberoflabour * element.daily_wage;
+                        console.log(labourSum)
+                        item.budgeted_cost += labourSum;
                     }
                 }
             }
@@ -39,7 +40,7 @@ export class BudgetAndActualLabourUseCase implements IBudgetAndActualLabourUseCa
         if (Array.isArray(attendanceData)) {
             for (const element of attendanceData) {
                 for (const item of result) {
-                    if (item.project_id === element.project_id) {
+                    if (String(item.project_id) === element.project_id) {
                         const labourSum = element.labourDetails.reduce((sum, labour) => {
                             return sum += (labour.numberOflabour * labour.daily_wage);
                         }, 0);
