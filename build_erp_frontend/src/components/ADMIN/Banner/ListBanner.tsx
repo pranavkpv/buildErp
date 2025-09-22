@@ -6,6 +6,8 @@ import BannerEdit from "./EditBanner";
 import { toast } from "react-toastify";
 import ReUsableTable from "../../../components/ReUsableComponents/ReUsableTable";
 import ReUsableDeleteModal from "../../../components/ReUsableComponents/ReUsableDeleteModal";
+import ReUsableAddButton from "../../../components/ReUsableComponents/ReUsableAddButton";
+import ReUsablePagination from "../../../components/ReUsableComponents/ReUsablePagination";
 
 function ListBanner() {
   const [bannerData, setBannerData] = useState<inputBannerInterface[]>([]);
@@ -59,7 +61,7 @@ function ListBanner() {
       return (
         <img
           src={value}
-          alt={`${item.title} banner`}
+          alt={`${ item.title } banner`}
           className="h-10 w-16 object-cover rounded-md"
           onError={(e) => {
             e.currentTarget.src = "/fallback-image.png";
@@ -87,65 +89,24 @@ function ListBanner() {
               onChange={(e) => setSearch(e.target.value)}
             />
           </div>
-          <button
-            className="w-full sm:w-auto bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white px-6 py-3 rounded-lg shadow-md hover:shadow-xl transition-all duration-200 font-semibold text-sm"
-            onClick={() => setAddEnable(true)}
-          >
-            + Add Banner
-          </button>
+          <ReUsableAddButton addFuntion={() => setAddEnable(true)} item="Banner" />
         </div>
 
         <div className="overflow-x-auto rounded-xl border border-gray-700/50">
-          <ReUsableTable<inputBannerInterface>
-            heading={heading}
-            dataKey={dataKey}
-            data={bannerData}
-            page={page}
-            setEditData={setEditData}
-            setEditEnable={setEditEnable}
-            setDeleteId={setDeleteId}
-            setDeleteEnable={setDeleteEnable}
-            renderCell={renderCell}
-          />
+          <ReUsableTable<inputBannerInterface> heading={heading} dataKey={dataKey} data={bannerData} page={page} setEditData={setEditData} setEditEnable={setEditEnable}
+            setDeleteId={setDeleteId} setDeleteEnable={setDeleteEnable} renderCell={renderCell} />
 
-          <div className="flex justify-center gap-2 mt-6">
-            {Array.from({ length: totalPage }, (_, i) => (
-              <button
-                key={i + 1}
-                onClick={() => setPage(i)}
-                className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200
-                  ${page === i
-                    ? "bg-teal-600 text-white shadow-md"
-                    : "bg-gray-700 text-gray-300 hover:bg-teal-500 hover:text-white"
-                  }`}
-              >
-                {i + 1}
-              </button>
-            ))}
-          </div>
+          <ReUsablePagination page={page} setPage={setPage} totalPage={totalPage} />
         </div>
       </div>
 
-      <AddBanner
-        enableAdd={addEnable}
-        setEnableAdd={setAddEnable}
-        onAddSuccess={fetchBannerList}
-      />
+      <AddBanner enableAdd={addEnable} setEnableAdd={setAddEnable} onAddSuccess={fetchBannerList} />
 
-      <BannerEdit
-        editData={editData}
-        editEnable={editEnable}
-        setEnableEdit={setEditEnable}
-        onEditSuccess={fetchBannerList}
-      />
-      <ReUsableDeleteModal    
-        enable={deleteEnable}
-        deleteId={deleteId}
-        onDeleteSuccess={fetchBannerList}
-        setEnable={setDeleteEnable}
-        api={deleteBannerDataApi}
-        deleteItem="Banner"
-      />
+      <BannerEdit editData={editData} editEnable={editEnable} setEnableEdit={setEditEnable} onEditSuccess={fetchBannerList} />
+
+      <ReUsableDeleteModal enable={deleteEnable} deleteId={deleteId} onDeleteSuccess={fetchBannerList} setEnable={setDeleteEnable} api={deleteBannerDataApi}
+        deleteItem="Banner" />
+        
     </div>
   );
 }

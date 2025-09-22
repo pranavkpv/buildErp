@@ -120,13 +120,11 @@ function AddEstimation({ addEnable, setAddEnable, anAddSuccess, projectIds }: ad
   }, [row]);
 
   const SaveEstimation = async () => {
-    // Validation: Check if projectId is selected
     if (!projectId) {
       toast.error("Please select a project.");
       return;
     }
 
-    // Validation: Check for duplicate spec_id
     const specIds = row.map((r) => r.spec_id);
     const uniqueSpecIds = new Set(specIds);
     if (uniqueSpecIds.size !== specIds.length) {

@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import AddStage from "./AddStage";
-import { PlusCircleIcon } from "@heroicons/react/24/outline";
 import EditStage from "./EditStage";
 import { fetchStageDataAPI, stageDeleteAPI } from "../../../api/Admin/StageSetting";
 import ReUsableTable from "../../../components/ReUsableComponents/ReUsableTable";
 import type { stageDatas } from "ApiInterface/stageApi.interface";
 import ReUsableDeleteModal from "../../../components/ReUsableComponents/ReUsableDeleteModal";
+import ReUsableAddButton from "../../../components/ReUsableComponents/ReUsableAddButton";
+import ReUsablePagination from "../../../components/ReUsableComponents/ReUsablePagination";
 
 
 
@@ -23,7 +24,7 @@ function ListStage() {
 
   //edit data 
   const [editEnable, setEditEnable] = useState(false)
-  const [editData, setEditData] = useState<stageDatas>({ _id: "", project_name: "", start_date: "", end_date: "" ,budgeted_cost:0})
+  const [editData, setEditData] = useState<stageDatas>({ _id: "", project_name: "", start_date: "", end_date: "", budgeted_cost: 0 })
 
   const fetchStage = async () => {
     const response = await fetchStageDataAPI(search, page);
@@ -52,7 +53,7 @@ function ListStage() {
         </td>
       );
     }
-     if (key === "end_date") {
+    if (key === "end_date") {
       return (
         <td className="px-6 py-4 text-gray-100">
           {item.end_date.split("T")[0].split("-").reverse().join("-")}
@@ -82,64 +83,22 @@ function ListStage() {
                 onChange={(e) => setSearch(e.target.value)}
               />
             </div>
-            <button
-              onClick={() => setAddEnable(true)}
-              type="button"
-              className="bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white px-4 py-2.5 rounded-lg shadow-md hover:shadow-xl transition-all duration-200 font-semibold text-sm flex items-center gap-2"
-            >
-              <PlusCircleIcon className="h-5 w-5" /> Add Stage
-            </button>
+            <ReUsableAddButton addFuntion={() => setAddEnable(true)} item="Stage" />
           </div>
         </div>
 
-        <AddStage
-          addEnable={addEnable}
-          setAddEnable={setAddEnable}
-          onAddSuccess={fetchStage}
-        />
+        <AddStage addEnable={addEnable} setAddEnable={setAddEnable} onAddSuccess={fetchStage} />
 
         <div className="overflow-x-auto rounded-xl border border-gray-700/50">
-          <ReUsableTable<stageDatas>
-            data={datas}
-            dataKey={dataKey}
-            heading={heading}
-            page={page}
-            setDeleteEnable={setDeleteEnable}
-            setDeleteId={setDeleteId}
-            setEditData={setEditData}
-            setEditEnable={setEditEnable}
-            renderCell={renderCell}
-          />
+          <ReUsableTable<stageDatas> data={datas} dataKey={dataKey} heading={heading} page={page} setDeleteEnable={setDeleteEnable}
+            setDeleteId={setDeleteId} setEditData={setEditData} setEditEnable={setEditEnable} renderCell={renderCell} />
 
-          <div className="flex justify-center items-center gap-2 p-4 bg-gray-800/50 rounded-b-xl border-t border-gray-700/50">
-            {totalPage.map((element) => (
-              <button
-                key={element}
-                onClick={() => setPage(element)}
-                className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 
-          ${ page === element
-                    ? 'bg-teal-500 text-white'
-                    : 'bg-gray-700/50 text-gray-200 hover:bg-gray-600/50 hover:text-teal-300'
-                  } focus:outline-none focus:ring-2 focus:ring-teal-400`}
-              >
-                {element + 1}
-              </button>
-            ))}
-          </div>
-          <ReUsableDeleteModal
-            enable={deleteEnable}
-            deleteId={deleteId}
-            setEnable={setDeleteEnable}
-            onDeleteSuccess={fetchStage}
-            api={stageDeleteAPI}
-            deleteItem="Stage"
-          />
-          <EditStage
-            editEnable={editEnable}
-            setEditEnable={setEditEnable}
-            editData={editData}
-            onEditSuccess={fetchStage}
-          />
+          <ReUsablePagination page={page} setPage={setPage} totalPage={totalPage.length} />
+
+          <ReUsableDeleteModal enable={deleteEnable} deleteId={deleteId} setEnable={setDeleteEnable} onDeleteSuccess={fetchStage} api={stageDeleteAPI} deleteItem="Stage" />
+
+          <EditStage editEnable={editEnable} setEditEnable={setEditEnable} editData={editData} onEditSuccess={fetchStage} />
+
         </div>
       </div>
     </div>

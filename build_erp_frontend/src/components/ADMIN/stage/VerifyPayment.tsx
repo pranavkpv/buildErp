@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { getStageForVerifyPayApi, verifyPaymentApi } from "../../../api/Admin/StageSetting";
+import { getStageForVerifyPayApi } from "../../../api/Admin/StageSetting";
 import VerifyModal from "./VerifyModal";
-import ReUsableTable from "components/ReUsableComponents/ReUsableTable";
+import ReUsablePagination from "../../../components/ReUsableComponents/ReUsablePagination";
 
 interface StageData {
   _id: string;  // stage _id
@@ -25,6 +25,7 @@ function VerifyPayment() {
   const fetchStageForVerifyPay = async () => {
     try {
       const response = await getStageForVerifyPayApi(search, page);
+      console.log(response)
       if (response.success) {
         setStage(response.data.data);
         const pages = Array.from({ length: response.data.totalPage }, (_, i) => i);
@@ -172,21 +173,7 @@ function VerifyPayment() {
           </table>
 
           {totalPage.length > 0 && (
-            <div className="flex justify-center items-center gap-2 p-4 bg-gray-900/50 border-t border-gray-800">
-              {totalPage.map((element) => (
-                <button
-                  key={element}
-                  onClick={() => setPage(element)}
-                  className={`px-3 py-1.5 rounded-md text-sm font-medium transition-all duration-200 
-                    ${ page === element
-                      ? "bg-indigo-600 text-white"
-                      : "bg-gray-700/50 text-gray-200 hover:bg-gray-600 hover:text-indigo-300"
-                    } focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-900`}
-                >
-                  {element + 1}
-                </button>
-              ))}
-            </div>
+            <ReUsablePagination page={page} setPage={setPage} totalPage={totalPage.length} />
           )}
         </div>
       </div>

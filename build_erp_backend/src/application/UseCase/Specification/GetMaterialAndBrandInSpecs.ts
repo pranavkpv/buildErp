@@ -8,8 +8,8 @@ import { IGetMaterialAndBrandInSpecsUseCase } from '../../IUseCases/ISpecificati
 
 export class GetMaterialAndBrandInSpecsUseCase implements IGetMaterialAndBrandInSpecsUseCase {
     constructor(
-      private _specRepository: ISpecRepository,
-      private _materialRepository: IMaterialRepository,
+        private _specRepository: ISpecRepository,
+        private _materialRepository: IMaterialRepository,
     ) { }
     async execute(specs: string[]): Promise<commonOutput<userSpecMaterial[]>> {
         const specIncollectionOfId = await this._specRepository.getAllSpecByIds(specs);
@@ -19,21 +19,30 @@ export class GetMaterialAndBrandInSpecsUseCase implements IGetMaterialAndBrandIn
                 materials.push(item.material_id);
             }
         }
-        const getAllMaterialsById = await this._materialRepository.getMaterialByIds(materials);
+        const uniqueMaterial = [...new Set(materials)]
+        const getAllMaterialsById = await this._materialRepository.getMaterialByIds(uniqueMaterial);
         const materialnames = [];
         for (const element of getAllMaterialsById) {
             materialnames.push(element.material_name);
         }
         const materialswithAggregateBrand = await this._materialRepository.getAllMaterialByIdswithAggregateBrand(materialnames);
         const results = [];
+        console.log("sssss", materialswithAggregateBrand)
         for (const element of materialswithAggregateBrand) {
+            let x = 0
             for (const item of results) {
                 if (item.material_name === element.material_name) {
+                    x = 1
                     item.brand_name.push(element.brandDetails.brand_name);
                 }
             }
+            if (x == 1) {
+                continue
+            }
             results.push({ material_name: element.material_name, brand_name: [element.brandDetails.brand_name] });
         }
+        console.log(results)
+
         return ResponseHelper.success(MaterialSuccessMessage.FETCH, results);
     }
 }

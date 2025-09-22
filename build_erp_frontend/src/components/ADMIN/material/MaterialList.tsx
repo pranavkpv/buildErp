@@ -1,4 +1,6 @@
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
+import ReUsableAddButton from "../../../components/ReUsableComponents/ReUsableAddButton";
+import ReUsablePagination from "../../../components/ReUsableComponents/ReUsablePagination";
 
 type materialType = {
   _id: string;
@@ -56,12 +58,7 @@ function MaterialList({ setEnable, enable, materialData, setDeleteEnable,
               className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent transition-all duration-200 placeholder:text-gray-400 text-gray-100 text-sm font-medium"
             />
           </div>
-          <button
-            className="w-full sm:w-auto bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white px-6 py-3 rounded-lg shadow-md hover:shadow-xl transition-all duration-200 font-semibold text-sm"
-            onClick={() => setEnable(true)}
-          >
-            + Add Material
-          </button>
+          <ReUsableAddButton addFuntion={() => setEnable(true)} item="Material" />
         </div>
 
         <div className="overflow-x-auto rounded-xl border border-gray-700/50">
@@ -120,21 +117,7 @@ function MaterialList({ setEnable, enable, materialData, setDeleteEnable,
               )}
             </tbody>
           </table>
-          <div className="flex justify-center gap-2 mt-6">
-              {Array.from({ length: totalPage }, (_, i) => (
-                <button
-                  key={i + 1}
-                  onClick={() => setPage(i)}
-                  className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200
-        ${ page === i
-                      ? 'bg-teal-600 text-white shadow-md'
-                      : 'bg-gray-700 text-gray-300 hover:bg-teal-500 hover:text-white' }
-      `}
-                >
-                  {i + 1}
-                </button>
-              ))}
-            </div>
+          <ReUsablePagination page={page} setPage={setPage} totalPage={totalPage} />
         </div>
       </div>
     </div>

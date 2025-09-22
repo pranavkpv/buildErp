@@ -127,7 +127,7 @@ export class PaymentRepository implements IPaymentRepostory {
         ]);
         return {
             data: stage,
-            totalPage: Math.ceil(totalDoc.length),
+            totalPage: Math.ceil(totalDoc.length/5),
         };
 
     }

@@ -6,6 +6,8 @@ import AddReceive from "./AddReceive";
 import EditReceive from "./EditReceive";
 import ReUsableDeleteModal from "../../../components/ReUsableComponents/ReUsableDeleteModal";
 import ReUsableApproveModal from "../../../components/ReUsableComponents/ReUsableApproveModal";
+import ReUsableAddButton from "../../../components/ReUsableComponents/ReUsableAddButton";
+import ReUsablePagination from "../../../components/ReUsableComponents/ReUsablePagination";
 
 
 
@@ -19,12 +21,12 @@ type materialData = {
    unit_rate: number
 };
 type transferData = {
-   _id:string
-   transfer_id:string
-   from_project_id:string
-   from_project_name:string
-   date:string
-   materialDetails:materialData[]
+   _id: string
+   transfer_id: string
+   from_project_id: string
+   from_project_name: string
+   date: string
+   materialDetails: materialData[]
 }
 
 export type ReceiveData = {
@@ -33,7 +35,7 @@ export type ReceiveData = {
    Toproject_name: string;
    description: string;
    date: string;
-   transferDetails:transferData[]
+   transferDetails: transferData[]
    materialData: materialData[];
    finalAmount: number;
 };
@@ -75,12 +77,12 @@ function ReceiveList() {
    };
 
    useEffect(() => {
-     const debounce = setTimeout(()=>{
-       fetchRecieveData();
-     },500)
-     return ()=>{
-      clearTimeout(debounce)
-     }
+      const debounce = setTimeout(() => {
+         fetchRecieveData();
+      }, 500)
+      return () => {
+         clearTimeout(debounce)
+      }
    }, [search, page]);
 
    const formatDate = (dateString: string) => {
@@ -109,13 +111,7 @@ function ReceiveList() {
                         onChange={(e) => setSearch(e.target.value)}
                      />
                   </div>
-                  <button
-                     onClick={() => setAddEnable(true)}
-                     type="button"
-                     className="bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white px-4 py-2.5 rounded-lg shadow-md hover:shadow-xl transition-all duration-200 font-semibold text-sm flex items-center gap-2"
-                  >
-                     <CheckCircleIcon className="h-5 w-5" /> Add Purchase
-                  </button>
+                  <ReUsableAddButton addFuntion={() => setAddEnable(true)} item="Receive" />
                </div>
             </div>
 
@@ -151,7 +147,7 @@ function ReceiveList() {
                                     className="text-teal-400 hover:text-teal-300 p-2 rounded-md hover:bg-gray-600/50 transition-all duration-200"
                                     aria-label={`Edit purchase for ${ element.Toproject_name }`}
                                     onClick={() => {
-                               
+
                                        setEditId(element._id);
                                        const updatedElement = {
                                           ...element,
@@ -163,7 +159,7 @@ function ReceiveList() {
                                        };
                                        setEditData(updatedElement);
                                        setEditEnable(true);
-                                      
+
                                     }}
                                  >
                                     <PencilIcon className="h-5 w-5" />
@@ -208,49 +204,18 @@ function ReceiveList() {
             </div>
 
             {totalpage >= 1 && (
-               <div className="flex justify-center gap-2 mt-6">
-                  {Array.from({ length: totalpage }, (_, i) => (
-                     <button
-                        key={i}
-                        onClick={() => setPage(i)}
-                        className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 ${ page === i
-                           ? "bg-teal-600 text-white shadow-md"
-                           : "bg-gray-700/50 text-gray-300 hover:bg-teal-500 hover:text-white hover:shadow-md"
-                           }`}
-                     >
-                        {i + 1}
-                     </button>
-                  ))}
-               </div>
+               <ReUsablePagination page={page} setPage={setPage} totalPage={totalpage} />
             )}
             <AddReceive addEnable={addEnable} setAddEnable={setAddEnable} onAddSuccess={fetchRecieveData} />
 
+            <ReUsableDeleteModal deleteId={deleteId} onDeleteSuccess={fetchRecieveData} setEnable={setDeleteEnable} enable={deleteEnable}
+               api={deleteReceiveAPI} deleteItem="Receive" />
 
-          <ReUsableDeleteModal
-               deleteId={deleteId}
-               onDeleteSuccess={fetchRecieveData}
-               setEnable={setDeleteEnable}
-               enable={deleteEnable}
-               api={deleteReceiveAPI}
-               deleteItem="Receive"
-            /> 
-            <ReUsableApproveModal
-               approveId={approveId}
-               setApproveEnable={setApproveEnable}
-               approveEnable={approveEnable}
-               onApproveSuccess={fetchRecieveData}
-               approveData = {approveData}
-               api={ApproveReceiveAPI}
-               approveItem="Material Receive"
-            /> 
+            <ReUsableApproveModal approveId={approveId} setApproveEnable={setApproveEnable} approveEnable={approveEnable} onApproveSuccess={fetchRecieveData}
+               approveData={approveData} api={ApproveReceiveAPI} approveItem="Material Receive" />
 
-            <EditReceive
-               editId={editId}
-               editEnable={editEnable}
-               setEditEnable={setEditEnable}
-               onEditSuccess={fetchRecieveData}
-               editData={editData}
-            />
+            <EditReceive editId={editId} editEnable={editEnable} setEditEnable={setEditEnable} onEditSuccess={fetchRecieveData} editData={editData} />
+
          </div>
       </div>
    );

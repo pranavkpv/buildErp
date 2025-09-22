@@ -116,7 +116,7 @@ function AddReceive({ addEnable, setAddEnable, onAddSuccess }: setAdd) {
   return (
     <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-50 w-full">
       <div className="bg-gray-800 ml-20 rounded-lg p-6 max-w-6xl w-full max-h-[90vh] overflow-y-auto">
-        <h2 className="text-2xl font-bold text-white mb-6">Add Purchase</h2>
+        <h2 className="text-2xl font-bold text-white mb-6">Add Receive</h2>
         <form onSubmit={addRecieveFun} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>

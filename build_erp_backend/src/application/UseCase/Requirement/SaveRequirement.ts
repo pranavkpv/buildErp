@@ -94,12 +94,7 @@ export class SaveRequirementUseCase implements ISaveRequirementUseCase {
         }
 
         await this._projectRepository.updateEstimatedUser(Role.USER, projectId);
-        const projectData = await this._projectRepository.getProjectById(projectId);
-        if (!projectData) {
-            return ResponseHelper.conflictData(ProjectFailedMessage.FETCH);
-        }
-        const mappedData = this._projectmapper.toUserBaseOneProjectDto(projectData);
-        return ResponseHelper.success(EstimationSuccessMessage.REQUIREMENT_ADD, mappedData);
+        return ResponseHelper.success(EstimationSuccessMessage.REQUIREMENT_ADD);
 
     }
 } 

@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import AddEstimation from "./AddEstimation";
-import { PencilSquareIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
+import { PencilSquareIcon } from "@heroicons/react/24/outline";
 import EditEstimation from "./EditEstimation";
 import { fetChEstimation } from "../../../api/Estimation";
 import { EyeIcon, SendIcon } from "lucide-react";
 import SendEstimation from "./SendEstimation";
 import RejectView from "./RejectView";
 import ProjectImageUpload from "./ProjectImageUpload";
+import ReUsableAddButton from "../../../components/ReUsableComponents/ReUsableAddButton";
+import ReUsablePagination from "../../../components/ReUsableComponents/ReUsablePagination";
 
 type project = {
    project_name: string;
@@ -86,22 +88,11 @@ function ListEstimation() {
                         onChange={(e) => setSearch(e.target.value)}
                      />
                   </div>
-                  <button
-                     onClick={() => setAddEnable(true)}
-                     type="button"
-                     className="bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white px-5 py-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-200 font-semibold text-sm flex items-center gap-2"
-                  >
-                     <PlusCircleIcon className="h-5 w-5" /> Add Estimation
-                  </button>
+                  <ReUsableAddButton addFuntion={() => setAddEnable(true)} item="Estimation" />
                </div>
             </div>
 
-            <AddEstimation
-               addEnable={addEnable}
-               setAddEnable={setAddEnable}
-               anAddSuccess={fetchData}
-               projectIds={projectIds}
-            />
+            <AddEstimation addEnable={addEnable} setAddEnable={setAddEnable} anAddSuccess={fetchData} projectIds={projectIds} />
 
             <div className="overflow-x-auto rounded-xl border border-gray-700/50">
                <table className="min-w-full text-sm text-left bg-gray-800/50 rounded-xl">
@@ -178,48 +169,16 @@ function ListEstimation() {
                      )}
                   </tbody>
                </table>
-               <div className="flex justify-center items-center gap-2 p-4 bg-gray-800/50 rounded-b-xl border-t border-gray-700/50">
-                  {total.map((element) => (
-                     <button
-                        key={element}
-                        onClick={() => setPage(element)}
-                        className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 
-          ${ page === element
-                              ? 'bg-teal-500 text-white'
-                              : 'bg-gray-700/50 text-gray-200 hover:bg-gray-600/50 hover:text-teal-300'
-                           } focus:outline-none focus:ring-2 focus:ring-teal-400`}
-                     >
-                        {element + 1}
-                     </button>
-                  ))}
-               </div>
+               <ReUsablePagination page={page} setPage={setPage} totalPage={total.length} />
             </div>
 
-            <SendEstimation
-               sendEnable={sendEnable}
-               setSendEnable={setSendEnable}
-               projectId={sendProjectId}
-               onSendSuccess={fetchData}
-            />
+            <SendEstimation sendEnable={sendEnable} setSendEnable={setSendEnable} projectId={sendProjectId} onSendSuccess={fetchData} />
 
+            <EditEstimation editEnable={editEnable} setEditEnable={setEditEnable} anEditSuccess={fetchData} projectIds={projectIds} editProjectId={editProjectId}/>
+            
+            <RejectView viewRejectOn={viewRejectOn} setViewRejectOn={setViewRejectOn} reason={reason} />
 
-            <EditEstimation
-               editEnable={editEnable}
-               setEditEnable={setEditEnable}
-               anEditSuccess={fetchData}
-               projectIds={projectIds}
-               editProjectId={editProjectId}
-            />
-            <RejectView
-               viewRejectOn={viewRejectOn}
-               setViewRejectOn={setViewRejectOn}
-               reason={reason}
-            />
-            <ProjectImageUpload
-               setUploadEnable={setImageEnable}
-               uploadEnable={imageEnable}
-               uploadProjectId={uploadProject}
-            />
+            <ProjectImageUpload setUploadEnable={setImageEnable} uploadEnable={imageEnable} uploadProjectId={uploadProject} />
          </div>
       </div>
    );

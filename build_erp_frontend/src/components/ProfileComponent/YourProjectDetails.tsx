@@ -61,6 +61,7 @@ function ProjectDetails() {
   const fetchStage = async (projectId: string): Promise<void> => {
     try {
       const response = await getStageInUser(projectId);
+      console.log(response)
       if (response.success) {
         setStage(response.data);
       } else {

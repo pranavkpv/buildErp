@@ -5,6 +5,8 @@ import { deleteUnitData, getUnit } from "../../api/UnitApi/unit";
 import type { unitInput } from "ApiInterface/UnitApiInterface";
 import ReUsableTable from "../../components/ReUsableComponents/ReUsableTable";
 import ReUsableDeleteModal from "../../components/ReUsableComponents/ReUsableDeleteModal";
+import ReUsableAddButton from "../../components/ReUsableComponents/ReUsableAddButton";
+import ReUsablePagination from "../../components/ReUsableComponents/ReUsablePagination";
 
 
 
@@ -55,63 +57,27 @@ function Unit() {
               onChange={(e) => setSearchUnit(e.target.value)}
             />
           </div>
-          <button
-            className="w-full sm:w-auto bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white px-6 py-3 rounded-lg shadow-md hover:shadow-xl transition-all duration-200 font-semibold text-sm"
-            onClick={() => setEnableAdd(true)}
-          >
-            + Add Unit
-          </button>
+
+          <ReUsableAddButton addFuntion={() => setEnableAdd(true)} item="Unit" />
+
         </div>
 
-        <AddUnit
-          enable={enableAdd}
-          setEnable={setEnableAdd}
-          onAdd={fetchData}
-        />
+        <AddUnit enable={enableAdd} setEnable={setEnableAdd} onAdd={fetchData} />
 
         <div className="overflow-x-auto rounded-xl border border-gray-700/50">
-          <ReUsableTable
-            data={unitList}
-            dataKey={dataKey}
-            heading={heading}
-            page={page}
-            setDeleteEnable={setEnableDelete}
-            setDeleteId={setDeleteId}
-            setEditData={setEditData}
-            setEditEnable={setEnableEdit}
-          />
-          <div className="flex justify-center gap-2 mt-6">
-            {Array.from({ length: totalPage }, (_, i) => (
-              <button
-                key={i + 1}
-                onClick={() => setPage(i)}
-                className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200
-        ${ page === i
-                    ? 'bg-teal-600 text-white shadow-md'
-                    : 'bg-gray-700 text-gray-300 hover:bg-teal-500 hover:text-white' }
-      `}
-              >
-                {i + 1}
-              </button>
-            ))}
-          </div>
+
+          <ReUsableTable data={unitList} dataKey={dataKey} heading={heading} page={page} setDeleteEnable={setEnableDelete}
+            setDeleteId={setDeleteId} setEditData={setEditData} setEditEnable={setEnableEdit} />
+
+         <ReUsablePagination page={page} setPage={setPage} totalPage={totalPage} />
+
         </div>
       </div>
-      <EditUnit
-        enable={enableEdit}
-        setEnable={setEnableEdit}
-        editData={editData}
-        onUpdate={fetchData}
-      />
 
-      <ReUsableDeleteModal
-        enable={enableDelete}
-        deleteId={deleteId}
-        setEnable={setEnableDelete}
-        onDeleteSuccess={fetchData}
-        api={deleteUnitData}
-        deleteItem="Unit"
-      />
+      <EditUnit enable={enableEdit} setEnable={setEnableEdit} editData={editData} onUpdate={fetchData} />
+
+      <ReUsableDeleteModal enable={enableDelete} deleteId={deleteId} setEnable={setEnableDelete} onDeleteSuccess={fetchData} api={deleteUnitData} deleteItem="Unit" />
+
     </div>
   );
 }

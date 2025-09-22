@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import LabourAdd from "./LabourAdd";
 import LabourEdit from "./LabourEdit";
-import { PlusIcon } from "@heroicons/react/24/outline";
 import { deleteLabourData, getLabour } from "../../../api/Admin/labour";
 import ReUsableTable from "../../../components/ReUsableComponents/ReUsableTable";
 import type { labourData } from "ApiInterface/labour.interface";
 import ReUsableDeleteModal from "../../../components/ReUsableComponents/ReUsableDeleteModal";
-
+import ReUsableAddButton from "../../../components/ReUsableComponents/ReUsableAddButton";
+import ReUsablePagination from "../../../components/ReUsableComponents/ReUsablePagination";
 
 
 function LabourList() {
@@ -63,63 +63,22 @@ function LabourList() {
             onChange={(e) => setSearch(e.target.value)}
             value={search}
           />
-          <button
-            onClick={() => setAddEnable(true)}
-            className="w-full sm:w-auto bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white px-5 py-2.5 rounded-lg shadow-md hover:shadow-xl transition-all duration-200 font-semibold flex items-center gap-2"
-          >
-            <PlusIcon className="h-5 w-5" /> Add Labour
-          </button>
+          <ReUsableAddButton addFuntion={() => setAddEnable(true)} item="Labour" />
         </div>
 
         <div className="overflow-x-auto rounded-xl shadow-lg border border-gray-700/50">
-          <ReUsableTable<labourData>
-            heading={heading}
-            dataKey={dataKey}
-            data={labour}
-            page={page}
-            setEditData={setEditData}
-            setEditEnable={setEditEnable}
-            setDeleteId={setDeleteId}
-            setDeleteEnable={setdeleteEnable}
-            renderCell={renderCell}
-          />
-          <div className="flex justify-center gap-2 mt-6">
-            {Array.from({ length: totalPage }, (_, i) => (
-              <button
-                key={i + 1}
-                onClick={() => setPage(i)}
-                className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200
-                  ${ page === i
-                    ? "bg-teal-600 text-white shadow-md"
-                    : "bg-gray-700 text-gray-300 hover:bg-teal-500 hover:text-white"
-                  }`}
-              >
-                {i + 1}
-              </button>
-            ))}
-          </div>
+          <ReUsableTable<labourData> heading={heading} dataKey={dataKey} data={labour} page={page} setEditData={setEditData} setEditEnable={setEditEnable}
+            setDeleteId={setDeleteId} setDeleteEnable={setdeleteEnable} renderCell={renderCell} />
+         <ReUsablePagination page={page} setPage={setPage} totalPage={totalPage} />
         </div>
       </div>
 
-      <LabourAdd
-        addEnable={addEnable}
-        setAddEnable={setAddEnable}
-        onsuccessAdd={fetchData}
-      />
-      <LabourEdit
-        editEnable={editEnable}
-        setEditEnable={setEditEnable}
-        editData={editData}
-        onSuccessEdit={fetchData}
-      />
-      <ReUsableDeleteModal
-        enable={deleteEnable}
-        setEnable={setdeleteEnable}
-        deleteId={deleteId}
-        onDeleteSuccess={fetchData}
-        api={deleteLabourData}
-        deleteItem="Labour"
-      />
+      <LabourAdd addEnable={addEnable}  setAddEnable={setAddEnable} onsuccessAdd={fetchData} />
+
+      <LabourEdit  editEnable={editEnable} setEditEnable={setEditEnable} editData={editData} onSuccessEdit={fetchData} />
+
+      <ReUsableDeleteModal enable={deleteEnable} setEnable={setdeleteEnable} deleteId={deleteId} onDeleteSuccess={fetchData}
+        api={deleteLabourData} deleteItem="Labour" />
     </div>
   );
 }
