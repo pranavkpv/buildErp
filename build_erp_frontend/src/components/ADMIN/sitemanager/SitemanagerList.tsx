@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import AddSitemanager from "./Addsitemanager";
 import EditSitemanager from "./EditSitemanager";
-import DeleteSitemanager from "./DeleteSitemanager";
-import { fetchSitemanager } from "../../../api/Admin/sitemanager";
+import { deleteSitemanagerData, fetchSitemanager } from "../../../api/Admin/sitemanager";
 import type { SiteData } from "ApiInterface/sitemanager.interface";
 import ReUsableTable from "../../../components/ReUsableComponents/ReUsableTable";
+import ReUsableDeleteModal from "../../../components/ReUsableComponents/ReUsableDeleteModal";
 
 
 
@@ -109,11 +109,13 @@ function SitemanagerList() {
         setEditEnable={setEditEnable}
         onEditSuccess={fetchData}
       />
-      <DeleteSitemanager
-        deleteEnable={deleteEnable}
-        setDeleteEnable={setDeleteEnable}
+      <ReUsableDeleteModal
+        enable={deleteEnable}
+        setEnable={setDeleteEnable}
         deleteId={deleteId}
         onDeleteSuccess={fetchData}
+        api={deleteSitemanagerData}
+        deleteItem="Sitemanager"
       />
     </div>
   );

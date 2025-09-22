@@ -28,7 +28,6 @@ export class BudgetAndActualLabourUseCase implements IBudgetAndActualLabourUseCa
                 for (const item of result) {
                     if (String(item.project_id) === element.project_id) {
                         let  labourSum = element.numberoflabour * element.daily_wage;
-                        console.log(labourSum)
                         item.budgeted_cost += labourSum;
                     }
                 }

@@ -1,4 +1,4 @@
-import type { Purchase } from "../../components/SITEMANAGER/purchase/ApprovePurchase";
+import type { Purchase } from "../../components/SITEMANAGER/purchase/purchaselist";
 import siteAxios from "../../axios/SitemanagerAxioInterceptor"
 
 

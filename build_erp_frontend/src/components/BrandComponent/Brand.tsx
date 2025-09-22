@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import AddBrand from "./AddBrand";
 import EditBrand from "./EditBrand";
-import DeleteBrand from "./DeleteBrand"; // Corrected import name
-import { PlusIcon, PencilIcon, TrashIcon } from "@heroicons/react/24/outline"; // Import icons
-import { getbrandList } from "../../api/BrandApi/brand";
+import { PlusIcon } from "@heroicons/react/24/outline"; // Import icons
+import { deleteBrandData, getbrandList } from "../../api/BrandApi/brand";
+import ReUsableTable from "../../components/ReUsableComponents/ReUsableTable";
+import ReUsableDeleteModal from "../../components/ReUsableComponents/ReUsableDeleteModal";
 
 
 type BrandType = {
@@ -19,30 +20,30 @@ function Brand() {
   const [totalPage, setTotal] = useState(0)
 
   const [enableEdit, setEnableEdit] = useState(false);
-  const [editId, setEditId] = useState("");
-  const [editBrand, setEditBrand] = useState("");
+  const [editData,setEditData] = useState<BrandType>({ _id: "", brand_name: "" })
   const [deleteId, setDeleteId] = useState("");
   const [enableDelete, setEnableDelete] = useState(false);
 
 
   const fetchData = async () => {
-      const search = searchBrand
-      const response = await getbrandList({page,search})
-      setBrandList(response.data.data);
-      setTotal(Math.ceil(response.data.totalPage))
+    const search = searchBrand
+    const response = await getbrandList({ page, search })
+    setBrandList(response.data.data);
+    setTotal(Math.ceil(response.data.totalPage))
   };
 
   useEffect(() => {
-    let debounce = setTimeout(()=>{
+    let debounce = setTimeout(() => {
       fetchData();
-    },500)
-    return ()=>{
+    }, 500)
+    return () => {
       clearInterval(debounce)
     }
   }, [searchBrand, page]);
 
 
-
+  const heading = ["Sl No", "Brand Name", "Action"];
+  const dataKey = ["brand_name"] as (keyof BrandType)[];
 
 
   return (
@@ -57,7 +58,7 @@ function Brand() {
             onChange={(e) => setSearchBrand(e.target.value)}
             value={searchBrand}
           />
-  
+
           <button
             className="bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white px-5 py-2.5 rounded-lg shadow-md hover:shadow-xl transition-all duration-200 font-semibold flex items-center gap-2"
             onClick={() => setEnableAdd(true)}
@@ -66,7 +67,7 @@ function Brand() {
           </button>
         </div>
 
-      
+
         <AddBrand
           enable={enableAdd}
           setEnable={setEnableAdd}
@@ -75,52 +76,16 @@ function Brand() {
 
 
         <div className="overflow-x-auto rounded-xl shadow-lg border border-gray-700/50">
-          <table className="min-w-full text-sm text-left bg-gray-800/50">
-            <thead className="bg-gray-800/70 text-gray-200 uppercase text-xs font-semibold tracking-wider">
-              <tr>
-                <th className="px-6 py-4 border-b border-gray-700">SL No</th>
-                <th className="px-6 py-4 border-b border-gray-700">Brand Name</th>
-                <th className="px-6 py-4 border-b border-gray-700 text-center">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-700/50">
-              {brandList.length === 0 ? (
-                <tr>
-                  <td colSpan={3} className="text-center py-6 text-gray-400 font-medium">
-                    No brands found.
-                  </td>
-                </tr>
-              ) : (
-                brandList.map((brand, index) => (
-                  <tr key={brand._id} className="hover:bg-gray-700/50 transition-colors duration-150">
-                    <td className="px-6 py-4 text-gray-300">{index + 1}</td>
-                    <td className="px-6 py-4 text-gray-300">{brand.brand_name}</td>
-                    <td className="px-6 py-4 flex justify-center items-center gap-2">
-                      <button
-                        onClick={() => {
-                          setEnableEdit(true);
-                          setEditId(brand._id);
-                          setEditBrand(brand.brand_name);
-                        }}
-                        className="bg-orange-500 hover:bg-orange-600 text-white px-3 py-1.5 rounded-md text-xs font-medium transition-colors duration-200 flex items-center gap-1 shadow-sm"
-                      >
-                        <PencilIcon className="h-4 w-4" /> Edit
-                      </button>
-                      <button
-                        className="bg-red-600 hover:bg-red-700 text-white px-3 py-1.5 rounded-md text-xs font-medium transition-colors duration-200 flex items-center gap-1 shadow-sm"
-                        onClick={() => {
-                          setDeleteId(brand._id);
-                          setEnableDelete(true);
-                        }}
-                      >
-                        <TrashIcon className="h-4 w-4" /> Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
+          <ReUsableTable
+            data={brandList}
+            dataKey={dataKey}
+            heading={heading}
+            page={page}
+            setDeleteEnable={setEnableDelete}
+            setDeleteId={setDeleteId}
+            setEditData={setEditData}
+            setEditEnable={setEnableEdit}
+          />
           <div className="flex justify-center gap-2 mt-6">
             {Array.from({ length: totalPage }, (_, i) => (
               <button
@@ -138,21 +103,22 @@ function Brand() {
           </div>
         </div>
 
-       
+
         <EditBrand
           enable={enableEdit}
           setEnable={setEnableEdit}
-          editId={editId}
-          editBrandname={editBrand}
+          editData={editData}
           onUpdate={fetchData}
         />
 
-       
-        <DeleteBrand
+
+        <ReUsableDeleteModal
           enable={enableDelete}
           deleteId={deleteId}
           setEnable={setEnableDelete}
-          onDeleteSuccess={fetchData} 
+          onDeleteSuccess={fetchData}
+          api={deleteBrandData}
+          deleteItem="Brand"
         />
       </div>
     </div>

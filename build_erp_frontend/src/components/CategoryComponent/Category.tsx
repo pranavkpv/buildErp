@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import AddCategory from "./AddCategory";
 import EditCategory from "./EditCategory";
-import DeleteCategory from "./DeleteCategory";
 import { PlusIcon } from "@heroicons/react/24/outline";
-import { categoryList } from "../../api/CategoryApi/category";
+import { categoryList, deleteCategoryData } from "../../api/CategoryApi/category";
 import type { CategoryInput } from "../../ApiInterface/CategoryApiInterface";
 import ReUsableTable from "../../components/ReUsableComponents/ReUsableTable";
+import ReUsableDeleteModal from "../../components/ReUsableComponents/ReUsableDeleteModal";
 
 
 
@@ -111,11 +111,13 @@ function Category() {
           setEnable={setEnableEdit}
           onUpdate={fetchData}
         />
-        <DeleteCategory
+        <ReUsableDeleteModal
           enable={enableDelete}
           deleteId={deleteId}
           setEnable={setEnableDelete}
           onDeleteSuccess={fetchData}
+          api={deleteCategoryData}
+          deleteItem="Category"
         />
       </div>
     </div>

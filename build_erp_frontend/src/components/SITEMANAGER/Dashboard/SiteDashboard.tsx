@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import StockManagement from "./StockManagement";
+import ProjectEstimationDetails from "./ProjectDetails";
 
 type projectData = {
    _id: string
@@ -18,6 +19,8 @@ function SiteDashboard() {
    const [page, setPage] = useState(0);
    const [totalPages, setTotalPages] = useState(1);
    const [loading, setLoading] = useState(false);
+   const [estimateOn,setEstimateOn] = useState(false)
+   const [detailId,setDetailId] = useState("")
    const itemsPerPage = 5;
    const navigate = useNavigate();
 
@@ -162,7 +165,8 @@ function SiteDashboard() {
                                  <td className="py-3 px-4">
                                     <button
                                        onClick={() => {
-                                          navigate('/site/projectDetails', { state: element._id })
+                                          setDetailId(element._id)
+                                          setEstimateOn(true)
                                        }}
                                        className="bg-gradient-to-r from-green-400 to-teal-400 text-white font-medium py-1 px-3 rounded-lg hover:from-green-500 hover:to-teal-500 transition-colors duration-300"
                                        disabled={loading}
@@ -202,6 +206,12 @@ function SiteDashboard() {
             )}
          </div>
          <StockManagement />
+         <ProjectEstimationDetails 
+         estimateOn={estimateOn}
+         setEstimateOn={setEstimateOn}
+         onSuccess={fetchprojectWithCompletionPer}
+         projectId={detailId}
+         />
 
       </div>
    );

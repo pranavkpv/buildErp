@@ -3,8 +3,8 @@ import { toast } from "react-toastify";
 import { PencilIcon, TrashIcon, CheckCircleIcon } from "@heroicons/react/24/outline";
 import AddTransfer from "./AddTransfer";
 import EditTransfer from "./EditTransfer";
-import { getTransferDataAPI } from "../../../api/Sitemanager/transfer";
-import DeleteTransfer from "./DeleteTransfer";
+import { deleteTransferAPI, getTransferDataAPI } from "../../../api/Sitemanager/transfer";
+import ReUsableDeleteModal from "../../../components/ReUsableComponents/ReUsableDeleteModal";
 
 
 
@@ -199,11 +199,13 @@ function TransferList() {
             <AddTransfer addEnable={addEnable} setAddEnable={setAddEnable} onAddSuccess={fetchTransferData} />
 
 
-            <DeleteTransfer
+            <ReUsableDeleteModal
                deleteId={deleteId}
                onDeleteSuccess={fetchTransferData}
-               setDeleteEnable={setDeleteEnable}
-               deleteEnable={deleteEnable}
+               setEnable={setDeleteEnable}
+               enable={deleteEnable}
+               api={deleteTransferAPI}
+               deleteItem="Transfer"
             />
 
             <EditTransfer

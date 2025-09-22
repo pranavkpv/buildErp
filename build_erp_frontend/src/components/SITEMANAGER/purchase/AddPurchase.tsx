@@ -51,18 +51,12 @@ function AddPurchase({ addEnable, setAddEnable, onAddSuccess }: setAdd) {
    };
 
    const fetchProject = async () => {
-      const token = localStorage.getItem("accessToken");
-      if (!token) {
-         toast.error("No access token found");
-         return;
-      }
       const response = await getSitemanagersProject();
       setProject(response.data);
    };
 
    const fetchLastInvoice = async () => {
       const response = await fetchLastInvoiceApi()
-      console.log(response)
       if (response.success) {
          setInvoice(response.data + 1)
       } else {

@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { PencilIcon, TrashIcon, CheckCircleIcon } from "@heroicons/react/24/outline";
 import AddPurchase from "./AddPurchase";
-import { getPurchaseDataAPI } from "../../../api/Sitemanager/purchase";
+import { ApprovePurchaseAPI, deletePurchaseAPI, getPurchaseDataAPI } from "../../../api/Sitemanager/purchase";
 import EditPurchase from "./EditPurchase";
-import DeletePurchase from "./DeletePurchase";
-import ApprovePurchase from "./ApprovePurchase";
+import ReUsableDeleteModal from "../../../components/ReUsableComponents/ReUsableDeleteModal";
+import ReUsableApproveModal from "../../../components/ReUsableComponents/ReUsableApproveModal";
 
 
 type materialData = {
@@ -233,19 +233,23 @@ function PurchaseList() {
            />
 
 
-            <DeletePurchase
+            <ReUsableDeleteModal
                deleteId={deleteId}
                onDeleteSuccess={fetchPurchaseData}
-               setDeleteEnable={setDeleteEnable}
-               deleteEnable={deleteEnable}
+               setEnable={setDeleteEnable}
+               enable={deleteEnable}
+               api={deletePurchaseAPI}
+               deleteItem="Purchase"
             />
 
-            <ApprovePurchase
+            <ReUsableApproveModal
                approveId={approveId}
                setApproveEnable={setApproveEnable}
                approveEnable={approveEnable}
                onApproveSuccess={fetchPurchaseData}
                approveData={approveData}
+               api={ApprovePurchaseAPI}
+               approveItem="Purchase"
             />
 
             <EditPurchase

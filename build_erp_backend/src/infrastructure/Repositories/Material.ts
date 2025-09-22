@@ -130,17 +130,17 @@ export class MaterialRepository implements IMaterialRepository {
 
     // Get material by brand
     async getMaterialByBrandId(brandId: string): Promise<IMaterialModelEntity | null> {
-        return await materialDB.findOne({ brandId });
+        return await materialDB.findOne({ brand_id:brandId });
     }
 
     // Get material by category
     async getMaterialByCategoryId(categoryId: string): Promise<IMaterialModelEntity | null> {
-        return await materialDB.findOne({ categoryId });
+        return await materialDB.findOne({ category_id:categoryId });
     }
 
     //  Get material by unit
     async getMaterialByUnitId(unitId: string): Promise<IMaterialModelEntity | null> {
-        return await materialDB.findOne({ unitId });
+        return await materialDB.findOne({ unit_id:unitId });
     }
 
     //  Get all unique material names

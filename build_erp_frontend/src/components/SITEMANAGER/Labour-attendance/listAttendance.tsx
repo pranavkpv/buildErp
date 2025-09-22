@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import AddAttendance from "./addAttendance";
 import { PencilIcon, TrashIcon, CheckCircleIcon } from "@heroicons/react/24/outline";
-import DeleteAttendance from "./DeleteAttendance";
 import ApproveAttendance from "./ApproveAttendance";
 import EditAttendance from "./EditAttendance";
-import { fetchAttendanceAPI } from "../../../api/Sitemanager/attendance";
+import { DeleteAttendanceAPI, fetchAttendanceAPI } from "../../../api/Sitemanager/attendance";
+import ReUsableDeleteModal from "../../../components/ReUsableComponents/ReUsableDeleteModal";
 
 type attendanceData = {
   _id: string;
@@ -173,11 +173,13 @@ function ListAttendance() {
           </div>
         )}
 
-        <DeleteAttendance
+        <ReUsableDeleteModal
           deleteId={deleteId}
           onDeleteSuccess={fetchAttendance}
-          setDeleteEnable={setDeleteEnable}
-          deleteEnable={deleteEnable}
+          setEnable={setDeleteEnable}
+          enable={deleteEnable}
+          api={DeleteAttendanceAPI}
+          deleteItem="Labour Attendance"
         />
         <ApproveAttendance
           approveId={approveId}

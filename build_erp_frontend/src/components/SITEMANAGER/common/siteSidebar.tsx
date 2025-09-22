@@ -31,11 +31,6 @@ const sidebarItems: SidebarItem[] = [
     to: "/site/changepass"
   },
   {
-    title: "Profile Updation",
-    icon: Lock,
-    to: "/site/changepass"
-  },
-  {
     title: "Stage Updation",
     icon: Calculator,
     to: "/site/stage-updation"

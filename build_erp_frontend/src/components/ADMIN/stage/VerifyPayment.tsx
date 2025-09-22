@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { getStageForVerifyPayApi, verifyPaymentApi } from "../../../api/Admin/StageSetting";
 import VerifyModal from "./VerifyModal";
+import ReUsableTable from "components/ReUsableComponents/ReUsableTable";
 
 interface StageData {
   _id: string;  // stage _id

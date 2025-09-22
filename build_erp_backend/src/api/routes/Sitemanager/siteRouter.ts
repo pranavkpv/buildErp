@@ -18,6 +18,7 @@ import { validatePurchase } from '../../../infrastructure/middlewares/validation
 import { validateTransfer } from '../../../infrastructure/middlewares/validation/transfer.validation';
 import { receiveValidation } from '../../../infrastructure/middlewares/validation/receive.validation';
 import { injectedProjectController } from '../../DI/Project';
+import { injectEstimationController } from '../../DI/Estimation';
 
 
 export class SitemanagerRoute {
@@ -253,6 +254,30 @@ export class SitemanagerRoute {
             withLogging(injectedMaterialController.fetchStock),
         );
 
+        // ================================
+        // 🔹 Dashboard
+        // ================================
+
+        this.sitemanagerRoute.get(
+            '/getEstimation/:id',
+            withLogging(injectEstimationController.getEstimationById),
+        );
+        this.sitemanagerRoute.get(
+            '/getMaterialEstimation/:id',
+            withLogging(injectEstimationController.getMaterialEstimationById),
+        );
+        this.sitemanagerRoute.get(
+            '/getLabourEstimation/:id',
+            withLogging(injectEstimationController.getLabourEstimationById),
+        );
+        this.sitemanagerRoute.get(
+            '/getAdditionEstimation/:id',
+            withLogging(injectEstimationController.getAdditionEstimationById),
+        );
+        this.sitemanagerRoute.get(
+            '/expectImage/:id',
+            withLogging(injectedProjectController.getExpectedImage),
+        );
 
     }
 }

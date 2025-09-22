@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import MaterialList from "./MaterialList";
 import AddMaterial from "./AddMaterial";
-import DeleteMaterial from "./Deletematerial";
 import EditMaterial from "./EditMaterial";
-import { materialList } from "../../../api/Admin/material";
+import { deleteMaterial, materialList } from "../../../api/Admin/material";
+import ReUsableDeleteModal from "../../../components/ReUsableComponents/ReUsableDeleteModal";
 
 function Material() {
   const [addMaterialEnable, setAddMaterialEnable] = useState(false);
@@ -70,11 +70,13 @@ function Material() {
           refreshData={fetchMaterials}
         />
 
-        <DeleteMaterial
+        <ReUsableDeleteModal
           enable={deleteEnable}
           setEnable={setDeleteEnable}
           deleteId={deleteId}
           onDeleteSuccess={fetchMaterials}
+          api={deleteMaterial}
+          deleteItem="Material"
         />
     </div>
   );

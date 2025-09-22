@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import type { inputBannerInterface } from "../../../ApiInterface/banner.interface";
-import { fetchBannerApi } from "../../../api/banner";
+import { deleteBannerDataApi, fetchBannerApi } from "../../../api/banner";
 import AddBanner from "./AddBanner";
 import BannerEdit from "./EditBanner";
-import DeleteBanner from "./DeleteBanner";
 import { toast } from "react-toastify";
 import ReUsableTable from "../../../components/ReUsableComponents/ReUsableTable";
+import ReUsableDeleteModal from "../../../components/ReUsableComponents/ReUsableDeleteModal";
 
 function ListBanner() {
   const [bannerData, setBannerData] = useState<inputBannerInterface[]>([]);
@@ -138,11 +138,13 @@ function ListBanner() {
         setEnableEdit={setEditEnable}
         onEditSuccess={fetchBannerList}
       />
-      <DeleteBanner
-        deleteEnable={deleteEnable}
-        bannerId={deleteId}
+      <ReUsableDeleteModal    
+        enable={deleteEnable}
+        deleteId={deleteId}
         onDeleteSuccess={fetchBannerList}
-        setdeleteEnable={setDeleteEnable}
+        setEnable={setDeleteEnable}
+        api={deleteBannerDataApi}
+        deleteItem="Banner"
       />
     </div>
   );

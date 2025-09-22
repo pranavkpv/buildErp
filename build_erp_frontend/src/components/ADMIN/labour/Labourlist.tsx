@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import LabourAdd from "./LabourAdd";
 import LabourEdit from "./LabourEdit";
-import DeleteLabour from "./LabourDelete";
 import { PlusIcon } from "@heroicons/react/24/outline";
-import { getLabour } from "../../../api/Admin/labour";
+import { deleteLabourData, getLabour } from "../../../api/Admin/labour";
 import ReUsableTable from "../../../components/ReUsableComponents/ReUsableTable";
 import type { labourData } from "ApiInterface/labour.interface";
+import ReUsableDeleteModal from "../../../components/ReUsableComponents/ReUsableDeleteModal";
 
 
 
@@ -112,11 +112,13 @@ function LabourList() {
         editData={editData}
         onSuccessEdit={fetchData}
       />
-      <DeleteLabour
-        deleteEnable={deleteEnable}
-        setdeleteEnable={setdeleteEnable}
-        labourId={deleteId}
+      <ReUsableDeleteModal
+        enable={deleteEnable}
+        setEnable={setdeleteEnable}
+        deleteId={deleteId}
         onDeleteSuccess={fetchData}
+        api={deleteLabourData}
+        deleteItem="Labour"
       />
     </div>
   );

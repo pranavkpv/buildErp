@@ -1,4 +1,4 @@
-import type { ReceiveData } from "../../components/SITEMANAGER/Receive/ApproveReceive";
+import type { ReceiveData } from "../../components/SITEMANAGER/Receive/ReceiveList";
 import siteAxios from "../../axios/SitemanagerAxioInterceptor"
 
 type materialData = {

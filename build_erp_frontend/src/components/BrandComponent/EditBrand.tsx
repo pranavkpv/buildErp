@@ -3,12 +3,14 @@ import { putBrandData } from "../../api/BrandApi/brand";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 
-
+type BrandType = {
+  _id: string;
+  brand_name: string;
+};
 
 type EditBrandProps = { 
-  editId: string;
-  enable: boolean;
-  editBrandname: string;
+  enable:boolean
+  editData:BrandType
   setEnable: React.Dispatch<React.SetStateAction<boolean>>;
   onUpdate: () => void;
 };
@@ -16,17 +18,16 @@ type EditBrandProps = {
 function EditBrand({
   enable,
   setEnable,
-  editId,
-  editBrandname,
+  editData,
   onUpdate,
 }: EditBrandProps) {
-  const [brand_name, setBrand_name] = useState(editBrandname);
+  const [brand_name, setBrand_name] = useState(editData.brand_name);
   const brandRef = useRef<HTMLParagraphElement>(null);
 
   // Update local state when props change (when a different brand is selected for edit)
   useEffect(() => {
-    setBrand_name(editBrandname);
-  }, [editBrandname]);
+    setBrand_name(editData.brand_name);
+  }, [editData.brand_name]);
 
   const editSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,7 +43,7 @@ function EditBrand({
         brandRef.current.innerText = "";
       }
     }
-      const _id = editId
+      const _id = editData._id
       const data = await putBrandData({_id,brand_name})
       if (data.success) {
         toast.success(data.message);

@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { PencilIcon, TrashIcon, CheckCircleIcon } from "@heroicons/react/24/outline";
-import { getReceiveDataAPI } from "../../../api/Sitemanager/receive";
+import { ApproveReceiveAPI, deleteReceiveAPI, getReceiveDataAPI } from "../../../api/Sitemanager/receive";
 import AddReceive from "./AddReceive";
 import EditReceive from "./EditReceive";
-import DeleteTransfer from "../Transfer/DeleteTransfer";
-import ApproveReceive from "./ApproveReceive";
+import ReUsableDeleteModal from "../../../components/ReUsableComponents/ReUsableDeleteModal";
+import ReUsableApproveModal from "../../../components/ReUsableComponents/ReUsableApproveModal";
 
 
 
@@ -226,18 +226,22 @@ function ReceiveList() {
             <AddReceive addEnable={addEnable} setAddEnable={setAddEnable} onAddSuccess={fetchRecieveData} />
 
 
-          <DeleteTransfer
+          <ReUsableDeleteModal
                deleteId={deleteId}
                onDeleteSuccess={fetchRecieveData}
-               setDeleteEnable={setDeleteEnable}
-               deleteEnable={deleteEnable}
+               setEnable={setDeleteEnable}
+               enable={deleteEnable}
+               api={deleteReceiveAPI}
+               deleteItem="Receive"
             /> 
-            <ApproveReceive
+            <ReUsableApproveModal
                approveId={approveId}
                setApproveEnable={setApproveEnable}
                approveEnable={approveEnable}
                onApproveSuccess={fetchRecieveData}
                approveData = {approveData}
+               api={ApproveReceiveAPI}
+               approveItem="Material Receive"
             /> 
 
             <EditReceive

@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import AddUnit from "./AddUnit";
 import EditUnit from "./EditUnit";
-import DeleteUnit from "./DeleteUnit";
-import { getUnit } from "../../api/UnitApi/unit";
+import { deleteUnitData, getUnit } from "../../api/UnitApi/unit";
 import type { unitInput } from "ApiInterface/UnitApiInterface";
 import ReUsableTable from "../../components/ReUsableComponents/ReUsableTable";
+import ReUsableDeleteModal from "../../components/ReUsableComponents/ReUsableDeleteModal";
 
 
 
@@ -104,11 +104,13 @@ function Unit() {
         onUpdate={fetchData}
       />
 
-      <DeleteUnit
+      <ReUsableDeleteModal
         enable={enableDelete}
         deleteId={deleteId}
         setEnable={setEnableDelete}
         onDeleteSuccess={fetchData}
+        api={deleteUnitData}
+        deleteItem="Unit"
       />
     </div>
   );

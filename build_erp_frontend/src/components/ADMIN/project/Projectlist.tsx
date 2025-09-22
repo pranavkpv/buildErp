@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import DeleteProject from "./ProjectDelete";
 import EditProject from "./ProjectEdit";
 import ChangeStatus from "./Status";
-import { projectListData } from "../../../api/project";
+import { deleteProjectData, projectListData } from "../../../api/project";
 import type { ProjectType } from "../../../ApiInterface/project.interface";
 import ReUsableTable from "../../../components/ReUsableComponents/ReUsableTable";
+import ReUsableDeleteModal from "../../../components/ReUsableComponents/ReUsableDeleteModal";
 
 
 
@@ -166,11 +166,13 @@ function Project() {
         onEditSuccess={fetchData}
       />
 
-      <DeleteProject
+      <ReUsableDeleteModal
         enable={deleteEnable}
         deleteId={deleteId}
         setEnable={setDeleteEnable}
         onDeleteSuccess={fetchData}
+        api={deleteProjectData}
+        deleteItem="Project"
       />
     </div>
 

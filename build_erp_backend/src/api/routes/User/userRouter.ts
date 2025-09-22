@@ -104,7 +104,9 @@ export class userRoute {
         );
         this.userRoute.patch('/uploadEstimateImage/:id',
             validateUploadEstimationImage,
-            withLogging(injectEstimationController.uploadEstimationImage));
+            withLogging(injectEstimationController.uploadEstimationImage)
+        );
+
         this.userRoute.get(
             '/getMaterialEstimation/:id',
             withLogging(injectEstimationController.getMaterialEstimationById),

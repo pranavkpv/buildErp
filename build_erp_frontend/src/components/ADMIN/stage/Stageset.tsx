@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import AddStage from "./AddStage";
 import { PlusCircleIcon } from "@heroicons/react/24/outline";
-import DeleteStage from "./DeleteStage";
 import EditStage from "./EditStage";
-import { fetchStageDataAPI } from "../../../api/Admin/StageSetting";
+import { fetchStageDataAPI, stageDeleteAPI } from "../../../api/Admin/StageSetting";
 import ReUsableTable from "../../../components/ReUsableComponents/ReUsableTable";
 import type { stageDatas } from "ApiInterface/stageApi.interface";
+import ReUsableDeleteModal from "../../../components/ReUsableComponents/ReUsableDeleteModal";
 
 
 
@@ -126,11 +126,13 @@ function ListStage() {
               </button>
             ))}
           </div>
-          <DeleteStage
+          <ReUsableDeleteModal
             enable={deleteEnable}
             deleteId={deleteId}
             setEnable={setDeleteEnable}
             onDeleteSuccess={fetchStage}
+            api={stageDeleteAPI}
+            deleteItem="Stage"
           />
           <EditStage
             editEnable={editEnable}
