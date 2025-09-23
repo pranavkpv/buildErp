@@ -1,6 +1,7 @@
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 import ReUsableAddButton from "../../../components/ReUsableComponents/ReUsableAddButton";
 import ReUsablePagination from "../../../components/ReUsableComponents/ReUsablePagination";
+import ReUsableSearch from "../../../components/ReUsableComponents/ReUsableSearch";
 
 type materialType = {
   _id: string;
@@ -26,38 +27,26 @@ type MaterialListProps = {
   materialData: materialType[];
   setDeleteEnable: React.Dispatch<React.SetStateAction<boolean>>;
   setDeleteId: React.Dispatch<React.SetStateAction<string>>;
-  refreshData:()=>void
+  refreshData: () => void
   setPage: React.Dispatch<React.SetStateAction<number>>;
-  setSearch:React.Dispatch<React.SetStateAction<string>> 
-  search:string
-  page:number
-  totalPage:number
-  setEditEnable:React.Dispatch<React.SetStateAction<boolean>>;
-  setEditId:React.Dispatch<React.SetStateAction<string>>
-  editEnable:boolean
+  setSearch: React.Dispatch<React.SetStateAction<string>>
+  search: string
+  page: number
+  totalPage: number
+  setEditEnable: React.Dispatch<React.SetStateAction<boolean>>;
+  setEditId: React.Dispatch<React.SetStateAction<string>>
+  editEnable: boolean
 };
 
-function MaterialList({ setEnable, enable, materialData, setDeleteEnable, 
-  setDeleteId,setPage,setSearch,search,page,totalPage,setEditEnable,setEditId,editEnable }: MaterialListProps) {
- if(enable || editEnable) return null
+function MaterialList({ setEnable, enable, materialData, setDeleteEnable,
+  setDeleteId, setPage, setSearch, search, page, totalPage, setEditEnable, setEditId, editEnable }: MaterialListProps) {
+  if (enable || editEnable) return null
 
   return (
     <div className="p-6 sm:p-8 min-h-screen bg-gray-900">
       <div className="bg-gray-800/90 backdrop-blur-sm shadow-2xl rounded-2xl p-6 sm:p-8 max-w-6xl mx-auto border border-gray-700/50">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 mb-8">
-          <div className="w-full sm:w-1/2">
-            <label htmlFor="search" className="sr-only">
-              Search material
-            </label>
-            <input
-              id="search"
-              type="text"
-              placeholder="Search material..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent transition-all duration-200 placeholder:text-gray-400 text-gray-100 text-sm font-medium"
-            />
-          </div>
+          <ReUsableSearch search={search} setSearch={setSearch} item="material" />
           <ReUsableAddButton addFuntion={() => setEnable(true)} item="Material" />
         </div>
 
@@ -93,8 +82,8 @@ function MaterialList({ setEnable, enable, materialData, setDeleteEnable,
                     <td className="px-6 py-4 text-center space-x-3">
                       <button
                         className="text-yellow-400 hover:text-yellow-300 p-2 rounded-md hover:bg-gray-600/50 transition-all duration-200"
-                        aria-label={`Edit material ${element.material_name}`}
-                        onClick={()=>{
+                        aria-label={`Edit material ${ element.material_name }`}
+                        onClick={() => {
                           setEditEnable(true)
                           setEditId(element._id)
                         }}
@@ -107,7 +96,7 @@ function MaterialList({ setEnable, enable, materialData, setDeleteEnable,
                           setDeleteId(element._id);
                         }}
                         className="text-red-400 hover:text-red-300 p-2 rounded-md hover:bg-gray-600/50 transition-all duration-200"
-                        aria-label={`Delete material ${element.material_name}`}
+                        aria-label={`Delete material ${ element.material_name }`}
                       >
                         <TrashIcon className="h-5 w-5" />
                       </button>

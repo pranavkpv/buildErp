@@ -7,6 +7,7 @@ import { deleteTransferAPI, getTransferDataAPI } from "../../../api/Sitemanager/
 import ReUsableDeleteModal from "../../../components/ReUsableComponents/ReUsableDeleteModal";
 import ReUsableAddButton from "../../../components/ReUsableComponents/ReUsableAddButton";
 import ReUsablePagination from "../../../components/ReUsableComponents/ReUsablePagination";
+import ReUsableSearch from "../../../components/ReUsableComponents/ReUsableSearch";
 
 
 
@@ -89,19 +90,8 @@ function TransferList() {
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 mb-8">
                <h1 className="text-2xl font-bold text-gray-100">Transfer List</h1>
                <div className="flex w-full sm:w-auto gap-4">
-                  <div className="w-full sm:w-96">
-                     <label htmlFor="search" className="sr-only">
-                        Search by project name or invoice number
-                     </label>
-                     <input
-                        id="search"
-                        type="text"
-                        placeholder="Search by project name or invoice number"
-                        className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent transition-all duration-200 placeholder:text-gray-400 text-gray-100 text-sm font-medium"
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                     />
-                  </div>
+                  <ReUsableSearch search={search} setSearch={setSearch} item="Project name" />
+
                   <ReUsableAddButton addFuntion={() => setAddEnable(true)} item="Transfer" />
                </div>
             </div>

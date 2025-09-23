@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import { getStageForVerifyPayApi } from "../../../api/Admin/StageSetting";
 import VerifyModal from "./VerifyModal";
 import ReUsablePagination from "../../../components/ReUsableComponents/ReUsablePagination";
+import ReUsableSearch from "../../../components/ReUsableComponents/ReUsableSearch";
 
 interface StageData {
   _id: string;  // stage _id
@@ -89,21 +90,7 @@ function VerifyPayment() {
           <h1 className="text-3xl font-semibold text-gray-100 tracking-tight">
             Payment Verification
           </h1>
-          <div className="w-full sm:w-80">
-            <label htmlFor="search" className="sr-only">
-              Search project
-            </label>
-            <input
-              id="search"
-              type="text"
-              placeholder="Search by project name"
-              className="w-full px-4 py-2.5 bg-gray-800/70 border border-gray-700 rounded-md 
-                focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent 
-                transition-all duration-200 placeholder:text-gray-400 text-gray-100 text-sm"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-          </div>
+          <ReUsableSearch search={search} setSearch={setSearch} item="project name" />
         </div>
 
         {/* Table Section */}

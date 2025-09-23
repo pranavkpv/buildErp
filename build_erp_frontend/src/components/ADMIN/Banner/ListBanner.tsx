@@ -8,6 +8,7 @@ import ReUsableTable from "../../../components/ReUsableComponents/ReUsableTable"
 import ReUsableDeleteModal from "../../../components/ReUsableComponents/ReUsableDeleteModal";
 import ReUsableAddButton from "../../../components/ReUsableComponents/ReUsableAddButton";
 import ReUsablePagination from "../../../components/ReUsableComponents/ReUsablePagination";
+import ReUsableSearch from "../../../components/ReUsableComponents/ReUsableSearch";
 
 function ListBanner() {
   const [bannerData, setBannerData] = useState<inputBannerInterface[]>([]);
@@ -76,19 +77,7 @@ function ListBanner() {
     <div className="p-6 sm:p-8 min-h-screen bg-gray-900">
       <div className="bg-gray-800/90 backdrop-blur-sm shadow-2xl rounded-2xl p-6 sm:p-8 max-w-7xl mx-auto border border-gray-700/50">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 mb-8">
-          <div className="w-full sm:w-1/2">
-            <label htmlFor="search" className="sr-only">
-              Search banner
-            </label>
-            <input
-              id="search"
-              type="text"
-              placeholder="Search with title"
-              className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent transition-all duration-200 placeholder:text-gray-400 text-gray-100 text-sm font-medium"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-          </div>
+          <ReUsableSearch search={search} setSearch={setSearch} item="Banner Title" />
           <ReUsableAddButton addFuntion={() => setAddEnable(true)} item="Banner" />
         </div>
 
@@ -106,7 +95,7 @@ function ListBanner() {
 
       <ReUsableDeleteModal enable={deleteEnable} deleteId={deleteId} onDeleteSuccess={fetchBannerList} setEnable={setDeleteEnable} api={deleteBannerDataApi}
         deleteItem="Banner" />
-        
+
     </div>
   );
 }

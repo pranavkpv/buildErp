@@ -6,6 +6,7 @@ import ReUsableTable from "../../components/ReUsableComponents/ReUsableTable";
 import ReUsableDeleteModal from "../../components/ReUsableComponents/ReUsableDeleteModal";
 import ReUsableAddButton from "../../components/ReUsableComponents/ReUsableAddButton";
 import ReUsablePagination from "../../components/ReUsableComponents/ReUsablePagination";
+import ReUsableSearch from "../../components/ReUsableComponents/ReUsableSearch";
 
 
 type BrandType = {
@@ -52,14 +53,7 @@ function Brand() {
       <div className="bg-gray-800/90 backdrop-blur-sm rounded-xl shadow-2xl p-6 sm:p-8 w-full max-w-5xl mx-auto border border-gray-700/50">
         <div className="flex items-center justify-between mb-6">
           {/* Search Input */}
-          <input
-            type="text"
-            placeholder="Search brand..."
-            className="w-1/2 px-4 py-2.5 bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors duration-200 text-gray-100 placeholder-gray-400 text-sm"
-            onChange={(e) => setSearchBrand(e.target.value)}
-            value={searchBrand}
-          />
-
+          <ReUsableSearch search={searchBrand} setSearch={setSearchBrand} item="brand" />
           <ReUsableAddButton addFuntion={() => setEnableAdd(true)} item="Brand" />
 
         </div>

@@ -7,6 +7,7 @@ import ReUsableTable from "../../components/ReUsableComponents/ReUsableTable";
 import ReUsableDeleteModal from "../../components/ReUsableComponents/ReUsableDeleteModal";
 import ReUsableAddButton from "../../components/ReUsableComponents/ReUsableAddButton";
 import ReUsablePagination from "../../components/ReUsableComponents/ReUsablePagination";
+import ReUsableSearch from "../../components/ReUsableComponents/ReUsableSearch";
 
 
 
@@ -45,18 +46,7 @@ function Unit() {
     <div className="p-6 sm:p-8 min-h-screen bg-gray-900">
       <div className="bg-gray-800/90 backdrop-blur-sm shadow-2xl rounded-2xl p-6 sm:p-8 max-w-7xl mx-auto border border-gray-700/50">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 mb-8">
-          <div className="w-full sm:w-1/2">
-            <label htmlFor="search" className="sr-only">
-              Search unit
-            </label>
-            <input
-              id="search"
-              type="text"
-              placeholder="Search unit..."
-              className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent transition-all duration-200 placeholder:text-gray-400 text-gray-100 text-sm font-medium"
-              onChange={(e) => setSearchUnit(e.target.value)}
-            />
-          </div>
+          <ReUsableSearch search={searchUnit} setSearch={setSearchUnit} item="Unit" />
 
           <ReUsableAddButton addFuntion={() => setEnableAdd(true)} item="Unit" />
 

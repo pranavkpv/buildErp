@@ -8,6 +8,7 @@ import ReUsableDeleteModal from "../../../components/ReUsableComponents/ReUsable
 import ReUsableApproveModal from "../../../components/ReUsableComponents/ReUsableApproveModal";
 import ReUsableAddButton from "../../../components/ReUsableComponents/ReUsableAddButton";
 import ReUsablePagination from "../../../components/ReUsableComponents/ReUsablePagination";
+import ReUsableSearch from "../../../components/ReUsableComponents/ReUsableSearch";
 
 
 type materialData = {
@@ -79,14 +80,14 @@ function PurchaseList() {
    }, [search, page]);
 
    useEffect(() => {
-      let maximumInvoice = purchaseData.reduce((max:number,element:Purchase)=>{
-         if(element.invoice_number>max){
+      let maximumInvoice = purchaseData.reduce((max: number, element: Purchase) => {
+         if (element.invoice_number > max) {
             max = element.invoice_number
          }
          return max
-      },0)
+      }, 0)
       setHighInvoice(maximumInvoice)
-   },[])
+   }, [])
 
    const formatDate = (dateString: string) => {
       if (!dateString) return "";
@@ -101,20 +102,8 @@ function PurchaseList() {
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 mb-8">
                <h1 className="text-2xl font-bold text-gray-100">Purchase List</h1>
                <div className="flex w-full sm:w-auto gap-4">
-                  <div className="w-full sm:w-96">
-                     <label htmlFor="search" className="sr-only">
-                        Search by project name or invoice number
-                     </label>
-                     <input
-                        id="search"
-                        type="text"
-                        placeholder="Search by project name or invoice number"
-                        className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent transition-all duration-200 placeholder:text-gray-400 text-gray-100 text-sm font-medium"
-                        value={search}
-                        onChange={(e) => setSearch(e.target.value)}
-                     />
-                  </div>
-                   <ReUsableAddButton addFuntion={() => setAddEnable(true)} item="Purchase" />
+                  <ReUsableSearch search={search} setSearch={setSearch} item="Project name" />
+                  <ReUsableAddButton addFuntion={() => setAddEnable(true)} item="Purchase" />
                </div>
             </div>
 
@@ -207,9 +196,9 @@ function PurchaseList() {
             </div>
 
             {totalpage >= 1 && (
-              <ReUsablePagination page={page} setPage={setPage} totalPage={totalpage} />
+               <ReUsablePagination page={page} setPage={setPage} totalPage={totalpage} />
             )}
-            <AddPurchase  addEnable={addEnable} setAddEnable={setAddEnable}  onAddSuccess={fetchPurchaseData}  />
+            <AddPurchase addEnable={addEnable} setAddEnable={setAddEnable} onAddSuccess={fetchPurchaseData} />
 
             <ReUsableDeleteModal deleteId={deleteId} onDeleteSuccess={fetchPurchaseData} setEnable={setDeleteEnable} enable={deleteEnable}
                api={deletePurchaseAPI} deleteItem="Purchase" />
@@ -218,7 +207,7 @@ function PurchaseList() {
                approveData={approveData} api={ApprovePurchaseAPI} approveItem="Purchase" />
 
             <EditPurchase editId={editId} editEnable={editEnable} setEditEnable={setEditEnable} onEditSuccess={fetchPurchaseData} editData={editData} />
-            
+
          </div>
       </div>
    );

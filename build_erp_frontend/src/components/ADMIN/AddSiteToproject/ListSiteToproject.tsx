@@ -4,6 +4,7 @@ import DeleteSiteToProject from "./DeleteSiteToproject";
 import { listOfsitemanager } from "../../../api/Admin/addSiteToproject";
 import ReUsableAddButton from "../../../components/ReUsableComponents/ReUsableAddButton";
 import ReUsablePagination from "../../../components/ReUsableComponents/ReUsablePagination";
+import ReUsableSearch from "../../../components/ReUsableComponents/ReUsableSearch";
 
 
 
@@ -51,23 +52,8 @@ function ListSiteToProject() {
     <div className="p-6 sm:p-8 min-h-screen bg-gray-900">
       <div className="bg-gray-800/90 backdrop-blur-sm shadow-2xl rounded-2xl p-6 sm:p-8 max-w-6xl mx-auto border border-gray-700/50">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 mb-8">
-          <div className="w-full sm:w-1/2">
-            <label htmlFor="search" className="sr-only">
-              Search project or site manager
-            </label>
-            <input
-              id="search"
-              type="text"
-              placeholder="Search by project or site manager name..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-full px-4 py-3 bg-gray-800/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent transition-all duration-200 placeholder:text-gray-400 text-gray-100 text-sm font-medium"
-            />
-          </div>
-          <ReUsableAddButton
-            addFuntion={() => setAddEnable(true)}
-            item="Site Assignment"
-          />
+          <ReUsableSearch search={search} setSearch={setSearch} item ="project or site manager" />
+          <ReUsableAddButton addFuntion={() => setAddEnable(true)} item="Site Assignment" />
         </div>
 
         <div className="overflow-x-auto rounded-xl border border-gray-700/50">

@@ -7,6 +7,7 @@ import type { labourData } from "ApiInterface/labour.interface";
 import ReUsableDeleteModal from "../../../components/ReUsableComponents/ReUsableDeleteModal";
 import ReUsableAddButton from "../../../components/ReUsableComponents/ReUsableAddButton";
 import ReUsablePagination from "../../../components/ReUsableComponents/ReUsablePagination";
+import ReUsableSearch from "../../../components/ReUsableComponents/ReUsableSearch";
 
 
 function LabourList() {
@@ -56,13 +57,7 @@ function LabourList() {
     <div className="p-6 bg-gray-900 min-h-screen">
       <div className="bg-gray-800/90 backdrop-blur-sm rounded-xl shadow-2xl p-6 sm:p-8 w-full max-w-5xl mx-auto border border-gray-700/50">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 mb-8">
-          <input
-            type="text"
-            placeholder="Search labour type..."
-            className="w-full sm:w-1/2 px-4 py-2.5 bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors duration-200 text-gray-100 placeholder-gray-400 text-sm"
-            onChange={(e) => setSearch(e.target.value)}
-            value={search}
-          />
+          <ReUsableSearch search={search} setSearch={setSearch} item ="labour type" />
           <ReUsableAddButton addFuntion={() => setAddEnable(true)} item="Labour" />
         </div>
 
