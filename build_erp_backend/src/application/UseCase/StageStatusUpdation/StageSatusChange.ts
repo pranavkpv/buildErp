@@ -7,12 +7,14 @@ import { commonOutput } from '../../dto/common';
 import { INotificationRepository } from '../../../domain/Entities/IRepository/INotification';
 import { IprojectRepository } from '../../../domain/Entities/IRepository/IProject';
 import { ProjectFailedMessage } from '../../../Shared/Messages/Project.Message';
+import { Server } from 'socket.io';
 
 export class StageStatusChangeUseCase implements IStageStatusChangeUseCase {
   constructor(
     private _stagerepository: IStageRepository,
     private _notificationRepository: INotificationRepository,
-    private _projectRepository: IprojectRepository
+    private _projectRepository: IprojectRepository,
+    private _io: Server
   ) { }
   async execute(input: changeStatusInput): Promise<commonOutput> {
     const { stageId, newProgress, date } = input;
@@ -25,7 +27,9 @@ export class StageStatusChangeUseCase implements IStageStatusChangeUseCase {
     if (!projectData) {
       return ResponseHelper.conflictData(ProjectFailedMessage.FETCH)
     }
-    await this._notificationRepository.saveNotication(new Date(), `The project ${ projectData?.project_name } is currently in the ${ stageData.stage_name } stage. now ${stageData.stage_name} stage ${newProgress}% completed`, projectData?.user_id,);
+    await this._notificationRepository.saveNotication(new Date(), `The project ${ projectData?.project_name } is currently in the ${ stageData.stage_name } stage. now ${ stageData.stage_name } stage ${ newProgress }% completed`, projectData?.user_id,);
+    await this._io.emit("addNotification")
+
     return ResponseHelper.success(StageSuccessMessage.STATUS_CHANGE);
   }
 }

@@ -6,6 +6,7 @@ import { jwtDecode } from "jwt-decode";
 import Notification from "../../../components/ADMIN/common/Nofication";
 import { toast } from "react-toastify";
 import { fetchNotificationByUserApi } from "../../../api/notification";
+import { socket } from "../../../api/socket";
 
 interface TokenPayload {
   userId: string;
@@ -44,15 +45,15 @@ function UserHeader() {
   }
 
 
-  useEffect(() => {
-    displayNotification()
-  }, [])
+
+
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
     if (token) {
       const decoded = jwtDecode<TokenPayload>(token);
       setUser(decoded.role === "user");
     }
+    displayNotification()
   }, []);
 
   const toggleMenu = (): void => {

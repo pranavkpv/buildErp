@@ -3,7 +3,7 @@ import RequirementContext from "./RequirementContext";
 
 interface materialData {
    material_name: string
-   brand_id: string
+   brand_name:string
 }
 
 
