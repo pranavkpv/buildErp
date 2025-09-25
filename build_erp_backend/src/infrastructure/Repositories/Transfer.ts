@@ -4,7 +4,7 @@ import { transferDB } from '../../api/models/TransferModel';
 import { ITransferModelEntity, materialData } from '../../domain/Entities/modelEntities/transfer.entity';
 import { listTransferDTO, material, TransferOutput } from '../../application/dto/transfer.dto';
 import { fetchProjectIdnameDTO } from '../../application/dto/project.dto';
-import { transferInput } from '../../application/Entities/transfer.entity';
+import { transferInput } from '../../application/entities/transfer.entity';
 import { ITransferRepository } from '../../domain/Entities/IRepository/ITransfer';
 
 

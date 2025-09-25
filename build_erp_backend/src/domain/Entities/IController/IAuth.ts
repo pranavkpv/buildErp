@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { commonOutput } from '../../../application/dto/common';
 import { userLoginDTO } from '../../../application/dto/user.dto';
-import { Tokens } from '../../../application/Entities/token.entity';
+import { Tokens } from '../../../application/entities/token.entity';
 import { publicProjectDTO } from '../../../application/dto/project.dto';
 import { publicEstimationDTO } from '../../../application/dto/estimation.dto';
 import { publicstageDTO } from '../../../application/dto/stage.dto';

@@ -2,7 +2,7 @@ import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { EstimationFailedMessage, EstimationSuccessMessage } from '../../../Shared/Messages/Estimation.Message';
 import { IEstimationRepository } from '../../../domain/Entities/IRepository/IEstimation';
 import { IStageRepository } from '../../../domain/Entities/IRepository/IStage';
-import { saveEstimationInput } from '../../Entities/estimation.entity';
+import { saveEstimationInput } from '../../entities/estimation.entity';
 import { commonOutput } from '../../dto/common';
 import { IUpdateEstimationUseCase } from '../../IUseCases/IEstimation/IUpdateEstimation';
 

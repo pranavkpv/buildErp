@@ -3,7 +3,7 @@ import { CategoryFailedMessage, CategorySuccessMessage } from '../../../Shared/M
 import { IUpdateCategoryUseCase } from '../../IUseCases/ICategory/IUpdateCategory';
 import { ICategoryRepository } from '../../../domain/Entities/IRepository/ICategory';
 import { commonOutput } from '../../dto/common';
-import { saveCategoryInput } from '../../Entities/category.entity';
+import { saveCategoryInput } from '../../entities/category.entity';
 
 export class UpdateCategoryUseCase implements IUpdateCategoryUseCase {
     constructor(

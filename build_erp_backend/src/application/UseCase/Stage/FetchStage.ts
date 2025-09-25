@@ -2,7 +2,7 @@ import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { StageSuccessMessage } from '../../../Shared/Messages/Stage.Message';
 import { IFetchStageUsecase } from '../../IUseCases/IStage/IFetchStage';
 import { IprojectRepository } from '../../../domain/Entities/IRepository/IProject';
-import { listingInput } from '../../Entities/common.entity';
+import { listingInput } from '../../entities/common.entity';
 import { commonOutput } from '../../dto/common';
 import { stageListDTO } from '../../dto/stage.dto';
 import { IProjectmapper } from '../../../domain/IMappers/IProject.mapper';

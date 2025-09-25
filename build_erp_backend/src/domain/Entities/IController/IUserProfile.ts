@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { commonOutput } from '../../../application/dto/common';
 import { dashBoardDTO, userLoginDTO } from '../../../application/dto/user.dto';
-import { Tokens } from '../../../application/Entities/token.entity';
+import { Tokens } from '../../../application/entities/token.entity';
 import { userBasechatListDTO, userBaseProjectDTO } from '../../../application/dto/project.dto';
 import { chatDataDTO } from '../../../application/dto/chat.dto';
 

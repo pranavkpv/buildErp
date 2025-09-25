@@ -1,8 +1,8 @@
 import { IAttendanceRepository } from '../../domain/Entities/IRepository/IAttendance';
 import { attendanceDB } from '../../api/models/AttendanceModel';
 import { IAttendanceModelEntity } from '../../domain/Entities/modelEntities/attendance.entity';
-import { listingInput } from '../../application/Entities/common.entity';
-import { InputAttendance, pageWiseAttendance } from '../../application/Entities/attendance.entity';
+import { listingInput } from '../../application/entities/common.entity';
+import { InputAttendance, pageWiseAttendance } from '../../application/entities/attendance.entity';
 
 export class AttendanceRepository implements IAttendanceRepository {
 

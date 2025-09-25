@@ -1,6 +1,6 @@
 import { commonOutput } from '../../dto/common';
 import { listUnitDTO } from '../../dto/unit.dto';
-import { listingInput } from '../../Entities/common.entity';
+import { listingInput } from '../../entities/common.entity';
 
 
 export interface IDisplayAllUnitUseCase {

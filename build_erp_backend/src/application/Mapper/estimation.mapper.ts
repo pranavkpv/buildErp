@@ -1,7 +1,7 @@
 import { IEstimationAdditionalModalEntity } from '../../domain/Entities/modelEntities/estimationAdditional.entity';
 import { IEstimationmapper } from '../../domain/IMappers/IEstimation.mapper';
 import { additionEstimateDTO, estimateByProjectDTO, labourEstimateDTO, listEstimationDTO, materialEstimateDTO, publicEstimationDTO, specListInProjectDTO } from '../dto/estimation.dto';
-import { estimationAggregatebyLabour, estimationAggregatebymaterialbrandunit, estimationAggregatebySpec, estiomationAggregatebyProject, estiomationAggregateByspec } from '../Entities/estimation.entity';
+import { estimationAggregatebyLabour, estimationAggregatebymaterialbrandunit, estimationAggregatebySpec, estiomationAggregatebyProject, estiomationAggregateByspec } from '../entities/estimation.entity';
 
 export class EstimationMapper implements IEstimationmapper {
     topublicEstimateData(estimation: estiomationAggregateByspec[]): publicEstimationDTO[] {

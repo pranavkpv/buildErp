@@ -1,5 +1,5 @@
-import { addBannerInput, editBannerInput } from '../../../application/Entities/banner.entity';
-import { listingInput } from '../../../application/Entities/common.entity';
+import { addBannerInput, editBannerInput } from '../../../application/entities/banner.entity';
+import { listingInput } from '../../../application/entities/common.entity';
 import { IBannerModelEntity } from '../modelEntities/banner.entity';
 
 export interface IBannerRepository {

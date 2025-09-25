@@ -1,8 +1,8 @@
 import Stripe from 'stripe';
-import { payByProject, PaymentInput, walletByUser } from '../../../application/Entities/payment.entity';
+import { payByProject, PaymentInput, walletByUser } from '../../../application/entities/payment.entity';
 import { IPaymentModelEntity } from '../modelEntities/payment.entity';
-import { listingInput } from '../../../application/Entities/common.entity';
-import { paymentAggregateByStage } from '../../../application/Entities/stage.entity';
+import { listingInput } from '../../../application/entities/common.entity';
+import { paymentAggregateByStage } from '../../../application/entities/stage.entity';
 
 export interface IPaymentRepostory {
    verifyWebhookSignature(payload: Buffer, signature: string, endpointSecret: string): Promise<Stripe.Event>

@@ -3,7 +3,7 @@ import { ISpecRepository } from '../../../domain/Entities/IRepository/ISpecifica
 import { MaterialSuccessMessage } from '../../../Shared/Messages/Material.Message';
 import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { commonOutput } from '../../dto/common';
-import { userSpecMaterial } from '../../Entities/spec.entity';
+import { userSpecMaterial } from '../../entities/spec.entity';
 import { IGetMaterialAndBrandInSpecsUseCase } from '../../IUseCases/ISpecification/IGetMaterialAndBrandInSpecs';
 
 export class GetMaterialAndBrandInSpecsUseCase implements IGetMaterialAndBrandInSpecsUseCase {

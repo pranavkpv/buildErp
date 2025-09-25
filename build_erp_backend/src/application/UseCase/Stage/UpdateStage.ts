@@ -3,7 +3,7 @@ import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { StageFailedMessage, StageSuccessMessage } from '../../../Shared/Messages/Stage.Message';
 import { IStageRepository } from '../../../domain/Entities/IRepository/IStage';
 import { IprojectRepository } from '../../../domain/Entities/IRepository/IProject';
-import { stageInputData } from '../../Entities/stage.entity';
+import { stageInputData } from '../../entities/stage.entity';
 import { commonOutput } from '../../dto/common';
 
 export class UpdateStageUseCase implements IUpdateStageUseCase {

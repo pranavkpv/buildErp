@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { commonOutput } from '../../../application/dto/common';
 import { specFullDTO, userSpecDTO } from '../../../application/dto/specification.dto';
-import { listSpec, userSpecMaterial } from '../../../application/Entities/spec.entity';
+import { listSpec, userSpecMaterial } from '../../../application/entities/spec.entity';
 
 
 export interface ISpecController {

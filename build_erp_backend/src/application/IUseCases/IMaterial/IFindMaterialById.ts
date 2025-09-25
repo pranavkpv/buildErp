@@ -1,5 +1,5 @@
 import { commonOutput } from '../../dto/common';
-import { editMaterialFullDatafetch } from '../../Entities/material.entity';
+import { editMaterialFullDatafetch } from '../../entities/material.entity';
 
 
 export interface IFindMaterialByIdUsecase {

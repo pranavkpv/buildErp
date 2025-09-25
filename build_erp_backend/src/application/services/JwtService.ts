@@ -1,4 +1,4 @@
-import { createTokenInput, JwtPayloadData, Tokens } from '../Entities/token.entity';
+import { createTokenInput, JwtPayloadData, Tokens } from '../entities/token.entity';
 import { IJwtService } from '../../domain/Entities/Service.Entities/IJwtservice';
 import jwt, { JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken';
 

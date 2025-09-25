@@ -1,4 +1,4 @@
-import { inputAdmin } from '../../../application/Entities/admin.entity';
+import { inputAdmin } from '../../../application/entities/admin.entity';
 import { IAdminModelEntity } from '../modelEntities/admin.entity';
 
 

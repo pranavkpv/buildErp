@@ -1,5 +1,5 @@
-import { changeStatusInput } from '../../../application/Entities/sitemanager.entity';
-import { stage, stageWithAggregateProject, uploadImageInput } from '../../../application/Entities/stage.entity';
+import { changeStatusInput } from '../../../application/entities/sitemanager.entity';
+import { stage, stageWithAggregateProject, uploadImageInput } from '../../../application/entities/stage.entity';
 import { IStageModelEntity } from '../modelEntities/stage.entity';
 
 export interface IStageRepository {

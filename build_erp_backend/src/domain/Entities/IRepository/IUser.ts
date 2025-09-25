@@ -1,4 +1,4 @@
-import { googleLoginInput, UpdateEmailRedisData, updateprofileInput, userSignupinput, usertempSaveInput } from '../../../application/Entities/user.entity';
+import { googleLoginInput, UpdateEmailRedisData, updateprofileInput, userSignupinput, usertempSaveInput } from '../../../application/entities/user.entity';
 import { ITempUserModelEntity } from '../modelEntities/tempUser.entity';
 import { IUserModelEntity } from '../modelEntities/user.entity';
 

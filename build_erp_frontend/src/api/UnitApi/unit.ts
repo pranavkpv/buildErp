@@ -1,11 +1,10 @@
-import { toast } from "react-toastify";
 import adminAxios from "../../axios/adminAxios"
-import type { unitInput } from "../../ApiInterface/UnitApiInterface";
+import type { addUnitInput, unitInput } from "../../ApiInterface/UnitApiInterface";
 import type { listingInput } from "../../ApiInterface/CommonApiInterface";
 
 // ---------------- Add New Unit ---------------- //
 
-export const postUnit = async (input: unitInput) => {
+export const postUnit = async (input: addUnitInput) => {
    const response = await adminAxios.post(`/unit`, input);
    return response.data;
 };

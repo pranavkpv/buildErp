@@ -1,5 +1,5 @@
 import { commonOutput } from '../../dto/common';
-import { stageInputData } from '../../Entities/stage.entity';
+import { stageInputData } from '../../entities/stage.entity';
 
 
 export interface IStageSaveUseCase {

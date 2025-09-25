@@ -4,7 +4,7 @@ import { MaterialSuccessMessage } from '../../../Shared/Messages/Material.Messag
 import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { commonOutput } from '../../dto/common';
 import { listingMaterialDTO } from '../../dto/material.dto';
-import { listingInput } from '../../Entities/common.entity';
+import { listingInput } from '../../entities/common.entity';
 import { IDisplayAllMaterialUsecase } from '../../IUseCases/IMaterial/IDisplayAllMaterial';
 
 

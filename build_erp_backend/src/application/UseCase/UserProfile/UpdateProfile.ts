@@ -2,12 +2,12 @@ import { IUserRepository } from '../../../domain/Entities/IRepository/IUser';
 import { IUpdateProfileUseCase } from '../../IUseCases/IUserProfile/IUpdateProfile';
 import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { userFailedMessage, userSuccessMessage } from '../../../Shared/Messages/User.Message';
-import { updateprofileInput } from '../../Entities/user.entity';
+import { updateprofileInput } from '../../entities/user.entity';
 import { commonOutput } from '../../dto/common';
 import { userLoginDTO } from '../../dto/user.dto';
 import { IUserMapper } from '../../../domain/IMappers/IUser.mapper';
 import { JwtService } from '../../services/JwtService';
-import { Tokens } from '../../Entities/token.entity';
+import { Tokens } from '../../entities/token.entity';
 
 
 export class UpdateProfileUsecase implements IUpdateProfileUseCase {

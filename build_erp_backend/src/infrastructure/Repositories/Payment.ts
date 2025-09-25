@@ -1,10 +1,10 @@
 import Stripe from 'stripe';
 import { IPaymentRepostory } from '../../domain/Entities/IRepository/IPayment';
-import { payByProject, PaymentInput, walletByUser } from '../../application/Entities/payment.entity';
+import { payByProject, PaymentInput, walletByUser } from '../../application/entities/payment.entity';
 import { paymentDB } from '../../api/models/PaymentMode';
 import { IPaymentModelEntity } from '../../domain/Entities/modelEntities/payment.entity';
-import { listingInput } from '../../application/Entities/common.entity';
-import { paymentAggregateByStage } from '../../application/Entities/stage.entity';
+import { listingInput } from '../../application/entities/common.entity';
+import { paymentAggregateByStage } from '../../application/entities/stage.entity';
 
 export class PaymentRepository implements IPaymentRepostory {
     constructor(

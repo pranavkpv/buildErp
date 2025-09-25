@@ -5,7 +5,7 @@ import { IResendOTPUseCase } from '../../application/IUseCases/IAuth/IResendOtp'
 import { IUserLoginUseCase } from '../../application/IUseCases/IAuth/IUserLogin';
 import { IAuthController } from '../../domain/Entities/IController/IAuth';
 import { userLoginDTO } from '../../application/dto/user.dto';
-import { Tokens } from '../../application/Entities/token.entity';
+import { Tokens } from '../../application/entities/token.entity';
 import { IGoogleloginUseCase } from '../../application/IUseCases/IAuth/IGoogleLogin';
 import { ISendOTPUseCase } from '../../application/IUseCases/IAuth/ISendOtp';
 import { IVerifyForgotpasswordUseCase } from '../../application/IUseCases/IAuth/IVerifyForgotPasswordOtp';

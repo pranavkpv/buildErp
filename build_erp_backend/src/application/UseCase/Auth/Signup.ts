@@ -3,7 +3,7 @@ import { sendEmail } from '../../../Shared/utils/sendEmail';
 import { ISignupUserUseCase } from '../../IUseCases/IAuth/ISignup';
 import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { userFailedMessage, userSuccessMessage } from '../../../Shared/Messages/User.Message';
-import { userSignupinput } from '../../Entities/user.entity';
+import { userSignupinput } from '../../entities/user.entity';
 import { commonOutput } from '../../dto/common';
 
 export class SignupUserUseCase implements ISignupUserUseCase {

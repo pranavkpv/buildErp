@@ -1,7 +1,7 @@
 import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { IDisplayAllUnitUseCase } from '../../IUseCases/IUnit/IDisplayAllUnit';
 import { unitSuccessMessage } from '../../../Shared/Messages/Unit.Message';
-import { listingInput } from '../../Entities/common.entity';
+import { listingInput } from '../../entities/common.entity';
 import { IUnitRepository } from '../../../domain/Entities/IRepository/IUnit';
 import { commonOutput } from '../../dto/common';
 import { listUnitDTO } from '../../dto/unit.dto';

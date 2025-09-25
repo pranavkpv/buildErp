@@ -1,5 +1,5 @@
 import { commonOutput } from '../../dto/common';
-import { labourSumInput } from '../../Entities/labour.entity';
+import { labourSumInput } from '../../entities/labour.entity';
 
 
 export interface IFindlabourSumUsecase {

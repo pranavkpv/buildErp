@@ -1,6 +1,6 @@
 import { purchaseDB } from '../../api/models/PurchaseModel';
 import { PurchaseDTO } from '../../application/dto/purchase.dto';
-import { purchaseInput } from '../../application/Entities/purchase.entity';
+import { purchaseInput } from '../../application/entities/purchase.entity';
 import { IPurchaseModelEntity } from '../../domain/Entities/modelEntities/purchase.entity';
 import { IPurchaseRepository } from '../../domain/Entities/IRepository/IPurchase';
 

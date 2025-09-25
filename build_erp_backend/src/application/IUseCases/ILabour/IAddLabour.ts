@@ -1,5 +1,5 @@
 import { commonOutput } from '../../dto/common';
-import { labourAddInput } from '../../Entities/labour.entity';
+import { labourAddInput } from '../../entities/labour.entity';
 
 
 export interface IAddLabourUseCase {

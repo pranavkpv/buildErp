@@ -1,7 +1,7 @@
 import { commonOutput } from '../../dto/common';
 import { userLoginDTO } from '../../dto/user.dto';
-import { Tokens } from '../../Entities/token.entity';
-import { updateprofileInput } from '../../Entities/user.entity';
+import { Tokens } from '../../entities/token.entity';
+import { updateprofileInput } from '../../entities/user.entity';
 
 export interface IUpdateProfileUseCase {
   execute(input: Omit<updateprofileInput, 'password'>):

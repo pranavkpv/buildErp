@@ -1,7 +1,7 @@
 import { IEstimationRepository } from '../../../domain/Entities/IRepository/IEstimation';
 import { ISpecRepository } from '../../../domain/Entities/IRepository/ISpecification';
 import { commonOutput } from '../../dto/common';
-import { saveRequirementInput } from '../../Entities/requirement.entity';
+import { saveRequirementInput } from '../../entities/requirement.entity';
 import { ISaveRequirementUseCase } from '../../IUseCases/IRquirement/ISaveRequirement';
 import { IBrandRepository } from '../../../domain/Entities/IRepository/IBrand';
 import { IMaterialRepository } from '../../../domain/Entities/IRepository/IMaterial';

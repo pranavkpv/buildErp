@@ -1,6 +1,6 @@
 import { idBrandnameDTO } from '../../dto/brand.dto';
 import { commonOutput } from '../../dto/common';
-import { listingInput } from '../../Entities/common.entity';
+import { listingInput } from '../../entities/common.entity';
 
 
 export interface IDisplayAllBrandUseCase {

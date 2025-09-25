@@ -2,7 +2,7 @@ import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { LabourFailedMessage, LabourSuccessMessage } from '../../../Shared/Messages/Labour.Message';
 import { IUpdateLabourUseCase } from '../../IUseCases/ILabour/IUpdateLabour';
 import { ILabourRepository } from '../../../domain/Entities/IRepository/ILabour';
-import { labourEditInput } from '../../Entities/labour.entity';
+import { labourEditInput } from '../../entities/labour.entity';
 import { commonOutput } from '../../dto/common';
 
 

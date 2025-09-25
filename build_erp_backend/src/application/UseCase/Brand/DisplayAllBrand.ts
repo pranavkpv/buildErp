@@ -4,7 +4,7 @@ import { BrandSuccessMessage } from '../../../Shared/Messages/Brand.Message';
 import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { idBrandnameDTO } from '../../dto/brand.dto';
 import { commonOutput } from '../../dto/common';
-import { listingInput } from '../../Entities/common.entity';
+import { listingInput } from '../../entities/common.entity';
 import { IDisplayAllBrandUseCase } from '../../IUseCases/IBrand/IDisplayAllBrand';
 
 export class DisplayAllBrandUseCase implements IDisplayAllBrandUseCase {

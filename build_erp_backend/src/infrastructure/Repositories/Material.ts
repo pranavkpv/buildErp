@@ -6,8 +6,8 @@ import { unitDB } from '../../api/models/UnitModel';
 import { brandDB } from '../../api/models/BrandModel';
 import { IProjectModelEntity } from '../../domain/Entities/modelEntities/project.entity';
 import { IMaterialModelEntity } from '../../domain/Entities/modelEntities/material.entity';
-import { addMaterialInput, editMaterialFullDatafetch, editMaterialInput, fetchUnitRateInput, findMaterialBynameCatBrandInput, findMaterialBynameCatBrandInputEdit, materialSumInput, materialswithAggregateBrand } from '../../application/Entities/material.entity';
-import { listingInput } from '../../application/Entities/common.entity';
+import { addMaterialInput, editMaterialFullDatafetch, editMaterialInput, fetchUnitRateInput, findMaterialBynameCatBrandInput, findMaterialBynameCatBrandInputEdit, materialSumInput, materialswithAggregateBrand } from '../../application/entities/material.entity';
+import { listingInput } from '../../application/entities/common.entity';
 
 
 export class MaterialRepository implements IMaterialRepository {

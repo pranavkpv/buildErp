@@ -1,5 +1,5 @@
-import { listingInput } from '../../../application/Entities/common.entity';
-import { labourAddInput, labourEditInput, labourSumInput } from '../../../application/Entities/labour.entity';
+import { listingInput } from '../../../application/entities/common.entity';
+import { labourAddInput, labourEditInput, labourSumInput } from '../../../application/entities/labour.entity';
 import { ILabourModelEntity } from '../modelEntities/labour.entity';
 
 export interface ILabourRepository {

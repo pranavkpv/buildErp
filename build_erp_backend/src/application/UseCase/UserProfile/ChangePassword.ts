@@ -3,7 +3,7 @@ import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { userFailedMessage, userSuccessMessage } from '../../../Shared/Messages/User.Message';
 import { IUserRepository } from '../../../domain/Entities/IRepository/IUser';
 import { IHasher } from '../../../domain/Entities/IRepository/IHasher';
-import { updatePasswordInput } from '../../Entities/user.entity';
+import { updatePasswordInput } from '../../entities/user.entity';
 import { commonOutput } from '../../dto/common';
 
 export class ChangePasswordUsecase implements IChangePasswordUseCase {

@@ -11,7 +11,7 @@ import { userFailedMessage, userSuccessMessage } from '../../Shared/Messages/Use
 import { commonOutput } from '../../application/dto/common';
 import { listSitemanagerDTO } from '../../application/dto/sitemanager.dto';
 import { ISitemanagerModelEntity } from '../../domain/Entities/modelEntities/sitemanager.entity';
-import { Tokens } from '../../application/Entities/token.entity';
+import { Tokens } from '../../application/entities/token.entity';
 import { IJwtService } from '../../domain/Entities/Service.Entities/IJwtservice';
 import { IBlackListUseCase } from '../../application/IUseCases/IAuth/IBlackList';
 import { IUpdateSitemanagerPasswordUseCase } from '../../application/IUseCases/ISitemanager/IUpdateSitemanagerPassword';

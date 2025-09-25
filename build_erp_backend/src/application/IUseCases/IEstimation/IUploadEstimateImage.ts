@@ -1,5 +1,5 @@
 import { commonOutput } from '../../dto/common';
-import { imageUploadInput } from '../../Entities/estimation.entity';
+import { imageUploadInput } from '../../entities/estimation.entity';
 
 
 export interface IUploadEstimateImageUseCase {

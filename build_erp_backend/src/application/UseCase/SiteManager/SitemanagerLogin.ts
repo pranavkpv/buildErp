@@ -6,7 +6,7 @@ import { IJwtService } from '../../../domain/Entities/Service.Entities/IJwtservi
 import { IHasher } from '../../../domain/Entities/IRepository/IHasher';
 import { commonOutput } from '../../dto/common';
 import { ISitemanagerModelEntity } from '../../../domain/Entities/modelEntities/sitemanager.entity';
-import { Tokens } from '../../Entities/token.entity';
+import { Tokens } from '../../entities/token.entity';
 import { Role } from '../../../Shared/Constants/Role.constant';
 
 export class SitemanagerLoginUseCase implements ISitemanagerLoginUseCase {

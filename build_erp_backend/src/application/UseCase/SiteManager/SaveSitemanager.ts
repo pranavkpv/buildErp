@@ -3,7 +3,7 @@ import { hashedPassword } from '../../../Shared/utils/hash';
 import { sendEmail } from '../../../Shared/utils/sendEmail';
 import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { SitemanagerFailedMessage, SitemanagerSuccessMessage } from '../../../Shared/Messages/Sitemanager.Message';
-import { addsitemanagerInput } from '../../Entities/sitemanager.entity';
+import { addsitemanagerInput } from '../../entities/sitemanager.entity';
 import { commonOutput } from '../../dto/common';
 import { ISaveSitemanagerUseCase } from '../../IUseCases/ISitemanager/ISaveSitemanager';
 

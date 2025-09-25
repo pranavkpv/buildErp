@@ -2,7 +2,7 @@ import { ISpecRepository } from '../../../domain/Entities/IRepository/ISpecifica
 import { SpecFailedMessage, SpecSuccessMessage } from '../../../Shared/Messages/Specification.Message';
 import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { commonOutput } from '../../dto/common';
-import { InputSpecification } from '../../Entities/spec.entity';
+import { InputSpecification } from '../../entities/spec.entity';
 import { ISaveSpecUseCase } from '../../IUseCases/ISpecification/ISpecificationSave';
 
 

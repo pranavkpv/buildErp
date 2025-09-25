@@ -1,6 +1,6 @@
 import { unitDB } from '../../api/models/UnitModel';
-import { listingInput } from '../../application/Entities/common.entity';
-import { saveUnitInput } from '../../application/Entities/unit.entity';
+import { listingInput } from '../../application/entities/common.entity';
+import { saveUnitInput } from '../../application/entities/unit.entity';
 import { IUnitModelEntity } from '../../domain/Entities/modelEntities/unit.entity';
 import { IUnitRepository } from '../../domain/Entities/IRepository/IUnit';
 

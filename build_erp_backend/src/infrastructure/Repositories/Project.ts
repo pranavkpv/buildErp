@@ -1,12 +1,12 @@
 import { projectDB } from '../../api/models/ProjectModel';
 import { chatListDTO } from '../../application/dto/user.dto';
-import { AddsitetoprojectInput } from '../../application/Entities/addsitemanagertoproject.entity';
-import { listingInput } from '../../application/Entities/common.entity';
-import { createProjectInterface, editProjectInput, groupedProjectwithStatus, projectwithClient, statusBaseProjectInput, userBaseChatoutput } from '../../application/Entities/project.entity';
-import { costInput } from '../../application/Entities/stage.entity';
+import { AddsitetoprojectInput } from '../../application/entities/addsitemanagertoproject.entity';
+import { listingInput } from '../../application/entities/common.entity';
+import { createProjectInterface, editProjectInput, groupedProjectwithStatus, projectwithClient, statusBaseProjectInput, userBaseChatoutput } from '../../application/entities/project.entity';
+import { costInput } from '../../application/entities/stage.entity';
 import { IProjectModelEntity } from '../../domain/Entities/modelEntities/project.entity';
 import { IprojectRepository } from '../../domain/Entities/IRepository/IProject';
-import { imageUploadInput } from '../../application/Entities/estimation.entity';
+import { imageUploadInput } from '../../application/entities/estimation.entity';
 
 
 export class ProjectRepository implements IprojectRepository {

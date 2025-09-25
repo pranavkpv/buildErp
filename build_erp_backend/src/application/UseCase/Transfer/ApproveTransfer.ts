@@ -5,7 +5,7 @@ import { ITransferRepository } from '../../../domain/Entities/IRepository/ITrans
 import { IProjectStockRepository } from '../../../domain/Entities/IRepository/IProjectStock';
 import { IMaterialRepository } from '../../../domain/Entities/IRepository/IMaterial';
 import { IprojectRepository } from '../../../domain/Entities/IRepository/IProject';
-import { transferInput } from '../../Entities/transfer.entity';
+import { transferInput } from '../../entities/transfer.entity';
 import { commonOutput } from '../../dto/common';
 import { IPaymentRepostory } from '../../../domain/Entities/IRepository/IPayment';
 import { IStageRepository } from '../../../domain/Entities/IRepository/IStage';

@@ -6,7 +6,7 @@ import { commonOutput } from '../../dto/common';
 import { IUserMapper } from '../../../domain/IMappers/IUser.mapper';
 import { IJwtService } from '../../../domain/Entities/Service.Entities/IJwtservice';
 import { userLoginDTO } from '../../dto/user.dto';
-import { Tokens } from '../../Entities/token.entity';
+import { Tokens } from '../../entities/token.entity';
 
 export class UpdateProfileImageUseCase implements IUpdateProfileImageUseCase {
     constructor(

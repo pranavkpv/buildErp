@@ -4,7 +4,7 @@ import { ISitemanagerRepository } from '../../../domain/Entities/IRepository/ISi
 import { IUpdateSitemanagerPasswordUseCase } from '../../IUseCases/ISitemanager/IUpdateSitemanagerPassword';
 import { SitemanagerFailedMessage, SitemanagerSuccessMessage } from '../../../Shared/Messages/Sitemanager.Message';
 import { ResponseHelper } from '../../../Shared/responseHelpers/response';
-import { changePasswordInput } from '../../Entities/sitemanager.entity';
+import { changePasswordInput } from '../../entities/sitemanager.entity';
 import { commonOutput } from '../../dto/common';
 
 

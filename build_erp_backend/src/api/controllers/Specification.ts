@@ -10,9 +10,9 @@ import { IUpdateSpecUseCase } from '../../application/IUseCases/ISpecification/I
 import { ISpeclistUseCase } from '../../application/IUseCases/ISpecification/ISpecificationList';
 import { IGetSpecUseCase } from '../../application/IUseCases/ISpecification/IGetSpecification';
 import { ISpecSumUseCase } from '../../application/IUseCases/ISpecification/ISpecificationSum';
-import { materialSumInput } from '../../application/Entities/material.entity';
+import { materialSumInput } from '../../application/entities/material.entity';
 import { IGetSpecIdnameUseCase } from '../../application/IUseCases/ISpecification/IGetSpecIdname';
-import { listSpec, userSpecMaterial } from '../../application/Entities/spec.entity';
+import { listSpec, userSpecMaterial } from '../../application/entities/spec.entity';
 import { IGetMaterialAndBrandInSpecsUseCase } from '../../application/IUseCases/ISpecification/IGetMaterialAndBrandInSpecs';
 
 export class SpecController implements ISpecController {

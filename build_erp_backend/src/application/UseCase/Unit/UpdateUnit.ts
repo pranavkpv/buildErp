@@ -2,7 +2,7 @@ import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { unitFailedMessage, unitSuccessMessage } from '../../../Shared/Messages/Unit.Message';
 import { IUpdateUnitUseCase } from '../../IUseCases/IUnit/IUpdateUnit';
 import { IUnitRepository } from '../../../domain/Entities/IRepository/IUnit';
-import { saveUnitInput } from '../../Entities/unit.entity';
+import { saveUnitInput } from '../../entities/unit.entity';
 import { commonOutput } from '../../dto/common';
 
 export class UpdateUnitUseCase implements IUpdateUnitUseCase { 

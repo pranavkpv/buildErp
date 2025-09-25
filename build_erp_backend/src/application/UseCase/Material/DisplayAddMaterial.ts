@@ -10,7 +10,7 @@ import { IBrandmapper } from '../../../domain/IMappers/IBrand.mapper';
 import { ICategorymapper } from '../../../domain/IMappers/ICategory.mapper';
 import { IProjectmapper } from '../../../domain/IMappers/IProject.mapper';
 import { commonOutput } from '../../dto/common';
-import { addMaterialFetch } from '../../Entities/material.entity';
+import { addMaterialFetch } from '../../entities/material.entity';
 
 
 

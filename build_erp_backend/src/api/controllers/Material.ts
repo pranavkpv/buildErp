@@ -11,7 +11,7 @@ import { IFetchMaterialByMaterialNameUsecase } from '../../application/IUseCases
 import { IFetchBrandByMaterialNameUsecase } from '../../application/IUseCases/IMaterial/IFetchBrandByMaterialname';
 import { IFetchUnitRateUseCase } from '../../application/IUseCases/IMaterial/IFetchUnitRate';
 import { IFindMaterialByIdUsecase } from '../../application/IUseCases/IMaterial/IFindMaterialById';
-import { addMaterialFetch, editMaterialFullDatafetch } from '../../application/Entities/material.entity';
+import { addMaterialFetch, editMaterialFullDatafetch } from '../../application/entities/material.entity';
 import { commonOutput } from '../../application/dto/common';
 import { EditmaterialDetailsDTO, EditprojectDetailsDTO, listingMaterialDTO, stockDTO, unitRateDTO } from '../../application/dto/material.dto';
 import { ResponseHelper } from '../../Shared/responseHelpers/response';

@@ -2,7 +2,7 @@ import { ISaveCategoryUseCase } from '../../IUseCases/ICategory/ISaveCategory';
 import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { CategoryFailedMessage, CategorySuccessMessage } from '../../../Shared/Messages/Category.Message';
 import { ICategoryRepository } from '../../../domain/Entities/IRepository/ICategory';
-import { saveCategoryInput } from '../../Entities/category.entity';
+import { saveCategoryInput } from '../../entities/category.entity';
 import { commonOutput } from '../../dto/common';
 
 

@@ -2,9 +2,9 @@ import { IMaterialModelEntity } from '../../domain/Entities/modelEntities/materi
 import { IMaterialMapper } from '../../domain/IMappers/IMaterial.mapper';
 import { EditmaterialDetailsDTO, EditprojectDetailsDTO, listingMaterialDTO, stockDTO, unitRateDTO } from '../dto/material.dto';
 import { projectStockListDTO } from '../dto/transfer.dto';
-import { editMaterialFullDatafetch, stockDisplayAggregate } from '../Entities/material.entity';
-import { ProjectStockOutput } from '../Entities/project.entity';
-import { listProjectStock } from '../Entities/transfer.entity';
+import { editMaterialFullDatafetch, stockDisplayAggregate } from '../entities/material.entity';
+import { ProjectStockOutput } from '../entities/project.entity';
+import { listProjectStock } from '../entities/transfer.entity';
 
 export class MaterialMapper implements IMaterialMapper {
     tolistingMaterialDTO(material: editMaterialFullDatafetch[]): listingMaterialDTO[] {

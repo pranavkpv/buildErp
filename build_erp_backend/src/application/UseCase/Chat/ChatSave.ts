@@ -1,6 +1,6 @@
 import { IChatModelEntity } from '../../../domain/Entities/modelEntities/chat.entity';
 import { IChatRepository } from '../../../domain/Entities/IRepository/IChat';
-import { savingChatInput } from '../../Entities/chat.entity';
+import { savingChatInput } from '../../entities/chat.entity';
 import { IChatSaveUseCase } from '../../IUseCases/IChat/IChatSave';
 
 

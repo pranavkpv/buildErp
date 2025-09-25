@@ -3,7 +3,7 @@ import { IStagemapper } from '../../domain/IMappers/IStage.mapper';
 import { walletDTO } from '../dto/payment.dto';
 import { displayProjectWithCompletionDTO } from '../dto/project.dto';
 import { publicstageDTO, verifyStageDTO } from '../dto/stage.dto';
-import { paymentAggregateByStage, stageWithAggregateProject } from '../Entities/stage.entity';
+import { paymentAggregateByStage, stageWithAggregateProject } from '../entities/stage.entity';
 
 export class Stagemapper implements IStagemapper {
     topublicStageDto(stage: IStageModelEntity[]): publicstageDTO[] {

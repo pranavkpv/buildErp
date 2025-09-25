@@ -5,7 +5,7 @@ import { IprojectRepository } from '../../../domain/Entities/IRepository/IProjec
 import { ITransferRepository } from '../../../domain/Entities/IRepository/ITransfer';
 import { IProjectStockRepository } from '../../../domain/Entities/IRepository/IProjectStock';
 import { IMaterialRepository } from '../../../domain/Entities/IRepository/IMaterial';
-import { transferInput } from '../../Entities/transfer.entity';
+import { transferInput } from '../../entities/transfer.entity';
 import { commonOutput } from '../../dto/common';
 
 export class UpdateTransferUseCase implements IUpdateTransferUseCase {

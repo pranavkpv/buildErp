@@ -1,7 +1,7 @@
 import { commonOutput } from '../../dto/common';
 import { userLoginDTO } from '../../dto/user.dto';
-import { Tokens } from '../../Entities/token.entity';
-import { googleLoginInput } from '../../Entities/user.entity';
+import { Tokens } from '../../entities/token.entity';
+import { googleLoginInput } from '../../entities/user.entity';
 
 
 export interface IGoogleloginUseCase {

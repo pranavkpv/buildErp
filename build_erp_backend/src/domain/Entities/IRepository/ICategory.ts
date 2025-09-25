@@ -1,5 +1,5 @@
-import { saveCategoryInput } from '../../../application/Entities/category.entity';
-import { listingInput } from '../../../application/Entities/common.entity';
+import { saveCategoryInput } from '../../../application/entities/category.entity';
+import { listingInput } from '../../../application/entities/common.entity';
 import { ICategoryModelEntity } from '../modelEntities/category.entity';
 
 export interface ICategoryRepository {

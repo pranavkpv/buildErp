@@ -1,5 +1,5 @@
 import { additionEstimateDTO, estimateByProjectDTO, labourEstimateDTO, listEstimationDTO, materialEstimateDTO, publicEstimationDTO, specListInProjectDTO } from '../../application/dto/estimation.dto';
-import { estimationAggregatebyLabour, estimationAggregatebymaterialbrandunit, estimationAggregatebySpec, estiomationAggregatebyProject, estiomationAggregateByspec } from '../../application/Entities/estimation.entity';
+import { estimationAggregatebyLabour, estimationAggregatebymaterialbrandunit, estimationAggregatebySpec, estiomationAggregatebyProject, estiomationAggregateByspec } from '../../application/entities/estimation.entity';
 import { IEstimationAdditionalModalEntity } from '../Entities/modelEntities/estimationAdditional.entity';
 
 export interface IEstimationmapper {

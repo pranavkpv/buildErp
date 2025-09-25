@@ -5,7 +5,7 @@ import { ResponseHelper } from '../../Shared/responseHelpers/response';
 import { IJwtService } from '../../domain/Entities/Service.Entities/IJwtservice';
 import { IUpdateProfileUseCase } from '../../application/IUseCases/IUserProfile/IUpdateProfile';
 import { dashBoardDTO, userLoginDTO } from '../../application/dto/user.dto';
-import { Tokens } from '../../application/Entities/token.entity';
+import { Tokens } from '../../application/entities/token.entity';
 import { FileArray, UploadedFile } from 'express-fileupload';
 import cloudinary from '../../infrastructure/config/cloudinary';
 import { IUpdateProfileImageUseCase } from '../../application/IUseCases/IUserProfile/IUpdateProfileImage';

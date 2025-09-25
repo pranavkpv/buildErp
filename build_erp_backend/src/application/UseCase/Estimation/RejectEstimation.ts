@@ -5,7 +5,7 @@ import { EstimationSuccessMessage } from '../../../Shared/Messages/Estimation.Me
 import { ProjectFailedMessage } from '../../../Shared/Messages/Project.Message';
 import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { commonOutput } from '../../dto/common';
-import { rejectEstimationInput } from '../../Entities/estimation.entity';
+import { rejectEstimationInput } from '../../entities/estimation.entity';
 import { IRejectEstimationUseCase } from '../../IUseCases/IEstimation/IRejectEstimation';
 
 export class RejectEstimationUsecase implements IRejectEstimationUseCase {

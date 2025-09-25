@@ -3,7 +3,7 @@ import { IFindmaterialSumUseCase } from '../../IUseCases/IMaterial/IFindMaterial
 import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { MaterialSuccessMessage } from '../../../Shared/Messages/Material.Message';
 import { commonOutput } from '../../dto/common';
-import { materialSumInput } from '../../Entities/material.entity';
+import { materialSumInput } from '../../entities/material.entity';
 
 export class FindmaterialSumUseCase implements IFindmaterialSumUseCase {
     constructor(

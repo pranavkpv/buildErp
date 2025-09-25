@@ -1,6 +1,6 @@
-import { addProjectStockInput, stockDisplayAggregate } from '../../../application/Entities/material.entity';
-import { incrementStockInput, projectStockInput, ProjectStockOutput } from '../../../application/Entities/project.entity';
-import { listProjectStock } from '../../../application/Entities/transfer.entity';
+import { addProjectStockInput, stockDisplayAggregate } from '../../../application/entities/material.entity';
+import { incrementStockInput, projectStockInput, ProjectStockOutput } from '../../../application/entities/project.entity';
+import { listProjectStock } from '../../../application/entities/transfer.entity';
 import { IProjectStockModelEntity } from '../modelEntities/projectStock.entity';
 
 

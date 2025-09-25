@@ -3,7 +3,7 @@ import { IUserRepository } from '../../../domain/Entities/IRepository/IUser';
 import { userFailedMessage, userSuccessMessage } from '../../../Shared/Messages/User.Message';
 import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { commonOutput } from '../../dto/common';
-import { loginInput } from '../../Entities/user.entity';
+import { loginInput } from '../../entities/user.entity';
 import { IUpdatePasswordUseCase } from '../../IUseCases/IAuth/IUpdatepassword';
 
 export class UpdatePasswordUseCase implements IUpdatePasswordUseCase {

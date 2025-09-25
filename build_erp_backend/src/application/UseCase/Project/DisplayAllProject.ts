@@ -2,7 +2,7 @@ import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { ProjectSuccessMessage } from '../../../Shared/Messages/Project.Message';
 import { IDisplayAllProjectUseCase } from '../../IUseCases/IProject/IDisplayAllProject';
 import { IprojectRepository } from '../../../domain/Entities/IRepository/IProject';
-import { listingInput } from '../../Entities/common.entity';
+import { listingInput } from '../../entities/common.entity';
 import { displayProjectDTO } from '../../dto/project.dto';
 import { commonOutput } from '../../dto/common';
 import { IProjectmapper } from '../../../domain/IMappers/IProject.mapper';

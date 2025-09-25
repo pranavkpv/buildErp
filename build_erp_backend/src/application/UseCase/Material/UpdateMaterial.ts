@@ -3,7 +3,7 @@ import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { MaterialFailedMessage, MaterialSuccessMessage } from '../../../Shared/Messages/Material.Message';
 import { IMaterialRepository } from '../../../domain/Entities/IRepository/IMaterial';
 import { IProjectStockRepository } from '../../../domain/Entities/IRepository/IProjectStock';
-import { editMaterialInput } from '../../Entities/material.entity';
+import { editMaterialInput } from '../../entities/material.entity';
 import { commonOutput } from '../../dto/common';
 
 

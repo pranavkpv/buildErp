@@ -15,7 +15,7 @@ import {
     estiomationAggregatebyProject,
     estiomationAggregateByspec,
     saveEstimationInput,
-} from '../../application/Entities/estimation.entity';
+} from '../../application/entities/estimation.entity';
 import { IEstimationRepository } from '../../domain/Entities/IRepository/IEstimation';
 import { IEstimationAdditionalModalEntity } from '../../domain/Entities/modelEntities/estimationAdditional.entity';
 

@@ -5,7 +5,7 @@ import { ResponseHelper } from '../../Shared/responseHelpers/response';
 import { userFailedMessage, userSuccessMessage } from '../../Shared/Messages/User.Message';
 import { commonOutput } from '../../application/dto/common';
 import { IAdminModelEntity } from '../../domain/Entities/modelEntities/admin.entity';
-import { Tokens } from '../../application/Entities/token.entity';
+import { Tokens } from '../../application/entities/token.entity';
 import { IBlackListUseCase } from '../../application/IUseCases/IAuth/IBlackList';
 import { IJwtService } from '../../domain/Entities/Service.Entities/IJwtservice';
 

@@ -1,5 +1,5 @@
-import { listingInput } from '../../../application/Entities/common.entity';
-import { addMaterialInput, editMaterialFullDatafetch, editMaterialInput, fetchUnitRateInput, findMaterialBynameCatBrandInput, findMaterialBynameCatBrandInputEdit, materialSumInput, materialswithAggregateBrand } from '../../../application/Entities/material.entity';
+import { listingInput } from '../../../application/entities/common.entity';
+import { addMaterialInput, editMaterialFullDatafetch, editMaterialInput, fetchUnitRateInput, findMaterialBynameCatBrandInput, findMaterialBynameCatBrandInputEdit, materialSumInput, materialswithAggregateBrand } from '../../../application/entities/material.entity';
 import { IMaterialModelEntity } from '../modelEntities/material.entity';
 import { IProjectModelEntity } from '../modelEntities/project.entity';
 

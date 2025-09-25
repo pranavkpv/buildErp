@@ -1,5 +1,5 @@
 import { chatDB } from '../../api/models/ChatModel';
-import { fetchingChatInput, savingChatInput } from '../../application/Entities/chat.entity';
+import { fetchingChatInput, savingChatInput } from '../../application/entities/chat.entity';
 import { IChatModelEntity } from '../../domain/Entities/modelEntities/chat.entity';
 import { IChatRepository } from '../../domain/Entities/IRepository/IChat';
 import { messageStatusConstant } from '../../Shared/Constants/MessasageStatus.constant';

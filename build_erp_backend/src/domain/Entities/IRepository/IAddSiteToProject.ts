@@ -1,4 +1,4 @@
-import { listAddSiteToproject } from '../../../application/Entities/addsitemanagertoproject.entity';
+import { listAddSiteToproject } from '../../../application/entities/addsitemanagertoproject.entity';
 import { IProjectModelEntity } from '../modelEntities/project.entity';
 import { ISitemanagerModelEntity } from '../modelEntities/sitemanager.entity';
 

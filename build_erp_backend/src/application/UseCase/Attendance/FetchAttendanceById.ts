@@ -2,7 +2,7 @@ import { IFetchAttendanceByIdUseCase } from '../../IUseCases/IAttendance/IFetchA
 import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { AttendanceFailedMessage, AttendanceSuccessMessage } from '../../../Shared/Messages/Attendance.Message';
 import { IAttendanceRepository } from '../../../domain/Entities/IRepository/IAttendance';
-import { fetchEditAttendance } from '../../Entities/attendance.entity';
+import { fetchEditAttendance } from '../../entities/attendance.entity';
 import { commonOutput } from '../../dto/common';
 import { IAttendanceMapper } from '../../../domain/IMappers/IAttendance.mapper';
 

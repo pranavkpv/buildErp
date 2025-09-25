@@ -3,7 +3,7 @@ import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { SpecSuccessMessage } from '../../../Shared/Messages/Specification.Message';
 import { IMaterialRepository } from '../../../domain/Entities/IRepository/IMaterial';
 import { ILabourRepository } from '../../../domain/Entities/IRepository/ILabour';
-import { mixMatAndLabour } from '../../Entities/spec.entity';
+import { mixMatAndLabour } from '../../entities/spec.entity';
 import { commonOutput } from '../../dto/common';
 
 

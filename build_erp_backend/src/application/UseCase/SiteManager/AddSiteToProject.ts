@@ -2,7 +2,7 @@ import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { SitemanagerFailedMessage, SitemanagerSuccessMessage } from '../../../Shared/Messages/Sitemanager.Message';
 import { IAddSiteToProjectUseCase } from '../../IUseCases/ISitemanager/IAddSiteToProject';
 import { IprojectRepository } from '../../../domain/Entities/IRepository/IProject';
-import { AddsitetoprojectInput } from '../../Entities/addsitemanagertoproject.entity';
+import { AddsitetoprojectInput } from '../../entities/addsitemanagertoproject.entity';
 import { commonOutput } from '../../dto/common';
 import { INotificationRepository } from '../../../domain/Entities/IRepository/INotification';
 

@@ -2,7 +2,7 @@ import { IUpdateSpecUseCase } from '../../IUseCases/ISpecification/IUpdateSpecif
 import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { SpecFailedMessage, SpecSuccessMessage } from '../../../Shared/Messages/Specification.Message';
 import { ISpecRepository } from '../../../domain/Entities/IRepository/ISpecification';
-import { InputSpecification } from '../../Entities/spec.entity';
+import { InputSpecification } from '../../entities/spec.entity';
 import { commonOutput } from '../../dto/common';
 
 export class UpdateSpecUseCase implements IUpdateSpecUseCase {

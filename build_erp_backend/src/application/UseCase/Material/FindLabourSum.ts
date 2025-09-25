@@ -3,7 +3,7 @@ import { IFindlabourSumUsecase } from '../../IUseCases/IMaterial/IFindLabourSum'
 import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { MaterialSuccessMessage } from '../../../Shared/Messages/Material.Message';
 import { commonOutput } from '../../dto/common';
-import { labourSumInput } from '../../Entities/labour.entity';
+import { labourSumInput } from '../../entities/labour.entity';
 
 export class FindlabourSumUsecase implements IFindlabourSumUsecase {
     constructor(

@@ -1,7 +1,7 @@
 import { IUpdateReceiveUseCase } from '../../IUseCases/IReceive/IUpdateRecieve';
 import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { ReceiveFailedMessage, ReceiveSuccessMessage } from '../../../Shared/Messages/Receive.Message';
-import { ReceiveInput } from '../../Entities/receive.entity';
+import { ReceiveInput } from '../../entities/receive.entity';
 import { commonOutput } from '../../dto/common';
 import { IReceiveRepository } from '../../../domain/Entities/IRepository/IReceive';
 import { ITransferRepository } from '../../../domain/Entities/IRepository/ITransfer';

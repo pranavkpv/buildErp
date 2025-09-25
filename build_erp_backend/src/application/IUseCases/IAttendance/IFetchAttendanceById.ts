@@ -1,5 +1,5 @@
 import { commonOutput } from '../../dto/common';
-import { fetchEditAttendance } from '../../Entities/attendance.entity';
+import { fetchEditAttendance } from '../../entities/attendance.entity';
 
 
 export interface IFetchAttendanceByIdUseCase {

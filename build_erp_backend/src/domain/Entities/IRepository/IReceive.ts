@@ -1,5 +1,5 @@
 import { RecieveOutput } from '../../../application/dto/receive.dto';
-import { ReceiveInput } from '../../../application/Entities/receive.entity';
+import { ReceiveInput } from '../../../application/entities/receive.entity';
 import { IReceiveModelEntity } from '../modelEntities/recieve.entity';
 
 export interface IReceiveRepository {

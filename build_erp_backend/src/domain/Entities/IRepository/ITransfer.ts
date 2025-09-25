@@ -1,6 +1,6 @@
 import { fetchProjectIdnameDTO } from '../../../application/dto/project.dto';
 import { listTransferDTO, TransferOutput } from '../../../application/dto/transfer.dto';
-import { transferInput } from '../../../application/Entities/transfer.entity';
+import { transferInput } from '../../../application/entities/transfer.entity';
 import { ITransferModelEntity } from '../modelEntities/transfer.entity';
 
 export interface ITransferRepository {

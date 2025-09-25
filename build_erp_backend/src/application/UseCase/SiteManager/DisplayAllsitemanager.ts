@@ -4,7 +4,7 @@ import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { ISitemanagerRepository } from '../../../domain/Entities/IRepository/ISitemanager';
 import { commonOutput } from '../../dto/common';
 import { listSitemanagerDTO } from '../../dto/sitemanager.dto';
-import { listingInput } from '../../Entities/common.entity';
+import { listingInput } from '../../entities/common.entity';
 import { ISitemanagerMapper } from '../../../domain/IMappers/ISitemanager.mapper';
 
 

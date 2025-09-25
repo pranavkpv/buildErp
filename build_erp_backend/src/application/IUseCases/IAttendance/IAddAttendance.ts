@@ -1,5 +1,5 @@
 import { commonOutput } from '../../dto/common';
-import { InputAttendance } from '../../Entities/attendance.entity';
+import { InputAttendance } from '../../entities/attendance.entity';
 
 
 export interface IaddAttendanceUseCase {

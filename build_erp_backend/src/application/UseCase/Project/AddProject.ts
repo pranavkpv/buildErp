@@ -2,7 +2,7 @@ import { IAddProjectUseCase } from '../../IUseCases/IProject/IAddProject';
 import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { ProjectFailedMessage, ProjectSuccessMessage } from '../../../Shared/Messages/Project.Message';
 import { IprojectRepository } from '../../../domain/Entities/IRepository/IProject';
-import { addProjectInput } from '../../Entities/project.entity';
+import { addProjectInput } from '../../entities/project.entity';
 import { commonOutput } from '../../dto/common';
 import { IUserRepository } from '../../../domain/Entities/IRepository/IUser';
 import { userFailedMessage } from '../../../Shared/Messages/User.Message';

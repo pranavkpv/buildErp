@@ -1,6 +1,6 @@
 import { aggregateUnitSpecDTO } from '../../../application/dto/specification.dto';
-import { listingInput } from '../../../application/Entities/common.entity';
-import { InputSpecification, listSpec } from '../../../application/Entities/spec.entity';
+import { listingInput } from '../../../application/entities/common.entity';
+import { InputSpecification, listSpec } from '../../../application/entities/spec.entity';
 import { ISpecModelEntity } from '../modelEntities/spec.entity';
 
 

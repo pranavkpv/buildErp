@@ -1,7 +1,7 @@
 
 import { IprojectRepository } from '../../../domain/Entities/IRepository/IProject';
 import { IFetchStatusBaseProjectUseCase } from '../../IUseCases/IProject/IFetchStatusBaseProject';
-import { fetchprojectInput } from '../../Entities/project.entity';
+import { fetchprojectInput } from '../../entities/project.entity';
 import { commonOutput } from '../../dto/common';
 import { publicProjectDTO } from '../../dto/project.dto';
 import { ResponseHelper } from '../../../Shared/responseHelpers/response';

@@ -2,8 +2,8 @@ import { stageDB } from '../../api/models/StageModel';
 import { projectDB } from '../../api/models/ProjectModel';
 import { IStageModelEntity } from '../../domain/Entities/modelEntities/stage.entity';
 import { IStageRepository } from '../../domain/Entities/IRepository/IStage';
-import { stage, stageWithAggregateProject, uploadImageInput } from '../../application/Entities/stage.entity';
-import { changeStatusInput } from '../../application/Entities/sitemanager.entity';
+import { stage, stageWithAggregateProject, uploadImageInput } from '../../application/entities/stage.entity';
+import { changeStatusInput } from '../../application/entities/sitemanager.entity';
 
 
 export class StageRepository implements IStageRepository {

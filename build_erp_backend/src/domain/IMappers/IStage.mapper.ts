@@ -1,7 +1,7 @@
 import { walletDTO } from '../../application/dto/payment.dto';
 import { displayProjectWithCompletionDTO } from '../../application/dto/project.dto';
 import { publicstageDTO, verifyStageDTO } from '../../application/dto/stage.dto';
-import { paymentAggregateByStage, stageWithAggregateProject } from '../../application/Entities/stage.entity';
+import { paymentAggregateByStage, stageWithAggregateProject } from '../../application/entities/stage.entity';
 import { IStageModelEntity } from '../Entities/modelEntities/stage.entity';
 
 export interface IStagemapper {

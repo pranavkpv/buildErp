@@ -1,6 +1,6 @@
 import { bannerDB } from '../../api/models/BannerModel';
-import { addBannerInput, editBannerInput } from '../../application/Entities/banner.entity';
-import { listingInput } from '../../application/Entities/common.entity';
+import { addBannerInput, editBannerInput } from '../../application/entities/banner.entity';
+import { listingInput } from '../../application/entities/common.entity';
 import { IBannerRepository } from '../../domain/Entities/IRepository/IBanner';
 import { IBannerModelEntity } from '../../domain/Entities/modelEntities/banner.entity';
 

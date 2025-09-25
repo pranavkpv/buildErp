@@ -1,4 +1,4 @@
-import { listingInput } from '../../../application/Entities/common.entity';
+import { listingInput } from '../../../application/entities/common.entity';
 import { IBrandModelEntity } from '../modelEntities/brand.entity';
 
 

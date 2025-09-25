@@ -1,5 +1,5 @@
 import { commonOutput } from '../../dto/common';
-import { purchaseInput } from '../../Entities/purchase.entity';
+import { purchaseInput } from '../../entities/purchase.entity';
 
 
 export interface IApprovePurchaseUseCase {

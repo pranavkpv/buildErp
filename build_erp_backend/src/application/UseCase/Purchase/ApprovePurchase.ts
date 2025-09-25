@@ -2,7 +2,7 @@ import { IApprovePurchaseUseCase } from '../../IUseCases/IPurchase/IApprovePurch
 import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { IPurchaseRepository } from '../../../domain/Entities/IRepository/IPurchase';
 import { IProjectStockRepository } from '../../../domain/Entities/IRepository/IProjectStock';
-import { purchaseInput } from '../../Entities/purchase.entity';
+import { purchaseInput } from '../../entities/purchase.entity';
 import { commonOutput } from '../../dto/common';
 import { PurchaseFailedMessage, PurchaseSuccessMessage } from '../../../Shared/Messages/Purchase.Message';
 

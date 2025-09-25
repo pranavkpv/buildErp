@@ -1,8 +1,8 @@
 import { listAddsiteDTO } from '../../application/dto/addsitemanagerToproject';
 import { displayProjectDTO, displayStatusCountDTO, expectedImageDTO, fetchProjectIdnameDTO, OnlyIdDTO, publicProjectDTO, userBasechatListDTO, userBaseProjectDTO } from '../../application/dto/project.dto';
 import { stageListDTO } from '../../application/dto/stage.dto';
-import { listAddSiteToproject } from '../../application/Entities/addsitemanagertoproject.entity';
-import { groupedProjectwithStatus, projectwithClient, userBaseChatoutput } from '../../application/Entities/project.entity';
+import { listAddSiteToproject } from '../../application/entities/addsitemanagertoproject.entity';
+import { groupedProjectwithStatus, projectwithClient, userBaseChatoutput } from '../../application/entities/project.entity';
 import { IProjectModelEntity } from '../Entities/modelEntities/project.entity';
 
 export interface IProjectmapper {

@@ -1,8 +1,8 @@
 import { ILabourRepository } from '../../domain/Entities/IRepository/ILabour';
 import { labourDB } from '../../api/models/LabourModel';
 import { ILabourModelEntity } from '../../domain/Entities/modelEntities/labour.entity';
-import { labourAddInput, labourEditInput, labourSumInput } from '../../application/Entities/labour.entity';
-import { listingInput } from '../../application/Entities/common.entity';
+import { labourAddInput, labourEditInput, labourSumInput } from '../../application/entities/labour.entity';
+import { listingInput } from '../../application/entities/common.entity';
 
 export class LabourRepository implements ILabourRepository {
 

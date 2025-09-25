@@ -2,9 +2,9 @@ import { IfetchAttendanceUseCase } from '../../IUseCases/IAttendance/IFetchAtten
 import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { AttendanceSuccessMessage } from '../../../Shared/Messages/Attendance.Message';
 import { IAttendanceRepository } from '../../../domain/Entities/IRepository/IAttendance';
-import { listingInput } from '../../Entities/common.entity';
+import { listingInput } from '../../entities/common.entity';
 import { commonOutput } from '../../dto/common';
-import { pageWiseAttendance } from '../../Entities/attendance.entity';
+import { pageWiseAttendance } from '../../entities/attendance.entity';
 
 
 export class FetchAttendanceUseCase implements IfetchAttendanceUseCase {

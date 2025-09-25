@@ -1,5 +1,5 @@
 import { commonOutput } from '../../dto/common';
-import { addProjectInput } from '../../Entities/project.entity';
+import { addProjectInput } from '../../entities/project.entity';
 
 
 export interface IAddProjectUseCase {

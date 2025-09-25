@@ -1,7 +1,7 @@
 import { sitemanagerDB } from '../../api/models/SitemanagerModel';
-import { listingInput } from '../../application/Entities/common.entity';
-import { addsitemanagerInput, editSitemanagerInput } from '../../application/Entities/sitemanager.entity';
-import { updatePasswordInput } from '../../application/Entities/user.entity';
+import { listingInput } from '../../application/entities/common.entity';
+import { addsitemanagerInput, editSitemanagerInput } from '../../application/entities/sitemanager.entity';
+import { updatePasswordInput } from '../../application/entities/user.entity';
 import { ISitemanagerRepository } from '../../domain/Entities/IRepository/ISitemanager';
 import { ISitemanagerModelEntity } from '../../domain/Entities/modelEntities/sitemanager.entity';
 

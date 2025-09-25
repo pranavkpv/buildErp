@@ -3,7 +3,7 @@ import { IVerifyOTPUseCase } from '../../IUseCases/IAuth/IVerifyOtp';
 import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { userFailedMessage, userSuccessMessage } from '../../../Shared/Messages/User.Message';
 import { IUserRepository } from '../../../domain/Entities/IRepository/IUser';
-import { verifyOtpInput } from '../../Entities/user.entity';
+import { verifyOtpInput } from '../../entities/user.entity';
 import { commonOutput } from '../../dto/common';
 
 export class VerifyOTPUseCases implements IVerifyOTPUseCase {

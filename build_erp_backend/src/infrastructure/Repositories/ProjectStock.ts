@@ -1,9 +1,9 @@
 import { IProjectStockRepository } from '../../domain/Entities/IRepository/IProjectStock';
 import { projectStockDB } from '../../api/models/ProjectStockModel';
 import { IProjectStockModelEntity } from '../../domain/Entities/modelEntities/projectStock.entity';
-import { addProjectStockInput, stockDisplayAggregate } from '../../application/Entities/material.entity';
-import { incrementStockInput, projectStockInput, ProjectStockOutput } from '../../application/Entities/project.entity';
-import { listProjectStock } from '../../application/Entities/transfer.entity';
+import { addProjectStockInput, stockDisplayAggregate } from '../../application/entities/material.entity';
+import { incrementStockInput, projectStockInput, ProjectStockOutput } from '../../application/entities/project.entity';
+import { listProjectStock } from '../../application/entities/transfer.entity';
 
 export class ProjectStockRepository implements IProjectStockRepository {
 

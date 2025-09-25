@@ -2,7 +2,7 @@ import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { IDisplayAllCategoryUseCase } from '../../IUseCases/ICategory/IDisplayAllCategory';
 import { CategorySuccessMessage } from '../../../Shared/Messages/Category.Message';
 import { ICategoryRepository } from '../../../domain/Entities/IRepository/ICategory';
-import { listingInput } from '../../Entities/common.entity';
+import { listingInput } from '../../entities/common.entity';
 import { commonOutput } from '../../dto/common';
 import { categoryListDTO } from '../../dto/category.dto';
 import { ICategorymapper } from '../../../domain/IMappers/ICategory.mapper';

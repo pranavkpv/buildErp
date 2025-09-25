@@ -1,7 +1,7 @@
 import { IUpdatePurchaseUseCase } from '../../IUseCases/IPurchase/IUpdatePurchase';
 import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { commonOutput } from '../../dto/common';
-import { purchaseInput } from '../../Entities/purchase.entity';
+import { purchaseInput } from '../../entities/purchase.entity';
 import { IPurchaseRepository } from '../../../domain/Entities/IRepository/IPurchase';
 import { PurchaseFailedMessage, PurchaseSuccessMessage } from '../../../Shared/Messages/Purchase.Message';
 

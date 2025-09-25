@@ -1,6 +1,6 @@
 import { ISitemanagerModelEntity } from '../../../domain/Entities/modelEntities/sitemanager.entity';
 import { commonOutput } from '../../dto/common';
-import { Tokens } from '../../Entities/token.entity';
+import { Tokens } from '../../entities/token.entity';
 
 
 export interface ISitemanagerLoginUseCase {

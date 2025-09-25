@@ -4,7 +4,7 @@ import { StageSuccessMessage } from '../../../Shared/Messages/Stage.Message';
 import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { commonOutput } from '../../dto/common';
 import { verifyStageDTO } from '../../dto/stage.dto';
-import { listingInput } from '../../Entities/common.entity';
+import { listingInput } from '../../entities/common.entity';
 import { IFetchStageForVerifyUseCase } from '../../IUseCases/IStage/IFetchStageForVerify';
 
 export class FetchStageForVerifyUseCase implements IFetchStageForVerifyUseCase {

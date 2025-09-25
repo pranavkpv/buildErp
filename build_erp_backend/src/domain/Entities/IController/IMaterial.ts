@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { commonOutput } from '../../../application/dto/common';
 import { EditmaterialDetailsDTO, EditprojectDetailsDTO, listingMaterialDTO, stockDTO, unitRateDTO } from '../../../application/dto/material.dto';
-import { addMaterialFetch, editMaterialFullDatafetch } from '../../../application/Entities/material.entity';
+import { addMaterialFetch, editMaterialFullDatafetch } from '../../../application/entities/material.entity';
 
 
 

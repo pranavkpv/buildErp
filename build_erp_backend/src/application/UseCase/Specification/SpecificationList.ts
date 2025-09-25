@@ -3,8 +3,8 @@ import { SpecSuccessMessage } from '../../../Shared/Messages/Specification.Messa
 import { ISpeclistUseCase } from '../../IUseCases/ISpecification/ISpecificationList';
 import { ISpecRepository } from '../../../domain/Entities/IRepository/ISpecification';
 import { commonOutput } from '../../dto/common';
-import { listingInput } from '../../Entities/common.entity';
-import { listSpec } from '../../Entities/spec.entity';
+import { listingInput } from '../../entities/common.entity';
+import { listSpec } from '../../entities/spec.entity';
 
 
 export class SpeclistUseCase implements ISpeclistUseCase {

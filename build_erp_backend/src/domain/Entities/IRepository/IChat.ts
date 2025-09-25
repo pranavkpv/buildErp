@@ -1,4 +1,4 @@
-import { fetchingChatInput, savingChatInput } from '../../../application/Entities/chat.entity';
+import { fetchingChatInput, savingChatInput } from '../../../application/entities/chat.entity';
 import { IChatModelEntity } from '../modelEntities/chat.entity';
 
 export interface IChatRepository {

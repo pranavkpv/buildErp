@@ -1,6 +1,6 @@
 import { receiveDB } from '../../api/models/ReceiveModel';
 import { RecieveOutput } from '../../application/dto/receive.dto';
-import { ReceiveInput } from '../../application/Entities/receive.entity';
+import { ReceiveInput } from '../../application/entities/receive.entity';
 import { IReceiveModelEntity } from '../../domain/Entities/modelEntities/recieve.entity';
 import { IReceiveRepository } from '../../domain/Entities/IRepository/IReceive';
 

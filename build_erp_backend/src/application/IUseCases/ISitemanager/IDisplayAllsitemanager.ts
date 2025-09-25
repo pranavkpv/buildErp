@@ -1,6 +1,6 @@
 import { commonOutput } from '../../dto/common';
 import { listSitemanagerDTO } from '../../dto/sitemanager.dto';
-import { listingInput } from '../../Entities/common.entity';
+import { listingInput } from '../../entities/common.entity';
 
 export interface IDisplayAllSitemanagerUseCase {
    execute(input: listingInput):

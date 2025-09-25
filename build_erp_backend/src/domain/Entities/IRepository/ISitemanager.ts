@@ -1,5 +1,5 @@
-import { listingInput } from '../../../application/Entities/common.entity';
-import { addsitemanagerInput, changePasswordInput, editSitemanagerInput } from '../../../application/Entities/sitemanager.entity';
+import { listingInput } from '../../../application/entities/common.entity';
+import { addsitemanagerInput, changePasswordInput, editSitemanagerInput } from '../../../application/entities/sitemanager.entity';
 
 import { ISitemanagerModelEntity } from '../modelEntities/sitemanager.entity';
 

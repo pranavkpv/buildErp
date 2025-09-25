@@ -1,6 +1,6 @@
 import { commonOutput } from '../../dto/common';
 import { unitRateDTO } from '../../dto/material.dto';
-import { fetchUnitRateInput } from '../../Entities/material.entity';
+import { fetchUnitRateInput } from '../../entities/material.entity';
 
 
 export interface IFetchUnitRateUseCase{

@@ -1,5 +1,5 @@
 import { commonOutput } from '../../dto/common';
-import { transferInput } from '../../Entities/transfer.entity';
+import { transferInput } from '../../entities/transfer.entity';
 
 
 export interface IUpdateTransferUseCase {

@@ -4,11 +4,11 @@ import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { IJwtService } from '../../../domain/Entities/Service.Entities/IJwtservice';
 import { userFailedMessage, userSuccessMessage } from '../../../Shared/Messages/User.Message';
 import { IUserMapper } from '../../../domain/IMappers/IUser.mapper';
-import { loginInput } from '../../Entities/user.entity';
+import { loginInput } from '../../entities/user.entity';
 import { IUserRepository } from '../../../domain/Entities/IRepository/IUser';
 import { commonOutput } from '../../dto/common';
 import { userLoginDTO } from '../../dto/user.dto';
-import { Tokens } from '../../Entities/token.entity';
+import { Tokens } from '../../entities/token.entity';
 import { Role } from '../../../Shared/Constants/Role.constant';
 
 

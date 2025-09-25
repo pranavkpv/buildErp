@@ -1,5 +1,5 @@
 import { commonOutput } from '../../dto/common';
-import { materialSumInput } from '../../Entities/material.entity';
+import { materialSumInput } from '../../entities/material.entity';
 
 
 export interface IFindmaterialSumUseCase {

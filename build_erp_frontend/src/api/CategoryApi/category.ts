@@ -1,13 +1,12 @@
-import { toast } from "react-toastify";
 import adminAxios from "../../axios/adminAxios"
 import type { listingInput } from "../../ApiInterface/CommonApiInterface";
-import type { CategoryInput } from "../../ApiInterface/CategoryApiInterface";
+import type { addCategoryInput, CategoryInput } from "../../ApiInterface/CategoryApiInterface";
 
 /* =========================================================
    CATEGORY API FUNCTIONS
    ========================================================= */
 
-export const postCategory = async (input: CategoryInput) => {
+export const postCategory = async (input: addCategoryInput) => {
   const response = await adminAxios.post(`/category`, input);
   return response.data;
 };

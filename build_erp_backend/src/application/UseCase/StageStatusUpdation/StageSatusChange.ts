@@ -2,7 +2,7 @@ import { IStageStatusChangeUseCase } from '../../IUseCases/IStageStatusUpdation/
 import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { StageFailedMessage, StageSuccessMessage } from '../../../Shared/Messages/Stage.Message';
 import { IStageRepository } from '../../../domain/Entities/IRepository/IStage';
-import { changeStatusInput } from '../../Entities/sitemanager.entity';
+import { changeStatusInput } from '../../entities/sitemanager.entity';
 import { commonOutput } from '../../dto/common';
 import { INotificationRepository } from '../../../domain/Entities/IRepository/INotification';
 import { IprojectRepository } from '../../../domain/Entities/IRepository/IProject';

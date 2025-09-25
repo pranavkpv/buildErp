@@ -1,5 +1,5 @@
 import { PurchaseDTO } from '../../../application/dto/purchase.dto';
-import { purchaseInput } from '../../../application/Entities/purchase.entity';
+import { purchaseInput } from '../../../application/entities/purchase.entity';
 import { IPurchaseModelEntity } from '../modelEntities/purchase.entity';
 
 export interface IPurchaseRepository {

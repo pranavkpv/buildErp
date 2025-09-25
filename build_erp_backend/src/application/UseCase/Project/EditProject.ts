@@ -1,7 +1,7 @@
 import { IEditProjectUseCase } from '../../IUseCases/IProject/IEditProject';
 import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { ProjectFailedMessage, ProjectSuccessMessage } from '../../../Shared/Messages/Project.Message';
-import { editProjectInput } from '../../Entities/project.entity';
+import { editProjectInput } from '../../entities/project.entity';
 import { IprojectRepository } from '../../../domain/Entities/IRepository/IProject';
 import { commonOutput } from '../../dto/common';
 

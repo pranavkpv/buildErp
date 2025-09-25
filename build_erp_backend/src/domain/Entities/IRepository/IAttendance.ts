@@ -1,5 +1,5 @@
-import { InputAttendance, pageWiseAttendance } from '../../../application/Entities/attendance.entity';
-import { listingInput } from '../../../application/Entities/common.entity';
+import { InputAttendance, pageWiseAttendance } from '../../../application/entities/attendance.entity';
+import { listingInput } from '../../../application/entities/common.entity';
 import { IAttendanceModelEntity } from '../modelEntities/attendance.entity';
 
 

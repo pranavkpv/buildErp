@@ -1,5 +1,5 @@
 import { brandDB } from '../../api/models/BrandModel';
-import { listingInput } from '../../application/Entities/common.entity';
+import { listingInput } from '../../application/entities/common.entity';
 import { IBrandModelEntity } from '../../domain/Entities/modelEntities/brand.entity';
 import { IBrandRepository } from '../../domain/Entities/IRepository/IBrand';
 

@@ -4,7 +4,7 @@ import { bannerSuccessMessage } from '../../../Shared/Messages/Banner.message';
 import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { listBannerDTO } from '../../dto/banner.dto';
 import { commonOutput } from '../../dto/common';
-import { listingInput } from '../../Entities/common.entity';
+import { listingInput } from '../../entities/common.entity';
 import { IListBannerUseCase } from '../../IUseCases/IBanner/IListBanner';
 
 export class ListBannerUseCase implements IListBannerUseCase {

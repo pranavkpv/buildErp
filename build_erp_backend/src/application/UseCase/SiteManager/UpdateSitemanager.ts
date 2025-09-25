@@ -1,7 +1,7 @@
 import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { SitemanagerFailedMessage, SitemanagerSuccessMessage } from '../../../Shared/Messages/Sitemanager.Message';
 import { IUpdateSitemanagerUseCase } from '../../IUseCases/ISitemanager/IUpdateSitemanager';
-import { editSitemanagerInput } from '../../Entities/sitemanager.entity';
+import { editSitemanagerInput } from '../../entities/sitemanager.entity';
 import { commonOutput } from '../../dto/common';
 import { ISitemanagerRepository } from '../../../domain/Entities/IRepository/ISitemanager';
 

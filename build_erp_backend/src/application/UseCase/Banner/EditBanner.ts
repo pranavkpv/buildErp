@@ -2,7 +2,7 @@ import { IBannerRepository } from '../../../domain/Entities/IRepository/IBanner'
 import { bannerFailedMessage, bannerSuccessMessage } from '../../../Shared/Messages/Banner.message';
 import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { commonOutput } from '../../dto/common';
-import { editBannerInput } from '../../Entities/banner.entity';
+import { editBannerInput } from '../../entities/banner.entity';
 import { IEditBannerUseCase } from '../../IUseCases/IBanner/IEditBanner';
 
 export class EditBannerUseCase implements IEditBannerUseCase {

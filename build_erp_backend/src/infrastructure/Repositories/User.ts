@@ -3,7 +3,7 @@ import { IUserModelEntity } from '../../domain/Entities/modelEntities/user.entit
 import { ITempUserModelEntity } from '../../domain/Entities/modelEntities/tempUser.entity';
 import { IUserRepository } from '../../domain/Entities/IRepository/IUser';
 import redis from '../database/Redis';
-import { googleLoginInput, UpdateEmailRedisData, updateprofileInput, userSignupinput, usertempSaveInput } from '../../application/Entities/user.entity';
+import { googleLoginInput, UpdateEmailRedisData, updateprofileInput, userSignupinput, usertempSaveInput } from '../../application/entities/user.entity';
 import { googleAuthPassword } from '../../Shared/Constants/Character.constant';
 
 export class UserRepository implements IUserRepository {

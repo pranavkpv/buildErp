@@ -3,8 +3,8 @@ import { IProjectmapper } from '../../domain/IMappers/IProject.mapper';
 import { listAddsiteDTO } from '../dto/addsitemanagerToproject';
 import { displayProjectDTO, displayStatusCountDTO, expectedImageDTO, fetchProjectIdnameDTO, OnlyIdDTO, publicProjectDTO, userBasechatListDTO, userBaseProjectDTO } from '../dto/project.dto';
 import { stageListDTO } from '../dto/stage.dto';
-import { listAddSiteToproject } from '../Entities/addsitemanagertoproject.entity';
-import { groupedProjectwithStatus, projectwithClient, userBaseChatoutput } from '../Entities/project.entity';
+import { listAddSiteToproject } from '../entities/addsitemanagertoproject.entity';
+import { groupedProjectwithStatus, projectwithClient, userBaseChatoutput } from '../entities/project.entity';
 
 export class ProjectMapper implements IProjectmapper {
     toPublicProjectDto(projects: IProjectModelEntity[]): publicProjectDTO[] {

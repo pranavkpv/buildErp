@@ -3,7 +3,7 @@ import { projectDB } from '../../api/models/ProjectModel';
 import { IProjectModelEntity } from '../../domain/Entities/modelEntities/project.entity';
 import { sitemanagerDB } from '../../api/models/SitemanagerModel';
 import { ISitemanagerModelEntity } from '../../domain/Entities/modelEntities/sitemanager.entity';
-import { listAddSiteToproject } from '../../application/Entities/addsitemanagertoproject.entity';
+import { listAddSiteToproject } from '../../application/entities/addsitemanagertoproject.entity';
 
 export class AddSiteToProjectRepository implements IAddSiteToProjectRepository {
     // Get projects that already have a site manager with pagination and search

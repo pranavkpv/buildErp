@@ -3,7 +3,7 @@ import { StageFailedMessage, StageSuccessMessage } from '../../../Shared/Message
 import { IStageSaveUseCase } from '../../IUseCases/IStage/IStageSave';
 import { IprojectRepository } from '../../../domain/Entities/IRepository/IProject';
 import { IStageRepository } from '../../../domain/Entities/IRepository/IStage';
-import { stageInputData } from '../../Entities/stage.entity';
+import { stageInputData } from '../../entities/stage.entity';
 import { commonOutput } from '../../dto/common';
 
 export class StageSaveUseCase implements IStageSaveUseCase {

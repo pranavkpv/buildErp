@@ -3,7 +3,7 @@ import { IFindMaterialByIdUsecase } from '../../IUseCases/IMaterial/IFindMateria
 import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { MaterialSuccessMessage } from '../../../Shared/Messages/Material.Message';
 import { commonOutput } from '../../dto/common';
-import { editMaterialFullDatafetch } from '../../Entities/material.entity';
+import { editMaterialFullDatafetch } from '../../entities/material.entity';
 
 export class FindMaterialByIdUseCase implements IFindMaterialByIdUsecase {
 

@@ -2,7 +2,7 @@ import { IaddAttendanceUseCase } from '../../IUseCases/IAttendance/IAddAttendanc
 import { ResponseHelper } from '../../../Shared/responseHelpers/response';
 import { AttendanceFailedMessage, AttendanceSuccessMessage } from '../../../Shared/Messages/Attendance.Message';
 import { IAttendanceRepository } from '../../../domain/Entities/IRepository/IAttendance';
-import { InputAttendance } from '../../Entities/attendance.entity';
+import { InputAttendance } from '../../entities/attendance.entity';
 import { commonOutput } from '../../dto/common';
 
 export class AddAttendanceUseCase implements IaddAttendanceUseCase {

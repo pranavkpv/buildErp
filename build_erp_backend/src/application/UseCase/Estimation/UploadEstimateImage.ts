@@ -3,7 +3,7 @@ import { EstimationSuccessMessage } from '../../../Shared/Messages/Estimation.Me
 import { IUploadEstimateImageUseCase } from '../../IUseCases/IEstimation/IUploadEstimateImage';
 import { IprojectRepository } from '../../../domain/Entities/IRepository/IProject';
 import { commonOutput } from '../../dto/common';
-import { imageUploadInput } from '../../Entities/estimation.entity';
+import { imageUploadInput } from '../../entities/estimation.entity';
 
 
 export class UploadEstimateImageUseCase implements IUploadEstimateImageUseCase {
