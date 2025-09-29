@@ -48,7 +48,8 @@ export class App {
 
    private setMiddlewares() {
       this.app.use(cors({
-         origin: ['http://localhost:5173', 'https://93f4stm6-5173.inc1.devtunnels.ms'],
+         origin: ['http://localhost:5173', 'https://93f4stm6-5173.inc1.devtunnels.ms','https://build-front-erp.tastetrial.info'],
+          methods: ['GET','POST','PUT','DELETE','PATCH','OPTIONS'],
          credentials: true
       }));
       this.app.use(cookieParser());
