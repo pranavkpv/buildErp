@@ -108,6 +108,17 @@
 
     /* Completeness */
     // "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
-    "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
+    /* Skip type checking all .d.ts files. */
+    "skipLibCheck": true     ,    
+    
+    
+    "target": "ES2019",
+    "module": "commonjs",
+    "outDir": "dist",
+    "rootDir": ".",
+    "esModuleInterop": true,
+    "strict": true
+  },
+  "include": ["server.ts", "**/*.ts"]
   }
-}
+

@@ -1,0 +1,10 @@
+services:
+  backend:
+    build:
+      context: ./build_erp_backend
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3000"
+    env_file: ./build_erp_backend/.env
+    
+ 
