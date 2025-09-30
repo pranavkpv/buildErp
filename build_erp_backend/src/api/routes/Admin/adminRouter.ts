@@ -28,7 +28,7 @@ import { injectStageController } from '../../DI/Stage';
 import { injectAdminDashboardController } from '../../DI/AdminDashboard';
 import { validateAdminLogin } from '../../../infrastructure/middlewares/validation/admin.validation';
 import { injectedBannerController } from '../../DI/Banner';
-import { validateBannerInput } from '../../../infrastructure/middlewares/validation/banner.validation';
+import { validateBannerInput, validateEditBanner } from '../../../infrastructure/middlewares/validation/banner.validation';
 
 
 
@@ -352,7 +352,7 @@ export class AdminRoute {
             withLogging(injectedBannerController.getBanner),
         );
         this.adminRoute.put('/banner/:id',
-            validateBannerInput,
+            validateEditBanner,
             withLogging(injectedBannerController.editBanner),
         );
         this.adminRoute.delete('/banner/:id',

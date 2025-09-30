@@ -51,15 +51,5 @@ export const validateUnitAction = (
         return;
     }
 
-    const validShortRegex = /^[A-Z0-9]+$/;
-    if (!validShortRegex.test(short_name)) {
-        res.status(HTTP_STATUS.BAD_REQUEST).json({
-            success: false,
-            message:
-        unitFailedMessage.SHORT_NAME_CHAR,
-        });
-        return;
-    }
-
     next();
 };

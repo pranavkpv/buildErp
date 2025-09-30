@@ -71,10 +71,9 @@ export class MaterialRepository implements IMaterialRepository {
     // Find material by name + category + brand
     async getMaterialByNameCategoryBrand(input: findMaterialBynameCatBrandInput):
         Promise<IMaterialModelEntity | null> {
-        const { material_name, category_id, brand_id } = input;
+        const { material_name, brand_id } = input;
         return await materialDB.findOne({
             material_name: { $regex: new RegExp(`^${ material_name }$`, 'i') },
-            category_id,
             brand_id,
         });
     }
@@ -108,11 +107,10 @@ export class MaterialRepository implements IMaterialRepository {
     // Check duplicate material on edit
     async checkDuplicateMaterialOnEdit(input: findMaterialBynameCatBrandInputEdit):
         Promise<IMaterialModelEntity | null> {
-        const { _id, material_name, category_id, brand_id } = input;
+        const { _id, material_name, brand_id } = input;
         return await materialDB.findOne({
             _id: { $ne: _id },
             material_name: { $regex: new RegExp(`^${ material_name }$`, 'i') },
-            category_id,
             brand_id,
         });
     }

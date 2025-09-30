@@ -18,6 +18,7 @@ import { ProjectStockRepository } from '../../infrastructure/Repositories/Projec
 import { TransferRepository } from '../../infrastructure/Repositories/Transfer';
 import { TransferController } from '../controllers/Transfer';
 import { StageRepository } from '../../infrastructure/Repositories/Stage';
+import { NotificationRepostory } from '../../infrastructure/Repositories/Notifiaction';
 
 const jwtService = new JwtService();
 const projectStockRepository = new ProjectStockRepository();
@@ -25,12 +26,13 @@ const transferRepository = new TransferRepository();
 const materialRepository = new MaterialRepository();
 const projectRepository = new ProjectRepository();
 const materialMapper = new MaterialMapper();
+const notificationRepository = new NotificationRepostory()
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
     apiVersion: '2025-08-27.basil', 
 });
 const getTransferUseCase = new GetTransferUseCase(transferRepository);
 const getToProjectUseCase = new GetToProjectUseCase(transferRepository);
-const saveTransferUseCase = new SaveTransferUsecase(transferRepository,projectStockRepository,materialRepository,projectRepository);
+const saveTransferUseCase = new SaveTransferUsecase(transferRepository,projectStockRepository,materialRepository,projectRepository,notificationRepository);
 const updateTransferUseCase = new UpdateTransferUseCase(transferRepository,projectStockRepository,materialRepository,projectRepository);
 const deleteTransferUseCase = new DeleteTransferUseCase(transferRepository);
 const paymentRepository = new PaymentRepository(stripe);

@@ -15,7 +15,7 @@ export class DeleteSitemanagerUseCase implements IDeleteSitemanagerUseCase {
     ) { }
     async execute(id: string): Promise<commonOutput> {
         const existSitemanagerInProject =  await this._projectRepository.getProjectsBySitemanagerId(id);
-        if (existSitemanagerInProject){
+        if (existSitemanagerInProject.length>0){
             return ResponseHelper.conflictData(SitemanagerFailedMessage.ADD_PROJECT);
         }
         await this._sitemanagerRepository.removeSitemanagerById(id);

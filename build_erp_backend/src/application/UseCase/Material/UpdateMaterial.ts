@@ -17,7 +17,7 @@ export class UpdateMaterialUseCase implements IUpdateMaterialUseCase {
 
     async execute(input: editMaterialInput): Promise<commonOutput> {
         const { _id, material_name, category_id, brand_id, unit_id, unit_rate, stock, projectWiseStock } = input;
-        const existMaterial = await this._materialRepository.checkDuplicateMaterialOnEdit({ _id, material_name, brand_id, category_id });
+        const existMaterial = await this._materialRepository.checkDuplicateMaterialOnEdit({ _id, material_name, brand_id });
         if (existMaterial) {
             return ResponseHelper.conflictData(MaterialFailedMessage.EXIST);
         }

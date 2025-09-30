@@ -38,7 +38,6 @@ export interface addMaterialInput {
 
 export interface findMaterialBynameCatBrandInput {
    material_name: string
-   category_id: string,
    brand_id: string
 }
 

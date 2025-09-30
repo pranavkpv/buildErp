@@ -21,6 +21,9 @@ export class PaymentIntendCreationUseCase implements IPaymentIntendCreationUseCa
     ) { }
     async execute(stageId: string, stageAmount: number): Promise<commonOutput<string> | commonOutput> {
         const stageData = await this._stageRepository.getStageById(stageId);
+        if (stageAmount !== stageData?.stage_amount) {
+            return ResponseHelper.conflictData(StageFailedMessage.STAGE_AMOUNT_MATCH)
+        }
         if (!stageData) {
             return ResponseHelper.conflictData(StageFailedMessage.NOT_EXIST);
         }
@@ -37,18 +40,30 @@ export class PaymentIntendCreationUseCase implements IPaymentIntendCreationUseCa
                 },
             ],
             mode: 'payment',
-            success_url: `${frontendBaseUrl}/profile/project`,
-            cancel_url: `${frontendBaseUrl}`,
+            success_url: `${ frontendBaseUrl }/profile/project`,
+            cancel_url: `${ frontendBaseUrl }`,
 
             metadata: { stagename: stageData.stage_name, stageamount: stageData.stage_amount },
-        });
-        await this._paymentRepository.createCheckoutSession({
-            date: new Date(), amount: stageAmount, paymentMethod: 'stripe',
-            purpose: 'stage payment', paymentStatus: 'pending', stage_id: stageData._id, stripeSessionId: session.id
         });
         if (!session.url) {
             return ResponseHelper.conflictData(StageFailedMessage.NOT_EXIST);
         }
+        await this._paymentRepository.createCheckoutSession({
+            date: new Date(), amount: stageAmount, paymentMethod: 'stripe',
+            purpose: 'stage payment', paymentStatus: 'pending', stage_id: stageData._id, stripeSessionId: session.id
+        });
+        const existStage = await this._stageRepository.getStageById(stageData._id);
+        if (!existStage) {
+            return ResponseHelper.conflictData(StageFailedMessage.NOT_EXIST);
+        }
+        const existProject = await this._projectRepository.getProjectById(existStage.project_id);
+        if (!existProject) {
+            return ResponseHelper.conflictData(StageFailedMessage.NOT_EXIST);
+        }
+        await this._paymentRepository.updatePaymentStatus(stageData._id, 'success');
+        await this._stageRepository.updatePaymentStatus(stageData._id, 'completed');
+
+        await this._notificationRepository.saveNotication(new Date(), `User is paid ${ existStage.stage_amount } with project as ${ existProject?.project_name } and stage as ${ existStage.stage_name }`, 'admin');
         return ResponseHelper.success(StageSuccessMessage.FETCH_SECRET, session.url);
     }
 }

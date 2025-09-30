@@ -16,7 +16,7 @@ export class AddMaterialUseCase implements IAddMaterialUseCase {
     ) { }
     async execute(input: addMaterialInput): Promise<commonOutput> {
         const { material_name, category_id, brand_id, unit_id, unit_rate, stock, projectWiseStock } = input;
-        const existMaterial = await this._materialRepository.getMaterialByNameCategoryBrand({ material_name, category_id, brand_id });
+        const existMaterial = await this._materialRepository.getMaterialByNameCategoryBrand({ material_name, brand_id });
         if (existMaterial) {
             return ResponseHelper.conflictData(MaterialFailedMessage.EXIST);
         }

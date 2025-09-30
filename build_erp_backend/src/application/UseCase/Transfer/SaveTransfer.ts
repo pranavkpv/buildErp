@@ -7,6 +7,8 @@ import { IProjectStockRepository } from '../../../domain/Entities/IRepository/IP
 import { IMaterialRepository } from '../../../domain/Entities/IRepository/IMaterial';
 import { transferInput } from '../../entities/transfer.entity';
 import { commonOutput } from '../../dto/common';
+import { INotificationRepository } from '../../../domain/Entities/IRepository/INotification';
+import { ProjectFailedMessage } from '../../../Shared/Messages/Project.Message';
 
 export class SaveTransferUsecase implements ISaveTransferUseCase {
     constructor(
@@ -14,6 +16,7 @@ export class SaveTransferUsecase implements ISaveTransferUseCase {
         private _projectStockRepository: IProjectStockRepository,
         private _materialRepository: IMaterialRepository,
         private _projectRepository: IprojectRepository,
+        private _notificationRepository: INotificationRepository
     ) { }
     async execute(input: transferInput): Promise<commonOutput> {
         const duplicateTransfer = await this._transferRepository.findTransferBytransferId(input.transfer_id);
@@ -32,6 +35,11 @@ export class SaveTransferUsecase implements ISaveTransferUseCase {
         if (!response) {
             return ResponseHelper.badRequest(TransferFailedMessage.SAVE);
         }
+        let fromProjectData = await this._projectRepository.getProjectById(input.from_project_id);
+        if(!fromProjectData){
+            return ResponseHelper.conflictData(ProjectFailedMessage.FETCH)
+        }
+        await this._notificationRepository.saveNotication(new Date(), `Admin have to send a material Transfer Request`, fromProjectData.user_id,);
         return ResponseHelper.createdSuccess(TransferSuccessMessage.SAVE);
     }
 }
