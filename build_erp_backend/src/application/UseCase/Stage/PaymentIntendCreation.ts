@@ -10,6 +10,7 @@ import { IprojectRepository } from '../../../domain/Entities/IRepository/IProjec
 import { ProjectFailedMessage } from '../../../Shared/Messages/Project.Message';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2025-08-27.basil' });
+const frontendBaseUrl = process.env.FRONTEND_BASE_URL
 
 export class PaymentIntendCreationUseCase implements IPaymentIntendCreationUseCase {
     constructor(
@@ -36,8 +37,8 @@ export class PaymentIntendCreationUseCase implements IPaymentIntendCreationUseCa
                 },
             ],
             mode: 'payment',
-            success_url: 'http://localhost:5173/profile/project',
-            cancel_url: 'http://localhost:5173',
+            success_url: `${frontendBaseUrl}/profile/project`,
+            cancel_url: `${frontendBaseUrl}`,
 
             metadata: { stagename: stageData.stage_name, stageamount: stageData.stage_amount },
         });
