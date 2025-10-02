@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import { PlusCircleIcon, MinusCircleIcon } from "@heroicons/react/24/outline";
 import { getSitemanagersProject } from "../../../api/Sitemanager/profile";
 import { labourDataFetchInsitemanager, takeAttendanceAPI } from "../../../api/Sitemanager/attendance";
+import Loading from "../../../components/Loading";
 
 
 type Project = {
@@ -40,17 +41,19 @@ function AddAttendance({ addEnable, setAddEnable, onAddSuccess }: setAdd) {
   const [selectedDate, setSelectedDate] = useState("");
   const [projectError, setProjectError] = useState("");
   const [dateError, setDateError] = useState("");
+  const [loadOn, setLoadOn] = useState(false)
+
 
   const fetchProject = async () => {
-      const token = localStorage.getItem("accessToken")
-      if (!token) return
-      const response = await getSitemanagersProject();
-      setProject(response.data);
+    const token = localStorage.getItem("accessToken")
+    if (!token) return
+    const response = await getSitemanagersProject();
+    setProject(response.data);
   };
 
   const fetchLabour = async () => {
-      const response = await labourDataFetchInsitemanager();
-      setLabour(response.data);
+    const response = await labourDataFetchInsitemanager();
+    setLabour(response.data);
   };
 
   useEffect(() => {
@@ -93,14 +96,16 @@ function AddAttendance({ addEnable, setAddEnable, onAddSuccess }: setAdd) {
     }
 
     if (hasError) return;
-      const response = await takeAttendanceAPI(selectedProject, selectedDate, row);
-      if (response.success) {
-        toast.success(response.message);
-        setAddEnable(false);
-        onAddSuccess();
-      } else {
-        toast.error(response.message);
-      }
+    setLoadOn(true)
+    const response = await takeAttendanceAPI(selectedProject, selectedDate, row);
+    setLoadOn(false)
+    if (response.success) {
+      toast.success(response.message);
+      setAddEnable(false);
+      onAddSuccess();
+    } else {
+      toast.error(response.message);
+    }
   };
 
   return (
@@ -267,6 +272,7 @@ function AddAttendance({ addEnable, setAddEnable, onAddSuccess }: setAdd) {
           </button>
         </div>
       </div>
+      <Loading loadOn={loadOn} />
     </div>
   );
 }

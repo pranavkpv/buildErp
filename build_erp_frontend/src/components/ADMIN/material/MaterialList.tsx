@@ -2,6 +2,8 @@ import { PencilIcon, TrashIcon } from "@heroicons/react/24/outline";
 import ReUsableAddButton from "../../../components/ReUsableComponents/ReUsableAddButton";
 import ReUsablePagination from "../../../components/ReUsableComponents/ReUsablePagination";
 import ReUsableSearch from "../../../components/ReUsableComponents/ReUsableSearch";
+import Loading from "../../../components/Loading";
+import { useState } from "react";
 
 type materialType = {
   _id: string;
@@ -36,12 +38,12 @@ type MaterialListProps = {
   setEditEnable: React.Dispatch<React.SetStateAction<boolean>>;
   setEditId: React.Dispatch<React.SetStateAction<string>>
   editEnable: boolean
+  loadOn:boolean
 };
 
 function MaterialList({ setEnable, enable, materialData, setDeleteEnable,
-  setDeleteId, setPage, setSearch, search, page, totalPage, setEditEnable, setEditId, editEnable }: MaterialListProps) {
+  setDeleteId, setPage, setSearch, search, page, totalPage, setEditEnable, setEditId, editEnable,loadOn }: MaterialListProps) {
   if (enable || editEnable) return null
-
   return (
     <div className="p-6 sm:p-8 min-h-screen bg-gray-900">
       <div className="bg-gray-800/90 backdrop-blur-sm shadow-2xl rounded-2xl p-6 sm:p-8 max-w-6xl mx-auto border border-gray-700/50">
@@ -49,6 +51,7 @@ function MaterialList({ setEnable, enable, materialData, setDeleteEnable,
           <ReUsableSearch search={search} setSearch={setSearch} item="material" />
           <ReUsableAddButton addFuntion={() => setEnable(true)} item="Material" />
         </div>
+        <Loading loadOn={loadOn} />
 
         <div className="overflow-x-auto rounded-xl border border-gray-700/50">
           <table className="min-w-full text-sm text-left bg-gray-800/50">

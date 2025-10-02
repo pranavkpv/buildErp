@@ -9,6 +9,7 @@ import ReUsableApproveModal from "../../../components/ReUsableComponents/ReUsabl
 import ReUsableAddButton from "../../../components/ReUsableComponents/ReUsableAddButton";
 import ReUsablePagination from "../../../components/ReUsableComponents/ReUsablePagination";
 import ReUsableSearch from "../../../components/ReUsableComponents/ReUsableSearch";
+import Loading from "components/Loading";
 
 
 type materialData = {
@@ -57,11 +58,12 @@ function PurchaseList() {
    const [editData, setEditData] = useState<Purchase>()
 
    const [highInvoice, setHighInvoice] = useState(0)
-
-
+   const [loadOn, setLoadOn] = useState(false)
 
    const fetchPurchaseData = async () => {
+      setLoadOn(true)
       const response = await getPurchaseDataAPI(search, page);
+      setLoadOn(false)
       if (response.success) {
          setPurchaseData(response.data.data);
          setTotalpage(response.data.totalPage);
@@ -105,6 +107,7 @@ function PurchaseList() {
                   <ReUsableSearch search={search} setSearch={setSearch} item="Project name" />
                   <ReUsableAddButton addFuntion={() => setAddEnable(true)} item="Purchase" />
                </div>
+               <Loading loadOn={loadOn} />
             </div>
 
 

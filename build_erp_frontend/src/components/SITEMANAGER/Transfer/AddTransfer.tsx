@@ -2,6 +2,7 @@ import { getSitemanagersProject } from "../../../api/Sitemanager/profile";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { fetchFullStockApi, saveTransferApI, ToProjectFetchAPI } from "../../../api/Sitemanager/transfer";
+import Loading from "../../../components/Loading";
 
 type SetAdd = {
   addEnable: boolean;
@@ -44,6 +45,7 @@ function AddTransfer({ addEnable, setAddEnable, onAddSuccess }: SetAdd) {
   const [fromProject, setFromProject] = useState<Project[]>([]);
   const [toProject, setToProject] = useState<Project[]>([]);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [loadOn, setLoadOn] = useState(false)
 
   const fetchProject = async () => {
     try {
@@ -70,11 +72,11 @@ function AddTransfer({ addEnable, setAddEnable, onAddSuccess }: SetAdd) {
     if (!date) newErrors.date = "Transfer date is required";
     if (row.length === 0) newErrors.materials = "At least one material is required";
     row.forEach((item, idx) => {
-      if (!item.material_name) newErrors[`material_${idx}`] = "Material is required";
-      if (!item.brand_name) newErrors[`brand_${idx}`] = "Brand is required";
-      if (!item.unit_name) newErrors[`unit_${idx}`] = "Unit is required";
+      if (!item.material_name) newErrors[`material_${ idx }`] = "Material is required";
+      if (!item.brand_name) newErrors[`brand_${ idx }`] = "Brand is required";
+      if (!item.unit_name) newErrors[`unit_${ idx }`] = "Unit is required";
       if (!item.quantity || item.quantity <= 0)
-        newErrors[`quantity_${idx}`] = "Valid quantity is required";
+        newErrors[`quantity_${ idx }`] = "Valid quantity is required";
     });
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -96,6 +98,7 @@ function AddTransfer({ addEnable, setAddEnable, onAddSuccess }: SetAdd) {
       }));
 
     try {
+      setLoadOn(true)
       const response = await saveTransferApI(
         fromProjectId,
         toProjectId,
@@ -104,6 +107,7 @@ function AddTransfer({ addEnable, setAddEnable, onAddSuccess }: SetAdd) {
         description,
         materialDetails
       );
+      setLoadOn(false)
       if (response.success) {
         toast.success(response.message);
         setAddEnable(false);
@@ -112,6 +116,7 @@ function AddTransfer({ addEnable, setAddEnable, onAddSuccess }: SetAdd) {
         toast.error(response.message);
       }
     } catch (error) {
+      setLoadOn(false)
       toast.error("Failed to save transfer");
     }
   };
@@ -308,28 +313,28 @@ function AddTransfer({ addEnable, setAddEnable, onAddSuccess }: SetAdd) {
                       key={element.material_id}
                       className="hover:bg-gray-800/50 transition-colors duration-150"
                     >
-                      <td className="px-4 py-3.5 text-gray-100 w-16">{idx+1}</td>
+                      <td className="px-4 py-3.5 text-gray-100 w-16">{idx + 1}</td>
                       <td className="px-4 py-3.5 text-gray-100">
                         {element.material_name}
-                        {errors[`material_${idx}`] && (
+                        {errors[`material_${ idx }`] && (
                           <p className="text-red-400 text-xs mt-1">
-                            {errors[`material_${idx}`]}
+                            {errors[`material_${ idx }`]}
                           </p>
                         )}
                       </td>
                       <td className="px-4 py-3.5 text-gray-100">
                         {element.brand_name}
-                        {errors[`brand_${idx}`] && (
+                        {errors[`brand_${ idx }`] && (
                           <p className="text-red-400 text-xs mt-1">
-                            {errors[`brand_${idx}`]}
+                            {errors[`brand_${ idx }`]}
                           </p>
                         )}
                       </td>
                       <td className="px-4 py-3.5 text-gray-100">
                         {element.unit_name}
-                        {errors[`unit_${idx}`] && (
+                        {errors[`unit_${ idx }`] && (
                           <p className="text-red-400 text-xs mt-1">
-                            {errors[`unit_${idx}`]}
+                            {errors[`unit_${ idx }`]}
                           </p>
                         )}
                       </td>
@@ -349,9 +354,9 @@ function AddTransfer({ addEnable, setAddEnable, onAddSuccess }: SetAdd) {
                           className="w-full px-3 py-2 bg-gray-800/70 border border-gray-700 rounded-md 
                             focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-100 text-sm"
                         />
-                        {errors[`quantity_${idx}`] && (
+                        {errors[`quantity_${ idx }`] && (
                           <p className="text-red-400 text-xs mt-1">
-                            {errors[`quantity_${idx}`]}
+                            {errors[`quantity_${ idx }`]}
                           </p>
                         )}
                       </td>
@@ -376,7 +381,7 @@ function AddTransfer({ addEnable, setAddEnable, onAddSuccess }: SetAdd) {
                       </td>
                       <td className="px-4 py-3.5 text-center w-16">
                         <input
-                        aria-label="select stock"
+                          aria-label="select stock"
                           type="checkbox"
                           checked={element.select}
                           onChange={() => {
@@ -424,6 +429,7 @@ function AddTransfer({ addEnable, setAddEnable, onAddSuccess }: SetAdd) {
           </div>
         </form>
       </div>
+      <Loading loadOn={loadOn} />
     </div>
   );
 }

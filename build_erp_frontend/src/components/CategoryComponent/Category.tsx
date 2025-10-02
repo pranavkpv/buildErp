@@ -9,6 +9,7 @@ import ReUsableDeleteModal from "../../components/ReUsableComponents/ReUsableDel
 import ReUsableAddButton from "../../components/ReUsableComponents/ReUsableAddButton";
 import ReUsablePagination from "../../components/ReUsableComponents/ReUsablePagination";
 import ReUsableSearch from "../../components/ReUsableComponents/ReUsableSearch";
+import Loading from "../../components/Loading";
 
 
 
@@ -19,6 +20,8 @@ function Category() {
   const [page, setPage] = useState(0);
   const [totalPage, setTotal] = useState(0);
   const [enableEdit, setEnableEdit] = useState(false);
+  const [loadOn, setLoadOn] = useState(false)
+
 
   //edit data
   const [editData, setEditData] = useState<CategoryInput>({ _id: '', category_name: '', description: '' })
@@ -29,14 +32,16 @@ function Category() {
     try {
       const response = await categoryList({ page, search: searchCategory });
       if (response.success) {
+        setLoadOn(false)
         setTotal(Math.ceil(response.data.totalPages) || 0);
         setCategories(response.data.data ?? []);
       } else {
+        setLoadOn(false)
         toast.error(response.message);
       }
     } catch (error) {
+      setLoadOn(false)
       toast.error("Failed to fetch categories");
-      console.error("Error fetching categories:", error);
     }
   };
 
@@ -44,13 +49,11 @@ function Category() {
     const handler = setTimeout(() => {
       setPage(0);
       fetchData();
+      setLoadOn(true)
     }, 500);
     return () => clearTimeout(handler);
-  }, [searchCategory]);
+  }, [searchCategory,page]);
 
-  useEffect(() => {
-    fetchData();
-  }, [page]);
 
   const heading = ["Sl No", "Category", "Description", "Action"];
   const dataKey = ["category_name", "description"] as (keyof CategoryInput)[];
@@ -63,15 +66,13 @@ function Category() {
           <ReUsableSearch search={searchCategory} setSearch={setSearchCat} item="Category" />
           <ReUsableAddButton addFuntion={() => setEnableAdd(true)} item="Category" />
         </div>
+        <Loading loadOn={loadOn} />
         <div className="overflow-x-auto rounded-xl border border-gray-700/50">
-
           <ReUsableTable data={categories} dataKey={dataKey} heading={heading} page={page} setDeleteEnable={setEnableDelete} setDeleteId={setDeleteId}
             setEditData={setEditData} setEditEnable={setEnableEdit} />
 
           <ReUsablePagination page={page} setPage={setPage} totalPage={totalPage} />
-
         </div>
-
         <AddCategory enable={enableAdd} setEnable={setEnableAdd} onAdd={fetchData} />
 
         <EditCategory editData={editData} enable={enableEdit} setEnable={setEnableEdit} onUpdate={fetchData} />

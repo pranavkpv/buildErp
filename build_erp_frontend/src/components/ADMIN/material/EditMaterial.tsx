@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { MinusCircleIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
 import { editMaterialData, getaddMaterial, UpdateMaterialAPI } from "../../../api/Admin/material";
+import Loading from "../../../components/Loading";
 
 
 type category = {
@@ -27,7 +28,7 @@ type project = {
 type addRowData = {
   project: string;
   stock: number;
-  _id?: string; 
+  _id?: string;
 };
 
 type editMatDat = {
@@ -61,6 +62,7 @@ function EditMaterial({ setEditEnable, editEnable, setEditId, editId, refreshDat
   const categoryRef = useRef<HTMLParagraphElement>(null);
   const brandRef = useRef<HTMLParagraphElement>(null);
   const unitRateRef = useRef<HTMLParagraphElement>(null);
+  const [loadOn, setLoadOn] = useState(false)
 
   const addRow = () => {
     SetRow([...row, { project: "", stock: 0 }]);
@@ -82,7 +84,6 @@ function EditMaterial({ setEditEnable, editEnable, setEditId, editId, refreshDat
     setProjectlist(data.data.projectData || []);
 
     // Set edit data
-    console.log(editData.data.materialData.category_id)
     setMaterial(editData.data.materialData.material_name);
     setSelectCategory(editData.data.materialData.category_id);
     setSelectedBrand(editData.data.materialData.brand_id);
@@ -91,7 +92,7 @@ function EditMaterial({ setEditEnable, editEnable, setEditId, editId, refreshDat
     setTotalStock(editData.data.materialData.stock);
 
     // Transform project stock data to match addRowData format
-    const transformedProjectData = editData.data.projectStockData.map((item:{project_id:string,stock:number,_id:string}) => ({
+    const transformedProjectData = editData.data.projectStockData.map((item: { project_id: string, stock: number, _id: string }) => ({
       project: item.project_id,
       stock: Number(item.stock),
       _id: item._id
@@ -170,22 +171,30 @@ function EditMaterial({ setEditEnable, editEnable, setEditId, editId, refreshDat
     }
 
     if (hasError) return;
-    const response = await UpdateMaterialAPI({
-      _id: editId, material_name: materialName, category_id: selectCategoryId, brand_id: selectBrandId,
-      unit_id: selectUnitId, unit_rate, stock: totalOpeningStock, projectWiseStock: row
-    }
-    )
-    if (response.success) {
-      toast.success(response.message);
-      setEditEnable(false);
-      setEditId("");
-      refreshData();
-    } else {
-      toast.error(response.data.message);
+    try {
+      setLoadOn(true)
+      const response = await UpdateMaterialAPI({
+        _id: editId, material_name: materialName, category_id: selectCategoryId, brand_id: selectBrandId,
+        unit_id: selectUnitId, unit_rate, stock: totalOpeningStock, projectWiseStock: row
+      }
+      )
+      if (response.success) {
+        setLoadOn(false)
+        toast.success(response.message);
+        setEditEnable(false);
+        setEditId("");
+        refreshData();
+      } else {
+        setLoadOn(false)
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      setLoadOn(false)
     }
   };
 
   return (
+    <>
     <div className="inset-0 bg-gray-900/80 flex items-center justify-center z-50 p-4 sm:p-6">
       <div className="bg-gray-800/90 backdrop-blur-sm rounded-xl shadow-2xl p-6 sm:p-8 w-full max-w-4xl max-h-[95vh] overflow-y-auto border border-gray-700/50">
         <h1 className="text-2xl font-bold text-center text-gray-100 mb-6 border-b border-gray-700 pb-4">
@@ -423,6 +432,8 @@ function EditMaterial({ setEditEnable, editEnable, setEditId, editId, refreshDat
         </div>
       </div>
     </div>
+      <Loading loadOn={loadOn} />
+    </>
   );
 }
 

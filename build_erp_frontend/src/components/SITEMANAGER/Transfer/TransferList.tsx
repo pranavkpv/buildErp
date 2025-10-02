@@ -8,6 +8,7 @@ import ReUsableDeleteModal from "../../../components/ReUsableComponents/ReUsable
 import ReUsableAddButton from "../../../components/ReUsableComponents/ReUsableAddButton";
 import ReUsablePagination from "../../../components/ReUsableComponents/ReUsablePagination";
 import ReUsableSearch from "../../../components/ReUsableComponents/ReUsableSearch";
+import Loading from "../../../components/Loading";
 
 
 
@@ -55,11 +56,14 @@ function TransferList() {
    const [editId, setEditId] = useState("");
    const [editEnable, setEditEnable] = useState(false);
    const [editData, setEditData] = useState<Transfer>()
+   const [loadOn, setLoadOn] = useState(false)
 
 
 
    const fetchTransferData = async () => {
+      setLoadOn(true)
       const response = await getTransferDataAPI(search, page);
+      setLoadOn(false)
       if (response.success) {
          setTransferData(response.data.data);
          setTotalpage(response.data.totalPage);
@@ -94,6 +98,7 @@ function TransferList() {
 
                   <ReUsableAddButton addFuntion={() => setAddEnable(true)} item="Transfer" />
                </div>
+               <Loading loadOn={loadOn} />
             </div>
 
 

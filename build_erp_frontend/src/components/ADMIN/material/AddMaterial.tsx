@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
-import { MinusCircleIcon, PlusCircleIcon } from "@heroicons/react/24/outline"; 
+import { MinusCircleIcon, PlusCircleIcon } from "@heroicons/react/24/outline";
 import { getaddMaterial, SaveMaterialApi } from "../../../api/Admin/material";
+import Loading from "../../../components/Loading";
 
 type category = {
   _id: string;
@@ -33,7 +34,7 @@ type AddMaterialProps = {
 
 function AddMaterial({ setEnable, enable, refreshData }: AddMaterialProps) {
 
-   if (!enable) return null;
+  if (!enable) return null;
   const [categoryList, selectCategoryList] = useState<category[]>([]);
   const [brandList, setBrandlist] = useState<brand[]>([]);
   const [unitList, setUnitList] = useState<unit[]>([]);
@@ -51,10 +52,11 @@ function AddMaterial({ setEnable, enable, refreshData }: AddMaterialProps) {
   const categoryRef = useRef<HTMLParagraphElement>(null)
   const brandRef = useRef<HTMLParagraphElement>(null)
   const unitRateRef = useRef<HTMLParagraphElement>(null)
+  const [loadOn, setLoadOn] = useState(false)
+
 
 
   const addRow = () => {
-     
     SetRow([...row, { project: "", stock: 0 }]);
   };
 
@@ -64,11 +66,11 @@ function AddMaterial({ setEnable, enable, refreshData }: AddMaterialProps) {
   };
 
   const fetchData = async () => {
-      const data = await getaddMaterial()
-      selectCategoryList(data.data.categoryData);
-      setBrandlist(data.data.brandData);
-      setUnitList(data.data.unitData);
-      setProjectlist(data.data.projectData || []);
+    const data = await getaddMaterial()
+    selectCategoryList(data.data.categoryData);
+    setBrandlist(data.data.brandData);
+    setUnitList(data.data.unitData);
+    setProjectlist(data.data.projectData || []);
   };
 
   useEffect(() => {
@@ -137,20 +139,30 @@ function AddMaterial({ setEnable, enable, refreshData }: AddMaterialProps) {
 
 
     if (hasError) return;
-      const response = await SaveMaterialApi({material_name:materialName,category_id:selectCategoryId,brand_id:selectBrandId,
-        unit_id:selectUnitId,unit_rate,stock:totalOpeningStock,projectWiseStock:row})
+    try {
+      setLoadOn(true)
+      const response = await SaveMaterialApi({
+        material_name: materialName, category_id: selectCategoryId, brand_id: selectBrandId,
+        unit_id: selectUnitId, unit_rate, stock: totalOpeningStock, projectWiseStock: row
+      })
       if (response.success) {
+        setLoadOn(false)
         toast.success(response.message);
         setEnable(false);
         refreshData();
       } else {
+        setLoadOn(false)
         toast.error(response.message);
       }
+    } catch (error) {
+      setLoadOn(false)
+    }
   };
 
 
 
   return (
+    <>
     <div className=" inset-0 bg-gray-900/80 flex items-center justify-center z-50 p-4 sm:p-6">
       <div className="bg-gray-800/90 backdrop-blur-sm rounded-xl shadow-2xl p-6 sm:p-8 w-full max-w-4xl max-h-[95vh] overflow-y-auto border border-gray-700/50">
         <h1 className="text-2xl font-bold text-center text-gray-100 mb-6 border-b border-gray-700 pb-4">
@@ -318,7 +330,7 @@ function AddMaterial({ setEnable, enable, refreshData }: AddMaterialProps) {
                             const updatedRow = [...row];
                             updatedRow[index].project = e.target.value;
                             SetRow(updatedRow);
-                        
+
                           }}
                         >
                           <option value="">Select project</option>
@@ -385,6 +397,8 @@ function AddMaterial({ setEnable, enable, refreshData }: AddMaterialProps) {
         </div>
       </div>
     </div>
+      <Loading loadOn={loadOn} />
+    </>
   );
 }
 

@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { adminLoginAPI } from "../../api/Admin/dashboard";
+import Loading from "../../components/Loading";
 
 
 function Adminlogin() {
@@ -11,6 +12,7 @@ function Adminlogin() {
   const [password, setPassword] = useState("");
   const [hide, setHide] = useState(false)
   const navigate = useNavigate();
+  const [loadOn, setLoadOn] = useState(false)
 
   const loginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,14 +47,17 @@ function Adminlogin() {
     if (hasError) {
       return;
     }
-      const response = await adminLoginAPI(username,password)
-      if (response.success) {
-        toast.success(response.data.data.message);
-        navigate("/admin/dashboard");
-        localStorage.setItem('accessToken', response.data.token.accessToken);
-      } else {
-        toast.error(response.message);
-      }
+    setLoadOn(true)
+    const response = await adminLoginAPI(username, password)
+    if (response.success) {
+      toast.success(response.data.data.message);
+      setLoadOn(false)
+      navigate("/admin/dashboard");
+      localStorage.setItem('accessToken', response.data.token.accessToken);
+    } else {
+      toast.error(response.message);
+      setLoadOn(false)
+    }
   };
 
   return (
@@ -139,6 +144,7 @@ function Adminlogin() {
           Login
         </button>
       </form>
+      <Loading loadOn={loadOn} />
     </div>
   );
 }

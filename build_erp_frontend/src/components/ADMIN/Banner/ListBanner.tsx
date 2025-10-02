@@ -9,6 +9,7 @@ import ReUsableDeleteModal from "../../../components/ReUsableComponents/ReUsable
 import ReUsableAddButton from "../../../components/ReUsableComponents/ReUsableAddButton";
 import ReUsablePagination from "../../../components/ReUsableComponents/ReUsablePagination";
 import ReUsableSearch from "../../../components/ReUsableComponents/ReUsableSearch";
+import Loading from "../../../components/Loading";
 
 function ListBanner() {
   const [bannerData, setBannerData] = useState<inputBannerInterface[]>([]);
@@ -31,15 +32,18 @@ function ListBanner() {
 
   // Add
   const [addEnable, setAddEnable] = useState(false);
+  const [loadOn, setLoadOn] = useState(false)
 
   const fetchBannerList = async () => {
+    setLoadOn(true)
     const response = await fetchBannerApi({ page, search });
     if (response.success) {
+      setLoadOn(false)
       setBannerData(response.data.data);
       setTotalPage(response.data.totalPage);
     } else {
+      setLoadOn(false)
       toast.error(response.message);
-      console.error("Failed to fetch banners:", response.message);
     }
   };
 
@@ -80,6 +84,7 @@ function ListBanner() {
           <ReUsableSearch search={search} setSearch={setSearch} item="Banner Title" />
           <ReUsableAddButton addFuntion={() => setAddEnable(true)} item="Banner" />
         </div>
+        <Loading loadOn={loadOn} />
 
         <div className="overflow-x-auto rounded-xl border border-gray-700/50">
           <ReUsableTable<inputBannerInterface> heading={heading} dataKey={dataKey} data={bannerData} page={page} setEditData={setEditData} setEditEnable={setEditEnable}
@@ -95,6 +100,7 @@ function ListBanner() {
 
       <ReUsableDeleteModal enable={deleteEnable} deleteId={deleteId} onDeleteSuccess={fetchBannerList} setEnable={setDeleteEnable} api={deleteBannerDataApi}
         deleteItem="Banner" />
+
 
     </div>
   );

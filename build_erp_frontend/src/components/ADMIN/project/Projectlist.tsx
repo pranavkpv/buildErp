@@ -7,6 +7,7 @@ import ReUsableTable from "../../../components/ReUsableComponents/ReUsableTable"
 import ReUsableDeleteModal from "../../../components/ReUsableComponents/ReUsableDeleteModal";
 import ReUsablePagination from "../../../components/ReUsableComponents/ReUsablePagination";
 import ReUsableSearch from "../../../components/ReUsableComponents/ReUsableSearch";
+import Loading from "../../../components/Loading";
 
 
 
@@ -35,9 +36,12 @@ function Project() {
   const [changeProjectId, setChangeProjectId] = useState("");
   const [changeStatus, setChangeStatus] = useState("");
   const [changeEnable, setChangeEnable] = useState(false);
+  const [loadOn, setLoadOn] = useState(false)
 
   const fetchData = async () => {
+    setLoadOn(true)
     const response = await projectListData(page, search)
+    setLoadOn(false)
     setProjectList(response.data.data);
     setTotal(Math.ceil(response.data.totalPage))
   };
@@ -107,6 +111,7 @@ function Project() {
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 mb-8">
           <ReUsableSearch search={search} setSearch={setSearch} item="project" />
         </div>
+        <Loading loadOn={loadOn} />
 
         <div className="overflow-x-auto rounded-xl border border-gray-700/50">
 

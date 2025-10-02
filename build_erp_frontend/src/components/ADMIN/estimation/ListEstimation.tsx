@@ -10,6 +10,7 @@ import ProjectImageUpload from "./ProjectImageUpload";
 import ReUsableAddButton from "../../../components/ReUsableComponents/ReUsableAddButton";
 import ReUsablePagination from "../../../components/ReUsableComponents/ReUsablePagination";
 import ReUsableSearch from "../../../components/ReUsableComponents/ReUsableSearch";
+import Loading from "../../../components/Loading";
 
 type project = {
    project_name: string;
@@ -47,10 +48,14 @@ function ListEstimation() {
    //image upload 
    const [imageEnable, setImageEnable] = useState(false)
    const [uploadProject, setUploadImage] = useState("")
+   const [loadOn, setLoadOn] = useState(false)
+
 
 
    const fetchData = async () => {
+      setLoadOn(true)
       const response = await fetChEstimation(search, page);
+      setLoadOn(false)
       setData(response.data.data);
       const projects = response.data.data.map((element: specdata) => element.projectObjectId);
       let x = []
@@ -79,6 +84,7 @@ function ListEstimation() {
                   <ReUsableSearch search={search} setSearch={setSearch} item="project" />
                   <ReUsableAddButton addFuntion={() => setAddEnable(true)} item="Estimation" />
                </div>
+               <Loading loadOn={loadOn} />
             </div>
 
             <AddEstimation addEnable={addEnable} setAddEnable={setAddEnable} anAddSuccess={fetchData} projectIds={projectIds} />

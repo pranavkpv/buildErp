@@ -4,6 +4,7 @@ import { getSitemanagersProject } from "../../../api/Sitemanager/profile";
 
 import TransferModal from "./TransferModal";
 import { updateReceiveAPI } from "../../../api/Sitemanager/receive";
+import Loading from "../../../components/Loading";
 
 type listMaterial = {
   sl: number;
@@ -55,6 +56,7 @@ function EditReceive({ editId, editEnable, setEditEnable, onEditSuccess, editDat
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [open, setOpen] = useState(false);
   const [transferId, setTransferId] = useState<string[]>(editData.transferDetails.map((t) => t._id) || []);
+  const [loadOn, setLoadOn] = useState(false)
 
   const fetchProject = async () => {
     const token = localStorage.getItem("accessToken");
@@ -118,8 +120,9 @@ function EditReceive({ editId, editEnable, setEditEnable, onEditSuccess, editDat
       quantity: element.quantity,
       unit_rate: element.unit_rate,
     }));
-
+    setLoadOn(true)
     const response = await updateReceiveAPI(editId, project_id, date, description, materialDetails, transferId);
+    setLoadOn(false)
     if (response.success) {
       toast.success(response.message);
       setEditEnable(false);
@@ -190,6 +193,7 @@ function EditReceive({ editId, editEnable, setEditEnable, onEditSuccess, editDat
             transferId={transferId}
             setMaterials={setRow}
           />
+          <Loading loadOn={loadOn} />
           <div className="overflow-x-auto">
             <table className="min-w-full text-sm text-left">
               <thead className="bg-gray-700 text-gray-200 uppercase text-xs font-semibold">
@@ -213,7 +217,7 @@ function EditReceive({ editId, editEnable, setEditEnable, onEditSuccess, editDat
                 ) : (
                   row.map((element, idx) => (
                     <tr key={element.sl} className="hover:bg-gray-700 transition-colors duration-150">
-                      <td className="px-8 py-4 font-medium text-gray-200 w-[80px]">{idx+1}</td>
+                      <td className="px-8 py-4 font-medium text-gray-200 w-[80px]">{idx + 1}</td>
                       <td className="px-8 py-4 w-[600px]">
                         <select
                           aria-label="Select material"
@@ -223,8 +227,8 @@ function EditReceive({ editId, editEnable, setEditEnable, onEditSuccess, editDat
                         >
                           <option value={element.material_id}>{element.material_name}</option>
                         </select>
-                        {errors[`material_${idx}`] && (
-                          <p className="text-red-400 text-sm mt-1">{errors[`material_${idx}`]}</p>
+                        {errors[`material_${ idx }`] && (
+                          <p className="text-red-400 text-sm mt-1">{errors[`material_${ idx }`]}</p>
                         )}
                       </td>
                       <td className="px-8 py-4 w-[600px]">
@@ -236,8 +240,8 @@ function EditReceive({ editId, editEnable, setEditEnable, onEditSuccess, editDat
                         >
                           <option value={element.brand_name}>{element.brand_name}</option>
                         </select>
-                        {errors[`brand_${idx}`] && (
-                          <p className="text-red-400 text-sm mt-1">{errors[`brand_${idx}`]}</p>
+                        {errors[`brand_${ idx }`] && (
+                          <p className="text-red-400 text-sm mt-1">{errors[`brand_${ idx }`]}</p>
                         )}
                       </td>
                       <td className="px-8 py-4 w-[600px]">
@@ -249,8 +253,8 @@ function EditReceive({ editId, editEnable, setEditEnable, onEditSuccess, editDat
                         >
                           <option value={element.unit_name}>{element.unit_name}</option>
                         </select>
-                        {errors[`unit_${idx}`] && (
-                          <p className="text-red-400 text-sm mt-1">{errors[`unit_${idx}`]}</p>
+                        {errors[`unit_${ idx }`] && (
+                          <p className="text-red-400 text-sm mt-1">{errors[`unit_${ idx }`]}</p>
                         )}
                       </td>
                       <td className="px-8 py-4 w-[300px]">
@@ -263,8 +267,8 @@ function EditReceive({ editId, editEnable, setEditEnable, onEditSuccess, editDat
                           className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 text-white"
                           disabled
                         />
-                        {errors[`quantity_${idx}`] && (
-                          <p className="text-red-400 text-sm mt-1">{errors[`quantity_${idx}`]}</p>
+                        {errors[`quantity_${ idx }`] && (
+                          <p className="text-red-400 text-sm mt-1">{errors[`quantity_${ idx }`]}</p>
                         )}
                       </td>
                       <td className="px-8 py-4 w-[500px]">

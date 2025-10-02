@@ -1,5 +1,7 @@
 import { toast } from "react-toastify";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
+import Loading from "../../components/Loading";
+import { useState } from "react";
 
 
 type CategoryProps = {
@@ -12,16 +14,24 @@ type CategoryProps = {
 };
 
 function ReUsableDeleteModal({ enable, deleteId, setEnable, onDeleteSuccess, deleteItem, api }: CategoryProps) {
+   const [loadOn, setLoadOn] = useState(false)
 
 
-   const deleteCategory = async () => {
-      const resultData = await api(deleteId)
-      if (resultData.success) {
-         toast.success(resultData.message);
-         setEnable(false);
-         onDeleteSuccess();
-      } else {
-         toast.error(resultData.message);
+   const deleteFunction = async () => {
+      setLoadOn(true)
+      try {
+         const resultData = await api(deleteId)
+         if (resultData.success) {
+            setLoadOn(false)
+            toast.success(resultData.message);
+            setEnable(false);
+            onDeleteSuccess();
+         } else {
+            setLoadOn(false)
+            toast.error(resultData.message);
+         }
+      } catch (error) {
+         setLoadOn(false)
       }
    };
 
@@ -45,13 +55,14 @@ function ReUsableDeleteModal({ enable, deleteId, setEnable, onDeleteSuccess, del
                   Cancel
                </button>
                <button
-                  onClick={deleteCategory}
+                  onClick={deleteFunction}
                   className="bg-red-600 hover:bg-red-700 text-white px-5 py-2.5 rounded-lg shadow-md hover:shadow-xl transition-all duration-200 font-semibold"
                >
                   Delete
                </button>
             </div>
          </div>
+            <Loading loadOn={loadOn} />
       </div>
    );
 }

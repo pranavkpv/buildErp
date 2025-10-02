@@ -8,6 +8,8 @@ import ReUsableDeleteModal from "../../../components/ReUsableComponents/ReUsable
 import ReUsableAddButton from "../../../components/ReUsableComponents/ReUsableAddButton";
 import ReUsablePagination from "../../../components/ReUsableComponents/ReUsablePagination";
 import ReUsableSearch from "../../../components/ReUsableComponents/ReUsableSearch";
+import { toast } from "react-toastify";
+import Loading from "../../../components/Loading";
 
 
 
@@ -28,11 +30,25 @@ function SitemanagerList() {
   const [deleteEnable, setDeleteEnable] = useState(false);
   const [deleteId, setDeleteId] = useState("");
 
+  const [loadOn, setLoadOn] = useState(false)
+
+
   const fetchData = async () => {
-    const search = searchSite
-    const response = await fetchSitemanager(page, search)
-    setTotal(Math.ceil(response.data.totalPage))
-    setSiteData(response.data.data);
+    try {
+      setLoadOn(true)
+      const search = searchSite
+      const response = await fetchSitemanager(page, search)
+      if (response.success) {
+        setLoadOn(false)
+        setTotal(Math.ceil(response.data.totalPage))
+        setSiteData(response.data.data);
+      } else {
+        setLoadOn(false)
+        toast.error(response.message)
+      }
+    } catch (error) {
+      setLoadOn(false)
+    }
   };
 
   useEffect(() => {
@@ -51,7 +67,7 @@ function SitemanagerList() {
           <ReUsableSearch search={searchSite} setSearch={setSearchSite} item="site manager" />
           <ReUsableAddButton addFuntion={() => setAddEnable(true)} item="SiteManager" />
         </div>
-
+        <Loading loadOn={loadOn} />
         {/* Table Section */}
         <div className="overflow-x-auto rounded-xl border border-gray-700/50">
 
@@ -68,7 +84,7 @@ function SitemanagerList() {
 
       <ReUsableDeleteModal enable={deleteEnable} setEnable={setDeleteEnable} deleteId={deleteId} onDeleteSuccess={fetchData}
         api={deleteSitemanagerData} deleteItem="Sitemanager" />
-        
+
     </div>
   );
 }

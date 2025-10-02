@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { saveReceiveAPI } from "../../../api/Sitemanager/receive";
 import TransferModal from "./TransferModal";
+import Loading from "../../../components/Loading";
 
 type setAdd = {
   addEnable: boolean;
@@ -43,6 +44,8 @@ function AddReceive({ addEnable, setAddEnable, onAddSuccess }: setAdd) {
   // TransferModal
   const [open, setOpen] = useState(false);
   const [transferId, setTransferId] = useState<string[]>([]);
+  const [loadOn, setLoadOn] = useState(false)
+
 
   const fetchProject = async () => {
     const token = localStorage.getItem("accessToken");
@@ -102,8 +105,9 @@ function AddReceive({ addEnable, setAddEnable, onAddSuccess }: setAdd) {
       quantity: element.quantity,
       unit_rate: element.unit_rate,
     }));
-
+    setLoadOn(true)
     const response = await saveReceiveAPI(project_id, date, description, materialDetails, transferId);
+    setLoadOn(false)
     if (response.success) {
       toast.success(response.message);
       setAddEnable(false);
@@ -174,6 +178,7 @@ function AddReceive({ addEnable, setAddEnable, onAddSuccess }: setAdd) {
             transferId={transferId}
             setMaterials={setRow}
           />
+          <Loading loadOn={loadOn} />
           <div className="overflow-x-auto">
             <table className="min-w-full text-sm text-left">
               <thead className="bg-gray-700 text-gray-200 uppercase text-xs font-semibold">
@@ -207,8 +212,8 @@ function AddReceive({ addEnable, setAddEnable, onAddSuccess }: setAdd) {
                         >
                           <option value={element.material_id}>{element.material_name}</option>
                         </select>
-                        {errors[`material_${idx}`] && (
-                          <p className="text-red-400 text-sm mt-1">{errors[`material_${idx}`]}</p>
+                        {errors[`material_${ idx }`] && (
+                          <p className="text-red-400 text-sm mt-1">{errors[`material_${ idx }`]}</p>
                         )}
                       </td>
                       <td className="px-8 py-4 w-[600px]">
@@ -220,8 +225,8 @@ function AddReceive({ addEnable, setAddEnable, onAddSuccess }: setAdd) {
                         >
                           <option value={element.brand_name}>{element.brand_name}</option>
                         </select>
-                        {errors[`brand_${idx}`] && (
-                          <p className="text-red-400 text-sm mt-1">{errors[`brand_${idx}`]}</p>
+                        {errors[`brand_${ idx }`] && (
+                          <p className="text-red-400 text-sm mt-1">{errors[`brand_${ idx }`]}</p>
                         )}
                       </td>
                       <td className="px-8 py-4 w-[600px]">
@@ -233,8 +238,8 @@ function AddReceive({ addEnable, setAddEnable, onAddSuccess }: setAdd) {
                         >
                           <option value={element.unit_name}>{element.unit_name}</option>
                         </select>
-                        {errors[`unit_${idx}`] && (
-                          <p className="text-red-400 text-sm mt-1">{errors[`unit_${idx}`]}</p>
+                        {errors[`unit_${ idx }`] && (
+                          <p className="text-red-400 text-sm mt-1">{errors[`unit_${ idx }`]}</p>
                         )}
                       </td>
                       <td className="px-8 py-4 w-[300px]">
@@ -247,8 +252,8 @@ function AddReceive({ addEnable, setAddEnable, onAddSuccess }: setAdd) {
                           className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 text-white"
                           disabled
                         />
-                        {errors[`quantity_${idx}`] && (
-                          <p className="text-red-400 text-sm mt-1">{errors[`quantity_${idx}`]}</p>
+                        {errors[`quantity_${ idx }`] && (
+                          <p className="text-red-400 text-sm mt-1">{errors[`quantity_${ idx }`]}</p>
                         )}
                       </td>
                       <td className="px-8 py-4 w-[500px]">

@@ -16,6 +16,7 @@ import { getLabourData } from "../../../api/Admin/labour";
 import ReUsableAddButton from "../../../components/ReUsableComponents/ReUsableAddButton";
 import ReUsablePagination from "../../../components/ReUsableComponents/ReUsablePagination";
 import ReUsableSearch from "../../../components/ReUsableComponents/ReUsableSearch";
+import Loading from "../../../components/Loading";
 
 
 export interface materialData {
@@ -81,6 +82,7 @@ function SpecList() {
   const [editMaterialRow, setEditMaterialRow] = useState<listMaterail[]>([]);
   const [editLabourRow, setEditLabourRow] = useState<labourList[]>([]);
   const [total, setTotal] = useState(0)
+  const [loadOn, setLoadOn] = useState(false)
 
   const {
     setEditSpecEnable,
@@ -97,8 +99,9 @@ function SpecList() {
   } = useContext(AppContext);
 
   const fetchSpecList = async () => {
+    setLoadOn(true)
     const response = await fetchSpec(page, search);
-    console.log(response)
+    setLoadOn(false)
     setTotal(response.data.totalPage)
     for (let element of response.data.data) {
       for (let item of element.materialDetails) {
@@ -157,6 +160,7 @@ function SpecList() {
           <ReUsableSearch search={search} setSearch={setSearch} item="Specification" />
           <ReUsableAddButton addFuntion={() => setAddEnable(true)} item="Specification" />
         </div>
+        <Loading loadOn={loadOn} />
 
         <div className="overflow-x-auto rounded-xl border border-gray-700/50">
           <table className="min-w-full text-sm text-left bg-gray-800/50">

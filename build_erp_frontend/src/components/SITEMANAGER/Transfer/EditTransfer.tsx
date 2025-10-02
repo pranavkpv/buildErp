@@ -3,10 +3,13 @@ import { toast } from "react-toastify";
 import { getSitemanagersProject } from "../../../api/Sitemanager/profile";
 import type { Transfer } from "./TransferList";
 import { ToProjectFetchAPI, updateTransferAPI } from "../../../api/Sitemanager/transfer";
-import { fetchBrandCorrespondingMaterialInSitemanager, 
-  fetchUniqueMaterialInSiteManager, fetchUnitCorrespondingMaterialInsitemanager, 
-  fetchUnitRateInSitemanager} 
+import {
+  fetchBrandCorrespondingMaterialInSitemanager,
+  fetchUniqueMaterialInSiteManager, fetchUnitCorrespondingMaterialInsitemanager,
+  fetchUnitRateInSitemanager
+}
   from "../../../api/Sitemanager/purchase";
+import Loading from "../../../components/Loading";
 
 type editProps = {
   editId: string;
@@ -48,16 +51,16 @@ function EditTransfer({ editId, editEnable, setEditEnable, onEditSuccess, editDa
   const [row, setRow] = useState<listMaterial[]>(
     editData?.materialDetails
       ? editData.materialDetails.map((item, index) => ({
-          sl: index + 1,
-          material_name: item.material_name || "",
-          brand_name: item.brand_name || "",
-          unit_name: item.unit_name || "",
-          unit_rate: item.unit_rate || 0,
-          material_id: item.material_id || "",
-          quantity: item.quantity || 0,
-          brands: [],
-          units: [],
-        }))
+        sl: index + 1,
+        material_name: item.material_name || "",
+        brand_name: item.brand_name || "",
+        unit_name: item.unit_name || "",
+        unit_rate: item.unit_rate || 0,
+        material_id: item.material_id || "",
+        quantity: item.quantity || 0,
+        brands: [],
+        units: [],
+      }))
       : []
   );
   const [fromproject_id, setFromProjectId] = useState(editData?.from_project_id || "");
@@ -66,6 +69,8 @@ function EditTransfer({ editId, editEnable, setEditEnable, onEditSuccess, editDa
   const [date, setDate] = useState(editData?.date || "");
   const [description, setDescription] = useState(editData?.description || "");
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [loadOn, setLoadOn] = useState(false)
+
 
   const fetchMaterial = async () => {
     const materialList = await fetchUniqueMaterialInSiteManager();
@@ -95,10 +100,10 @@ function EditTransfer({ editId, editEnable, setEditEnable, onEditSuccess, editDa
 
   const giveBrandAndUnit = async (materialName: string, idx: number) => {
     if (row.some((item, i) => i !== idx && item.material_name === materialName)) {
-      setErrors((prev) => ({ ...prev, [`material_${idx}`]: "Material already selected" }));
+      setErrors((prev) => ({ ...prev, [`material_${ idx }`]: "Material already selected" }));
       return;
     }
-    setErrors((prev) => ({ ...prev, [`material_${idx}`]: "" }));
+    setErrors((prev) => ({ ...prev, [`material_${ idx }`]: "" }));
 
     const brandData = await fetchBrandCorrespondingMaterialInSitemanager(materialName);
     const unitData = await fetchUnitCorrespondingMaterialInsitemanager(materialName);
@@ -138,10 +143,10 @@ function EditTransfer({ editId, editEnable, setEditEnable, onEditSuccess, editDa
     if (!date) newErrors.date = "Transfer date is required";
     if (row.length === 0) newErrors.materials = "At least one material is required";
     row.forEach((item, idx) => {
-      if (!item.material_name) newErrors[`material_${idx}`] = "Material is required";
-      if (!item.brand_name) newErrors[`brand_${idx}`] = "Brand is required";
-      if (!item.unit_name) newErrors[`unit_${idx}`] = "Unit is required";
-      if (!item.quantity || item.quantity <= 0) newErrors[`quantity_${idx}`] = "Valid quantity is required";
+      if (!item.material_name) newErrors[`material_${ idx }`] = "Material is required";
+      if (!item.brand_name) newErrors[`brand_${ idx }`] = "Brand is required";
+      if (!item.unit_name) newErrors[`unit_${ idx }`] = "Unit is required";
+      if (!item.quantity || item.quantity <= 0) newErrors[`quantity_${ idx }`] = "Valid quantity is required";
     });
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -160,6 +165,7 @@ function EditTransfer({ editId, editEnable, setEditEnable, onEditSuccess, editDa
       unit_rate: element.unit_rate,
     }));
 
+    setLoadOn(true)
     const response = await updateTransferAPI(
       editId,
       fromproject_id,
@@ -169,6 +175,7 @@ function EditTransfer({ editId, editEnable, setEditEnable, onEditSuccess, editDa
       description,
       materialDetails
     );
+    setLoadOn(false)
     if (response.success) {
       toast.success(response.message);
       onEditSuccess();
@@ -346,8 +353,8 @@ function EditTransfer({ editId, editEnable, setEditEnable, onEditSuccess, editDa
                             </option>
                           ))}
                         </select>
-                        {errors[`material_${idx}`] && (
-                          <p className="text-red-400 text-sm mt-1">{errors[`material_${idx}`]}</p>
+                        {errors[`material_${ idx }`] && (
+                          <p className="text-red-400 text-sm mt-1">{errors[`material_${ idx }`]}</p>
                         )}
                       </td>
                       <td className="px-8 py-4 w-[600px]">
@@ -369,8 +376,8 @@ function EditTransfer({ editId, editEnable, setEditEnable, onEditSuccess, editDa
                             </option>
                           ))}
                         </select>
-                        {errors[`brand_${idx}`] && (
-                          <p className="text-red-400 text-sm mt-1">{errors[`brand_${idx}`]}</p>
+                        {errors[`brand_${ idx }`] && (
+                          <p className="text-red-400 text-sm mt-1">{errors[`brand_${ idx }`]}</p>
                         )}
                       </td>
                       <td className="px-8 py-4 w-[600px]">
@@ -392,8 +399,8 @@ function EditTransfer({ editId, editEnable, setEditEnable, onEditSuccess, editDa
                             </option>
                           ))}
                         </select>
-                        {errors[`unit_${idx}`] && (
-                          <p className="text-red-400 text-sm mt-1">{errors[`unit_${idx}`]}</p>
+                        {errors[`unit_${ idx }`] && (
+                          <p className="text-red-400 text-sm mt-1">{errors[`unit_${ idx }`]}</p>
                         )}
                       </td>
                       <td className="px-8 py-4 w-[300px]">
@@ -410,8 +417,8 @@ function EditTransfer({ editId, editEnable, setEditEnable, onEditSuccess, editDa
                           }}
                           className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 text-white"
                         />
-                        {errors[`quantity_${idx}`] && (
-                          <p className="text-red-400 text-sm mt-1">{errors[`quantity_${idx}`]}</p>
+                        {errors[`quantity_${ idx }`] && (
+                          <p className="text-red-400 text-sm mt-1">{errors[`quantity_${ idx }`]}</p>
                         )}
                       </td>
                       <td className="px-8 py-4 w-[500px]">
@@ -440,7 +447,7 @@ function EditTransfer({ editId, editEnable, setEditEnable, onEditSuccess, editDa
                             setRow(newRow);
                           }}
                           className="text-red-400 hover:text-red-300 p-2 rounded-md hover:bg-gray-600 transition-all duration-200"
-                          aria-label={`Delete material ${element.material_name || "row"}`}
+                          aria-label={`Delete material ${ element.material_name || "row" }`}
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -496,6 +503,7 @@ function EditTransfer({ editId, editEnable, setEditEnable, onEditSuccess, editDa
           </div>
         </form>
       </div>
+      <Loading loadOn={loadOn} />
     </div>
   );
 }

@@ -8,6 +8,7 @@ import ReUsableDeleteModal from "../../../components/ReUsableComponents/ReUsable
 import ReUsableAddButton from "../../../components/ReUsableComponents/ReUsableAddButton";
 import ReUsablePagination from "../../../components/ReUsableComponents/ReUsablePagination";
 import ReUsableSearch from "../../../components/ReUsableComponents/ReUsableSearch";
+import Loading from "../../../components/Loading";
 
 
 function LabourList() {
@@ -21,14 +22,17 @@ function LabourList() {
 
   // Edit
   const [editEnable, setEditEnable] = useState(false);
-  const [editData, setEditData] = useState<labourData>({_id:"",daily_wage:0,labour_type:""})
+  const [editData, setEditData] = useState<labourData>({ _id: "", daily_wage: 0, labour_type: "" })
 
   // Delete
   const [deleteId, setDeleteId] = useState("");
   const [deleteEnable, setdeleteEnable] = useState(false);
+  const [loadOn, setLoadOn] = useState(false)
 
   const fetchData = async () => {
+    setLoadOn(true)
     const response = await getLabour({ page, search });
+    setLoadOn(false)
     setLabour(response.data.data);
     setTotal(Math.ceil(response.data.totalPage));
   };
@@ -57,20 +61,20 @@ function LabourList() {
     <div className="p-6 bg-gray-900 min-h-screen">
       <div className="bg-gray-800/90 backdrop-blur-sm rounded-xl shadow-2xl p-6 sm:p-8 w-full max-w-5xl mx-auto border border-gray-700/50">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 mb-8">
-          <ReUsableSearch search={search} setSearch={setSearch} item ="labour type" />
+          <ReUsableSearch search={search} setSearch={setSearch} item="labour type" />
           <ReUsableAddButton addFuntion={() => setAddEnable(true)} item="Labour" />
         </div>
-
+        <Loading loadOn={loadOn} />
         <div className="overflow-x-auto rounded-xl shadow-lg border border-gray-700/50">
           <ReUsableTable<labourData> heading={heading} dataKey={dataKey} data={labour} page={page} setEditData={setEditData} setEditEnable={setEditEnable}
             setDeleteId={setDeleteId} setDeleteEnable={setdeleteEnable} renderCell={renderCell} />
-         <ReUsablePagination page={page} setPage={setPage} totalPage={totalPage} />
+          <ReUsablePagination page={page} setPage={setPage} totalPage={totalPage} />
         </div>
       </div>
 
-      <LabourAdd addEnable={addEnable}  setAddEnable={setAddEnable} onsuccessAdd={fetchData} />
+      <LabourAdd addEnable={addEnable} setAddEnable={setAddEnable} onsuccessAdd={fetchData} />
 
-      <LabourEdit  editEnable={editEnable} setEditEnable={setEditEnable} editData={editData} onSuccessEdit={fetchData} />
+      <LabourEdit editEnable={editEnable} setEditEnable={setEditEnable} editData={editData} onSuccessEdit={fetchData} />
 
       <ReUsableDeleteModal enable={deleteEnable} setEnable={setdeleteEnable} deleteId={deleteId} onDeleteSuccess={fetchData}
         api={deleteLabourData} deleteItem="Labour" />

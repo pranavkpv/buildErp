@@ -8,6 +8,8 @@ import ReUsableDeleteModal from "../../components/ReUsableComponents/ReUsableDel
 import ReUsableAddButton from "../../components/ReUsableComponents/ReUsableAddButton";
 import ReUsablePagination from "../../components/ReUsableComponents/ReUsablePagination";
 import ReUsableSearch from "../../components/ReUsableComponents/ReUsableSearch";
+import Loading from "../../components/Loading";
+import { toast } from "react-toastify";
 
 
 
@@ -17,6 +19,8 @@ function Unit() {
   const [searchUnit, setSearchUnit] = useState<string>("");
   const [page, setPage] = useState(0)
   const [totalPage, setTotal] = useState(0)
+  const [loadOn, setLoadOn] = useState(false)
+
 
   const [enableEdit, setEnableEdit] = useState(false);
   const [deleteId, setDeleteId] = useState("");
@@ -24,10 +28,21 @@ function Unit() {
   const [enableDelete, setEnableDelete] = useState(false);
 
   const fetchData = async () => {
-    const search = searchUnit
-    const response = await getUnit({ page, search })
-    setTotal(Math.ceil(response.data.totalPage))
-    setUnitList(response.data.data);
+    try {
+      setLoadOn(true)
+      const search = searchUnit
+      const response = await getUnit({ page, search })
+      if (response.success) {
+        setLoadOn(false)
+        setTotal(Math.ceil(response.data.totalPage))
+        setUnitList(response.data.data);
+      } else {
+        setLoadOn(false)
+        toast.error(response.message)
+      }
+    } catch (error) {
+      setLoadOn(false)
+    }
   };
 
   useEffect(() => {
@@ -51,6 +66,7 @@ function Unit() {
           <ReUsableAddButton addFuntion={() => setEnableAdd(true)} item="Unit" />
 
         </div>
+        <Loading loadOn={loadOn} />
 
         <AddUnit enable={enableAdd} setEnable={setEnableAdd} onAdd={fetchData} />
 
@@ -59,7 +75,7 @@ function Unit() {
           <ReUsableTable data={unitList} dataKey={dataKey} heading={heading} page={page} setDeleteEnable={setEnableDelete}
             setDeleteId={setDeleteId} setEditData={setEditData} setEditEnable={setEnableEdit} />
 
-         <ReUsablePagination page={page} setPage={setPage} totalPage={totalPage} />
+          <ReUsablePagination page={page} setPage={setPage} totalPage={totalPage} />
 
         </div>
       </div>

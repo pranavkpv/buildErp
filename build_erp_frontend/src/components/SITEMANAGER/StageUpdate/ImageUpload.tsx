@@ -1,6 +1,7 @@
 import { toast } from "react-toastify"
 import { useState } from "react"
 import { uploadImageAPI } from "../../../api/Sitemanager/stageStatus"
+import Loading from "../../../components/Loading"
 
 
 type uploadProp = {
@@ -14,15 +15,18 @@ function ImageUpload({ uploadEnable, setUploadEnable, uploadStageId }: uploadPro
    const [date, setDate] = useState("")
    const [inputImage, setInputImage] = useState<File[]>([])
    const [count, setCount] = useState([0])
+   const [loadOn, setLoadOn] = useState(false)
 
    const uploadImageFun = async () => {
-         const response = await uploadImageAPI(uploadStageId, date, inputImage)
-         if (response.success) {
-            toast.success(response.message)
-            setUploadEnable(false)
-         } else {
-            toast.error(response.message)
-         }
+      setLoadOn(true)
+      const response = await uploadImageAPI(uploadStageId, date, inputImage)
+      setLoadOn(false)
+      if (response.success) {
+         toast.success(response.message)
+         setUploadEnable(false)
+      } else {
+         toast.error(response.message)
+      }
    }
 
 
@@ -87,6 +91,7 @@ function ImageUpload({ uploadEnable, setUploadEnable, uploadStageId }: uploadPro
                </div>
             </div>
          </div>
+         <Loading loadOn={loadOn} />
       </>
    )
 }

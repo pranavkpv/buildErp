@@ -9,6 +9,7 @@ import ReUsableApproveModal from "../../../components/ReUsableComponents/ReUsabl
 import ReUsableAddButton from "../../../components/ReUsableComponents/ReUsableAddButton";
 import ReUsablePagination from "../../../components/ReUsableComponents/ReUsablePagination";
 import ReUsableSearch from "../../../components/ReUsableComponents/ReUsableSearch";
+import Loading from "../../../components/Loading";
 
 
 
@@ -64,11 +65,12 @@ function ReceiveList() {
    const [editId, setEditId] = useState("");
    const [editEnable, setEditEnable] = useState(false);
    const [editData, setEditData] = useState<ReceiveData>()
-
-
+   const [loadOn, setLoadOn] = useState(false)
 
    const fetchRecieveData = async () => {
+      setLoadOn(true)
       const response = await getReceiveDataAPI(search, page);
+      setLoadOn(false)
       if (response.success) {
          setReceiveData(response.data.data);
          setTotalpage(response.data.totalPage);
@@ -100,9 +102,9 @@ function ReceiveList() {
                <h1 className="text-2xl font-bold text-gray-100">Purchase List</h1>
                <div className="flex w-full sm:w-auto gap-4">
                   <ReUsableSearch search={search} setSearch={setSearch} item="Project name" />
-
                   <ReUsableAddButton addFuntion={() => setAddEnable(true)} item="Receive" />
                </div>
+               <Loading loadOn={loadOn} />
             </div>
 
 

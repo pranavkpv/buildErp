@@ -7,6 +7,8 @@ import ReUsableDeleteModal from "../../components/ReUsableComponents/ReUsableDel
 import ReUsableAddButton from "../../components/ReUsableComponents/ReUsableAddButton";
 import ReUsablePagination from "../../components/ReUsableComponents/ReUsablePagination";
 import ReUsableSearch from "../../components/ReUsableComponents/ReUsableSearch";
+import Loading from "../../components/Loading";
+import { toast } from "react-toastify";
 
 
 type BrandType = {
@@ -25,13 +27,29 @@ function Brand() {
   const [editData, setEditData] = useState<BrandType>({ _id: "", brand_name: "" })
   const [deleteId, setDeleteId] = useState("");
   const [enableDelete, setEnableDelete] = useState(false);
+  const [loadOn, setLoadOn] = useState(false)
+
 
 
   const fetchData = async () => {
-    const search = searchBrand
-    const response = await getbrandList({ page, search })
-    setBrandList(response.data.data);
-    setTotal(Math.ceil(response.data.totalPage))
+    try {
+      const search = searchBrand
+      setLoadOn(true)
+
+      const response = await getbrandList({ page, search })
+      if (response.success) {
+        setLoadOn(false)
+
+        setBrandList(response.data.data);
+        setTotal(Math.ceil(response.data.totalPage))
+      } else {
+        setLoadOn(false)
+
+        toast.error(response.message)
+      }
+    } catch (error) {
+      setLoadOn(false)
+    }
   };
 
   useEffect(() => {
@@ -48,15 +66,16 @@ function Brand() {
   const dataKey = ["brand_name"] as (keyof BrandType)[];
 
 
+
   return (
     <div className="p-6 bg-gray-900 min-h-screen">
       <div className="bg-gray-800/90 backdrop-blur-sm rounded-xl shadow-2xl p-6 sm:p-8 w-full max-w-5xl mx-auto border border-gray-700/50">
         <div className="flex items-center justify-between mb-6">
-          {/* Search Input */}
           <ReUsableSearch search={searchBrand} setSearch={setSearchBrand} item="brand" />
           <ReUsableAddButton addFuntion={() => setEnableAdd(true)} item="Brand" />
-
         </div>
+        <Loading loadOn={loadOn} />
+
 
         <AddBrand
           enable={enableAdd}

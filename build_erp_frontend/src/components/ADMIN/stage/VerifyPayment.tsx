@@ -4,6 +4,7 @@ import { getStageForVerifyPayApi } from "../../../api/Admin/StageSetting";
 import VerifyModal from "./VerifyModal";
 import ReUsablePagination from "../../../components/ReUsableComponents/ReUsablePagination";
 import ReUsableSearch from "../../../components/ReUsableComponents/ReUsableSearch";
+import Loading from "../../../components/Loading";
 
 interface StageData {
   _id: string;  // stage _id
@@ -22,11 +23,14 @@ function VerifyPayment() {
 
   const [verifyOn, setVerifyOn] = useState(false)
   const [verifyStage, setVerifyStage] = useState("")
+  const [loadOn, setLoadOn] = useState(false)
+
 
   const fetchStageForVerifyPay = async () => {
     try {
+      setLoadOn(true)
       const response = await getStageForVerifyPayApi(search, page);
-      console.log(response)
+      setLoadOn(false)
       if (response.success) {
         setStage(response.data.data);
         const pages = Array.from({ length: response.data.totalPage }, (_, i) => i);
@@ -92,6 +96,7 @@ function VerifyPayment() {
           </h1>
           <ReUsableSearch search={search} setSearch={setSearch} item="project name" />
         </div>
+        <Loading loadOn={loadOn} />
 
         {/* Table Section */}
         <div className="overflow-x-auto rounded-lg border border-gray-800 shadow-lg">

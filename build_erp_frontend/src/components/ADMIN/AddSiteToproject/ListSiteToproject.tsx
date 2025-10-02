@@ -5,6 +5,8 @@ import { listOfsitemanager } from "../../../api/Admin/addSiteToproject";
 import ReUsableAddButton from "../../../components/ReUsableComponents/ReUsableAddButton";
 import ReUsablePagination from "../../../components/ReUsableComponents/ReUsablePagination";
 import ReUsableSearch from "../../../components/ReUsableComponents/ReUsableSearch";
+import { toast } from "react-toastify";
+import Loading from "../../../components/Loading";
 
 
 
@@ -30,11 +32,25 @@ function ListSiteToProject() {
   const [deleteSiteManagerId, setDeleteSiteManagerId] = useState("");
   // Add data
   const [addEnable, setAddEnable] = useState(false);
+  const [loadOn, setLoadOn] = useState(false)
+
 
   const fetchData = async () => {
-    const response = await listOfsitemanager(page, search)
-    setTotalPage(Math.ceil(response.data.totalPage))
-    setData(response.data.data);
+    try {
+      setLoadOn(true)
+      const response = await listOfsitemanager(page, search)
+      if (response.success) {
+        setLoadOn(false)
+        setTotalPage(Math.ceil(response.data.totalPage))
+        setData(response.data.data);
+      } else {
+        setLoadOn(false)
+        toast.error(response.message)
+      }
+
+    } catch (error) {
+      setLoadOn(false)
+    }
   };
 
   useEffect(() => {
@@ -52,10 +68,10 @@ function ListSiteToProject() {
     <div className="p-6 sm:p-8 min-h-screen bg-gray-900">
       <div className="bg-gray-800/90 backdrop-blur-sm shadow-2xl rounded-2xl p-6 sm:p-8 max-w-6xl mx-auto border border-gray-700/50">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 mb-8">
-          <ReUsableSearch search={search} setSearch={setSearch} item ="project or site manager" />
+          <ReUsableSearch search={search} setSearch={setSearch} item="project or site manager" />
           <ReUsableAddButton addFuntion={() => setAddEnable(true)} item="Site Assignment" />
         </div>
-
+        <Loading loadOn={loadOn} />
         <div className="overflow-x-auto rounded-xl border border-gray-700/50">
           <table className="min-w-full text-sm text-left bg-gray-800/50">
             <thead className="bg-gray-800/70 text-gray-200 uppercase text-xs font-semibold tracking-wider">

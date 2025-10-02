@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { jwtDecode } from "jwt-decode";
 import { getSitemanagersProject } from "../../../api/Sitemanager/profile";
 import { fetchBrandCorrespondingMaterialInSitemanager, fetchUniqueMaterialInSiteManager, fetchUnitCorrespondingMaterialInsitemanager, fetchUnitRateInSitemanager, updatePurchaseAPI } from "../../../api/Sitemanager/purchase";
+import Loading from "../../../components/Loading";
 
 type editProps = {
    editId: string;
@@ -61,6 +62,7 @@ function EditPurchase({ editId, editEnable, setEditEnable, onEditSuccess, editDa
    const [date, setDate] = useState(editData?.date || "");
    const [description, setDescription] = useState(editData?.description || "");
    const [errors, setErrors] = useState<{ [key: string]: string }>({});
+   const [loadOn, setLoadOn] = useState(false)
 
    const fetchMaterial = async () => {
       const materialList = await fetchUniqueMaterialInSiteManager();
@@ -144,7 +146,9 @@ function EditPurchase({ editId, editEnable, setEditEnable, onEditSuccess, editDa
          unit_rate: element.unit_rate,
       }))
       if (!invoice_number) return
+      setLoadOn(true)
       const response = await updatePurchaseAPI(editId, project_id, invoice_number, date, description, materialDetails)
+      setLoadOn(false)
       if (response.success) {
          toast.success(response.message);
          onEditSuccess();
@@ -448,6 +452,7 @@ function EditPurchase({ editId, editEnable, setEditEnable, onEditSuccess, editDa
                </div>
             </form>
          </div>
+         <Loading loadOn={loadOn} />
       </div>
    );
 }

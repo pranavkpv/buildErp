@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import { toast } from "react-toastify"
 import { editAttendanceAPI, getAttendanceBYIdAPI, labourDataFetchInsitemanager } from "../../../api/Sitemanager/attendance";
 import { getSitemanagersProject } from "../../../api/Sitemanager/profile";
+import Loading from "../../../components/Loading";
 
 
 type Project = {
@@ -64,25 +65,25 @@ function EditAttendance({ editId, editEnable, setEditEnable, onEditSuccess }: ed
 
    //fetch labour
    const [labour, setLabour] = useState<Labour[]>([])
-
+   const [loadOn, setLoadOn] = useState(false)
 
    const fetchLabour = async () => {
-         const response = await labourDataFetchInsitemanager();
-         setLabour(response.data);
+      const response = await labourDataFetchInsitemanager();
+      setLabour(response.data);
    };
 
    const fetchAttendanceBYID = async () => {
-         const result = await getAttendanceBYIdAPI(editId)
-         setData(result.data)
+      const result = await getAttendanceBYIdAPI(editId)
+      setData(result.data)
    }
 
-  const fetchProject = async () => {
-        const token = localStorage.getItem("accessToken")
-        if (!token) return
-        const response = await getSitemanagersProject();
-        setProject(response.data);
-    };
-  
+   const fetchProject = async () => {
+      const token = localStorage.getItem("accessToken")
+      if (!token) return
+      const response = await getSitemanagersProject();
+      setProject(response.data);
+   };
+
    useEffect(() => {
       fetchAttendanceBYID();
       fetchProject()
@@ -143,14 +144,16 @@ function EditAttendance({ editId, editEnable, setEditEnable, onEditSuccess }: ed
       }
 
       if (hasError) return;
-         const response = await editAttendanceAPI(editId,selectedProject, selectedDate, row);
-         if (response.success) {
-            toast.success(response.message);
-            setEditEnable(false);
-            onEditSuccess();
-         } else {
-            toast.error(response.message);
-         }
+      setLoadOn(true)
+      const response = await editAttendanceAPI(editId, selectedProject, selectedDate, row);
+      setLoadOn(false)
+      if (response.success) {
+         toast.success(response.message);
+         setEditEnable(false);
+         onEditSuccess();
+      } else {
+         toast.error(response.message);
+      }
    }
 
 
@@ -318,6 +321,7 @@ function EditAttendance({ editId, editEnable, setEditEnable, onEditSuccess }: ed
                </button>
             </div>
          </div>
+         <Loading loadOn={loadOn} />
       </div>
    )
 }

@@ -8,6 +8,7 @@ import ReUsableDeleteModal from "../../../components/ReUsableComponents/ReUsable
 import ReUsableAddButton from "../../../components/ReUsableComponents/ReUsableAddButton";
 import ReUsablePagination from "../../../components/ReUsableComponents/ReUsablePagination";
 import ReUsableSearch from "../../../components/ReUsableComponents/ReUsableSearch";
+import Loading from "../../../components/Loading";
 
 
 
@@ -26,9 +27,12 @@ function ListStage() {
   //edit data 
   const [editEnable, setEditEnable] = useState(false)
   const [editData, setEditData] = useState<stageDatas>({ _id: "", project_name: "", start_date: "", end_date: "", budgeted_cost: 0 })
+  const [loadOn, setLoadOn] = useState(false)
 
   const fetchStage = async () => {
+    setLoadOn(true)
     const response = await fetchStageDataAPI(search, page);
+    setLoadOn(false)
     setDatas(response.data.data);
     let x = []
     for (let i = 0; i < response.data.totalPage; i++) {
@@ -38,7 +42,13 @@ function ListStage() {
   };
 
   useEffect(() => {
-    fetchStage();
+    const handler = setTimeout(() => {
+      fetchStage();
+    }, 500);
+
+    return () => {
+      clearTimeout(handler);
+    };
   }, [page, search]);
 
 
@@ -74,10 +84,9 @@ function ListStage() {
             <ReUsableSearch search={search} setSearch={setSearch} item="Project" />
             <ReUsableAddButton addFuntion={() => setAddEnable(true)} item="Stage" />
           </div>
+          <Loading loadOn={loadOn} />
         </div>
-
         <AddStage addEnable={addEnable} setAddEnable={setAddEnable} onAddSuccess={fetchStage} />
-
         <div className="overflow-x-auto rounded-xl border border-gray-700/50">
           <ReUsableTable<stageDatas> data={datas} dataKey={dataKey} heading={heading} page={page} setDeleteEnable={setDeleteEnable}
             setDeleteId={setDeleteId} setEditData={setEditData} setEditEnable={setEditEnable} renderCell={renderCell} />

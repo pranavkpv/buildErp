@@ -8,6 +8,7 @@ import ReUsableDeleteModal from "../../../components/ReUsableComponents/ReUsable
 import ReUsableAddButton from "../../../components/ReUsableComponents/ReUsableAddButton";
 import ReUsablePagination from "../../../components/ReUsableComponents/ReUsablePagination";
 import ReUsableSearch from "../../../components/ReUsableComponents/ReUsableSearch";
+import Loading from "../../../components/Loading";
 
 type attendanceData = {
   _id: string;
@@ -36,10 +37,13 @@ function ListAttendance() {
   //edit
   const [editId, setEditId] = useState("")
   const [editEnable, setEditEnable] = useState(false)
+  const [loadOn, setLoadOn] = useState(false)
+
 
   const fetchAttendance = async () => {
+    setLoadOn(true)
     const response = await fetchAttendanceAPI(search, page);
-    console.log(response)
+    setLoadOn(false)
     setAttendance(response.data.data);
     setTotalpage(response.data.totalPage);
   };
@@ -69,6 +73,7 @@ function ListAttendance() {
             <ReUsableSearch search={search} setSearch={setSearch} item="Project name" />
             <ReUsableAddButton addFuntion={() => setAddEnable(true)} item="Attendance" />
           </div>
+          <Loading loadOn={loadOn} />
         </div>
 
         <AddAttendance addEnable={addEnable} setAddEnable={setAddEnable} onAddSuccess={fetchAttendance} />

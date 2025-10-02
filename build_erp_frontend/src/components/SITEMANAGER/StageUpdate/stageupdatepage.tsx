@@ -4,6 +4,7 @@ import ConfirmStatus from "./ConfirmStatus";
 import ImageUpload from "./ImageUpload";
 import { getSitemanagersProject } from "../../../api/Sitemanager/profile";
 import { getStageInSitemanager } from "../../../api/Sitemanager/stageStatus";
+import Loading from "../../../components/Loading";
 
 
 type Project = {
@@ -31,7 +32,6 @@ function StageUpdatePage() {
    const [project, setProject] = useState<Project[]>([]);
    const [stage, setStage] = useState<StageData[]>([]);
    const [selectedProjectId, setSelectedProjectId] = useState("");
-   const [user, setUser] = useState("")
 
 
 
@@ -44,6 +44,7 @@ function StageUpdatePage() {
    //imageupload
    const [uploadEnable, setUploadEnable] = useState(false)
    const [uploadStageId, setUploadStageId] = useState("")
+   const [loadOn, setLoadOn] = useState(false)
 
 
    const fetchProject = async () => {
@@ -52,7 +53,9 @@ function StageUpdatePage() {
    };
 
    const fetchStage = async (projectId: string): Promise<void> => {
+      setLoadOn(true)
       const response = await getStageInSitemanager(projectId);
+      setLoadOn(false)
       if (response.success) {
          setStage(response.data);
       } else {
@@ -184,6 +187,7 @@ function StageUpdatePage() {
                <ImageUpload setUploadEnable={setUploadEnable} uploadEnable={uploadEnable}
                   uploadStageId={uploadStageId}
                />
+               <Loading loadOn={loadOn} />
             </div>
          </div>
       </div>

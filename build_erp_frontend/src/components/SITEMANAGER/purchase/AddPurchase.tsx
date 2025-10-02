@@ -1,3 +1,4 @@
+import Loading from "components/Loading";
 import { getSitemanagersProject } from "../../../api/Sitemanager/profile";
 import { fetchBrandCorrespondingMaterialInSitemanager, fetchLastInvoiceApi, fetchUniqueMaterialInSiteManager, fetchUnitCorrespondingMaterialInsitemanager, fetchUnitRateInSitemanager, savePurchaseAPI } from "../../../api/Sitemanager/purchase";
 import { useEffect, useState } from "react";
@@ -44,6 +45,7 @@ function AddPurchase({ addEnable, setAddEnable, onAddSuccess }: setAdd) {
    const [description, setDescription] = useState("");
    const [project, setProject] = useState<Project[]>([]);
    const [errors, setErrors] = useState<{ [key: string]: string }>({});
+   const [loadOn, setLoadOn] = useState(false)
 
    const fetchMaterial = async () => {
       const materialList = await fetchUniqueMaterialInSiteManager();
@@ -127,9 +129,9 @@ function AddPurchase({ addEnable, setAddEnable, onAddSuccess }: setAdd) {
          quantity: element.quantity,
          unit_rate: element.unit_rate,
       }));
-
+      setLoadOn(true)
       const response = await savePurchaseAPI(project_id, invoice_number, date, description, materialDetails);
-      console.log(response)
+      setLoadOn(false)
       if (response.success) {
          toast.success(response.message);
          setAddEnable(false);
@@ -391,6 +393,7 @@ function AddPurchase({ addEnable, setAddEnable, onAddSuccess }: setAdd) {
                   </button>
                </div>
             </form>
+            <Loading loadOn={loadOn} />
          </div>
       </div>
    );

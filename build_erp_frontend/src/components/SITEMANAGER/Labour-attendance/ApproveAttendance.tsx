@@ -1,5 +1,7 @@
+import Loading from "../../../components/Loading";
 import { approveAttendanceAPI } from "../../../api/Sitemanager/attendance";
 import { toast } from "react-toastify";
+import { useState } from "react";
 
 type approveProp = {
   approveId: string;
@@ -10,9 +12,12 @@ type approveProp = {
 
 function ApproveAttendance({ approveId, setApproveEnable, approveEnable, onApproveSuccess }: approveProp) {
   if (!approveEnable) return null;
+  const [loadOn, setLoadOn] = useState(false)
 
   const approveFun = async (approveId: string) => {
+    setLoadOn(true)
       const response = await approveAttendanceAPI(approveId);
+      setLoadOn(false)
       if (response.success) {
         toast.success(response.message);
         setApproveEnable(false);
@@ -50,6 +55,7 @@ function ApproveAttendance({ approveId, setApproveEnable, approveEnable, onAppro
           </div>
         </div>
       </div>
+      <Loading loadOn={loadOn} />
     </div>
   );
 }
