@@ -9,7 +9,7 @@ import ReUsableApproveModal from "../../../components/ReUsableComponents/ReUsabl
 import ReUsableAddButton from "../../../components/ReUsableComponents/ReUsableAddButton";
 import ReUsablePagination from "../../../components/ReUsableComponents/ReUsablePagination";
 import ReUsableSearch from "../../../components/ReUsableComponents/ReUsableSearch";
-import Loading from "components/Loading";
+import Loading from "../../../components/Loading";
 
 
 type materialData = {
