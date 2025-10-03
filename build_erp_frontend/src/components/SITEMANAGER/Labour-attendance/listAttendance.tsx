@@ -73,9 +73,8 @@ function ListAttendance() {
             <ReUsableSearch search={search} setSearch={setSearch} item="Project name" />
             <ReUsableAddButton addFuntion={() => setAddEnable(true)} item="Attendance" />
           </div>
-          <Loading loadOn={loadOn} />
         </div>
-
+         <Loading loadOn={loadOn} />
         <AddAttendance addEnable={addEnable} setAddEnable={setAddEnable} onAddSuccess={fetchAttendance} />
 
         <div className="overflow-x-auto rounded-xl border border-gray-700/50">

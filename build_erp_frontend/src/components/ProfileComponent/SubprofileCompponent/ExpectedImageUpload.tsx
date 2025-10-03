@@ -2,6 +2,7 @@ import { toast } from "react-toastify";
 import { useState } from "react";
 import type { estimatedImage } from "../../../ApiInterface/estimation.interface";
 import {  uploadProjectImageUserAPI } from "../../../api/Estimation";
+import Loading from "../../../components/Loading";
 
 type uploadProp = {
   uploadEnable: boolean;
@@ -13,6 +14,8 @@ function ExpectedImageUpload({ uploadEnable, setUploadEnable, uploadProjectId }:
   if (!uploadEnable) return null;
 
   const [estimatedImages, setEstimatedImages] = useState<estimatedImage[]>([{ title: "", file: null }]);
+  const [loadOn, setLoadOn] = useState(false)
+
 
   const handleImageChange = (index: number, field: string, value: string | File | null) => {
     setEstimatedImages((prev) => {
@@ -40,9 +43,9 @@ function ExpectedImageUpload({ uploadEnable, setUploadEnable, uploadProjectId }:
       return;
     }
 
-
-
+    setLoadOn(true)
     const response = await uploadProjectImageUserAPI(uploadProjectId, estimatedImages);
+    setLoadOn(false)
     if (response.success) {
       toast.success(response.message);
       setUploadEnable(false);
@@ -122,6 +125,7 @@ function ExpectedImageUpload({ uploadEnable, setUploadEnable, uploadProjectId }:
           </button>
         </div>
       </div>
+        <Loading loadOn={loadOn} />
     </div>
   );
 }

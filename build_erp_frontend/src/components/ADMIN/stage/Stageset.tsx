@@ -84,8 +84,8 @@ function ListStage() {
             <ReUsableSearch search={search} setSearch={setSearch} item="Project" />
             <ReUsableAddButton addFuntion={() => setAddEnable(true)} item="Stage" />
           </div>
-          <Loading loadOn={loadOn} />
         </div>
+        <Loading loadOn={loadOn} />
         <AddStage addEnable={addEnable} setAddEnable={setAddEnable} onAddSuccess={fetchStage} />
         <div className="overflow-x-auto rounded-xl border border-gray-700/50">
           <ReUsableTable<stageDatas> data={datas} dataKey={dataKey} heading={heading} page={page} setDeleteEnable={setDeleteEnable}

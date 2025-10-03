@@ -105,7 +105,7 @@ function StageUpdatePage() {
                   ))}
                </select>
             </div>
-
+            <Loading loadOn={loadOn} />
             <div className="overflow-x-auto rounded-xl border border-gray-700/50">
                <table className="min-w-full text-sm text-left bg-gray-800/50">
                   <thead className="bg-gray-800/70 text-gray-200 uppercase text-xs font-semibold tracking-wider">
@@ -187,7 +187,6 @@ function StageUpdatePage() {
                <ImageUpload setUploadEnable={setUploadEnable} uploadEnable={uploadEnable}
                   uploadStageId={uploadStageId}
                />
-               <Loading loadOn={loadOn} />
             </div>
          </div>
       </div>

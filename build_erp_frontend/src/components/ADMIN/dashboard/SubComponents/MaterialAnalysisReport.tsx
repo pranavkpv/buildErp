@@ -1,3 +1,4 @@
+import { downloadPDF } from "../../../../api/downloadPDF";
 
 type reportData = {
    project_name: string;
@@ -6,23 +7,31 @@ type reportData = {
 };
 
 type prop = {
-   Data:reportData[]
-   total:number[]
-   setMaterialPage:React.Dispatch<React.SetStateAction<number>>
-   materialPage:number
-   heading:string
+   Data: reportData[]
+   total: number[]
+   setMaterialPage: React.Dispatch<React.SetStateAction<number>>
+   materialPage: number
+   heading: string
 }
 
-function MaterialLabourAnalysis({Data,total,setMaterialPage,materialPage,heading}:prop){
-   return(
+function MaterialLabourAnalysis({ Data, total, setMaterialPage, materialPage, heading }: prop) {
+   return (
       <div className="w-full max-w-7xl mx-auto p-6 bg-gradient-to-b from-slate-900 to-slate-800 rounded-xl shadow-lg border border-slate-700/50">
          <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-bold text-white border-b border-slate-600 pb-3 tracking-tight">
                {heading}
             </h2>
          </div>
+         <div className="flex justify-end mb-4">
+            <button
+               onClick={() => downloadPDF(Data)}
+               className="px-4 py-2 bg-slate-800/50 text-slate-300 rounded-md hover:bg-orange-500 hover:text-white transition-colors duration-200"
+            >
+               Download PDF
+            </button>
+         </div>
          <div className="overflow-x-auto">
-           {Data.length === 0 ? (
+            {Data.length === 0 ? (
                <div className="text-center py-12 text-slate-400">
                   <p className="text-lg font-medium">No data available</p>
                   <p className="text-sm">Please check back later or add new projects.</p>

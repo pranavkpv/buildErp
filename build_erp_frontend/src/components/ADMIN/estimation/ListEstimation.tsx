@@ -84,11 +84,9 @@ function ListEstimation() {
                   <ReUsableSearch search={search} setSearch={setSearch} item="project" />
                   <ReUsableAddButton addFuntion={() => setAddEnable(true)} item="Estimation" />
                </div>
-               <Loading loadOn={loadOn} />
             </div>
-
+            <Loading loadOn={loadOn} />
             <AddEstimation addEnable={addEnable} setAddEnable={setAddEnable} anAddSuccess={fetchData} projectIds={projectIds} />
-
             <div className="overflow-x-auto rounded-xl border border-gray-700/50">
                <table className="min-w-full text-sm text-left bg-gray-800/50 rounded-xl">
                   <thead className="bg-gray-800/70 text-gray-200 uppercase text-xs font-semibold tracking-wider sticky top-0 z-10">
