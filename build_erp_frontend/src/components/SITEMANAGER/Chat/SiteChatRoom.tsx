@@ -47,7 +47,7 @@ function SiteChatRoom({ username, userId }: ChatRoomProps) {
   const [newMessage, setNewMessage] = useState<string>("");
   const accessToken = localStorage.getItem("accessToken");
   const user:DecodedToken | null = accessToken ?  jwtDecode(accessToken):null;
-  console.log(user)
+
 
 
   const groupMessages = (msgs: Message[]): DisplayMessage[] => {

@@ -44,6 +44,10 @@ function UserHeader() {
     }
   }
 
+  socket.on("addNotification",()=>{
+    displayNotification()
+  })
+
 
 
 

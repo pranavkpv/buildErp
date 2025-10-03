@@ -23,7 +23,6 @@ export class ChatSocket implements IChatSocket {
             });
 
             socket.on('sendMessage', async({ senderId, receiverId, message }) => {
-                console.log('heoooiihuhhhvjhdsvchjdvchv');
                 const savedMessage = await this._chatSaveUseCase.execute({ senderId, receiverId, message, messageStatus: messageStatusConstant.SEND });
                 const room = [senderId, receiverId].sort().join('_');
                 this._io.to(room).emit('receiveMessage', savedMessage);
@@ -31,10 +30,12 @@ export class ChatSocket implements IChatSocket {
 
             socket.on('messageDelivered', async({ messageId, senderId, receiverId }) => {
                 const updateMessage = await this._chatMessageStatusUpdate.execute(messageId);
-                console.log(updateMessage);
                 const room = [senderId, receiverId].sort().join('_');
                 this._io.to(room).emit('receiveMessage', updateMessage);
             });
+            socket.on('userAddNotificationEventTrigger',async()=>{
+                this._io.emit('addNotification')
+            })
 
             socket.on('disconnect', () => {
                 console.log(' User disconnected:', socket.id);

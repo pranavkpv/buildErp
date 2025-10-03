@@ -1,4 +1,4 @@
-import Loading from "components/Loading";
+import Loading from "../../../components/Loading";
 import { getSitemanagersProject } from "../../../api/Sitemanager/profile";
 import { fetchBrandCorrespondingMaterialInSitemanager, fetchLastInvoiceApi, fetchUniqueMaterialInSiteManager, fetchUnitCorrespondingMaterialInsitemanager, fetchUnitRateInSitemanager, savePurchaseAPI } from "../../../api/Sitemanager/purchase";
 import { useEffect, useState } from "react";

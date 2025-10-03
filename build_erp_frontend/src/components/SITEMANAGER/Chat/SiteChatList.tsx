@@ -20,14 +20,14 @@ function SiteChatList() {
 
   const fetchSitemanager = async () => {
     setLoading(true);
-      const response = await fetchProjectBySitemanager();
-      if (response.success) {
-        setProjectData(response.data ?? []);
-        setError(null);
-      } else {
-        setError(response.message);
-        toast.error(response.message);
-      }
+    const response = await fetchProjectBySitemanager();
+    if (response.success) {
+      setProjectData(response.data ?? []);
+      setError(null);
+    } else {
+      setError(response.message);
+      toast.error(response.message);
+    }
     setLoading(false);
   };
 
@@ -65,27 +65,31 @@ function SiteChatList() {
               {projectData.map((element) => (
                 <li
                   key={element._id}
-                  role="button"
-                  className={`flex items-center p-4 bg-gray-800/50 rounded-lg cursor-pointer hover:bg-gray-700/50 transition-colors duration-200 border border-gray-700/50 ${
-                    selectedName === element.username ? "bg-gray-700/50 border-teal-500" : ""
-                  }`}
-                  onClick={() => handleChatClick(element.username, element.user_id)}
-                  aria-label={`Open chat with ${element.username}`}
+                  className={`flex items-center bg-gray-800/50 rounded-lg border border-gray-700/50 ${ selectedName === element.username ? "bg-gray-700/50 border-teal-500" : ""
+                    }`}
                 >
-                  <img
-                    src={element.user_image }
-                    alt={`User avatar for ${element.username}`}
-                    className="w-12 h-12 rounded-full object-cover mr-4 border border-gray-600"
-                  />
-                  <div>
-                    <h3 className="text-base font-semibold text-gray-100">
-                      {element.username}
-                    </h3>
-                    <p className="text-sm text-gray-400">{element.project_name}</p>
-                  </div>
+                  <button
+                    type="button"
+                    onClick={() => handleChatClick(element.username, element.user_id)}
+                    aria-label={`Open chat with ${ element.username }`}
+                    className="flex items-center w-full p-4 cursor-pointer hover:bg-gray-700/50 transition-colors duration-200 rounded-lg"
+                  >
+                    <img
+                      src={element.user_image}
+                      alt={`User avatar for ${ element.username }`}
+                      className="w-12 h-12 rounded-full object-cover mr-4 border border-gray-600"
+                    />
+                    <div className="text-left">
+                      <h3 className="text-base font-semibold text-gray-100">
+                        {element.username}
+                      </h3>
+                      <p className="text-sm text-gray-400">{element.project_name}</p>
+                    </div>
+                  </button>
                 </li>
               ))}
             </ul>
+
           )}
         </aside>
         <main className="flex-1 bg-gray-800/90 backdrop-blur-sm rounded-xl shadow-2xl p-6 border border-gray-700/50">

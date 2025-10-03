@@ -3,6 +3,8 @@ import { changeStatusStage } from "../../../api/Sitemanager/stageStatus";
 import type React from "react";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { socket } from "../../../api/socket";
+
 
 type status = {
   statusEnable: boolean;
@@ -33,6 +35,7 @@ function ConfirmStatus({
     const response = await changeStatusStage(editStageId, newProgress, date);
     setLoadOn(false)
     if (response.success) {
+      socket.emit("userAddNotificationEventTrigger")
       toast.success(response.message);
       setStatusEnable(false);
       onSuccess();
