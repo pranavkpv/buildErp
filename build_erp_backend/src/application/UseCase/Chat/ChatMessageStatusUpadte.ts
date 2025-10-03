@@ -7,7 +7,6 @@ export class ChatMessageStatusUpdateUseCase implements IChatMessageStatusUpateUs
       private _chatRepository: IChatRepository,
     ) { }
     async execute(id: string): Promise<IChatModelEntity | null> {
-        console.log('pranbuguguhuhu');
         await this._chatRepository.updateMessageStatus(id);
         const updatedData = await this._chatRepository.getChatById(id);
         return updatedData;

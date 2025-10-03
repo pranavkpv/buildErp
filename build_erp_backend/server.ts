@@ -111,7 +111,7 @@ export class App {
    }
 
    public listen() {
-      const port = process.env.PORT || 3000;
+      const port = process.env.PORT ;
       this.server.listen(port, () => console.log(`server running on ${ port }`));
    }
 }
