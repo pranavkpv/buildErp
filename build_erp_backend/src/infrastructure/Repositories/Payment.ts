@@ -141,7 +141,7 @@ export class PaymentRepository implements IPaymentRepostory {
             {
                 $match: {
                     paymentMethod: 'wallet',
-                }
+                },
             },
             {
                 $addFields: {
@@ -187,7 +187,7 @@ export class PaymentRepository implements IPaymentRepostory {
             {
                 $match: {
                     paymentMethod: 'wallet',
-                }
+                },
             },
             {
                 $addFields: {
@@ -237,67 +237,67 @@ export class PaymentRepository implements IPaymentRepostory {
         const data = await paymentDB.aggregate([
             {
                 $addFields: {
-                    "stageObjectId": {
-                        $toObjectId: "$stage_id"
-                    }
-                }
+                    'stageObjectId': {
+                        $toObjectId: '$stage_id',
+                    },
+                },
             }, {
                 $lookup: {
-                    from: "stages",
-                    localField: "stageObjectId",
-                    foreignField: "_id",
-                    as: "stageDetails"
-                }
-            }, { $unwind: "$stageDetails" },
+                    from: 'stages',
+                    localField: 'stageObjectId',
+                    foreignField: '_id',
+                    as: 'stageDetails',
+                },
+            }, { $unwind: '$stageDetails' },
             {
                 $addFields: {
-                    "projectObjectId": {
-                        $toObjectId: "$stageDetails.project_id"
-                    }
-                }
+                    'projectObjectId': {
+                        $toObjectId: '$stageDetails.project_id',
+                    },
+                },
             }, {
                 $lookup: {
-                    from: "projects",
-                    localField: "projectObjectId",
-                    foreignField: "_id",
-                    as: "projectDetails"
-                }
-            }, { $unwind: "$projectDetails" }, 
+                    from: 'projects',
+                    localField: 'projectObjectId',
+                    foreignField: '_id',
+                    as: 'projectDetails',
+                },
+            }, { $unwind: '$projectDetails' }, 
             {
                 $match: {
-                    "projectDetails.user_id": userId,
-                    "paymentMethod": method,
-                    "paymentStatus": "verified"
-                }
-            }
-        ])
-        console.log(data)
-        return data
+                    'projectDetails.user_id': userId,
+                    'paymentMethod': method,
+                    'paymentStatus': 'verified',
+                },
+            },
+        ]);
+        console.log(data);
+        return data;
     }
     async getPaymentByProject(projectId: string): Promise<payByProject[]> {
         const data = await paymentDB.aggregate([
             {
                 $addFields: {
-                    "stageObjectId": {
-                        $toObjectId: "$stage_id"
-                    }
-                }
+                    'stageObjectId': {
+                        $toObjectId: '$stage_id',
+                    },
+                },
             }, {
                 $lookup: {
-                    from: "stages",
-                    localField: "stage_id",
-                    foreignField: "_id",
-                    as: "stageDetails"
-                }
-            }, { $unwind: "$stageDetails" },
+                    from: 'stages',
+                    localField: 'stage_id',
+                    foreignField: '_id',
+                    as: 'stageDetails',
+                },
+            }, { $unwind: '$stageDetails' },
             {
                 $match: {
-                    "stageDetails.project_id": projectId,
-                    "paymentStatus": "verified",
-                    "purpose": "stage payment"
-                }
-            }
-        ])
-        return data
+                    'stageDetails.project_id': projectId,
+                    'paymentStatus': 'verified',
+                    'purpose': 'stage payment',
+                },
+            },
+        ]);
+        return data;
     }
 }

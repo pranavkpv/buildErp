@@ -33,11 +33,11 @@ export class StageController implements IStageController {
         private _verifyPaymentUseCase: IVerifyPaymentUseCase,
         private _getWalletHistoryUseCase: IGetWalletHistoryUseCase,
         private _jwtservice: IJwtService,
-        private _walletPaymentUseCase: IWalletPaymentUseCase
+        private _walletPaymentUseCase: IWalletPaymentUseCase,
     ) { }
 
     //  Fetch project cost by projectId
-    fetchProjectCost = async (req: Request, res: Response, next: NextFunction):
+    fetchProjectCost = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<number> | commonOutput | void> => {
         try {
             const projectId = req.params.id;
@@ -49,7 +49,7 @@ export class StageController implements IStageController {
     };
 
     //  Save a new stage
-    saveStage = async (req: Request, res: Response, next: NextFunction):
+    saveStage = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput | void> => {
         try {
             const result = await this._stageSaveUseCase.execute(req.body.data);
@@ -60,7 +60,7 @@ export class StageController implements IStageController {
     };
 
     //  Fetch all stages with search & pagination
-    getAllStages = async (req: Request, res: Response, next: NextFunction):
+    getAllStages = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<{ data: stageListDTO[]; totalPage: number }> | commonOutput | void> => {
         try {
             const { search, page } = req.query;
@@ -75,7 +75,7 @@ export class StageController implements IStageController {
     };
 
     //  Delete stage by stageId
-    removeStage = async (req: Request, res: Response, next: NextFunction):
+    removeStage = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput | void> => {
         try {
             const result = await this._deleteStageUseCase.execute(String(req.params.id));
@@ -86,7 +86,7 @@ export class StageController implements IStageController {
     };
 
     //  Update an existing stage
-    updateStage = async (req: Request, res: Response, next: NextFunction):
+    updateStage = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput | void> => {
         try {
             const result = await this._updateStageUseCase.execute({
@@ -100,7 +100,7 @@ export class StageController implements IStageController {
     };
 
     //  Fetch stage data with status
-    getStageData = async (
+    getStageData = async(
         req: Request,
         res: Response,
         next: NextFunction,
@@ -114,7 +114,7 @@ export class StageController implements IStageController {
         }
     };
 
-    paymentIntendCreation = async (req: Request, res: Response, next: NextFunction):
+    paymentIntendCreation = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<string> | commonOutput | void> => {
         try {
             const { stageId, stageAmount } = req.body;
@@ -124,7 +124,7 @@ export class StageController implements IStageController {
             next(error);
         }
     };
-    handleWebhook = async (
+    handleWebhook = async(
         req: Request,
         res: Response,
         next: NextFunction,
@@ -146,7 +146,7 @@ export class StageController implements IStageController {
             next(error);
         }
     };
-    getStageForVerify = async (req: Request, res: Response, next: NextFunction):
+    getStageForVerify = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<{ data: verifyStageDTO[], totalPage: number }> | commonOutput | void> => {
         try {
             const { search, page } = req.query;
@@ -156,7 +156,7 @@ export class StageController implements IStageController {
             next(error);
         }
     };
-    verifyPayment = async (req: Request, res: Response, next: NextFunction):
+    verifyPayment = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput | void> => {
         try {
             const stageId = req.params.id;
@@ -166,7 +166,7 @@ export class StageController implements IStageController {
             next(error);
         }
     };
-    getwalletHistory = async (req: Request, res: Response, next: NextFunction):
+    getwalletHistory = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<{ data: walletDTO[], totalPage: number }> | commonOutput | void> => {
         try {
             const { page, search } = req.query;
@@ -182,10 +182,14 @@ export class StageController implements IStageController {
             next(error);
         }
     };
-    createWalletPayment = async (req: Request, res: Response, next: NextFunction):
+    createWalletPayment = async(req: Request, res: Response, next: NextFunction):
         Promise<commonOutput | void> => {
-        const { stageId, stageAmount } = req.body
-        const result = await this._walletPaymentUseCase.execute(stageId, stageAmount)
-        return result
-    }
+        try {
+            const { stageId, stageAmount } = req.body;
+            const result = await this._walletPaymentUseCase.execute(stageId, stageAmount);
+            return result;
+        } catch (error) {
+            next(error);
+        }
+    };
 }

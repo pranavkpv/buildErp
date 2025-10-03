@@ -53,6 +53,6 @@ const brandRepository = new BrandRepository();
 const materialRepository = new MaterialRepository();
 const labourRepository = new LabourRepository();
 const projectmapper = new ProjectMapper();
-const updateEstimationByUseCase = new UpdateEstimationByUseCase(projectRepository,projectmapper);
+const updateEstimationByUseCase = new UpdateEstimationByUseCase(projectRepository);
 const saveRequirement = new SaveRequirementUseCase(estimationRepository,specRepository,brandRepository,materialRepository,labourRepository,projectRepository,projectmapper);
 export const injectedRequirementController = new RequirementController(saveRequirement,updateEstimationByUseCase);

@@ -1,6 +1,6 @@
-import { IPaymentModelEntity } from "../../domain/Entities/modelEntities/payment.entity"
-import { IProjectModelEntity } from "../../domain/Entities/modelEntities/project.entity"
-import { IStageModelEntity } from "../../domain/Entities/modelEntities/stage.entity"
+import { IPaymentModelEntity } from '../../domain/Entities/modelEntities/payment.entity';
+import { IProjectModelEntity } from '../../domain/Entities/modelEntities/project.entity';
+import { IStageModelEntity } from '../../domain/Entities/modelEntities/stage.entity';
 
 export interface PaymentInput {
    date: Date

@@ -11,7 +11,6 @@ import { validateUploadEstimationImage } from '../../../infrastructure/middlewar
 import express, { Router } from 'express';
 import { injectStageController } from '../../DI/Stage';
 import { injectedTransferController } from '../../DI/Transfer';
-import { injectedNotificationController } from '../../DI/Notification';
 
 export class userRoute {
     public userRoute: Router;
@@ -104,7 +103,7 @@ export class userRoute {
         );
         this.userRoute.patch('/uploadEstimateImage/:id',
             validateUploadEstimationImage,
-            withLogging(injectEstimationController.uploadEstimationImage)
+            withLogging(injectEstimationController.uploadEstimationImage),
         );
 
         this.userRoute.get(

@@ -27,7 +27,7 @@ export class NotificationController implements INotificationController {
                 const result = await this._fetchNotificationUseCase.execute(payload.role);
                 return result;
             }
-            console.log(payload._id)
+            console.log(payload._id);
             const result = await this._fetchNotificationUseCase.execute(payload._id);
             return result;
         } catch (error) {

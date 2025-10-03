@@ -6,17 +6,17 @@ import { IMaterialRepository } from '../../../domain/Entities/IRepository/IMater
 import { BrandFailedMessage, BrandSuccessMessage } from '../../../Shared/Messages/Brand.Message';
 
 export class DeleteBrandUseCase implements IDeleteBrandUsecase {
-  constructor(
+    constructor(
     private _brandRepository: IBrandRepository,
     private _materialRepository: IMaterialRepository,
-  ) { }
-  async execute(id: string):
+    ) { }
+    async execute(id: string):
     Promise<commonOutput> {
-    const existBrand = await this._materialRepository.getMaterialByBrandId(id);
-    if (existBrand) {
-      return ResponseHelper.conflictData(BrandFailedMessage.ALREADY_USED);
+        const existBrand = await this._materialRepository.getMaterialByBrandId(id);
+        if (existBrand) {
+            return ResponseHelper.conflictData(BrandFailedMessage.ALREADY_USED);
+        }
+        await this._brandRepository.deleteBrand(id);
+        return ResponseHelper.success(BrandSuccessMessage.DELETE);
     }
-    await this._brandRepository.deleteBrand(id);
-    return ResponseHelper.success(BrandSuccessMessage.DELETE);
-  }
 }

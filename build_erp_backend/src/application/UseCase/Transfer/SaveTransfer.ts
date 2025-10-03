@@ -16,7 +16,7 @@ export class SaveTransferUsecase implements ISaveTransferUseCase {
         private _projectStockRepository: IProjectStockRepository,
         private _materialRepository: IMaterialRepository,
         private _projectRepository: IprojectRepository,
-        private _notificationRepository: INotificationRepository
+        private _notificationRepository: INotificationRepository,
     ) { }
     async execute(input: transferInput): Promise<commonOutput> {
         const duplicateTransfer = await this._transferRepository.findTransferBytransferId(input.transfer_id);
@@ -35,11 +35,11 @@ export class SaveTransferUsecase implements ISaveTransferUseCase {
         if (!response) {
             return ResponseHelper.badRequest(TransferFailedMessage.SAVE);
         }
-        let fromProjectData = await this._projectRepository.getProjectById(input.from_project_id);
-        if(!fromProjectData){
-            return ResponseHelper.conflictData(ProjectFailedMessage.FETCH)
+        const fromProjectData = await this._projectRepository.getProjectById(input.from_project_id);
+        if (!fromProjectData){
+            return ResponseHelper.conflictData(ProjectFailedMessage.FETCH);
         }
-        await this._notificationRepository.saveNotication(new Date(), `Admin have to send a material Transfer Request`, fromProjectData.user_id,);
+        await this._notificationRepository.saveNotication(new Date(), 'Admin have to send a material Transfer Request', fromProjectData.user_id);
         return ResponseHelper.createdSuccess(TransferSuccessMessage.SAVE);
     }
 }

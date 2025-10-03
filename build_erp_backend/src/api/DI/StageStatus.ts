@@ -1,4 +1,3 @@
-import { Server } from 'socket.io';
 import { Stagemapper } from '../../application/Mapper/stage.mapper';
 import { FetchStageByProjectUseCase } from '../../application/UseCase/Stage/FetchStageByProject';
 import { StageStatusChangeUseCase } from '../../application/UseCase/StageStatusUpdation/StageSatusChange';
@@ -9,8 +8,8 @@ import { StageRepository } from '../../infrastructure/Repositories/Stage';
 import { StatusController } from '../controllers/StageStatus';
 
 const stagerepository = new StageRepository();
-const notificationRepository = new NotificationRepostory()
-const projectRepository = new ProjectRepository()
+const notificationRepository = new NotificationRepostory();
+const projectRepository = new ProjectRepository();
 const stagemapper = new Stagemapper();
 const stageStatusChangeUseCase = new StageStatusChangeUseCase(stagerepository,notificationRepository,projectRepository);
 const uploadStatusImageUseCase = new UploadStatusImageUseCase(stagerepository);

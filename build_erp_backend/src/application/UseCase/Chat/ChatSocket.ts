@@ -34,8 +34,8 @@ export class ChatSocket implements IChatSocket {
                 this._io.to(room).emit('receiveMessage', updateMessage);
             });
             socket.on('userAddNotificationEventTrigger',async()=>{
-                this._io.emit('addNotification')
-            })
+                this._io.emit('addNotification');
+            });
 
             socket.on('disconnect', () => {
                 console.log(' User disconnected:', socket.id);

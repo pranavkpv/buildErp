@@ -36,5 +36,5 @@ export const StageFailedMessage = {
     NO_SESSION:'Not found the session Id',
     PAY_FAIL:'Stage Payment failed',
     FETCH:'Failed to fetch the stage',
-    INVALID_BALANCE:'Insufficient balance'
+    INVALID_BALANCE:'Insufficient balance',
 };

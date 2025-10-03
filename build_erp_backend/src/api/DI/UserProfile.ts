@@ -35,8 +35,8 @@ const projectRepository = new ProjectRepository();
 const projectmapper = new ProjectMapper();
 const chatRepository = new ChatRepository();
 const chatmapper = new ChatMapper();
-const paymentRepository = new PaymentRepository(stripe)
-const stageRepository = new StageRepository()
+const paymentRepository = new PaymentRepository(stripe);
+const stageRepository = new StageRepository();
 
 const updateProfileUseCase = new UpdateProfileUsecase(userRepository, userMapper, jwtservice);
 const updateProfileImageUseCase = new UpdateProfileImageUseCase(userRepository, userMapper, jwtservice);
@@ -48,7 +48,7 @@ const blacklistUsecase = new BlackListUsecase(userRepository);
 const editEmailUseCase = new EditEmailUseCase(userRepository);
 const editEmailResendOTPUseCase = new EditEmailResendOTPUseCase(userRepository);
 const editEmailVerifyOTPUseCase = new EditEmailVerifyOtpUseCase(userRepository, userMapper);
-const getUserDashBoardUsecase = new GetUserDashBoardUseCase(projectRepository, paymentRepository, stageRepository)
+const getUserDashBoardUsecase = new GetUserDashBoardUseCase(projectRepository, paymentRepository, stageRepository);
 export const injecteduserprofileController = new UserProfileController(jwtservice, updateProfileUseCase, updateProfileImageUseCase, changePasswordUseCase,
     fetchUserprojectUseCase, getChatListUseCase, getMessagesUseCase, blacklistUsecase, editEmailUseCase, editEmailResendOTPUseCase, editEmailVerifyOTPUseCase,
     getUserDashBoardUsecase);

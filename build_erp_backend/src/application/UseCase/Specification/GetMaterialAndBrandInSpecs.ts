@@ -19,7 +19,7 @@ export class GetMaterialAndBrandInSpecsUseCase implements IGetMaterialAndBrandIn
                 materials.push(item.material_id);
             }
         }
-        const uniqueMaterial = [...new Set(materials)]
+        const uniqueMaterial = [...new Set(materials)];
         const getAllMaterialsById = await this._materialRepository.getMaterialByIds(uniqueMaterial);
         const materialnames = [];
         for (const element of getAllMaterialsById) {
@@ -27,21 +27,21 @@ export class GetMaterialAndBrandInSpecsUseCase implements IGetMaterialAndBrandIn
         }
         const materialswithAggregateBrand = await this._materialRepository.getAllMaterialByIdswithAggregateBrand(materialnames);
         const results = [];
-        console.log("sssss", materialswithAggregateBrand)
+        console.log('sssss', materialswithAggregateBrand);
         for (const element of materialswithAggregateBrand) {
-            let x = 0
+            let x = 0;
             for (const item of results) {
                 if (item.material_name === element.material_name) {
-                    x = 1
+                    x = 1;
                     item.brand_name.push(element.brandDetails.brand_name);
                 }
             }
-            if (x == 1) {
-                continue
+            if (x === 1) {
+                continue;
             }
             results.push({ material_name: element.material_name, brand_name: [element.brandDetails.brand_name] });
         }
-        console.log(results)
+        console.log(results);
 
         return ResponseHelper.success(MaterialSuccessMessage.FETCH, results);
     }

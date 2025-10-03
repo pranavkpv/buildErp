@@ -31,8 +31,8 @@ export class BudgetAndActualUseCase implements IBudgetAndActualUsecase {
         const purchaseData = await this._purchaseRepository.getAllApprovedPurchases();
         if (!purchaseData) return ResponseHelper.badRequest(PurchaseFailedMessage.ERROR);
 
-        for (let element of purchaseData) {
-            for (let item of result) {
+        for (const element of purchaseData) {
+            for (const item of result) {
                 if (String(item.project_id) === element.project_id) {
                     const materialSum = element.materialDetails.reduce((sum, material) => {
                         return sum += (material.quantity * material.unit_rate);
@@ -45,8 +45,8 @@ export class BudgetAndActualUseCase implements IBudgetAndActualUsecase {
 
         const transferData = await this._transferRepository.findAllTransfer();
         if (!transferData) return ResponseHelper.badRequest(TransferFailedMessage.FETCH);
-        for (let element of transferData) {
-            for (let item of result) {
+        for (const element of transferData) {
+            for (const item of result) {
                 if (String(item.project_id) === element.from_project_id) {
                     const materialSum = element.materialDetails.reduce((sum, material) => {
                         return sum += (material.quantity * material.unit_rate);

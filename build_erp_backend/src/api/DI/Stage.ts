@@ -45,8 +45,8 @@ const handleWebhookUseCase = new HandleWebhookUseCase(paymentRepository,stageRep
 const fetchStageForVerifyUseCase = new FetchStageForVerifyUseCase(paymentRepository,stagemapper);
 const verifyPaymentUseCase = new VerifyPaymentUseCase(paymentRepository,stageRepository,notificationRepository,projectRepository);
 const getWalletHistoryUseCase = new GetWalletHistoryUseCase(paymentRepository,stagemapper);
-const walletPaymentUseCase = new WalletPaymentUsecase(paymentRepository,stageRepository,projectRepository,notificationRepository)
+const walletPaymentUseCase = new WalletPaymentUsecase(paymentRepository,stageRepository,projectRepository,notificationRepository);
 
 export const injectStageController = new StageController(stageSaveUseCase,fetchCostUseCase,fetchStageUseCase,deleteStageUseCase,updateStageUseCase,
     fetchStatusUseCase,payIntentCreationUseCase,handleWebhookUseCase,fetchStageForVerifyUseCase,verifyPaymentUseCase,getWalletHistoryUseCase,jwtservice,
-walletPaymentUseCase);
+    walletPaymentUseCase);

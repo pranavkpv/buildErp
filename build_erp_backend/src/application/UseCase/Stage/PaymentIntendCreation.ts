@@ -7,22 +7,21 @@ import { IPaymentIntendCreationUseCase } from '../../IUseCases/IStage/IPaymentIn
 import { IPaymentRepostory } from '../../../domain/Entities/IRepository/IPayment';
 import { INotificationRepository } from '../../../domain/Entities/IRepository/INotification';
 import { IprojectRepository } from '../../../domain/Entities/IRepository/IProject';
-import { ProjectFailedMessage } from '../../../Shared/Messages/Project.Message';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { apiVersion: '2025-08-27.basil' });
-const frontendBaseUrl = process.env.FRONTEND_BASE_URL
+const frontendBaseUrl = process.env.FRONTEND_BASE_URL;
 
 export class PaymentIntendCreationUseCase implements IPaymentIntendCreationUseCase {
     constructor(
         private _stageRepository: IStageRepository,
         private _paymentRepository: IPaymentRepostory,
         private _notificationRepository: INotificationRepository,
-        private _projectRepository: IprojectRepository
+        private _projectRepository: IprojectRepository,
     ) { }
     async execute(stageId: string, stageAmount: number): Promise<commonOutput<string> | commonOutput> {
         const stageData = await this._stageRepository.getStageById(stageId);
         if (stageAmount !== stageData?.stage_amount) {
-            return ResponseHelper.conflictData(StageFailedMessage.STAGE_AMOUNT_MATCH)
+            return ResponseHelper.conflictData(StageFailedMessage.STAGE_AMOUNT_MATCH);
         }
         if (!stageData) {
             return ResponseHelper.conflictData(StageFailedMessage.NOT_EXIST);
@@ -50,7 +49,7 @@ export class PaymentIntendCreationUseCase implements IPaymentIntendCreationUseCa
         }
         await this._paymentRepository.createCheckoutSession({
             date: new Date(), amount: stageAmount, paymentMethod: 'stripe',
-            purpose: 'stage payment', paymentStatus: 'pending', stage_id: stageData._id, stripeSessionId: session.id
+            purpose: 'stage payment', paymentStatus: 'pending', stage_id: stageData._id, stripeSessionId: session.id,
         });
         const existStage = await this._stageRepository.getStageById(stageData._id);
         if (!existStage) {

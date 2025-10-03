@@ -139,17 +139,17 @@ export class StageRepository implements IStageRepository {
     async findStagesEndingInDays(daysBefore: number):
         Promise<IStageModelEntity[]> {
         const today = new Date();
-        const targetDate = new Date(today)
-        targetDate.setDate(today.getDate() + daysBefore)
+        const targetDate = new Date(today);
+        targetDate.setDate(today.getDate() + daysBefore);
         const startOfDay = new Date(targetDate.setHours(0, 0, 0, 0));
         const endOfDay = new Date(targetDate.setHours(23, 59, 59, 999));
         const stages = await stageDB.find({
             end_date: { $gte: startOfDay, $lte: endOfDay },
         });
-        return stages
+        return stages;
     }
     async getStageByProjectId(projectId: string):
         Promise<IStageModelEntity[]> {
-        return await stageDB.find({ project_id: projectId })
+        return await stageDB.find({ project_id: projectId });
     }
 }

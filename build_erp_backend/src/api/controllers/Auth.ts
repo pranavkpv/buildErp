@@ -188,7 +188,7 @@ export class AuthController implements IAuthController {
         try {
             const refreshToken = req.cookies.refreshToken;
             if (!refreshToken) {
-                return ResponseHelper.conflictData("user not exist")
+                return ResponseHelper.conflictData('user not exist');
             }
             return await this._refreshTokenUseCase.execute(refreshToken);
         } catch (error) {
