@@ -8,9 +8,10 @@ type ApproveProp = {
   setApproveEnable: React.Dispatch<React.SetStateAction<boolean>>;
   approveEnable: boolean;
   approveData: Transfer | undefined;
+  setActionEnable: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-function ApproveTransfer({ approveId, setApproveEnable, approveEnable, onApproveSuccess, approveData }: ApproveProp) {
+function ApproveTransfer({ approveId, setApproveEnable, approveEnable, onApproveSuccess, approveData,setActionEnable }: ApproveProp) {
   if (!approveEnable || !approveId || !approveData) return null;
 
   const approveFun = async (approveId: string) => {
@@ -19,6 +20,7 @@ function ApproveTransfer({ approveId, setApproveEnable, approveEnable, onApprove
       if (response.success) {
         toast.success(response.message);
         setApproveEnable(false);
+        setActionEnable(false)
         onApproveSuccess();
       } else {
         toast.error(response.message || "Failed to approve transfer");

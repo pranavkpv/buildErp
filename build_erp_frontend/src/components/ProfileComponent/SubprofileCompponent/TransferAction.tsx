@@ -163,6 +163,7 @@ function TransferAction({ actionEnable, setActionEnable, onActionSuccess, action
           approveId={actionData?._id}
           onApproveSuccess={onActionSuccess}
           setApproveEnable={setApproveEnable}
+          setActionEnable={setActionEnable}
         />
         <RejectTransfer
           onRejectSuccess={onActionSuccess}
