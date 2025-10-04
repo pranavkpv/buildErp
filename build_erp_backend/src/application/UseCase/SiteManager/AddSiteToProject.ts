@@ -14,6 +14,10 @@ export class AddSiteToProjectUseCase implements IAddSiteToProjectUseCase {
     ) { }
     async execute(input: AddsitetoprojectInput): Promise<commonOutput> {
         const { siteManager_id, selectedproject } = input;
+        // const projectBasedSitemanager = await this._projectRepository.getProjectsBySitemanagerId(siteManager_id)
+        // if(projectBasedSitemanager.length > 2){
+        //     return ResponseHelper.conflictData(SitemanagerFailedMessage.ONLYADDTWO)
+        // }
         for (const element of selectedproject) {
             const existSitemanager = await this._projectRepository.getProjectById(element);
             if (existSitemanager?.sitemanager_id) {

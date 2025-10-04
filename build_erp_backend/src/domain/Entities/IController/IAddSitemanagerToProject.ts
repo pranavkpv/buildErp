@@ -16,4 +16,5 @@ export interface IAddSiteManagerToProjectController {
 
    listProjectsWithSiteManagers(req: Request, res: Response, next: NextFunction): 
    Promise<commonOutput<{ data: listAddsiteDTO[], totalPage: number }> | commonOutput | void>
+   
 }
