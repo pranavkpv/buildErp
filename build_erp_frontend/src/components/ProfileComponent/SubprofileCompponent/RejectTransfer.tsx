@@ -6,9 +6,10 @@ type RejectProp = {
   onRejectSuccess: () => void;
   setRejectEnable: React.Dispatch<React.SetStateAction<boolean>>;
   rejectEnable: boolean;
+  setActionEnable:React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-function RejectTransfer({ rejectId, setRejectEnable, rejectEnable, onRejectSuccess }: RejectProp) {
+function RejectTransfer({ rejectId, setRejectEnable, rejectEnable, onRejectSuccess,setActionEnable }: RejectProp) {
   if (!rejectEnable || !rejectId) return null;
 
   const rejectFun = async (rejectId: string) => {
@@ -17,6 +18,7 @@ function RejectTransfer({ rejectId, setRejectEnable, rejectEnable, onRejectSucce
       if (response.success) {
         toast.success(response.message);
         setRejectEnable(false);
+        setActionEnable(false)
         onRejectSuccess();
       } else {
         toast.error(response.message || "Failed to reject transfer");

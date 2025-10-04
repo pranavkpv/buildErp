@@ -170,6 +170,7 @@ function TransferAction({ actionEnable, setActionEnable, onActionSuccess, action
           rejectEnable={rejectEnable}
           rejectId={actionData?._id}
           setRejectEnable={setRejectEnable}
+          setActionEnable={setActionEnable}
         />
       </div>
     </div>
