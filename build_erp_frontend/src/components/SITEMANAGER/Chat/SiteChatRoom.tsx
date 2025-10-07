@@ -15,6 +15,14 @@ interface Message {
   temp?: boolean;
 }
 
+interface responseMessageData {
+  _id: string;
+  message: string;
+  senderId: string;
+  receiverId: string;
+  messageStatus: string;
+  createdAt:Date
+}
 interface ReceiveMessage {
   _id: string;
   message: string;
@@ -46,7 +54,7 @@ function SiteChatRoom({ username, userId }: ChatRoomProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState<string>("");
   const accessToken = localStorage.getItem("accessToken");
-  const user:DecodedToken | null = accessToken ?  jwtDecode(accessToken):null;
+  const user: DecodedToken | null = accessToken ? jwtDecode(accessToken) : null;
 
 
 
@@ -67,7 +75,7 @@ function SiteChatRoom({ username, userId }: ChatRoomProps) {
     try {
       const response = await fetchMessagesApiInSitemanager(userId);
       if (response.success) {
-        const x: Message[] = response.data.map((element: any) => ({
+        const x: Message[] = response.data.map((element: responseMessageData) => ({
           id: element._id,
           message: element.message,
           senderId: element.senderId,
@@ -120,7 +128,7 @@ function SiteChatRoom({ username, userId }: ChatRoomProps) {
         }
         return [...prev, formatted];
       });
-      if(!user) return
+      if (!user) return
 
       if (
         formatted.receiverId === user._id &&
@@ -226,31 +234,29 @@ function SiteChatRoom({ username, userId }: ChatRoomProps) {
                 </span>
               </div>
               {group.messages.map((msg) => (
-              <div
-                key={msg._id}
-                className={`flex mb-2 ${
-                  msg.senderId === user?._id ? "justify-end" : "justify-start"
-                }`}
-              >
                 <div
-                  className={`max-w-xs p-3 rounded-2xl shadow ${
-                      msg.senderId === user?._id
-                      ? "bg-teal-500 text-white rounded-br-none"
-                      : "bg-white text-slate-800 border border-slate-200 rounded-bl-none"
-                  }`}
+                  key={msg._id}
+                  className={`flex mb-2 ${ msg.senderId === user?._id ? "justify-end" : "justify-start"
+                    }`}
                 >
-                  <p className="break-words">{msg.message}</p>
-                  <p className="text-[10px] text-slate-700 mt-1 text-right">
-                    {msg.time}
-                  </p>
-                    {msg.senderId === user?._id && (
-                    <p className="text-[10px] text-right mt-0.5">
-                      {renderStatus(msg.messageStatus)}
+                  <div
+                    className={`max-w-xs p-3 rounded-2xl shadow ${ msg.senderId === user?._id
+                        ? "bg-teal-500 text-white rounded-br-none"
+                        : "bg-white text-slate-800 border border-slate-200 rounded-bl-none"
+                      }`}
+                  >
+                    <p className="break-words">{msg.message}</p>
+                    <p className="text-[10px] text-slate-700 mt-1 text-right">
+                      {msg.time}
                     </p>
-                  )}
+                    {msg.senderId === user?._id && (
+                      <p className="text-[10px] text-right mt-0.5">
+                        {renderStatus(msg.messageStatus)}
+                      </p>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
             </div>
           ))
         )}

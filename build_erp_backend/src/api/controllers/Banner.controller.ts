@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { commonOutput } from '../../application/dto/common';
-import { IBannerController } from '../../domain/Entities/IController/IBanner';
+import { IBannerController } from '../../domain/Entities/IController/IBanner.controller';
 import cloudinary from '../../infrastructure/config/cloudinary';
 import { IAddBannerUsecase } from '../../application/IUseCases/IBanner/IAddBanner';
 import { listBannerDTO } from '../../application/dto/banner.dto';

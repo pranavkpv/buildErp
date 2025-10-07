@@ -3,7 +3,7 @@ import { AdminLoginUseCase } from '../../application/UseCase/Admin/AdminLogin';
 import { BlackListUsecase } from '../../application/UseCase/Auth/Blacklist';
 import { AdminRepository } from '../../infrastructure/Repositories/Admin';
 import { UserRepository } from '../../infrastructure/Repositories/User';
-import { AdminController } from '../controllers/Admin';
+import { AdminController } from '../controllers/Admin.controller';
 
 const adminRepository = new AdminRepository();
 const jwtservice = new JwtService();

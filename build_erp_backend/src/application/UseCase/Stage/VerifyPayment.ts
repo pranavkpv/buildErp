@@ -25,7 +25,7 @@ export class VerifyPaymentUseCase implements IVerifyPaymentUseCase {
         if (!existProject) {
             return ResponseHelper.conflictData(StageFailedMessage.NOT_EXIST);
         }
-        await this._notificationRepository.saveNotication(new Date(), `Admin is Verified you payment in ${ existProject?.project_name }`, existProject?.user_id);
+        await this._notificationRepository.saveNotication(new Date(), `Admin is Verified you payment in ${ existProject?.project_name }`, existProject?.user_id,'project');
         return ResponseHelper.success(StageSuccessMessage.VERIFY_PAYMENT);
     }
 }

@@ -28,7 +28,7 @@ export class SendEstimationUseCase implements ISendEstimationUseCase {
         if (!existProject) {
             return ResponseHelper.conflictData(ProjectFailedMessage.FETCH);
         }
-        await this._notificationRepository.saveNotication(new Date(), 'The Estimated Data sended by Admin', existProject?.user_id);
+        await this._notificationRepository.saveNotication(new Date(), 'The Estimated Data sended by Admin', existProject?.user_id,'project');
         return ResponseHelper.success(EstimationSuccessMessage.DELETE);
     }
 }

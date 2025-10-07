@@ -7,7 +7,7 @@ import { SavePurchaseUseCase } from '../../application/UseCase/Purchase/SavePurc
 import { UpdatePurchaseUseCase } from '../../application/UseCase/Purchase/UpdatePurchase';
 import { ProjectStockRepository } from '../../infrastructure/Repositories/ProjectStock';
 import { PurchaseRepository } from '../../infrastructure/Repositories/Purchase';
-import { PurchaseController } from '../controllers/Purchase';
+import { PurchaseController } from '../controllers/Purchase.controller';
 
 const jwtService = new JwtService();
 const purchaseRepository = new PurchaseRepository();

@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { IBrandController } from '../../domain/Entities/IController/IBrand';
+import { IBrandController } from '../../domain/Entities/IController/IBrand.controller';
 import { commonOutput } from '../../application/dto/common';
 import { ISaveBrandUseCase } from '../../application/IUseCases/IBrand/ISaveBrand';
 import { IDeleteBrandUsecase } from '../../application/IUseCases/IBrand/IDeleteBrand';

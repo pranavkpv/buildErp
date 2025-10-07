@@ -13,7 +13,7 @@ import { EstimationRepository } from '../../infrastructure/Repositories/Estimati
 import { PaymentRepository } from '../../infrastructure/Repositories/Payment';
 import { ProjectRepository } from '../../infrastructure/Repositories/Project';
 import { StageRepository } from '../../infrastructure/Repositories/Stage';
-import { StageController } from '../controllers/Stage';
+import { StageController } from '../controllers/Stage.controller';
 import { FetchStageForVerifyUseCase } from '../../application/UseCase/Stage/FetchStageForVerify';
 import { VerifyPaymentUseCase } from '../../application/UseCase/Stage/VerifyPayment';
 import { GetWalletHistoryUseCase } from '../../application/UseCase/UserProfile/GetWalletHistory';

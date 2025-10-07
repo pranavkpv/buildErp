@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { IUserprofileController } from '../../domain/Entities/IController/IUserProfile';
+import { IUserprofileController } from '../../domain/Entities/IController/IUserProfile.controller';
 import { commonOutput } from '../../application/dto/common';
 import { ResponseHelper } from '../../Shared/responseHelpers/response';
 import { IJwtService } from '../../domain/Entities/Service.Entities/IJwtservice';

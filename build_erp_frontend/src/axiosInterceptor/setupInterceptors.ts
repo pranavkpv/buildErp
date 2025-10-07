@@ -22,9 +22,11 @@ export const setupInterceptors = (instance: AxiosInstance, loginRedirect?: strin
       if (!originalRequest) return Promise.reject(error);
 
       if (error.response?.data?.message == 'This User Could not perform this action in this part') {
-       return
-      }else{
-        toast.error(error.response?.data?.message)
+        return
+      } else {
+        if (error.response?.data?.message !== "No AccessToken Found") {
+          toast.error(error.response?.data?.message)
+        }
       }
 
       if (error.response?.status === 401 && !originalRequest._retry) {

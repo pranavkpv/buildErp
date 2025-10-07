@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { IAdminController } from '../../domain/Entities/IController/IAdmin';
+import { IAdminController } from '../../domain/Entities/IController/IAdmin.controller';
 import { IAdminLoginUseCase } from '../../application/IUseCases/IAdmin/IAdminLogin';
 import { ResponseHelper } from '../../Shared/responseHelpers/response';
 import { userFailedMessage, userSuccessMessage } from '../../Shared/Messages/User.Message';

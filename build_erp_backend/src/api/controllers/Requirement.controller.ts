@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { commonOutput } from '../../application/dto/common';
-import { IRequirementController } from '../../domain/Entities/IController/IRequirement';
+import { IRequirementController } from '../../domain/Entities/IController/IRequirement.controller';
 import { ISaveRequirementUseCase } from '../../application/IUseCases/IRquirement/ISaveRequirement';
 import { IUpdateEstimationByUseCase } from '../../application/IUseCases/IRquirement/IUpdateEstimationBy';
 import { userBaseProjectDTO } from '../../application/dto/project.dto';

@@ -13,7 +13,7 @@ import { BcryptHasher } from '../../infrastructure/Repositories/BcryptHasher';
 import { ProjectRepository } from '../../infrastructure/Repositories/Project';
 import { SitemanagerRepository } from '../../infrastructure/Repositories/Sitemanager';
 import { UserRepository } from '../../infrastructure/Repositories/User';
-import { SitemanagerController } from '../controllers/Sitemanager';
+import { SitemanagerController } from '../controllers/Sitemanager.controller';
 
 const sitemanagerRepository = new SitemanagerRepository();
 const sitemanagermapper = new sitemanagerMapper();

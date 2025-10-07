@@ -6,7 +6,7 @@ import { EditAttendanceUseCase } from '../../application/UseCase/Attendance/Edit
 import { FetchAttendanceUseCase } from '../../application/UseCase/Attendance/FetchAttendance';
 import { FetchAttendanceByIdUseCase } from '../../application/UseCase/Attendance/FetchAttendanceById';
 import { AttendanceRepository } from '../../infrastructure/Repositories/Attendance';
-import { AttendanceController } from '../controllers/Attendance';
+import { AttendanceController } from '../controllers/Attendance.controller';
 
 const attendanceRepository = new AttendanceRepository();
 const attendaneMapper = new AttendanceMapper();

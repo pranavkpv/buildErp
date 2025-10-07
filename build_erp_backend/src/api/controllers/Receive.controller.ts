@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { IReceiveController } from '../../domain/Entities/IController/IReceive';
+import { IReceiveController } from '../../domain/Entities/IController/IReceive.controller';
 import { commonOutput } from '../../application/dto/common';
 import { RecieveOutput } from '../../application/dto/receive.dto';
 import { ISaveReceiveUseCase } from '../../application/IUseCases/IReceive/ISaveReceive';

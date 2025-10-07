@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express-serve-static-core';
-import { IAttendanceController } from '../../domain/Entities/IController/IAttendance';
+import { IAttendanceController } from '../../domain/Entities/IController/IAttendance.controller';
 import { commonOutput } from '../../application/dto/common';
 import { fetchEditAttendance, pageWiseAttendance } from '../../application/entities/attendance.entity';
 import { IaddAttendanceUseCase } from '../../application/IUseCases/IAttendance/IAddAttendance';

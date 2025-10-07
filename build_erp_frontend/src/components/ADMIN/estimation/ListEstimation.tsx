@@ -11,6 +11,7 @@ import ReUsableAddButton from "../../../components/ReUsableComponents/ReUsableAd
 import ReUsablePagination from "../../../components/ReUsableComponents/ReUsablePagination";
 import ReUsableSearch from "../../../components/ReUsableComponents/ReUsableSearch";
 import Loading from "../../../components/Loading";
+import { Link } from "react-router-dom";
 
 type project = {
    project_name: string;
@@ -87,6 +88,13 @@ function ListEstimation() {
             </div>
             <Loading loadOn={loadOn} />
             <AddEstimation addEnable={addEnable} setAddEnable={setAddEnable} anAddSuccess={fetchData} projectIds={projectIds} />
+            <Link
+               to="/admin/stage"
+               className="inline-block bg-teal-500/90 hover:bg-teal-600 text-white px-4 py-2 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-teal-400 mt-4"
+               aria-label="Navigate to Stage Set"
+            >
+               Move to Stage Set
+            </Link>
             <div className="overflow-x-auto rounded-xl border border-gray-700/50">
                <table className="min-w-full text-sm text-left bg-gray-800/50 rounded-xl">
                   <thead className="bg-gray-800/70 text-gray-200 uppercase text-xs font-semibold tracking-wider sticky top-0 z-10">
@@ -119,7 +127,7 @@ function ListEstimation() {
                                     }}
                                     className="bg-teal-500/90 hover:bg-teal-600 text-white px-4 py-2 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-teal-400"
                                  >
-                                    Upload Estimated Image
+                                    View Estimated Image
                                  </button>
                               </td>
                               <td className="px-6 py-4 ">

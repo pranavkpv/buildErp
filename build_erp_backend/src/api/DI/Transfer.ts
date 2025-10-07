@@ -16,9 +16,10 @@ import { PaymentRepository } from '../../infrastructure/Repositories/Payment';
 import { ProjectRepository } from '../../infrastructure/Repositories/Project';
 import { ProjectStockRepository } from '../../infrastructure/Repositories/ProjectStock';
 import { TransferRepository } from '../../infrastructure/Repositories/Transfer';
-import { TransferController } from '../controllers/Transfer';
+import { TransferController } from '../controllers/Transfer.controller';
 import { StageRepository } from '../../infrastructure/Repositories/Stage';
 import { NotificationRepostory } from '../../infrastructure/Repositories/Notifiaction';
+import { GetLastTransferIdUseCase } from '../../application/UseCase/Transfer/GetLastTransferId';
 
 const jwtService = new JwtService();
 const projectStockRepository = new ProjectStockRepository();
@@ -42,5 +43,6 @@ const receiveTransferUseCase = new ReceiveTransferUseCase(transferRepository);
 const fetchStockListUseCase = new FetchStockListUseCase(projectStockRepository,materialMapper);
 const getUserBaseTransferUseCase = new GetUserBaseTransferUseCase(transferRepository);
 const rejectTransferUseCase = new RejectTransferUseCase(transferRepository);
+const getLastTransferIdUseCase = new GetLastTransferIdUseCase(transferRepository)
 export const injectedTransferController = new TransferController(jwtService,getTransferUseCase,getToProjectUseCase,saveTransferUseCase,updateTransferUseCase,deleteTransferUseCase,approveTransferUseCase,
-    receiveTransferUseCase,fetchStockListUseCase,getUserBaseTransferUseCase,rejectTransferUseCase);
+    receiveTransferUseCase,fetchStockListUseCase,getUserBaseTransferUseCase,rejectTransferUseCase,getLastTransferIdUseCase);

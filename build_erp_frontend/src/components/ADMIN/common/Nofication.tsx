@@ -1,5 +1,6 @@
-import { fetchNotificationByUserApi, markReadApi } from "../../../api/notification"
-import { useEffect, useState } from "react"
+import { markReadApi } from "../../../api/notification"
+import { useState } from "react"
+import { Link } from "react-router-dom"
 import { toast } from "react-toastify"
 
 interface notificationData {
@@ -13,11 +14,11 @@ interface notificationData {
 interface prop {
    isNotificationOpen: boolean
    setIsNotificationOpen: React.Dispatch<React.SetStateAction<boolean>>
-   notification:notificationData[]
-   displayNotification:()=>void
+   notification: notificationData[]
+   displayNotification: () => void
 }
 
-function Notification({ isNotificationOpen, setIsNotificationOpen,notification,displayNotification }: prop) {
+function Notification({ isNotificationOpen, setIsNotificationOpen, notification, displayNotification }: prop) {
    if (!isNotificationOpen) {
       return null
    }
@@ -96,17 +97,27 @@ function Notification({ isNotificationOpen, setIsNotificationOpen,notification,d
                               </td>
                               <td className="py-3 px-4 text-sm text-slate-300">{item.description}</td>
                               <td className="py-3 px-4">
-                                 {!item.read && (
-                                    <button
-                                       onClick={() => markReadFun(item._id)}
-                                       className="bg-orange-500 hover:bg-orange-600 text-white font-medium py-1 px-3 rounded-md transition-colors duration-200"
+                                 <div className="flex items-center gap-4">
+                                    {!item.read && (
+                                       <button
+                                          onClick={() => markReadFun(item._id)}
+                                          className="text-orange-500 hover:text-orange-600 text-xl font-medium transition-colors duration-200"
+                                          title="Mark as Read"
+                                       >
+                                          ✓
+                                       </button>
+                                    )}
+                                    {item.read && (
+                                       <span className="text-green-400 font-medium">Read</span>
+                                    )}
+                                    <Link
+                                       to={item.url}
+                                       onClick={() => setIsNotificationOpen(false)}
+                                       className="text-slate-300 hover:text-orange-500 underline transition-colors duration-200"
                                     >
-                                       Mark as Read
-                                    </button>
-                                 )}
-                                 {item.read && (
-                                    <span className="text-green-400 font-medium">Read</span>
-                                 )}
+                                       Move to Page
+                                    </Link>
+                                 </div>
                               </td>
                            </tr>
                         ))}

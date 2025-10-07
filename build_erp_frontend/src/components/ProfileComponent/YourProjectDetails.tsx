@@ -7,6 +7,10 @@ import EstimationDetails from "./SubprofileCompponent/EstimateDetails";
 import { toast } from "react-toastify";
 import { getStageInUser } from "../../api/auth";
 import StagePayment from "./SubprofileCompponent/StagePayment";
+import Requirement from "./SubprofileCompponent/Requirement";
+import ConfirmBrandSelection from "./SubprofileCompponent/ConfirmBrandSelection";
+import SkipRequirement from "./SubprofileCompponent/SkipRequirement";
+import ExpectedImageUpload from "./SubprofileCompponent/ExpectedImageUpload";
 
 type ProjectData = {
   _id: string;
@@ -44,12 +48,19 @@ function ProjectDetails() {
 
   const [approvalStatus, setApprovalStatus] = useState(false)
   const [stagePayOn, setStagePayOn] = useState(false)
+  const [requireOn, setRequireOn] = useState(false);
+  const [skipOn, setSkipOn] = useState(false);
+  const [uploadProject, setUploadImage] = useState("")
+  const [confirmEnable, setConfirmEnable] = useState(false);
+   const [isSubmitted, setIsSubmitted] = useState(false);
+
+
 
   const fetchUserProject = async () => {
     try {
       const response = await fetchUserProjectAPI();
       if (response.success) {
-        setProject(response.data.filter((element: ProjectData) => element.start_date != null));
+        setProject(response.data);
       } else {
         toast.error(response.message);
       }
@@ -61,7 +72,6 @@ function ProjectDetails() {
   const fetchStage = async (projectId: string): Promise<void> => {
     try {
       const response = await getStageInUser(projectId);
-      console.log(response)
       if (response.success) {
         setStage(response.data);
       } else {
@@ -167,16 +177,41 @@ function ProjectDetails() {
                   <div className="flex items-center">
                     <Calendar className="w-6 h-6 mr-3 text-indigo-600" />
                     <span className="text-base sm:text-lg font-medium">
-                      {currentProject.start_date.split("T")[0].split("-").reverse().join("-")} -{" "}
-                      {currentProject.end_date.split("T")[0].split("-").reverse().join("-")}
+                      {currentProject.start_date?.split("T")[0].split("-").reverse().join("-")} -{" "}
+                      {currentProject.end_date?.split("T")[0].split("-").reverse().join("-")}
                     </span>
                   </div>
                   <p className="text-gray-600 text-sm sm:text-base leading-relaxed mt-4">
                     {currentProject.description}
                   </p>
                 </div>
-
-                <div className="mt-8 flex flex-wrap gap-4">
+                {!currentProject.start_date  ? <>
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button
+                      onClick={() => setRequireOn(true)}
+                      className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-3 rounded-lg text-sm font-medium transition-colors duration-200 focus:ring-4 focus:ring-indigo-200"
+                      aria-label="Add project requirements"
+                    >
+                      Add Project Requirements
+                    </button>
+                    <button
+                      onClick={() => setSkipOn(true)}
+                      className="bg-gray-600 hover:bg-gray-700 text-white px-5 py-3 rounded-lg text-sm font-medium transition-colors duration-200 focus:ring-4 focus:ring-gray-200"
+                      aria-label="Skip adding project requirements"
+                    >
+                      Skip Requirements
+                    </button>
+                    <button
+                      onClick={() => {
+                        setImageEnable(true);
+                        setUploadImage(currentProject._id);
+                      }}
+                      className="bg-teal-500/90 hover:bg-teal-600 text-white px-4 py-2 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-teal-400"
+                    >
+                      Upload Image You Expect
+                    </button>
+                  </div>
+                </> : <div className="mt-8 flex flex-wrap gap-4">
                   <button
                     onClick={() => setProgressEnable(!progressEnable)}
                     className="flex items-center px-5 py-2.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-200 transition-all duration-200 text-sm sm:text-base font-medium"
@@ -220,7 +255,9 @@ function ProjectDetails() {
                     <DollarSign className="w-5 h-5 mr-2" />
                     View Payment Details
                   </button>
-                </div>
+                </div>}
+
+
               </div>
             </div>
 
@@ -241,6 +278,29 @@ function ProjectDetails() {
               stagePayOn={stagePayOn}
               setStagePayOn={setStagePayOn}
               projectId={currentProject._id}
+            />
+            <Requirement
+              requireOn={requireOn}
+              setRequireOn={setRequireOn}
+              setConfirmEnable={setConfirmEnable}
+              projectId={currentProject._id}
+            />
+            <ConfirmBrandSelection
+              confirmEnable={confirmEnable}
+              setConfirmEnable={setConfirmEnable}
+              projectId={currentProject._id}
+              setIsSubmitted={setIsSubmitted}
+            />
+            <SkipRequirement
+              skipOn={skipOn}
+              setSkipOn={setSkipOn}
+              projectId={currentProject._id}
+              setIsSubmitted={setIsSubmitted}
+            />
+            <ExpectedImageUpload
+              setUploadEnable={setImageEnable}
+              uploadEnable={imageEnable}
+              uploadProjectId={uploadProject}
             />
           </div>
         )}

@@ -39,7 +39,7 @@ export class SaveTransferUsecase implements ISaveTransferUseCase {
         if (!fromProjectData){
             return ResponseHelper.conflictData(ProjectFailedMessage.FETCH);
         }
-        await this._notificationRepository.saveNotication(new Date(), 'Admin have to send a material Transfer Request', fromProjectData.user_id);
+        await this._notificationRepository.saveNotication(new Date(), 'Admin have to send a material Transfer Request', fromProjectData.user_id,'transfer');
         return ResponseHelper.createdSuccess(TransferSuccessMessage.SAVE);
     }
 }

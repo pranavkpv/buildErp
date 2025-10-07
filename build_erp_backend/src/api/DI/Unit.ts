@@ -6,7 +6,7 @@ import { SaveUnitUseCase } from '../../application/UseCase/Unit/SaveUnit';
 import { UpdateUnitUseCase } from '../../application/UseCase/Unit/UpdateUnit';
 import { MaterialRepository } from '../../infrastructure/Repositories/Material';
 import { UnitRepository } from '../../infrastructure/Repositories/Unit';
-import { UnitController } from '../controllers/Unit';
+import { UnitController } from '../controllers/Unit.controller';
 
 const unitRepository = new UnitRepository();
 const materialRepository = new MaterialRepository();

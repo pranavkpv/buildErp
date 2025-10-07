@@ -22,7 +22,7 @@ export class RejectEstimationUsecase implements IRejectEstimationUseCase {
         if (!existProject) {
             return ResponseHelper.conflictData(ProjectFailedMessage.FETCH);
         }
-        await this._notificationRepository.saveNotication(new Date(), `User is Reject The Project ${ existProject.project_name }`, 'admin');
+        await this._notificationRepository.saveNotication(new Date(), `User is Reject The Project ${ existProject.project_name }`, 'admin','estimation');
         return ResponseHelper.success(EstimationSuccessMessage.REJECT_SUCCESS);
     }
 }

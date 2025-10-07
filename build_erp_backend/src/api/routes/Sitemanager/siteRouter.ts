@@ -190,6 +190,10 @@ export class SitemanagerRoute {
             '/fetchstockList/:id',
             withLogging(injectedTransferController.fullStockList),
         );
+         this.sitemanagerRoute.get(
+            '/transferId',
+            withLogging(injectedTransferController.getLastTransfer),
+        );
 
         // ================================
         // 🔹 Receive
@@ -278,6 +282,6 @@ export class SitemanagerRoute {
             '/expectImage/:id',
             withLogging(injectedProjectController.getExpectedImage),
         );
-
+        
     }
 }

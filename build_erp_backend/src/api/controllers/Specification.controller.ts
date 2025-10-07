@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { commonOutput } from '../../application/dto/common';
 import { specFullDTO, userSpecDTO } from '../../application/dto/specification.dto';
 import { IFindmaterialSumUseCase } from '../../application/IUseCases/IMaterial/IFindMaterialSum';
-import { ISpecController } from '../../domain/Entities/IController/ISpecification';
+import { ISpecController } from '../../domain/Entities/IController/ISpecification.controller';
 import { IFindlabourSumUsecase } from '../../application/IUseCases/IMaterial/IFindLabourSum';
 import { ISaveSpecUseCase } from '../../application/IUseCases/ISpecification/ISpecificationSave';
 import { IDeleteSpecUseCase } from '../../application/IUseCases/ISpecification/IDeleteSpecification';

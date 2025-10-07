@@ -7,7 +7,7 @@ import { ProjectRepository } from '../../infrastructure/Repositories/Project';
 import { PurchaseRepository } from '../../infrastructure/Repositories/Purchase';
 import { ReceiveRepository } from '../../infrastructure/Repositories/Receive';
 import { TransferRepository } from '../../infrastructure/Repositories/Transfer';
-import { AdminDashboardController } from '../controllers/AdminDashboard';
+import { AdminDashboardController } from '../controllers/AdminDashboard.controller';
 
 const projectRepository = new ProjectRepository();
 const purchaseRepository = new PurchaseRepository();

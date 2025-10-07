@@ -4,6 +4,7 @@ import { SpecFailedMessage } from '../../../Shared/Messages/Specification.Messag
 import { ProjectFailedMessage } from '../../../Shared/Messages/Project.Message';
 import { EstimationFailedMessage } from '../../../Shared/Messages/Estimation.Message';
 import { bannerFailedMessage } from '../../../Shared/Messages/Banner.message';
+import { UploadedFile } from 'express-fileupload';
 
 //validate save estimation
 export const validateSaveEstimation = (req: Request, res: Response, next: NextFunction): void => {
@@ -66,7 +67,7 @@ export const validateSaveEstimation = (req: Request, res: Response, next: NextFu
 //validate upload estimation image
 export const validateUploadEstimationImage = (req: Request, res: Response, next: NextFunction): void => {
     const projectId = req.params.id;
-    const files = req.files as any;
+    const files = req.files  as { [key: string]: UploadedFile };
     const body = req.body;
     if (!projectId) {
         res.status(HTTP_STATUS.BAD_REQUEST).json({

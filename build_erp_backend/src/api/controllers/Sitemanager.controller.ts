@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { ISitemanagerController } from '../../domain/Entities/IController/ISitemanager';
+import { ISitemanagerController } from '../../domain/Entities/IController/ISitemanager.controller';
 import { IDisplayAllSitemanagerUseCase } from '../../application/IUseCases/ISitemanager/IDisplayAllsitemanager';
 import { IUpdateSitemanagerUseCase } from '../../application/IUseCases/ISitemanager/IUpdateSitemanager';
 import { ISaveSitemanagerUseCase } from '../../application/IUseCases/ISitemanager/ISaveSitemanager';

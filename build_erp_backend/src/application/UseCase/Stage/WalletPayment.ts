@@ -37,7 +37,7 @@ export class WalletPaymentUsecase implements IWalletPaymentUseCase {
             purpose: 'stage payment', paymentStatus: 'success', stage_id: stageData._id, stripeSessionId: '',
         });
         await this._stageRepository.updatePaymentStatus(stageData._id, 'completed');
-        await this._notificationRepository.saveNotication(new Date(), `the user of the project ${ projectData.project_name } is paid ${ stageData.stage_amount }`, 'admin');
+        await this._notificationRepository.saveNotication(new Date(), `the user of the project ${ projectData.project_name } is paid ${ stageData.stage_amount }`, 'admin','verify');
         return ResponseHelper.success(StageSuccessMessage.SUCCESS_PAY);
     }
 }

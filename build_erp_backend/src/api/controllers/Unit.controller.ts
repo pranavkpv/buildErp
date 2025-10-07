@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { commonOutput } from '../../application/dto/common';
-import { IUnitController } from '../../domain/Entities/IController/IUnit';
+import { IUnitController } from '../../domain/Entities/IController/IUnit.controller';
 import { ISaveUnitUseCase } from '../../application/IUseCases/IUnit/ISaveUnit';
 import { IdeleteUnitUseCase } from '../../application/IUseCases/IUnit/IDeleteUnit';
 import { IFetchUnitUseCase } from '../../application/IUseCases/IUnit/IFetchUnit';

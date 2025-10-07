@@ -24,8 +24,7 @@ export class AddSiteToProjectUseCase implements IAddSiteToProjectUseCase {
             await this._projectRepository.
                 assignSitemanagerToProject({ siteManager_id, selectedproject: selectedproject[i] });
             const project = await this._projectRepository.getProjectById(selectedproject[i]);
-            await this._notificationRepository.saveNotication(new Date(), `Admin Assign the project as ${ project?.project_name }`, siteManager_id);
-
+            await this._notificationRepository.saveNotication(new Date(), `Admin Assign the project as ${ project?.project_name }`, siteManager_id,'dashboard');
         }
         return ResponseHelper.success(SitemanagerSuccessMessage.ADD);
     }

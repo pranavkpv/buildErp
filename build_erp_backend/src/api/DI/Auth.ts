@@ -23,7 +23,7 @@ import { ProjectRepository } from '../../infrastructure/Repositories/Project';
 import { SitemanagerRepository } from '../../infrastructure/Repositories/Sitemanager';
 import { StageRepository } from '../../infrastructure/Repositories/Stage';
 import { UserRepository } from '../../infrastructure/Repositories/User';
-import { AuthController } from '../controllers/Auth';
+import { AuthController } from '../controllers/Auth.controller';
 
 const userRepository = new UserRepository();
 const hasher = new BcryptHasher();

@@ -1,7 +1,7 @@
 import { JwtService } from '../../application/services/JwtService';
 import { FetchUserUseCase } from '../../application/UseCase/StageStatusUpdation/FetchUser';
 import { ProjectRepository } from '../../infrastructure/Repositories/Project';
-import { ChatController } from '../controllers/ChatController';
+import { ChatController } from '../controllers/Chat.controller';
 
 const jwtService = new JwtService();
 const projectRepository = new ProjectRepository();

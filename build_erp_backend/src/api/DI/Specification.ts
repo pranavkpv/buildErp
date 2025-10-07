@@ -13,7 +13,7 @@ import { EstimationRepository } from '../../infrastructure/Repositories/Estimati
 import { LabourRepository } from '../../infrastructure/Repositories/Labour';
 import { MaterialRepository } from '../../infrastructure/Repositories/Material';
 import { SpecRepository } from '../../infrastructure/Repositories/Specification';
-import { SpecController } from '../controllers/Specification';
+import { SpecController } from '../controllers/Specification.controller';
 
 const specRepository = new SpecRepository();
 const specificationMapper = new SpecificationMapper();

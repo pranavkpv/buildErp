@@ -5,7 +5,7 @@ import { UploadStatusImageUseCase } from '../../application/UseCase/StageStatusU
 import { NotificationRepostory } from '../../infrastructure/Repositories/Notifiaction';
 import { ProjectRepository } from '../../infrastructure/Repositories/Project';
 import { StageRepository } from '../../infrastructure/Repositories/Stage';
-import { StatusController } from '../controllers/StageStatus';
+import { StatusController } from '../controllers/StageStatus.controller';
 
 const stagerepository = new StageRepository();
 const notificationRepository = new NotificationRepostory();

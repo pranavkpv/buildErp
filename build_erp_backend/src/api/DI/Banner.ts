@@ -5,7 +5,7 @@ import { EditBannerUseCase } from '../../application/UseCase/Banner/EditBanner';
 import { FetchAllBannerUseCase } from '../../application/UseCase/Banner/FetchAllBanner';
 import { ListBannerUseCase } from '../../application/UseCase/Banner/ListBanner';
 import { BannerRepository } from '../../infrastructure/Repositories/Banner';
-import { BannerController } from '../controllers/Banner';
+import { BannerController } from '../controllers/Banner.controller';
 
 const bannerRepository = new BannerRepository();
 const bannermapper = new BannerMapper();

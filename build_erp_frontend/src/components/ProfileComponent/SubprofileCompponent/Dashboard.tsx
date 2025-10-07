@@ -4,6 +4,9 @@ import { Doughnut } from 'react-chartjs-2';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { userDashBoardApi } from '../../../api/User/Dashboard';
+import MilestoneGraph from './MileStoneGraph';
+
+
 
 // Register Chart.js components
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -12,8 +15,8 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 interface Project {
   id: string;
   name: string;
-  completion: number; 
-  pendingPayment: number; 
+  completion: number;
+  pendingPayment: number;
 }
 
 interface UserData {
@@ -23,24 +26,21 @@ interface UserData {
 }
 
 const Dashboard: React.FC = () => {
-
-  const [userData, setUserData] = useState<UserData>({projectsCount:0,walletBalance:0,projects:[]})
+  const [userData, setUserData] = useState<UserData>({ projectsCount: 0, walletBalance: 0, projects: [] });
 
   const fetchUserDashBoard = async () => {
-    const response = await userDashBoardApi()
-    console.log(response)
+    const response = await userDashBoardApi();
+    console.log(response);
     if (response.success) {
-      setUserData(response.data)
+      setUserData(response.data);
     } else {
-      toast.error(response.message)
+      toast.error(response.message);
     }
-  }
+  };
 
   useEffect(() => {
-    fetchUserDashBoard()
-  }, [])
-
-
+    fetchUserDashBoard();
+  }, []);
 
   const completionChartData = {
     labels: userData.projects.map((project) => project.name),
@@ -53,7 +53,6 @@ const Dashboard: React.FC = () => {
     ],
   };
 
-
   const paymentChartData = {
     labels: userData.projects.map((project) => project.name),
     datasets: [
@@ -65,7 +64,6 @@ const Dashboard: React.FC = () => {
     ],
   };
 
-
   const chartOptions = {
     plugins: {
       legend: {
@@ -73,7 +71,6 @@ const Dashboard: React.FC = () => {
       },
     },
   };
-
 
   const quickLinks = [
     { name: 'Submit Transfer Request', path: '/profile/transfer' },
@@ -117,7 +114,7 @@ const Dashboard: React.FC = () => {
       </div>
 
       {/* Charts Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
         {/* Project Completion Chart */}
         <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
           <h2 className="text-xl font-semibold text-gray-800 mb-4">Project Completion Status</h2>
@@ -125,7 +122,6 @@ const Dashboard: React.FC = () => {
             <Doughnut data={completionChartData} options={chartOptions} />
           </div>
         </div>
-
         {/* Pending Payment Chart */}
         <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
           <h2 className="text-xl font-semibold text-gray-800 mb-4">Pending Payments (Project-Wise)</h2>
@@ -133,6 +129,9 @@ const Dashboard: React.FC = () => {
             <Doughnut data={paymentChartData} options={chartOptions} />
           </div>
         </div>
+      </div>
+      <div className="lg:col-span-2">
+  <MilestoneGraph />
       </div>
     </div>
   );

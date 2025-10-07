@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { IAddSiteManagerToProjectController } from '../../domain/Entities/IController/IAddSitemanagerToProject';
+import { IAddSiteManagerToProjectController } from '../../domain/Entities/IController/IAddSitemanagerToProject.controller';
 import { IAddSiteToProjectUseCase } from '../../application/IUseCases/ISitemanager/IAddSiteToProject';
 import { IListSiteToProjectUseCase } from '../../application/IUseCases/ISitemanager/IListSiteToProject';
 import { IDeleteSiteToProjectUseCase } from '../../application/IUseCases/ISitemanager/IDeleteSitemanagerInProject';

@@ -63,7 +63,7 @@ function ProgressBar({ progressEnable, projectId }: progressProp) {
                 <div className="flex items-center text-sm text-gray-600">
                   <Calendar className="w-4 h-4 mr-2" />
                   <span>
-                    {element.start_date} - {element.end_date}
+                    {element.start_date.split('T')[0].split('-').reverse().join('-')} - {element.end_date.split('T')[0].split('-').reverse().join('-')}
                   </span>
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">

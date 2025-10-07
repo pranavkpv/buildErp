@@ -19,8 +19,8 @@ function SiteDashboard() {
    const [page, setPage] = useState(0);
    const [totalPages, setTotalPages] = useState(1);
    const [loading, setLoading] = useState(false);
-   const [estimateOn,setEstimateOn] = useState(false)
-   const [detailId,setDetailId] = useState("")
+   const [estimateOn, setEstimateOn] = useState(false)
+   const [detailId, setDetailId] = useState("")
    const itemsPerPage = 5;
    const navigate = useNavigate();
 
@@ -52,6 +52,62 @@ function SiteDashboard() {
    return (
       <div className="min-h-screen bg-gradient-to-b from-slate-900 to-slate-800 text-white p-6">
          <div className="max-w-7xl mx-auto">
+            <div className="mb-10">
+               <h1 className="text-3xl font-bold mb-4 tracking-tight text-center text-gray-100">
+                  Quick Links
+               </h1>
+               <div className="flex flex-wrap justify-center gap-4">
+                  <button
+                     onClick={() => navigate('/site/changepass')}
+                     className="bg-gradient-to-r from-green-400 to-teal-400 text-white font-medium py-2 px-4 rounded-lg hover:from-green-500 hover:to-teal-500 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-teal-400"
+                     aria-label="Navigate to Change Password"
+                  >
+                     Change Password
+                  </button>
+                  <button
+                     onClick={() => navigate('/site/stage-updation')}
+                     className="bg-gradient-to-r from-green-400 to-teal-400 text-white font-medium py-2 px-4 rounded-lg hover:from-green-500 hover:to-teal-500 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-teal-400"
+                     aria-label="Navigate to Stage Updation"
+                  >
+                     Stage Updation
+                  </button>
+                  <button
+                     onClick={() => navigate('/site/purchase')}
+                     className="bg-gradient-to-r from-green-400 to-teal-400 text-white font-medium py-2 px-4 rounded-lg hover:from-green-500 hover:to-teal-500 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-teal-400"
+                     aria-label="Navigate to Add Purchase"
+                  >
+                     Add Purchase
+                  </button>
+                  <button
+                     onClick={() => navigate('/site/transfer')}
+                     className="bg-gradient-to-r from-green-400 to-teal-400 text-white font-medium py-2 px-4 rounded-lg hover:from-green-500 hover:to-teal-500 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-teal-400"
+                     aria-label="Navigate to Transfer Material"
+                  >
+                     Transfer Material
+                  </button>
+                  <button
+                     onClick={() => navigate('/site/receive')}
+                     className="bg-gradient-to-r from-green-400 to-teal-400 text-white font-medium py-2 px-4 rounded-lg hover:from-green-500 hover:to-teal-500 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-teal-400"
+                     aria-label="Navigate to Receive Material"
+                  >
+                     Receive Material
+                  </button>
+                  <button
+                     onClick={() => navigate('/site/attendance')}
+                     className="bg-gradient-to-r from-green-400 to-teal-400 text-white font-medium py-2 px-4 rounded-lg hover:from-green-500 hover:to-teal-500 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-teal-400"
+                     aria-label="Navigate to Labour Attendance"
+                  >
+                     Labour Attendance
+                  </button>
+                  <button
+                     onClick={() => navigate('/site/chat')}
+                     className="bg-gradient-to-r from-green-400 to-teal-400 text-white font-medium py-2 px-4 rounded-lg hover:from-green-500 hover:to-teal-500 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-teal-400"
+                     aria-label="Navigate to Chat"
+                  >
+                     Chat
+                  </button>
+               </div>
+            </div>
             <h1 className="text-3xl font-bold mb-8 tracking-tight text-center">
                Project List
             </h1>
@@ -206,11 +262,11 @@ function SiteDashboard() {
             )}
          </div>
          <StockManagement />
-         <ProjectEstimationDetails 
-         estimateOn={estimateOn}
-         setEstimateOn={setEstimateOn}
-         onSuccess={fetchprojectWithCompletionPer}
-         projectId={detailId}
+         <ProjectEstimationDetails
+            estimateOn={estimateOn}
+            setEstimateOn={setEstimateOn}
+            onSuccess={fetchprojectWithCompletionPer}
+            projectId={detailId}
          />
 
       </div>

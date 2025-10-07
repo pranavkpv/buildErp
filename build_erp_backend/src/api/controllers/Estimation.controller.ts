@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import cloudinary from '../../infrastructure/config/cloudinary';
-import { IEstimationController } from '../../domain/Entities/IController/IEstimation';
+import { IEstimationController } from '../../domain/Entities/IController/IEstimation.controller';
 import { ISaveEstimationUseCase } from '../../application/IUseCases/IEstimation/ISaveEstimation';
 import { IDisplayEstimationUseCase } from '../../application/IUseCases/IEstimation/IDisplayEstimation';
 import { ISendEstimationUseCase } from '../../application/IUseCases/IEstimation/IDeleteEstimation';
@@ -18,6 +18,7 @@ import { IApproveEstimationUseCase } from '../../application/IUseCases/IEstimati
 import { ResponseHelper } from '../../Shared/responseHelpers/response';
 import { EstimationFailedMessage } from '../../Shared/Messages/Estimation.Message';
 import { IGetEstimationImageUsecase } from '../../application/IUseCases/IEstimation/IGetEstimationImage';
+import { UploadedFile } from 'express-fileupload';
 
 
 
@@ -91,7 +92,7 @@ export class EstimationController implements IEstimationController {
         Promise<commonOutput | void> => {
         try {
             const projectId = req.params.id;
-            const files = req.files as any;
+            const files = req.files as { [key: string]: UploadedFile };
             const body = req.body;
             const imageCollection: string[] = [];
             const title = [];

@@ -19,7 +19,7 @@ import { ChatRepository } from '../../infrastructure/Repositories/Chat';
 import { PaymentRepository } from '../../infrastructure/Repositories/Payment';
 import { ProjectRepository } from '../../infrastructure/Repositories/Project';
 import { UserRepository } from '../../infrastructure/Repositories/User';
-import { UserProfileController } from '../controllers/UserProfile';
+import { UserProfileController } from '../controllers/UserProfile.controller';
 import { StageRepository } from '../../infrastructure/Repositories/Stage';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {

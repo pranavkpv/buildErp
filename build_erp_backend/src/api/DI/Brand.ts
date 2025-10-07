@@ -5,7 +5,7 @@ import { SaveBrandUseCase } from '../../application/UseCase/Brand/SaveBrand';
 import { UpdateBrandUseCase } from '../../application/UseCase/Brand/UpdateBrand';
 import { BrandRepository } from '../../infrastructure/Repositories/Brand';
 import { MaterialRepository } from '../../infrastructure/Repositories/Material';
-import { BrandController } from '../controllers/Brand';
+import { BrandController } from '../controllers/Brand.controller';
 
 const brandRepository = new BrandRepository();
 const materialRepository = new MaterialRepository();

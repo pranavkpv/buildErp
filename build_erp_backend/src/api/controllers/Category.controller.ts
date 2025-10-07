@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { commonOutput } from '../../application/dto/common';
-import { ICategoryController } from '../../domain/Entities/IController/ICategory';
+import { ICategoryController } from '../../domain/Entities/IController/ICategory.controller';
 import { IDisplayAllCategoryUseCase } from '../../application/IUseCases/ICategory/IDisplayAllCategory';
 import { categoryListDTO } from '../../application/dto/category.dto';
 import { IUpdateCategoryUseCase } from '../../application/IUseCases/ICategory/IUpdateCategory';

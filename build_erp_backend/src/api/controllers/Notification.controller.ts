@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { commonOutput } from '../../application/dto/common';
 import { notificationDTO } from '../../application/dto/notification.dto';
-import { INotificationController } from '../../domain/Entities/IController/INotification';
+import { INotificationController } from '../../domain/Entities/IController/INotification.controller';
 import { ResponseHelper } from '../../Shared/responseHelpers/response';
 import { IJwtService } from '../../domain/Entities/Service.Entities/IJwtservice';
 import { IFetchNotificationUseCase } from '../../application/IUseCases/INotification/IFetchNotification';

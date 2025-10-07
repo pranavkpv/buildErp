@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { IBudgetAndActualUsecase } from '../../application/IUseCases/IAdmin/IBudgetAndActual';
-import { IAdminDashboardController } from '../../domain/Entities/IController/IAdminDashboard';
+import { IAdminDashboardController } from '../../domain/Entities/IController/IAdminDashboard.controller';
 import { IBudgetAndActualMaterialUseCase } from '../../application/IUseCases/IAdmin/IBudgetAndActualMaterial';
 import { IBudgetAndActualLabourUseCase } from '../../application/IUseCases/IAdmin/IBudgetedAndActualLabour';
 import { budgetActualDTO } from '../../application/dto/admin.dashoard.dto';

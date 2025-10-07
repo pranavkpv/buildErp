@@ -3,7 +3,7 @@ import { commonOutput } from '../../application/dto/common';
 import { ISignupUserUseCase } from '../../application/IUseCases/IAuth/ISignup';
 import { IResendOTPUseCase } from '../../application/IUseCases/IAuth/IResendOtp';
 import { IUserLoginUseCase } from '../../application/IUseCases/IAuth/IUserLogin';
-import { IAuthController } from '../../domain/Entities/IController/IAuth';
+import { IAuthController } from '../../domain/Entities/IController/IAuth.controller';
 import { userLoginDTO } from '../../application/dto/user.dto';
 import { Tokens } from '../../application/entities/token.entity';
 import { IGoogleloginUseCase } from '../../application/IUseCases/IAuth/IGoogleLogin';

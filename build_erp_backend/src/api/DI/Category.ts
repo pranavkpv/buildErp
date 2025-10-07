@@ -5,7 +5,7 @@ import { SaveCategoryUseCase } from '../../application/UseCase/Category/SaveCate
 import { UpdateCategoryUseCase } from '../../application/UseCase/Category/UpdateCategory';
 import { CategoryRepository } from '../../infrastructure/Repositories/Category';
 import { MaterialRepository } from '../../infrastructure/Repositories/Material';
-import { CategoryController } from '../controllers/Category';
+import { CategoryController } from '../controllers/Category.controller';
 
 const categoryRepository = new CategoryRepository();
 const materialRepository = new MaterialRepository();

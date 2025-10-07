@@ -20,7 +20,7 @@ export class ApproveEstimationUseCase implements IApproveEstimationUseCase {
         if (!existProject) {
             return ResponseHelper.conflictData(ProjectFailedMessage.FETCH);
         }
-        await this._notificationRepository.saveNotication(new Date(), `User is Approved The Project ${ existProject.project_name }`, 'admin');
+        await this._notificationRepository.saveNotication(new Date(), `User is Approved The Project ${ existProject.project_name }`, 'admin','addToSite');
         return ResponseHelper.success(EstimationSuccessMessage.APPROVE_SUCCESS);
     }
 }

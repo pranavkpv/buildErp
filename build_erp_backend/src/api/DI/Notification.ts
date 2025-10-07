@@ -3,7 +3,7 @@ import { JwtService } from '../../application/services/JwtService';
 import { FetchNotificationUseCase } from '../../application/UseCase/Notification/FetchNotification';
 import { UpdateReadNotifaicationUseCase } from '../../application/UseCase/Notification/UpdateReadNotification';
 import { NotificationRepostory } from '../../infrastructure/Repositories/Notifiaction';
-import { NotificationController } from '../controllers/Notification';
+import { NotificationController } from '../controllers/Notification.controller';
 
 const notificationRepository = new NotificationRepostory();
 const notificationMapper = new NotificationMapper();

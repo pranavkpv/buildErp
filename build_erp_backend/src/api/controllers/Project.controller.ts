@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { IProjectController } from '../../domain/Entities/IController/IProject';
+import { IProjectController } from '../../domain/Entities/IController/IProject.controller';
 import { IDisplayAllProjectUseCase } from '../../application/IUseCases/IProject/IDisplayAllProject';
 import { IDisplayAddProjectUseCase } from '../../application/IUseCases/IProject/IDisplayAddProject';
 import { IAddProjectUseCase } from '../../application/IUseCases/IProject/IAddProject';

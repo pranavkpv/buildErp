@@ -24,7 +24,7 @@ import { PurchaseRepository } from '../../infrastructure/Repositories/Purchase';
 import { SpecRepository } from '../../infrastructure/Repositories/Specification';
 import { TransferRepository } from '../../infrastructure/Repositories/Transfer';
 import { UnitRepository } from '../../infrastructure/Repositories/Unit';
-import { MaterialController } from '../controllers/Material';
+import { MaterialController } from '../controllers/Material.controller';
 
 const materialRepository = new MaterialRepository();
 const materialMapper = new MaterialMapper();

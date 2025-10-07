@@ -31,7 +31,7 @@ export class AddProjectUseCase implements IAddProjectUseCase {
         if (!response) {
             return ResponseHelper.conflictData(ProjectFailedMessage.ADD_FAIL);
         }
-        await this._notificationRepository.saveNotication(new Date(),`User ${userData.username}  is submit a proposal request. Please review it.`,'admin');
+        await this._notificationRepository.saveNotication(new Date(),`User ${userData.username}  is submit a proposal request. Please review it.`,'admin','estimation');
         return ResponseHelper.createdSuccess(ProjectSuccessMessage.ADD, response._id);
     }
 }

@@ -1,5 +1,5 @@
 import { Request } from 'express';
-import { IChatControllerEntity } from '../../domain/Entities/IController/IChatControllerEntity';
+import { IChatControllerEntity } from '../../domain/Entities/IController/IChat.Controller';
 import { IFetchUserUseCase } from '../../application/IUseCases/IStageStatusUpdation/IFetchUser';
 import { ResponseHelper } from '../../Shared/responseHelpers/response';
 import { IJwtService } from '../../domain/Entities/Service.Entities/IJwtservice';

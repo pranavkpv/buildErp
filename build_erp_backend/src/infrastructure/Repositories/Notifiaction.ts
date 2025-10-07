@@ -3,11 +3,12 @@ import { INotificationRepository } from '../../domain/Entities/IRepository/INoti
 import { INotificationModelEntity } from '../../domain/Entities/modelEntities/INotification.entity';
 
 export class NotificationRepostory implements INotificationRepository {
-    async saveNotication(date: Date, description: string, userId: string): Promise<void> {
+    async saveNotication(date: Date, description: string, userId: string,url?:string): Promise<void> {
         const newNotification = new notificationDB({
             date,
             description,
             userId,
+            url
         });
         await newNotification.save();
     }

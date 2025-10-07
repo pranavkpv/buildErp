@@ -40,7 +40,7 @@ export class HandleWebhookUseCase implements IHandleWebhookUseCase {
             await this._paymentRepository.updatePaymentStatus(payment.stage_id, 'success');
             await this._stageRepository.updatePaymentStatus(payment.stage_id, 'completed');
 
-            await this._notificationRepository.saveNotication(new Date(), `User is paid ${ existStage.stage_amount } with project as ${ existProject?.project_name } and stage as ${ existStage.stage_name }`, 'admin');
+            await this._notificationRepository.saveNotication(new Date(), `User is paid ${ existStage.stage_amount } with project as ${ existProject?.project_name } and stage as ${ existStage.stage_name }`, 'admin','verify');
             return ResponseHelper.success(StageSuccessMessage.SUCCESS_PAY);
         }
 

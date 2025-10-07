@@ -1,7 +1,7 @@
 import { getSitemanagersProject } from "../../../api/Sitemanager/profile";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { fetchFullStockApi, saveTransferApI, ToProjectFetchAPI } from "../../../api/Sitemanager/transfer";
+import { fetchFullStockApi, getLastTransferId, saveTransferApI, ToProjectFetchAPI } from "../../../api/Sitemanager/transfer";
 import Loading from "../../../components/Loading";
 
 type SetAdd = {
@@ -59,9 +59,22 @@ function AddTransfer({ addEnable, setAddEnable, onAddSuccess }: SetAdd) {
       toast.error("Failed to fetch projects");
     }
   };
+  const fetchLastTransferId = async () => {
+    try {
+      const response = await getLastTransferId()
+      if (response.success) {
+        setTransferId(response.data)
+      } else {
+        toast.error(response.message)
+      }
+    } catch (error) {
+      toast.error("Failed to fetch TransferId");
+    }
+  }
 
   useEffect(() => {
     fetchProject();
+    fetchLastTransferId()
   }, []);
 
   const validateForm = () => {
@@ -235,7 +248,7 @@ function AddTransfer({ addEnable, setAddEnable, onAddSuccess }: SetAdd) {
                 type="text"
                 placeholder="Enter Transfer ID"
                 value={transferId}
-                onChange={(e) => setTransferId(e.target.value)}
+                disabled
                 className="w-full px-4 py-2.5 bg-gray-800/70 border border-gray-700 rounded-md 
                   focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-100 text-sm"
               />

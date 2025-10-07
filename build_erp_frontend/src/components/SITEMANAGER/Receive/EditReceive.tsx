@@ -5,6 +5,7 @@ import { getSitemanagersProject } from "../../../api/Sitemanager/profile";
 import TransferModal from "./TransferModal";
 import { updateReceiveAPI } from "../../../api/Sitemanager/receive";
 import Loading from "../../../components/Loading";
+import type { ReceiveData } from "./ReceiveList";
 
 type listMaterial = {
   sl: number;
@@ -21,22 +22,9 @@ type Project = {
   project_name: string;
 };
 
-type JwtPayload = {
-  userId: string;
-  iat: number;
-  exp: number;
-};
 
-type ReceiveData = {
-  _id: string;
-  project_id: string;
-  Toproject_name: string;
-  description: string;
-  date: string;
-  transferDetails: any[];
-  materialData: listMaterial[];
-  finalAmount: number;
-};
+
+
 
 type EditReceiveProps = {
   editId: string;

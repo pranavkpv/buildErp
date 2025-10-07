@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { IPurchaseController } from '../../domain/Entities/IController/IPurchase';
+import { IPurchaseController } from '../../domain/Entities/IController/IPurchase.controller';
 import { ResponseHelper } from '../../Shared/responseHelpers/response';
 import { IJwtService } from '../../domain/Entities/Service.Entities/IJwtservice';
 import { commonOutput } from '../../application/dto/common';

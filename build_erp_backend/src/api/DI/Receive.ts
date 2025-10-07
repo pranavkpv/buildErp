@@ -6,7 +6,7 @@ import { UpdateReceiveUsecase } from '../../application/UseCase/Receive/UpdateRe
 import { ProjectStockRepository } from '../../infrastructure/Repositories/ProjectStock';
 import { ReceiveRepository } from '../../infrastructure/Repositories/Receive';
 import { TransferRepository } from '../../infrastructure/Repositories/Transfer';
-import { ReceiveController } from '../controllers/Receive';
+import { ReceiveController } from '../controllers/Receive.controller';
 
 const receiveRepository = new ReceiveRepository();
 const transferRepository = new TransferRepository();

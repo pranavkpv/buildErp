@@ -8,7 +8,7 @@ import { UpdateLabourUseCase } from '../../application/UseCase/Labour/UpdateLabo
 import { AttendanceRepository } from '../../infrastructure/Repositories/Attendance';
 import { LabourRepository } from '../../infrastructure/Repositories/Labour';
 import { SpecRepository } from '../../infrastructure/Repositories/Specification';
-import { LabourController } from '../controllers/Labour';
+import { LabourController } from '../controllers/Labour.controller';
 
 const labourRepository = new LabourRepository();
 const labourmapper = new LabourMapper();

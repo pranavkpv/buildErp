@@ -24,7 +24,7 @@ import { PurchaseRepository } from '../../infrastructure/Repositories/Purchase';
 import { StageRepository } from '../../infrastructure/Repositories/Stage';
 import { TransferRepository } from '../../infrastructure/Repositories/Transfer';
 import { UserRepository } from '../../infrastructure/Repositories/User';
-import { ProjectController } from '../controllers/Project';
+import { ProjectController } from '../controllers/Project.controller';
 
 const projectRepository = new ProjectRepository();
 const projectmapper = new ProjectMapper();

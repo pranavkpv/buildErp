@@ -11,7 +11,7 @@ import { ProjectRepository } from '../../infrastructure/Repositories/Project';
 import { PurchaseRepository } from '../../infrastructure/Repositories/Purchase';
 import { ReceiveRepository } from '../../infrastructure/Repositories/Receive';
 import { TransferRepository } from '../../infrastructure/Repositories/Transfer';
-import { AddSiteManagerToProjectController } from '../controllers/AddSiteManagerToProject';
+import { AddSiteManagerToProjectController } from '../controllers/AddSiteManagerToProject.controller';
 
 const addSiteToProjectRepository = new AddSiteToProjectRepository();
 const sitemanagermapper = new sitemanagerMapper();

@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { IMaterialController } from '../../domain/Entities/IController/IMaterial';
+import { IMaterialController } from '../../domain/Entities/IController/IMaterial.controller';
 import { IDisplayAllMaterialUsecase } from '../../application/IUseCases/IMaterial/IDisplayAllMaterial';
 import { IAddMaterialUseCase } from '../../application/IUseCases/IMaterial/IAddMaterial';
 import { IGetEditMaterialUseCase } from '../../application/IUseCases/IMaterial/IGetEditMaterial';

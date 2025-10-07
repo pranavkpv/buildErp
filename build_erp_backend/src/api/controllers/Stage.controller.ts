@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { IStageController } from '../../domain/Entities/IController/IStage';
+import { IStageController } from '../../domain/Entities/IController/IStage.controller';
 import { IStageSaveUseCase } from '../../application/IUseCases/IStage/IStageSave';
 import { IFetchCostUseCase } from '../../application/IUseCases/IStage/IFetchCost';
 import { IFetchStageUsecase } from '../../application/IUseCases/IStage/IFetchStage';

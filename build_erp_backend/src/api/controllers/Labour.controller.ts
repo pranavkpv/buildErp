@@ -4,7 +4,7 @@ import { IDisplayAllLabourUsecase } from '../../application/IUseCases/ILabour/ID
 import { IUpdateLabourUseCase } from '../../application/IUseCases/ILabour/IUpdateLabour';
 import { IDeleteLabourUseCase } from '../../application/IUseCases/ILabour/IDeleteLabour';
 import { IFetchAllLabourUseCase } from '../../application/IUseCases/ILabour/IFetchAllLabour';
-import { ILabourController } from '../../domain/Entities/IController/ILabour';
+import { ILabourController } from '../../domain/Entities/IController/ILabour.controller';
 import { commonOutput } from '../../application/dto/common';
 import { labourDataDisplayDTO } from '../../application/dto/labour.dto';
 import { IFetchLabourByIdUsecase } from '../../application/IUseCases/ILabour/IFetchLabourById';

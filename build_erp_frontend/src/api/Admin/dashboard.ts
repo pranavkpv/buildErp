@@ -36,3 +36,5 @@ export const fetLabourAnalysis = async (search: string) => {
   return response.data
 }
 
+
+

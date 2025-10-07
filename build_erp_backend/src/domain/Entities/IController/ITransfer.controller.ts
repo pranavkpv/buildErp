@@ -35,4 +35,7 @@ export interface ITransferController {
 
    rejectTransferById(req: Request, res: Response, next: NextFunction):
       Promise<commonOutput | void>
+
+   getLastTransfer(req: Request, res: Response, next: NextFunction):
+      Promise<commonOutput<number> | commonOutput | void>
 }

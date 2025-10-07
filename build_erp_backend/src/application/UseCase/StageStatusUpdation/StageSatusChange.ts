@@ -25,7 +25,7 @@ export class StageStatusChangeUseCase implements IStageStatusChangeUseCase {
         if (!projectData) {
             return ResponseHelper.conflictData(ProjectFailedMessage.FETCH);
         }
-        await this._notificationRepository.saveNotication(new Date(), `The project ${ projectData?.project_name } is currently in the ${ stageData.stage_name } stage. now ${ stageData.stage_name } stage ${ newProgress }% completed`, projectData?.user_id);
+        await this._notificationRepository.saveNotication(new Date(), `The project ${ projectData?.project_name } is currently in the ${ stageData.stage_name } stage. now ${ stageData.stage_name } stage ${ newProgress }% completed`, projectData?.user_id,'project');
 
         return ResponseHelper.success(StageSuccessMessage.STATUS_CHANGE);
     }

@@ -67,3 +67,8 @@ export const rejectTransferApi = async (rejectId:string) => {
       const response = await userAxios.patch(`/rejectTransfer/${rejectId}`)
       return response.data
 }
+
+export const getLastTransferId = async()=>{
+      const response = await siteAxios.get(`/transferId`)
+      return response.data
+}
