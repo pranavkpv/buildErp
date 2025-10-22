@@ -3,6 +3,7 @@ import { Calendar } from "lucide-react";
 import { useEffect, useState } from "react";
 import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import { useLocation } from "react-router-dom";
+import Loading from "../../../components/Loading";
 
 type specData = {
    spec_name: string;
@@ -53,6 +54,7 @@ function AdminProjectDetails() {
    const [spec, setSpec] = useState<estimationData[]>([]);
    const [stage, setStage] = useState<StageData[]>([]);
    const [image, setImage] = useState<imageType[]>([]);
+   const [loading, setLoading] = useState(true);
 
    const fetchSpec = async () => {
       const response = await fetchExistEstimationInUser(_id);
@@ -76,9 +78,14 @@ function AdminProjectDetails() {
    };
 
    useEffect(() => {
-      fetchSpec();
-      fetchStage();
-   }, []);
+      const fetchData = async () => {
+         setLoading(true);
+         await fetchSpec();
+         await fetchStage();
+         setLoading(false);
+      };
+      fetchData();
+   }, [_id]);
 
    const calculateProjectProgress = () => {
       if (stage.length > 0) {
@@ -97,6 +104,14 @@ function AdminProjectDetails() {
       }, [latitude, longitude, map]);
       return null;
    };
+
+   if (loading) {
+      return (
+         <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-slate-900 to-slate-800">
+            <Loading />
+         </div>
+      );
+   }
 
    return (
       <div className="min-h-screen bg-gradient-to-b from-slate-900 to-slate-800 text-white">
@@ -227,7 +242,8 @@ function AdminProjectDetails() {
                               alt={`Project Gallery ${ index + 1 }`}
                               className="w-full h-60 object-cover rounded-lg shadow-lg transition-transform duration-300 hover:scale-105"
                               onError={(e) => {
-                                 e.currentTarget.src = "https://via.placeholder.com/300x200?text=No+Image";
+                                 e.currentTarget.src =
+                                    "https://via.placeholder.com/300x200?text=No+Image";
                               }}
                               loading="lazy"
                            />
@@ -290,9 +306,8 @@ function AdminProjectDetails() {
                            </div>
                            <div className="w-full bg-slate-600 rounded-full h-2 mt-2">
                               <div
-                                 className={`bg-gradient-to-r from-green-400 to-teal-400 h-2 rounded-full transition-all duration-500 w-[${ element.progress }%]`}
+                                 className={`bg-gradient-to-r from-green-400 to-teal-400 h-2 rounded-full transition-all duration-50 w-[${ element.progress }%]`}
                               />
-
                            </div>
                            <p className="text-sm text-gray-300 mt-2">
                               Progress: {element.progress}% | Amount: ₹
@@ -351,9 +366,7 @@ function AdminProjectDetails() {
                         style={{ height: "320px", width: "100%", borderRadius: "8px" }}
                         className="border border-slate-600 shadow-lg"
                      >
-                        <TileLayer
-                           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        />
+                        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                         <MapViewUpdater latitude={latitude || 0} longitude={longitude || 0} />
                         <Marker position={[latitude || 0, longitude || 0]}>
                            <Popup>{address || "Project Location"}</Popup>

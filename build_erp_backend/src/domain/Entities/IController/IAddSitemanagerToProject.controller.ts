@@ -5,15 +5,15 @@ import { FetchsitemanagerInListDTO, listAddsiteDTO } from '../../../application/
 
 export interface IAddSiteManagerToProjectController {
 
-   fetchSiteManagers(req: Request, res: Response, next: NextFunction): 
+   getAllSiteManagers (req: Request, res: Response, next: NextFunction): 
    Promise<commonOutput<FetchsitemanagerInListDTO[]> | commonOutput | void>
 
-   addSiteManagerToProject(req: Request, res: Response, next: NextFunction): 
+   createSiteManagerAssignment (req: Request, res: Response, next: NextFunction): 
    Promise<commonOutput | void>
 
-   removeSiteManagerFromProject(req: Request, res: Response, next: NextFunction):
+   deleteSiteManagerAssignment (req: Request, res: Response, next: NextFunction):
     Promise<commonOutput | void>
 
-   listProjectsWithSiteManagers(req: Request, res: Response, next: NextFunction): 
+   getProjectsWithSiteManagers (req: Request, res: Response, next: NextFunction): 
    Promise<commonOutput<{ data: listAddsiteDTO[], totalPage: number }> | commonOutput | void>
 }

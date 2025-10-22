@@ -16,7 +16,6 @@ function App() {
         <BrowserRouter>
           <RequirementProvider>
             <Routes>
-
               <Route path="/*" element={<UserRoutes />} />
               <Route path="admin/*" element={<AdminRoutes />} />
               <Route path="site/*" element={<SitemanagerRoutes />} />

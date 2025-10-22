@@ -14,7 +14,7 @@ export class AdminDashboardController implements IAdminDashboardController {
     ) { }
 
     // Fetch budget vs actual data (overall)
-    fetchBudgetVsActual = async(req: Request, res: Response, next: NextFunction):
+    getOverallBudgetVsActual  = async(req: Request, res: Response, next: NextFunction):
       Promise<commonOutput<{ data: budgetActualDTO[], totalPage: number }> | commonOutput | void> => {
         try {
             const { search } = req.query;
@@ -26,7 +26,7 @@ export class AdminDashboardController implements IAdminDashboardController {
     };
 
     // Fetch budget vs actual data for materials
-    fetchBudgetVsActualMaterial = async(req: Request, res: Response, next: NextFunction):
+    getMaterialBudgetVsActual  = async(req: Request, res: Response, next: NextFunction):
       Promise<commonOutput<{ data: budgetActualDTO[], totalPage: number }> | commonOutput | void> => {
         try {
             const { search } = req.query;
@@ -38,7 +38,7 @@ export class AdminDashboardController implements IAdminDashboardController {
     };
 
     // Fetch budget vs actual data for labour
-    fetchBudgetVsActualLabour = async(req: Request, res: Response, next: NextFunction):
+    getLabourBudgetVsActual  = async(req: Request, res: Response, next: NextFunction):
       Promise<commonOutput<{ data: budgetActualDTO[], totalPage: number }> | commonOutput | void> => {
         try {
             const { search } = req.query;

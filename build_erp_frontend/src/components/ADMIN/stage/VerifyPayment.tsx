@@ -96,9 +96,11 @@ function VerifyPayment() {
           </h1>
           <ReUsableSearch search={search} setSearch={setSearch} item="project name" />
         </div>
-        <Loading loadOn={loadOn} />
-
-        {/* Table Section */}
+        {loadOn && (
+          <div className="absolute inset-0 bg-black/40 flex items-center justify-center rounded-xl pointer-events-none z-50">
+            <Loading />
+          </div>
+        )}
         <div className="overflow-x-auto rounded-lg border border-gray-800 shadow-lg">
           <table className="min-w-full divide-y divide-gray-800">
             <thead className="bg-gray-900/80">

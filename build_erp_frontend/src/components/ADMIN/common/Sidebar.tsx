@@ -68,21 +68,7 @@ const sidebarItems = [
     subs: [
       { head: "Labour Type Registration", to: "/admin/labour" },
     ],
-  },
-  // {
-  //   title: "Account Head",
-  //   icon: DollarSign,
-  //   subs: [
-  //     { head: "Account Head Registration", to: "/admin/account" },
-  //   ],
-  // },
-  // {
-  //   title: "Report",
-  //   icon: FileText,
-  //   subs: [
-  //     { head: "Project Analysis Report", to: "/admin/report" },
-  //   ],
-  // },
+  }
 ];
 
 function Sidebar() {
@@ -91,17 +77,14 @@ function Sidebar() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [activeSubItem, setActiveSubItem] = useState<string | null>(null);
 
-  // Initialize active menu and sub-menu based on current route
   useEffect(() => {
     const currentPath = location.pathname;
     let foundMainIndex: number | null = null;
     let foundSubItem: string | null = null;
 
-    // Check if the current path matches the Dashboard
     if (currentPath === "/admin/dashboard") {
-      foundMainIndex = 0; // Dashboard is at index 0
+      foundMainIndex = 0; 
     } else {
-      // Find matching main menu and sub-menu
       sidebarItems.forEach((item, index) => {
         if (item.subs.length > 0) {
           const subMatch = item.subs.find((sub) => sub.to === currentPath);
@@ -142,7 +125,6 @@ function Sidebar() {
 
             return (
               <li key={index}>
-                {/* Main Menu Item */}
                 <div
                   className={`
                     flex items-center justify-between p-3 rounded-lg cursor-pointer transition-all duration-200

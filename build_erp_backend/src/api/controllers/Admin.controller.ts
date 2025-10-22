@@ -17,7 +17,7 @@ export class AdminController implements IAdminController {
     ) { }
 
     // Handles admin login request
-    adminLogin = async(req: Request, res: Response, next: NextFunction):
+    loginAdmin  = async(req: Request, res: Response, next: NextFunction):
     Promise<commonOutput<{ data: IAdminModelEntity; token: Tokens }> | commonOutput | void> => {
         try {
             const result = await this._adminLoginUsecase.execute(req.body);
@@ -41,7 +41,7 @@ export class AdminController implements IAdminController {
     };
 
     //  Handles admin logout request
-    adminLogout = async(req: Request, res: Response, next: NextFunction):
+    logoutAdmin  = async(req: Request, res: Response, next: NextFunction):
     Promise<commonOutput | void> => {
         try {
             const userHeader = req.headers.authorization;

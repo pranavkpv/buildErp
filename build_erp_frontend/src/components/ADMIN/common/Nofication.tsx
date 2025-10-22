@@ -2,6 +2,8 @@ import { markReadApi } from "../../../api/notification"
 import { useState } from "react"
 import { Link } from "react-router-dom"
 import { toast } from "react-toastify"
+import Loading from "../../../components/Loading"
+import { ArrowRight } from "lucide-react"
 
 interface notificationData {
    _id: string
@@ -24,12 +26,12 @@ function Notification({ isNotificationOpen, setIsNotificationOpen, notification,
    }
 
    const [view, setView] = useState<"unread" | "all">("unread")
-
-
-
+   const [loading, setLoading] = useState(false)
 
    const markReadFun = async (Id: string) => {
+      setLoading(true)
       const response = await markReadApi(Id)
+      setLoading(false)
       if (response.success) {
          displayNotification()
       } else {
@@ -39,13 +41,15 @@ function Notification({ isNotificationOpen, setIsNotificationOpen, notification,
 
    return (
       <div className="fixed inset-0 bg-slate-900 bg-opacity-75 flex items-center justify-center p-4 z-50">
-         <div className="bg-gradient-to-b from-slate-800 to-slate-900 rounded-lg shadow-xl max-w-4xl w-full max-h-[80vh] overflow-y-auto border border-slate-700">
+         <div className="relative bg-gradient-to-b from-slate-800 to-slate-900 rounded-lg shadow-xl max-w-4xl w-full max-h-[80vh] overflow-y-auto border border-slate-700">
             <div className="p-6">
                <div className="flex justify-between items-center mb-4">
                   <h2 className="text-2xl font-bold text-white">Notifications</h2>
                   <button
-                     onClick={() => setIsNotificationOpen(false)}
+                     onClick={() => !loading && setIsNotificationOpen(false)}
                      className="text-slate-400 hover:text-white transition-colors"
+                     disabled={loading}
+                     aria-label="Close notifications"
                   >
                      ✕
                   </button>
@@ -57,6 +61,7 @@ function Notification({ isNotificationOpen, setIsNotificationOpen, notification,
                         ? "bg-orange-500 text-white"
                         : "bg-slate-700 text-slate-300 hover:bg-slate-600"
                         }`}
+                     disabled={loading}
                   >
                      Unread
                   </button>
@@ -66,6 +71,7 @@ function Notification({ isNotificationOpen, setIsNotificationOpen, notification,
                         ? "bg-orange-500 text-white"
                         : "bg-slate-700 text-slate-300 hover:bg-slate-600"
                         }`}
+                     disabled={loading}
                   >
                      All
                   </button>
@@ -100,9 +106,10 @@ function Notification({ isNotificationOpen, setIsNotificationOpen, notification,
                                  <div className="flex items-center gap-4">
                                     {!item.read && (
                                        <button
-                                          onClick={() => markReadFun(item._id)}
+                                          onClick={() => !loading && markReadFun(item._id)}
                                           className="text-orange-500 hover:text-orange-600 text-xl font-medium transition-colors duration-200"
                                           title="Mark as Read"
+                                          disabled={loading}
                                        >
                                           ✓
                                        </button>
@@ -112,10 +119,11 @@ function Notification({ isNotificationOpen, setIsNotificationOpen, notification,
                                     )}
                                     <Link
                                        to={item.url}
-                                       onClick={() => setIsNotificationOpen(false)}
-                                       className="text-slate-300 hover:text-orange-500 underline transition-colors duration-200"
+                                       onClick={() => !loading && setIsNotificationOpen(false)}
+                                       aria-label={`Go to page for notification ${ index + 1 }`}
+                                       className="text-slate-300 hover:text-orange-500 transition-colors duration-200 p-1 rounded focus:outline-none focus:ring-2 focus:ring-orange-500"
                                     >
-                                       Move to Page
+                                       <ArrowRight className="h-5 w-5" />
                                     </Link>
                                  </div>
                               </td>
@@ -132,6 +140,11 @@ function Notification({ isNotificationOpen, setIsNotificationOpen, notification,
                      )}
                </div>
             </div>
+            {loading && (
+               <div className="absolute inset-0 bg-black/40 flex items-center justify-center rounded-lg pointer-events-none">
+                  <Loading />
+               </div>
+            )}
          </div>
       </div>
    )

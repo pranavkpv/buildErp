@@ -74,7 +74,11 @@ function ListAttendance() {
             <ReUsableAddButton addFuntion={() => setAddEnable(true)} item="Attendance" />
           </div>
         </div>
-         <Loading loadOn={loadOn} />
+         {loadOn && (
+            <div className="absolute inset-0 bg-black/40 flex items-center justify-center rounded-xl pointer-events-none z-50">
+              <Loading />
+            </div>
+          )}
         <AddAttendance addEnable={addEnable} setAddEnable={setAddEnable} onAddSuccess={fetchAttendance} />
 
         <div className="overflow-x-auto rounded-xl border border-gray-700/50">

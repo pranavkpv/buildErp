@@ -5,7 +5,6 @@ import EditMaterial from "./EditMaterial";
 import { deleteMaterial, materialList } from "../../../api/Admin/material";
 import ReUsableDeleteModal from "../../../components/ReUsableComponents/ReUsableDeleteModal";
 import { toast } from "react-toastify";
-import Loading from "../../../components/Loading";
 
 function Material() {
   const [addMaterialEnable, setAddMaterialEnable] = useState(false);

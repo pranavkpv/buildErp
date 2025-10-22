@@ -2,9 +2,14 @@ import { useEffect, useState } from "react";
 import BudgetVsActual from "./SubComponents/BudgetVsActualReport";
 import CostComparisonGraph from "./SubComponents/CostComparisonGraph";
 import { toast } from "react-toastify";
-import { fetchBudgetAndActual, fetLabourAnalysis, fetMaterialAnalysis } from "../../../api/Admin/dashboard";
+import {
+  fetchBudgetAndActual,
+  fetLabourAnalysis,
+  fetMaterialAnalysis,
+} from "../../../api/Admin/dashboard";
 import MaterialLabourAnalysis from "./SubComponents/MaterialAnalysisReport";
 import CountProject from "./SubComponents/CountProject";
+import Loading from "../../../components/Loading";
 
 type reportData = {
   project_name: string;
@@ -19,58 +24,73 @@ function Dashboard() {
   const [search, setSearch] = useState("");
 
   //-------material analysis data --------//
-  const [materialData, setMaterialData] = useState<reportData[]>([])
-  const [materialPage, setMaterialPage] = useState(0)
+  const [materialData, setMaterialData] = useState<reportData[]>([]);
+  const [materialPage, setMaterialPage] = useState(0);
 
   //-------Labour analysis data --------//
-  const [labourData, setLabourData] = useState<reportData[]>([])
-  const [labourPage, setLabourPage] = useState(0)
+  const [labourData, setLabourData] = useState<reportData[]>([]);
+  const [labourPage, setLabourPage] = useState(0);
+
+  const [loading, setLoading] = useState(false);
 
   const fetchBugetAndActualData = async () => {
     const response = await fetchBudgetAndActual(search);
     if (response.success) {
       setData(response.data.data);
-      let list = []
+      let list = [];
       for (let i = 0; i < response.data.totalPage; i++) {
-        list.push(0)
+        list.push(0);
       }
-      setTotal(list)
+      setTotal(list);
     } else {
       toast.error(response.message);
     }
   };
 
   const fetchMaterialAnalysisData = async () => {
-    const response = await fetMaterialAnalysis(search)
-    console.log("material response",response)
+    const response = await fetMaterialAnalysis(search);
     if (response.success) {
-      setMaterialData(response.data.data)
+      setMaterialData(response.data.data);
     } else {
       toast.error(response.message);
     }
-  }
+  };
 
   const fetchLabourAnalysisData = async () => {
-    const response = await fetLabourAnalysis(search)
-    console.log("Labour Reaposnse",response)
+    const response = await fetLabourAnalysis(search);
     if (response.success) {
-      setLabourData(response.data.data)
+      setLabourData(response.data.data);
     } else {
       toast.error(response.message);
     }
-  }
+  };
 
   useEffect(() => {
     const handler = setTimeout(() => {
-      fetchBugetAndActualData();
-      fetchMaterialAnalysisData();
-      fetchLabourAnalysisData();
+      const fetchAllData = async () => {
+        setLoading(true);
+        await Promise.all([
+          fetchBugetAndActualData(),
+          fetchMaterialAnalysisData(),
+          fetchLabourAnalysisData(),
+        ]);
+        setLoading(false);
+      };
+      fetchAllData();
     }, 500);
 
     return () => {
       clearTimeout(handler);
     };
   }, [search]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-slate-900 to-slate-800">
+        <Loading />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-900 to-slate-800 text-white">
@@ -82,17 +102,36 @@ function Dashboard() {
             </h1>
             <div className="space-y-8">
               <CountProject />
-              <BudgetVsActual data={data.slice(page * 5, page * 5 + 5)}
-                total={total} setPage={setPage} search={search} setSearch={setSearch}
-                page={page} />
-              <CostComparisonGraph data={data} heading={"Budgeted Vs Actual Cost Comparison"} />
-              <MaterialLabourAnalysis Data={materialData.slice(materialPage * 5, materialPage * 5 + 5)}
-                total={total} setMaterialPage={setMaterialPage} materialPage={materialPage} heading={"Material Analysis"}
+              <BudgetVsActual
+                data={data.slice(page * 5, page * 5 + 5)}
+                total={total}
+                setPage={setPage}
+                search={search}
+                setSearch={setSearch}
+                page={page}
+              />
+              <CostComparisonGraph
+                data={data}
+                heading={"Budgeted Vs Actual Cost Comparison"}
+              />
+              <MaterialLabourAnalysis
+                Data={materialData.slice(
+                  materialPage * 5,
+                  materialPage * 5 + 5,
+                )}
+                total={total}
+                setMaterialPage={setMaterialPage}
+                materialPage={materialPage}
+                heading={"Material Analysis"}
               />
               <CostComparisonGraph data={materialData} heading={"Material-Cost Analysis"} />
 
-              <MaterialLabourAnalysis Data={labourData.slice(labourPage * 5, labourPage * 5 + 5)}
-                total={total} setMaterialPage={setLabourPage} materialPage={labourPage} heading={"Labour Analysis"}
+              <MaterialLabourAnalysis
+                Data={labourData.slice(labourPage * 5, labourPage * 5 + 5)}
+                total={total}
+                setMaterialPage={setLabourPage}
+                materialPage={labourPage}
+                heading={"Labour Analysis"}
               />
               <CostComparisonGraph data={labourData} heading={"Labour-Cost Analysis"} />
             </div>

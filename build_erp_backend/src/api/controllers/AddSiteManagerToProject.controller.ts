@@ -10,15 +10,15 @@ import { FetchsitemanagerInListDTO, listAddsiteDTO } from '../../application/dto
 
 export class AddSiteManagerToProjectController implements IAddSiteManagerToProjectController {
     constructor(
-            private _fetchSitemanagerUseCase: IAddSiteToprojectFetchSitemanagerUseCase,
-            private _addSiteToProjectUseCase: IAddSiteToProjectUseCase,
-            private _deleteSiteManagerUseCase: IDeleteSiteToProjectUseCase,
-            private _listSiteToProjectUseCase: IListSiteToProjectUseCase,
+        private _fetchSitemanagerUseCase: IAddSiteToprojectFetchSitemanagerUseCase,
+        private _addSiteToProjectUseCase: IAddSiteToProjectUseCase,
+        private _deleteSiteManagerUseCase: IDeleteSiteToProjectUseCase,
+        private _listSiteToProjectUseCase: IListSiteToProjectUseCase,
     ) { }
 
     //  Fetch all site managers linked to projects
-    fetchSiteManagers = async(req: Request, res: Response, next: NextFunction):
-            Promise<commonOutput<FetchsitemanagerInListDTO[]> | commonOutput | void> => {
+    getAllSiteManagers = async (req: Request, res: Response, next: NextFunction):
+        Promise<commonOutput<FetchsitemanagerInListDTO[]> | commonOutput | void> => {
         try {
             const result = await this._fetchSitemanagerUseCase.execute();
             return result;
@@ -28,8 +28,8 @@ export class AddSiteManagerToProjectController implements IAddSiteManagerToProje
     };
 
     //  Add a site manager to a project
-    addSiteManagerToProject = async(req: Request, res: Response, next: NextFunction):
-            Promise<commonOutput | void> => {
+    createSiteManagerAssignment = async (req: Request, res: Response, next: NextFunction):
+        Promise<commonOutput | void> => {
         try {
             const result = await this._addSiteToProjectUseCase.execute(req.body);
             return result;
@@ -39,10 +39,10 @@ export class AddSiteManagerToProjectController implements IAddSiteManagerToProje
     };
 
     //  Remove a site manager from a project (set as null)
-    removeSiteManagerFromProject = async(req: Request, res: Response, next: NextFunction):
-            Promise<commonOutput | void> => {
+    deleteSiteManagerAssignment = async (req: Request, res: Response, next: NextFunction):
+        Promise<commonOutput | void> => {
         try {
-            const result = await this._deleteSiteManagerUseCase.execute(req.params.id,req.params.sitemanagerId);
+            const result = await this._deleteSiteManagerUseCase.execute(req.params.id, req.params.sitemanagerId);
             return result;
         } catch (error) {
             next(error);
@@ -50,8 +50,8 @@ export class AddSiteManagerToProjectController implements IAddSiteManagerToProje
     };
 
     //  List projects with site managers (with pagination & search)
-    listProjectsWithSiteManagers = async(req: Request, res: Response, next: NextFunction):
-            Promise<commonOutput<{ data: listAddsiteDTO[]; totalPage: number }> | commonOutput | void> => {
+    getProjectsWithSiteManagers = async (req: Request, res: Response, next: NextFunction):
+        Promise<commonOutput<{ data: listAddsiteDTO[]; totalPage: number }> | commonOutput | void> => {
         try {
             const { page, search } = req.query;
             const result = await this._listSiteToProjectUseCase.execute(

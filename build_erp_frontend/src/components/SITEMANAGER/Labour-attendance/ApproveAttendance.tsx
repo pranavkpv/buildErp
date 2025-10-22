@@ -16,15 +16,15 @@ function ApproveAttendance({ approveId, setApproveEnable, approveEnable, onAppro
 
   const approveFun = async (approveId: string) => {
     setLoadOn(true)
-      const response = await approveAttendanceAPI(approveId);
-      setLoadOn(false)
-      if (response.success) {
-        toast.success(response.message);
-        setApproveEnable(false);
-        onApproveSuccess();
-      } else {
-        toast.error(response.message);
-      }
+    const response = await approveAttendanceAPI(approveId);
+    setLoadOn(false)
+    if (response.success) {
+      toast.success(response.message);
+      setApproveEnable(false);
+      onApproveSuccess();
+    } else {
+      toast.error(response.message);
+    }
   };
 
   return (
@@ -55,7 +55,11 @@ function ApproveAttendance({ approveId, setApproveEnable, approveEnable, onAppro
           </div>
         </div>
       </div>
-      <Loading loadOn={loadOn} />
+      {loadOn && (
+        <div className="absolute inset-0 bg-black/40 flex items-center justify-center rounded-xl pointer-events-none z-50">
+          <Loading />
+        </div>
+      )}
     </div>
   );
 }

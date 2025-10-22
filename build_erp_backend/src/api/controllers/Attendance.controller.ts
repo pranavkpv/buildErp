@@ -20,7 +20,7 @@ export class AttendanceController implements IAttendanceController {
     ) { }
 
     //  Record new labour attendance for a project on a specific date
-    createAttendance = async(req: Request, res: Response, next: NextFunction):
+    createAttendanceRecord = async(req: Request, res: Response, next: NextFunction):
       Promise<commonOutput | void> => {
         try {
             const result = await this._addAttendanceUseCase.execute(req.body);
@@ -31,7 +31,7 @@ export class AttendanceController implements IAttendanceController {
     };
 
     //  Update existing labour attendance details 
-    updateAttendance = async(req: Request, res: Response, next: NextFunction):
+    updateAttendanceRecord  = async(req: Request, res: Response, next: NextFunction):
       Promise<commonOutput | void> => {
         try {
             console.log(req.params.id);
@@ -44,7 +44,7 @@ export class AttendanceController implements IAttendanceController {
     };
 
     //  Fetch paginated and searchable labour attendance list
-    getAttendanceList = async(req: Request, res: Response, next: NextFunction):
+    getAttendanceRecords  = async(req: Request, res: Response, next: NextFunction):
       Promise<commonOutput<{ data: pageWiseAttendance[], totalPage: number }> | void> => {
         try {
             const { search, page } = req.query;
@@ -59,7 +59,7 @@ export class AttendanceController implements IAttendanceController {
     };
 
     // Delete labour attendance record by ID 
-    removeAttendance = async(req: Request, res: Response, next: NextFunction):
+    deleteAttendanceRecord  = async(req: Request, res: Response, next: NextFunction):
       Promise<commonOutput | void> => {
         try {
             const _id = req.params.id;
@@ -71,7 +71,7 @@ export class AttendanceController implements IAttendanceController {
     };
 
     //  Approve labour attendance by ID
-    approveAttendance = async(req: Request, res: Response, next: NextFunction):
+    approveAttendanceRecord  = async(req: Request, res: Response, next: NextFunction):
       Promise<commonOutput | void> => {
         try {
             const _id = req.params.id;
@@ -83,7 +83,7 @@ export class AttendanceController implements IAttendanceController {
     };
 
     //  Fetch single labour attendance data for edit by ID
-    getAttendanceById = async(req: Request, res: Response, next: NextFunction):
+    getAttendanceRecordById  = async(req: Request, res: Response, next: NextFunction):
       Promise<commonOutput<fetchEditAttendance> | commonOutput | void> => {
         try {
             const _id = req.params.id;

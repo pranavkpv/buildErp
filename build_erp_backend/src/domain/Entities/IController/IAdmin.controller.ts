@@ -5,9 +5,9 @@ import { commonOutput } from '../../../application/dto/common';
 
 export interface IAdminController {
 
-   adminLogin(req: Request, res: Response, next: NextFunction):
+   loginAdmin (req: Request, res: Response, next: NextFunction):
       Promise<commonOutput<{ data: IAdminModelEntity, token: Tokens }> | commonOutput | void>;
       
-   adminLogout(req: Request, res: Response, next: NextFunction):
+   logoutAdmin (req: Request, res: Response, next: NextFunction):
       Promise<commonOutput | void>;
 }

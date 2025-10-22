@@ -2,7 +2,11 @@ import { Router } from 'express';
 import { JwtService } from '../../../application/services/JwtService';
 import { siteManagerMiddleware } from '../../../infrastructure/middlewares/siteMiddleware';
 import { withLogging } from '../../../infrastructure/middlewares/withLoggingMiddleware';
-import { validateSitemanagerChangePassword, validateSitemanagerLogin, validateStatusChange } from '../../../infrastructure/middlewares/validation/sitemanager.validation';
+import {
+  validateSitemanagerChangePassword,
+  validateSitemanagerLogin,
+  validateStatusChange,
+} from '../../../infrastructure/middlewares/validation/sitemanager.validation';
 import { injectedSitemanagerController } from '../../DI/Sitemanager';
 import { injectedMaterialController } from '../../DI/Material';
 import { injectedLabourController } from '../../DI/Labour';
@@ -19,269 +23,297 @@ import { validateTransfer } from '../../../infrastructure/middlewares/validation
 import { receiveValidation } from '../../../infrastructure/middlewares/validation/receive.validation';
 import { injectedProjectController } from '../../DI/Project';
 import { injectEstimationController } from '../../DI/Estimation';
+import { SITEMANAGER_ROUTES } from '../../../Shared/Constants/Router.sitemanager.constant';
 
 
 export class SitemanagerRoute {
-    public sitemanagerRoute: Router;
+  public sitemanagerRoute: Router;
 
-    constructor() {
-        this.sitemanagerRoute = Router();
-        this.setRoute();
-    }
+  constructor() {
+    this.sitemanagerRoute = Router();
+    this.setRoute();
+  }
 
-    private setRoute() {
-        const jwtService = new JwtService();
+  private setRoute() {
+    const jwtService = new JwtService();
 
-        // ================================
-        // 🔹 Public Routes (No token required)
-        // ================================
-        this.sitemanagerRoute.post(
-            '/login',
-            validateSitemanagerLogin,
-            withLogging(injectedSitemanagerController.loginSitemanager),
-        );
+    // =======================================
+    // 🔹 Public Routes
+    // =======================================
+    this.sitemanagerRoute.post(
+      SITEMANAGER_ROUTES.LOGIN,
+      validateSitemanagerLogin,
+      withLogging(injectedSitemanagerController.loginSitemanager)
+    );
 
-        // ================================
-        // 🔹 Middleware for authentication
-        // ================================
-        this.sitemanagerRoute.use(siteManagerMiddleware(jwtService));
+    // =======================================
+    // 🔹 Authentication Middleware
+    // =======================================
+    this.sitemanagerRoute.use(siteManagerMiddleware(jwtService));
 
-        // ================================
-        // 🔹 Authentication Routes
-        // ================================
-        this.sitemanagerRoute.post(
-            '/logout',
-            withLogging(injectedSitemanagerController.logoutSitemanager),
-        );
+    // =======================================
+    // 🔹 Authentication
+    // =======================================
+    this.sitemanagerRoute.post(
+      SITEMANAGER_ROUTES.LOGOUT,
+      withLogging(injectedSitemanagerController.logoutSitemanager)
+    );
 
-        // ================================
-        // 🔹 Project Routes
-        // ================================
-        this.sitemanagerRoute.get(
-            '/siteproject',
-            withLogging(injectedSitemanagerController.getSitemanagerProjects),
-        );
+    this.sitemanagerRoute.put(
+      SITEMANAGER_ROUTES.CHANGE_PASSWORD,
+      validateSitemanagerChangePassword,
+      withLogging(injectedSitemanagerController.changePassword)
+    );
 
-        this.sitemanagerRoute.get(
-            '/projectWithCompletion',
-            withLogging(injectedProjectController.getSitemanagersProjectsWithCompletion),
-        );
+    // =======================================
+    // 🔹 Project Routes
+    // =======================================
+    this.sitemanagerRoute.get(
+      SITEMANAGER_ROUTES.SITE_PROJECT,
+      withLogging(injectedSitemanagerController.getSitemanagerProjects)
+    );
 
+    this.sitemanagerRoute.get(
+      SITEMANAGER_ROUTES.PROJECT_WITH_COMPLETION,
+      withLogging(injectedProjectController.getSitemanagersProjectsWithCompletion)
+    );
 
-        // ================================
-        // 🔹 Change Password
-        // ================================
-        this.sitemanagerRoute.put(
-            '/changepass',
-            validateSitemanagerChangePassword,
-            withLogging(injectedSitemanagerController.changePassword),
-        );
+    // =======================================
+    // 🔹 Stage Status
+    // =======================================
+    this.sitemanagerRoute.put(
+      SITEMANAGER_ROUTES.STATUS_UPDATE,
+      validateStatusChange,
+      withLogging(injectedStageStatusController.updateStageStatus)
+    );
 
-        // ================================
-        // 🔹 Stage Status
-        // ================================
+    this.sitemanagerRoute.put(
+      SITEMANAGER_ROUTES.UPLOAD_STAGE_IMAGES,
+      withLogging(injectedStageStatusController.uploadStageImages)
+    );
 
-        this.sitemanagerRoute.put(
-            '/status/:id',
-            validateStatusChange,
-            withLogging(injectedStageStatusController.updateStageStatus),
-        );
+    this.sitemanagerRoute.get(
+      SITEMANAGER_ROUTES.SITE_STAGE,
+      withLogging(injectedStageStatusController.getStageByProjectId)
+    );
 
-        this.sitemanagerRoute.put(
-            '/upload',
-            withLogging(injectedStageStatusController.uploadStageImages),
-        );
+    // =======================================
+    // 🔹 Attendance
+    // =======================================
+    this.sitemanagerRoute.post(
+      SITEMANAGER_ROUTES.ATTENDANCE,
+      validateAttendance,
+      withLogging(injectAttendanceController.createAttendanceRecord)
+    );
 
-        this.sitemanagerRoute.get(
-            '/siteStage/:id',
-            withLogging(injectedStageStatusController.getStageByProjectId),
-        );
+    this.sitemanagerRoute.put(
+      SITEMANAGER_ROUTES.EDIT_ATTENDANCE,
+      validateAttendance,
+      withLogging(injectAttendanceController.updateAttendanceRecord)
+    );
 
-        // ================================
-        // 🔹 Attendance
-        // ================================
-        this.sitemanagerRoute.post(
-            '/attendance',
-            validateAttendance,
-            withLogging(injectAttendanceController.createAttendance),
-        );
-        this.sitemanagerRoute.put(
-            '/editAttendance/:id',
-            validateAttendance,
-            withLogging(injectAttendanceController.updateAttendance),
-        );
-        this.sitemanagerRoute.get(
-            '/attendance',
-            withLogging(injectAttendanceController.getAttendanceList),
-        );
-        this.sitemanagerRoute.delete(
-            '/attendance/:id',
-            withLogging(injectAttendanceController.removeAttendance),
-        );
-        this.sitemanagerRoute.put(
-            '/attendance/:id',
-            withLogging(injectAttendanceController.approveAttendance),
-        );
-        this.sitemanagerRoute.get(
-            '/editfetchattendance/:id',
-            withLogging(injectAttendanceController.getAttendanceById),
-        );
+    this.sitemanagerRoute.get(
+      SITEMANAGER_ROUTES.ATTENDANCE,
+      withLogging(injectAttendanceController.getAttendanceRecords)
+    );
 
-        // ================================
-        // 🔹 Purchase
-        // ================================
-        this.sitemanagerRoute.get(
-            '/purchase',
-            withLogging(injectedPurchaseController.getPurchases),
-        );
-        this.sitemanagerRoute.post(
-            '/purchase',
-            validatePurchase,
-            withLogging(injectedPurchaseController.savePurchase),
-        );
-        this.sitemanagerRoute.put(
-            '/purchase/:id',
-            validatePurchase,
-            withLogging(injectedPurchaseController.updatePurchase),
-        );
-        this.sitemanagerRoute.delete(
-            '/purchase/:id',
-            withLogging(injectedPurchaseController.deletePurchase),
-        );
-        this.sitemanagerRoute.patch(
-            '/purchase/:id',
-            withLogging(injectedPurchaseController.approvePurchase),
-        );
-        this.sitemanagerRoute.get(
-            '/lastInvoice',
-            withLogging(injectedPurchaseController.getLastInvoice),
-        );
+    this.sitemanagerRoute.delete(
+      SITEMANAGER_ROUTES.ATTENDANCE_ID,
+      withLogging(injectAttendanceController.deleteAttendanceRecord)
+    );
 
-        // ================================
-        // 🔹 Transfer
-        // ================================
-        this.sitemanagerRoute.get(
-            '/transfer',
-            withLogging(injectedTransferController.fetchTransfers),
-        );
-        this.sitemanagerRoute.get(
-            '/toProject/:id',
-            withLogging(injectedTransferController.fetchToProjects),
-        );
-        this.sitemanagerRoute.post(
-            '/transfer',
-            validateTransfer,
-            withLogging(injectedTransferController.createTransfer),
-        );
-        this.sitemanagerRoute.put(
-            '/transfer/:id',
-            validateTransfer,
-            withLogging(injectedTransferController.updateTransfer),
-        );
-        this.sitemanagerRoute.delete(
-            '/transfer/:id',
-            withLogging(injectedTransferController.removeTransfer),
-        );
-        this.sitemanagerRoute.get(
-            '/receiveTransfer/:id',
-            withLogging(injectedTransferController.receiveTransfer),
-        );
-        this.sitemanagerRoute.get(
-            '/fetchstockList/:id',
-            withLogging(injectedTransferController.fullStockList),
-        );
-         this.sitemanagerRoute.get(
-            '/transferId',
-            withLogging(injectedTransferController.getLastTransfer),
-        );
+    this.sitemanagerRoute.put(
+      SITEMANAGER_ROUTES.ATTENDANCE_ID,
+      withLogging(injectAttendanceController.approveAttendanceRecord)
+    );
 
-        // ================================
-        // 🔹 Receive
-        // ================================
-        this.sitemanagerRoute.get(
-            '/receive',
-            withLogging(injectedReceiveController.getReceive),
-        );
-        this.sitemanagerRoute.post(
-            '/receive',
-            receiveValidation,
-            withLogging(injectedReceiveController.saveReceive),
-        );
-        this.sitemanagerRoute.put(
-            '/receive/:id',
-            receiveValidation,
-            withLogging(injectedReceiveController.updateReceive),
-        );
-        this.sitemanagerRoute.delete(
-            '/receive/:id',
-            withLogging(injectedReceiveController.deleteReceive),
-        );
-        this.sitemanagerRoute.patch(
-            '/receive/:id',
-            withLogging(injectedReceiveController.approveReceive),
-        );
+    this.sitemanagerRoute.get(
+      SITEMANAGER_ROUTES.EDIT_FETCH_ATTENDANCE,
+      withLogging(injectAttendanceController.getAttendanceRecordById)
+    );
 
-        // ================================
-        // 🔹 Chat
-        // ================================
-        this.sitemanagerRoute.get(
-            '/chatProject',
-            withLogging(injectedChatController.fetchUserDetailsforChat),
-        );
+    // =======================================
+    // 🔹 Purchase
+    // =======================================
+    this.sitemanagerRoute.get(
+      SITEMANAGER_ROUTES.PURCHASE,
+      withLogging(injectedPurchaseController.getPurchases)
+    );
 
-        this.sitemanagerRoute.get(
-            '/fetchMaterial',
-            withLogging(injectedMaterialController.getUniqueMaterialNames),
-        );
-        this.sitemanagerRoute.get(
-            '/fetchMatbyBrand/:material',
-            withLogging(injectedMaterialController.getBrandsByMaterialName),
-        );
-        this.sitemanagerRoute.get(
-            '/fetMatbyUnit/:material',
-            withLogging(injectedMaterialController.getUnitsByMaterialName),
-        );
-        this.sitemanagerRoute.get(
-            '/unitRate',
-            withLogging(injectedMaterialController.getUnitRate),
-        );
-        this.sitemanagerRoute.get(
-            '/fetchlabour',
-            withLogging(injectedLabourController.getAllLabourList),
-        );
-        this.sitemanagerRoute.get(
-            '/chats/:id',
-            withLogging(injecteduserprofileController.fetchMessages),
-        );
-        this.sitemanagerRoute.get(
-            '/stock',
-            withLogging(injectedMaterialController.fetchStock),
-        );
+    this.sitemanagerRoute.post(
+      SITEMANAGER_ROUTES.PURCHASE,
+      validatePurchase,
+      withLogging(injectedPurchaseController.savePurchase)
+    );
 
-        // ================================
-        // 🔹 Dashboard
-        // ================================
+    this.sitemanagerRoute.put(
+      SITEMANAGER_ROUTES.PURCHASE_ID,
+      validatePurchase,
+      withLogging(injectedPurchaseController.updatePurchase)
+    );
 
-        this.sitemanagerRoute.get(
-            '/getEstimation/:id',
-            withLogging(injectEstimationController.getEstimationById),
-        );
-        this.sitemanagerRoute.get(
-            '/getMaterialEstimation/:id',
-            withLogging(injectEstimationController.getMaterialEstimationById),
-        );
-        this.sitemanagerRoute.get(
-            '/getLabourEstimation/:id',
-            withLogging(injectEstimationController.getLabourEstimationById),
-        );
-        this.sitemanagerRoute.get(
-            '/getAdditionEstimation/:id',
-            withLogging(injectEstimationController.getAdditionEstimationById),
-        );
-        this.sitemanagerRoute.get(
-            '/expectImage/:id',
-            withLogging(injectedProjectController.getExpectedImage),
-        );
-        
-    }
+    this.sitemanagerRoute.delete(
+      SITEMANAGER_ROUTES.PURCHASE_ID,
+      withLogging(injectedPurchaseController.deletePurchase)
+    );
+
+    this.sitemanagerRoute.patch(
+      SITEMANAGER_ROUTES.PURCHASE_ID,
+      withLogging(injectedPurchaseController.approvePurchase)
+    );
+
+    this.sitemanagerRoute.get(
+      SITEMANAGER_ROUTES.LAST_INVOICE,
+      withLogging(injectedPurchaseController.getLastInvoice)
+    );
+
+    // =======================================
+    // 🔹 Transfer
+    // =======================================
+    this.sitemanagerRoute.get(
+      SITEMANAGER_ROUTES.TRANSFER,
+      withLogging(injectedTransferController.fetchTransfers)
+    );
+
+    this.sitemanagerRoute.get(
+      SITEMANAGER_ROUTES.TO_PROJECT,
+      withLogging(injectedTransferController.fetchToProjects)
+    );
+
+    this.sitemanagerRoute.post(
+      SITEMANAGER_ROUTES.TRANSFER,
+      validateTransfer,
+      withLogging(injectedTransferController.createTransfer)
+    );
+
+    this.sitemanagerRoute.put(
+      SITEMANAGER_ROUTES.TRANSFER_ID,
+      validateTransfer,
+      withLogging(injectedTransferController.updateTransfer)
+    );
+
+    this.sitemanagerRoute.delete(
+      SITEMANAGER_ROUTES.TRANSFER_ID,
+      withLogging(injectedTransferController.removeTransfer)
+    );
+
+    this.sitemanagerRoute.get(
+      SITEMANAGER_ROUTES.RECEIVE_TRANSFER,
+      withLogging(injectedTransferController.receiveTransfer)
+    );
+
+    this.sitemanagerRoute.get(
+      SITEMANAGER_ROUTES.FETCH_STOCK_LIST,
+      withLogging(injectedTransferController.fullStockList)
+    );
+
+    this.sitemanagerRoute.get(
+      SITEMANAGER_ROUTES.LAST_TRANSFER,
+      withLogging(injectedTransferController.getLastTransfer)
+    );
+
+    // =======================================
+    // 🔹 Receive
+    // =======================================
+    this.sitemanagerRoute.get(
+      SITEMANAGER_ROUTES.RECEIVE,
+      withLogging(injectedReceiveController.getReceive)
+    );
+
+    this.sitemanagerRoute.post(
+      SITEMANAGER_ROUTES.RECEIVE,
+      receiveValidation,
+      withLogging(injectedReceiveController.saveReceive)
+    );
+
+    this.sitemanagerRoute.put(
+      SITEMANAGER_ROUTES.RECEIVE_ID,
+      receiveValidation,
+      withLogging(injectedReceiveController.updateReceive)
+    );
+
+    this.sitemanagerRoute.delete(
+      SITEMANAGER_ROUTES.RECEIVE_ID,
+      withLogging(injectedReceiveController.deleteReceive)
+    );
+
+    this.sitemanagerRoute.patch(
+      SITEMANAGER_ROUTES.RECEIVE_ID,
+      withLogging(injectedReceiveController.approveReceive)
+    );
+
+    // =======================================
+    // 🔹 Chat
+    // =======================================
+    this.sitemanagerRoute.get(
+      SITEMANAGER_ROUTES.CHAT_PROJECT,
+      withLogging(injectedChatController.fetchUserDetailsforChat)
+    );
+
+    this.sitemanagerRoute.get(
+      SITEMANAGER_ROUTES.CHATS_BY_ID,
+      withLogging(injecteduserprofileController.fetchMessages)
+    );
+
+    // =======================================
+    // 🔹 Material & Labour
+    // =======================================
+    this.sitemanagerRoute.get(
+      SITEMANAGER_ROUTES.FETCH_MATERIAL,
+      withLogging(injectedMaterialController.getUniqueMaterialNames)
+    );
+
+    this.sitemanagerRoute.get(
+      SITEMANAGER_ROUTES.FETCH_MAT_BY_BRAND,
+      withLogging(injectedMaterialController.getBrandsByMaterialName)
+    );
+
+    this.sitemanagerRoute.get(
+      SITEMANAGER_ROUTES.FETCH_MAT_BY_UNIT,
+      withLogging(injectedMaterialController.getUnitsByMaterialName)
+    );
+
+    this.sitemanagerRoute.get(
+      SITEMANAGER_ROUTES.UNIT_RATE,
+      withLogging(injectedMaterialController.getUnitRate)
+    );
+
+    this.sitemanagerRoute.get(
+      SITEMANAGER_ROUTES.FETCH_LABOUR,
+      withLogging(injectedLabourController.getAllLabourList)
+    );
+
+    this.sitemanagerRoute.get(
+      SITEMANAGER_ROUTES.STOCK,
+      withLogging(injectedMaterialController.fetchStock)
+    );
+
+    // =======================================
+    // 🔹 Dashboard / Estimation
+    // =======================================
+    this.sitemanagerRoute.get(
+      SITEMANAGER_ROUTES.GET_ESTIMATION,
+      withLogging(injectEstimationController.getEstimationById)
+    );
+
+    this.sitemanagerRoute.get(
+      SITEMANAGER_ROUTES.GET_MATERIAL_ESTIMATION,
+      withLogging(injectEstimationController.getMaterialEstimationById)
+    );
+
+    this.sitemanagerRoute.get(
+      SITEMANAGER_ROUTES.GET_LABOUR_ESTIMATION,
+      withLogging(injectEstimationController.getLabourEstimationById)
+    );
+
+    this.sitemanagerRoute.get(
+      SITEMANAGER_ROUTES.GET_ADDITION_ESTIMATION,
+      withLogging(injectEstimationController.getAdditionEstimationById)
+    );
+
+    this.sitemanagerRoute.get(
+      SITEMANAGER_ROUTES.EXPECT_IMAGE,
+      withLogging(injectedProjectController.getExpectedImage)
+    );
+  }
 }

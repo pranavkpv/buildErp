@@ -14,11 +14,12 @@ import { ChatSaveusecase } from './src/application/UseCase/Chat/ChatSave';
 import { ChatSocket } from './src/application/UseCase/Chat/ChatSocket';
 import { SitemanagerRoute } from './src/api/routes/Sitemanager/siteRouter';
 import { AdminRoute } from './src/api/routes/Admin/adminRouter';
-import { userRoute } from './src/api/routes/User/userRouter';
-import { authRoute } from './src/api/routes/Auth/authRouter';
 import logger from './src/infrastructure/logger/logger';
 import { ChatMessageStatusUpdateUseCase } from './src/application/UseCase/Chat/ChatMessageStatusUpadte';
 import './src/presentation/Cron/StageDeadlineJob'
+import { UserRoute } from './src/api/routes/User/userRouter';
+import { AuthRoute } from './src/api/routes/Auth/authRouter';
+import { ROUTE_PATHS } from './src/Shared/Constants/Routepath';
 
 
 require("dotenv").config();
@@ -91,19 +92,19 @@ export class App {
       this.app.use(passport.session());
    }
    private setAuthRoute() {
-      this.app.use('/api/v1/auth', new authRoute().authRoute)
+      this.app.use(ROUTE_PATHS.AUTH, new AuthRoute().authRoute)
    }
 
    private setUserRoute() {
-      this.app.use('/user', new userRoute().userRoute);
+      this.app.use(ROUTE_PATHS.USER, new UserRoute().userRoute);
    }
 
    private setAdminRoute() {
-      this.app.use("/admin", new AdminRoute().adminRoute);
+      this.app.use(ROUTE_PATHS.ADMIN, new AdminRoute().adminRoute);
    }
 
    private setSitemanagerRoute() {
-      this.app.use('/site', new SitemanagerRoute().sitemanagerRoute);
+      this.app.use(ROUTE_PATHS.SITE_MANAGER, new SitemanagerRoute().sitemanagerRoute);
    }
 
    private setErrorHandler() {

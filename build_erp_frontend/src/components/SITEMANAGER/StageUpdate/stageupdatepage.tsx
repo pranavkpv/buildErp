@@ -105,7 +105,11 @@ function StageUpdatePage() {
                   ))}
                </select>
             </div>
-            <Loading loadOn={loadOn} />
+            {loadOn && (
+            <div className="absolute inset-0 bg-black/40 flex items-center justify-center rounded-xl pointer-events-none z-50">
+              <Loading />
+            </div>
+          )}
             <div className="overflow-x-auto rounded-xl border border-gray-700/50">
                <table className="min-w-full text-sm text-left bg-gray-800/50">
                   <thead className="bg-gray-800/70 text-gray-200 uppercase text-xs font-semibold tracking-wider">

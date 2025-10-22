@@ -56,8 +56,7 @@ function AddEstimation({ addEnable, setAddEnable, anAddSuccess, projectIds }: ad
   const [row, setRow] = useState<rowData[]>([]);
   const [finalAmount, setFinalAmount] = useState(0);
   const [projectId, setProjectId] = useState("");
-  const [loadOn, setLoadOn] = useState(false)
-
+  const [loadOn, setLoadOn] = useState(false);
 
   const fetchProject = async () => {
     const response = await getPendingAllProject();
@@ -135,20 +134,19 @@ function AddEstimation({ addEnable, setAddEnable, anAddSuccess, projectIds }: ad
       return;
     }
 
-
     if (row.some((r) => r.total === 0)) {
       toast.error("All specification rows must have a total greater than 0.");
       return;
     }
 
-
     if (row.some((r) => r.spec_id === "")) {
       toast.error("Please select a specification ID for all rows.");
       return;
     }
-    setLoadOn(true)
+
+    setLoadOn(true);
     const response = await EstimationSave(projectId, row);
-    setLoadOn(false)
+    setLoadOn(false);
     if (response.success) {
       toast.success(response.message);
       setAddEnable(false);
@@ -156,13 +154,12 @@ function AddEstimation({ addEnable, setAddEnable, anAddSuccess, projectIds }: ad
     } else {
       toast.error(response.message);
     }
-
   };
 
   return (
     <>
       <div className="fixed inset-0 bg-gray-900/80 flex items-center justify-center z-50 p-4 sm:p-6">
-        <div className="bg-gray-800/90 backdrop-blur-sm rounded-xl shadow-2xl p-6 sm:p-8 w-full max-w-4xl max-h-[95vh] overflow-y-auto border border-gray-700/50">
+        <div className="relative bg-gray-800/90 backdrop-blur-sm rounded-xl shadow-2xl p-6 sm:p-8 w-full max-w-4xl max-h-[95vh] overflow-y-auto border border-gray-700/50">
           <h1 className="text-2xl font-bold text-center text-gray-100 mb-6 border-b border-gray-700 pb-4">
             Add Estimation
           </h1>
@@ -186,6 +183,7 @@ function AddEstimation({ addEnable, setAddEnable, anAddSuccess, projectIds }: ad
                   setProjectId(e.target.value);
                 }}
                 value={projectId}
+                disabled={loadOn}
               >
                 <option value="">Select Project</option>
                 {project.map((element) => (
@@ -202,6 +200,7 @@ function AddEstimation({ addEnable, setAddEnable, anAddSuccess, projectIds }: ad
             <div className="flex justify-between items-center mb-4">
               <h3 className="text-lg font-semibold text-gray-100">Specification Details</h3>
               <button
+                disabled={loadOn}
                 onClick={() => {
                   setRow([...row, { spec_id: "", spec_name: "", unitrate: 0, quantity: 0, total: 0 }]);
                 }}
@@ -248,11 +247,12 @@ function AddEstimation({ addEnable, setAddEnable, anAddSuccess, projectIds }: ad
                                   x.profit_per || 0,
                                   index,
                                   x.spec_id,
-                                  x.spec_name
+                                  x.spec_name,
                                 );
                               }
                             }}
                             value={element.spec_id}
+                            disabled={loadOn}
                           >
                             <option value="">Select Spec ID</option>
                             {spec.map((item) => (
@@ -292,6 +292,7 @@ function AddEstimation({ addEnable, setAddEnable, anAddSuccess, projectIds }: ad
                               setRow(updateRow);
                             }}
                             value={element.quantity === 0 ? "" : element.quantity}
+                            disabled={loadOn}
                           />
                         </td>
                         <td className="px-6 py-4">
@@ -306,12 +307,11 @@ function AddEstimation({ addEnable, setAddEnable, anAddSuccess, projectIds }: ad
                         <td className="px-6 py-4 text-center">
                           <button
                             type="button"
+                            disabled={loadOn}
                             className="text-red-400 hover:text-red-300 p-2 rounded-md hover:bg-gray-600/50 transition-all duration-200"
                             aria-label="Delete specification row"
                             onClick={() => {
-                              const updateRow = row.filter((_, itemIndex) => {
-                                return itemIndex !== index;
-                              });
+                              const updateRow = row.filter((_, itemIndex) => itemIndex !== index);
                               setRow(updateRow);
                             }}
                           >
@@ -334,21 +334,28 @@ function AddEstimation({ addEnable, setAddEnable, anAddSuccess, projectIds }: ad
                 type="button"
                 className="bg-gray-600/90 hover:bg-gray-700 text-gray-100 px-5 py-2.5 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 text-sm font-medium"
                 onClick={() => setAddEnable(false)}
+                disabled={loadOn}
               >
                 Cancel
               </button>
               <button
                 type="button"
                 onClick={SaveEstimation}
+                disabled={loadOn}
                 className="bg-teal-500/90 hover:bg-teal-600 text-white px-5 py-2.5 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 text-sm font-medium"
               >
                 Save Estimation
               </button>
             </div>
           </div>
+
+          {loadOn && (
+            <div className="absolute inset-0 bg-black/40 flex items-center justify-center rounded-xl pointer-events-none">
+              <Loading />
+            </div>
+          )}
         </div>
       </div>
-      <Loading loadOn={loadOn} />
     </>
   );
 }

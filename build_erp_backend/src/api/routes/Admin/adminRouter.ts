@@ -49,7 +49,7 @@ export class AdminRoute {
         // =====================================================================
         this.adminRoute.post('/login',
             validateAdminLogin,
-            withLogging(injectedAdminController.adminLogin));
+            withLogging(injectedAdminController.loginAdmin ));
 
         // ✅ Protect all routes after this middleware
         this.adminRoute.use(adminMiddleWare(jwtService));
@@ -58,20 +58,21 @@ export class AdminRoute {
         // 🟢 SITE ASSIGNMENT ROUTES
         // =====================================================================
         this.adminRoute.get('/addSiteToSiteData',
-            withLogging(injectAddSitemanagerToprojectController.fetchSiteManagers));
+            withLogging(injectAddSitemanagerToprojectController.getAllSiteManagers ));
 
         this.adminRoute.post('/addToSite',
             validateAddSitemanagerToproject,
-            withLogging(injectAddSitemanagerToprojectController.addSiteManagerToProject));
+            withLogging(injectAddSitemanagerToprojectController.createSiteManagerAssignment ));
 
         this.adminRoute.delete('/addToSite/:id/:sitemanagerId',
-            withLogging(injectAddSitemanagerToprojectController.removeSiteManagerFromProject));
+            withLogging(injectAddSitemanagerToprojectController.deleteSiteManagerAssignment ));
 
         this.adminRoute.get('/addToSite',
-            withLogging(injectAddSitemanagerToprojectController.listProjectsWithSiteManagers));
+            withLogging(injectAddSitemanagerToprojectController.getProjectsWithSiteManagers ));
 
 
-        this.adminRoute.post('/logout', withLogging(injectedAdminController.adminLogout));
+        this.adminRoute.post('/logout', 
+            withLogging(injectedAdminController.logoutAdmin  ));
 
         // =====================================================================
         // 🟢 CATEGORY ROUTES
@@ -331,13 +332,13 @@ export class AdminRoute {
         // 🟢 DASHBOARD ROUTES
         // =====================================================================
         this.adminRoute.get('/budgetActual',
-            withLogging(injectAdminDashboardController.fetchBudgetVsActual));
+            withLogging(injectAdminDashboardController.getOverallBudgetVsActual ));
 
         this.adminRoute.get('/budgetActualMaterial',
-            withLogging(injectAdminDashboardController.fetchBudgetVsActualMaterial));
+            withLogging(injectAdminDashboardController.getMaterialBudgetVsActual ));
 
         this.adminRoute.get('/budgetActualLabour',
-            withLogging(injectAdminDashboardController.fetchBudgetVsActualLabour));
+            withLogging(injectAdminDashboardController.getLabourBudgetVsActual ));
 
 
         // =====================================================================

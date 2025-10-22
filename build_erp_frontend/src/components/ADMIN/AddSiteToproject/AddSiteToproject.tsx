@@ -90,6 +90,7 @@ function AddSiteToProject({ addEnable, setAddEnable, onAddSuccess }: AddPropData
 
   return (
     <>
+     {loadOn && <Loading />}
       <div
         className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 transition-opacity duration-300"
         role="dialog"
@@ -196,7 +197,6 @@ function AddSiteToProject({ addEnable, setAddEnable, onAddSuccess }: AddPropData
           </div>
         </form>
       </div>
-      <Loading loadOn={loadOn} />
     </>
   );
 }

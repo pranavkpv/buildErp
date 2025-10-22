@@ -4,22 +4,22 @@ import { fetchEditAttendance, pageWiseAttendance } from '../../../application/en
 
 
 export interface IAttendanceController {
-   createAttendance(req: Request, res: Response, next: NextFunction):
+   createAttendanceRecord(req: Request, res: Response, next: NextFunction):
       Promise<commonOutput | void>
 
-   updateAttendance(req: Request, res: Response, next: NextFunction):
+   updateAttendanceRecord (req: Request, res: Response, next: NextFunction):
       Promise<commonOutput | void>
 
-   getAttendanceList(req: Request, res: Response, next: NextFunction):
+   getAttendanceRecords (req: Request, res: Response, next: NextFunction):
       Promise<commonOutput<{ data: pageWiseAttendance[], totalPage: number }> | void>
 
-   removeAttendance(req: Request, res: Response, next: NextFunction):
+   deleteAttendanceRecord (req: Request, res: Response, next: NextFunction):
       Promise<commonOutput | void>
 
-   approveAttendance(req: Request, res: Response, next: NextFunction):
+   approveAttendanceRecord (req: Request, res: Response, next: NextFunction):
       Promise<commonOutput | void>
 
-   getAttendanceById(req: Request, res: Response, next: NextFunction):
+   getAttendanceRecordById (req: Request, res: Response, next: NextFunction):
       Promise<commonOutput<fetchEditAttendance> | commonOutput | void>
 
 }

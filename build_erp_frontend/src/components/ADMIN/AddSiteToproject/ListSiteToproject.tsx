@@ -71,8 +71,7 @@ function ListSiteToProject() {
           <ReUsableSearch search={search} setSearch={setSearch} item="project or site manager" />
           <ReUsableAddButton addFuntion={() => setAddEnable(true)} item="Site Assignment" />
         </div>
-        <Loading loadOn={loadOn} />
-        <div className="overflow-x-auto rounded-xl border border-gray-700/50">
+        {loadOn ? <Loading /> : <div className="overflow-x-auto rounded-xl border border-gray-700/50">
           <table className="min-w-full text-sm text-left bg-gray-800/50">
             <thead className="bg-gray-800/70 text-gray-200 uppercase text-xs font-semibold tracking-wider">
               <tr>
@@ -129,7 +128,7 @@ function ListSiteToProject() {
             </tbody>
           </table>
           <ReUsablePagination page={page} setPage={setPage} totalPage={totalPage} />
-        </div>
+        </div>}
 
         <AddSiteToProject addEnable={addEnable} setAddEnable={setAddEnable} onAddSuccess={fetchData} />
 

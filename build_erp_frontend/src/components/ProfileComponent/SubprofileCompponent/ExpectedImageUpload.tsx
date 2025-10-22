@@ -2,7 +2,6 @@ import { toast } from "react-toastify";
 import { useState } from "react";
 import type { estimatedImage } from "../../../ApiInterface/estimation.interface";
 import {  uploadProjectImageUserAPI } from "../../../api/Estimation";
-import Loading from "../../../components/Loading";
 
 type uploadProp = {
   uploadEnable: boolean;
@@ -125,7 +124,6 @@ function ExpectedImageUpload({ uploadEnable, setUploadEnable, uploadProjectId }:
           </button>
         </div>
       </div>
-        <Loading loadOn={loadOn} />
     </div>
   );
 }

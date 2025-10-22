@@ -67,25 +67,28 @@ function DeleteSiteToProject({
           >
             Are you sure you want to delete this site assignment? This action cannot be undone.
           </p>
-          <div className="flex justify-center gap-4 mt-6">
-            <button
-              onClick={() => setDeleteEnable(false)}
-              className="bg-gray-600 hover:bg-gray-700 text-white px-5 py-2.5 rounded-lg shadow-md transition-all duration-200 font-semibold text-sm"
-              aria-label="Cancel deletion"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={deleteSiteAssignment}
-              className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-5 py-2.5 rounded-lg shadow-md hover:shadow-xl transition-all duration-200 font-semibold text-sm"
-              aria-label="Confirm site assignment deletion"
-            >
-              Delete
-            </button>
-          </div>
+          {loadOn ? (
+            <Loading />
+          ) : (
+            <div className="flex justify-center gap-4 mt-6">
+              <button
+                onClick={() => setDeleteEnable(false)}
+                className="bg-gray-600 hover:bg-gray-700 text-white px-5 py-2.5 rounded-lg shadow-md transition-all duration-200 font-semibold text-sm"
+                aria-label="Cancel deletion"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={deleteSiteAssignment}
+                className="bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-5 py-2.5 rounded-lg shadow-md hover:shadow-xl transition-all duration-200 font-semibold text-sm"
+                aria-label="Confirm site assignment deletion"
+              >
+                Delete
+              </button>
+            </div>
+          )}
         </div>
       </div>
-      <Loading loadOn={loadOn} />
     </>
   );
 }

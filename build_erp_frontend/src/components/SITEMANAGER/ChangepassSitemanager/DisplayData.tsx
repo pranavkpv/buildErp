@@ -213,7 +213,11 @@ function DisplaySitemanagerData() {
                   </button>
                </div>
             </form>
-            <Loading loadOn={loadOn} />
+            {loadOn && (
+            <div className="absolute inset-0 bg-black/40 flex items-center justify-center rounded-xl pointer-events-none z-50">
+              <Loading />
+            </div>
+          )}
          </div>
       </>
    );
