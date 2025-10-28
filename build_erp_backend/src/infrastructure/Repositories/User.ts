@@ -142,4 +142,23 @@ export class UserRepository implements IUserRepository {
         const data = await userDB.findByIdAndUpdate(id, { email });
         return data;
     }
+    async findById(id: string): Promise<IUserModelEntity | null> {
+        const userData = await userDB.findById(id);
+        return userData;
+    }
+    async deleteById(id: string): Promise<IUserModelEntity | null> {
+        return  await userDB.findByIdAndDelete(id)
+    }
+    async save(data: Partial<IUserModelEntity>): Promise<IUserModelEntity> {
+        const newUser = new userDB({
+            email:data.email,
+            password:data.password,
+            phone:data.phone,
+            profile_image:data.profile_image
+        })
+        return await newUser.save()
+    }
+    async updateById(id: string, data: Partial<IUserModelEntity>): Promise<IUserModelEntity | null> {
+        return await  userDB.findByIdAndUpdate(id,data)
+    }
 }

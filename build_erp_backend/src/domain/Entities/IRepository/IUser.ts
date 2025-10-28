@@ -1,8 +1,9 @@
 import { googleLoginInput, UpdateEmailRedisData, updateprofileInput, userSignupinput, usertempSaveInput } from '../../../application/entities/user.entity';
 import { ITempUserModelEntity } from '../modelEntities/tempUser.entity';
 import { IUserModelEntity } from '../modelEntities/user.entity';
+import { IBaseRepository } from './IBaseRepository';
 
-export interface IUserRepository {
+export interface IUserRepository extends IBaseRepository<IUserModelEntity> {
    // User finders
    getUserByEmail(email: string): Promise<IUserModelEntity | null>;
    getUserByPhone(phone: number): Promise<IUserModelEntity | null>;

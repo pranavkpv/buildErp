@@ -8,6 +8,7 @@ export interface userSignupinput {
 export interface usertempSaveInput extends userSignupinput {
    otp: string,
    otpCreatedAt: Date
+
 }
 
 
