@@ -25,6 +25,7 @@ import { RejectEstimationUsecase } from '../../application/UseCase/Estimation/Re
 import { ApproveEstimationUseCase } from '../../application/UseCase/Estimation/ApproveEstimation';
 import { GetEstimationImageUsecase } from '../../application/UseCase/Estimation/GetEstimationImage';
 import { NotificationRepostory } from '../../infrastructure/Repositories/Notifiaction';
+import { CloudinaryUploader } from '../../application/services/CloudinaryUploader';
 
 const estimationRepository = new EstimationRepository();
 const stageRepository = new StageRepository();
@@ -44,9 +45,10 @@ const getLabourEstimationUseCase = new GetLabourEstimationUseCase(estimationRepo
 const rejectEstimationUseCase = new RejectEstimationUsecase(projectRepository,estimationRepository,notificationRepository);
 const approveEstimationUseCase = new ApproveEstimationUseCase(estimationRepository,projectRepository,notificationRepository);
 const getEstimationImageUseCase = new GetEstimationImageUsecase(projectRepository);
+const fileUploaderService = new CloudinaryUploader()
 export const injectEstimationController = new EstimationController(saveEstimationUseCase,sendEstimationUseCase,updateEstimationUseCase,displayEstimationUseCase,
     uploadEstimationUseCase,fetchSpecListUsingEstimationUseCase,getEstimationByProjectUsecase,getMaterialEstimationUseCase,getAdditionEstimationUseCase,
-    getLabourEstimationUseCase,rejectEstimationUseCase,approveEstimationUseCase,getEstimationImageUseCase);
+    getLabourEstimationUseCase,rejectEstimationUseCase,approveEstimationUseCase,getEstimationImageUseCase,fileUploaderService);
 
 const specRepository = new SpecRepository();
 const brandRepository = new BrandRepository();

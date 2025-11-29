@@ -7,7 +7,6 @@ import { IUpdateProfileUseCase } from '../../application/IUseCases/IUserProfile/
 import { dashBoardDTO, userLoginDTO } from '../../application/dto/user.dto';
 import { Tokens } from '../../application/entities/token.entity';
 import { FileArray, UploadedFile } from 'express-fileupload';
-import cloudinary from '../../infrastructure/config/cloudinary';
 import { IUpdateProfileImageUseCase } from '../../application/IUseCases/IUserProfile/IUpdateProfileImage';
 import { IChangePasswordUseCase } from '../../application/IUseCases/IUserProfile/IChangePassword';
 import { IFetchUserProjectUseCase } from '../../application/IUseCases/IProject/IFetchUserProject';
@@ -21,6 +20,7 @@ import { IEditEmailUseCase } from '../../application/IUseCases/IUserProfile/IEdi
 import { IEditEmailResendOTPUseCase } from '../../application/IUseCases/IUserProfile/IEditEmailResendOTP';
 import { IEditEmailVerifyOtpUseCase } from '../../application/IUseCases/IUserProfile/IEditEmailVerifyOtp';
 import { IGetUserDashBoardUseCase } from '../../application/IUseCases/IUserProfile/IGetUserDashBoard';
+import { IFileUploader } from '../../domain/Entities/Service.Entities/IFileUploaders';
 
 export class UserProfileController implements IUserprofileController {
     constructor(
@@ -36,10 +36,11 @@ export class UserProfileController implements IUserprofileController {
         private _editEmailResendOTPUseCase: IEditEmailResendOTPUseCase,
         private _editEmailVerifyOTPUseCase: IEditEmailVerifyOtpUseCase,
         private _getUserDashBoardUsecase: IGetUserDashBoardUseCase,
+        private _fileUploaderService: IFileUploader
     ) { }
 
     // Update user profile details
-    updateProfile = async(req: Request, res: Response, next: NextFunction):
+    updateProfile = async (req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<{ userData: userLoginDTO; tokens: Tokens }> | commonOutput | void> => {
         try {
             const userHeader = req.headers.authorization;
@@ -56,7 +57,7 @@ export class UserProfileController implements IUserprofileController {
     };
 
     // Update user profile image
-    updateProfileImage = async(req: Request, res: Response, next: NextFunction):
+    updateProfileImage = async (req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<{ userData: userLoginDTO; tokens: Tokens }> | commonOutput | void> => {
         try {
             const files = req.files as FileArray;
@@ -71,15 +72,15 @@ export class UserProfileController implements IUserprofileController {
 
             if (!file || Array.isArray(file)) return;
 
-            const uploadResult = await cloudinary.uploader.upload(file.tempFilePath, { folder: 'buildExe' });
-            return await this._updateProfileImageUseCase.execute(uploadResult.secure_url, payload._id);
+            const uploadResult = await this._fileUploaderService.upload(file.tempFilePath)
+            return await this._updateProfileImageUseCase.execute(uploadResult, payload._id);
         } catch (error) {
             next(error);
         }
     };
 
     // Change user password
-    changePassword = async(req: Request, res: Response, next: NextFunction):
+    changePassword = async (req: Request, res: Response, next: NextFunction):
         Promise<commonOutput | void> => {
         try {
             const userHeader = req.headers.authorization;
@@ -97,7 +98,7 @@ export class UserProfileController implements IUserprofileController {
     };
 
     // Fetch user assigned projects
-    fetchProjects = async(req: Request, res: Response, next: NextFunction):
+    fetchProjects = async (req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<userBaseProjectDTO[]> | commonOutput | void> => {
         try {
             const userHeader = req.headers.authorization;
@@ -114,7 +115,7 @@ export class UserProfileController implements IUserprofileController {
     };
 
     // Fetch chat list for the user
-    fetchChatList = async(req: Request, res: Response, next: NextFunction):
+    fetchChatList = async (req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<userBasechatListDTO[]> | commonOutput | void> => {
         try {
             const userHeader = req.headers.authorization;
@@ -130,7 +131,7 @@ export class UserProfileController implements IUserprofileController {
     };
 
     // Fetch messages with a site manager
-    fetchMessages = async(req: Request, res: Response, next: NextFunction):
+    fetchMessages = async (req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<chatDataDTO[]> | commonOutput | void> => {
         try {
             const userHeader = req.headers.authorization;
@@ -148,7 +149,7 @@ export class UserProfileController implements IUserprofileController {
     };
 
     // Logout user and blacklist access token
-    logout = async(req: Request, res: Response, next: NextFunction):
+    logout = async (req: Request, res: Response, next: NextFunction):
         Promise<commonOutput | void> => {
         try {
             const userHeader = req.headers.authorization;
@@ -174,7 +175,7 @@ export class UserProfileController implements IUserprofileController {
             next(error);
         }
     };
-    editEmail = async(req: Request, res: Response, next: NextFunction):
+    editEmail = async (req: Request, res: Response, next: NextFunction):
         Promise<commonOutput | void> => {
         try {
             const userHeader = req.headers.authorization;
@@ -189,7 +190,7 @@ export class UserProfileController implements IUserprofileController {
             next(error);
         }
     };
-    editEmailResendOtp = async(req: Request, res: Response, next: NextFunction):
+    editEmailResendOtp = async (req: Request, res: Response, next: NextFunction):
         Promise<commonOutput | void> => {
         try {
             const result = await this._editEmailResendOTPUseCase.execute();
@@ -198,7 +199,7 @@ export class UserProfileController implements IUserprofileController {
             next(error);
         }
     };
-    editEmailVerifyOTP = async(req: Request, res: Response, next: NextFunction):
+    editEmailVerifyOTP = async (req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<userLoginDTO> | commonOutput | void> => {
         try {
             const result = await this._editEmailVerifyOTPUseCase.execute(req.body.otp);
@@ -207,7 +208,7 @@ export class UserProfileController implements IUserprofileController {
             next(error);
         }
     };
-    getDashboard = async(req: Request, res: Response, next: NextFunction):
+    getDashboard = async (req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<dashBoardDTO> | commonOutput | void> => {
         try {
             const userHeader = req.headers.authorization;

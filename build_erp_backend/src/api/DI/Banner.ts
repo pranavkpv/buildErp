@@ -1,4 +1,5 @@
 import { BannerMapper } from '../../application/Mapper/banner.mapper';
+import { CloudinaryUploader } from '../../application/services/CloudinaryUploader';
 import { AddBannerUseCase } from '../../application/UseCase/Banner/AddBanner';
 import { DeleteBannerUseCase } from '../../application/UseCase/Banner/DeleteBanner';
 import { EditBannerUseCase } from '../../application/UseCase/Banner/EditBanner';
@@ -14,4 +15,5 @@ const listBannerUseCase = new ListBannerUseCase(bannerRepository,bannermapper);
 const editBannerUseCase = new EditBannerUseCase(bannerRepository);
 const deleteBannerUsecase = new DeleteBannerUseCase(bannerRepository);
 const fetchAllBannerUseCase = new FetchAllBannerUseCase(bannerRepository,bannermapper);
-export const injectedBannerController = new BannerController(addBannerUseCase,listBannerUseCase,editBannerUseCase,deleteBannerUsecase,fetchAllBannerUseCase);
+const fileUploaderService = new CloudinaryUploader()
+export const injectedBannerController = new BannerController(addBannerUseCase,listBannerUseCase,editBannerUseCase,deleteBannerUsecase,fetchAllBannerUseCase,fileUploaderService);

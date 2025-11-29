@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from 'express';
-import cloudinary from '../../infrastructure/config/cloudinary';
 import { IstatusController } from '../../domain/Entities/IController/IStageStatus.controller';
 import { IStageStatusChangeUseCase } from '../../application/IUseCases/IStageStatusUpdation/IStageStatusChange';
 import { IUploadStatusImageUseCase } from '../../application/IUseCases/IStageStatusUpdation/IUploadStatusImage';
@@ -9,6 +8,7 @@ import { commonOutput } from '../../application/dto/common';
 import { publicstageDTO } from '../../application/dto/stage.dto';
 import { IFetchStageByprojectUsecase } from '../../application/IUseCases/IStage/IFetchStageByProject';
 import { SpecFailedMessage } from '../../Shared/Messages/Specification.Message';
+import { IFileUploader } from '../../domain/Entities/Service.Entities/IFileUploaders';
 
 export class StatusController implements IstatusController {
 
@@ -16,10 +16,11 @@ export class StatusController implements IstatusController {
         private _stageStatusChangeUseCase: IStageStatusChangeUseCase,
         private _uploadStatusImageUseCase: IUploadStatusImageUseCase,
         private _fetchStageByprojectUsecase: IFetchStageByprojectUsecase,
+        private _fileUploaderService: IFileUploader
     ) { }
 
     //  Update stage status 
-    updateStageStatus = async(req: Request, res: Response, next: NextFunction):
+    updateStageStatus = async (req: Request, res: Response, next: NextFunction):
         Promise<commonOutput | void> => {
         try {
             const result = await this._stageStatusChangeUseCase.execute({
@@ -33,7 +34,7 @@ export class StatusController implements IstatusController {
     };
 
     //  Upload stage-related images 
-    uploadStageImages = async(req: Request, res: Response, next: NextFunction):
+    uploadStageImages = async (req: Request, res: Response, next: NextFunction):
         Promise<commonOutput | void> => {
         try {
             const file = req.files?.image;
@@ -49,10 +50,8 @@ export class StatusController implements IstatusController {
 
             if (Array.isArray(file)) {
                 for (const char of file) {
-                    const result = await cloudinary.uploader.upload(char.tempFilePath, {
-                        folder: 'project-status',
-                    });
-                    urls.push(result.secure_url);
+                    const result = await this._fileUploaderService.upload(char.tempFilePath)
+                    urls.push(result);
                     if (!allowedTypes.includes(char.mimetype)) {
                         res.status(HTTP_STATUS.BAD_REQUEST).
                             json({ success: false, message: SpecFailedMessage.INVALID_FILE });
@@ -61,10 +60,8 @@ export class StatusController implements IstatusController {
 
                 }
             } else {
-                const result = await cloudinary.uploader.upload(file.tempFilePath, {
-                    folder: 'project-status',
-                });
-                urls.push(result.secure_url);
+                const result = await this._fileUploaderService.upload(file.tempFilePath)
+                urls.push(result);
             }
 
             const exactResult = await this._uploadStatusImageUseCase.execute(urls, _id, date);
@@ -75,7 +72,7 @@ export class StatusController implements IstatusController {
         }
     };
     //fetch stages by projects
-    getStageByProjectId = async(req: Request, res: Response, next: NextFunction):
+    getStageByProjectId = async (req: Request, res: Response, next: NextFunction):
         Promise<commonOutput<publicstageDTO[]> | void> => {
         try {
             const _id = req.params.id;

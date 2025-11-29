@@ -1,13 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
 import { commonOutput } from '../../application/dto/common';
 import { IBannerController } from '../../domain/Entities/IController/IBanner.controller';
-import cloudinary from '../../infrastructure/config/cloudinary';
 import { IAddBannerUsecase } from '../../application/IUseCases/IBanner/IAddBanner';
 import { listBannerDTO } from '../../application/dto/banner.dto';
 import { IListBannerUseCase } from '../../application/IUseCases/IBanner/IListBanner';
 import { IEditBannerUseCase } from '../../application/IUseCases/IBanner/IEditBanner';
 import { IDeleteBannerUsecase } from '../../application/IUseCases/IBanner/IDeleteBanner';
 import { IFetchAllBannerUseCase } from '../../application/IUseCases/IBanner/IFetchAllBanner';
+import { IFileUploader } from '../../domain/Entities/Service.Entities/IFileUploaders';
 
 export class BannerController implements IBannerController {
     constructor(
@@ -16,6 +16,7 @@ export class BannerController implements IBannerController {
       private _editBannerUseCase: IEditBannerUseCase,
       private _deleteBannerUsecase: IDeleteBannerUsecase,
        private _fetchAllBannerUseCase : IFetchAllBannerUseCase,
+       private _fileUploaderService : IFileUploader
     ) { }
     addBanner = async(req: Request, res: Response, next: NextFunction):
       Promise<commonOutput | void> => {
@@ -26,10 +27,8 @@ export class BannerController implements IBannerController {
                 return;
             }
 
-            const uploadedImage = await cloudinary.uploader.upload(file.tempFilePath, {
-                folder: 'Banner',
-            });
-            return await this._addBannerUseCase.execute({ image: uploadedImage.secure_url, ...req.body });
+            const uploadedImage = await this._fileUploaderService.upload(file.tempFilePath)
+            return await this._addBannerUseCase.execute({ image: uploadedImage, ...req.body });
         } catch (error) {
             next(error);
         }
@@ -61,10 +60,8 @@ export class BannerController implements IBannerController {
                 return await this._editBannerUseCase.execute({ _id, image: '', ...req.body });
             }
 
-            const uploadedImage = await cloudinary.uploader.upload(file.tempFilePath, {
-                folder: 'Banner',
-            });
-            return await this._editBannerUseCase.execute({ _id, image: uploadedImage.secure_url, ...req.body });
+            const uploadedImage = await this._fileUploaderService.upload(file.tempFilePath)
+            return await this._editBannerUseCase.execute({ _id, image: uploadedImage, ...req.body });
         } catch (error) {
             next(error);
         }

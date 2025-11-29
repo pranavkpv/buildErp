@@ -1,4 +1,5 @@
 import { Stagemapper } from '../../application/Mapper/stage.mapper';
+import { CloudinaryUploader } from '../../application/services/CloudinaryUploader';
 import { FetchStageByProjectUseCase } from '../../application/UseCase/Stage/FetchStageByProject';
 import { StageStatusChangeUseCase } from '../../application/UseCase/StageStatusUpdation/StageSatusChange';
 import { UploadStatusImageUseCase } from '../../application/UseCase/StageStatusUpdation/UploadStatusImage';
@@ -14,4 +15,5 @@ const stagemapper = new Stagemapper();
 const stageStatusChangeUseCase = new StageStatusChangeUseCase(stagerepository,notificationRepository,projectRepository);
 const uploadStatusImageUseCase = new UploadStatusImageUseCase(stagerepository);
 const fetchStageByprojectUsecase = new FetchStageByProjectUseCase(stagerepository,stagemapper);
-export const injectedStageStatusController = new StatusController(stageStatusChangeUseCase,uploadStatusImageUseCase,fetchStageByprojectUsecase);
+const fileUploaderService = new CloudinaryUploader()
+export const injectedStageStatusController = new StatusController(stageStatusChangeUseCase,uploadStatusImageUseCase,fetchStageByprojectUsecase,fileUploaderService);

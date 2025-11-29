@@ -21,6 +21,7 @@ import { ProjectRepository } from '../../infrastructure/Repositories/Project';
 import { UserRepository } from '../../infrastructure/Repositories/User';
 import { UserProfileController } from '../controllers/UserProfile.controller';
 import { StageRepository } from '../../infrastructure/Repositories/Stage';
+import { CloudinaryUploader } from '../../application/services/CloudinaryUploader';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
     apiVersion: '2025-08-27.basil',
@@ -49,6 +50,7 @@ const editEmailUseCase = new EditEmailUseCase(userRepository);
 const editEmailResendOTPUseCase = new EditEmailResendOTPUseCase(userRepository);
 const editEmailVerifyOTPUseCase = new EditEmailVerifyOtpUseCase(userRepository, userMapper);
 const getUserDashBoardUsecase = new GetUserDashBoardUseCase(projectRepository, paymentRepository, stageRepository);
+const fileUploaderService = new CloudinaryUploader()
 export const injecteduserprofileController = new UserProfileController(jwtservice, updateProfileUseCase, updateProfileImageUseCase, changePasswordUseCase,
     fetchUserprojectUseCase, getChatListUseCase, getMessagesUseCase, blacklistUsecase, editEmailUseCase, editEmailResendOTPUseCase, editEmailVerifyOTPUseCase,
-    getUserDashBoardUsecase);
+    getUserDashBoardUsecase,fileUploaderService);
