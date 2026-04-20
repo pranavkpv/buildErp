@@ -49,7 +49,7 @@ export class App {
 
    private setMiddlewares() {
       this.app.use(cors({
-         origin: ['http://localhost:5173', 'https://93f4stm6-5173.inc1.devtunnels.ms','https://build-ma69iaob8-kpvpranavraj2305-gmailcoms-projects.vercel.app'],
+         origin: ['http://localhost:5173', 'https://build-erp.vercel.app','https://build-ma69iaob8-kpvpranavraj2305-gmailcoms-projects.vercel.app'],
           methods: ['GET','POST','PUT','DELETE','PATCH','OPTIONS'],
          credentials: true
       }));
