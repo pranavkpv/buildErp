@@ -41,6 +41,7 @@
     "on-finished": "^2.4.1",
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0",
+    "path": "^0.12.7",
     "socket.io": "^4.8.1",
     "stripe": "^18.5.0",
     "winston": "^3.17.0",
