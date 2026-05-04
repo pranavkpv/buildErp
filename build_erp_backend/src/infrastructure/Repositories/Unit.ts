@@ -14,7 +14,7 @@ export class UnitRepository implements IUnitRepository {
     // Find unit by name
     async getUnitByName(unitName: string): Promise<IUnitModelEntity | null> {
         return await unitDB.findOne({
-            unit_name: { $regex: new RegExp(`${ unitName }$`, 'i') },
+            unit_name: { $regex: `^${ unitName }$`, $options: 'i' },
         });
     }
 
@@ -53,10 +53,10 @@ export class UnitRepository implements IUnitRepository {
         const unitList = await unitDB
             .find({ unit_name: { $regex: searchRegex }, blockStatus: false })
             .skip(skip)
-            .limit(5).sort({ createdAt:-1 });
+            .limit(5).sort({ createdAt: -1 });
 
         const totalDoc = await unitDB.find({ unit_name: { $regex: searchRegex }, blockStatus: false });
-        const totalPage = Math.ceil(totalDoc.length /5);
+        const totalPage = Math.ceil(totalDoc.length / 5);
 
         return { data: unitList, totalPage };
     }
