@@ -114,6 +114,7 @@ export const uploadProjectImageUserAPI = async (projectId: string, estimatedImag
          formData.append(`images[${ index }][file]`, item.file);
       }
    });
+   console.log("Jaoooo",projectId)
 
    const response = await userAxios.patch(`/uploadEstimateImage/${ projectId }`, formData, {
       headers: { "Content-Type": "multipart/form-data" }
