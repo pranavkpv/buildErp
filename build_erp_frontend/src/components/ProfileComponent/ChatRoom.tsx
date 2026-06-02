@@ -1,9 +1,10 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../redux/store";
 import { socket } from "../../api/socket";
 import { fetchMessagesApi } from "../../api/userprofile";
 import { toast } from "react-toastify";
+import { Check, CheckCheck, Send, Terminal } from "lucide-react";
 
 interface Message {
   id: string;
@@ -25,7 +26,6 @@ interface ReceiveMessage {
   createdAt: string | Date;
 }
 
-
 interface ChatRoomProps {
   sitemanagerName: string;
   sitemanagerId: string | null;
@@ -40,6 +40,12 @@ function ChatRoom({ sitemanagerName, sitemanagerId }: ChatRoomProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState<string>("");
   const user = useSelector((state: RootState) => state.auth.user);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  // Auto-scroll anchor point deployment
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   const groupMessages = (msgs: Message[]): DisplayMessage[] => {
     return msgs.reduce((acc: DisplayMessage[], msg) => {
@@ -72,7 +78,7 @@ function ChatRoom({ sitemanagerName, sitemanagerId }: ChatRoomProps) {
         toast.error(response.message);
       }
     } catch {
-      toast.error("Failed to fetch messages");
+      toast.error("Failed to fetch terminal transmissions");
     }
   };
 
@@ -140,9 +146,9 @@ function ChatRoom({ sitemanagerName, sitemanagerId }: ChatRoomProps) {
 
   const handleSendMessage = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newMessage.trim()) return toast.error("Message cannot be empty");
+    if (!newMessage.trim()) return toast.error("Message data payload empty");
     if (!user?._id || !sitemanagerId)
-      return toast.error("Cannot send message: Invalid user");
+      return toast.error("Operation aborted: Missing verification tokens");
 
     const tempId = Date.now().toString();
 
@@ -174,7 +180,7 @@ function ChatRoom({ sitemanagerName, sitemanagerId }: ChatRoomProps) {
     const minutes = date.getMinutes().toString().padStart(2, "0");
     const ampm = hours >= 12 ? "PM" : "AM";
     hours = hours % 12 || 12;
-    return `${hours}:${minutes}${ampm}`;
+    return `${hours}:${minutes} ${ampm}`;
   };
 
   const convertDate = (dateInput: string | Date) => {
@@ -187,77 +193,111 @@ function ChatRoom({ sitemanagerName, sitemanagerId }: ChatRoomProps) {
   };
 
   const renderStatus = (status: string) => {
-    if (status === "send") return "✓";
-    if (status === "delivered") return "✓✓";
-    if (status === "seen") return "✓✓ (blue)";
-    return "";
+    switch (status) {
+      case "sending":
+        return <span className="text-[10px] text-orange-400/50 animate-pulse font-mono font-bold uppercase">Sending...</span>;
+      case "send":
+        return <Check className="w-3.5 h-3.5 text-slate-500" />;
+      case "delivered":
+        return <CheckCheck className="w-3.5 h-3.5 text-slate-400" />;
+      case "seen":
+        return <CheckCheck className="w-3.5 h-3.5 text-orange-400" />;
+      default:
+        return null;
+    }
   };
 
   const grouped = groupMessages(messages);
 
   return (
-    <div className="h-full flex flex-col bg-white rounded-xl shadow-md">
-      <div className="p-4 border-b border-slate-200">
-        <h2 className="text-xl font-semibold text-teal-600">
-          Chat with {sitemanagerName}
-        </h2>
+    <div className="flex-1 flex flex-col h-full bg-slate-900 overflow-hidden">
+      
+      {/* Header Panel */}
+      <div className="p-4 bg-slate-950/40 border-b border-slate-800/80 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="p-1.5 bg-orange-500/10 border border-orange-500/20 text-orange-500 rounded-lg">
+            <Terminal className="w-4 h-4" />
+          </div>
+          <div>
+            <h2 className="text-sm font-black text-white uppercase tracking-wider">
+              Link: {sitemanagerName}
+            </h2>
+            <p className="text-[10px] font-mono text-emerald-500 font-bold uppercase tracking-widest flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping" />
+              Secure Stream Active
+            </p>
+          </div>
+        </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto bg-slate-50 p-4 space-y-6">
+      {/* Main Messaging Logs Display Feed */}
+      <div className="flex-1 overflow-y-auto p-4 space-y-6 bg-slate-950/20 custom-scrollbar">
         {grouped.map((group) => (
-          <div key={group.date}>
-            <div className="text-center mb-2">
-              <span className="px-3 py-1 text-xs bg-slate-300 rounded-full text-slate-700">
+          <div key={group.date} className="space-y-4">
+            
+            {/* Datestamp Badge */}
+            <div className="flex items-center justify-center my-2">
+              <span className="px-3 py-1 text-[10px] font-mono font-bold bg-slate-950 border border-slate-800 text-slate-400 rounded-md uppercase tracking-wider shadow-sm">
                 {group.date === convertDate(new Date()) ? "Today" : group.date}
               </span>
             </div>
-            {group.messages.map((msg) => (
-              <div
-                key={msg.id}
-                className={`flex mb-2 ${
-                  msg.senderId === user?._id ? "justify-end" : "justify-start"
-                }`}
-              >
+
+            {group.messages.map((msg) => {
+              const isMe = msg.senderId === user?._id;
+              return (
                 <div
-                  className={`max-w-xs p-3 rounded-2xl shadow ${
-                    msg.senderId === user?._id
-                      ? "bg-teal-500 text-white rounded-br-none"
-                      : "bg-white text-slate-800 border border-slate-200 rounded-bl-none"
-                  }`}
+                  key={msg.id}
+                  className={`flex ${isMe ? "justify-end" : "justify-start"}`}
                 >
-                  <p className="break-words">{msg.message}</p>
-                  <p className="text-[10px] text-slate-700 mt-1 text-right">
-                    {msg.time}
-                  </p>
-                  {msg.senderId === user?._id && (
-                    <p className="text-[10px] text-right mt-0.5">
-                      {renderStatus(msg.messageStatus)}
-                    </p>
-                  )}
+                  <div
+                    className={`max-w-xs md:max-w-md px-4 py-3 rounded-2xl relative border ${
+                      isMe
+                        ? "bg-gradient-to-br from-orange-600 to-orange-700 border-orange-500 text-white rounded-tr-none shadow-lg shadow-orange-950/20"
+                        : "bg-slate-950 border-slate-800 text-slate-200 rounded-tl-none shadow-md"
+                    }`}
+                  >
+                    <p className="text-sm leading-relaxed break-words font-medium">{msg.message}</p>
+                    
+                    {/* Timestamp & Status Metadata */}
+                    <div className="flex items-center justify-end gap-1.5 mt-1.5 select-none opacity-85">
+                      <span className={`text-[9px] font-mono font-bold uppercase ${isMe ? "text-orange-200/80" : "text-slate-500"}`}>
+                        {msg.time}
+                      </span>
+                      {isMe && (
+                        <div className="shrink-0 flex items-center">
+                          {renderStatus(msg.messageStatus)}
+                        </div>
+                      )}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         ))}
+        {/* Continuous reactive anchor */}
+        <div ref={scrollRef} />
       </div>
 
+      {/* Input Action Form Base console */}
       <form
         onSubmit={handleSendMessage}
-        className="p-3 border-t border-slate-200 flex"
+        className="p-3 bg-slate-950/50 border-t border-slate-800/80 flex gap-2"
       >
         <input
           type="text"
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
-          placeholder="Type your message..."
-          className="flex-1 p-3 border border-slate-300 rounded-l-xl focus:outline-none focus:border-teal-500"
+          placeholder="Command payload entry box..."
+          className="flex-1 px-4 py-3 bg-slate-950 text-slate-200 border-2 border-slate-800 rounded-xl placeholder-slate-700 text-sm focus:outline-none focus:border-orange-500 transition-colors font-medium"
         />
         <button
           type="submit"
           disabled={!newMessage.trim()}
-          className="px-6 py-3 bg-teal-500 text-white rounded-r-xl hover:bg-teal-600 transition-colors duration-300 disabled:opacity-50"
+          className="px-5 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-xl hover:from-orange-600 hover:to-orange-700 transition-all duration-200 disabled:opacity-20 flex items-center justify-center border border-orange-500/20 shadow-md"
+          aria-label="Transmit payload"
         >
-          Send
+          <Send className="w-4 h-4" />
         </button>
       </form>
     </div>

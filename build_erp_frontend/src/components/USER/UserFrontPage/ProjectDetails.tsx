@@ -1,7 +1,17 @@
 import { useLocation } from 'react-router-dom';
 import UserHeader from '../common/UserHeader';
 import { useEffect, useState } from 'react';
-import { Calendar } from 'lucide-react';
+import { 
+  Calendar, 
+  Cpu, 
+  Activity, 
+  HardHat, 
+  Maximize2, 
+  MapPin, 
+  Mail, 
+  Phone, 
+  Image as ImageIcon 
+} from 'lucide-react';
 import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet';
 import { fetchExistEstimationInUser, getStageInUser } from '../../../api/auth';
 
@@ -26,21 +36,15 @@ type StageData = {
   status_date: string;
 };
 
-interface Location {
-  lat: number;
-  lng: number;
-  name: string;
-}
-
 type prop = {
   latitude: number;
   longitude: number;
 };
 
 type imageType = {
-  date:Date
-  url:string
-}
+  date: Date;
+  url: string;
+};
 
 function DetailProject() {
   const location = useLocation();
@@ -66,7 +70,7 @@ function DetailProject() {
     const response = await getStageInUser(projectId);
     if (response.success) {
       setStage(response.data);
-      let x = [];
+      let x: imageType[] = [];
       for (let element of response.data) {
         for (let item of element.stage_image) {
           for (let char of item.image) {
@@ -102,276 +106,284 @@ function DetailProject() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-950 text-slate-100 selection:bg-orange-500 selection:text-white">
       <UserHeader />
 
-      {/* Hero Section */}
-      <section className="relative h-[70vh] overflow-hidden">
-        <div className="absolute inset-0">
+      {/* Structural Stripe Indicator */}
+      <div className="h-1.5 w-full"
+        style={{ backgroundImage: `repeating-linear-gradient(45deg, #f97316, #f97316 10px, #1e293b 10px, #1e293b 20px)` }}
+      />
+
+      {/* Hero Panoramic Console View */}
+      <section className="relative h-[65vh] overflow-hidden border-b border-slate-800">
+        <div className="absolute inset-0 bg-slate-950">
           <img
             src={expectedImage}
             alt={projectName}
-            className="w-full h-full object-cover transition-all duration-500"
+            className="w-full h-full object-cover opacity-40 transition-transform duration-1000 scale-105"
             loading="eager"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-blue-900/70"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent"></div>
         </div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
-          <h1 className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-blue-600 to-emerald-600 bg-clip-text text-transparent mb-3">
-            {projectName}
-          </h1>
-          <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto mb-6">{address}</p>
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/20">
-            <span className="text-sm font-semibold text-white">
-              Overall Progress: {calculateProjectProgress().toFixed(1)}%
-            </span>
-          </div>
-        </div>
-      </section>
-
-      {/* Overview Section */}
-      <section className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="relative mb-8">
-          <h2 className="text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-blue-600 to-emerald-600 bg-clip-text text-transparent text-center">
-            Project Overview
-          </h2>
-          <div className="mt-3 h-px bg-gray-200 relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-emerald-600 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700"></div>
-          </div>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="flex flex-col justify-center">
-            <p className="text-gray-600 text-base leading-relaxed">{description}</p>
-            <div className="mt-4 inline-flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-blue-50 to-emerald-50 border border-blue-200 rounded-lg">
-              <svg className="w-4 h-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
-              </svg>
-              <span className="text-sm font-medium text-blue-600">
-                {area.toLocaleString()} sqft
-              </span>
+        <div className="relative h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-end pb-16">
+          <div className="max-w-3xl space-y-4">
+            <h1 className="text-4xl md:text-6xl font-black tracking-tight text-white uppercase">
+              {projectName}
+            </h1>
+            <div className="flex items-start gap-2.5 text-slate-400 font-medium text-base md:text-lg">
+              <MapPin className="w-5 h-5 text-orange-500 shrink-0 mt-0.5" />
+              <span>{address}</span>
+            </div>
+            <div className="pt-2">
+              <div className="inline-flex items-center gap-3 px-4 py-2 bg-slate-900/90 border border-slate-800 rounded-xl shadow-2xl backdrop-blur-md">
+                <span className="w-2.5 h-2.5 rounded-full bg-orange-500 animate-pulse"></span>
+                <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-300">
+                  Deployment Metrics: {calculateProjectProgress().toFixed(1)}% Completed
+                </span>
+              </div>
             </div>
           </div>
-          <div className="flex justify-center">
-            <img
-              src={expectedImage}
-              alt={projectName}
-              className="rounded-lg shadow-md w-full max-w-md h-64 object-cover transition-all duration-300 hover:scale-105"
-              loading="lazy"
-            />
+        </div>
+      </section>
+
+      {/* Operational Overview Section */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          <div className="lg:col-span-7 space-y-6">
+            <div className="flex items-center gap-3">
+              <Activity className="w-6 h-6 text-orange-500" />
+              <h2 className="text-xs font-mono font-bold uppercase tracking-widest text-slate-500">
+                System Overview / Description
+              </h2>
+            </div>
+            <p className="text-slate-400 text-base md:text-lg leading-relaxed font-medium">
+              {description}
+            </p>
+            <div>
+              <div className="inline-flex items-center gap-2.5 px-4 py-2.5 bg-slate-900 border border-slate-800 rounded-xl">
+                <Maximize2 className="w-4 h-4 text-orange-500" />
+                <span className="text-xs font-mono font-bold tracking-wider text-slate-300 uppercase">
+                  {area?.toLocaleString()} SQFT Total Footprint
+                </span>
+              </div>
+            </div>
+          </div>
+          <div className="lg:col-span-5 flex justify-center">
+            <div className="relative p-2 bg-slate-900 border border-slate-800 rounded-2xl shadow-xl w-full max-w-md group overflow-hidden">
+              <img
+                src={expectedImage}
+                alt={projectName}
+                className="rounded-xl w-full h-64 object-cover filter brightness-90 group-hover:scale-102 transition-transform duration-500"
+                loading="lazy"
+              />
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Specification Section */}
-      <section className="relative bg-gradient-to-br from-gray-100 to-gray-50 py-12">
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="relative mb-8">
-            <h2 className="text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-blue-600 to-emerald-600 bg-clip-text text-transparent text-center">
-              Specifications
+      {/* Structural Specification Section */}
+      <section className="bg-slate-900/40 border-y border-slate-900 py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center gap-3 justify-center mb-12">
+            <Cpu className="w-6 h-6 text-orange-500" />
+            <h2 className="text-2xl font-black text-white uppercase tracking-wider">
+              Schematic Specifications
             </h2>
-            <div className="mt-3 h-px bg-gray-200 relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-emerald-600 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700"></div>
-            </div>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {spec.length > 0 ? (
               spec.map((element, index) => (
                 <div
                   key={index}
-                  className="bg-white/80 backdrop-blur-md rounded-lg shadow-md border border-gray-200 p-6 flex flex-col transition-all duration-300 hover:-translate-y-1 hover:shadow-lg group"
+                  className="bg-slate-900 border border-slate-800/80 rounded-2xl p-6 relative overflow-hidden flex flex-col justify-between group hover:border-slate-700 transition-all duration-300 shadow-md"
                 >
-                  <h3 className="text-lg font-semibold text-blue-600 line-clamp-2">
-                    {element.specDetails.spec_name}
-                  </h3>
-                  <p className="text-sm text-gray-600 mt-2 line-clamp-4 flex-grow">
-                    {element.specDetails.description}
-                  </p>
-                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-600 to-emerald-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="space-y-3">
+                    <h3 className="text-base font-bold text-white uppercase tracking-tight line-clamp-2 group-hover:text-orange-400 transition-colors duration-300">
+                      {element.specDetails.spec_name}
+                    </h3>
+                    <p className="text-sm text-slate-400 font-medium leading-relaxed line-clamp-4">
+                      {element.specDetails.description}
+                    </p>
+                  </div>
+                  <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-orange-500 to-yellow-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
               ))
             ) : (
-              <div className="col-span-full text-center py-12">
-                <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
-                  <svg className="w-10 h-10 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                  </svg>
-                </div>
-                <h3 className="text-lg font-semibold text-gray-700 mb-3">No Specifications Available</h3>
-                <p className="text-gray-500 max-w-md mx-auto">
-                  Specifications for this project are being updated. Check back soon!
-                </p>
+              <div className="col-span-full text-center py-12 bg-slate-900/50 border border-dashed border-slate-800 rounded-2xl">
+                <Cpu className="w-10 h-10 text-slate-700 mx-auto mb-4" />
+                <h3 className="text-sm font-mono font-bold text-slate-400 uppercase tracking-wider mb-1">No Component Matrix Available</h3>
+                <p className="text-xs text-slate-500">Specifications are being calculated for this database entry.</p>
               </div>
             )}
           </div>
         </div>
       </section>
 
-      {/* Gallery Section */}
-      <section className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="relative mb-8">
-          <h2 className="text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-blue-600 to-emerald-600 bg-clip-text text-transparent text-center">
-            Gallery
+      {/* Telemetry Gallery Section */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="flex items-center gap-3 justify-center mb-12">
+          <ImageIcon className="w-6 h-6 text-orange-500" />
+          <h2 className="text-2xl font-black text-white uppercase tracking-wider">
+            Site Manifest Gallery
           </h2>
-          <div className="mt-3 h-px bg-gray-200 relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-emerald-600 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700"></div>
-          </div>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {image.length > 0 ? (
             image.map((src, index) => (
-              <div key={index} className="group relative">
-                <img
-                  src={src.url}
-                  alt={`Project Gallery ${ index + 1 }`}
-                  className="w-full h-60 object-cover rounded-lg shadow-md transition-all duration-300 hover:scale-105"
-                  loading="lazy"
-                />
-                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-600 to-emerald-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <p className="absolute bottom-2 left-2 text-xs text-white bg-black/60 px-2 py-1 rounded-md">
-                  {new Date(src.date).toLocaleDateString()}
-                </p>
+              <div key={index} className="group relative bg-slate-900 border border-slate-800 p-2 rounded-2xl overflow-hidden shadow-md">
+                <div className="relative overflow-hidden h-60 rounded-xl bg-slate-950">
+                  <img
+                    src={src.url}
+                    alt={`Telemetry frame ${index + 1}`}
+                    className="w-full h-full object-cover filter brightness-90 group-hover:scale-105 transition-transform duration-500"
+                    loading="lazy"
+                  />
+                  <div className="absolute bottom-3 left-3 bg-slate-950/80 backdrop-blur-md px-2.5 py-1 rounded-md border border-slate-800">
+                    <span className="font-mono text-[10px] font-bold text-slate-400 tracking-wider">
+                      LOG_DT: {new Date(src.date).toLocaleDateString()}
+                    </span>
+                  </div>
+                </div>
               </div>
             ))
           ) : (
-            <div className="col-span-full text-center py-12">
-              <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
-                <svg className="w-10 h-10 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 5h16M4 12h16M4 18h16" />
-                </svg>
-              </div>
-              <h3 className="text-lg font-semibold text-gray-700 mb-3">No Images Available</h3>
-              <p className="text-gray-500 max-w-md mx-auto">
-                The gallery for this project is being updated. Check back soon!
-              </p>
+            <div className="col-span-full text-center py-12 bg-slate-900/30 border border-dashed border-slate-800 rounded-2xl">
+              <ImageIcon className="w-10 h-10 text-slate-700 mx-auto mb-4" />
+              <h3 className="text-sm font-mono font-bold text-slate-400 uppercase tracking-wider mb-1">Visual Log Corrupted or Empty</h3>
+              <p className="text-xs text-slate-500">No telemetry logs submitted for this asset file.</p>
             </div>
           )}
         </div>
       </section>
 
-      {/* Work Plans Section */}
-      <section className="relative bg-gradient-to-br from-gray-100 to-gray-50 py-12">
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="relative mb-8">
-            <h2 className="text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-blue-600 to-emerald-600 bg-clip-text text-transparent text-center">
-              Work Plans
+      {/* Work Pipeline Stages Section */}
+      <section className="bg-slate-900/40 border-y border-slate-900 py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center gap-3 justify-center mb-12">
+            <HardHat className="w-6 h-6 text-orange-500" />
+            <h2 className="text-2xl font-black text-white uppercase tracking-wider">
+              Work Deployment Roadmap
             </h2>
-            <div className="mt-3 h-px bg-gray-200 relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-emerald-600 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700"></div>
-            </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {stage.length > 0 ? (
               stage.map((element, index) => (
                 <div
                   key={index}
-                  className="bg-white/80 backdrop-blur-md rounded-lg shadow-md border border-gray-200 p-6 flex flex-col transition-all duration-300 hover:-translate-y-1 hover:shadow-lg group"
+                  className="bg-slate-900 border border-slate-800/80 rounded-2xl p-6 flex flex-col justify-between relative group hover:border-slate-700 transition-all duration-300 shadow-md"
                 >
-                  <div className="flex items-center justify-between mb-3">
-                    <p className="text-lg font-semibold text-blue-600 line-clamp-1">
-                      {element.stage_name}
-                    </p>
-                    <div className="flex items-center text-sm text-gray-600">
-                      <Calendar className="w-4 h-4 mr-2 text-blue-600" />
-                      <span>
-                        {new Date(element.start_date).toLocaleDateString()} -{" "}
-                        {new Date(element.end_date).toLocaleDateString()}
-                      </span>
+                  <div className="space-y-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
+                      <p className="text-base font-bold text-white uppercase tracking-tight line-clamp-1">
+                        {element.stage_name}
+                      </p>
+                      <div className="flex items-center text-xs font-mono font-bold text-slate-400 shrink-0">
+                        <Calendar className="w-3.5 h-3.5 mr-1.5 text-orange-500" />
+                        <span>
+                          {new Date(element.start_date).toLocaleDateString()} — {new Date(element.end_date).toLocaleDateString()}
+                        </span>
+                      </div>
+                    </div>
+                    
+                    {/* Linear Engine Progress Track */}
+                    <div className="space-y-2">
+                      <div className="w-full bg-slate-950 border border-slate-800 rounded-full h-2.5 overflow-hidden">
+                        <div
+                          className="bg-gradient-to-r from-orange-500 to-yellow-500 h-full rounded-full transition-all duration-500"
+                          style={{ width: `${element.progress}%` }}
+                        />
+                      </div>
+                      <div className="flex justify-between items-center text-xs font-mono font-bold text-slate-400">
+                        <span>STAGE METRIC: {element.progress}%</span>
+                        <span className="text-white">VAL: ₹{element.stage_amount.toLocaleString()}</span>
+                      </div>
                     </div>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
-                    <div
-                      className={`bg-gradient-to-r from-blue-600 to-emerald-600 h-2 rounded-full transition-all duration-500 w-[${ element.progress }%]`}
-                    />
-
-                  </div>
-                  <p className="text-sm text-gray-600 mt-2">
-                    Progress: {element.progress}% | Amount: ₹{element.stage_amount.toLocaleString()}
-                  </p>
-                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-blue-600 to-emerald-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
               ))
             ) : (
-              <div className="col-span-full text-center py-12">
-                <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
-                  <svg className="w-10 h-10 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                  </svg>
-                </div>
-                <h3 className="text-lg font-semibold text-gray-700 mb-3">No Work Plans Available</h3>
-                <p className="text-gray-500 max-w-md mx-auto">
-                  Work plans for this project are being updated. Check back soon!
-                </p>
+              <div className="col-span-full text-center py-12 bg-slate-900/50 border border-dashed border-slate-800 rounded-2xl">
+                <HardHat className="w-10 h-10 text-slate-700 mx-auto mb-4" />
+                <h3 className="text-sm font-mono font-bold text-slate-400 uppercase tracking-wider mb-1">No Active Milestones Scheduled</h3>
+                <p className="text-xs text-slate-500">Roadmap sequencing files have not been mapped for this environment node.</p>
               </div>
             )}
           </div>
         </div>
       </section>
 
-      {/* Location Section */}
-      <section className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="relative mb-8">
-          <h2 className="text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-blue-600 to-emerald-600 bg-clip-text text-transparent text-center">
-            Location
+      {/* Geolocation Coordinate Section */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="flex items-center gap-3 justify-center mb-12">
+          <MapPin className="w-6 h-6 text-orange-500" />
+          <h2 className="text-2xl font-black text-white uppercase tracking-wider">
+            Site Coordinates & Mapping
           </h2>
-          <div className="mt-3 h-px bg-gray-200 relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-emerald-600 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700"></div>
-          </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="flex flex-col justify-center">
-            <p className="text-gray-600 text-base leading-relaxed">{address}</p>
-            <ul className="mt-4 text-gray-600 list-disc pl-5 text-sm">
-              <li>Proximity to major highways and metro stations</li>
-              <li>Close to upscale shopping and entertainment destinations</li>
-              <li>Near reputed educational institutions</li>
-            </ul>
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div className="lg:col-span-5 space-y-4">
+            <p className="text-slate-300 font-medium text-base leading-relaxed">{address}</p>
+            <div className="p-4 bg-slate-900 border border-slate-800 rounded-xl space-y-2.5 text-xs font-mono text-slate-400 font-semibold uppercase tracking-wide">
+              <div className="flex items-center gap-2 text-slate-300 border-b border-slate-800 pb-2 mb-2">
+                <span>Infrastructure Features</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 bg-orange-500 rounded-full"></span>
+                <span>Proximity to logistics highways & transport infrastructure hubs</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 bg-orange-500 rounded-full"></span>
+                <span>Zoned inside secure multi-tier utility networks</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 bg-orange-500 rounded-full"></span>
+                <span>Coordinates certified by engineering registries</span>
+              </div>
+            </div>
           </div>
-          <div className="flex justify-center">
-            <MapContainer
-              center={[latitude, longitude]}
-              zoom={13}
-              style={{ height: '320px', width: '100%', borderRadius: '8px', overflow: 'hidden' }}
-              className="border border-gray-200 shadow-md"
-            >
-              <TileLayer
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-              />
-              <MapViewUpdater latitude={latitude} longitude={longitude} />
-              <Marker position={[latitude, longitude]}>
-                <Popup>{address}</Popup>
-              </Marker>
-            </MapContainer>
+          <div className="lg:col-span-7 w-full">
+            <div className="p-2 bg-slate-900 border border-slate-800 rounded-2xl shadow-xl h-80 overflow-hidden relative z-10">
+              <MapContainer
+                center={[latitude, longitude]}
+                zoom={13}
+                style={{ height: '100%', width: '100%', borderRadius: '12px' }}
+              >
+                <TileLayer
+                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                  attribution='&copy; OpenStreetMap contributors'
+                />
+                <MapViewUpdater latitude={latitude} longitude={longitude} />
+                <Marker position={[latitude, longitude]}>
+                  <Popup>{address}</Popup>
+                </Marker>
+              </MapContainer>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section className="relative bg-gradient-to-r from-blue-600 to-emerald-600 text-white py-12">
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-3">Get in Touch</h2>
-          <p className="text-base text-white/90 max-w-xl mx-auto mb-6">
-            Ready to experience luxury living at {projectName}? Contact us today for more details or to schedule a visit.
+      {/* Interface Communication Center Footer Link */}
+      <section className="bg-gradient-to-r from-orange-600 via-orange-500 to-yellow-600 text-white py-14">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
+          <h2 className="text-3xl md:text-4xl font-black uppercase tracking-tight">Initiate Communications</h2>
+          <p className="text-sm md:text-base text-orange-50/90 max-w-xl mx-auto font-medium leading-relaxed">
+            Ready to examine engineering modules or orchestrate an environmental review at {projectName}? Interconnect with our dispatch terminal.
           </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-6">
+          <div className="flex flex-col sm:flex-row justify-center gap-4 pt-2">
             <a
               href="mailto:enquiry@assethomes.in"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-lg text-sm font-medium text-white hover:text-blue-200 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              aria-label="Email us"
+              className="inline-flex items-center justify-center gap-2.5 px-5 py-3 bg-slate-950/40 hover:bg-slate-950/60 rounded-xl text-xs font-mono font-bold uppercase tracking-wider text-white border border-white/10 transition-all duration-300 backdrop-blur-sm"
+              aria-label="Email support interface"
             >
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l9 6 9-6M3 8v8a2 2 0 002 2h14a2 2 0 002-2V8" />
-              </svg>
+              <Mail className="w-4 h-4 text-yellow-400" />
               enquiry@assethomes.in
             </a>
             <a
               href="tel:+919846499999"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-lg text-sm font-medium text-white hover:text-blue-200 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              aria-label="Call us"
+              className="inline-flex items-center justify-center gap-2.5 px-5 py-3 bg-slate-950/40 hover:bg-slate-950/60 rounded-xl text-xs font-mono font-bold uppercase tracking-wider text-white border border-white/10 transition-all duration-300 backdrop-blur-sm"
+              aria-label="Call support line terminal"
             >
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5h2l1 7 4 1 6-6m-5 5l6 6 1-4 7-1V5h-2" />
-              </svg>
+              <Phone className="w-4 h-4 text-yellow-400" />
               +91 98464 99999
             </a>
           </div>

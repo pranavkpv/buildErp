@@ -5,8 +5,7 @@ import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { userDashBoardApi } from '../../../api/User/Dashboard';
 import MilestoneGraph from './MileStoneGraph';
-
-
+import { LayoutDashboard, Wallet, HardHat, Link2, PieChart, Activity } from 'lucide-react';
 
 // Register Chart.js components
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -30,7 +29,6 @@ const Dashboard: React.FC = () => {
 
   const fetchUserDashBoard = async () => {
     const response = await userDashBoardApi();
-    console.log(response);
     if (response.success) {
       setUserData(response.data);
     } else {
@@ -42,13 +40,18 @@ const Dashboard: React.FC = () => {
     fetchUserDashBoard();
   }, []);
 
+  // Industrial color array mapping
+  const industrialColors = ['#f97316', '#38bdf8', '#fbbf24', '#a855f7', '#64748b'];
+
   const completionChartData = {
     labels: userData.projects.map((project) => project.name),
     datasets: [
       {
         data: userData.projects.map((project) => project.completion),
-        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
-        hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
+        backgroundColor: industrialColors,
+        borderColor: '#0f172a',
+        borderWidth: 2,
+        hoverBackgroundColor: industrialColors,
       },
     ],
   };
@@ -58,8 +61,10 @@ const Dashboard: React.FC = () => {
     datasets: [
       {
         data: userData.projects.map((project) => project.pendingPayment),
-        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
-        hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
+        backgroundColor: industrialColors,
+        borderColor: '#0f172a',
+        borderWidth: 2,
+        hoverBackgroundColor: industrialColors,
       },
     ],
   };
@@ -68,8 +73,19 @@ const Dashboard: React.FC = () => {
     plugins: {
       legend: {
         position: 'bottom' as const,
+        labels: {
+          color: '#94a3b8',
+          font: {
+            family: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
+            size: 11,
+            weight: 'bold' as const
+          },
+          boxWidth: 12,
+          padding: 15,
+        },
       },
     },
+    maintainAspectRatio: true,
   };
 
   const quickLinks = [
@@ -82,57 +98,103 @@ const Dashboard: React.FC = () => {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto p-6 font-sans bg-gray-50 min-h-screen">
-      <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">Welcome to buildExe Dashboard</h1>
-
-      {/* Overview Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-        <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm text-center">
-          <h2 className="text-lg font-semibold text-gray-600 mb-2">Total Projects</h2>
-          <p className="text-2xl font-bold text-blue-600">{userData.projectsCount}</p>
+    <div className="max-w-7xl mx-auto p-4 sm:p-6 bg-slate-950 min-h-screen text-slate-300 selection:bg-orange-500 selection:text-white">
+      
+      {/* Top Banner App Header */}
+      <div className="flex flex-col md:flex-row items-center justify-between border border-slate-800 bg-slate-900 rounded-2xl p-6 mb-6 gap-4 relative overflow-hidden">
+        <div className="absolute top-0 left-0 bottom-0 w-1 bg-orange-500" />
+        <div className="flex items-center gap-4">
+          <div className="p-3 bg-orange-500/10 border border-orange-500/20 rounded-xl text-orange-500 hidden sm:block">
+            <LayoutDashboard className="w-6 h-6" />
+          </div>
+          <div>
+            <h1 className="text-xl font-black text-white uppercase tracking-wider">buildExe Systems Operations</h1>
+            <p className="text-xs font-mono font-bold text-slate-500 uppercase tracking-widest mt-0.5">Control Tower Matrix Dashboard</p>
+          </div>
         </div>
-        <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm text-center">
-          <h2 className="text-lg font-semibold text-gray-600 mb-2">Wallet Balance</h2>
-          <p className="text-2xl font-bold text-blue-600">${userData.walletBalance.toFixed(2)}</p>
+        <div className="bg-slate-950 px-4 py-2 border border-slate-850 rounded-xl font-mono text-[11px] font-bold text-slate-400 uppercase tracking-wider text-center md:text-right">
+          Status: <span className="text-emerald-500 animate-pulse">● System Core Online</span>
         </div>
       </div>
 
-      {/* Quick Links */}
-      <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm mb-8">
-        <h2 className="text-xl font-semibold text-gray-800 mb-4">Quick Links</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+      {/* Overview Cards Matrix */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 relative group overflow-hidden">
+          <div className="flex justify-between items-start mb-2">
+            <h2 className="text-xs font-mono font-black text-slate-500 uppercase tracking-widest">Active Operations</h2>
+            <HardHat className="w-4 h-4 text-orange-500" />
+          </div>
+          <p className="text-3xl font-black font-mono text-white tracking-tight">{userData.projectsCount}</p>
+          <div className="text-[10px] text-slate-500 font-mono uppercase tracking-wider mt-2 pt-2 border-t border-slate-850">Registered Project Deployments</div>
+        </div>
+
+        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 relative group overflow-hidden">
+          <div className="flex justify-between items-start mb-2">
+            <h2 className="text-xs font-mono font-black text-slate-500 uppercase tracking-widest">Available Ledger Balance</h2>
+            <Wallet className="w-4 h-4 text-emerald-500" />
+          </div>
+          <p className="text-3xl font-black font-mono text-emerald-400 tracking-tight">${userData.walletBalance.toFixed(2)}</p>
+          <div className="text-[10px] text-slate-500 font-mono uppercase tracking-wider mt-2 pt-2 border-t border-slate-850">Secured Vault Token Reserve</div>
+        </div>
+      </div>
+
+      {/* Quick Access Bus Links */}
+      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 mb-6">
+        <div className="flex items-center gap-2 mb-4 pb-3 border-b border-slate-850">
+          <Link2 className="w-4 h-4 text-orange-500" />
+          <h2 className="text-xs font-mono font-black text-slate-400 uppercase tracking-widest">Interface Macro Dispatches</h2>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
           {quickLinks.map((link) => (
             <Link
               key={link.name}
               to={link.path}
-              className="bg-blue-500 text-white text-center py-2 px-4 rounded-md hover:bg-blue-600 transition"
+              className="bg-slate-950 border border-slate-850 text-slate-300 hover:text-white hover:border-orange-500 text-left py-2.5 px-4 rounded-xl font-mono text-[11px] font-bold uppercase tracking-wider transition-all"
             >
-              {link.name}
+              » {link.name}
             </Link>
           ))}
         </div>
       </div>
 
-      {/* Charts Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-        {/* Project Completion Chart */}
-        <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">Project Completion Status</h2>
-          <div className="max-w-xs mx-auto">
+      {/* Analytics Visualization Matrices */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        
+        {/* Completion Gauge Chart */}
+        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+          <div className="flex items-center gap-2 mb-6 pb-3 border-b border-slate-850">
+            <PieChart className="w-4 h-4 text-orange-500" />
+            <h2 className="text-xs font-mono font-black text-slate-400 uppercase tracking-widest">Project Completion Profiles</h2>
+          </div>
+          <div className="max-w-[240px] sm:max-w-[260px] mx-auto py-2">
             <Doughnut data={completionChartData} options={chartOptions} />
           </div>
         </div>
-        {/* Pending Payment Chart */}
-        <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">Pending Payments (Project-Wise)</h2>
-          <div className="max-w-xs mx-auto">
+
+        {/* Pending Ledger Remittance Chart */}
+        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+          <div className="flex items-center gap-2 mb-6 pb-3 border-b border-slate-850">
+            <PieChart className="w-4 h-4 text-orange-500" />
+            <h2 className="text-xs font-mono font-black text-slate-400 uppercase tracking-widest">Pending Liability Matrices</h2>
+          </div>
+          <div className="max-w-[240px] sm:max-w-[260px] mx-auto py-2">
             <Doughnut data={paymentChartData} options={chartOptions} />
           </div>
         </div>
+
       </div>
-      <div className="lg:col-span-2">
-  <MilestoneGraph />
+
+      {/* Milestone Sub-Graph Container Grid Node */}
+      <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+        <div className="flex items-center gap-2 mb-4 pb-3 border-b border-slate-850">
+          <Activity className="w-4 h-4 text-orange-500" />
+          <h2 className="text-xs font-mono font-black text-slate-400 uppercase tracking-widest">Chronological Infrastructure Milestones</h2>
+        </div>
+        <div className="w-full">
+          <MilestoneGraph />
+        </div>
       </div>
+
     </div>
   );
 };

@@ -2,6 +2,7 @@ import { UpdatePasswordInCheckCurrentPassword } from "../../api/userprofile";
 import { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { Lock, Eye, EyeOff, ShieldCheck } from "lucide-react";
 import type { RootState } from "redux/store";
 
 function ChangePassword() {
@@ -23,31 +24,35 @@ function ChangePassword() {
     let error = false;
 
     if (currentPassword.trim() === "") {
-      if (currentRef.current) currentRef.current.innerText = "Current password is required";
+      if (currentRef.current) currentRef.current.innerText = "Current access credentials required";
       error = true;
     } else if (currentRef.current) currentRef.current.innerText = "";
 
     if (password.trim() === "") {
-      if (passRef.current) passRef.current.innerText = "New password is required";
+      if (passRef.current) passRef.current.innerText = "New target passkey required";
       error = true;
     } else if (passRef.current) passRef.current.innerText = "";
 
     if (cpassword.trim() === "") {
-      if (cpassRef.current) cpassRef.current.innerText = "Confirm password is required";
+      if (cpassRef.current) cpassRef.current.innerText = "Verification passkey confirmation required";
       error = true;
     } else if (password !== cpassword) {
-      if (cpassRef.current) cpassRef.current.innerText = "Passwords do not match";
+      if (cpassRef.current) cpassRef.current.innerText = "Passkey mismatch detected";
       error = true;
     } else if (cpassRef.current) cpassRef.current.innerText = "";
 
     if (error) return;
     if (!user) {
-      toast.error("User Not Exist");
+      toast.error("User identity node could not be authenticated");
       return;
     }
-    const response = await UpdatePasswordInCheckCurrentPassword(
-      { email: user.email, currentpassword: currentPassword, password }
-    );
+    
+    const response = await UpdatePasswordInCheckCurrentPassword({ 
+      email: user.email, 
+      currentpassword: currentPassword, 
+      password 
+    });
+    
     if (response.success) {
       toast.success(response.message);
       setCurrentPassword("");
@@ -59,142 +64,120 @@ function ChangePassword() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Change Password</h2>
+    <div className="w-full max-w-md mx-auto bg-slate-900 border-2 border-slate-800 rounded-2xl shadow-2xl relative overflow-hidden">
+      
+      {/* Structural Card Status Edge Highlight */}
+      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-orange-500 to-yellow-500" />
+      
+      <div className="p-6 sm:p-8 space-y-6">
+        
+        {/* Module Header Display */}
+        <div className="flex items-center gap-3 border-b border-slate-800 pb-4">
+          <div className="p-2 bg-orange-500/10 border border-orange-500/20 text-orange-500 rounded-lg">
+            <ShieldCheck className="w-5 h-5" />
+          </div>
+          <div>
+            <h2 className="text-lg font-black text-white uppercase tracking-wider">Security Guard</h2>
+            <p className="text-xs font-mono font-bold text-slate-500 uppercase tracking-widest">Update Security Passkey</p>
+          </div>
+        </div>
+
         <form onSubmit={submitForm} className="space-y-4">
-          <div className="relative">
-            <input
-              type={showCurrent ? "text" : "password"}
-              placeholder="Enter current password"
-              value={currentPassword}
-              onChange={(e) => setCurrentPassword(e.target.value)}
-              className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            <button
-              type="button"
-              onClick={() => setShowCurrent(!showCurrent)}
-              className="absolute right-3 top-3 text-gray-500 hover:text-gray-700"
-            >
-              {showCurrent ? (
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"
-                  />
-                </svg>
-              ) : (
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                  />
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                  />
-                </svg>
-              )}
-            </button>
-            <p ref={currentRef} className="text-red-500 text-sm mt-1"></p>
+          
+          {/* Input Block: Current Password */}
+          <div className="space-y-1">
+            <label className="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-400 block px-1">
+              Current Entry Key
+            </label>
+            <div className="relative">
+              <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500">
+                <Lock className="w-4 h-4" />
+              </span>
+              <input
+                type={showCurrent ? "text" : "password"}
+                placeholder="••••••••••••"
+                value={currentPassword}
+                onChange={(e) => setCurrentPassword(e.target.value)}
+                className="w-full pl-10 pr-10 py-3 bg-slate-950 text-slate-200 border-2 border-slate-800 rounded-xl placeholder-slate-700 text-sm focus:outline-none focus:border-orange-500 transition-colors font-medium"
+              />
+              <button
+                type="button"
+                onClick={() => setShowCurrent(!showCurrent)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors"
+                aria-label={showCurrent ? "Hide password" : "Show password"}
+              >
+                {showCurrent ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+              </button>
+            </div>
+            <p ref={currentRef} className="text-rose-500 font-mono text-xs font-semibold px-1 min-h-[1rem] pt-0.5"></p>
           </div>
 
-          <div className="relative">
-            <input
-              type={showNew ? "text" : "password"}
-              placeholder="Enter new password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            <button
-              type="button"
-              onClick={() => setShowNew(!showNew)}
-              className="absolute right-3 top-3 text-gray-500 hover:text-gray-700"
-            >
-              {showNew ? (
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"
-                  />
-                </svg>
-              ) : (
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                  />
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                  />
-                </svg>
-              )}
-            </button>
-            <p ref={passRef} className="text-red-500 text-sm mt-1"></p>
+          {/* Input Block: New Password */}
+          <div className="space-y-1">
+            <label className="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-400 block px-1">
+              New Target Key
+            </label>
+            <div className="relative">
+              <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500">
+                <Lock className="w-4 h-4" />
+              </span>
+              <input
+                type={showNew ? "text" : "password"}
+                placeholder="••••••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full pl-10 pr-10 py-3 bg-slate-950 text-slate-200 border-2 border-slate-800 rounded-xl placeholder-slate-700 text-sm focus:outline-none focus:border-orange-500 transition-colors font-medium"
+              />
+              <button
+                type="button"
+                onClick={() => setShowNew(!showNew)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors"
+                aria-label={showNew ? "Hide password" : "Show password"}
+              >
+                {showNew ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+              </button>
+            </div>
+            <p ref={passRef} className="text-rose-500 font-mono text-xs font-semibold px-1 min-h-[1rem] pt-0.5"></p>
           </div>
 
-          <div className="relative">
-            <input
-              type={showConfirm ? "text" : "password"}
-              placeholder="Confirm new password"
-              value={cpassword}
-              onChange={(e) => setCpassword(e.target.value)}
-              className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-            <button
-              type="button"
-              onClick={() => setShowConfirm(!showConfirm)}
-              className="absolute right-3 top-3 text-gray-500 hover:text-gray-700"
-            >
-              {showConfirm ? (
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"
-                  />
-                </svg>
-              ) : (
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                  />
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                  />
-                </svg>
-              )}
-            </button>
-            <p ref={cpassRef} className="text-red-500 text-sm mt-1"></p>
+          {/* Input Block: Confirm Password */}
+          <div className="space-y-1">
+            <label className="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-400 block px-1">
+              Confirm Validation Key
+            </label>
+            <div className="relative">
+              <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500">
+                <Lock className="w-4 h-4" />
+              </span>
+              <input
+                type={showConfirm ? "text" : "password"}
+                placeholder="••••••••••••"
+                value={cpassword}
+                onChange={(e) => setCpassword(e.target.value)}
+                className="w-full pl-10 pr-10 py-3 bg-slate-950 text-slate-200 border-2 border-slate-800 rounded-xl placeholder-slate-700 text-sm focus:outline-none focus:border-orange-500 transition-colors font-medium"
+              />
+              <button
+                type="button"
+                onClick={() => setShowConfirm(!showConfirm)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors"
+                aria-label={showConfirm ? "Hide password" : "Show password"}
+              >
+                {showConfirm ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+              </button>
+            </div>
+            <p ref={cpassRef} className="text-rose-500 font-mono text-xs font-semibold px-1 min-h-[1rem] pt-0.5"></p>
           </div>
 
-          <button
-            type="submit"
-            className="w-full bg-[#04a09c] text-white p-3 rounded-lg hover:bg-[#04a09c] transition-colors"
-          >
-            Update Password
-          </button>
+          {/* Action Trigger Submit CTA */}
+          <div className="pt-2">
+            <button
+              type="submit"
+              className="w-full py-3 bg-gradient-to-r from-orange-500 via-yellow-500 to-orange-600 hover:from-orange-600 hover:via-yellow-600 hover:to-orange-700 text-white font-black rounded-xl transition-all duration-300 shadow-lg text-xs uppercase tracking-wider"
+            >
+              Commit Key Change
+            </button>
+          </div>
+          
         </form>
       </div>
     </div>

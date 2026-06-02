@@ -6,6 +6,7 @@ import ApproveModal from "./ApproveModal";
 import { getStageInUser } from "../../../api/auth";
 import { toast } from "react-toastify";
 import { getExpectedImageApi } from "../../../api/project";
+import { AlertTriangle, Calculator, Hammer, HardHat, ImageIcon, Layers, Loader2, TrendingUp, X } from "lucide-react";
 
 interface prop {
    estimateOn: boolean
@@ -61,387 +62,445 @@ type imageData = {
    title: string
 }
 
-function EstimationDetails({ estimateOn, setEstimateOn, projectId, onSuccess,setApprovalStatus }: prop) {
-   if (!estimateOn) return null
 
-   const [specData, setSpecData] = useState<specs[]>([])
-   const [specmaterial, setSpecmaterial] = useState<materialSpec[]>([])
-   const [specLabour, setSpecLabour] = useState<labourSpec[]>([])
-   const [specAddition, setSpecAddition] = useState<additionSpec[]>([])
-   const [loading, setLoading] = useState(true)
-   const [error, setError] = useState<string | null>(null)
-   const [image, setImage] = useState<imageData[]>([])
-   const [rejectOn, setRejectOn] = useState(false)
-   const [approveOn, setApproveOn] = useState(false)
-   const [reasonOn, setReasonOn] = useState(false)
-   const [stage, setStage] = useState<StageData[]>([])
+function EstimationDetails({ estimateOn, setEstimateOn, projectId, onSuccess, setApprovalStatus }: prop) {
+   if (!estimateOn) return null;
+
+   const [specData, setSpecData] = useState<specs[]>([]);
+   const [specmaterial, setSpecmaterial] = useState<materialSpec[]>([]);
+   const [specLabour, setSpecLabour] = useState<labourSpec[]>([]);
+   const [specAddition, setSpecAddition] = useState<additionSpec[]>([]);
+   const [loading, setLoading] = useState(true);
+   const [error, setError] = useState<string | null>(null);
+   const [image, setImage] = useState<imageData[]>([]);
+   const [rejectOn, setRejectOn] = useState(false);
+   const [approveOn, setApproveOn] = useState(false);
+   const [reasonOn, setReasonOn] = useState(false);
+   const [stage, setStage] = useState<StageData[]>([]);
 
    const fetchEstimation = async () => {
-      const response = await getEstimationApi(projectId)
+      const response = await getEstimationApi(projectId);
       if (response.success) {
-         setSpecData(response.data)
-         setApprovalStatus(response.data[0].approvalStatus)
+         setSpecData(response.data);
+         if (response.data && response.data.length > 0) {
+            setApprovalStatus(response.data[0].approvalStatus);
+         }
       } else {
-         throw new Error(response.message)
+         throw new Error(response.message);
       }
-   }
+   };
 
    const fetchmaterialEstimation = async () => {
-      const response = await getmaterialEstimationApi(projectId)
+      const response = await getmaterialEstimationApi(projectId);
       if (response.success) {
-         setSpecmaterial(response.data)
+         setSpecmaterial(response.data);
       } else {
-         throw new Error(response.message)
+         throw new Error(response.message);
       }
-   }
+   };
 
    const fetchLabourEstimation = async () => {
-      const response = await getLabourEstimationApi(projectId)
+      const response = await getLabourEstimationApi(projectId);
       if (response.success) {
-         setSpecLabour(response.data)
+         setSpecLabour(response.data);
       } else {
-         throw new Error(response.message)
+         throw new Error(response.message);
       }
-   }
+   };
 
    const fetchAdditionalEstimation = async () => {
-      const response = await getAdditionEstimationApi(projectId)
+      const response = await getAdditionEstimationApi(projectId);
       if (response.success) {
-         setSpecAddition(response.data)
+         setSpecAddition(response.data);
       } else {
-         throw new Error(response.message)
+         throw new Error(response.message);
       }
-   }
+   };
 
    const fetchStage = async (): Promise<void> => {
       const response = await getStageInUser(projectId);
       if (response.success) {
          setStage(response.data);
       } else {
-         toast.error(response.message)
+         toast.error(response.message);
       }
    };
 
    const fetchExpectedImage = async () => {
-      const response = await getExpectedImageApi(projectId)
+      const response = await getExpectedImageApi(projectId);
       if (response.success) {
-         setImage(response.data)
+         setImage(response.data);
       } else {
-         toast.error(response.message)
+         toast.error(response.message);
       }
-   }
+   };
 
    useEffect(() => {
       const fetchAllData = async () => {
-         setLoading(true)
-         setError(null)
-         await Promise.all([
-            fetchEstimation(),
-            fetchmaterialEstimation(),
-            fetchLabourEstimation(),
-            fetchAdditionalEstimation(),
-            fetchStage(),
-            fetchExpectedImage()
-         ])
-         setLoading(false)
-      }
-      fetchAllData()
-   }, [projectId])
+         try {
+            setLoading(true);
+            setError(null);
+            await Promise.all([
+               fetchEstimation(),
+               fetchmaterialEstimation(),
+               fetchLabourEstimation(),
+               fetchAdditionalEstimation(),
+               fetchStage(),
+               fetchExpectedImage()
+            ]);
+         } catch (err: any) {
+            setError(err.message || "Failed to parse architectural engine specs.");
+         } finally {
+            setLoading(false);
+         }
+      };
+      fetchAllData();
+   }, [projectId]);
 
    if (loading) {
       return (
-         <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
-            <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-8">
-               <div className="flex items-center justify-center space-x-3">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
-                  <p className="text-lg font-semibold text-gray-800">Loading estimation data...</p>
+         <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl max-w-md w-full p-8 text-center space-y-4">
+               <div className="flex justify-center">
+                  <Loader2 className="h-8 w-8 text-orange-500 animate-spin" />
                </div>
+               <p className="font-mono text-xs font-bold text-slate-400 uppercase tracking-widest">
+                  Parsing Structural Project Estimates...
+               </p>
             </div>
          </div>
-      )
+      );
    }
 
    if (error) {
       return (
-         <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
-            <div className="bg-white rounded-xl shadow-2xl max-w-md w-full p-8">
-               <div className="flex items-center space-x-3 mb-6">
-                  <svg className="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  <p className="text-lg font-semibold text-red-600">{error}</p>
+         <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+            <div className="bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl max-w-md w-full p-8 space-y-6">
+               <div className="flex items-center gap-3 pb-4 border-b border-slate-850">
+                  <div className="p-2 bg-red-500/10 border border-red-500/20 text-red-500 rounded-xl">
+                     <AlertTriangle className="w-5 h-5" />
+                  </div>
+                  <p className="font-mono text-sm font-black text-red-500 uppercase tracking-wider">
+                     System Execution Fault
+                  </p>
                </div>
+               <p className="font-mono text-xs text-slate-400 bg-slate-950 p-4 rounded-xl border border-slate-850 break-words leading-relaxed">
+                  {error}
+               </p>
                <button
                   onClick={() => setEstimateOn(false)}
-                  className="w-full py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition duration-200 font-medium"
+                  className="w-full py-2.5 bg-slate-950 border border-slate-850 text-slate-400 hover:text-slate-200 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-colors"
                >
-                  Close
+                  Close Operational Port
                </button>
             </div>
          </div>
-      )
+      );
    }
 
    return (
-      <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
-         <div className="bg-white rounded-xl shadow-2xl max-w-5xl w-full max-h-[90vh] overflow-y-auto p-8">
-            <div className="flex justify-between items-center mb-6">
-               <h1 className="text-3xl font-bold text-gray-900">Estimation Details</h1>
+      <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center z-50 p-4 selection:bg-orange-500 selection:text-white animate-in fade-in duration-150">
+         <div className="relative bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl max-w-5xl w-full max-h-[90vh] flex flex-col overflow-hidden transform transition-all">
+            
+            {/* Top Operational Status Ribbon Accent */}
+            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-orange-500 to-amber-600 z-20" />
+
+            {/* Master Terminal Header Area */}
+            <div className="flex items-center justify-between gap-4 p-6 sm:p-8 border-b border-slate-850 shrink-0">
+               <div className="flex items-center gap-3">
+                  <div className="p-2.5 bg-orange-500/10 border border-orange-500/20 rounded-xl text-orange-500 shrink-0">
+                     <Calculator className="w-5 h-5" />
+                  </div>
+                  <div>
+                     <h1 className="text-base font-black text-white uppercase tracking-wider">
+                        Project Bill of Quantities Ledger
+                     </h1>
+                     <p className="text-[11px] font-mono font-bold text-slate-500 tracking-widest uppercase mt-0.5">
+                        Analytical Scope Valuation Breakdown Matrix
+                     </p>
+                  </div>
+               </div>
                <button
                   type="button"
                   onClick={() => setEstimateOn(false)}
-                  className="text-gray-500 hover:text-gray-700 transition duration-200"
-                  aria-label="Close"
+                  className="p-1.5 bg-slate-950 hover:bg-slate-850 border border-slate-850 text-slate-500 hover:text-slate-300 rounded-xl transition-colors"
+                  aria-label="Close configuration board"
                >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                  </svg>
+                  <X className="w-4 h-4" />
                </button>
             </div>
 
-            {/* Specification Details */}
-            <section className="mb-8">
-               <h2 className="text-2xl font-semibold text-gray-800 mb-4">Specification Details</h2>
-               <div className="overflow-x-auto border border-gray-200 rounded-lg">
-                  <table className="min-w-full bg-white">
-                     <thead className="bg-indigo-50">
-                        <tr>
-                           <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Sl No</th>
-                           <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Specification</th>
-                           <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Quantity</th>
-                           <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Unit Rate</th>
-                        </tr>
-                     </thead>
-                     <tbody>
-                        {specData.length > 0 ? (
-                           specData.map((element, index) => (
-                              <tr key={element._id} className="border-t border-gray-200 hover:bg-gray-50">
-                                 <td className="px-6 py-4 text-sm text-gray-600">{index + 1}</td>
-                                 <td className="px-6 py-4 text-sm text-gray-600">{element.spec_name}</td>
-                                 <td className="px-6 py-4 text-sm text-gray-600">{element.quantity}</td>
-                                 <td className="px-6 py-4 text-sm text-gray-600">₹{element.unit_rate.toFixed(2)}</td>
-                              </tr>
-                           ))
-                        ) : (
-                           <tr>
-                              <td colSpan={4} className="px-6 py-4 text-sm text-gray-500 text-center">
-                                 No specification data available
-                              </td>
-                           </tr>
-                        )}
-                     </tbody>
-                  </table>
-               </div>
-            </section>
-
-            {/* Material Details */}
-            <section className="mb-8">
-               <h2 className="text-2xl font-semibold text-gray-800 mb-4">Used Materials</h2>
-               <div className="overflow-x-auto border border-gray-200 rounded-lg">
-                  <table className="min-w-full bg-white">
-                     <thead className="bg-indigo-50">
-                        <tr>
-                           <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Sl No</th>
-                           <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Material Name</th>
-                           <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Brand Name</th>
-                           <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Unit Name</th>
-                           <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Quantity</th>
-                           <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Unit Rate</th>
-                        </tr>
-                     </thead>
-                     <tbody>
-                        {specmaterial.length > 0 ? (
-                           specmaterial.map((element, index) => (
-                              <tr key={element._id} className="border-t border-gray-200 hover:bg-gray-50">
-                                 <td className="px-6 py-4 text-sm text-gray-600">{index + 1}</td>
-                                 <td className="px-6 py-4 text-sm text-gray-600">{element.material_name}</td>
-                                 <td className="px-6 py-4 text-sm text-gray-600">{element.brand_name}</td>
-                                 <td className="px-6 py-4 text-sm text-gray-600">{element.unit_name}</td>
-                                 <td className="px-6 py-4 text-sm text-gray-600">{element.quantity}</td>
-                                 <td className="px-6 py-4 text-sm text-gray-600">₹{element.unit_rate.toFixed(2)}</td>
-                              </tr>
-                           ))
-                        ) : (
-                           <tr>
-                              <td colSpan={6} className="px-6 py-4 text-sm text-gray-500 text-center">
-                                 No material data available
-                              </td>
-                           </tr>
-                        )}
-                     </tbody>
-                  </table>
-               </div>
-            </section>
-
-            {/* Labour Details */}
-            <section className="mb-8">
-               <h2 className="text-2xl font-semibold text-gray-800 mb-4">Used Labour</h2>
-               <div className="overflow-x-auto border border-gray-200 rounded-lg">
-                  <table className="min-w-full bg-white">
-                     <thead className="bg-indigo-50">
-                        <tr>
-                           <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Sl No</th>
-                           <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Labour Name</th>
-                           <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Number of Labour</th>
-                           <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Daily Wage</th>
-                        </tr>
-                     </thead>
-                     <tbody>
-                        {specLabour.length > 0 ? (
-                           specLabour.map((element, index) => (
-                              <tr key={element._id} className="border-t border-gray-200 hover:bg-gray-50">
-                                 <td className="px-6 py-4 text-sm text-gray-600">{index + 1}</td>
-                                 <td className="px-6 py-4 text-sm text-gray-600">{element.labour_name}</td>
-                                 <td className="px-6 py-4 text-sm text-gray-600">{element.numberoflabour}</td>
-                                 <td className="px-6 py-4 text-sm text-gray-600">₹{element.daily_wage.toFixed(2)}</td>
-                              </tr>
-                           ))
-                        ) : (
-                           <tr>
-                              <td colSpan={4} className="px-6 py-4 text-sm text-gray-500 text-center">
-                                 No labour data available
-                              </td>
-                           </tr>
-                        )}
-                     </tbody>
-                  </table>
-               </div>
-            </section>
-
-            {/* Stage Details */}
-            <section className="mb-8">
-               <h2 className="text-2xl font-semibold text-gray-800 mb-4">Project Stages</h2>
-               <div className="overflow-x-auto border border-gray-200 rounded-lg">
-                  <table className="min-w-full bg-white">
-                     <thead className="bg-indigo-50">
-                        <tr>
-                           <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Sl No</th>
-                           <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Stage Name</th>
-                           <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Start Date</th>
-                           <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">End Date</th>
-                           <th className="px-6 py-3 text-left text-sm font-semibold text-gray-700">Stage Amount</th>
-                        </tr>
-                     </thead>
-                     <tbody>
-                        {stage.length > 0 ? (
-                           stage.map((element, index) => (
-                              <tr key={element._id} className="border-t border-gray-200 hover:bg-gray-50">
-                                 <td className="px-6 py-4 text-sm text-gray-600">{index + 1}</td>
-                                 <td className="px-6 py-4 text-sm text-gray-600">{element.stage_name}</td>
-                                 <td className="px-6 py-4 text-sm text-gray-600">
-                                    {element.start_date.split("T")[0].split('-').reverse().join('-')}
-                                 </td>
-                                 <td className="px-6 py-4 text-sm text-gray-600">
-                                    {element.end_date.split("T")[0].split('-').reverse().join('-')}
-                                 </td>
-                                 <td className="px-6 py-4 text-sm text-gray-600">₹{element.stage_amount.toFixed(2)}</td>
-                              </tr>
-                           ))
-                        ) : (
-                           <tr>
-                              <td colSpan={5} className="px-6 py-4 text-sm text-gray-500 text-center">
-                                 No stage data available
-                              </td>
-                           </tr>
-                        )}
-                     </tbody>
-                  </table>
-               </div>
-            </section>
-
-            {/* Image Gallery */}
-            <section className="mb-8">
-               <h2 className="text-2xl font-semibold text-gray-800 mb-4">Project Images</h2>
-               {image.length > 0 ? (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                     {image.map((element, index) => (
-                        <div key={index} className="bg-gray-50 rounded-lg overflow-hidden shadow-md">
-                           <img
-                              src={element.image}
-                              alt={element.title}
-                              className="w-full h-48 object-cover"
-                              onError={(e) => {
-                                 e.currentTarget.src = 'https://via.placeholder.com/300?text=Image+Not+Found';
-                              }}
-                           />
-                           <div className="p-4">
-                              <p className="text-sm font-medium text-gray-700">{element.title}</p>
-                           </div>
-                        </div>
-                     ))}
+            {/* Master Scroll Directory Container */}
+            <div className="p-6 sm:p-8 overflow-y-auto space-y-10 flex-1 scrollbar-thin scrollbar-thumb-slate-800 scrollbar-track-slate-950 bg-slate-900/40">
+               
+               {/* SECTION 1: Specification Details */}
+               <section>
+                  <div className="flex items-center gap-2 mb-4">
+                     <Layers className="w-4 h-4 text-orange-500" />
+                     <h2 className="font-mono text-xs font-black text-slate-400 uppercase tracking-widest">
+                        01 / Structural Specification Elements
+                     </h2>
                   </div>
-               ) : (
-                  <p className="text-sm text-gray-500">No images available</p>
-               )}
-            </section>
+                  <div className="overflow-x-auto rounded-xl border border-slate-850 bg-slate-950/40">
+                     <table className="min-w-full border-collapse">
+                        <thead className="bg-slate-950 border-b border-slate-850">
+                           <tr>
+                              {["INDEX", "SPECIFICATION_FIELD", "QTY", "UNIT_RATE"].map((h) => (
+                                 <th key={h} className="px-5 py-3 text-left text-[10px] font-mono font-black text-slate-500 uppercase tracking-widest">{h}</th>
+                              ))}
+                           </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-850 bg-slate-900/10">
+                           {specData.length > 0 ? (
+                              specData.map((element, index) => (
+                                 <tr key={element._id} className="hover:bg-slate-950/30 transition-colors">
+                                    <td className="px-5 py-3.5 font-mono text-xs text-slate-600 font-bold">{(index + 1).toString().padStart(2, '0')}</td>
+                                    <td className="px-5 py-3.5 font-mono text-xs font-black text-slate-200 uppercase">{element.spec_name}</td>
+                                    <td className="px-5 py-3.5 font-mono text-xs text-slate-300">{element.quantity}</td>
+                                    <td className="px-5 py-3.5 font-mono text-xs font-black text-amber-500">₹{element.unit_rate.toLocaleString("en-IN", { minimumFractionDigits: 2 })}</td>
+                                 </tr>
+                              ))
+                           ) : (
+                              <tr>
+                                 <td colSpan={4} className="px-5 py-8 text-center font-mono text-xs font-bold text-slate-600 uppercase tracking-widest">No specifications listed inside scope.</td>
+                              </tr>
+                           )}
+                        </tbody>
+                     </table>
+                  </div>
+               </section>
 
-            {/* Financial Summary */}
-            <section className="mb-8 p-6 bg-indigo-50 rounded-lg">
-               <h2 className="text-2xl font-semibold text-gray-800 mb-4">Financial Summary</h2>
-               <div className="space-y-2">
-                  <p className="text-lg font-medium text-gray-700">
-                     Additional Amount: ₹
-                     {specAddition.length > 0
-                        ? specAddition
-                           .reduce((sum, num) => sum + (num.additionalExpense_amount + num.profit_amount), 0)
-                           .toFixed(2)
-                        : "0.00"}
-                  </p>
-                  <p className="text-lg font-medium text-gray-700">
-                     Expected Budgeted Amount: ₹
-                     {(specmaterial.reduce((sum, num) => sum + (num.quantity * num.unit_rate), 0) +
-                        specLabour.reduce((sum, num) => sum + (num.daily_wage * num.numberoflabour), 0) +
-                        specAddition.reduce((sum, num) => sum + (num.additionalExpense_amount + num.profit_amount), 0))
-                        .toFixed(2)}
-                  </p>
-               </div>
-            </section>
+               {/* SECTION 2: Material Details */}
+               <section>
+                  <div className="flex items-center gap-2 mb-4">
+                     <Hammer className="w-4 h-4 text-orange-500" />
+                     <h2 className="font-mono text-xs font-black text-slate-400 uppercase tracking-widest">
+                        02 / Raw Asset Inventory Allocations
+                     </h2>
+                  </div>
+                  <div className="overflow-x-auto rounded-xl border border-slate-850 bg-slate-950/40">
+                     <table className="min-w-full border-collapse">
+                        <thead className="bg-slate-950 border-b border-slate-850">
+                           <tr>
+                              {["INDEX", "MATERIAL_NOMENCLATURE", "BRAND", "UNIT_INFO", "QTY", "UNIT_RATE"].map((h) => (
+                                 <th key={h} className="px-5 py-3 text-left text-[10px] font-mono font-black text-slate-500 uppercase tracking-widest">{h}</th>
+                              ))}
+                           </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-850 bg-slate-900/10">
+                           {specmaterial.length > 0 ? (
+                              specmaterial.map((element, index) => (
+                                 <tr key={element._id} className="hover:bg-slate-950/30 transition-colors">
+                                    <td className="px-5 py-3.5 font-mono text-xs text-slate-600 font-bold">{(index + 1).toString().padStart(2, '0')}</td>
+                                    <td className="px-5 py-3.5 font-mono text-xs font-black text-slate-200 uppercase">{element.material_name}</td>
+                                    <td className="px-5 py-3.5 font-mono text-xs text-slate-400 uppercase">{element.brand_name}</td>
+                                    <td className="px-5 py-3.5 font-mono text-xs text-slate-400 uppercase">{element.unit_name}</td>
+                                    <td className="px-5 py-3.5 font-mono text-xs text-slate-300">{element.quantity}</td>
+                                    <td className="px-5 py-3.5 font-mono text-xs font-black text-amber-500">₹{element.unit_rate.toLocaleString("en-IN", { minimumFractionDigits: 2 })}</td>
+                                 </tr>
+                              ))
+                           ) : (
+                              <tr>
+                                 <td colSpan={6} className="px-5 py-8 text-center font-mono text-xs font-bold text-slate-600 uppercase tracking-widest">No explicit cargo raw entries filed.</td>
+                              </tr>
+                           )}
+                        </tbody>
+                     </table>
+                  </div>
+               </section>
 
-            {/* Action Buttons */}
-            <div className="flex justify-end space-x-4">
+               {/* SECTION 3: Labour Details */}
+               <section>
+                  <div className="flex items-center gap-2 mb-4">
+                     <HardHat className="w-4 h-4 text-orange-500" />
+                     <h2 className="font-mono text-xs font-black text-slate-400 uppercase tracking-widest">
+                        03 / Human Capital Overhead Projections
+                     </h2>
+                  </div>
+                  <div className="overflow-x-auto rounded-xl border border-slate-850 bg-slate-950/40">
+                     <table className="min-w-full border-collapse">
+                        <thead className="bg-slate-950 border-b border-slate-850">
+                           <tr>
+                              {["INDEX", "CREW_ROLE_CLASS", "PERSONNEL_COUNT", "DAILY_WAGE_BASE"].map((h) => (
+                                 <th key={h} className="px-5 py-3 text-left text-[10px] font-mono font-black text-slate-500 uppercase tracking-widest">{h}</th>
+                              ))}
+                           </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-850 bg-slate-900/10">
+                           {specLabour.length > 0 ? (
+                              specLabour.map((element, index) => (
+                                 <tr key={element._id} className="hover:bg-slate-950/30 transition-colors">
+                                    <td className="px-5 py-3.5 font-mono text-xs text-slate-600 font-bold">{(index + 1).toString().padStart(2, '0')}</td>
+                                    <td className="px-5 py-3.5 font-mono text-xs font-black text-slate-200 uppercase">{element.labour_name}</td>
+                                    <td className="px-5 py-3.5 font-mono text-xs text-slate-300">{element.numberoflabour}</td>
+                                    <td className="px-5 py-3.5 font-mono text-xs font-black text-amber-500">₹{element.daily_wage.toLocaleString("en-IN", { minimumFractionDigits: 2 })}</td>
+                                 </tr>
+                              ))
+                           ) : (
+                              <tr>
+                                 <td colSpan={4} className="px-5 py-8 text-center font-mono text-xs font-bold text-slate-600 uppercase tracking-widest">No task group labor profiles flagged.</td>
+                              </tr>
+                           )}
+                        </tbody>
+                     </table>
+                  </div>
+               </section>
+
+               {/* SECTION 4: Stage Details */}
+               <section>
+                  <div className="flex items-center gap-2 mb-4">
+                     <Layers className="w-4 h-4 text-orange-500" />
+                     <h2 className="font-mono text-xs font-black text-slate-400 uppercase tracking-widest">
+                        04 / Micro-Milestone Allocation Map
+                     </h2>
+                  </div>
+                  <div className="overflow-x-auto rounded-xl border border-slate-850 bg-slate-950/40">
+                     <table className="min-w-full border-collapse">
+                        <thead className="bg-slate-950 border-b border-slate-850">
+                           <tr>
+                              {["INDEX", "STAGE_NOMENCLATURE", "START_DATE", "DEADLINE_DATE", "ESCROW_VOLUME"].map((h) => (
+                                 <th key={h} className="px-5 py-3 text-left text-[10px] font-mono font-black text-slate-500 uppercase tracking-widest">{h}</th>
+                              ))}
+                           </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-850 bg-slate-900/10">
+                           {stage.length > 0 ? (
+                              stage.map((element, index) => (
+                                 <tr key={element._id} className="hover:bg-slate-950/30 transition-colors">
+                                    <td className="px-5 py-3.5 font-mono text-xs text-slate-600 font-bold">{(index + 1).toString().padStart(2, '0')}</td>
+                                    <td className="px-5 py-3.5 font-mono text-xs font-black text-slate-200 uppercase">{element.stage_name}</td>
+                                    <td className="px-5 py-3.5 font-mono text-xs text-slate-400">
+                                       {element.start_date.split("T")[0].split('-').reverse().join('-')}
+                                    </td>
+                                    <td className="px-5 py-3.5 font-mono text-xs text-slate-400">
+                                       {element.end_date.split("T")[0].split('-').reverse().join('-')}
+                                    </td>
+                                    <td className="px-5 py-3.5 font-mono text-xs font-black text-amber-500">₹{element.stage_amount.toLocaleString("en-IN", { minimumFractionDigits: 2 })}</td>
+                                 </tr>
+                              ))
+                           ) : (
+                              <tr>
+                                 <td colSpan={5} className="px-5 py-8 text-center font-mono text-xs font-bold text-slate-600 uppercase tracking-widest">No sequential development stages mapped.</td>
+                              </tr>
+                           )}
+                        </tbody>
+                     </table>
+                  </div>
+               </section>
+
+               {/* SECTION 5: Image Gallery */}
+               <section>
+                  <div className="flex items-center gap-2 mb-4">
+                     <ImageIcon className="w-4 h-4 text-orange-500" />
+                     <h2 className="font-mono text-xs font-black text-slate-400 uppercase tracking-widest">
+                        05 / CAD Blueprints & Target Renders
+                     </h2>
+                  </div>
+                  {image.length > 0 ? (
+                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {image.map((element, index) => (
+                           <div key={index} className="bg-slate-950/50 border border-slate-850 rounded-xl overflow-hidden group hover:border-slate-700 transition-all">
+                              <div className="relative h-44 bg-slate-950 overflow-hidden">
+                                 <img
+                                    src={element.image}
+                                    alt={element.title}
+                                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                                    onError={(e) => {
+                                       e.currentTarget.src = 'https://via.placeholder.com/300?text=Render+Offline';
+                                    }}
+                                 />
+                              </div>
+                              <div className="p-4 bg-slate-900 border-t border-slate-850">
+                                 <p className="font-mono text-[11px] font-bold text-slate-300 uppercase tracking-wider truncate">{element.title}</p>
+                              </div>
+                           </div>
+                        ))}
+                     </div>
+                  ) : (
+                     <div className="p-6 text-center border border-dashed border-slate-850 rounded-xl bg-slate-950/20">
+                        <p className="font-mono text-xs font-bold text-slate-600 uppercase tracking-widest">No graphical visual anchors attached.</p>
+                     </div>
+                  )}
+               </section>
+
+               {/* SECTION 6: Financial Summary Metrics */}
+               <section className="p-6 bg-slate-950/60 border border-slate-850 rounded-xl space-y-4">
+                  <div className="flex items-center gap-2">
+                     <TrendingUp className="w-4 h-4 text-orange-500" />
+                     <h2 className="font-mono text-xs font-black text-white uppercase tracking-widest">
+                        Consolidated Balance Clearing Ledger
+                     </h2>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 font-mono text-xs uppercase tracking-wider">
+                     <div className="p-4 bg-slate-900 border border-slate-850 rounded-xl">
+                        <span className="block text-[10px] text-slate-500 font-bold mb-1">AGGREGATE SUPPLEMENTAL SURCHARGE</span>
+                        <span className="text-sm font-black text-slate-300">
+                           ₹{specAddition.length > 0
+                              ? specAddition.reduce((sum, num) => sum + (num.additionalExpense_amount + num.profit_amount), 0).toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+                              : "0.00"}
+                        </span>
+                     </div>
+                     <div className="p-4 bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 rounded-xl shadow-inner">
+                        <span className="block text-[10px] text-orange-500/70 font-black mb-1">TOTAL PROJECT BUDGET DEPLOYMENT</span>
+                        <span className="text-base font-black text-orange-400">
+                           ₹{(
+                              specmaterial.reduce((sum, num) => sum + (num.quantity * num.unit_rate), 0) +
+                              specLabour.reduce((sum, num) => sum + (num.daily_wage * num.numberoflabour), 0) +
+                              specAddition.reduce((sum, num) => sum + (num.additionalExpense_amount + num.profit_amount), 0)
+                           ).toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                        </span>
+                     </div>
+                  </div>
+               </section>
+
+            </div>
+
+            {/* Master Administrative Control Bar */}
+            <div className="flex justify-end gap-2 p-6 bg-slate-950/60 border-t border-slate-850 shrink-0">
                {specData.length > 0 && specData[0].approvalStatus === false ? (
                   <>
                      <button
+                        type="button"
                         onClick={() => setEstimateOn(false)}
-                        className="px-6 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition duration-200 font-medium"
+                        className="px-5 py-2.5 bg-slate-900 border border-slate-800 text-slate-400 hover:text-slate-200 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-colors"
                      >
                         Cancel
                      </button>
                      <button
+                        type="button"
                         onClick={() => setRejectOn(true)}
-                        className="px-6 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-200 font-medium"
+                        className="px-5 py-2.5 bg-red-500/10 border border-red-500/20 hover:border-red-500 text-red-400 hover:text-slate-950 rounded-xl font-mono text-xs font-black uppercase tracking-wider transition-all hover:bg-red-500"
                      >
-                        Reject
+                        Reject Scope
                      </button>
                      <button
+                        type="button"
                         onClick={() => setApproveOn(true)}
-                        className="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition duration-200 font-medium"
+                        className="px-5 py-2.5 bg-gradient-to-r from-orange-600 to-yellow-600 hover:from-orange-500 hover:to-yellow-500 text-slate-950 rounded-xl font-mono text-xs font-black uppercase tracking-wider transition-all shadow-lg shadow-orange-950/20"
                      >
-                        Approve
+                        Approve Scope
                      </button>
                   </>
                ) : (
                   <button
+                     type="button"
                      onClick={() => setEstimateOn(false)}
-                     className="px-6 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition duration-200 font-medium"
+                     className="px-5 py-2.5 bg-slate-950 border border-slate-850 text-slate-400 hover:text-slate-200 rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-colors"
                   >
-                     Close
+                     Close Ledger Terminal
                   </button>
                )}
             </div>
 
-            <RejectModal
-               rejectOn={rejectOn}
-               setRejectOn={setRejectOn}
-               setReasonOn={setReasonOn}
-            />
+            {/* Downstream Sign-off Modal Pipeline Targets */}
+            <RejectModal rejectOn={rejectOn} setRejectOn={setRejectOn} setReasonOn={setReasonOn} />
             <ReasonModal
                reasonOn={reasonOn}
                setReasonOn={setReasonOn}
                projectId={projectId}
                onSuccess={() => {
-                  onSuccess()
-                  setEstimateOn(false)
+                  onSuccess();
+                  setEstimateOn(false);
                }}
             />
             <ApproveModal
@@ -449,13 +508,13 @@ function EstimationDetails({ estimateOn, setEstimateOn, projectId, onSuccess,set
                setApproveOn={setApproveOn}
                projectId={projectId}
                onSuccess={() => {
-                  onSuccess()
-                  setEstimateOn(false)
+                  onSuccess();
+                  setEstimateOn(false);
                }}
             />
          </div>
       </div>
-   )
+   );
 }
 
 export default EstimationDetails;
