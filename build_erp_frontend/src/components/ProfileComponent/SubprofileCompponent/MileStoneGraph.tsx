@@ -13,6 +13,7 @@ import {
 import { toast } from "react-toastify";
 import { fetchUserProjectAPI } from "../../../api/userprofile";
 import { getStageInUser } from "../../../api/auth";
+import { Sliders } from "lucide-react";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -69,6 +70,11 @@ function MilestoneGraph() {
   };
 
   const fetchStage = async (projectId: string): Promise<void> => {
+    if (!projectId) {
+      setMilestones([]);
+      setStage([]);
+      return;
+    }
     try {
       const response = await getStageInUser(projectId);
       if (response.success) {
@@ -86,8 +92,8 @@ function MilestoneGraph() {
           return {
             stageName: stage.stage_name,
             completionPercentage: stage.stage_per,
-            estimatedTime: Math.max(estimatedTime, 0), // Ensure non-negative
-            actualTime: Math.max(actualTime, 0), // Ensure non-negative
+            estimatedTime: Math.max(estimatedTime, 0),
+            actualTime: Math.max(actualTime, 0),
           };
         });
         setMilestones(mileData);
@@ -103,117 +109,169 @@ function MilestoneGraph() {
     fetchUserProject();
   }, []);
 
-  // Chart data
   const data = {
     labels: milestones.map((m) => `${m.stageName} (${m.completionPercentage}%)`),
     datasets: [
       {
-        label: "Estimated Time (Days)",
+        label: "Estimated Schedule Timeline (Days)",
         data: milestones.map((m) => m.estimatedTime),
-        borderColor: "rgb(45, 212, 191)", // Teal
-        backgroundColor: "rgba(45, 212, 191, 0.2)",
-        tension: 0.4, // Smooth curve
-        pointRadius: 5,
-        pointHoverRadius: 8,
+        borderColor: "#2dd4bf", 
+        backgroundColor: "rgba(44, 212, 191, 0.05)",
+        tension: 0.3,
+        pointRadius: 4,
+        pointBackgroundColor: "#2dd4bf",
+        pointBorderColor: "#0f172a",
+        pointBorderWidth: 2,
+        pointHoverRadius: 6,
       },
       {
-        label: "Actual Time (Days)",
+        label: "Actual Execution Lifecycle (Days)",
         data: milestones.map((m) => m.actualTime),
-        borderColor: "rgb(249, 115, 22)", // Orange
-        backgroundColor: "rgba(249, 115, 22, 0.2)",
-        tension: 0.4, // Smooth curve
-        pointRadius: 5,
-        pointHoverRadius: 8,
+        borderColor: "#f97316", 
+        backgroundColor: "rgba(249, 115, 22, 0.05)",
+        tension: 0.3,
+        pointRadius: 4,
+        pointBackgroundColor: "#f97316",
+        pointBorderColor: "#0f172a",
+        pointBorderWidth: 2,
+        pointHoverRadius: 6,
       },
     ],
   };
 
-  // Chart options aligned with Dashboard's light theme
   const options = {
     responsive: true,
     plugins: {
       legend: {
-        position: "bottom" as const, // Match Dashboard's chart legend
+        position: "bottom" as const,
         labels: {
+          boxWidth: 12,
+          padding: 20,
+          color: "#94a3b8",
           font: {
-            size: 14,
+            family: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
+            size: 11,
+            weight: "bold" as const,
           },
-          color: "#374151", // Gray-700 for text
         },
       },
       title: {
-        display: true,
-        text: "Milestone History: Estimated vs Actual Time",
-        font: {
-          size: 18,
-        },
-        color: "#1f2937", // Gray-800 for title
+        display: false,
       },
       tooltip: {
-        backgroundColor: "rgba(255, 255, 255, 0.9)", // White with opacity
-        titleFont: { size: 14 },
-        bodyFont: { size: 12 },
-        titleColor: "#1f2937", // Gray-800
-        bodyColor: "#1f2937", // Gray-800
-        padding: 10,
-        borderColor: "#e5e7eb", // Gray-200
+        backgroundColor: "#0f172a",
+        borderColor: "#334155",
         borderWidth: 1,
+        titleColor: "#ffffff",
+        titleFont: {
+          family: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
+          size: 12,
+          weight: "bold" as const,
+        },
+        bodyColor: "#94a3b8",
+        bodyFont: {
+          family: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
+          size: 11,
+        },
+        padding: 12,
+        cornerRadius: 8,
       },
     },
     scales: {
       x: {
         title: {
           display: true,
-          text: "Stage & Completion Percentage",
-          color: "#1f2937", // Gray-800
-          font: { size: 14 },
+          text: "DEPLOYMENT PHASES (COMPLETION REFERENCE %)",
+          color: "#64748b",
+          font: {
+            family: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
+            size: 10,
+            weight: "bold" as const,
+          },
         },
         ticks: {
-          color: "#4b5563", // Gray-600
+          color: "#94a3b8",
+          font: {
+            family: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
+            size: 10,
+          },
           maxRotation: 45,
           minRotation: 45,
         },
         grid: {
-          color: "#e5e7eb", // Gray-200 for grid lines
+          color: "#334155",
+          alpha: 0.2,
         },
       },
       y: {
         title: {
           display: true,
-          text: "Time Period (Days)",
-          color: "#1f2937", // Gray-800
-          font: { size: 14 },
+          text: "QUANTIFIED DURATION PERIOD (DAYS)",
+          color: "#64748b",
+          font: {
+            family: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
+            size: 10,
+            weight: "bold" as const,
+          },
         },
         ticks: {
-          color: "#4b5563", // Gray-600
+          color: "#94a3b8",
+          font: {
+            family: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
+            size: 10,
+          },
         },
         grid: {
-          color: "#e5e7eb", // Gray-200
+          color: "#334155",
+          alpha: 0.2,
         },
       },
     },
   };
 
   return (
-    <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm mb-8">
-      <h2 className="text-xl font-semibold text-gray-800 mb-4">Milestone Progress</h2>
-      <div className="mb-4">
-        <select
-          onChange={(e) => fetchStage(e.target.value)}
-          className="w-full sm:w-64 px-4 py-2 bg-white border border-gray-300 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          aria-label="Select a project to view milestone progress"
-        >
-          <option value="">Select Project</option>
-          {project.map((element) => (
-            <option key={element._id} value={element._id}>
-              {element.project_name}
-            </option>
-          ))}
-        </select>
+    <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 selection:bg-orange-500 selection:text-white">
+      
+      {/* Configuration Action Area */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-850">
+        <div className="flex items-center gap-2">
+          <Sliders className="w-4 h-4 text-orange-500" />
+          <h3 className="text-xs font-mono font-black text-slate-400 uppercase tracking-widest">
+            Pipeline Analytics Controller
+          </h3>
+        </div>
+        
+        <div>
+          <select
+            onChange={(e) => fetchStage(e.target.value)}
+            className="w-full sm:w-72 px-4 py-2.5 bg-slate-950 border border-slate-850 rounded-xl text-slate-300 text-xs font-mono font-bold uppercase tracking-wider focus:outline-none focus:border-orange-500/50 cursor-pointer transition-colors"
+            aria-label="Select a project to view milestone progress"
+          >
+            <option value="">[ SELECT ACTIVE DEPLOYMENT ]</option>
+            {project.map((element) => (
+              <option key={element._id} value={element._id} className="bg-slate-950 text-slate-300">
+                {element.project_name.toUpperCase()}
+              </option>
+            ))}
+          </select>
+        </div>
       </div>
-      <div className="max-w-3xl mx-auto">
-        <Line data={data} options={options} />
+
+      {/* Graphical Stream Node Render Window */}
+      <div className="w-full max-w-4xl mx-auto py-2">
+        {milestones.length > 0 ? (
+          <div className="relative">
+            <Line data={data} options={options} />
+          </div>
+        ) : (
+          <div className="border border-dashed border-slate-800 rounded-xl p-12 text-center">
+            <p className="font-mono text-xs font-bold text-slate-600 uppercase tracking-widest">
+              No Data Streams Active. Select Project Node To Render System Milestone Graph.
+            </p>
+          </div>
+        )}
       </div>
+
     </div>
   );
 }

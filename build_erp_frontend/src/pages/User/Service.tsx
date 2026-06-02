@@ -2,75 +2,212 @@ import { Link } from "react-router-dom";
 import Footer from "../../components/USER/common/Footer";
 import UserHeader from "../../components/USER/common/UserHeader";
 
-function Services(){
+
+function Services() {
   return (
-   <>
-   <UserHeader />
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-4">
-      <header className="w-full max-w-4xl mx-auto text-center py-8">
-        <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Our Services</h1>
-        <p className="text-lg md:text-xl text-gray-600">Discover the powerful tools and services buildExe offers to supercharge your development journey.</p>
-      </header>
+    <>
+      <UserHeader />
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden">
+        {/* Construction-themed background pattern */}
+        <div className="absolute inset-0 opacity-5 pointer-events-none">
+          <div className="absolute inset-0" style={{
+            backgroundImage: `repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(251, 146, 60, 0.3) 35px, rgba(251, 146, 60, 0.3) 70px)`
+          }}></div>
+        </div>
 
-      <main className="w-full max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-6 md:p-8">
-        <section className="mb-8">
-          <h2 className="text-2xl md:text-3xl font-semibold text-gray-800 mb-4">What We Offer</h2>
-          <p className="text-gray-600 leading-relaxed">
-            buildExe provides a suite of services designed to streamline your development process, enhance productivity, and empower you to create innovative solutions. From coding environments to deployment tools, we’ve got you covered.
-          </p>
-        </section>
+        {/* Decorative glowing orbs */}
+        <div className="absolute top-20 left-10 w-72 h-72 bg-orange-500 rounded-full filter blur-3xl opacity-10 animate-pulse"></div>
+        <div className="absolute bottom-20 right-10 w-72 h-72 bg-yellow-500 rounded-full filter blur-3xl opacity-10 animate-pulse" style={{ animationDelay: '1s' }}></div>
 
-        <section className="mb-8">
-          <h2 className="text-2xl md:text-3xl font-semibold text-gray-800 mb-6">Our Core Services</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="p-6 bg-gray-50 rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold text-gray-800 mb-3">Integrated Development Environment</h3>
-              <p className="text-gray-600">
-                Code seamlessly with our cloud-based IDE, featuring real-time collaboration, syntax highlighting, and support for multiple programming languages.
-              </p>
+        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          {/* Header Section */}
+          <header className="w-full text-center py-8 mb-12">
+            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-orange-500 to-yellow-500 rounded-2xl shadow-2xl mb-6">
+              <svg className="w-12 h-12 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
             </div>
-            <div className="p-6 bg-gray-50 rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold text-gray-800 mb-3">Automated Build Tools</h3>
-              <p className="text-gray-600">
-                Simplify your build process with automated pipelines that compile, test, and package your applications with minimal setup.
-              </p>
-            </div>
-            <div className="p-6 bg-gray-50 rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold text-gray-800 mb-3">Cross-Platform Deployment</h3>
-              <p className="text-gray-600">
-                Deploy your projects effortlessly across web, mobile, and desktop platforms with our robust deployment solutions.
-              </p>
-            </div>
-            <div className="p-6 bg-gray-50 rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold text-gray-800 mb-3">Community Collaboration</h3>
-              <p className="text-gray-600">
-                Join a vibrant community of developers to share projects, get feedback, and collaborate on open-source initiatives.
-              </p>
-            </div>
-          </div>
-        </section>
+            <h1 className="text-4xl md:text-6xl font-extrabold bg-gradient-to-r from-orange-600 via-yellow-600 to-orange-700 bg-clip-text text-transparent mb-4 tracking-tight">
+              Our Services
+            </h1>
+            <div className="w-24 h-1 bg-gradient-to-r from-orange-500 via-yellow-500 to-orange-600 mx-auto mb-6 rounded-full"></div>
+            <p className="text-lg md:text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed font-medium">
+              Discover powerful construction ERP tools and services designed to supercharge your project management, streamline workflows, and build smarter.
+            </p>
+          </header>
 
-        <section className="text-center">
-          <h2 className="text-2xl md:text-3xl font-semibold text-gray-800 mb-4">Ready to Build?</h2>
-          <p className="text-gray-600 mb-6">
-            Leverage our services to take your projects to the next level. Start exploring buildExe’s capabilities today!
-          </p>
-          <Link
-            to="/proposal"
-            className="inline-block bg-blue-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors"
-          >
-            Get Started with buildExe
-          </Link>
-        </section>
-      </main>
+          {/* Main Content */}
+          <main className="w-full bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl p-6 md:p-10 border-2 border-orange-500/20">
+            {/* What We Offer Section */}
+            <section className="mb-10">
+              <div className="flex items-center gap-3 mb-5">
+                <div className="inline-flex items-center justify-center w-10 h-10 bg-gradient-to-br from-orange-500 to-yellow-500 rounded-xl shadow-lg">
+                  <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <h2 className="text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-orange-600 via-yellow-600 to-orange-700 bg-clip-text text-transparent">
+                  What We Offer
+                </h2>
+              </div>
+              <div className="bg-gradient-to-br from-orange-50 to-yellow-50 rounded-xl p-6 border-l-4 border-orange-500">
+                <p className="text-gray-700 leading-relaxed text-lg font-medium">
+                  BuildERP provides a comprehensive suite of <span className="font-bold text-orange-600">construction industry services</span> designed to streamline your project management, enhance productivity, and empower you to create innovative building solutions. From project planning to deployment, we've got you covered with cutting-edge ERP technology.
+                </p>
+              </div>
+            </section>
 
-      <footer className="w-full max-w-4xl mx-auto text-center py-6">
-        <p className="text-gray-500">&copy; 2025 buildExe. All rights reserved.</p>
-      </footer>
-    </div>
-    <Footer />
-   </>
+            {/* Core Services Section */}
+            <section className="mb-10">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="inline-flex items-center justify-center w-10 h-10 bg-gradient-to-br from-orange-500 to-yellow-500 rounded-xl shadow-lg">
+                  <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                  </svg>
+                </div>
+                <h2 className="text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-orange-600 via-yellow-600 to-orange-700 bg-clip-text text-transparent">
+                  Our Core Services
+                </h2>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {[
+                  {
+                    icon: (
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                    ),
+                    title: "Project Management System",
+                    description: "Manage construction projects seamlessly with real-time progress tracking, resource allocation, timeline management, and team coordination tools built for the industry."
+                  },
+                  {
+                    icon: (
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    ),
+                    title: "Budget & Cost Control",
+                    description: "Simplify your financial management with automated budget tracking, cost estimation, expense monitoring, and financial analytics for construction projects."
+                  },
+                  {
+                    icon: (
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                    ),
+                    title: "Inventory & Material Management",
+                    description: "Track materials, manage inventory levels, automate reordering, and coordinate supply chain logistics across multiple construction sites effortlessly."
+                  },
+                  {
+                    icon: (
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                    ),
+                    title: "Team Collaboration Tools",
+                    description: "Connect field teams, office staff, and stakeholders with seamless communication, document sharing, task assignment, and real-time collaboration features."
+                  },
+                  {
+                    icon: (
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    ),
+                    title: "Analytics & Reporting",
+                    description: "Generate comprehensive reports, visualize project data with interactive dashboards, and make data-driven decisions with advanced analytics."
+                  },
+                  {
+                    icon: (
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                    ),
+                    title: "Safety & Compliance",
+                    description: "Ensure workplace safety with compliance tracking, safety inspection checklists, incident reporting, and regulatory documentation management."
+                  }
+                ].map((service, index) => (
+                  <div
+                    key={index}
+                    className="group bg-gradient-to-br from-gray-50 to-white rounded-xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 border-2 border-gray-100 hover:border-orange-300 transform hover:-translate-y-1"
+                  >
+                    <div className="inline-flex items-center justify-center w-14 h-14 bg-gradient-to-br from-orange-500 to-yellow-500 rounded-xl shadow-lg mb-4 group-hover:scale-110 transition-transform duration-300">
+                      <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        {service.icon}
+                      </svg>
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-orange-600 transition-colors">
+                      {service.title}
+                    </h3>
+                    <p className="text-gray-600 leading-relaxed">
+                      {service.description}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            {/* Additional Features Section */}
+            <section className="mb-10">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="inline-flex items-center justify-center w-10 h-10 bg-gradient-to-br from-orange-500 to-yellow-500 rounded-xl shadow-lg">
+                  <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                  </svg>
+                </div>
+                <h2 className="text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-orange-600 via-yellow-600 to-orange-700 bg-clip-text text-transparent">
+                  Additional Features
+                </h2>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {[
+                  "Document Management & Contract Tracking",
+                  "Mobile App for Field Teams",
+                  "Client Portal & Communication",
+                  "Equipment Rental Management",
+                  "Subcontractor Management",
+                  "Quality Control Inspections"
+                ].map((feature, index) => (
+                  <div
+                    key={index}
+                    className="flex items-start gap-3 bg-gradient-to-br from-orange-50 to-white rounded-xl p-4 border border-orange-200 hover:border-orange-400 transition-all duration-300 group"
+                  >
+                    <div className="inline-flex items-center justify-center w-8 h-8 bg-gradient-to-br from-orange-500 to-yellow-500 rounded-lg flex-shrink-0 group-hover:scale-110 transition-transform">
+                      <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <span className="text-gray-700 text-sm font-medium group-hover:text-orange-600 transition-colors">
+                      {feature}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            {/* Get Started Section */}
+            <section className="text-center">
+              <div className="flex items-center justify-center gap-3 mb-5">
+                <div className="inline-flex items-center justify-center w-10 h-10 bg-gradient-to-br from-orange-500 to-yellow-500 rounded-xl shadow-lg">
+                  <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                </div>
+                <h2 className="text-3xl md:text-4xl font-extrabold bg-gradient-to-r from-orange-600 via-yellow-600 to-orange-700 bg-clip-text text-transparent">
+                  Ready to Build?
+                </h2>
+              </div>
+              <p className="text-gray-600 mb-8 text-lg font-medium max-w-2xl mx-auto">
+                Leverage our construction ERP services to take your projects to the next level. Start exploring BuildERP's capabilities today and build smarter!
+              </p>
+              <Link
+                to="/proposal"
+                className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 via-yellow-500 to-orange-600 text-white font-bold py-4 px-8 rounded-xl hover:from-orange-600 hover:via-yellow-600 hover:to-orange-700 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl shadow-lg"
+              >
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+                Get Started with BuildERP
+                <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </Link>
+            </section>
+          </main>
+        </div>
+      </div>
+      <Footer />
+    </>
   );
 };
+
 
 export default Services;

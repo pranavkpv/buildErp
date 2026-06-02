@@ -1,5 +1,15 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { 
+  Search, 
+  Layers, 
+  XCircle, 
+  ChevronLeft, 
+  ChevronRight, 
+  HardHat, 
+  Hammer, 
+  CheckCircle2 
+} from "lucide-react";
 import ProjectCard from "./ProjectCard";
 import UserHeader from "../common/UserHeader";
 import Footer from "../common/Footer";
@@ -43,32 +53,35 @@ function ListProject() {
     fetchProject();
   }, [searchItem, page, selectedArea]);
 
-  // Determine section configuration based on status
+  // Determine industrial section configurations dynamically based on layout pipeline status
   const getSectionConfig = (status: string) => {
     switch (status) {
       case "pending":
         return {
-          title: "Upcoming Projects",
-          subtitle: "Projects in the planning and design phase",
-          gradient: "from-amber-500 to-orange-500",
+          title: "Upcoming Blueprints",
+          subtitle: "Projects in the optimization planning and layout phase",
+          gradient: "from-amber-500 via-orange-500 to-yellow-600",
           iconColor: "text-amber-500",
-          accentColor: "border-amber-200",
+          accentColor: "border-amber-500/30",
+          icon: <HardHat className="w-8 h-8" />
         };
       case "processing":
         return {
-          title: "Ongoing Projects",
-          subtitle: "Projects currently under construction",
-          gradient: "from-blue-600 to-emerald-600",
-          iconColor: "text-blue-600",
-          accentColor: "border-blue-200",
+          title: "Ongoing Deployments",
+          subtitle: "Active operational environments currently under structural construction",
+          gradient: "from-orange-500 via-yellow-500 to-orange-600",
+          iconColor: "text-orange-500",
+          accentColor: "border-orange-500/30",
+          icon: <Hammer className="w-8 h-8" />
         };
       default:
         return {
-          title: "Completed Projects",
-          subtitle: "Successfully delivered projects",
-          gradient: "from-emerald-500 to-blue-500",
+          title: "Completed Structures",
+          subtitle: "Successfully engineered architectures delivered to client database specifications",
+          gradient: "from-emerald-500 via-teal-500 to-blue-600",
           iconColor: "text-emerald-500",
-          accentColor: "border-emerald-200",
+          accentColor: "border-emerald-500/30",
+          icon: <CheckCircle2 className="w-8 h-8" />
         };
     }
   };
@@ -76,192 +89,179 @@ function ListProject() {
   const config = getSectionConfig(state);
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <UserHeader />
+    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col justify-between">
+      <div>
+        <UserHeader />
 
-      {/* Search and Filter Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="bg-white/80 backdrop-blur-md rounded-lg border border-gray-200 shadow-md p-6">
-          <div className="flex flex-col sm:flex-row gap-4 items-end">
-            {/* Search Input */}
-            <div className="flex-1">
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Search Projects
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                  </svg>
-                </div>
-                <input
-                  type="text"
-                  placeholder="Search by project name or address..."
-                  value={searchItem}
-                  onChange={(e) => setSearchItem(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 text-gray-900 placeholder-gray-400"
-                  aria-label="Search projects"
-                />
-              </div>
-            </div>
+        {/* Structural Stripe Top Indicator */}
+        <div className="h-1.5 w-full"
+          style={{
+            backgroundImage: `repeating-linear-gradient(45deg, #f97316, #f97316 10px, #1e293b 10px, #1e293b 20px)`
+          }}
+        />
 
-            {/* Area Filter */}
-            <div className="sm:w-64">
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Filter by Area
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                  </svg>
-                </div>
-                <select
-                  value={selectedArea}
-                  onChange={(e) => setSelectedArea(Number(e.target.value))}
-                  className="w-full pl-10 pr-8 py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 text-gray-900 appearance-none cursor-pointer"
-                  aria-label="Filter by area"
-                >
-                  <option value="0">All Areas</option>
-                  {area.map((element, index) => (
-                    <option key={index} value={element}>
-                      {element.toLocaleString()} sqft
-                    </option>
-                  ))}
-                </select>
-                <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                  <svg className="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
+        {/* Search and Control Filtration Console */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-6">
+          <div className="bg-slate-900/90 backdrop-blur-md rounded-2xl border-2 border-slate-800 shadow-2xl p-6">
+            <div className="flex flex-col lg:flex-row gap-6 items-end">
+              
+              {/* Query Parameter Search Input */}
+              <div className="flex-1 w-full">
+                <label className="block text-xs font-mono font-bold uppercase tracking-widest text-slate-400 mb-2">
+                  System Search / Project Query
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <Search className="h-5 w-5 text-slate-500" />
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="Search metrics by project identifier, title or blueprint coordinates..."
+                    value={searchItem}
+                    onChange={(e) => setSearchItem(e.target.value)}
+                    className="w-full pl-12 pr-4 py-3 bg-slate-950 border-2 border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-300 text-slate-100 placeholder-slate-500 font-medium"
+                    aria-label="Search projects"
+                  />
                 </div>
               </div>
-            </div>
 
-            {/* Clear Filters Button */}
-            <button
-              onClick={() => {
-                setSearchItem("");
-                setSelectedArea(0);
-              }}
-              className="px-6 py-3 bg-gradient-to-r from-gray-600 to-gray-700 text-white font-semibold rounded-lg hover:from-gray-700 hover:to-gray-800 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-gray-500 w-full sm:w-auto"
-              aria-label="Clear filters"
-            >
-              Clear Filters
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Section Header */}
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="relative mb-8">
-          <div className="flex items-center gap-4">
-            <div className={`p-3 rounded-lg bg-white shadow-md border ${config.accentColor} ${config.iconColor} group-hover:scale-105 transition-transform duration-300`}>
-              <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={1.5}
-                  d={
-                    state === "pending"
-                      ? "M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                      : state === "processing"
-                        ? "M13 10V3L4 14h7v7l9-11h-7z"
-                        : "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                  }
-                />
-              </svg>
-            </div>
-            <div>
-              <h1 className={`text-3xl md:text-4xl font-extrabold bg-gradient-to-r ${config.gradient} bg-clip-text text-transparent`}>
-                {config.title}
-              </h1>
-              <p className="text-gray-600 text-base mt-1">{config.subtitle}</p>
-            </div>
-            <div className="flex-1 h-px bg-gray-200 ml-6 relative overflow-hidden">
-              <div className={`absolute inset-0 bg-gradient-to-r ${config.gradient} transform -translate-x-full group-hover:translate-x-0 transition-transform duration-700`}></div>
-            </div>
-          </div>
-        </div>
-
-        {/* Project Grid */}
-        {project.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {project.map((p, index) => (
-              <div
-                key={p._id}
-                className={`transform transition-all duration-500 hover:scale-105 delay-${index * 100}`}
-              >
-                <ProjectCard {...p} index={index} />
+              {/* Area Dimension Configuration Dropdown Selector */}
+              <div className="w-full lg:w-72">
+                <label className="block text-xs font-mono font-bold uppercase tracking-widest text-slate-400 mb-2">
+                  Filter Footprint / Area Size
+                </label>
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <Layers className="h-5 w-5 text-slate-500" />
+                  </div>
+                  <select
+                    value={selectedArea}
+                    onChange={(e) => setSelectedArea(Number(e.target.value))}
+                    className="w-full pl-12 pr-10 py-3 bg-slate-950 border-2 border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-all duration-300 text-slate-100 appearance-none cursor-pointer font-medium"
+                    aria-label="Filter by area"
+                  >
+                    <option value="0" className="bg-slate-950 text-slate-300">All Scopes / Dimensions</option>
+                    {area.map((element, index) => (
+                      <option key={index} value={element} className="bg-slate-950 text-slate-100">
+                        {element.toLocaleString()} SQFT
+                      </option>
+                    ))}
+                  </select>
+                  <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-500">
+                    <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </div>
+                </div>
               </div>
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-16">
-            <div className="w-24 h-24 mx-auto mb-6 rounded-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
-              <svg className="w-12 h-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={1.5}
-                  d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
-                />
-              </svg>
-            </div>
-            <h3 className="text-xl font-semibold text-gray-700 mb-3">No Projects Found</h3>
-            <p className="text-gray-500 max-w-md mx-auto">
-              No projects are currently available for this category. Check back soon for updates!
-            </p>
-          </div>
-        )}
 
-        {/* Pagination */}
-        {totalPage.length > 1 && (
-          <div className="flex justify-center items-center gap-2 mt-8">
-            <button
-              onClick={() => setPage((prev) => Math.max(prev - 1, 0))}
-              disabled={page === 0}
-              className={`p-2 rounded-full border border-gray-200 bg-white shadow-sm transition-all duration-300 ${
-                page === 0
-                  ? "opacity-50 cursor-not-allowed"
-                  : "hover:bg-gradient-to-r hover:from-blue-600 hover:to-emerald-600 hover:text-white hover:border-blue-500"
-              }`}
-              aria-label="Previous page"
-            >
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
-            </button>
-            {totalPage.map((_, index) => (
+              {/* Reset Controller Operations */}
               <button
-                key={index}
-                onClick={() => setPage(index)}
-                className={`w-10 h-10 rounded-full border border-gray-200 text-sm font-medium transition-all duration-300 ${
-                  page === index
-                    ? "bg-gradient-to-r from-blue-600 to-emerald-600 text-white border-blue-500 shadow-md"
-                    : "bg-white hover:bg-gradient-to-r hover:from-blue-600 hover:to-emerald-600 hover:text-white hover:border-blue-500"
-                }`}
-                aria-label={`Go to page ${index + 1}`}
+                type="button"
+                onClick={() => {
+                  setSearchItem("");
+                  setSelectedArea(0);
+                }}
+                className="px-6 py-3.5 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-bold rounded-xl transition-all duration-300 border border-slate-700 w-full lg:w-auto flex items-center justify-center gap-2 text-sm uppercase tracking-wider"
+                aria-label="Clear filters"
               >
-                {index + 1}
+                <XCircle className="w-4 h-4" />
+                Clear Matrix Filters
               </button>
-            ))}
-            <button
-              onClick={() => setPage((prev) => Math.min(prev + 1, totalPage.length - 1))}
-              disabled={page === totalPage.length - 1}
-              className={`p-2 rounded-full border border-gray-200 bg-white shadow-sm transition-all duration-300 ${
-                page === totalPage.length - 1
-                  ? "opacity-50 cursor-not-allowed"
-                  : "hover:bg-gradient-to-r hover:from-blue-600 hover:to-emerald-600 hover:text-white hover:border-blue-500"
-              }`}
-              aria-label="Next page"
-            >
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </button>
+            </div>
           </div>
-        )}
+        </div>
+
+        {/* Dynamic Categorization Header */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="relative mb-10">
+            <div className="flex flex-col md:flex-row md:items-center gap-4">
+              <div className={`p-4 rounded-xl bg-slate-900 shadow-xl border-2 ${config.accentColor} ${config.iconColor} transition-transform duration-300 self-start`}>
+                {config.icon}
+              </div>
+              <div>
+                <h1 className={`text-3xl md:text-5xl font-black tracking-tight bg-gradient-to-r ${config.gradient} bg-clip-text text-transparent uppercase`}>
+                  {config.title}
+                </h1>
+                <p className="text-slate-400 text-sm md:text-base mt-1 font-medium">{config.subtitle}</p>
+              </div>
+              <div className="hidden md:block flex-1 h-0.5 bg-slate-800 ml-6 relative overflow-hidden">
+                <div className={`absolute inset-0 bg-gradient-to-r ${config.gradient}`} />
+              </div>
+            </div>
+          </div>
+
+          {/* Project Manifest Grid */}
+          {project.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              {project.map((p, index) => (
+                <div
+                  key={p._id}
+                  className="transform transition-all duration-300 hover:-translate-y-2 bg-slate-900 rounded-2xl overflow-hidden border border-slate-800/80 shadow-xl hover:shadow-orange-500/5 hover:border-slate-700"
+                >
+                  <ProjectCard {...p} index={index} />
+                </div>
+              ))}
+            </div>
+          ) : (
+            /* Null Matrix Dataset Status State */
+            <div className="text-center py-20 bg-slate-900/40 rounded-2xl border-2 border-dashed border-slate-800 max-w-4xl mx-auto">
+              <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-center text-slate-600 shadow-inner">
+                <Layers className="w-10 h-10 stroke-[1.5]" />
+              </div>
+              <h3 className="text-xl font-extrabold text-slate-300 uppercase tracking-wider mb-2">No Records Found</h3>
+              <p className="text-slate-500 max-w-md mx-auto text-sm font-medium">
+                No active structures match your designated configuration fields. Adjust your filters or retry later.
+              </p>
+            </div>
+          )}
+
+          {/* Pagination Operations Bar */}
+          {totalPage.length > 1 && (
+            <div className="flex justify-center items-center gap-2.5 mt-16">
+              <button
+                onClick={() => setPage((prev) => Math.max(prev - 1, 0))}
+                disabled={page === 0}
+                className={`p-3 rounded-xl border border-slate-800 bg-slate-950 text-slate-400 transition-all duration-300 shadow-md ${
+                  page === 0
+                    ? "opacity-30 cursor-not-allowed"
+                    : "hover:bg-gradient-to-r hover:from-orange-500 hover:to-orange-600 hover:text-white hover:border-orange-500"
+                }`}
+                aria-label="Previous page"
+              >
+                <ChevronLeft className="w-5 h-5 stroke-[2.5]" />
+              </button>
+              
+              {totalPage.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setPage(index)}
+                  className={`w-11 h-11 rounded-xl border font-bold text-sm transition-all duration-300 shadow-md ${
+                    page === index
+                      ? "bg-gradient-to-r from-orange-500 to-yellow-500 text-white border-orange-500"
+                      : "bg-slate-950 text-slate-400 border-slate-800 hover:bg-gradient-to-r hover:from-orange-500 hover:to-orange-600 hover:text-white hover:border-orange-500"
+                  }`}
+                  aria-label={`Go to page ${index + 1}`}
+                >
+                  {String(index + 1).padStart(2, '0')}
+                </button>
+              ))}
+
+              <button
+                onClick={() => setPage((prev) => Math.min(prev + 1, totalPage.length - 1))}
+                disabled={page === totalPage.length - 1}
+                className={`p-3 rounded-xl border border-slate-800 bg-slate-950 text-slate-400 transition-all duration-300 shadow-md ${
+                  page === totalPage.length - 1
+                    ? "opacity-30 cursor-not-allowed"
+                    : "hover:bg-gradient-to-r hover:from-orange-500 hover:to-orange-600 hover:text-white hover:border-orange-500"
+                }`}
+                aria-label="Next page"
+              >
+                <ChevronRight className="w-5 h-5 stroke-[2.5]" />
+              </button>
+            </div>
+          )}
+        </div>
       </div>
 
       <Footer />

@@ -1,28 +1,13 @@
 import { adminRequireApi } from "../../../api/requirement";
 import { toast } from "react-toastify";
-import { X } from "lucide-react";
+import { X, Binary } from "lucide-react";
 import { useState } from "react";
-
-type ProjectData = {
-  _id: string;
-  project_name: string;
-  address: string;
-  area: number;
-  description: string;
-  expected_image: string;
-  budgeted_cost: number;
-  status: "pending" | "processing" | "completed";
-  estimateBy: string | null;
-  estimateStatus: boolean;
-  start_date: string;
-  end_date: string;
-};
 
 interface Prop {
   skipOn: boolean;
   setSkipOn: React.Dispatch<React.SetStateAction<boolean>>;
   projectId: string;
-  setIsSubmitted: React.Dispatch<React.SetStateAction<boolean>>
+  setIsSubmitted: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 function SkipRequirement({ skipOn, setSkipOn, projectId, setIsSubmitted }: Prop) {
@@ -38,8 +23,8 @@ function SkipRequirement({ skipOn, setSkipOn, projectId, setIsSubmitted }: Prop)
         toast.success(response.message);
         setTimeout(() => {
           setSkipOn(false);
-          setIsSubmitted(false)
-        },3000)
+          setIsSubmitted(false);
+        }, 3000);
       } else {
         toast.error(response.message);
       }
@@ -53,49 +38,71 @@ function SkipRequirement({ skipOn, setSkipOn, projectId, setIsSubmitted }: Prop)
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm transition-opacity duration-300"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-sm p-4 selection:bg-amber-500 selection:text-slate-950 animate-in fade-in duration-100"
       role="dialog"
       aria-modal="true"
       aria-labelledby="skip-requirement-title"
     >
-      <div className="relative max-w-lg w-full mx-4 bg-white rounded-xl shadow-2xl p-6 sm:p-8 transform transition-all duration-300 scale-100">
+      <div className="relative max-w-sm w-full bg-slate-900 border border-slate-800 rounded-2xl shadow-2xl overflow-hidden transform transition-all">
+        
+        {/* System Bypass State Border Ribbon */}
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-500 to-yellow-600" />
+
+        {/* Exit Window Anchor Link */}
         <button
           onClick={() => setSkipOn(false)}
-          aria-label="Close default estimation modal"
-          className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 transition-colors duration-200"
+          aria-label="Close default estimation prompt window"
+          disabled={isLoading}
+          className="absolute top-4 right-4 text-slate-500 hover:text-slate-300 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
         >
-          <X className="w-6 h-6" />
+          <X className="w-5 h-5" />
         </button>
-        <h3
-          id="skip-requirement-title"
-          className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4 text-center tracking-tight"
-        >
-          Confirm Default Estimation
-        </h3>
-        <p className="text-gray-600 text-base sm:text-lg font-medium leading-relaxed mb-6 text-center">
-          Are you sure you want to use default features for this project’s estimation? This will bypass custom requirement selection.
-        </p>
-        <div className="flex justify-center gap-4">
-          <button
-            onClick={() => setSkipOn(false)}
-            className="px-6 py-2.5 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 focus:ring-4 focus:ring-gray-200 transition-all duration-200 text-sm sm:text-base font-medium disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
-            aria-label="Cancel default estimation"
-            disabled={isLoading}
+
+        <div className="p-6 sm:p-8 text-center">
+          
+          {/* Static System Sequence Icon */}
+          <div className="mx-auto w-12 h-12 flex items-center justify-center bg-amber-500/10 border border-amber-500/20 rounded-2xl text-amber-500 mb-4">
+            <Binary className="w-6 h-6" />
+          </div>
+
+          {/* Action Call Header */}
+          <h3
+            id="skip-requirement-title"
+            className="text-sm font-mono font-black text-white uppercase tracking-wider mb-2"
           >
-            Cancel
-          </button>
-          <button
-            onClick={handleAdminRequired}
-            className="px-6 py-2.5 bg-green-600 text-white rounded-lg hover:bg-green-700 focus:ring-4 focus:ring-green-200 transition-all duration-200 text-sm sm:text-base font-medium disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
-            aria-label="Confirm default estimation"
-            disabled={isLoading}
-          >
-            {isLoading ? (
-              <div className="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white inline-block"></div>
-            ) : (
-              "Confirm"
-            )}
-          </button>
+            Bypass Specification Step
+          </h3>
+          
+          <p className="text-xs font-mono font-bold text-slate-400 leading-relaxed mb-6 px-2">
+            Initialize default features for project token <span className="text-amber-500 font-mono">[{projectId.slice(-6).toUpperCase()}]</span>? Custom input nodes will be skipped.
+          </p>
+
+          {/* Control Room Action Matrix Buttons */}
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              type="button"
+              onClick={() => setSkipOn(false)}
+              disabled={isLoading}
+              className="px-4 py-2.5 bg-slate-950 border border-slate-850 hover:border-slate-700 text-slate-400 hover:text-slate-200 disabled:opacity-40 disabled:cursor-not-allowed rounded-xl font-mono text-xs font-bold uppercase tracking-wider transition-colors focus:outline-none"
+              aria-label="Cancel standard fallback setup"
+            >
+              Abort
+            </button>
+            <button
+              type="button"
+              onClick={handleAdminRequired}
+              disabled={isLoading}
+              className="flex items-center justify-center min-h-[38px] px-4 py-2.5 bg-gradient-to-r from-amber-600 to-yellow-600 hover:from-amber-500 hover:to-yellow-500 disabled:from-slate-850 disabled:to-slate-850 text-slate-950 disabled:text-slate-600 disabled:cursor-not-allowed rounded-xl font-mono text-xs font-black uppercase tracking-wider transition-all shadow-lg shadow-amber-950/10 focus:outline-none"
+              aria-label="Confirm static parameter overwrite initialization"
+            >
+              {isLoading ? (
+                <div className="animate-spin rounded-full h-4 w-4 border-2 border-slate-600 border-t-slate-950" />
+              ) : (
+                "Run Bypass"
+              )}
+            </button>
+          </div>
+
         </div>
       </div>
     </div>
