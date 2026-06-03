@@ -27,6 +27,7 @@ export const createApp = (): Express => {
         "http://localhost:5173",
         "https://93f4stm6-5173.inc1.devtunnels.ms",
         "https://build-front-erp.tastetrial.info",
+        "https://build-fs1fwt03c-kpvpranavraj2305-gmailcoms-projects.vercel.app"
       ],
       methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
       credentials: true,
