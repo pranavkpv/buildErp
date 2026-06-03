@@ -1,0 +1,77 @@
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { BarChart3, Calculator, Users, UserCheck, Package, HardHat, FileText, Lock } from "lucide-react";
+const sidebarItems = [
+    {
+        title: "Dashboard",
+        icon: BarChart3,
+        to: "/site/dashboard"
+    },
+    {
+        title: "Change Password",
+        icon: Lock,
+        to: "/site/changepass"
+    },
+    {
+        title: "Stage Updation",
+        icon: Calculator,
+        to: "/site/stage-updation"
+    },
+    {
+        title: "Purchase",
+        icon: Package,
+        to: "/site/purchase"
+    },
+    {
+        title: "Transfer",
+        icon: Users,
+        to: "/site/transfer"
+    },
+    {
+        title: "Receive",
+        icon: UserCheck,
+        to: "/site/receive"
+    },
+    {
+        title: "Attendance",
+        icon: HardHat,
+        to: "/site/attendance"
+    },
+    {
+        title: "Chat",
+        icon: FileText,
+        to: "/site/chat"
+    }
+];
+const SiteSidebar = () => {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const [activeIndex, setActiveIndex] = useState(() => {
+        const currentIndex = sidebarItems.findIndex(item => item.to === location.pathname);
+        return currentIndex !== -1 ? currentIndex : null;
+    });
+    useEffect(() => {
+        const currentIndex = sidebarItems.findIndex(item => item.to === location.pathname);
+        setActiveIndex(currentIndex !== -1 ? currentIndex : null);
+    }, [location.pathname]);
+    const handleItemClick = (index, path) => {
+        setActiveIndex(index);
+        navigate(path);
+    };
+    return (_jsx("div", { className: "w-64 min-h-screen bg-gradient-to-b from-slate-900 to-slate-800 text-white shadow-2xl border-r border-slate-700 flex flex-col", children: _jsx("nav", { className: "flex-1 p-4 overflow-y-auto", children: _jsx("ul", { className: "space-y-2", children: sidebarItems.map((item, index) => {
+                    const IconComponent = item.icon;
+                    const isActive = activeIndex === index;
+                    return (_jsx("li", { children: _jsxs("div", { onClick: () => handleItemClick(index, item.to), className: `
+                    flex items-center justify-between p-3 rounded-xl cursor-pointer transition-all duration-300
+                    ${isActive
+                                ? 'bg-gradient-to-r from-orange-600 to-orange-500 text-white shadow-lg scale-105'
+                                : 'hover:bg-slate-700/70 text-slate-300 hover:text-white hover:shadow-md'} focus:outline-none focus:ring-2 focus:ring-orange-400/50 relative
+                  `, role: "button", tabIndex: 0, onKeyDown: (e) => {
+                                if (e.key === 'Enter' || e.key === ' ') {
+                                    handleItemClick(index, item.to);
+                                }
+                            }, "aria-current": isActive ? 'page' : undefined, "aria-label": `Navigate to ${item.title}`, children: [_jsxs("div", { className: "flex items-center space-x-3", children: [_jsx(IconComponent, { className: `w-5 h-5 transition-colors duration-200 ${isActive ? 'text-white' : 'text-slate-400 group-hover:text-white'}` }), _jsx("span", { className: "font-medium text-sm tracking-wide", children: item.title })] }), isActive && (_jsx("span", { className: "absolute left-0 top-0 h-full w-1 bg-orange-400 rounded-r-md" }))] }) }, index));
+                }) }) }) }));
+};
+export default SiteSidebar;

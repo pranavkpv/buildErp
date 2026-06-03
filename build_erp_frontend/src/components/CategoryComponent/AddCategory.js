@@ -1,0 +1,54 @@
+import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-runtime";
+import Loading from "../../components/Loading";
+import { postCategory } from "../../api/CategoryApi/category";
+import { useRef, useState } from "react";
+import { toast } from "react-toastify";
+function AddCategory({ enable, setEnable, onAdd }) {
+    const [category, setCategory] = useState("");
+    const [description, setDescription] = useState("");
+    const categoryRef = useRef(null);
+    const [loadOn, setLoadOn] = useState(false);
+    const addCategory = async (e) => {
+        e.preventDefault();
+        if (category.trim() === "") {
+            if (categoryRef.current) {
+                categoryRef.current.innerText = "Category name is required.";
+            }
+            return;
+        }
+        else {
+            if (categoryRef.current)
+                categoryRef.current.innerText = "";
+        }
+        try {
+            const category_name = category;
+            setLoadOn(true);
+            const data = await postCategory({ category_name, description });
+            if (data.success) {
+                setLoadOn(false);
+                toast.success(data.message);
+                onAdd();
+                setEnable(false);
+                setCategory("");
+                setDescription("");
+            }
+            else {
+                setLoadOn(false);
+                toast.error(data.message);
+            }
+        }
+        catch (error) {
+            setLoadOn(false);
+        }
+    };
+    if (!enable)
+        return null;
+    return (_jsxs(_Fragment, { children: [_jsx("div", { className: "fixed inset-0 bg-gray-900/80 z-50 flex items-center justify-center p-4", children: _jsxs("form", { onSubmit: addCategory, className: "bg-gray-800/90 backdrop-blur-sm rounded-xl shadow-2xl w-full max-w-md p-6 sm:p-8 space-y-6 border border-gray-700/50", children: [_jsx("h2", { className: "text-2xl font-bold text-center text-gray-100 mb-6 border-b border-gray-700 pb-4", children: "Add New Category" }), _jsxs("div", { children: [_jsx("label", { htmlFor: "categoryName", className: "block text-sm font-medium text-gray-200 mb-1", children: "Category Name" }), _jsx("input", { id: "categoryName", type: "text", placeholder: "Enter category name", value: category, className: "w-full px-4 py-2.5 bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors duration-200 text-gray-100 placeholder-gray-400 text-sm", onChange: (e) => setCategory(e.target.value) }), _jsx("p", { ref: categoryRef, className: "text-red-400 text-sm mt-1" })] }), _jsxs("div", { children: [_jsx("label", { htmlFor: "description", className: "block text-sm font-medium text-gray-200 mb-1", children: "Description" }), _jsx("input", { id: "description", type: "text", placeholder: "Enter description", value: description, className: "w-full px-4 py-2.5 bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors duration-200 text-gray-100 placeholder-gray-400 text-sm", onChange: (e) => setDescription(e.target.value) })] }), _jsxs("div", { className: "flex justify-end gap-4 pt-4", children: [_jsx("button", { type: "button", onClick: () => {
+                                        setEnable(false);
+                                        setCategory("");
+                                        setDescription("");
+                                        if (categoryRef.current)
+                                            categoryRef.current.innerText = "";
+                                    }, className: "bg-gray-600 hover:bg-gray-700 text-white px-5 py-2.5 rounded-lg shadow-md transition-all duration-200 font-semibold", children: "Cancel" }), _jsx("button", { type: "submit", className: "bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white px-5 py-2.5 rounded-lg shadow-md hover:shadow-xl transition-all duration-200 font-semibold", children: "Add Category" })] })] }) }), loadOn && (_jsx("div", { className: "absolute inset-0 bg-black/40 flex items-center justify-center rounded-xl pointer-events-none z-50", children: _jsx(Loading, {}) }))] }));
+}
+export default AddCategory;

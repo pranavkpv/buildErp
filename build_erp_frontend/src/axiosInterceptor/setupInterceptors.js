@@ -1,0 +1,45 @@
+import AuthAxios from "../axios/commonAxios";
+import { toast } from "react-toastify";
+export const setupInterceptors = (instance, loginRedirect) => {
+    instance.interceptors.request.use((config) => {
+        const token = localStorage.getItem("accessToken");
+        if (token && config.headers) {
+            config.headers.authorization = `Bearer ${token}`;
+        }
+        return config;
+    });
+    instance.interceptors.response.use((response) => response, async (error) => {
+        const originalRequest = error.config;
+        if (!originalRequest)
+            return Promise.reject(error);
+        if (error.response?.data?.message == 'This User Could not perform this action in this part') {
+            return;
+        }
+        else {
+            if (error.response?.data?.message !== "No AccessToken Found") {
+                toast.error(error.response?.data?.message);
+            }
+        }
+        if (error.response?.status === 401 && !originalRequest._retry) {
+            originalRequest._retry = true;
+            try {
+                const refreshResponse = await AuthAxios.post("/refreshToken");
+                const newAccessToken = refreshResponse.data.data;
+                localStorage.setItem("accessToken", newAccessToken);
+                originalRequest.headers = {
+                    ...originalRequest.headers,
+                    Authorization: `Bearer ${newAccessToken}`,
+                };
+                return instance(originalRequest);
+            }
+            catch (refreshError) {
+                console.error("Error refreshing token:", refreshError);
+                if (loginRedirect) {
+                    window.location.href = loginRedirect;
+                }
+                return Promise.reject(refreshError);
+            }
+        }
+        return Promise.reject(error);
+    });
+};

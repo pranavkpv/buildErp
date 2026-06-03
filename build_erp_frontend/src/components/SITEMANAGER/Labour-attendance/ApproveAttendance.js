@@ -1,0 +1,25 @@
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import Loading from "../../../components/Loading";
+import { approveAttendanceAPI } from "../../../api/Sitemanager/attendance";
+import { toast } from "react-toastify";
+import { useState } from "react";
+function ApproveAttendance({ approveId, setApproveEnable, approveEnable, onApproveSuccess }) {
+    if (!approveEnable)
+        return null;
+    const [loadOn, setLoadOn] = useState(false);
+    const approveFun = async (approveId) => {
+        setLoadOn(true);
+        const response = await approveAttendanceAPI(approveId);
+        setLoadOn(false);
+        if (response.success) {
+            toast.success(response.message);
+            setApproveEnable(false);
+            onApproveSuccess();
+        }
+        else {
+            toast.error(response.message);
+        }
+    };
+    return (_jsxs("div", { className: "fixed inset-0 bg-gray-900/80 flex items-center justify-center z-50 p-4 sm:p-6", children: [_jsxs("div", { className: "bg-gray-800/90 backdrop-blur-sm rounded-xl shadow-2xl p-6 sm:p-8 w-full max-w-md border border-gray-700/50", children: [_jsx("h2", { className: "text-xl font-bold text-gray-100 mb-6 text-center", children: "Confirm Approve Attendance" }), _jsxs("div", { className: "space-y-6", children: [_jsx("p", { className: "text-gray-200 text-sm font-medium text-center", children: "Do you want to approve this labour attendance?" }), _jsxs("div", { className: "flex justify-end gap-4", children: [_jsx("button", { type: "button", className: "bg-gray-600/90 hover:bg-gray-700 text-gray-100 px-5 py-2.5 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 text-sm font-medium", onClick: () => setApproveEnable(false), children: "Cancel" }), _jsx("button", { type: "button", className: "bg-green-500/90 hover:bg-green-600 text-white px-5 py-2.5 rounded-lg shadow-sm hover:shadow-md transition-all duration-200 text-sm font-medium", onClick: () => approveFun(approveId), children: "Approve" })] })] })] }), loadOn && (_jsx("div", { className: "absolute inset-0 bg-black/40 flex items-center justify-center rounded-xl pointer-events-none z-50", children: _jsx(Loading, {}) }))] }));
+}
+export default ApproveAttendance;

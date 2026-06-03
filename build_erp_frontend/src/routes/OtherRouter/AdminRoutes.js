@@ -1,0 +1,26 @@
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { Route, Routes } from "react-router-dom";
+import Adminlogin from "../../pages/Admin/Adminlogin";
+import Adminlayout from "../../pages/Admin/Adminlayout";
+import Dashboard from "../../components/ADMIN/dashboard/Dashboard";
+import Category from "../../components/CategoryComponent/Category";
+import Brand from "../../components/BrandComponent/Brand";
+import Project from "../../components/ADMIN/project/Projectlist";
+import SitemanagerList from "../../components/ADMIN/sitemanager/SitemanagerList";
+import ListSiteToProject from "../../components/ADMIN/AddSiteToproject/ListSiteToproject";
+import AdminBackloginprotected from "../protectedRoute/admin/backloginprotected";
+import AdminbackDashprotected from "../../routes/protectedRoute/admin/backDashprotected";
+import ListEstimation from "../../components/ADMIN/estimation/ListEstimation";
+import ListStage from "../../components/ADMIN/stage/Stageset";
+import Material from "../../components/ADMIN/material/Material";
+import Labourlist from "../../components/ADMIN/labour/Labourlist";
+import SpecList from "../../components/ADMIN/Specification/SpecList";
+import Unit from "../../components/UnitComponent/Unit";
+import ListBanner from "../../components/ADMIN/Banner/ListBanner";
+import NotFound from "../../components/NotFound";
+import AdminProjectList from "../../components/ADMIN/dashboard/AdminProjectList";
+import AdminProjectDetails from "../../components/ADMIN/dashboard/AdminProjectDetails";
+import VerifyPayment from "../../components/ADMIN/stage/VerifyPayment";
+export const AdminRoutes = () => {
+    return (_jsxs(Routes, { children: [_jsx(Route, { path: "/login", element: _jsx(AdminBackloginprotected, { children: _jsx(Adminlogin, {}) }) }), _jsxs(Route, { path: "/", element: _jsx(Adminlayout, {}), children: [_jsx(Route, { path: "dashboard", element: _jsx(AdminbackDashprotected, { children: _jsx(Dashboard, {}) }) }), _jsx(Route, { path: "ProjectList", element: _jsx(AdminbackDashprotected, { children: _jsx(AdminProjectList, {}) }) }), _jsx(Route, { path: "projectDetails", element: _jsx(AdminbackDashprotected, { children: _jsx(AdminProjectDetails, {}) }) }), _jsx(Route, { path: "banner", element: _jsx(AdminbackDashprotected, { children: _jsx(ListBanner, {}) }) }), _jsx(Route, { path: "project", element: _jsx(AdminbackDashprotected, { children: _jsx(Project, {}) }) }), _jsx(Route, { path: "category", element: _jsx(AdminbackDashprotected, { children: _jsx(Category, {}) }) }), _jsx(Route, { path: "unit", element: _jsx(AdminbackDashprotected, { children: _jsx(Unit, {}) }) }), _jsx(Route, { path: "brand", element: _jsx(AdminbackDashprotected, { children: _jsx(Brand, {}) }) }), _jsx(Route, { path: "material", element: _jsx(AdminbackDashprotected, { children: _jsx(Material, {}) }) }), _jsx(Route, { path: "Labour", element: _jsx(AdminbackDashprotected, { children: _jsx(Labourlist, {}) }) }), _jsx(Route, { path: "Sitemanager", element: _jsx(AdminbackDashprotected, { children: _jsx(SitemanagerList, {}) }) }), _jsx(Route, { path: "addToSite", element: _jsx(AdminbackDashprotected, { children: _jsx(ListSiteToProject, {}) }) }), _jsx(Route, { path: "spec", element: _jsx(AdminbackDashprotected, { children: _jsx(SpecList, {}) }) }), _jsx(Route, { path: "estimation", element: _jsx(AdminbackDashprotected, { children: _jsx(ListEstimation, {}) }) }), _jsx(Route, { path: "stage", element: _jsx(AdminbackDashprotected, { children: _jsx(ListStage, {}) }) }), _jsx(Route, { path: "verify", element: _jsx(AdminbackDashprotected, { children: _jsx(VerifyPayment, {}) }) })] }), _jsx(Route, { path: "*", element: _jsx(NotFound, {}) })] }));
+};

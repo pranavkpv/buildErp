@@ -1,0 +1,58 @@
+import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-runtime";
+import React, { useRef, useState } from "react";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { adminLoginAPI } from "../../api/Admin/dashboard";
+import Loading from "../../components/Loading";
+function Adminlogin() {
+    const userRef = useRef(null);
+    const passRef = useRef(null);
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const [hide, setHide] = useState(false);
+    const navigate = useNavigate();
+    const [loadOn, setLoadOn] = useState(false);
+    const loginSubmit = async (e) => {
+        e.preventDefault();
+        let hasError = false;
+        if (username.trim() === "") {
+            if (userRef.current) {
+                userRef.current.innerText = "Username is required.";
+            }
+            hasError = true;
+        }
+        else {
+            if (userRef.current) {
+                userRef.current.innerText = "";
+            }
+        }
+        if (password.trim() === "") {
+            if (passRef.current) {
+                passRef.current.innerText = "Password is required.";
+            }
+            hasError = true;
+        }
+        else {
+            if (passRef.current) {
+                passRef.current.innerText = "";
+            }
+        }
+        if (hasError) {
+            return;
+        }
+        setLoadOn(true);
+        const response = await adminLoginAPI(username, password);
+        if (response.success) {
+            toast.success(response.data.data.message);
+            setLoadOn(false);
+            navigate("/admin/dashboard");
+            localStorage.setItem('accessToken', response.data.token.accessToken);
+        }
+        else {
+            toast.error(response.message);
+            setLoadOn(false);
+        }
+    };
+    return (_jsxs("div", { className: "flex items-center justify-center min-h-screen bg-gray-900 text-gray-100 p-4", children: [_jsxs("form", { onSubmit: loginSubmit, className: "bg-gray-800/90 backdrop-blur-sm p-8 rounded-xl shadow-2xl w-full max-w-sm border border-gray-700/50 space-y-6", children: [_jsx("h2", { className: "text-3xl font-extrabold text-center text-teal-400 mb-6 border-b border-gray-700 pb-4", children: "Admin Login" }), _jsxs("div", { children: [_jsx("label", { htmlFor: "username", className: "block text-sm font-medium text-gray-300 mb-1", children: "Username" }), _jsx("input", { type: "text", id: "username", placeholder: "Enter your username", onChange: (e) => setUsername(e.target.value), value: username, className: "w-full px-4 py-2.5 bg-gray-700/50 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors duration-200 text-gray-100 placeholder-gray-400 text-sm" }), _jsx("p", { ref: userRef, className: "text-red-400 text-sm mt-1" })] }), _jsxs("div", { children: [_jsx("label", { htmlFor: "password", className: "block text-sm font-medium text-gray-300 mb-1", children: "Password" }), _jsxs("div", { className: "relative w-full max-w-md", children: [_jsx("input", { type: hide ? "text" : "password", id: "password", placeholder: "Enter your password", onChange: (e) => setPassword(e.target.value), value: password, className: "w-full px-4 py-2.5 bg-gray-800/30 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-all duration-200 text-gray-100 placeholder-gray-400 text-sm pr-12" }), _jsx("button", { type: "button", onClick: () => setHide(!hide), className: "absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full hover:bg-gray-700/50 transition-colors duration-200 text-gray-400 hover:text-gray-200 focus:outline-none focus:ring-2 focus:ring-teal-500", "aria-label": hide ? "Hide password" : "Show password", children: _jsx("svg", { xmlns: "http://www.w3.org/2000/svg", fill: "none", viewBox: "0 0 24 24", strokeWidth: 1.5, stroke: "currentColor", className: "w-5 h-5", children: hide ? (_jsxs(_Fragment, { children: [_jsx("path", { strokeLinecap: "round", strokeLinejoin: "round", d: "M2.036 12.322a1.012 1.012 0 0 1 0-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178Z" }), _jsx("path", { strokeLinecap: "round", strokeLinejoin: "round", d: "M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" })] })) : (_jsx("path", { strokeLinecap: "round", strokeLinejoin: "round", d: "M3.98 8.223A10.477 10.477 0 0 0 1.934 12c1.39 4.172 5.325 7.178 9.963 7.178 4.638 0 8.573-3.007 9.963-7.178a10.477 10.477 0 0 0-2.046-3.777m-6.917.557a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6.095-2.223L3.98 8.223" })) }) })] }), _jsx("p", { ref: passRef, className: "text-red-400 text-sm mt-1" })] }), _jsx("button", { type: "submit", className: "w-full bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white font-semibold py-2.5 rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 focus:ring-offset-gray-800", children: "Login" })] }), loadOn && (_jsx("div", { className: "absolute inset-0 bg-black/40 flex items-center justify-center rounded-xl pointer-events-none z-50", children: _jsx(Loading, {}) }))] }));
+}
+export default Adminlogin;
